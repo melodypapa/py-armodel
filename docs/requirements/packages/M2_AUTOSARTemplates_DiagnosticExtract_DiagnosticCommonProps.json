@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticCommonProps.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticCommonProps.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 3,
+    "primitive_count": 0
+  }
+}

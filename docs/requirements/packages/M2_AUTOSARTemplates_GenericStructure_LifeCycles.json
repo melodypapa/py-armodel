@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+  "path": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_LifeCycles.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "package": "M2::MSR::AsamHdo::BaseTypes",
+  "classes": [
+    {
+      "name": "SwBaseType",
+      "package": "M2::MSR::AsamHdo::BaseTypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BaseType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "BaseType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents a base type used within ECU software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 337,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 290,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2060,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 33,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 210,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "BaseType",
+      "package": "M2::MSR::AsamHdo::BaseTypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "SwBaseType"
+      ],
+      "subclasses": [
+        "SwBaseType"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract meta-class represents the ability to specify a platform dependent base type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 291,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2002,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baseType": {
+          "type": "BaseTypeDefinition",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the actual definition of the base type."
+        }
+      }
+    },
+    {
+      "name": "BaseTypeDirectDefinition",
+      "package": "M2::MSR::AsamHdo::BaseTypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BaseTypeDefinition",
+      "bases": [
+        "ARObject",
+        "BaseTypeDefinition"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BaseType.baseTypeDefinition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This BaseType is defined directly (as opposite to a derived BaseType)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 290,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2002,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 29,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baseType": {
+          "type": "BaseTypeEncoding",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies, how an object of the current BaseType is encoded, e.g. in an ECU within a message sequence."
+        },
+        "baseTypeSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the length of the data type specified in the bits."
+        },
+        "byteOrder": {
+          "type": "ByteOrderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the byte order of the base type. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "memAlignment": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the alignment of the memory bits. E.g. \"8\" specifies, that the object in aligned to a byte while \"32\" specifies that it is byte. If the value is set to \"0\" the meaning interpreted as \"unspecified\"."
+        },
+        "native": {
+          "type": "NativeDeclarationString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the declaration of such a base in the native programming language, primarily in the C. This can then be used by a to include the necessary declarations into file. For example shortName: \"MyUnsignedInt\" native short\" short MyUnsignedInt; attribute is not defined the referring Implementation not be generated as a typedef by RTE. nativeDeclaration type is given it shall fulfill the by basetypeEncoding and baseType required to ensure the consistent handling and software components, RTE, COM and"
+        }
+      }
+    },
+    {
+      "name": "BaseTypeDefinition",
+      "package": "M2::MSR::AsamHdo::BaseTypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "BaseTypeDirectDefinition"
+      ],
+      "subclasses": [
+        "BaseTypeDirectDefinition"
+      ],
+      "aggregated_by": [
+        "BaseType.baseTypeDefinition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a basetype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 290,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

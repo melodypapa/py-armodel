@@ -1,0 +1,83 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef",
+  "classes": [
+    {
+      "name": "AnyInstanceRef",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Collection.collectedInstance",
+        "Collection.sourceInstance",
+        "DocumentationContext.feature",
+        "EcucInstanceReferenceValue.value",
+        "FlatInstanceDescriptor.ecuExtractReference",
+        "FlatInstanceDescriptor.upstreamReference",
+        "RptContainer.byPassPoint",
+        "RptHook.rptArHook",
+        "ViewMap.firstElementInstance",
+        "ViewMap.secondElementInstance"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "Describes a reference to any instance in an AUTOSAR model. This is the most generic form of an instance ref. Refer to the superclass notes for more details.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 289,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 970,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1995,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 328,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "AtpClassifier",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the base from which navigation path begins."
+        },
+        "contextElement": {
+          "type": "AtpFeature",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is one step in the navigation path specified by the ref."
+        },
+        "target": {
+          "type": "AtpFeature",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the target of the instance ref."
+        }
+      }
+    }
+  ]
+}

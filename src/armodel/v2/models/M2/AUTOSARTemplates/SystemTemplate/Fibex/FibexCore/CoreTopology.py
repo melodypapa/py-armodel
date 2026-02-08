@@ -1,12 +1,32 @@
-from abc import ABC
-from typing import (
-    List,
-    Optional,
+"""
+AUTOSAR Package - CoreTopology
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Integer,
+    PositiveInteger,
+    RefType,
+    String,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
+    FibexElement,
 )
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+
 
 
 class CommunicationCluster(ARObject, ABC):
@@ -18,9 +38,9 @@ class CommunicationCluster(ARObject, ABC):
     protocol, which may be event-triggered, time-triggered or a combination of
     both. A CommunicationCluster aggregates one or more physical channels. Tags:
     vh.latestBindingTime=postBuild
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationCluster
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 107, Classic Platform
       R23-11)
@@ -44,10 +64,10 @@ class CommunicationCluster(ARObject, ABC):
     def baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set baudrate with validation.
-
+        
         Args:
             value: The baudrate to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +103,10 @@ class CommunicationCluster(ARObject, ABC):
     def protocol_name(self, value: Optional["String"]) -> None:
         """
         Set protocolName with validation.
-
+        
         Args:
             value: The protocolName to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,9 +114,9 @@ class CommunicationCluster(ARObject, ABC):
             self._protocolName = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"protocolName must be String or None, got {type(value).__name__}"
+                f"protocolName must be String or str or None, got {type(value).__name__}"
             )
         self._protocolName = value
         # The version of the protocol used.
@@ -111,10 +131,10 @@ class CommunicationCluster(ARObject, ABC):
     def protocol_version(self, value: Optional["String"]) -> None:
         """
         Set protocolVersion with validation.
-
+        
         Args:
             value: The protocolVersion to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,9 +142,9 @@ class CommunicationCluster(ARObject, ABC):
             self._protocolVersion = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"protocolVersion must be String or None, got {type(value).__name__}"
+                f"protocolVersion must be String or str or None, got {type(value).__name__}"
             )
         self._protocolVersion = value
 
@@ -133,10 +153,10 @@ class CommunicationCluster(ARObject, ABC):
     def getBaudrate(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for baudrate.
-
+        
         Returns:
             The baudrate value
-
+        
         Note:
             Delegates to baudrate property (CODING_RULE_V2_00017)
         """
@@ -145,13 +165,13 @@ class CommunicationCluster(ARObject, ABC):
     def setBaudrate(self, value: "PositiveUnlimitedInteger") -> "CommunicationCluster":
         """
         AUTOSAR-compliant setter for baudrate with method chaining.
-
+        
         Args:
             value: The baudrate to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to baudrate property setter (gets validation automatically)
         """
@@ -161,10 +181,10 @@ class CommunicationCluster(ARObject, ABC):
     def getPhysical(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for physical.
-
+        
         Returns:
             The physical value
-
+        
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -173,10 +193,10 @@ class CommunicationCluster(ARObject, ABC):
     def getProtocolName(self) -> "String":
         """
         AUTOSAR-compliant getter for protocolName.
-
+        
         Returns:
             The protocolName value
-
+        
         Note:
             Delegates to protocol_name property (CODING_RULE_V2_00017)
         """
@@ -185,13 +205,13 @@ class CommunicationCluster(ARObject, ABC):
     def setProtocolName(self, value: "String") -> "CommunicationCluster":
         """
         AUTOSAR-compliant setter for protocolName with method chaining.
-
+        
         Args:
             value: The protocolName to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to protocol_name property setter (gets validation automatically)
         """
@@ -201,10 +221,10 @@ class CommunicationCluster(ARObject, ABC):
     def getProtocolVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for protocolVersion.
-
+        
         Returns:
             The protocolVersion value
-
+        
         Note:
             Delegates to protocol_version property (CODING_RULE_V2_00017)
         """
@@ -213,13 +233,13 @@ class CommunicationCluster(ARObject, ABC):
     def setProtocolVersion(self, value: "String") -> "CommunicationCluster":
         """
         AUTOSAR-compliant setter for protocolVersion with method chaining.
-
+        
         Args:
             value: The protocolVersion to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to protocol_version property setter (gets validation automatically)
         """
@@ -231,13 +251,13 @@ class CommunicationCluster(ARObject, ABC):
     def with_baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> "CommunicationCluster":
         """
         Set baudrate and return self for chaining.
-
+        
         Args:
             value: The baudrate to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_baudrate("value")
         """
@@ -247,13 +267,13 @@ class CommunicationCluster(ARObject, ABC):
     def with_protocol_name(self, value: Optional["String"]) -> "CommunicationCluster":
         """
         Set protocolName and return self for chaining.
-
+        
         Args:
             value: The protocolName to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_protocol_name("value")
         """
@@ -263,29 +283,19 @@ class CommunicationCluster(ARObject, ABC):
     def with_protocol_version(self, value: Optional["String"]) -> "CommunicationCluster":
         """
         Set protocolVersion and return self for chaining.
-
+        
         Args:
             value: The protocolVersion to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_protocol_version("value")
         """
         self.protocol_version = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-
-    RefType,
-)
 
 
 class EcuInstance(FibexElement):
@@ -293,9 +303,9 @@ class EcuInstance(FibexElement):
     ECUInstances are used to define the ECUs used in the topology. The type of
     the ECU is defined by a reference to an ECU specified with the ECU resource
     description.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::EcuInstance
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 312, Classic Platform
       R23-11)
@@ -315,10 +325,10 @@ class EcuInstance(FibexElement):
         # are associated to an Ecu the top level ISignalIPduGroup.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
-        self._associatedCom: List[RefType] = []
+        self._associatedCom: List["RefType"] = []
 
     @property
-    def associated_com(self) -> List[RefType]:
+    def associated_com(self) -> List["RefType"]:
         """Get associatedCom (Pythonic accessor)."""
         return self._associatedCom
         # With this reference it is possible to identify which
@@ -332,10 +342,10 @@ class EcuInstance(FibexElement):
         return self._associated
         # With this reference it is possible to identify which PduR Groups are
         # applicable for which Communication.
-        self._associatedPdur: List[RefType] = []
+        self._associatedPdur: List["RefType"] = []
 
     @property
-    def associated_pdur(self) -> List[RefType]:
+    def associated_pdur(self) -> List["RefType"]:
         """Get associatedPdur (Pythonic accessor)."""
         return self._associatedPdur
         # If this parameter is available and set to true, then all channels will be
@@ -352,10 +362,10 @@ class EcuInstance(FibexElement):
     def channel(self, value: Optional["Boolean"]) -> None:
         """
         Set channel with validation.
-
+        
         Args:
             value: The channel to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -363,9 +373,9 @@ class EcuInstance(FibexElement):
             self._channel = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"channel must be Boolean or None, got {type(value).__name__}"
+                f"channel must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._channel = value
         # Restriction of the Client Identifier for this Ecu to an of numerical values.
@@ -382,10 +392,10 @@ class EcuInstance(FibexElement):
     def client_id_range(self, value: Optional["ClientIdRange"]) -> None:
         """
         Set clientIdRange with validation.
-
+        
         Args:
             value: The clientIdRange to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -411,10 +421,10 @@ class EcuInstance(FibexElement):
     def com(self, value: Optional["TimeValue"]) -> None:
         """
         Set com with validation.
-
+        
         Args:
             value: The com to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -441,10 +451,10 @@ class EcuInstance(FibexElement):
     def com_enable(self, value: Optional["Boolean"]) -> None:
         """
         Set comEnable with validation.
-
+        
         Args:
             value: The comEnable to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -452,9 +462,9 @@ class EcuInstance(FibexElement):
             self._comEnable = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"comEnable must be Boolean or None, got {type(value).__name__}"
+                f"comEnable must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._comEnable = value
         # CommunicationControllers of the ECU.
@@ -485,10 +495,10 @@ class EcuInstance(FibexElement):
     def dlt_config(self, value: Optional["DltConfig"]) -> None:
         """
         Set dltConfig with validation.
-
+        
         Args:
             value: The dltConfig to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -513,10 +523,10 @@ class EcuInstance(FibexElement):
     def do_ip_config(self, value: Optional["DoIpConfig"]) -> None:
         """
         Set doIpConfig with validation.
-
+        
         Args:
             value: The doIpConfig to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -552,10 +562,10 @@ class EcuInstance(FibexElement):
     def eth_switch_port(self, value: Optional["Boolean"]) -> None:
         """
         Set ethSwitchPort with validation.
-
+        
         Args:
             value: The ethSwitchPort to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -563,9 +573,9 @@ class EcuInstance(FibexElement):
             self._ethSwitchPort = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"ethSwitchPort must be Boolean or None, got {type(value).__name__}"
+                f"ethSwitchPort must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._ethSwitchPort = value
         # Firewall rules defined in the context of an EcuInstance.
@@ -595,10 +605,10 @@ class EcuInstance(FibexElement):
     def pnc_nm_request(self, value: Optional["Boolean"]) -> None:
         """
         Set pncNmRequest with validation.
-
+        
         Args:
             value: The pncNmRequest to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -606,9 +616,9 @@ class EcuInstance(FibexElement):
             self._pncNmRequest = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"pncNmRequest must be Boolean or None, got {type(value).__name__}"
+                f"pncNmRequest must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._pncNmRequest = value
         # Time in seconds the PNC state machine shall wait in.
@@ -623,10 +633,10 @@ class EcuInstance(FibexElement):
     def pnc_prepare(self, value: Optional["TimeValue"]) -> None:
         """
         Set pncPrepare with validation.
-
+        
         Args:
             value: The pncPrepare to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -653,10 +663,10 @@ class EcuInstance(FibexElement):
     def pnc(self, value: Optional["Boolean"]) -> None:
         """
         Set pnc with validation.
-
+        
         Args:
             value: The pnc to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -664,9 +674,9 @@ class EcuInstance(FibexElement):
             self._pnc = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"pnc must be Boolean or None, got {type(value).__name__}"
+                f"pnc must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._pnc = value
         # Specifies the runtime of the reset timer in seconds.
@@ -682,10 +692,10 @@ class EcuInstance(FibexElement):
     def pn_reset_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set pnResetTime with validation.
-
+        
         Args:
             value: The pnResetTime to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -712,10 +722,10 @@ class EcuInstance(FibexElement):
     def sleep_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set sleepMode with validation.
-
+        
         Args:
             value: The sleepMode to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -723,9 +733,9 @@ class EcuInstance(FibexElement):
             self._sleepMode = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"sleepMode must be Boolean or None, got {type(value).__name__}"
+                f"sleepMode must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._sleepMode = value
         # EcuInstance specific ICMP (Internet Control Message.
@@ -740,10 +750,10 @@ class EcuInstance(FibexElement):
     def tcp_ip_icmp_props(self, value: Optional["EthTcpIpIcmpProps"]) -> None:
         """
         Set tcpIpIcmpProps with validation.
-
+        
         Args:
             value: The tcpIpIcmpProps to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -768,10 +778,10 @@ class EcuInstance(FibexElement):
     def tcp_ip_props(self, value: Optional["EthTcpIpProps"]) -> None:
         """
         Set tcpIpProps with validation.
-
+        
         Args:
             value: The tcpIpProps to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -797,10 +807,10 @@ class EcuInstance(FibexElement):
     def v2x_supported(self, value: Optional["V2xSupportEnum"]) -> None:
         """
         Set v2xSupported with validation.
-
+        
         Args:
             value: The v2xSupported to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -825,10 +835,10 @@ class EcuInstance(FibexElement):
     def wake_up_over_bus_supported(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeUpOverBusSupported with validation.
-
+        
         Args:
             value: The wakeUpOverBusSupported to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -836,21 +846,21 @@ class EcuInstance(FibexElement):
             self._wakeUpOverBusSupported = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"wakeUpOverBusSupported must be Boolean or None, got {type(value).__name__}"
+                f"wakeUpOverBusSupported must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._wakeUpOverBusSupported = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAssociatedCom(self) -> List[RefType]:
+    def getAssociatedCom(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for associatedCom.
-
+        
         Returns:
             The associatedCom value
-
+        
         Note:
             Delegates to associated_com property (CODING_RULE_V2_00017)
         """
@@ -859,22 +869,22 @@ class EcuInstance(FibexElement):
     def getAssociated(self) -> List["ConsumedProvided"]:
         """
         AUTOSAR-compliant getter for associated.
-
+        
         Returns:
             The associated value
-
+        
         Note:
             Delegates to associated property (CODING_RULE_V2_00017)
         """
         return self.associated  # Delegates to property
 
-    def getAssociatedPdur(self) -> List[RefType]:
+    def getAssociatedPdur(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for associatedPdur.
-
+        
         Returns:
             The associatedPdur value
-
+        
         Note:
             Delegates to associated_pdur property (CODING_RULE_V2_00017)
         """
@@ -883,10 +893,10 @@ class EcuInstance(FibexElement):
     def getChannel(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for channel.
-
+        
         Returns:
             The channel value
-
+        
         Note:
             Delegates to channel property (CODING_RULE_V2_00017)
         """
@@ -895,13 +905,13 @@ class EcuInstance(FibexElement):
     def setChannel(self, value: "Boolean") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for channel with method chaining.
-
+        
         Args:
             value: The channel to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to channel property setter (gets validation automatically)
         """
@@ -911,10 +921,10 @@ class EcuInstance(FibexElement):
     def getClientIdRange(self) -> "ClientIdRange":
         """
         AUTOSAR-compliant getter for clientIdRange.
-
+        
         Returns:
             The clientIdRange value
-
+        
         Note:
             Delegates to client_id_range property (CODING_RULE_V2_00017)
         """
@@ -923,13 +933,13 @@ class EcuInstance(FibexElement):
     def setClientIdRange(self, value: "ClientIdRange") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for clientIdRange with method chaining.
-
+        
         Args:
             value: The clientIdRange to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to client_id_range property setter (gets validation automatically)
         """
@@ -939,10 +949,10 @@ class EcuInstance(FibexElement):
     def getCom(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for com.
-
+        
         Returns:
             The com value
-
+        
         Note:
             Delegates to com property (CODING_RULE_V2_00017)
         """
@@ -951,13 +961,13 @@ class EcuInstance(FibexElement):
     def setCom(self, value: "TimeValue") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for com with method chaining.
-
+        
         Args:
             value: The com to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to com property setter (gets validation automatically)
         """
@@ -967,10 +977,10 @@ class EcuInstance(FibexElement):
     def getComEnable(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for comEnable.
-
+        
         Returns:
             The comEnable value
-
+        
         Note:
             Delegates to com_enable property (CODING_RULE_V2_00017)
         """
@@ -979,13 +989,13 @@ class EcuInstance(FibexElement):
     def setComEnable(self, value: "Boolean") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for comEnable with method chaining.
-
+        
         Args:
             value: The comEnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to com_enable property setter (gets validation automatically)
         """
@@ -995,10 +1005,10 @@ class EcuInstance(FibexElement):
     def getCommController(self) -> List["Communication"]:
         """
         AUTOSAR-compliant getter for commController.
-
+        
         Returns:
             The commController value
-
+        
         Note:
             Delegates to comm_controller property (CODING_RULE_V2_00017)
         """
@@ -1007,10 +1017,10 @@ class EcuInstance(FibexElement):
     def getConnector(self) -> List["Communication"]:
         """
         AUTOSAR-compliant getter for connector.
-
+        
         Returns:
             The connector value
-
+        
         Note:
             Delegates to connector property (CODING_RULE_V2_00017)
         """
@@ -1019,10 +1029,10 @@ class EcuInstance(FibexElement):
     def getDltConfig(self) -> "DltConfig":
         """
         AUTOSAR-compliant getter for dltConfig.
-
+        
         Returns:
             The dltConfig value
-
+        
         Note:
             Delegates to dlt_config property (CODING_RULE_V2_00017)
         """
@@ -1031,13 +1041,13 @@ class EcuInstance(FibexElement):
     def setDltConfig(self, value: "DltConfig") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for dltConfig with method chaining.
-
+        
         Args:
             value: The dltConfig to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dlt_config property setter (gets validation automatically)
         """
@@ -1047,10 +1057,10 @@ class EcuInstance(FibexElement):
     def getDoIpConfig(self) -> "DoIpConfig":
         """
         AUTOSAR-compliant getter for doIpConfig.
-
+        
         Returns:
             The doIpConfig value
-
+        
         Note:
             Delegates to do_ip_config property (CODING_RULE_V2_00017)
         """
@@ -1059,13 +1069,13 @@ class EcuInstance(FibexElement):
     def setDoIpConfig(self, value: "DoIpConfig") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for doIpConfig with method chaining.
-
+        
         Args:
             value: The doIpConfig to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to do_ip_config property setter (gets validation automatically)
         """
@@ -1075,10 +1085,10 @@ class EcuInstance(FibexElement):
     def getEcuTaskProxy(self) -> List["OsTaskProxy"]:
         """
         AUTOSAR-compliant getter for ecuTaskProxy.
-
+        
         Returns:
             The ecuTaskProxy value
-
+        
         Note:
             Delegates to ecu_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -1087,10 +1097,10 @@ class EcuInstance(FibexElement):
     def getEthSwitchPort(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for ethSwitchPort.
-
+        
         Returns:
             The ethSwitchPort value
-
+        
         Note:
             Delegates to eth_switch_port property (CODING_RULE_V2_00017)
         """
@@ -1099,13 +1109,13 @@ class EcuInstance(FibexElement):
     def setEthSwitchPort(self, value: "Boolean") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for ethSwitchPort with method chaining.
-
+        
         Args:
             value: The ethSwitchPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to eth_switch_port property setter (gets validation automatically)
         """
@@ -1115,10 +1125,10 @@ class EcuInstance(FibexElement):
     def getFirewallRule(self) -> List["StateDependentFirewall"]:
         """
         AUTOSAR-compliant getter for firewallRule.
-
+        
         Returns:
             The firewallRule value
-
+        
         Note:
             Delegates to firewall_rule property (CODING_RULE_V2_00017)
         """
@@ -1127,10 +1137,10 @@ class EcuInstance(FibexElement):
     def getPartition(self) -> List["EcuPartition"]:
         """
         AUTOSAR-compliant getter for partition.
-
+        
         Returns:
             The partition value
-
+        
         Note:
             Delegates to partition property (CODING_RULE_V2_00017)
         """
@@ -1139,10 +1149,10 @@ class EcuInstance(FibexElement):
     def getPncNmRequest(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pncNmRequest.
-
+        
         Returns:
             The pncNmRequest value
-
+        
         Note:
             Delegates to pnc_nm_request property (CODING_RULE_V2_00017)
         """
@@ -1151,13 +1161,13 @@ class EcuInstance(FibexElement):
     def setPncNmRequest(self, value: "Boolean") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for pncNmRequest with method chaining.
-
+        
         Args:
             value: The pncNmRequest to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to pnc_nm_request property setter (gets validation automatically)
         """
@@ -1167,10 +1177,10 @@ class EcuInstance(FibexElement):
     def getPncPrepare(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pncPrepare.
-
+        
         Returns:
             The pncPrepare value
-
+        
         Note:
             Delegates to pnc_prepare property (CODING_RULE_V2_00017)
         """
@@ -1179,13 +1189,13 @@ class EcuInstance(FibexElement):
     def setPncPrepare(self, value: "TimeValue") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for pncPrepare with method chaining.
-
+        
         Args:
             value: The pncPrepare to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to pnc_prepare property setter (gets validation automatically)
         """
@@ -1195,10 +1205,10 @@ class EcuInstance(FibexElement):
     def getPnc(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pnc.
-
+        
         Returns:
             The pnc value
-
+        
         Note:
             Delegates to pnc property (CODING_RULE_V2_00017)
         """
@@ -1207,13 +1217,13 @@ class EcuInstance(FibexElement):
     def setPnc(self, value: "Boolean") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for pnc with method chaining.
-
+        
         Args:
             value: The pnc to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to pnc property setter (gets validation automatically)
         """
@@ -1223,10 +1233,10 @@ class EcuInstance(FibexElement):
     def getPnResetTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pnResetTime.
-
+        
         Returns:
             The pnResetTime value
-
+        
         Note:
             Delegates to pn_reset_time property (CODING_RULE_V2_00017)
         """
@@ -1235,13 +1245,13 @@ class EcuInstance(FibexElement):
     def setPnResetTime(self, value: "TimeValue") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for pnResetTime with method chaining.
-
+        
         Args:
             value: The pnResetTime to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to pn_reset_time property setter (gets validation automatically)
         """
@@ -1251,10 +1261,10 @@ class EcuInstance(FibexElement):
     def getSleepMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for sleepMode.
-
+        
         Returns:
             The sleepMode value
-
+        
         Note:
             Delegates to sleep_mode property (CODING_RULE_V2_00017)
         """
@@ -1263,13 +1273,13 @@ class EcuInstance(FibexElement):
     def setSleepMode(self, value: "Boolean") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for sleepMode with method chaining.
-
+        
         Args:
             value: The sleepMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to sleep_mode property setter (gets validation automatically)
         """
@@ -1279,10 +1289,10 @@ class EcuInstance(FibexElement):
     def getTcpIpIcmpProps(self) -> "EthTcpIpIcmpProps":
         """
         AUTOSAR-compliant getter for tcpIpIcmpProps.
-
+        
         Returns:
             The tcpIpIcmpProps value
-
+        
         Note:
             Delegates to tcp_ip_icmp_props property (CODING_RULE_V2_00017)
         """
@@ -1291,13 +1301,13 @@ class EcuInstance(FibexElement):
     def setTcpIpIcmpProps(self, value: "EthTcpIpIcmpProps") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for tcpIpIcmpProps with method chaining.
-
+        
         Args:
             value: The tcpIpIcmpProps to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to tcp_ip_icmp_props property setter (gets validation automatically)
         """
@@ -1307,10 +1317,10 @@ class EcuInstance(FibexElement):
     def getTcpIpProps(self) -> "EthTcpIpProps":
         """
         AUTOSAR-compliant getter for tcpIpProps.
-
+        
         Returns:
             The tcpIpProps value
-
+        
         Note:
             Delegates to tcp_ip_props property (CODING_RULE_V2_00017)
         """
@@ -1319,13 +1329,13 @@ class EcuInstance(FibexElement):
     def setTcpIpProps(self, value: "EthTcpIpProps") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for tcpIpProps with method chaining.
-
+        
         Args:
             value: The tcpIpProps to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to tcp_ip_props property setter (gets validation automatically)
         """
@@ -1335,10 +1345,10 @@ class EcuInstance(FibexElement):
     def getV2xSupported(self) -> "V2xSupportEnum":
         """
         AUTOSAR-compliant getter for v2xSupported.
-
+        
         Returns:
             The v2xSupported value
-
+        
         Note:
             Delegates to v2x_supported property (CODING_RULE_V2_00017)
         """
@@ -1347,13 +1357,13 @@ class EcuInstance(FibexElement):
     def setV2xSupported(self, value: "V2xSupportEnum") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for v2xSupported with method chaining.
-
+        
         Args:
             value: The v2xSupported to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to v2x_supported property setter (gets validation automatically)
         """
@@ -1363,10 +1373,10 @@ class EcuInstance(FibexElement):
     def getWakeUpOverBusSupported(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeUpOverBusSupported.
-
+        
         Returns:
             The wakeUpOverBusSupported value
-
+        
         Note:
             Delegates to wake_up_over_bus_supported property (CODING_RULE_V2_00017)
         """
@@ -1375,13 +1385,13 @@ class EcuInstance(FibexElement):
     def setWakeUpOverBusSupported(self, value: "Boolean") -> "EcuInstance":
         """
         AUTOSAR-compliant setter for wakeUpOverBusSupported with method chaining.
-
+        
         Args:
             value: The wakeUpOverBusSupported to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to wake_up_over_bus_supported property setter (gets validation automatically)
         """
@@ -1393,13 +1403,13 @@ class EcuInstance(FibexElement):
     def with_channel(self, value: Optional["Boolean"]) -> "EcuInstance":
         """
         Set channel and return self for chaining.
-
+        
         Args:
             value: The channel to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_channel("value")
         """
@@ -1409,13 +1419,13 @@ class EcuInstance(FibexElement):
     def with_client_id_range(self, value: Optional["ClientIdRange"]) -> "EcuInstance":
         """
         Set clientIdRange and return self for chaining.
-
+        
         Args:
             value: The clientIdRange to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_client_id_range("value")
         """
@@ -1425,13 +1435,13 @@ class EcuInstance(FibexElement):
     def with_com(self, value: Optional["TimeValue"]) -> "EcuInstance":
         """
         Set com and return self for chaining.
-
+        
         Args:
             value: The com to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_com("value")
         """
@@ -1441,13 +1451,13 @@ class EcuInstance(FibexElement):
     def with_com_enable(self, value: Optional["Boolean"]) -> "EcuInstance":
         """
         Set comEnable and return self for chaining.
-
+        
         Args:
             value: The comEnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_com_enable("value")
         """
@@ -1457,13 +1467,13 @@ class EcuInstance(FibexElement):
     def with_dlt_config(self, value: Optional["DltConfig"]) -> "EcuInstance":
         """
         Set dltConfig and return self for chaining.
-
+        
         Args:
             value: The dltConfig to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dlt_config("value")
         """
@@ -1473,13 +1483,13 @@ class EcuInstance(FibexElement):
     def with_do_ip_config(self, value: Optional["DoIpConfig"]) -> "EcuInstance":
         """
         Set doIpConfig and return self for chaining.
-
+        
         Args:
             value: The doIpConfig to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_do_ip_config("value")
         """
@@ -1489,13 +1499,13 @@ class EcuInstance(FibexElement):
     def with_eth_switch_port(self, value: Optional["Boolean"]) -> "EcuInstance":
         """
         Set ethSwitchPort and return self for chaining.
-
+        
         Args:
             value: The ethSwitchPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_eth_switch_port("value")
         """
@@ -1505,13 +1515,13 @@ class EcuInstance(FibexElement):
     def with_pnc_nm_request(self, value: Optional["Boolean"]) -> "EcuInstance":
         """
         Set pncNmRequest and return self for chaining.
-
+        
         Args:
             value: The pncNmRequest to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_pnc_nm_request("value")
         """
@@ -1521,13 +1531,13 @@ class EcuInstance(FibexElement):
     def with_pnc_prepare(self, value: Optional["TimeValue"]) -> "EcuInstance":
         """
         Set pncPrepare and return self for chaining.
-
+        
         Args:
             value: The pncPrepare to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_pnc_prepare("value")
         """
@@ -1537,13 +1547,13 @@ class EcuInstance(FibexElement):
     def with_pnc(self, value: Optional["Boolean"]) -> "EcuInstance":
         """
         Set pnc and return self for chaining.
-
+        
         Args:
             value: The pnc to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_pnc("value")
         """
@@ -1553,13 +1563,13 @@ class EcuInstance(FibexElement):
     def with_pn_reset_time(self, value: Optional["TimeValue"]) -> "EcuInstance":
         """
         Set pnResetTime and return self for chaining.
-
+        
         Args:
             value: The pnResetTime to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_pn_reset_time("value")
         """
@@ -1569,13 +1579,13 @@ class EcuInstance(FibexElement):
     def with_sleep_mode(self, value: Optional["Boolean"]) -> "EcuInstance":
         """
         Set sleepMode and return self for chaining.
-
+        
         Args:
             value: The sleepMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_sleep_mode("value")
         """
@@ -1585,13 +1595,13 @@ class EcuInstance(FibexElement):
     def with_tcp_ip_icmp_props(self, value: Optional["EthTcpIpIcmpProps"]) -> "EcuInstance":
         """
         Set tcpIpIcmpProps and return self for chaining.
-
+        
         Args:
             value: The tcpIpIcmpProps to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_tcp_ip_icmp_props("value")
         """
@@ -1601,13 +1611,13 @@ class EcuInstance(FibexElement):
     def with_tcp_ip_props(self, value: Optional["EthTcpIpProps"]) -> "EcuInstance":
         """
         Set tcpIpProps and return self for chaining.
-
+        
         Args:
             value: The tcpIpProps to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_tcp_ip_props("value")
         """
@@ -1617,13 +1627,13 @@ class EcuInstance(FibexElement):
     def with_v2x_supported(self, value: Optional["V2xSupportEnum"]) -> "EcuInstance":
         """
         Set v2xSupported and return self for chaining.
-
+        
         Args:
             value: The v2xSupported to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_v2x_supported("value")
         """
@@ -1633,28 +1643,19 @@ class EcuInstance(FibexElement):
     def with_wake_up_over_bus_supported(self, value: Optional["Boolean"]) -> "EcuInstance":
         """
         Set wakeUpOverBusSupported and return self for chaining.
-
+        
         Args:
             value: The wakeUpOverBusSupported to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_wake_up_over_bus_supported("value")
         """
         self.wake_up_over_bus_supported = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class PhysicalChannel(Identifiable, ABC):
@@ -1666,9 +1667,9 @@ class PhysicalChannel(Identifiable, ABC):
     PhysicalChannels that may be used in parallel for redundant communication.
     An ECU is part of a cluster if it contains at least one controller that is
     connected to at least one channel of the cluster.#
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::PhysicalChannel
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 325, Classic Platform
       R23-11)
@@ -1694,10 +1695,10 @@ class PhysicalChannel(Identifiable, ABC):
         # have assigned an arbitrary number of signals/PDUs/frames are variable, the
                 # shall be variable, too.
         # atpVariation.
-        self._frameTriggering: List[RefType] = []
+        self._frameTriggering: List["RefType"] = []
 
     @property
-    def frame_triggering(self) -> List[RefType]:
+    def frame_triggering(self) -> List["RefType"]:
         """Get frameTriggering (Pythonic accessor)."""
         return self._frameTriggering
         # One ISignalTriggering is defined for exactly one channel.
@@ -1705,10 +1706,10 @@ class PhysicalChannel(Identifiable, ABC):
                 # the shall be variable, too.
         # atpVariation 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate
                 # Template R23-11.
-        self._iSignal: List[RefType] = []
+        self._iSignal: List["RefType"] = []
 
     @property
-    def i_signal(self) -> List[RefType]:
+    def i_signal(self) -> List["RefType"]:
         """Get iSignal (Pythonic accessor)."""
         return self._iSignal
         # Reference between a channel with role managing and a channel with role
@@ -1723,10 +1724,10 @@ class PhysicalChannel(Identifiable, ABC):
         # have assigned an arbitrary number of signals/PDUs/frames are variable, the
                 # shall be variable, too.
         # atpVariation.
-        self._pduTriggering: List[RefType] = []
+        self._pduTriggering: List["RefType"] = []
 
     @property
-    def pdu_triggering(self) -> List[RefType]:
+    def pdu_triggering(self) -> List["RefType"]:
         """Get pduTriggering (Pythonic accessor)."""
         return self._pduTriggering
 
@@ -1735,34 +1736,34 @@ class PhysicalChannel(Identifiable, ABC):
     def getComm(self) -> List["Communication"]:
         """
         AUTOSAR-compliant getter for comm.
-
+        
         Returns:
             The comm value
-
+        
         Note:
             Delegates to comm property (CODING_RULE_V2_00017)
         """
         return self.comm  # Delegates to property
 
-    def getFrameTriggering(self) -> List[RefType]:
+    def getFrameTriggering(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for frameTriggering.
-
+        
         Returns:
             The frameTriggering value
-
+        
         Note:
             Delegates to frame_triggering property (CODING_RULE_V2_00017)
         """
         return self.frame_triggering  # Delegates to property
 
-    def getISignal(self) -> List[RefType]:
+    def getISignal(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for iSignal.
-
+        
         Returns:
             The iSignal value
-
+        
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -1771,22 +1772,22 @@ class PhysicalChannel(Identifiable, ABC):
     def getManaged(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for managed.
-
+        
         Returns:
             The managed value
-
+        
         Note:
             Delegates to managed property (CODING_RULE_V2_00017)
         """
         return self.managed  # Delegates to property
 
-    def getPduTriggering(self) -> List[RefType]:
+    def getPduTriggering(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for pduTriggering.
-
+        
         Returns:
             The pduTriggering value
-
+        
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """
@@ -1794,11 +1795,6 @@ class PhysicalChannel(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class ClientIdRange(ARObject):
@@ -1806,9 +1802,9 @@ class ClientIdRange(ARObject):
     With this element it is possible to restrict the Client Identifier of the
     transaction handle that is generated by the client RTE for inter-Ecu
     Client/Server communication to an allowed range of numerical values.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::ClientIdRange
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 52, Classic Platform R23-11)
     """
@@ -1828,10 +1824,10 @@ class ClientIdRange(ARObject):
     def lower_limit(self, value: Optional["Limit"]) -> None:
         """
         Set lowerLimit with validation.
-
+        
         Args:
             value: The lowerLimit to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1856,10 +1852,10 @@ class ClientIdRange(ARObject):
     def upper_limit(self, value: Optional["Limit"]) -> None:
         """
         Set upperLimit with validation.
-
+        
         Args:
             value: The upperLimit to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1878,10 +1874,10 @@ class ClientIdRange(ARObject):
     def getLowerLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for lowerLimit.
-
+        
         Returns:
             The lowerLimit value
-
+        
         Note:
             Delegates to lower_limit property (CODING_RULE_V2_00017)
         """
@@ -1890,13 +1886,13 @@ class ClientIdRange(ARObject):
     def setLowerLimit(self, value: "Limit") -> "ClientIdRange":
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
-
+        
         Args:
             value: The lowerLimit to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to lower_limit property setter (gets validation automatically)
         """
@@ -1906,10 +1902,10 @@ class ClientIdRange(ARObject):
     def getUpperLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for upperLimit.
-
+        
         Returns:
             The upperLimit value
-
+        
         Note:
             Delegates to upper_limit property (CODING_RULE_V2_00017)
         """
@@ -1918,13 +1914,13 @@ class ClientIdRange(ARObject):
     def setUpperLimit(self, value: "Limit") -> "ClientIdRange":
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
-
+        
         Args:
             value: The upperLimit to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to upper_limit property setter (gets validation automatically)
         """
@@ -1936,13 +1932,13 @@ class ClientIdRange(ARObject):
     def with_lower_limit(self, value: Optional["Limit"]) -> "ClientIdRange":
         """
         Set lowerLimit and return self for chaining.
-
+        
         Args:
             value: The lowerLimit to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_lower_limit("value")
         """
@@ -1952,25 +1948,19 @@ class ClientIdRange(ARObject):
     def with_upper_limit(self, value: Optional["Limit"]) -> "ClientIdRange":
         """
         Set upperLimit and return self for chaining.
-
+        
         Args:
             value: The upperLimit to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_upper_limit("value")
         """
         self.upper_limit = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class CommunicationController(ARObject, ABC):
@@ -1978,9 +1968,9 @@ class CommunicationController(ARObject, ABC):
     The communication controller is a dedicated hardware device by means of
     which hosts are sending frames to and receiving frames from the
     communication medium. Tags: vh.latestBindingTime=postBuild
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationController
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 53, Classic Platform R23-11)
     """
@@ -2004,10 +1994,10 @@ class CommunicationController(ARObject, ABC):
     def wake_up_by(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeUpBy with validation.
-
+        
         Args:
             value: The wakeUpBy to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2015,9 +2005,9 @@ class CommunicationController(ARObject, ABC):
             self._wakeUpBy = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"wakeUpBy must be Boolean or None, got {type(value).__name__}"
+                f"wakeUpBy must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._wakeUpBy = value
 
@@ -2026,10 +2016,10 @@ class CommunicationController(ARObject, ABC):
     def getWakeUpBy(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeUpBy.
-
+        
         Returns:
             The wakeUpBy value
-
+        
         Note:
             Delegates to wake_up_by property (CODING_RULE_V2_00017)
         """
@@ -2038,13 +2028,13 @@ class CommunicationController(ARObject, ABC):
     def setWakeUpBy(self, value: "Boolean") -> "CommunicationController":
         """
         AUTOSAR-compliant setter for wakeUpBy with method chaining.
-
+        
         Args:
             value: The wakeUpBy to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to wake_up_by property setter (gets validation automatically)
         """
@@ -2056,28 +2046,19 @@ class CommunicationController(ARObject, ABC):
     def with_wake_up_by(self, value: Optional["Boolean"]) -> "CommunicationController":
         """
         Set wakeUpBy and return self for chaining.
-
+        
         Args:
             value: The wakeUpBy to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_wake_up_by("value")
         """
         self.wake_up_by = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class CommunicationConnector(Identifiable, ABC):
@@ -2088,9 +2069,9 @@ class CommunicationConnector(Identifiable, ABC):
     CommunicationConnector has a reference to exactly one
     communicationController. Note: Several CommunicationConnectors can be
     assigned to one PhysicalChannel in the scope of one ECU Instance.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationConnector
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 54, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 57, Foundation R23-11)
@@ -2118,10 +2099,10 @@ class CommunicationConnector(Identifiable, ABC):
     def comm_controller(self, value: Optional["Communication"]) -> None:
         """
         Set commController with validation.
-
+        
         Args:
             value: The commController to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2147,10 +2128,10 @@ class CommunicationConnector(Identifiable, ABC):
     def create_ecu(self, value: Optional["Boolean"]) -> None:
         """
         Set createEcu with validation.
-
+        
         Args:
             value: The createEcu to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2158,9 +2139,9 @@ class CommunicationConnector(Identifiable, ABC):
             self._createEcu = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"createEcu must be Boolean or None, got {type(value).__name__}"
+                f"createEcu must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._createEcu = value
         # Defines if this EcuInstance shall implement the dynamic functionality on this
@@ -2176,10 +2157,10 @@ class CommunicationConnector(Identifiable, ABC):
     def dynamic_pnc_to(self, value: Optional["Boolean"]) -> None:
         """
         Set dynamicPncTo with validation.
-
+        
         Args:
             value: The dynamicPncTo to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2187,9 +2168,9 @@ class CommunicationConnector(Identifiable, ABC):
             self._dynamicPncTo = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"dynamicPncTo must be Boolean or None, got {type(value).__name__}"
+                f"dynamicPncTo must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._dynamicPncTo = value
         # An ECUs reception or send ports.
@@ -2224,10 +2205,10 @@ class CommunicationConnector(Identifiable, ABC):
     def pnc_gateway(self, value: Optional["PncGatewayTypeEnum"]) -> None:
         """
         Set pncGateway with validation.
-
+        
         Args:
             value: The pncGateway to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2246,10 +2227,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getCommController(self) -> "Communication":
         """
         AUTOSAR-compliant getter for commController.
-
+        
         Returns:
             The commController value
-
+        
         Note:
             Delegates to comm_controller property (CODING_RULE_V2_00017)
         """
@@ -2258,13 +2239,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setCommController(self, value: "Communication") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for commController with method chaining.
-
+        
         Args:
             value: The commController to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to comm_controller property setter (gets validation automatically)
         """
@@ -2274,10 +2255,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getCreateEcu(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for createEcu.
-
+        
         Returns:
             The createEcu value
-
+        
         Note:
             Delegates to create_ecu property (CODING_RULE_V2_00017)
         """
@@ -2286,13 +2267,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setCreateEcu(self, value: "Boolean") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for createEcu with method chaining.
-
+        
         Args:
             value: The createEcu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to create_ecu property setter (gets validation automatically)
         """
@@ -2302,10 +2283,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getDynamicPncTo(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dynamicPncTo.
-
+        
         Returns:
             The dynamicPncTo value
-
+        
         Note:
             Delegates to dynamic_pnc_to property (CODING_RULE_V2_00017)
         """
@@ -2314,13 +2295,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setDynamicPncTo(self, value: "Boolean") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for dynamicPncTo with method chaining.
-
+        
         Args:
             value: The dynamicPncTo to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dynamic_pnc_to property setter (gets validation automatically)
         """
@@ -2330,10 +2311,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getEcuCommPort(self) -> List["CommConnectorPort"]:
         """
         AUTOSAR-compliant getter for ecuCommPort.
-
+        
         Returns:
             The ecuCommPort value
-
+        
         Note:
             Delegates to ecu_comm_port property (CODING_RULE_V2_00017)
         """
@@ -2342,10 +2323,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getPncFilterArray(self) -> List["PositiveInteger"]:
         """
         AUTOSAR-compliant getter for pncFilterArray.
-
+        
         Returns:
             The pncFilterArray value
-
+        
         Note:
             Delegates to pnc_filter_array property (CODING_RULE_V2_00017)
         """
@@ -2354,10 +2335,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getPncGateway(self) -> "PncGatewayTypeEnum":
         """
         AUTOSAR-compliant getter for pncGateway.
-
+        
         Returns:
             The pncGateway value
-
+        
         Note:
             Delegates to pnc_gateway property (CODING_RULE_V2_00017)
         """
@@ -2366,13 +2347,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setPncGateway(self, value: "PncGatewayTypeEnum") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for pncGateway with method chaining.
-
+        
         Args:
             value: The pncGateway to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to pnc_gateway property setter (gets validation automatically)
         """
@@ -2384,13 +2365,13 @@ class CommunicationConnector(Identifiable, ABC):
     def with_comm_controller(self, value: Optional["Communication"]) -> "CommunicationConnector":
         """
         Set commController and return self for chaining.
-
+        
         Args:
             value: The commController to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_comm_controller("value")
         """
@@ -2400,13 +2381,13 @@ class CommunicationConnector(Identifiable, ABC):
     def with_create_ecu(self, value: Optional["Boolean"]) -> "CommunicationConnector":
         """
         Set createEcu and return self for chaining.
-
+        
         Args:
             value: The createEcu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_create_ecu("value")
         """
@@ -2416,13 +2397,13 @@ class CommunicationConnector(Identifiable, ABC):
     def with_dynamic_pnc_to(self, value: Optional["Boolean"]) -> "CommunicationConnector":
         """
         Set dynamicPncTo and return self for chaining.
-
+        
         Args:
             value: The dynamicPncTo to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dynamic_pnc_to("value")
         """
@@ -2432,25 +2413,19 @@ class CommunicationConnector(Identifiable, ABC):
     def with_pnc_gateway(self, value: Optional["PncGatewayTypeEnum"]) -> "CommunicationConnector":
         """
         Set pncGateway and return self for chaining.
-
+        
         Args:
             value: The pncGateway to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_pnc_gateway("value")
         """
         self.pnc_gateway = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class CommConnectorPort(Identifiable, ABC):
@@ -2463,9 +2438,9 @@ class CommConnectorPort(Identifiable, ABC):
     corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu
     Gateway ECU only routes the Pdu without being interested in the content only
     a FramePort and an IPduPort needs to be created.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommConnectorPort
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 303, Classic Platform R23-11)
     """
@@ -2487,10 +2462,10 @@ class CommConnectorPort(Identifiable, ABC):
     def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
-
+        
         Args:
             value: The communication to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2509,10 +2484,10 @@ class CommConnectorPort(Identifiable, ABC):
     def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
-
+        
         Returns:
             The communication value
-
+        
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -2521,13 +2496,13 @@ class CommConnectorPort(Identifiable, ABC):
     def setCommunication(self, value: "Communication") -> "CommConnectorPort":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-
+        
         Args:
             value: The communication to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -2539,32 +2514,27 @@ class CommConnectorPort(Identifiable, ABC):
     def with_communication(self, value: Optional["Communication"]) -> "CommConnectorPort":
         """
         Set communication and return self for chaining.
-
+        
         Args:
             value: The communication to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_communication("value")
         """
         self.communication = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class CommunicationCycle(ARObject, ABC):
     """
     The communication cycle where the frame is sent.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationCycle
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 424, Classic Platform R23-11)
     """
@@ -2579,20 +2549,15 @@ class CommunicationCycle(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
-    CommunicationCycle,
-)
 
 
 class CycleCounter(CommunicationCycle):
     """
     The communication cycle where the frame is send is described by the
     attribute "cycleCounter".
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CycleCounter
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 424, Classic Platform R23-11)
     """
@@ -2616,10 +2581,10 @@ class CycleCounter(CommunicationCycle):
     def cycle_counter(self, value: Optional["Integer"]) -> None:
         """
         Set CycleCounter with validation.
-
+        
         Args:
             value: The CycleCounter to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2627,9 +2592,9 @@ class CycleCounter(CommunicationCycle):
             self._CycleCounter = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"CycleCounter must be Integer or None, got {type(value).__name__}"
+                f"CycleCounter must be Integer or int or None, got {type(value).__name__}"
             )
         self._CycleCounter = value
 
@@ -2638,10 +2603,10 @@ class CycleCounter(CommunicationCycle):
     def getCycleCounter(self) -> "Integer":
         """
         AUTOSAR-compliant getter for CycleCounter.
-
+        
         Returns:
             The CycleCounter value
-
+        
         Note:
             Delegates to cycle_counter property (CODING_RULE_V2_00017)
         """
@@ -2650,13 +2615,13 @@ class CycleCounter(CommunicationCycle):
     def setCycleCounter(self, value: "Integer") -> "CycleCounter":
         """
         AUTOSAR-compliant setter for CycleCounter with method chaining.
-
+        
         Args:
             value: The CycleCounter to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to cycle_counter property setter (gets validation automatically)
         """
@@ -2668,24 +2633,19 @@ class CycleCounter(CommunicationCycle):
     def with_cycle_counter(self, value: Optional["Integer"]) -> "CycleCounter":
         """
         Set CycleCounter and return self for chaining.
-
+        
         Args:
             value: The CycleCounter to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_cycle_counter("value")
         """
         self.cycle_counter = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
-    CommunicationCycle,
-)
 
 
 class CycleRepetition(CommunicationCycle):
@@ -2693,9 +2653,9 @@ class CycleRepetition(CommunicationCycle):
     The communication cycle where the frame is send is described by the
     attributes baseCycle and cycle Repetition. (cid:53) 424 of 2090 Document ID
     63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CycleRepetition
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 424, Classic Platform R23-11)
     """
@@ -2717,10 +2677,10 @@ class CycleRepetition(CommunicationCycle):
     def base_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set BaseCycle with validation.
-
+        
         Args:
             value: The BaseCycle to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2728,9 +2688,9 @@ class CycleRepetition(CommunicationCycle):
             self._BaseCycle = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"BaseCycle must be Integer or None, got {type(value).__name__}"
+                f"BaseCycle must be Integer or int or None, got {type(value).__name__}"
             )
         self._BaseCycle = value
         # The number of communication cycles (after the first cycle) frame described by
@@ -2746,10 +2706,10 @@ class CycleRepetition(CommunicationCycle):
     def cycle_repetition(self, value: Optional["CycleRepetitionType"]) -> None:
         """
         Set CycleRepetition with validation.
-
+        
         Args:
             value: The CycleRepetition to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2768,10 +2728,10 @@ class CycleRepetition(CommunicationCycle):
     def getBaseCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for BaseCycle.
-
+        
         Returns:
             The BaseCycle value
-
+        
         Note:
             Delegates to base_cycle property (CODING_RULE_V2_00017)
         """
@@ -2780,13 +2740,13 @@ class CycleRepetition(CommunicationCycle):
     def setBaseCycle(self, value: "Integer") -> "CycleRepetition":
         """
         AUTOSAR-compliant setter for BaseCycle with method chaining.
-
+        
         Args:
             value: The BaseCycle to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to base_cycle property setter (gets validation automatically)
         """
@@ -2796,10 +2756,10 @@ class CycleRepetition(CommunicationCycle):
     def getCycleRepetition(self) -> "CycleRepetitionType":
         """
         AUTOSAR-compliant getter for CycleRepetition.
-
+        
         Returns:
             The CycleRepetition value
-
+        
         Note:
             Delegates to cycle_repetition property (CODING_RULE_V2_00017)
         """
@@ -2808,13 +2768,13 @@ class CycleRepetition(CommunicationCycle):
     def setCycleRepetition(self, value: "CycleRepetitionType") -> "CycleRepetition":
         """
         AUTOSAR-compliant setter for CycleRepetition with method chaining.
-
+        
         Args:
             value: The CycleRepetition to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to cycle_repetition property setter (gets validation automatically)
         """
@@ -2826,13 +2786,13 @@ class CycleRepetition(CommunicationCycle):
     def with_base_cycle(self, value: Optional["Integer"]) -> "CycleRepetition":
         """
         Set BaseCycle and return self for chaining.
-
+        
         Args:
             value: The BaseCycle to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_base_cycle("value")
         """
@@ -2842,15 +2802,85 @@ class CycleRepetition(CommunicationCycle):
     def with_cycle_repetition(self, value: Optional["CycleRepetitionType"]) -> "CycleRepetition":
         """
         Set CycleRepetition and return self for chaining.
-
+        
         Args:
             value: The CycleRepetition to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_cycle_repetition("value")
         """
         self.cycle_repetition = value  # Use property setter (gets validation)
         return self
+
+
+class PncGatewayTypeEnum(AREnum):
+    """
+    PncGatewayTypeEnum enumeration
+
+Defines the PncGateway roles. Aggregated by CommunicationConnector.pncGatewayType
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
+    """
+    # The active PncGateway functionality shall be performed
+    active = "0"
+
+    # No PncGateway functionality shall be performed
+    none = "1"
+
+    # The passive PncGateway functionality shall be performed
+    passive = "2"
+
+
+
+class CycleRepetitionType(AREnum):
+    """
+    CycleRepetitionType enumeration
+
+The number of communication cycles (after the first cycle) whenever the frame is sent again. The FlexRay communication controller allows only determined values. Aggregated by CycleRepetition.CycleRepetition
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
+    """
+    # Attribute cycleRepetition value="1" valid only for FlexRay Protocol 2.1 Rev A
+    cycleRepetition1 = "0"
+
+    # Attribute cycleRepetition value="10" to support FlexRay 3.0
+    cycleRepetition10 = "1"
+
+    # Attribute cycleRepetition value="16" valid only for FlexRay Protocol 2.1 Rev A
+    cycleRepetition16 = "2"
+
+    # Attribute cycleRepetition value="2" valid only for FlexRay Protocol 2.1 Rev A
+    cycleRepetition2 = "3"
+
+    # Attribute cycleRepetition value="20" to support FlexRay 3.0
+    cycleRepetition20 = "4"
+
+    # Attribute cycleRepetition value="32" valid only for FlexRay Protocol 2.1 Rev A
+    cycleRepetition32 = "5"
+
+    # Attribute cycleRepetition value="4" valid only for FlexRay Protocol 2.1 Rev A
+    cycleRepetition4 = "6"
+
+    # Attribute cycleRepetition value="40" to support FlexRay 3.0
+    cycleRepetition40 = "7"
+
+    # Template
+    System = "None"
+
+    # CP R23-11
+    AUTOSAR = "None"
+
+    # Attribute cycleRepetition value="5" to support FlexRay 3.0
+    cycleRepetition5 = "8"
+
+    # Attribute cycleRepetition value="50" to support FlexRay 3.0
+    cycleRepetition50 = "9"
+
+    # Attribute cycleRepetition value="64" valid only for FlexRay Protocol 2.1 Rev A
+    cycleRepetition64 = "10"
+
+    # Attribute cycleRepetition value="8" valid only for FlexRay Protocol 2.1 Rev A
+    cycleRepetition8 = "11"

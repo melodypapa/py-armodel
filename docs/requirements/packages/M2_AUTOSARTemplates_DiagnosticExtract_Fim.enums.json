@@ -1,0 +1,40 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+  "enumerations": [
+    {
+      "name": "DiagnosticInhibitionMaskEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "note": "This meta-class represents the ability to define different kinds of inhibition mask behavior. Aggregated by DiagnosticFunctionIdentifierInhibit.inhibitionMask",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 216,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "lastFailed",
+          "index": 0,
+          "description": "This represents the inhibition mask behavior \"last failed\".<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "notTested",
+          "index": 1,
+          "description": "This represents the inhibition mask behavior \"not tested\".<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "tested",
+          "index": 3,
+          "description": "This represents the inhibition mask behavior \"tested\".<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "testedAndFailed",
+          "index": 2,
+          "description": "This represents the inhibition mask behavior \"tested and failed\".<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

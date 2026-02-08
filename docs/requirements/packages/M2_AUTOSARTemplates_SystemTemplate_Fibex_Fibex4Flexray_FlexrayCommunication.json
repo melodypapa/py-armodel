@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Flexray_FlexrayCommunication.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,8 +1,115 @@
-from typing import Optional
+"""
+AUTOSAR Package - TimingCondition
 
+Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
+
+
+
+class TimingCondition(Identifiable):
+    """
+    A TimingCondition describes a dependency on a specific condition. The
+    element owns an expression which describes the timing condition dependency.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingCondition
+    
+    Sources:
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This is the expression describing the dependency on a specific condition.
+        self._timingCondition: Optional["TimingCondition"] = None
+
+    @property
+    def timing_condition(self) -> Optional["TimingCondition"]:
+        """Get timingCondition (Pythonic accessor)."""
+        return self._timingCondition
+
+    @timing_condition.setter
+    def timing_condition(self, value: Optional["TimingCondition"]) -> None:
+        """
+        Set timingCondition with validation.
+        
+        Args:
+            value: The timingCondition to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._timingCondition = None
+            return
+
+        if not isinstance(value, TimingCondition):
+            raise TypeError(
+                f"timingCondition must be TimingCondition or None, got {type(value).__name__}"
+            )
+        self._timingCondition = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getTimingCondition(self) -> "TimingCondition":
+        """
+        AUTOSAR-compliant getter for timingCondition.
+        
+        Returns:
+            The timingCondition value
+        
+        Note:
+            Delegates to timing_condition property (CODING_RULE_V2_00017)
+        """
+        return self.timing_condition  # Delegates to property
+
+    def setTimingCondition(self, value: "TimingCondition") -> "TimingCondition":
+        """
+        AUTOSAR-compliant setter for timingCondition with method chaining.
+        
+        Args:
+            value: The timingCondition to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to timing_condition property setter (gets validation automatically)
+        """
+        self.timing_condition = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_timing_condition(self, value: Optional["TimingCondition"]) -> "TimingCondition":
+        """
+        Set timingCondition and return self for chaining.
+        
+        Args:
+            value: The timingCondition to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_timing_condition("value")
+        """
+        self.timing_condition = value  # Use property setter (gets validation)
+        return self
+
 
 
 class TimingConditionFormula(ARObject):
@@ -10,9 +117,9 @@ class TimingConditionFormula(ARObject):
     A TimingConditionFormula describes a specific dependency. The expression
     shall be a boolean expression addressing modes, variables, arguments, and/or
     events.
-
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
-
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingConditionFormula
+    
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)
     """
@@ -32,10 +139,10 @@ class TimingConditionFormula(ARObject):
     def timing_argument_argument_instance(self, value: Optional["AutosarOperation"]) -> None:
         """
         Set timingArgumentArgumentInstance with validation.
-
+        
         Args:
             value: The timingArgumentArgumentInstance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +168,10 @@ class TimingConditionFormula(ARObject):
     def timing_condition(self, value: Optional["TimingCondition"]) -> None:
         """
         Set timingCondition with validation.
-
+        
         Args:
             value: The timingCondition to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +196,10 @@ class TimingConditionFormula(ARObject):
     def timing_event(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set timingEvent with validation.
-
+        
         Args:
             value: The timingEvent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +224,10 @@ class TimingConditionFormula(ARObject):
     def timing_mode(self, value: Optional["TimingModeInstance"]) -> None:
         """
         Set timingMode with validation.
-
+        
         Args:
             value: The timingMode to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +252,10 @@ class TimingConditionFormula(ARObject):
     def timing_variable_instance(self, value: Optional["AutosarVariable"]) -> None:
         """
         Set timingVariableInstance with validation.
-
+        
         Args:
             value: The timingVariableInstance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,10 +274,10 @@ class TimingConditionFormula(ARObject):
     def getTimingArgumentArgumentInstance(self) -> "AutosarOperation":
         """
         AUTOSAR-compliant getter for timingArgumentArgumentInstance.
-
+        
         Returns:
             The timingArgumentArgumentInstance value
-
+        
         Note:
             Delegates to timing_argument_argument_instance property (CODING_RULE_V2_00017)
         """
@@ -179,13 +286,13 @@ class TimingConditionFormula(ARObject):
     def setTimingArgumentArgumentInstance(self, value: "AutosarOperation") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingArgumentArgumentInstance with method chaining.
-
+        
         Args:
             value: The timingArgumentArgumentInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to timing_argument_argument_instance property setter (gets validation automatically)
         """
@@ -195,10 +302,10 @@ class TimingConditionFormula(ARObject):
     def getTimingCondition(self) -> "TimingCondition":
         """
         AUTOSAR-compliant getter for timingCondition.
-
+        
         Returns:
             The timingCondition value
-
+        
         Note:
             Delegates to timing_condition property (CODING_RULE_V2_00017)
         """
@@ -207,13 +314,13 @@ class TimingConditionFormula(ARObject):
     def setTimingCondition(self, value: "TimingCondition") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingCondition with method chaining.
-
+        
         Args:
             value: The timingCondition to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to timing_condition property setter (gets validation automatically)
         """
@@ -223,10 +330,10 @@ class TimingConditionFormula(ARObject):
     def getTimingEvent(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for timingEvent.
-
+        
         Returns:
             The timingEvent value
-
+        
         Note:
             Delegates to timing_event property (CODING_RULE_V2_00017)
         """
@@ -235,13 +342,13 @@ class TimingConditionFormula(ARObject):
     def setTimingEvent(self, value: "TimingDescriptionEvent") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingEvent with method chaining.
-
+        
         Args:
             value: The timingEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to timing_event property setter (gets validation automatically)
         """
@@ -251,10 +358,10 @@ class TimingConditionFormula(ARObject):
     def getTimingMode(self) -> "TimingModeInstance":
         """
         AUTOSAR-compliant getter for timingMode.
-
+        
         Returns:
             The timingMode value
-
+        
         Note:
             Delegates to timing_mode property (CODING_RULE_V2_00017)
         """
@@ -263,13 +370,13 @@ class TimingConditionFormula(ARObject):
     def setTimingMode(self, value: "TimingModeInstance") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingMode with method chaining.
-
+        
         Args:
             value: The timingMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to timing_mode property setter (gets validation automatically)
         """
@@ -279,10 +386,10 @@ class TimingConditionFormula(ARObject):
     def getTimingVariableInstance(self) -> "AutosarVariable":
         """
         AUTOSAR-compliant getter for timingVariableInstance.
-
+        
         Returns:
             The timingVariableInstance value
-
+        
         Note:
             Delegates to timing_variable_instance property (CODING_RULE_V2_00017)
         """
@@ -291,13 +398,13 @@ class TimingConditionFormula(ARObject):
     def setTimingVariableInstance(self, value: "AutosarVariable") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingVariableInstance with method chaining.
-
+        
         Args:
             value: The timingVariableInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to timing_variable_instance property setter (gets validation automatically)
         """
@@ -309,13 +416,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_argument_argument_instance(self, value: Optional["AutosarOperation"]) -> "TimingConditionFormula":
         """
         Set timingArgumentArgumentInstance and return self for chaining.
-
+        
         Args:
             value: The timingArgumentArgumentInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_timing_argument_argument_instance("value")
         """
@@ -325,13 +432,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_condition(self, value: Optional["TimingCondition"]) -> "TimingConditionFormula":
         """
         Set timingCondition and return self for chaining.
-
+        
         Args:
             value: The timingCondition to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_timing_condition("value")
         """
@@ -341,13 +448,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_event(self, value: Optional["TimingDescriptionEvent"]) -> "TimingConditionFormula":
         """
         Set timingEvent and return self for chaining.
-
+        
         Args:
             value: The timingEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_timing_event("value")
         """
@@ -357,13 +464,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_mode(self, value: Optional["TimingModeInstance"]) -> "TimingConditionFormula":
         """
         Set timingMode and return self for chaining.
-
+        
         Args:
             value: The timingMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_timing_mode("value")
         """
@@ -373,33 +480,28 @@ class TimingConditionFormula(ARObject):
     def with_timing_variable_instance(self, value: Optional["AutosarVariable"]) -> "TimingConditionFormula":
         """
         Set timingVariableInstance and return self for chaining.
-
+        
         Args:
             value: The timingVariableInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_timing_variable_instance("value")
         """
         self.timing_variable_instance = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class TimingExtensionResource(Identifiable):
     """
     A TimingExtensionResource provides the capability to contain instance
     references referred from within a timing condition formula.
-
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
-
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingExtensionResource
+    
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)
     """
@@ -437,10 +539,10 @@ class TimingExtensionResource(Identifiable):
     def getTimingArgument(self) -> List["AutosarOperation"]:
         """
         AUTOSAR-compliant getter for timingArgument.
-
+        
         Returns:
             The timingArgument value
-
+        
         Note:
             Delegates to timing_argument property (CODING_RULE_V2_00017)
         """
@@ -449,10 +551,10 @@ class TimingExtensionResource(Identifiable):
     def getTimingMode(self) -> List["TimingModeInstance"]:
         """
         AUTOSAR-compliant getter for timingMode.
-
+        
         Returns:
             The timingMode value
-
+        
         Note:
             Delegates to timing_mode property (CODING_RULE_V2_00017)
         """
@@ -461,10 +563,10 @@ class TimingExtensionResource(Identifiable):
     def getTimingVariable(self) -> List["AutosarVariable"]:
         """
         AUTOSAR-compliant getter for timingVariable.
-
+        
         Returns:
             The timingVariable value
-
+        
         Note:
             Delegates to timing_variable property (CODING_RULE_V2_00017)
         """
@@ -472,93 +574,111 @@ class TimingExtensionResource(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
-class TimingModeInstance(ARObject):
+class TimingModeInstance(Identifiable):
     """
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
-    Represents a timing mode instance in AUTOSAR.
-    Defines a mode instance used in timing specifications.
+    This class specifies the mode declaration to be checked in a specific
+    instance of a mode declaration group. This is used in a timing condition
+    formula as an operand of the unary timing function TIMEX_mode Active to
+    check whether the mode declaration is active at the point in time this
+    expression is evaluated.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingModeInstance
+    
+    Sources:
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 37, Classic Platform R23-11)
     """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the TimingModeInstance with default values.
-        """
+    def __init__(self):
         super().__init__()
-        self.modeRef: Union[Union[RefType, None] , None] = None
-        self.modeValue: Union[str, None] = None
 
-    def getModeRef(self) -> Union[RefType, None]:
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This refers to a specific mode declaration in the given.
+        self._modeInstance: Optional["ModeInSwcBsw"] = None
+
+    @property
+    def mode_instance(self) -> Optional["ModeInSwcBsw"]:
+        """Get modeInstance (Pythonic accessor)."""
+        return self._modeInstance
+
+    @mode_instance.setter
+    def mode_instance(self, value: Optional["ModeInSwcBsw"]) -> None:
         """
-        Gets the mode reference.
-
-        Returns:
-            Reference to the mode
-        """
-        return self.modeRef
-
-    def setModeRef(self, value: RefType) -> "TimingModeInstance":
-        """
-        Sets the mode reference.
-
+        Set modeInstance with validation.
+        
         Args:
-            value: The mode reference to set
+            value: The modeInstance to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._modeInstance = None
+            return
 
+        if not isinstance(value, ModeInSwcBsw):
+            raise TypeError(
+                f"modeInstance must be ModeInSwcBsw or None, got {type(value).__name__}"
+            )
+        self._modeInstance = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getModeInstance(self) -> "ModeInSwcBsw":
+        """
+        AUTOSAR-compliant getter for modeInstance.
+        
+        Returns:
+            The modeInstance value
+        
+        Note:
+            Delegates to mode_instance property (CODING_RULE_V2_00017)
+        """
+        return self.mode_instance  # Delegates to property
+
+    def setModeInstance(self, value: "ModeInSwcBsw") -> "TimingModeInstance":
+        """
+        AUTOSAR-compliant setter for modeInstance with method chaining.
+        
+        Args:
+            value: The modeInstance to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to mode_instance property setter (gets validation automatically)
         """
-        self.modeRef = value
+        self.mode_instance = value  # Delegates to property setter
         return self
 
-    def getModeValue(self) -> Union[str, None]:
-        """
-        Gets the mode value.
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-        Returns:
-            String representing the mode value
+    def with_mode_instance(self, value: Optional["ModeInSwcBsw"]) -> "TimingModeInstance":
         """
-        return self.modeValue
-
-    def setModeValue(self, value: str) -> "TimingModeInstance":
-        """
-        Sets the mode value.
-
+        Set modeInstance and return self for chaining.
+        
         Args:
-            value: String value to set
-
+            value: The modeInstance to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_mode_instance("value")
         """
-        self.modeValue = value
+        self.mode_instance = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class ModeInBswInstanceRef(ARObject):
     """
     Instance reference to be capable of referencing a specific ModeDeclaration
     of a ModeDeclarationGroup Prototype utilized in a BSW module.
-
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
-
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::ModeInBswInstanceRef
+    
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 38, Classic Platform R23-11)
     """
@@ -578,10 +698,10 @@ class ModeInBswInstanceRef(ARObject):
     def context_bsw(self, value: Optional["BswImplementation"]) -> None:
         """
         Set contextBsw with validation.
-
+        
         Args:
             value: The contextBsw to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -597,21 +717,21 @@ class ModeInBswInstanceRef(ARObject):
         # Specifies the mode declaration group prototype that manifests the context.
         # xml.
         # sequenceOffset=20.
-        self._contextMode: RefType = None
+        self._contextMode: Optional["RefType"] = None
 
     @property
-    def context_mode(self) -> RefType:
+    def context_mode(self) -> Optional["RefType"]:
         """Get contextMode (Pythonic accessor)."""
         return self._contextMode
 
     @context_mode.setter
-    def context_mode(self, value: RefType) -> None:
+    def context_mode(self, value: Optional["RefType"]) -> None:
         """
         Set contextMode with validation.
-
+        
         Args:
             value: The contextMode to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -632,10 +752,10 @@ class ModeInBswInstanceRef(ARObject):
     def target_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set targetMode with validation.
-
+        
         Args:
             value: The targetMode to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -654,10 +774,10 @@ class ModeInBswInstanceRef(ARObject):
     def getContextBsw(self) -> "BswImplementation":
         """
         AUTOSAR-compliant getter for contextBsw.
-
+        
         Returns:
             The contextBsw value
-
+        
         Note:
             Delegates to context_bsw property (CODING_RULE_V2_00017)
         """
@@ -666,41 +786,41 @@ class ModeInBswInstanceRef(ARObject):
     def setContextBsw(self, value: "BswImplementation") -> "ModeInBswInstanceRef":
         """
         AUTOSAR-compliant setter for contextBsw with method chaining.
-
+        
         Args:
             value: The contextBsw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to context_bsw property setter (gets validation automatically)
         """
         self.context_bsw = value  # Delegates to property setter
         return self
 
-    def getContextMode(self) -> RefType:
+    def getContextMode(self) -> "RefType":
         """
         AUTOSAR-compliant getter for contextMode.
-
+        
         Returns:
             The contextMode value
-
+        
         Note:
             Delegates to context_mode property (CODING_RULE_V2_00017)
         """
         return self.context_mode  # Delegates to property
 
-    def setContextMode(self, value: RefType) -> "ModeInBswInstanceRef":
+    def setContextMode(self, value: "RefType") -> "ModeInBswInstanceRef":
         """
         AUTOSAR-compliant setter for contextMode with method chaining.
-
+        
         Args:
             value: The contextMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to context_mode property setter (gets validation automatically)
         """
@@ -710,10 +830,10 @@ class ModeInBswInstanceRef(ARObject):
     def getTargetMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for targetMode.
-
+        
         Returns:
             The targetMode value
-
+        
         Note:
             Delegates to target_mode property (CODING_RULE_V2_00017)
         """
@@ -722,13 +842,13 @@ class ModeInBswInstanceRef(ARObject):
     def setTargetMode(self, value: "ModeDeclaration") -> "ModeInBswInstanceRef":
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
-
+        
         Args:
             value: The targetMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to target_mode property setter (gets validation automatically)
         """
@@ -740,13 +860,13 @@ class ModeInBswInstanceRef(ARObject):
     def with_context_bsw(self, value: Optional["BswImplementation"]) -> "ModeInBswInstanceRef":
         """
         Set contextBsw and return self for chaining.
-
+        
         Args:
             value: The contextBsw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_context_bsw("value")
         """
@@ -756,13 +876,13 @@ class ModeInBswInstanceRef(ARObject):
     def with_context_mode(self, value: Optional[RefType]) -> "ModeInBswInstanceRef":
         """
         Set contextMode and return self for chaining.
-
+        
         Args:
             value: The contextMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_context_mode("value")
         """
@@ -772,39 +892,28 @@ class ModeInBswInstanceRef(ARObject):
     def with_target_mode(self, value: Optional["ModeDeclaration"]) -> "ModeInBswInstanceRef":
         """
         Set targetMode and return self for chaining.
-
+        
         Args:
             value: The targetMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_target_mode("value")
         """
         self.target_mode = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class ModeInSwcInstanceRef(ARObject):
     """
     Instance reference to be capable of referencing a ModeDeclaration at a
     specific Mode Switch Port of a SW-C.
-
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
-
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::ModeInSwcInstanceRef
+    
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 38, Classic Platform R23-11)
     """
@@ -824,10 +933,10 @@ class ModeInSwcInstanceRef(ARObject):
     def base(self, value: Optional["SwComponentType"]) -> None:
         """
         Set base with validation.
-
+        
         Args:
             value: The base to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -850,21 +959,21 @@ class ModeInSwcInstanceRef(ARObject):
         # Specifies the mode declaration group prototype that manifests the context.
         # xml.
         # sequenceOffset=40.
-        self._contextMode: RefType = None
+        self._contextMode: Optional["RefType"] = None
 
     @property
-    def context_mode(self) -> RefType:
+    def context_mode(self) -> Optional["RefType"]:
         """Get contextMode (Pythonic accessor)."""
         return self._contextMode
 
     @context_mode.setter
-    def context_mode(self, value: RefType) -> None:
+    def context_mode(self, value: Optional["RefType"]) -> None:
         """
         Set contextMode with validation.
-
+        
         Args:
             value: The contextMode to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -876,21 +985,21 @@ class ModeInSwcInstanceRef(ARObject):
         # Specifies the port prototype representing the context.
         # 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for
                 # Classic R23-11.
-        self._contextPort: RefType = None
+        self._contextPort: Optional["RefType"] = None
 
     @property
-    def context_port(self) -> RefType:
+    def context_port(self) -> Optional["RefType"]:
         """Get contextPort (Pythonic accessor)."""
         return self._contextPort
 
     @context_port.setter
-    def context_port(self, value: RefType) -> None:
+    def context_port(self, value: Optional["RefType"]) -> None:
         """
         Set contextPort with validation.
-
+        
         Args:
             value: The contextPort to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -911,10 +1020,10 @@ class ModeInSwcInstanceRef(ARObject):
     def target_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set targetMode with validation.
-
+        
         Args:
             value: The targetMode to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -933,10 +1042,10 @@ class ModeInSwcInstanceRef(ARObject):
     def getBase(self) -> "SwComponentType":
         """
         AUTOSAR-compliant getter for base.
-
+        
         Returns:
             The base value
-
+        
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -945,13 +1054,13 @@ class ModeInSwcInstanceRef(ARObject):
     def setBase(self, value: "SwComponentType") -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -961,65 +1070,65 @@ class ModeInSwcInstanceRef(ARObject):
     def getContext(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for context.
-
+        
         Returns:
             The context value
-
+        
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
         return self.context  # Delegates to property
 
-    def getContextMode(self) -> RefType:
+    def getContextMode(self) -> "RefType":
         """
         AUTOSAR-compliant getter for contextMode.
-
+        
         Returns:
             The contextMode value
-
+        
         Note:
             Delegates to context_mode property (CODING_RULE_V2_00017)
         """
         return self.context_mode  # Delegates to property
 
-    def setContextMode(self, value: RefType) -> "ModeInSwcInstanceRef":
+    def setContextMode(self, value: "RefType") -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextMode with method chaining.
-
+        
         Args:
             value: The contextMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to context_mode property setter (gets validation automatically)
         """
         self.context_mode = value  # Delegates to property setter
         return self
 
-    def getContextPort(self) -> RefType:
+    def getContextPort(self) -> "RefType":
         """
         AUTOSAR-compliant getter for contextPort.
-
+        
         Returns:
             The contextPort value
-
+        
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: RefType) -> "ModeInSwcInstanceRef":
+    def setContextPort(self, value: "RefType") -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-
+        
         Args:
             value: The contextPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -1029,10 +1138,10 @@ class ModeInSwcInstanceRef(ARObject):
     def getTargetMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for targetMode.
-
+        
         Returns:
             The targetMode value
-
+        
         Note:
             Delegates to target_mode property (CODING_RULE_V2_00017)
         """
@@ -1041,13 +1150,13 @@ class ModeInSwcInstanceRef(ARObject):
     def setTargetMode(self, value: "ModeDeclaration") -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
-
+        
         Args:
             value: The targetMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to target_mode property setter (gets validation automatically)
         """
@@ -1059,13 +1168,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_base(self, value: Optional["SwComponentType"]) -> "ModeInSwcInstanceRef":
         """
         Set base and return self for chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_base("value")
         """
@@ -1075,13 +1184,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_context_mode(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
         """
         Set contextMode and return self for chaining.
-
+        
         Args:
             value: The contextMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_context_mode("value")
         """
@@ -1091,13 +1200,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_context_port(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
         """
         Set contextPort and return self for chaining.
-
+        
         Args:
             value: The contextPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_context_port("value")
         """
@@ -1107,13 +1216,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_target_mode(self, value: Optional["ModeDeclaration"]) -> "ModeInSwcInstanceRef":
         """
         Set targetMode and return self for chaining.
-
+        
         Args:
             value: The targetMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_target_mode("value")
         """

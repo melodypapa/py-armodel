@@ -1,195 +1,535 @@
-"""V2 base classes copied from ARPackage.py"""
+"""
+AUTOSAR Package - ARPackage
 
-from abc import ABC
-from typing import List, Optional
+Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage
+"""
 
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    CollectableElement,
 )
+
+
+# Manually maintained: ARPackage needs multiple inheritance support
+# This class is manually maintained to add shortName support for test compatibility
+# Marked with base class marker to prevent regeneration
+class ARPackage_ManuallyMaintained:  # Marker class to prevent regeneration
+    pass
+
+
+class ARPackage(CollectableElement):
+    """
+    AUTOSAR package, allowing to create top level packages to structure the
+    contained ARElements. ARPackages are open sets. This means that in a file
+    based description system multiple files can be used to partially describe
+    the contents of a package. This is an extended version of MSR’s SW-SYSTEM.
+    
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARPackage
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 300, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 297, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 286, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 58, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 967, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1992, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 203, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 53, Foundation R23-11)
+      - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 55, Foundation R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 156, Foundation R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+        # Manually add shortName attribute for test compatibility
+        # ARPackage should inherit from Identifiable but current generator doesn't support multiple inheritance
+        self._shortName: Optional[str] = None
+        
+        # Parent attribute for V1 compatibility
+        self.parent: Optional["ARObject"] = None
+        
+        # Initialize list attributes (these are generated outside __init__ by code generator, which is a bug)
+        self._arPackage: List["ARPackage"] = []
+        self._element: List["PackageableElement"] = []
+        self._referenceBase: List["RefType"] = []
+
+    # ===== Manually added methods for Identifiable compatibility =====
+    @property
+    def shortName(self) -> Optional[str]:
+        """Get shortName (Pythonic accessor)."""
+        return self._shortName
+
+    @shortName.setter
+    def shortName(self, value: Optional[str]) -> None:
+        """Set shortName with validation."""
+        self._shortName = value
+
+    def getShortName(self) -> Optional[str]:
+        """
+        AUTOSAR-compliant getter for shortName.
+        
+        Returns:
+            The shortName value
+        """
+        return self.shortName
+
+    def setShortName(self, value: Optional[str]) -> "ARPackage":
+        """
+        AUTOSAR-compliant setter for shortName with method chaining.
+        
+        Args:
+            value: The shortName to set
+        
+        Returns:
+            self for method chaining
+        """
+        self.shortName = value
+        return self
+
+    # ===== V1-compatible property alias =====
+    @property
+    def ar_packages(self) -> List["ARPackage"]:
+        """Alias for ar_package (V1 compatibility)."""
+        return self.ar_package
+
+    def getTagName(self) -> str:
+        """
+        Get the XML tag name for this element.
+        
+        Returns:
+            The tag name "ARPackage"
+        """
+        return "ARPackage"
+
+    # ===== V1-compatible collection methods =====
+    def getARPackages(self) -> List["ARPackage"]:
+        """
+        Get all child ARPackages (V1-compatible method).
+        
+        Returns:
+            List of child ARPackages
+        """
+        return self.ar_package
+
+    def addARPackage(self, pkg: "ARPackage") -> None:
+        """
+        Add a child ARPackage (V1-compatible method).
+        
+        Args:
+            pkg: The ARPackage to add
+        """
+        self.ar_package.append(pkg)
+        # Set parent relationship
+        if hasattr(pkg, 'parent'):
+            pkg.parent = self
+
+    # ===== Rest of the generated code =====
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This represents a sub package within an ARPackage, for an unlimited package
+                # hierarchy.
+        # atpVariation.
+        self._arPackage: List["ARPackage"] = []
+
+    @property
+    def ar_package(self) -> List["ARPackage"]:
+        """Get arPackage (Pythonic accessor)."""
+        return self._arPackage
+        # Elements that are part of this package atpVariation.
+        self._element: List["PackageableElement"] = []
+
+    @property
+    def element(self) -> List["PackageableElement"]:
+        """Get element (Pythonic accessor)."""
+        return self._element
+        # This denotes the reference bases for the package.
+        # This is for all relative references within the package.
+        # needs to be selected according to the base the references.
+        self._referenceBase: List["RefType"] = []
+
+    @property
+    def reference_base(self) -> List["RefType"]:
+        """Get referenceBase (Pythonic accessor)."""
+        return self._referenceBase
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getArPackage(self) -> List["ARPackage"]:
+        """
+        AUTOSAR-compliant getter for arPackage.
+        
+        Returns:
+            The arPackage value
+        
+        Note:
+            Delegates to ar_package property (CODING_RULE_V2_00017)
+        """
+        return self.ar_package  # Delegates to property
+
+    def getElement(self) -> List["PackageableElement"]:
+        """
+        AUTOSAR-compliant getter for element.
+        
+        Returns:
+            The element value
+        
+        Note:
+            Delegates to element property (CODING_RULE_V2_00017)
+        """
+        return self.element  # Delegates to property
+
+    def getReferenceBase(self) -> List["RefType"]:
+        """
+        AUTOSAR-compliant getter for referenceBase.
+        
+        Returns:
+            The referenceBase value
+        
+        Note:
+            Delegates to reference_base property (CODING_RULE_V2_00017)
+        """
+        return self.reference_base  # Delegates to property
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+
+class PackageableElement(CollectableElement, ABC):
+    """
+    This meta-class specifies the ability to be a member of an AUTOSAR package.
+    
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::PackageableElement
+    
+    Sources:
+      - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 302, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2042, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 54, Foundation R23-11)
+    """
+    def __init__(self):
+        if type(self) is PackageableElement:
+            raise TypeError("PackageableElement is an abstract class.")
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
 
 
 class ReferenceBase(ARObject):
     """
-    Represents a reference base in AUTOSAR models. Reference bases define
-    how elements in one package can reference elements in other packages.
-    They are used to establish relationships between different AUTOSAR packages.
+    This meta-class establishes a basis for relative references. Reference bases
+    are identified by the short Label which shall be unique in the current
+    package.
+    
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ReferenceBase
+    
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 72, Foundation R23-11)
     """
-
     def __init__(self):
-        """
-        Initializes a ReferenceBase instance with default values for
-        package reference properties.
-        """
         super().__init__()
 
-        # List of global elements that can be referenced
-        self.globalElements: List[str] = []
-        # List of global references within the package
-        self.globalInPackageRefs: List[RefType] = []
-        # Flag indicating if this reference base is the default
-        self.isDefault: Optional[bool] = None
-        # Flag indicating if this reference base is global
-        self.isGlobal: Optional[bool] = None
-        # Flag indicating if this reference base belongs to the current package
-        self.BaseIsThisPackage: Optional[bool] = None
-        # List of package references
-        self.packageRef: Optional[List[RefType]] = None
-        # Short label for this reference base
-        self.shortLabel: Optional[str] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This attribute represents a meta-class for which the global is supported via
+        # this reference base.
+        self._globalElement: List["RefType"] = []
 
-    def getGlobalElements(self) -> List[str]:
+    @property
+    def global_element(self) -> List["RefType"]:
+        """Get globalElement (Pythonic accessor)."""
+        return self._globalElement
+        # This represents the ability to express that global elements in various
+        # packages which do not have a common Packages mentioned by Reference used in
+        # addition to the one in.
+        self._globalIn: List["ARPackage"] = []
+
+    @property
+    def global_in(self) -> List["ARPackage"]:
+        """Get globalIn (Pythonic accessor)."""
+        return self._globalIn
+        # This attribute denotes if the current ReferenceBase is the that there can
+        # only be one default reference a package.
+        self._isDefault: "Boolean" = None
+
+    @property
+    def is_default(self) -> "Boolean":
+        """Get isDefault (Pythonic accessor)."""
+        return self._isDefault
+
+    @is_default.setter
+    def is_default(self, value: "Boolean") -> None:
         """
-        Returns the list of global elements that can be referenced.
-
-        Returns:
-            List of global elements that can be referenced
-        """
-        return self.globalElements
-
-    def addGlobalElement(self, value: str) -> 'ReferenceBase':
-        """
-        Adds a global element to the list of referenceable elements.
-
+        Set isDefault with validation.
+        
         Args:
-            value: The element to add to the list of global elements
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+            value: The isDefault to set
+        
+        Raises:
+            TypeError: If value type is incorrect
         """
-        self.globalElements.append(value)
+        if not isinstance(value, Boolean):
+            raise TypeError(
+                f"isDefault must be Boolean, got {type(value).__name__}"
+            )
+        self._isDefault = value
+        # This association specifies the basis of all relative the base equals
+        # shortLabel.
+        self._package: Optional["ARPackage"] = None
+
+    @property
+    def package(self) -> Optional["ARPackage"]:
+        """Get package (Pythonic accessor)."""
+        return self._package
+
+    @package.setter
+    def package(self, value: Optional["ARPackage"]) -> None:
+        """
+        Set package with validation.
+        
+        Args:
+            value: The package to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._package = None
+            return
+
+        if not isinstance(value, ARPackage):
+            raise TypeError(
+                f"package must be ARPackage or None, got {type(value).__name__}"
+            )
+        self._package = value
+        # This is the name of the reference base.
+        # By this name, can denote the applicable base.
+        self._shortLabel: "Identifier" = None
+
+    @property
+    def short_label(self) -> "Identifier":
+        """Get shortLabel (Pythonic accessor)."""
+        return self._shortLabel
+
+    @short_label.setter
+    def short_label(self, value: "Identifier") -> None:
+        """
+        Set shortLabel with validation.
+        
+        Args:
+            value: The shortLabel to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if not isinstance(value, Identifier):
+            raise TypeError(
+                f"shortLabel must be Identifier, got {type(value).__name__}"
+            )
+        self._shortLabel = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getGlobalElement(self) -> List["RefType"]:
+        """
+        AUTOSAR-compliant getter for globalElement.
+        
+        Returns:
+            The globalElement value
+        
+        Note:
+            Delegates to global_element property (CODING_RULE_V2_00017)
+        """
+        return self.global_element  # Delegates to property
+
+    def getGlobalIn(self) -> List["ARPackage"]:
+        """
+        AUTOSAR-compliant getter for globalIn.
+        
+        Returns:
+            The globalIn value
+        
+        Note:
+            Delegates to global_in property (CODING_RULE_V2_00017)
+        """
+        return self.global_in  # Delegates to property
+
+    def getIsDefault(self) -> "Boolean":
+        """
+        AUTOSAR-compliant getter for isDefault.
+        
+        Returns:
+            The isDefault value
+        
+        Note:
+            Delegates to is_default property (CODING_RULE_V2_00017)
+        """
+        return self.is_default  # Delegates to property
+
+    def setIsDefault(self, value: "Boolean") -> "ReferenceBase":
+        """
+        AUTOSAR-compliant setter for isDefault with method chaining.
+        
+        Args:
+            value: The isDefault to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to is_default property setter (gets validation automatically)
+        """
+        self.is_default = value  # Delegates to property setter
         return self
 
-    def getGlobalInPackageRefs(self) -> List[RefType]:
+    def getPackage(self) -> "ARPackage":
         """
-        Returns the list of global references within the package.
-
+        AUTOSAR-compliant getter for package.
+        
         Returns:
-            List of global references within the package
+            The package value
+        
+        Note:
+            Delegates to package property (CODING_RULE_V2_00017)
         """
-        return self.globalInPackageRefs
+        return self.package  # Delegates to property
 
-    def addGlobalInPackageRef(self, value: RefType) -> 'ReferenceBase':
+    def setPackage(self, value: "ARPackage") -> "ReferenceBase":
         """
-        Adds a global reference to the package.
-
+        AUTOSAR-compliant setter for package with method chaining.
+        
         Args:
-            value: The reference to add to the list of global in-package references
-
+            value: The package to set
+        
         Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+            self for method chaining
+        
+        Note:
+            Delegates to package property setter (gets validation automatically)
         """
-        self.globalInPackageRefs.append(value)
+        self.package = value  # Delegates to property setter
         return self
 
-    def getIsDefault(self) -> Optional[bool]:
+    def getShortLabel(self) -> "Identifier":
         """
-        Returns whether this reference base is the default.
-
+        AUTOSAR-compliant getter for shortLabel.
+        
         Returns:
-            Boolean indicating if this is the default reference base (or None)
+            The shortLabel value
+        
+        Note:
+            Delegates to short_label property (CODING_RULE_V2_00017)
         """
-        return self.isDefault
+        return self.short_label  # Delegates to property
 
-    def setIsDefault(self, value: bool) -> 'ReferenceBase':
+    def setShortLabel(self, value: "Identifier") -> "ReferenceBase":
         """
-        Sets whether this reference base is the default.
-
+        AUTOSAR-compliant setter for shortLabel with method chaining.
+        
         Args:
-            value: Boolean indicating if this should be the default reference base
-
+            value: The shortLabel to set
+        
         Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+            self for method chaining
+        
+        Note:
+            Delegates to short_label property setter (gets validation automatically)
         """
-        self.isDefault = value
+        self.short_label = value  # Delegates to property setter
         return self
 
-    def getIsGlobal(self) -> Optional[bool]:
-        """
-        Returns whether this reference base is global.
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-        Returns:
-            Boolean indicating if this is a global reference base (or None)
+    def with_is_default(self, value: "Boolean") -> "ReferenceBase":
         """
-        return self.isGlobal
-
-    def setIsGlobal(self, value: bool) -> 'ReferenceBase':
-        """
-        Sets whether this reference base is global.
-
+        Set isDefault and return self for chaining.
+        
         Args:
-            value: Boolean indicating if this should be a global reference base
-
+            value: The isDefault to set
+        
         Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+            self for method chaining
+        
+        Example:
+            >>> obj.with_is_default("value")
         """
-        self.isGlobal = value
+        self.is_default = value  # Use property setter (gets validation)
         return self
 
-    def getBaseIsThisPackage(self) -> Optional[bool]:
+    def with_package(self, value: Optional["ARPackage"]) -> "ReferenceBase":
         """
-        Returns whether this reference base belongs to the current package.
-
-        Returns:
-            Boolean indicating if this reference base belongs to the current package (or None)
-        """
-        return self.BaseIsThisPackage
-
-    def setBaseIsThisPackage(self, value: bool) -> 'ReferenceBase':
-        """
-        Sets whether this reference base belongs to the current package.
-
+        Set package and return self for chaining.
+        
         Args:
-            value: Boolean indicating if this reference base belongs to the current package
-
+            value: The package to set
+        
         Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+            self for method chaining
+        
+        Example:
+            >>> obj.with_package("value")
         """
-        self.BaseIsThisPackage = value
+        self.package = value  # Use property setter (gets validation)
         return self
 
-    def getPackageRef(self) -> Optional[List[RefType]]:
+    def with_short_label(self, value: "Identifier") -> "ReferenceBase":
         """
-        Returns the list of package references.
-
-        Returns:
-            List of package references (or None)
-        """
-        return self.packageRef
-
-    def setPackageRef(self, value: List[RefType]) -> 'ReferenceBase':
-        """
-        Sets the list of package references.
-
+        Set shortLabel and return self for chaining.
+        
         Args:
-            value: List of package references to set
-
+            value: The shortLabel to set
+        
         Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+            self for method chaining
+        
+        Example:
+            >>> obj.with_short_label("value")
         """
-        self.packageRef = value
+        self.short_label = value  # Use property setter (gets validation)
         return self
 
-    def getShortLabel(self) -> Optional[str]:
-        """
-        Returns the short label for this reference base.
 
-        Returns:
-            Short label identifier (or None)
-        """
-        return self.shortLabel
 
-    def setShortLabel(self, value: str) -> 'ReferenceBase':
-        """
-        Sets the short label for this reference base.
+class ARElement(PackageableElement, ABC):
+    """
+    An element that can be defined stand-alone, i.e. without being part of
+    another element (except for packages of course).
+    
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARElement
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 300, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 297, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 286, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 58, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 967, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1992, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 71, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 54, Foundation R23-11)
+      - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 55, Foundation R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 156, Foundation R23-11)
+    """
+    def __init__(self):
+        if type(self) is ARElement:
+            raise TypeError("ARElement is an abstract class.")
+        super().__init__()
 
-        Args:
-            value: The identifier to use as the short label
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
-        """
-        self.shortLabel = value
-        return self
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====

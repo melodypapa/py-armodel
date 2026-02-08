@@ -1,0 +1,1163 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+  "classes": [
+    {
+      "name": "PPortComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "SenderComSpec",
+        "ServerComSpec",
+        "ModeSwitchSenderComSpec",
+        "ParameterProvideComSpec",
+        "NvProvideComSpec"
+      ],
+      "subclasses": [
+        "ModeSwitchSenderComSpec",
+        "NvProvideComSpec",
+        "ParameterProvideComSpec",
+        "SenderComSpec"
+      ],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for all kinds of provide ports, independent of client-server or sender-receiver communication patterns.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 166,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RPortComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "ReceiverComSpec",
+        "ClientComSpec",
+        "ModeSwitchReceiverComSpec",
+        "ParameterRequireComSpec",
+        "NvRequireComSpec"
+      ],
+      "subclasses": [
+        "ClientComSpec",
+        "ModeSwitchReceiverComSpec",
+        "NvRequireComSpec",
+        "ParameterRequireComSpec"
+      ],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes of a required PortPrototype. This class will contain attributes that are valid for all kinds of require-ports, independent of client-server or sender-receiver communication patterns.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 167,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 202,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ReceiverComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "RPortComSpec",
+      "bases": [
+        "ARObject",
+        "RPortComSpec"
+      ],
+      "children": [
+        "NonqueuedReceiverComSpec",
+        "QueuedReceiverComSpec"
+      ],
+      "subclasses": [
+        "NonqueuedReceiverComSpec",
+        "QueuedReceiverComSpec"
+      ],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation vh.latestBindingTime=preCompileTime maxNoNewOr PositiveInteger 0..1 attr The maximum amount of missing or repeated Data which RepeatedData the receiver does not expect to exceed under normal communication conditions. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. network SwDataDefProps 0..1 aggr A networkRepresentation is used to define how the data Representation Element is mapped to a communication bus. Stereotypes: atpSplitable receptionProps ReceptionComSpec 0..1 aggr \"This aggregation represents the definition transmission Props props in the context of the enclosing ReceiverComSpec. replaceWith VariableAccess 0..1 aggr This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling. (cid:53) 171 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 170,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2047,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "composite": {
+          "type": "CompositeNetwork",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a CompositeNetworkRepresentation defined in the context of a ReceiverComSpec. The of this aggregation is to be able to specify the of leaf elements of Application"
+        },
+        "dataElement": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Data element these attributes belong to."
+        },
+        "handleOutOf": {
+          "type": "HandleOutOfRange",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Control the way how return values are created in case of an out-of-range situation."
+        },
+        "maxDelta": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Initial maximum allowed gap between two counter values two consecutively received valid Data, i.e. how many data is accepted. For example, if the Data with counter 1 and MaxDeltaCounter 1, then at the next reception the receiver can accept values 2 and 3, but not 4."
+        },
+        "syncCounterInit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of Data required for validating the consistency of that shall be received with a valid counter (i.e. the allowed lock-in range) after the an unexpected behavior of a received E2E wrapper approach involves are not subjected to the AUTOSAR is superseded by the superior E2E (which is fully standardized by new projects (without legacy to carry-over parts) shall use the fully transformer approach."
+        },
+        "transformation": {
+          "type": "TransformationCom",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        },
+        "usesEndToEnd": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This indicates whether the corresponding dataElement be transmitted using end-to-end protection. E2E wrapper approach involves are not subjected to the AUTOSAR is superseded by the superior E2E (which is fully standardized by new projects (without legacy to carry-over parts) shall use the fully transformer approach."
+        }
+      }
+    },
+    {
+      "name": "NonqueuedReceiverComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ReceiverComSpec",
+      "bases": [
+        "ARObject",
+        "RPortComSpec",
+        "ReceiverComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes specific to non-queued receiving.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 172,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2039,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 198,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aliveTimeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specify the amount of time (in seconds) after which the (via the RTE) needs to be notified if data item have not been received the specified timing description. aliveTimeout attribute is 0 no timeout monitoring performed."
+        },
+        "enableUpdate": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls whether application code is entitled whether the value of the corresponding Variable been updated."
+        },
+        "filter": {
+          "type": "DataFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The applicable filter algorithm for filtering the value of the"
+        },
+        "handleData": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this attribute is set to true, then the Rte_IStatus API exist. If the attribute does not exist or is set to false, Rte_IStatus API may still exist in response to the further conditions."
+        },
+        "handleNever": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies whether for the corresponding the \"never received\" flag is yes, the RTE is supposed to assume that VariableDataPrototype has not been received the first reception of the corresponding flag is cleared. the value of this attribute is set to \"true\" the flag is set to \"false\", the RTE shall not support the \"never for the corresponding Variable"
+        },
+        "handleTimeout": {
+          "type": "HandleTimeoutEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the behavior with respect to the of timeouts."
+        },
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Initial value to be used in case the sending component is initialized. If the sender also specifies an initial the receiver’s value will be used."
+        },
+        "timeout": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the substitution value applicable the case of a timeout."
+        }
+      }
+    },
+    {
+      "name": "QueuedReceiverComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ReceiverComSpec",
+      "bases": [
+        "ARObject",
+        "RPortComSpec",
+        "ReceiverComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes specific to queued receiving.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "queueLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of queue for received events."
+        }
+      }
+    },
+    {
+      "name": "ReceptionComSpecProps",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ReceiverComSpec.receptionProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines a set of reception attributes which the application software is assumed to implement.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataUpdate": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the period in which the application check for updated data. This attribute is used for the the E2E protection, but may also indicate data reception period."
+        },
+        "timeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the time interval after which the assume that the to be received data timed out, i.e. the respective data has not for that amount of time."
+        }
+      }
+    },
+    {
+      "name": "SenderComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "PPortComSpec",
+      "bases": [
+        "ARObject",
+        "PPortComSpec"
+      ],
+      "children": [
+        "QueuedSenderComSpec",
+        "NonqueuedSenderComSpec"
+      ],
+      "subclasses": [
+        "NonqueuedSenderComSpec",
+        "QueuedSenderComSpec"
+      ],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes for a sender port (PPortPrototype typed by SenderReceiverInterface).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 178,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2054,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "composite": {
+          "type": "CompositeNetwork",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. atpSplitable"
+        },
+        "dataElement": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Data element these quality of service attributes apply to."
+        },
+        "handleOutOf": {
+          "type": "HandleOutOfRange",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls how out-of-range values shall be dealt with."
+        },
+        "network": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A networkRepresentation is used to define how the data is mapped to a communication bus."
+        },
+        "transmission": {
+          "type": "TransmissionComSpec",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "usesEndToEnd": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This indicates whether the corresponding dataElement be transmitted using end-to-end protection."
+        }
+      }
+    },
+    {
+      "name": "QueuedSenderComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SenderComSpec",
+      "bases": [
+        "ARObject",
+        "PPortComSpec",
+        "SenderComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes specific to distribution of events (PPortPrototype, SenderReceiverInterface and dataElement carries an \"event\").",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NonqueuedSenderComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SenderComSpec",
+      "bases": [
+        "ARObject",
+        "PPortComSpec",
+        "SenderComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes for non-queued sender/receiver communication (sender side)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 198,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataFilter": {
+          "type": "DataFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The applicable filter algorithm for filtering the value of the"
+        },
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Initial value to be sent if sender component is not yet fully receiver needs data already."
+        }
+      }
+    },
+    {
+      "name": "TransmissionComSpecProps",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderComSpec.transmissionProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines a set of transmission attributes which the application software is assumed to implement.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2075,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataUpdate": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the period in which the application is to transmit the respective data. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "minimumSend": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the minimum interval between two transmissions of the respective data the assumed to ensure."
+        },
+        "transmission": {
+          "type": "TransmissionMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The attribute defines the mode in which the application is assumed to transmit the respective data."
+        }
+      }
+    },
+    {
+      "name": "TransmissionAcknowledgementRequest",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderComSpec.transmissionAcknowledge"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Requests transmission acknowledgement that data has been sent successfully. Success/failure is reported via a SendPoint of a RunnableEntity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 180,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of seconds before an error is reported or in case redundancy, the value is sent again."
+        }
+      }
+    },
+    {
+      "name": "CompositeNetworkRepresentation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ReceiverComSpec.compositeNetworkRepresentation",
+        "SenderComSpec.compositeNetwork"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to define the network representation of leaf elements of composite application data types.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 181,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "leafElementElementInPortInterfaceInstanceRef": {
+          "type": "ApplicationComposite",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "data type. by: ApplicationComposite"
+        },
+        "network": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The SwDataDefProps owned by the CompositeNetwork are used to define the network the leaf element of an Application"
+        }
+      }
+    },
+    {
+      "name": "ClientComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RPortComSpec",
+      "bases": [
+        "ARObject",
+        "RPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Client-specific communication attributes (RPortPrototype typed by ClientServerInterface).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "endToEndCall": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum time interval in which application shall expect the servers’s response (time the sending of the call invocation until the arrival server’s response)."
+        },
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the corresponding ClientServerOperation."
+        },
+        "transformation": {
+          "type": "TransformationCom",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        }
+      }
+    },
+    {
+      "name": "ServerComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PPortComSpec",
+      "bases": [
+        "ARObject",
+        "PPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes for a server port (PPortPrototype and ClientServerInterface).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 188,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Operation these communication attributes apply to."
+        },
+        "queueLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of call queue on the server side. The queue is the RTE. The value shall be greater or 1. Setting the value of queueLength to 1 implies requests are rejected while another request earlier is being processed."
+        },
+        "transformation": {
+          "type": "TransformationCom",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        }
+      }
+    },
+    {
+      "name": "ModeSwitchSenderComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PPortComSpec",
+      "bases": [
+        "ARObject",
+        "PPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes of PPortPrototypes with respect to mode communication",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 190,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "enhancedMode": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This controls the creation of the enhanced mode API that information about the previous mode and the next set to \"true\" the enhanced mode API is be generated. For more details please refer SWS_RTE."
+        },
+        "modeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "ModeDeclarationGroupPrototype (of the same Port to which these communication attributes apply."
+        },
+        "modeSwitched": {
+          "type": "ModeSwitchedAck",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this aggregation exists an acknowledgement for the successful processing of the mode switch request is"
+        },
+        "queueLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of call queue on the mode user side. The queue is the RTE. The value shall be greater or 1. Setting the value of queueLength to 1 implies requests are rejected while another request earlier is being processed."
+        }
+      }
+    },
+    {
+      "name": "ModeSwitchedAckRequest",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ModeSwitchSenderComSpec.modeSwitchedAck"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Requests acknowledgements that a mode switch has been proceeded successfully",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 190,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of seconds before an error is reported or in case redundancy, the value is sent again."
+        }
+      }
+    },
+    {
+      "name": "ModeSwitchReceiverComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RPortComSpec",
+      "bases": [
+        "ARObject",
+        "RPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes of RPortPrototypes with respect to mode communication",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 191,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "enhancedMode": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This controls the creation of the enhanced mode API that information about the previous mode and the next set to \"true\" the enhanced mode API is be generated. For more details please refer SWS_RTE."
+        },
+        "modeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "ModeDeclarationGroupPrototype (of the same Port to which these communication attributes apply."
+        },
+        "supports": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the behavior of the corresponding with respect to the question whether it deal with asynchronous mode switch requests, i.e. if true, the RPortPrototype is able to deal with an switch request."
+        }
+      }
+    },
+    {
+      "name": "ParameterProvideComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PPortComSpec",
+      "bases": [
+        "ARObject",
+        "PPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "\"Communication\" specification that applies to parameters on the provided side of a connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 192,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The initial value applicable for the corresponding"
+        },
+        "parameter": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The ParameterDataPrototype to which the Parameter applies."
+        }
+      }
+    },
+    {
+      "name": "ParameterRequireComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RPortComSpec",
+      "bases": [
+        "ARObject",
+        "RPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "\"Communication\" specification that applies to parameters on the required side of a connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 193,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The initial value applicable for the corresponding"
+        },
+        "parameter": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The ParameterDataPrototype to which the Parameter applies."
+        }
+      }
+    },
+    {
+      "name": "NvRequireComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RPortComSpec",
+      "bases": [
+        "ARObject",
+        "RPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractRequiredPortPrototype.requiredComSpec",
+        "PortPrototypeBlueprint.requiredComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes of RPortPrototypes with respect to Nv data communication on the required side.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 194,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The initial value owned by the NvComSpec"
+        },
+        "variable": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The VariableDataPrototype the ComSpec applies for."
+        }
+      }
+    },
+    {
+      "name": "NvProvideComSpec",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PPortComSpec",
+      "bases": [
+        "ARObject",
+        "PPortComSpec"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractProvidedPortPrototype.providedComSpec",
+        "PortPrototypeBlueprint.providedComSpec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication attributes of PPortPrototypes with respect to Nv data communication on the provided side.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 195,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ramBlockInit": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the initial value of the RAM Block that to the referenced variable."
+        },
+        "romBlockInit": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the initial value of the ROM block that to the referenced variable."
+        },
+        "variable": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the variable for which the ComSpec is"
+        }
+      }
+    },
+    {
+      "name": "TransformationComSpecProps",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [
+        "UserDefinedTransformationComSpecProps",
+        "EndToEndTransformationComSpecProps"
+      ],
+      "subclasses": [
+        "EndToEndTransformationComSpecProps",
+        "UserDefinedTransformationComSpecProps"
+      ],
+      "aggregated_by": [
+        "ClientComSpec.transformationComSpecProps",
+        "ReceiverComSpec.transformationComSpecProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "TransformationComSpecProps holds all the attributes for transformers that are port specific.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 196,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2075,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UserDefinedTransformationComSpecProps",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransformationComSpecProps",
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationComSpecProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientComSpec.transformationComSpecProps",
+        "ReceiverComSpec.transformationComSpecProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The UserDefinedTransformationComSpecProps is used to specify port specific configuration properties for custom transformers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

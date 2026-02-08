@@ -1,0 +1,55 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+  "enumerations": [
+    {
+      "name": "DataExchangePointKind",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+      "note": "Specifies the kind of a DataExchangePoint. Aggregated by DataExchangePoint.kind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 79,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "agreed",
+          "index": 0,
+          "description": "the data exchange point description represents the agreed data exchange point that should be used during data exchange consumer the data exchange point description represents the input of a consuming tool. producer the data exchange point description represents the output of a producing tool.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "SeverityEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+      "note": "Definition of severity levels. Aggregated by RestrictionWithSeverity.severity",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "error",
+          "index": 2,
+          "description": "Something is not right. High risk of interoperability issues.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "info",
+          "index": 0,
+          "description": "Something was found that is worth mentioning. Low risk of interoperability issues.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "warning",
+          "index": 1,
+          "description": "Something might be wrong depending on the context. Medium risk of interoperability issues.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

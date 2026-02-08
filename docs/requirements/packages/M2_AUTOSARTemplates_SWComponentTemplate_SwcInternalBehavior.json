@@ -1,0 +1,79 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "AccessCount",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_AccessCount.json"
+    },
+    {
+      "name": "ServiceMapping",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_ServiceMapping.json"
+    },
+    {
+      "name": "ServerCall",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_ServerCall.json"
+    },
+    {
+      "name": "DataElements",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_DataElements.json"
+    },
+    {
+      "name": "Trigger",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_Trigger.json"
+    },
+    {
+      "name": "ModeDeclarationGroup",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_ModeDeclarationGroup.json"
+    },
+    {
+      "name": "RTEEvents",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_RTEEvents.json"
+    },
+    {
+      "name": "PortAPIOptions",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_PortAPIOptions.json"
+    },
+    {
+      "name": "RunnableEntity",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_RunnableEntity.json"
+    },
+    {
+      "name": "InstantiationDataDefProps",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstantiationDataDefProps",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_InstantiationDataDefProps.json"
+    },
+    {
+      "name": "PerInstanceMemory",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PerInstanceMemory",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_PerInstanceMemory.json"
+    },
+    {
+      "name": "IncludedDataTypes",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_IncludedDataTypes.json"
+    },
+    {
+      "name": "VariantHandling",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_VariantHandling.json"
+    }
+  ],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

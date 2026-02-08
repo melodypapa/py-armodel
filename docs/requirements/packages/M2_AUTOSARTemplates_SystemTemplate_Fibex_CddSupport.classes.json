@@ -1,0 +1,137 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport",
+  "classes": [
+    {
+      "name": "UserDefinedCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "CommunicationCluster",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows the modeling of arbitrary Communication Clusters (e.g. bus systems that are not supported by AUTOSAR).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UserDefinedPhysicalChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PhysicalChannel",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PhysicalChannel",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationCluster.physicalChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows the modeling of arbitrary Physical Channels.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UserDefinedCommunicationConnector",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommunicationConnector",
+      "bases": [
+        "ARObject",
+        "CommunicationConnector",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.connector",
+        "MachineDesign.communicationConnector"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows the modeling of arbitrary Communication Connectors.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UserDefinedCommunicationController",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "CommunicationController",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows the modeling of arbitrary Communication Controllers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 180,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

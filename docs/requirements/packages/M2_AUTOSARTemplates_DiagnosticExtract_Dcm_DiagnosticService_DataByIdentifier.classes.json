@@ -1,0 +1,301 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+  "classes": [
+    {
+      "name": "DiagnosticReadDataByIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticDataByIdentifier",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticDataByIdentifier",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Read Data by Identifier\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 112,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "readClass": {
+          "type": "DiagnosticReadDataBy",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the serviceClass for this specific concrete class. reference represents the ability to access among all DiagnosticReadDataBy the given context."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticWriteDataByIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticDataByIdentifier",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticDataByIdentifier",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Write Data by Identifier\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "writeClass": {
+          "type": "DiagnosticWriteDataBy",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the serviceClass for this specific concrete class. reference represents the ability to access among all DiagnosticWriteDataBy the given context."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticWriteDataByIdentifierClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Write Data by Identifier\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticDataByIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticServiceInstance",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticReadDataByIdentifier",
+        "DiagnosticWriteDataByIdentifier",
+        "DiagnosticReadScalingDataByIdentifier"
+      ],
+      "subclasses": [
+        "DiagnosticReadDataByIdentifier",
+        "DiagnosticReadScalingDataByIdentifier",
+        "DiagnosticWriteDataBy"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an abstract base class for all diagnostic services that access data by identifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataIdentifier": {
+          "type": "DiagnosticAbstractData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the linked DiagnosticDataIdentifier."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticReadDataByIdentifierClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Read Data by Identifier\" diagnostic service. (cid:53) 113 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxDidToRead": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the maximum number of allowed a single instance of DiagnosticReadDataBy"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticReadScalingDataByIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticDataByIdentifier",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticDataByIdentifier",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Read Scaling Data by Identifier\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 116,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "readScaling": {
+          "type": "DiagnosticReadScaling",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. reference represents the ability to access among all DiagnosticReadScalingData the given context."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticReadScalingDataByIdentifierClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Read Scaling Data by Identifier\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 116,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

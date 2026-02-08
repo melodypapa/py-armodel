@@ -1,0 +1,52 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping",
+  "classes": [
+    {
+      "name": "BlueprintMappingSet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a container of mappings between \"actual\" model elements and the \"blueprint\" that has been taken for their creation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 48,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 34,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprintMap": {
+          "type": "AtpBlueprintMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents a particular blueprint map in the set."
+        }
+      }
+    }
+  ]
+}

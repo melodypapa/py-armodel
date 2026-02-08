@@ -1,0 +1,101 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter",
+  "classes": [
+    {
+      "name": "CalibrationParameterValueSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of a constant that can be part of a package, i.e. it can be defined stand-alone.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 477,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "calibration": {
+          "type": "CalibrationParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents single CalibrationParameterValues in the CalibrationParameterValueSet. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "CalibrationParameterValue",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CalibrationParameterValueSet.calibrationParameterValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "further that in this case an explicit mapping of ValueSpecification is not implemented because calibration parameters are delivered back after the calibration phase.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 478,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2007,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "applInitValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the initial value specification structured according ApplicationDataType"
+        },
+        "implInitValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the initial value specification structured according ImplementationDataType"
+        },
+        "initialized": {
+          "type": "FlatInstanceDescriptor",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the parameter that is initialized by the"
+        }
+      }
+    }
+  ]
+}

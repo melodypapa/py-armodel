@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ResponseOnEvent.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ResponseOnEvent.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

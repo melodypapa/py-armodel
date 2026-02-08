@@ -1,23 +1,31 @@
-from typing import (
-    List,
-    Optional,
-)
+"""
+AUTOSAR Package - ECUResourceMapping
 
+Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
+
+
 
 
 class ECUMapping(Identifiable):
     """
     ECUMapping allows to assign an ECU hardware type (defined in the ECU
     Resource Template) to an ECUInstance used in a physical topology.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping::ECUMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 182, Classic Platform R23-11)
     """
@@ -45,10 +53,10 @@ class ECUMapping(Identifiable):
     def ecu(self, value: Optional["HwElement"]) -> None:
         """
         Set ecu with validation.
-
+        
         Args:
             value: The ecu to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +81,10 @@ class ECUMapping(Identifiable):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-
+        
         Args:
             value: The ecuInstance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,21 +98,21 @@ class ECUMapping(Identifiable):
             )
         self._ecuInstance = value
         # of the ECU.
-        self._hwPortMapping: RefType = None
+        self._hwPortMapping: "RefType" = None
 
     @property
-    def hw_port_mapping(self) -> RefType:
+    def hw_port_mapping(self) -> "RefType":
         """Get hwPortMapping (Pythonic accessor)."""
         return self._hwPortMapping
 
     @hw_port_mapping.setter
-    def hw_port_mapping(self, value: RefType) -> None:
+    def hw_port_mapping(self, value: "RefType") -> None:
         """
         Set hwPortMapping with validation.
-
+        
         Args:
             value: The hwPortMapping to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +123,10 @@ class ECUMapping(Identifiable):
     def getCommController(self) -> List["Communication"]:
         """
         AUTOSAR-compliant getter for commController.
-
+        
         Returns:
             The commController value
-
+        
         Note:
             Delegates to comm_controller property (CODING_RULE_V2_00017)
         """
@@ -127,10 +135,10 @@ class ECUMapping(Identifiable):
     def getEcu(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for ecu.
-
+        
         Returns:
             The ecu value
-
+        
         Note:
             Delegates to ecu property (CODING_RULE_V2_00017)
         """
@@ -139,13 +147,13 @@ class ECUMapping(Identifiable):
     def setEcu(self, value: "HwElement") -> "ECUMapping":
         """
         AUTOSAR-compliant setter for ecu with method chaining.
-
+        
         Args:
             value: The ecu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ecu property setter (gets validation automatically)
         """
@@ -155,10 +163,10 @@ class ECUMapping(Identifiable):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-
+        
         Returns:
             The ecuInstance value
-
+        
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -167,41 +175,41 @@ class ECUMapping(Identifiable):
     def setEcuInstance(self, value: "EcuInstance") -> "ECUMapping":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-
+        
         Args:
             value: The ecuInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
         self.ecu_instance = value  # Delegates to property setter
         return self
 
-    def getHwPortMapping(self) -> RefType:
+    def getHwPortMapping(self) -> "RefType":
         """
         AUTOSAR-compliant getter for hwPortMapping.
-
+        
         Returns:
             The hwPortMapping value
-
+        
         Note:
             Delegates to hw_port_mapping property (CODING_RULE_V2_00017)
         """
         return self.hw_port_mapping  # Delegates to property
 
-    def setHwPortMapping(self, value: RefType) -> "ECUMapping":
+    def setHwPortMapping(self, value: "RefType") -> "ECUMapping":
         """
         AUTOSAR-compliant setter for hwPortMapping with method chaining.
-
+        
         Args:
             value: The hwPortMapping to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to hw_port_mapping property setter (gets validation automatically)
         """
@@ -213,13 +221,13 @@ class ECUMapping(Identifiable):
     def with_ecu(self, value: Optional["HwElement"]) -> "ECUMapping":
         """
         Set ecu and return self for chaining.
-
+        
         Args:
             value: The ecu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ecu("value")
         """
@@ -229,13 +237,13 @@ class ECUMapping(Identifiable):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "ECUMapping":
         """
         Set ecuInstance and return self for chaining.
-
+        
         Args:
             value: The ecuInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -245,24 +253,19 @@ class ECUMapping(Identifiable):
     def with_hw_port_mapping(self, value: RefType) -> "ECUMapping":
         """
         Set hwPortMapping and return self for chaining.
-
+        
         Args:
             value: The hwPortMapping to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_hw_port_mapping("value")
         """
         self.hw_port_mapping = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class CommunicationControllerMapping(ARObject):
@@ -270,9 +273,9 @@ class CommunicationControllerMapping(ARObject):
     CommunicationControllerMapping specifies the CommunicationPeripheral
     hardware (defined in the ECU Resource Template) to realize the specified
     CommunicationController in a physical topology.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping::CommunicationControllerMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 182, Classic Platform R23-11)
     """
@@ -292,10 +295,10 @@ class CommunicationControllerMapping(ARObject):
     def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
-
+        
         Args:
             value: The communication to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -321,10 +324,10 @@ class CommunicationControllerMapping(ARObject):
     def hw(self, value: Optional["HwElement"]) -> None:
         """
         Set hw with validation.
-
+        
         Args:
             value: The hw to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -343,10 +346,10 @@ class CommunicationControllerMapping(ARObject):
     def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
-
+        
         Returns:
             The communication value
-
+        
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -355,13 +358,13 @@ class CommunicationControllerMapping(ARObject):
     def setCommunication(self, value: "Communication") -> "CommunicationControllerMapping":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-
+        
         Args:
             value: The communication to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -371,10 +374,10 @@ class CommunicationControllerMapping(ARObject):
     def getHw(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for hw.
-
+        
         Returns:
             The hw value
-
+        
         Note:
             Delegates to hw property (CODING_RULE_V2_00017)
         """
@@ -383,13 +386,13 @@ class CommunicationControllerMapping(ARObject):
     def setHw(self, value: "HwElement") -> "CommunicationControllerMapping":
         """
         AUTOSAR-compliant setter for hw with method chaining.
-
+        
         Args:
             value: The hw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to hw property setter (gets validation automatically)
         """
@@ -401,13 +404,13 @@ class CommunicationControllerMapping(ARObject):
     def with_communication(self, value: Optional["Communication"]) -> "CommunicationControllerMapping":
         """
         Set communication and return self for chaining.
-
+        
         Args:
             value: The communication to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_communication("value")
         """
@@ -417,27 +420,19 @@ class CommunicationControllerMapping(ARObject):
     def with_hw(self, value: Optional["HwElement"]) -> "CommunicationControllerMapping":
         """
         Set hw and return self for chaining.
-
+        
         Args:
             value: The hw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_hw("value")
         """
         self.hw = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class HwPortMapping(ARObject):
@@ -445,9 +440,9 @@ class HwPortMapping(ARObject):
     HWPortMapping specifies the hwCommunicationPort (defined in the ECU Resource
     Template) to realize the specified CommunicationConnector in a physical
     topology.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping::HwPortMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 183, Classic Platform R23-11)
     """
@@ -467,10 +462,10 @@ class HwPortMapping(ARObject):
     def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
-
+        
         Args:
             value: The communication to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -485,21 +480,21 @@ class HwPortMapping(ARObject):
         self._communication = value
         # Reference to the HwPinPortGroup of category The connection to the Hw is
         # described in the Ecu.
-        self._hw: RefType = None
+        self._hw: Optional["RefType"] = None
 
     @property
-    def hw(self) -> RefType:
+    def hw(self) -> Optional["RefType"]:
         """Get hw (Pythonic accessor)."""
         return self._hw
 
     @hw.setter
-    def hw(self, value: RefType) -> None:
+    def hw(self, value: Optional["RefType"]) -> None:
         """
         Set hw with validation.
-
+        
         Args:
             value: The hw to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -514,10 +509,10 @@ class HwPortMapping(ARObject):
     def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
-
+        
         Returns:
             The communication value
-
+        
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -526,41 +521,41 @@ class HwPortMapping(ARObject):
     def setCommunication(self, value: "Communication") -> "HwPortMapping":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-
+        
         Args:
             value: The communication to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
         self.communication = value  # Delegates to property setter
         return self
 
-    def getHw(self) -> RefType:
+    def getHw(self) -> "RefType":
         """
         AUTOSAR-compliant getter for hw.
-
+        
         Returns:
             The hw value
-
+        
         Note:
             Delegates to hw property (CODING_RULE_V2_00017)
         """
         return self.hw  # Delegates to property
 
-    def setHw(self, value: RefType) -> "HwPortMapping":
+    def setHw(self, value: "RefType") -> "HwPortMapping":
         """
         AUTOSAR-compliant setter for hw with method chaining.
-
+        
         Args:
             value: The hw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to hw property setter (gets validation automatically)
         """
@@ -572,13 +567,13 @@ class HwPortMapping(ARObject):
     def with_communication(self, value: Optional["Communication"]) -> "HwPortMapping":
         """
         Set communication and return self for chaining.
-
+        
         Args:
             value: The communication to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_communication("value")
         """
@@ -588,13 +583,13 @@ class HwPortMapping(ARObject):
     def with_hw(self, value: Optional[RefType]) -> "HwPortMapping":
         """
         Set hw and return self for chaining.
-
+        
         Args:
             value: The hw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_hw("value")
         """

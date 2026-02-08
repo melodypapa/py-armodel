@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage",
+  "path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption_MemorySectionUsage.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

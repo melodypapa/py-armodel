@@ -1,0 +1,128 @@
+{
+  "package": "M2::MSR::DataDictionary::DataDefProperties",
+  "enumerations": [
+    {
+      "name": "SwCalibrationAccessEnum",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "note": "Determines the access rights to a data object w.r.t. measurement and calibration. Aggregated by ModeDeclarationGroupPrototype.swCalibrationAccess, SwCalprmAxis.swCalibrationAccess, SwData DefProps.swCalibrationAccess",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 337,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 335,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "notAccessible",
+          "index": 0,
+          "description": "The element will not be accessible via MCD tools, i.e. will not appear in the ASAP file.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "readOnly",
+          "index": 1,
+          "description": "The element will only appear as read-only in an ASAP file.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "readWrite",
+          "index": 2,
+          "description": "The element will appear in the ASAP file with both read and write access.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "SwImplPolicyEnum",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "note": "Specifies the implementation strategy with respect to consistency mechanisms of variables. Aggregated by BswInternalTriggeringPoint.swImplPolicy, InternalTriggeringPoint.swImplPolicy, SwDataDefProps.sw ImplPolicy, Trigger.swImplPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 342,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 336,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2065,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "const",
+          "index": 0,
+          "description": "forced implementation such that the running software within the ECU shall not modify it. For example implemented with the \"const\" modifier in C. This can be applied for parameters (not for those in<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "Basic",
+          "index": null,
+          "description": "Software Module Description Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "fixed",
+          "index": 1,
+          "description": "This data element is fixed. In particular this indicates, that it might also be implemented e.g. as in place data, (#DEFINE).<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "measurementPoint",
+          "index": 2,
+          "description": "The data element is created for measurement purposes only. The data element is never read directly within the ECU software. In contrast to a \"standard\" data element in an unconnected provide port is, this unconnection is guaranteed for measurementPoint data elements.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "queued",
+          "index": 3,
+          "description": "The content of the data element is queued and the data element has ’event’ semantics, i.e. data elements are stored in a queue and all data elements are processed in ’first in first out’ order. The queuing is intended to be implemented by RTE Generator. This value is not applicable for parameters.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "standard",
+          "index": 4,
+          "description": "This is applicable for all kinds of data elements. For variable data prototypes the ’last is best’ semantics applies. For parameter there is no specific implementation directive.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "DisplayPresentationEnum",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "note": "This meta-class represents the ability to provide values for controlling the presentation of data within measurement and calibration tools. Aggregated by SwDataDefProps.displayPresentation",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 432,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "presentationContinuous",
+          "index": 0,
+          "description": "The presentation of data shall form a continuous graph between data points.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "presentationDiscrete",
+          "index": 1,
+          "description": "The presentation of data shall be step-shaped between data points.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::GeneralAnnotation",
+  "classes": [
+    {
+      "name": "GeneralAnnotation",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::GeneralAnnotation",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "SenderReceiverAnnotation",
+        "ClientServerAnnotation",
+        "IoHwAbstractionServerAnnotation",
+        "ParameterPortAnnotation",
+        "ModePortAnnotation",
+        "TriggerPortAnnotation",
+        "NvDataPortAnnotation",
+        "DelegatedPortAnnotation",
+        "Annotation"
+      ],
+      "subclasses": [
+        "Annotation",
+        "ClientServerAnnotation",
+        "DelegatedPortAnnotation",
+        "IoHwAbstractionServerAnnotation",
+        "ModePortAnnotation",
+        "NvDataPortAnnotation",
+        "ParameterPortAnnotation",
+        "SenderReceiverAnnotation",
+        "Trigger"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents textual comments (called annotations) which relate to the object in which it is aggregated. These annotations are intended for use during the development process for transferring information from one step of the development process to the next one. The approach is similar to the \"yellow pads\" ... This abstract class can be specialized in order to add some further formal properties. (cid:53) 162 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 162,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 163,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "annotation": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute identifies the origin of the annotation. It is an string since it can be an individual’s name as well name of a tool or even the name of a process step."
+        },
+        "annotationText": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the text of the annotation."
+        },
+        "label": {
+          "type": "MultilanguageLong",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the headline for the annotation. xml.sequenceOffset=20"
+        }
+      }
+    }
+  ]
+}

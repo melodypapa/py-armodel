@@ -1,0 +1,237 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef",
+  "classes": [
+    {
+      "name": "DataPrototypeInSenderReceiverInterfaceInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataPrototypeInPortInterfaceInstanceRef",
+      "bases": [
+        "ARObject",
+        "DataPrototypeInPortInterfaceInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeInPortInterfaceRef.dataPrototypeInSenderReceiverInterface"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 788,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baseInterface": {
+          "type": "SenderReceiver",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "contextData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "rootDataPrototypeInSr": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=10"
+        },
+        "targetDataPrototypeInSr": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "DataPrototypeInClientServerInterfaceInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataPrototypeInPortInterfaceInstanceRef",
+      "bases": [
+        "ARObject",
+        "DataPrototypeInPortInterfaceInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeInPortInterfaceRef.dataPrototypeInClientServerInterface",
+        "DiagnosticServiceSwMapping."
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 788,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "ClientServerInterface",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "contextData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "rootDataPrototypeInCs": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=10"
+        },
+        "targetDataPrototypeInCs": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "ImplementationDataTypeElementInPortInterfaceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataPrototypeReference",
+      "bases": [
+        "ARObject",
+        "DataPrototypeReference"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeTransformationProps.dataPrototypeInPortInterfaceRef",
+        "SignalServiceTranslationElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to refer to the internal structure of an AutosarDataPrototype which is typed by an ImplementationDatatype in the context of a PortInterface. In other words, this meta-class shall not be used to model a reference to the AutosarDataPrototype as a target itself, even if the AutosarDataPrototype is typed by an ImplementationDataType and even if that ImplementationDataType represents a composite data type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 789,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "context": {
+          "type": "AbstractImplementation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is a context in case there are subelements with explicit types. The reference has to be ordered to reflect the nested structure. xml.sequenceOffset=20"
+        },
+        "rootData": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This refers to the AutosarDataPrototype which is typed by ImplementationDatatype. The targetDataPrototype defined contextDataPrototypes can be found rootDataPrototype."
+        },
+        "target": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is a target ImplementationDataTypeElement in case that the rootDataPrototype is composite and the target is subElement of the rootDataPrototype. xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "DataPrototypeInPortInterfaceInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "DataPrototypeInSenderReceiverInterfaceInstanceRef",
+        "DataPrototypeInClientServerInterfaceInstanceRef"
+      ],
+      "subclasses": [
+        "DataPrototypeInClientServerInterfaceInstanceRef",
+        "DataPrototypeInSenderReceiverInterfaceInstanceRef"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to: • refer to a DataPrototype in the context of a PortInterface. • refer to the internal structure of a DataPrototype which is typed by an ApplicationDatatype in the context of a PortInterface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1009,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "abstractBase": {
+          "type": "PortInterface",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpAbstract"
+        },
+        "contextData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpAbstract Tags: xml.sequenceOffset=20"
+        },
+        "rootData": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract xml.sequenceOffset=10"
+        },
+        "targetData": {
+          "type": "DataPrototype",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract xml.sequenceOffset=30"
+        }
+      }
+    }
+  ]
+}

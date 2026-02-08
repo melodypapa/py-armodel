@@ -1,20 +1,35 @@
-from typing import (
-    List,
-    Optional,
+"""
+AUTOSAR Package - AccessCount
+
+Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    NameToken,
+    PositiveInteger,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
 )
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+
 
 
 class AccessCountSet(ARObject):
     """
     This meta-class provides a set of count values evaluated according to the
     rules of a specific countProfile.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount::AccessCountSet
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 57, Classic
       Platform R23-11)
@@ -44,10 +59,10 @@ class AccessCountSet(ARObject):
     def count_profile(self, value: Optional["NameToken"]) -> None:
         """
         Set countProfile with validation.
-
+        
         Args:
             value: The countProfile to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,9 +70,9 @@ class AccessCountSet(ARObject):
             self._countProfile = None
             return
 
-        if not isinstance(value, NameToken):
+        if not isinstance(value, (NameToken, str)):
             raise TypeError(
-                f"countProfile must be NameToken or None, got {type(value).__name__}"
+                f"countProfile must be NameToken or str or None, got {type(value).__name__}"
             )
         self._countProfile = value
 
@@ -66,10 +81,10 @@ class AccessCountSet(ARObject):
     def getAccessCount(self) -> List["AccessCount"]:
         """
         AUTOSAR-compliant getter for accessCount.
-
+        
         Returns:
             The accessCount value
-
+        
         Note:
             Delegates to access_count property (CODING_RULE_V2_00017)
         """
@@ -78,10 +93,10 @@ class AccessCountSet(ARObject):
     def getCountProfile(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for countProfile.
-
+        
         Returns:
             The countProfile value
-
+        
         Note:
             Delegates to count_profile property (CODING_RULE_V2_00017)
         """
@@ -90,13 +105,13 @@ class AccessCountSet(ARObject):
     def setCountProfile(self, value: "NameToken") -> "AccessCountSet":
         """
         AUTOSAR-compliant setter for countProfile with method chaining.
-
+        
         Args:
             value: The countProfile to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to count_profile property setter (gets validation automatically)
         """
@@ -108,33 +123,192 @@ class AccessCountSet(ARObject):
     def with_count_profile(self, value: Optional["NameToken"]) -> "AccessCountSet":
         """
         Set countProfile and return self for chaining.
-
+        
         Args:
             value: The countProfile to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_count_profile("value")
         """
         self.count_profile = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-from typing import Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
+
+class AccessCount(ARObject):
+    """
+    This meta-class provides one count value for a AbstractAccessPoint.
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount::AccessCount
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 57, Classic
+      Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # AbstractAccessPoint for which the count value is.
+        self._accessPoint: Optional["AbstractAccessPoint"] = None
+
+    @property
+    def access_point(self) -> Optional["AbstractAccessPoint"]:
+        """Get accessPoint (Pythonic accessor)."""
+        return self._accessPoint
+
+    @access_point.setter
+    def access_point(self, value: Optional["AbstractAccessPoint"]) -> None:
+        """
+        Set accessPoint with validation.
+        
+        Args:
+            value: The accessPoint to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._accessPoint = None
+            return
+
+        if not isinstance(value, AbstractAccessPoint):
+            raise TypeError(
+                f"accessPoint must be AbstractAccessPoint or None, got {type(value).__name__}"
+            )
+        self._accessPoint = value
+        # This attribute represents the number of determined.
+        self._value: Optional["PositiveInteger"] = None
+
+    @property
+    def value(self) -> Optional["PositiveInteger"]:
+        """Get value (Pythonic accessor)."""
+        return self._value
+
+    @value.setter
+    def value(self, value: Optional["PositiveInteger"]) -> None:
+        """
+        Set value with validation.
+        
+        Args:
+            value: The value to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._value = None
+            return
+
+        if not isinstance(value, (PositiveInteger, str)):
+            raise TypeError(
+                f"value must be PositiveInteger or str or None, got {type(value).__name__}"
+            )
+        self._value = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getAccessPoint(self) -> "AbstractAccessPoint":
+        """
+        AUTOSAR-compliant getter for accessPoint.
+        
+        Returns:
+            The accessPoint value
+        
+        Note:
+            Delegates to access_point property (CODING_RULE_V2_00017)
+        """
+        return self.access_point  # Delegates to property
+
+    def setAccessPoint(self, value: "AbstractAccessPoint") -> "AccessCount":
+        """
+        AUTOSAR-compliant setter for accessPoint with method chaining.
+        
+        Args:
+            value: The accessPoint to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to access_point property setter (gets validation automatically)
+        """
+        self.access_point = value  # Delegates to property setter
+        return self
+
+    def getValue(self) -> "PositiveInteger":
+        """
+        AUTOSAR-compliant getter for value.
+        
+        Returns:
+            The value value
+        
+        Note:
+            Delegates to value property (CODING_RULE_V2_00017)
+        """
+        return self.value  # Delegates to property
+
+    def setValue(self, value: "PositiveInteger") -> "AccessCount":
+        """
+        AUTOSAR-compliant setter for value with method chaining.
+        
+        Args:
+            value: The value to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to value property setter (gets validation automatically)
+        """
+        self.value = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_access_point(self, value: Optional["AbstractAccessPoint"]) -> "AccessCount":
+        """
+        Set accessPoint and return self for chaining.
+        
+        Args:
+            value: The accessPoint to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_access_point("value")
+        """
+        self.access_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_value(self, value: Optional["PositiveInteger"]) -> "AccessCount":
+        """
+        Set value and return self for chaining.
+        
+        Args:
+            value: The value to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self
+
 
 
 class AbstractAccessPoint(Identifiable, ABC):
     """
     Abstract class indicating an access point from an ExecutableEntity.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount::AbstractAccessPoint
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 57, Classic
       Platform R23-11)
@@ -160,10 +334,10 @@ class AbstractAccessPoint(Identifiable, ABC):
     def return_value(self, value: Optional["RteApiReturnValue"]) -> None:
         """
         Set returnValue with validation.
-
+        
         Args:
             value: The returnValue to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -182,10 +356,10 @@ class AbstractAccessPoint(Identifiable, ABC):
     def getReturnValue(self) -> "RteApiReturnValue":
         """
         AUTOSAR-compliant getter for returnValue.
-
+        
         Returns:
             The returnValue value
-
+        
         Note:
             Delegates to return_value property (CODING_RULE_V2_00017)
         """
@@ -194,13 +368,13 @@ class AbstractAccessPoint(Identifiable, ABC):
     def setReturnValue(self, value: "RteApiReturnValue") -> "AbstractAccessPoint":
         """
         AUTOSAR-compliant setter for returnValue with method chaining.
-
+        
         Args:
             value: The returnValue to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to return_value property setter (gets validation automatically)
         """
@@ -212,15 +386,30 @@ class AbstractAccessPoint(Identifiable, ABC):
     def with_return_value(self, value: Optional["RteApiReturnValue"]) -> "AbstractAccessPoint":
         """
         Set returnValue and return self for chaining.
-
+        
         Args:
             value: The returnValue to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_return_value("value")
         """
         self.return_value = value  # Use property setter (gets validation)
         return self
+
+
+class RteApiReturnValueProvisionEnum(AREnum):
+    """
+    RteApiReturnValueProvisionEnum enumeration
+
+This meta-class provides values to control how return values from RTE APIs are provided. Aggregated by AbstractAccessPoint.returnValueProvision
+
+Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
+    """
+    # The RTE API shall not provide a return value.
+    noReturnValueProvided = "1"
+
+    # The RTE API shall provide a return value.
+    returnValueProvided = "0"

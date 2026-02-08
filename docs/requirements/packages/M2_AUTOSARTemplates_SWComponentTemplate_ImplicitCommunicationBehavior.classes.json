@@ -1,0 +1,188 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior",
+  "classes": [
+    {
+      "name": "ConsistencyNeeds",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ConsistencyNeedsBlueprintSet.consistencyNeeds",
+        "SwComponentType.consistencyNeeds"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define requirements on the implicit communication behavior.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 221,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 178,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dpgDoesNot": {
+          "type": "DataPrototypeGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This group of VariableDataPrototypes does not require with respect to the implicit communication atpVariation 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "dpgRequires": {
+          "type": "DataPrototypeGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This group of VariableDataPrototypes requires coherency respect to the implicit communication behavior, i.e. and write access to VariableDataPrototypes in the the RunnableEntitys of the to be handled in a coherent atpVariation"
+        },
+        "regDoesNot": {
+          "type": "RunnableEntityGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This group of RunnableEntities does not require stability respect to the implicit communication behavior. atpVariation"
+        },
+        "regRequires": {
+          "type": "RunnableEntityGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This group of RunnableEntities requires stability with to the implicit communication behavior, i.e. all write access to VariableDataPrototypes in the the RunnableEntitys of the to be handled in a stable atpVariation"
+        }
+      }
+    },
+    {
+      "name": "RunnableEntityGroup",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ConsistencyNeeds.regDoesNotRequireStability",
+        "ConsistencyNeeds.reg"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a collection of RunnableEntities. The collection can be nested.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 222,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 206,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "runnableEntity": {
+          "type": "RunnableEntity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "the enclosing RunnableEntityGroup. atpVariation runnable by: RunnableEntityIn 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "runnableEntityGroupInCompositionInstanceRef": {
+          "type": "RunnableEntityGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "atpVariation by: InnerRunnableEntity"
+        }
+      }
+    },
+    {
+      "name": "DataPrototypeGroup",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ConsistencyNeeds.dpgDoesNotRequireCoherency",
+        "ConsistencyNeeds.dpg"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a collection of DataPrototypes that are subject to the formal definition of implicit communication behavior. The definition of the collection can be nested.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 223,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 180,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataPrototypeGroupInCompositionInstanceRef": {
+          "type": "DataPrototypeGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "atpVariation by: InnerDataPrototype"
+        },
+        "implicitData": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "belong to the enclosing DataPrototypeGroup atpVariation by: VariableDataPrototypeIn"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+  "classes": [
+    {
+      "name": "AbstractValueRestriction",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "PrimitiveAttributeCondition",
+        "SdgAbstractPrimitiveAttribute",
+        "ValueRestrictionWithSeverity"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Restricts primitive values. A value is valid if all rules that are defined by this restriction evaluate to true.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 103,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "max": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the upper bounds for numeric values."
+        },
+        "maxLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum number of characters of textual"
+        },
+        "min": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the lower bounds for numeric values."
+        },
+        "minLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimal number of characters of textual"
+        },
+        "pattern": {
+          "type": "RegularExpression",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the exact sequence of characters that are"
+        }
+      }
+    },
+    {
+      "name": "AbstractVariationRestriction",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "SdgAggregationWithVariation",
+        "SdgForeignReferenceWithVariation",
+        "SdgPrimitiveAttributeWithVariation"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines constraints on the usage of variation and on the valid binding times.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 104,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 88,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "validBinding": {
+          "type": "FullBindingTimeEnum",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "List of valid binding times. xml.sequenceOffset=20"
+        },
+        "variation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if the AUTOSAR model may define a Variation this location."
+        }
+      }
+    },
+    {
+      "name": "AbstractMultiplicityRestriction",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "AttributeCondition"
+      ],
+      "subclasses": [
+        "AttributeCondition",
+        "MultiplicityRestrictionWithSeverity",
+        "SdgAttribute"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Restriction that specifies the valid number of occurrences of an element in the current context.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 422,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 88,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "lowerMultiplicity": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimal number of times an object shall this primitive attribute is not set, then the object"
+        },
+        "upperMultiplicity": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This explicitly specifies, that the upper multiplicity is NOT Note: The use of ’upperMultiplicityInfinite’ and mutual exclusive."
+        }
+      }
+    }
+  ]
+}

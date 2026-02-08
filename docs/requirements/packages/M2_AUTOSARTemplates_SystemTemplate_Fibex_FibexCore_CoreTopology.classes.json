@@ -1,0 +1,731 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+  "classes": [
+    {
+      "name": "CommunicationCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": true,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [
+        "AbstractCanCluster",
+        "EthernetCluster",
+        "FlexrayCluster",
+        "LinCluster",
+        "UserDefinedCluster"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The CommunicationCluster is the main element to describe the topological connection of communicating ECUs. A cluster describes the ensemble of ECUs, which are linked by a communication medium of arbitrary topology (bus, star, ring, ...). The nodes within the cluster share the same communication protocol, which may be event-triggered, time-triggered or a combination of both. A CommunicationCluster aggregates one or more physical channels. Tags: vh.latestBindingTime=postBuild",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 57,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baudrate": {
+          "type": "PositiveUnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Channels speed in bits/s."
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This relationship defines which channel element belongs which cluster. A channel shall be assigned to exactly whereas a cluster may have one or more atpSplitable property has no atp.Splitkey due (PropertySetPattern). atpVariation"
+        },
+        "protocolName": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The name of the protocol used."
+        },
+        "protocolVersion": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The version of the protocol used."
+        }
+      }
+    },
+    {
+      "name": "EcuInstance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ECUInstances are used to define the ECUs used in the topology. The type of the ECU is defined by a reference to an ECU specified with the ECU resource description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 312,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 985,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 50,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 59,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "associatedCom": {
+          "type": "ISignalIPduGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "With this reference it is possible to identify which ISignal are applicable for which Communication level ISignalIPduGroups shall be referenced by If an ISignalIPduGroup contains other these contained ISignalIPdu not be referenced by the EcuInstance. are associated to an Ecu the top level ISignalIPduGroup. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "associated": {
+          "type": "ConsumedProvided",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "With this reference it is possible to identify which ConsumedProvidedServiceInstanceGroups are for which ECUInstance. atpSplitable; atpVariation Group Tags:"
+        },
+        "associatedPdur": {
+          "type": "PdurIPduGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "With this reference it is possible to identify which PduR Groups are applicable for which Communication"
+        },
+        "channel": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this parameter is available and set to true, then all channels will be woken up as soon as at least channel wakeup occurs. If PNCs are configured, then will be requested upon a channel wakeup."
+        },
+        "clientIdRange": {
+          "type": "ClientIdRange",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Restriction of the Client Identifier for this Ecu to an of numerical values. The Client Identifier of handle is generated by the client RTE for communication."
+        },
+        "com": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The period between successive calls to Com_Main of the AUTOSAR COM module in seconds."
+        },
+        "comEnable": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables for the Com module of this EcuInstance the delay time monitoring for cyclic and repeated (TransmissionModeTiming has cyclic or eventControlledTiming with numberOf 0)."
+        },
+        "commController": {
+          "type": "Communication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CommunicationControllers of the ECU. atpSplitable; atpVariation"
+        },
+        "connector": {
+          "type": "Communication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "All channels controlled by a single controller. atpSplitable; atpVariation"
+        },
+        "dltConfig": {
+          "type": "DltConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the Dlt configuration on this EcuInstance."
+        },
+        "doIpConfig": {
+          "type": "DoIpConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "DoIp configuration on this EcuInstance."
+        },
+        "ecuTaskProxy": {
+          "type": "OsTaskProxy",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to OsTaskProxies assigned to the Ecu 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "ethSwitchPort": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the derivation of SwitchPortGroups on VLAN and/or CouplingPort.pncMapping shall be for this EcuInstance. If not defined the not be done."
+        },
+        "firewallRule": {
+          "type": "StateDependentFirewall",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Firewall rules defined in the context of an EcuInstance."
+        },
+        "partition": {
+          "type": "EcuPartition",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional definition of Partitions within an Ecu."
+        },
+        "pncNmRequest": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if this EcuInstance shall request Nm on all its have Nm variant set to FULL a PNC is requested."
+        },
+        "pncPrepare": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time in seconds the PNC state machine shall wait in"
+        },
+        "pnc": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this parameter is available and set to true then all PNCs will be woken up as soon as a channel occurs. This is ensured by adding all PNCs to all sources during upstream mapping."
+        },
+        "pnResetTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the runtime of the reset timer in seconds. This is valid for the reset of PN requests in the EIRA the ERA."
+        },
+        "sleepMode": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies whether the ECU instance may be put to a \"low mode\" sleep mode is supported sleep mode is not supported flag may only be set to \"true\" if the feature is both hardware and basic software."
+        },
+        "tcpIpIcmpProps": {
+          "type": "EthTcpIpIcmpProps",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "EcuInstance specific ICMP (Internet Control Message"
+        },
+        "tcpIpProps": {
+          "type": "EthTcpIpProps",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "EcuInstance specific TcpIp Stack attributes."
+        },
+        "v2xSupported": {
+          "type": "V2xSupportEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to control the existence of the V2X the given EcuInstance."
+        },
+        "wakeUpOverBusSupported": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Driver support for wakeup over Bus."
+        }
+      }
+    },
+    {
+      "name": "PhysicalChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EthernetPhysicalChannel",
+        "AbstractCanPhysicalChannel",
+        "FlexrayPhysicalChannel",
+        "LinPhysicalChannel",
+        "UserDefinedPhysicalChannel"
+      ],
+      "subclasses": [
+        "AbstractCanPhysicalChannel",
+        "EthernetPhysicalChannel",
+        "FlexrayPhysicalChannel",
+        "LinPhysicalChannel"
+      ],
+      "aggregated_by": [
+        "CommunicationCluster.physicalChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.#",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 325,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 58,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "comm": {
+          "type": "Communication",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ECUInstance via a Communication Connector to which the channel is connected. assignment of Physical Channels to is expressed with atpVariation"
+        },
+        "frameTriggering": {
+          "type": "FrameTriggering",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "One frame triggering is defined for exactly one channel. have assigned an arbitrary number of signals/PDUs/frames are variable, the shall be variable, too. atpVariation"
+        },
+        "iSignal": {
+          "type": "ISignalTriggering",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "One ISignalTriggering is defined for exactly one channel. may have assigned an arbitrary number of signals/PDUs/frames are variable, the shall be variable, too. atpVariation 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "managed": {
+          "type": "PhysicalChannel",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference between a channel with role managing and a channel with role managed channel."
+        },
+        "pduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "One PduTriggering is defined for exactly one channel. have assigned an arbitrary number of signals/PDUs/frames are variable, the shall be variable, too. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "ClientIdRange",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.clientIdRange"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "With this element it is possible to restrict the Client Identifier of the transaction handle that is generated by the client RTE for inter-Ecu Client/Server communication to an allowed range of numerical values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "lowerLimit": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the lower limit of the ClientIdRange."
+        },
+        "upperLimit": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the upper limit of the ClientIdRange."
+        }
+      }
+    },
+    {
+      "name": "CommunicationController",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": true,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "AbstractCanCommunicationController",
+        "EthernetCommunicationController",
+        "FlexrayCommunicationController",
+        "LinCommunicationController",
+        "UserDefinedCommunicationController"
+      ],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The communication controller is a dedicated hardware device by means of which hosts are sending frames to and receiving frames from the communication medium. Tags: vh.latestBindingTime=postBuild",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 53,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "wakeUpBy": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the ECU shall be woken up by this wake up is possible up is not supported wakeUpByControllerSupported is set to TRUE shall be supported by both hardware and"
+        }
+      }
+    },
+    {
+      "name": "CommunicationConnector",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EthernetCommunicationConnector",
+        "AbstractCanCommunicationConnector",
+        "FlexrayCommunicationConnector",
+        "LinCommunicationConnector",
+        "UserDefinedCommunicationConnector"
+      ],
+      "subclasses": [
+        "AbstractCanCommunicationConnector",
+        "EthernetCommunicationConnector",
+        "FlexrayCommunicationConnector",
+        "LinCommunicationConnector",
+        "UserDefinedCommunicationConnector"
+      ],
+      "aggregated_by": [
+        "EcuInstance.connector",
+        "MachineDesign.communicationConnector"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The connection between the referencing ECU and the referenced channel via the referenced controller. Connectors are used to describe the bus interfaces of the ECUs and to specify the sending/receiving behavior. Each CommunicationConnector has a reference to exactly one communicationController. Note: Several CommunicationConnectors can be assigned to one PhysicalChannel in the scope of one ECU Instance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 54,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 57,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "commController": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the communication controller. The and referenced be aggregated by the can be referenced by elements. This is the FlexRay Bus. FlexRay communicates physical channels. But only one controller in an responsible for both channels. Thus, two channel A and for channel B) shall the same controller."
+        },
+        "createEcu": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this parameter is available and set to true then a wakeup source shall be created for the Physical this CommunicationConnector."
+        },
+        "dynamicPncTo": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if this EcuInstance shall implement the dynamic functionality on this and its respective Physical"
+        },
+        "ecuCommPort": {
+          "type": "CommConnectorPort",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An ECUs reception or send ports. If signals/PDUs/frames are variable, the shall be variable, too. atpVariation"
+        },
+        "pncFilterArray": {
+          "type": "PositiveInteger",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management."
+        },
+        "pncGateway": {
+          "type": "PncGatewayTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if this EcuInstance shall implement the Pnc functionality on this CommunicationConnector respective PhysicalChannel. Several Ecu the same PhysicalChannel can have the enabled, but only one of them the pncGatewayType \"active\"."
+        }
+      }
+    },
+    {
+      "name": "CommConnectorPort",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "FramePort",
+        "IPduPort",
+        "ISignalPort"
+      ],
+      "subclasses": [
+        "FramePort",
+        "IPduPort",
+        "ISignalPort"
+      ],
+      "aggregated_by": [
+        "CommunicationConnector.ecuCommPortInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The Ecu communication relationship defines which signals, Pdus and frames are actually received and transmitted by this ECU. For each signal, Pdu or Frame that is transmitted or received and used by the Ecu an association between an ISignalPort, IPduPort or FramePort with the corresponding Triggering shall be created. An ISignalPort shall be created only if the corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu Gateway ECU only routes the Pdu without being interested in the content only a FramePort and an IPduPort needs to be created.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 303,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Communication Direction of the Connector Port (input or output Port)."
+        }
+      }
+    },
+    {
+      "name": "CommunicationCycle",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CycleCounter",
+        "CycleRepetition"
+      ],
+      "subclasses": [
+        "CycleCounter",
+        "CycleRepetition"
+      ],
+      "aggregated_by": [
+        "FlexrayAbsolutelyScheduledTiming.communicationCycle",
+        "TtcanAbsolutelyScheduledTiming."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The communication cycle where the frame is sent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 424,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CycleCounter",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommunicationCycle",
+      "bases": [
+        "ARObject",
+        "CommunicationCycle"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayAbsolutelyScheduledTiming.communicationCycle",
+        "TtcanAbsolutelyScheduledTiming."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The communication cycle where the frame is send is described by the attribute \"cycleCounter\".",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 424,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "CycleCounter": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The communication cycle where the frame described by is sent. If a timing is given in this way the shall specify the cycleCount upper bound and point of total repetition. This incremented at the beginning of each new cycle, 0 to cycleCountMax, and is reset to 0 after a cycleCountMax+1 cycles."
+        }
+      }
+    },
+    {
+      "name": "CycleRepetition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommunicationCycle",
+      "bases": [
+        "ARObject",
+        "CommunicationCycle"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayAbsolutelyScheduledTiming.communicationCycle",
+        "TtcanAbsolutelyScheduledTiming."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The communication cycle where the frame is send is described by the attributes baseCycle and cycle Repetition. (cid:53) 424 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 424,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "BaseCycle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The first communication cycle where the frame is sent. is incremented at the beginning of each new from 0 to 63, and is reset to 0 after a 64 cycles."
+        },
+        "CycleRepetition": {
+          "type": "CycleRepetitionType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The number of communication cycles (after the first cycle) frame described by this timing is sent again."
+        }
+      }
+    }
+  ]
+}

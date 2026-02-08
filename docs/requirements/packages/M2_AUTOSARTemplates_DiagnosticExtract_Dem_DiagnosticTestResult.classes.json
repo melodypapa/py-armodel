@@ -1,0 +1,158 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult",
+  "classes": [
+    {
+      "name": "DiagnosticTestResult",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define diagnostic test results.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 204,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 804,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This attribute represents the diagnostic event that is the diagnostic test result. atpVariation"
+        },
+        "monitored": {
+          "type": "Diagnostic",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This attribute represents the related diagnostic monitored identifier."
+        },
+        "testIdentifier": {
+          "type": "DiagnosticTestIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the applicable test identifier."
+        },
+        "updateKind": {
+          "type": "DiagnosticTestResult",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the update behavior of the DiagnosticTestResult."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticTestIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticTestResult.testIdentifier"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to create a diagnostic test identifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the numerical id associated with the identifier."
+        },
+        "uasId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the unit and scaling Id of the diagnostic"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticMeasurementIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe a measurement identifier. (cid:53) 205 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "obdMid": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the numerical measurement Id"
+        }
+      }
+    }
+  ]
+}

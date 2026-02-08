@@ -1,8 +1,26 @@
-from typing import Optional
+"""
+AUTOSAR Package - ReadDataByPeriodicID
 
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
 
 
 class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
@@ -11,9 +29,9 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     diagnostic service. (cid:53) 129 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID::DiagnosticReadDataByPeriodicID
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 129, Classic Platform
       R23-11)
@@ -37,10 +55,10 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def read_data_class(self, value: Optional["DiagnosticReadDataBy"]) -> None:
         """
         Set readDataClass with validation.
-
+        
         Args:
             value: The readDataClass to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +77,10 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def getReadDataClass(self) -> "DiagnosticReadDataBy":
         """
         AUTOSAR-compliant getter for readDataClass.
-
+        
         Returns:
             The readDataClass value
-
+        
         Note:
             Delegates to read_data_class property (CODING_RULE_V2_00017)
         """
@@ -71,13 +89,13 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def setReadDataClass(self, value: "DiagnosticReadDataBy") -> "DiagnosticReadDataByPeriodicID":
         """
         AUTOSAR-compliant setter for readDataClass with method chaining.
-
+        
         Args:
             value: The readDataClass to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to read_data_class property setter (gets validation automatically)
         """
@@ -89,36 +107,28 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def with_read_data_class(self, value: Optional["DiagnosticReadDataBy"]) -> "DiagnosticReadDataByPeriodicID":
         """
         Set readDataClass and return self for chaining.
-
+        
         Args:
             value: The readDataClass to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_read_data_class("value")
         """
         self.read_data_class = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
-    DiagnosticServiceClass,
-)
 
 
 class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Read
     Data by periodic Identifier" diagnostic service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID::DiagnosticReadDataByPeriodicIDClass
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 130, Classic Platform
       R23-11)
@@ -140,10 +150,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def max_periodic_did(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxPeriodicDid with validation.
-
+        
         Args:
             value: The maxPeriodicDid to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,9 +161,9 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
             self._maxPeriodicDid = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxPeriodicDid must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxPeriodicDid must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxPeriodicDid = value
         # This represents the description of a collection of periodic which the service
@@ -177,10 +187,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def scheduler_max(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set schedulerMax with validation.
-
+        
         Args:
             value: The schedulerMax to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -188,9 +198,9 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
             self._schedulerMax = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"schedulerMax must be PositiveInteger or None, got {type(value).__name__}"
+                f"schedulerMax must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._schedulerMax = value
 
@@ -199,10 +209,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def getMaxPeriodicDid(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxPeriodicDid.
-
+        
         Returns:
             The maxPeriodicDid value
-
+        
         Note:
             Delegates to max_periodic_did property (CODING_RULE_V2_00017)
         """
@@ -211,13 +221,13 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def setMaxPeriodicDid(self, value: "PositiveInteger") -> "DiagnosticReadDataByPeriodicIDClass":
         """
         AUTOSAR-compliant setter for maxPeriodicDid with method chaining.
-
+        
         Args:
             value: The maxPeriodicDid to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_periodic_did property setter (gets validation automatically)
         """
@@ -227,10 +237,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def getPeriodicRate(self) -> List["DiagnosticPeriodicRate"]:
         """
         AUTOSAR-compliant getter for periodicRate.
-
+        
         Returns:
             The periodicRate value
-
+        
         Note:
             Delegates to periodic_rate property (CODING_RULE_V2_00017)
         """
@@ -239,10 +249,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def getSchedulerMax(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for schedulerMax.
-
+        
         Returns:
             The schedulerMax value
-
+        
         Note:
             Delegates to scheduler_max property (CODING_RULE_V2_00017)
         """
@@ -251,13 +261,13 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def setSchedulerMax(self, value: "PositiveInteger") -> "DiagnosticReadDataByPeriodicIDClass":
         """
         AUTOSAR-compliant setter for schedulerMax with method chaining.
-
+        
         Args:
             value: The schedulerMax to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to scheduler_max property setter (gets validation automatically)
         """
@@ -269,13 +279,13 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def with_max_periodic_did(self, value: Optional["PositiveInteger"]) -> "DiagnosticReadDataByPeriodicIDClass":
         """
         Set maxPeriodicDid and return self for chaining.
-
+        
         Args:
             value: The maxPeriodicDid to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_periodic_did("value")
         """
@@ -285,33 +295,28 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def with_scheduler_max(self, value: Optional["PositiveInteger"]) -> "DiagnosticReadDataByPeriodicIDClass":
         """
         Set schedulerMax and return self for chaining.
-
+        
         Args:
             value: The schedulerMax to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_scheduler_max("value")
         """
         self.scheduler_max = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DiagnosticPeriodicRate(ARObject):
     """
     This represents the ability to define a periodic rate for the specification
     of the "read data by periodic ID" diagnostic service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID::DiagnosticPeriodicRate
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 131, Classic Platform
       R23-11)
@@ -332,10 +337,10 @@ class DiagnosticPeriodicRate(ARObject):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-
+        
         Args:
             value: The period to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -360,10 +365,10 @@ class DiagnosticPeriodicRate(ARObject):
     def periodic_rate(self, value: Optional["DiagnosticPeriodicRate"]) -> None:
         """
         Set periodicRate with validation.
-
+        
         Args:
             value: The periodicRate to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -382,10 +387,10 @@ class DiagnosticPeriodicRate(ARObject):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-
+        
         Returns:
             The period value
-
+        
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -394,13 +399,13 @@ class DiagnosticPeriodicRate(ARObject):
     def setPeriod(self, value: "TimeValue") -> "DiagnosticPeriodicRate":
         """
         AUTOSAR-compliant setter for period with method chaining.
-
+        
         Args:
             value: The period to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -410,10 +415,10 @@ class DiagnosticPeriodicRate(ARObject):
     def getPeriodicRate(self) -> "DiagnosticPeriodicRate":
         """
         AUTOSAR-compliant getter for periodicRate.
-
+        
         Returns:
             The periodicRate value
-
+        
         Note:
             Delegates to periodic_rate property (CODING_RULE_V2_00017)
         """
@@ -422,13 +427,13 @@ class DiagnosticPeriodicRate(ARObject):
     def setPeriodicRate(self, value: "DiagnosticPeriodicRate") -> "DiagnosticPeriodicRate":
         """
         AUTOSAR-compliant setter for periodicRate with method chaining.
-
+        
         Args:
             value: The periodicRate to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to periodic_rate property setter (gets validation automatically)
         """
@@ -440,13 +445,13 @@ class DiagnosticPeriodicRate(ARObject):
     def with_period(self, value: Optional["TimeValue"]) -> "DiagnosticPeriodicRate":
         """
         Set period and return self for chaining.
-
+        
         Args:
             value: The period to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_period("value")
         """
@@ -456,15 +461,33 @@ class DiagnosticPeriodicRate(ARObject):
     def with_periodic_rate(self, value: Optional["DiagnosticPeriodicRate"]) -> "DiagnosticPeriodicRate":
         """
         Set periodicRate and return self for chaining.
-
+        
         Args:
             value: The periodicRate to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_periodic_rate("value")
         """
         self.periodic_rate = value  # Use property setter (gets validation)
         return self
+
+
+class DiagnosticPeriodicRateCategoryEnum(AREnum):
+    """
+    DiagnosticPeriodicRateCategoryEnum enumeration
+
+This meta-class provides possible values for the setting of the periodic rate. Aggregated by DiagnosticPeriodicRate.periodicRateCategory
+
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID
+    """
+    # This value represents a fast periodic rate.
+    periodicRateFast = "0"
+
+    # This value represents a medium periodic rate.
+    periodicRateMedium = "1"
+
+    # This value represents a slow periodic rate.
+    periodicRateSlow = "2"

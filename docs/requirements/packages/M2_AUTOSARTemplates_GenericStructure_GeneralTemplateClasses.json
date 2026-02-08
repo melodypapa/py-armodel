@@ -1,0 +1,72 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses",
+  "path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "PrimitiveTypes",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_PrimitiveTypes.json"
+    },
+    {
+      "name": "EngineeringObject",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_EngineeringObject.json"
+    },
+    {
+      "name": "MultidimensionalTime",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::MultidimensionalTime",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_MultidimensionalTime.json"
+    },
+    {
+      "name": "ARPackage",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ARPackage.json"
+    },
+    {
+      "name": "Identifiable",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_Identifiable.json"
+    },
+    {
+      "name": "AnyInstanceRef",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_AnyInstanceRef.json"
+    },
+    {
+      "name": "GeneralAnnotation",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::GeneralAnnotation",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_GeneralAnnotation.json"
+    },
+    {
+      "name": "TagWithOptionalValue",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::TagWithOptionalValue",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_TagWithOptionalValue.json"
+    },
+    {
+      "name": "ElementCollection",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ElementCollection.json"
+    },
+    {
+      "name": "SpecialDataDef",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_SpecialDataDef.json"
+    },
+    {
+      "name": "ModelRestrictionTypes",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ModelRestrictionTypes.json"
+    },
+    {
+      "name": "ArObject",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObject",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ArObject.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

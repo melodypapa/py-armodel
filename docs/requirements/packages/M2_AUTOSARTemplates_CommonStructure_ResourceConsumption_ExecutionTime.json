@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+  "path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption_ExecutionTime.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 6,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -96,6 +96,36 @@ def _load_enumerations_from_file(
     return enumerations
 
 
+def _load_primitives_from_file(
+    requirements_dir: Path,
+    pkg_json: Dict[str, Any]
+) -> Dict[str, Any]:
+    """Load primitives from a package's primitives file."""
+    primitives = {}
+
+    if 'files' not in pkg_json or 'primitives' not in pkg_json['files']:
+        return primitives
+
+    primitives_file = pkg_json['files']['primitives']
+    if not primitives_file:
+        return primitives
+
+    if primitives_file.startswith('packages/'):
+        primitives_path = requirements_dir / primitives_file
+    else:
+        primitives_path = requirements_dir / 'packages' / primitives_file
+
+    if not primitives_path.exists():
+        return primitives
+
+    with open(primitives_path, 'r', encoding='utf-8') as f:
+        primitives_data = json.load(f)
+        for prim in primitives_data.get('primitives', []):
+            primitives[prim['name']] = prim
+
+    return primitives
+
+
 def _get_package_file_path(pkg_data: Any) -> Optional[str]:
     """Extract the package file path from package data."""
     if isinstance(pkg_data, str):
@@ -158,14 +188,16 @@ def _process_package_recursive(
     if pkg_json:
         classes = _load_classes_from_file(requirements_dir, pkg_json)
         enumerations = _load_enumerations_from_file(requirements_dir, pkg_json)
+        primitives = _load_primitives_from_file(requirements_dir, pkg_json)
 
         # Include package if it has content or matches specific package
-        if classes or enumerations or (specific_package and full_path == specific_package):
+        if classes or enumerations or primitives or (specific_package and full_path == specific_package):
             pkg_list.append({
                 'name': full_path,
                 'file': pkg_file or f"packages/{pkg_data.get('path', pkg_name).replace('::', '_')}.json",
                 'classes': classes,
-                'enumerations': enumerations
+                'enumerations': enumerations,
+                'primitives': primitives
             })
 
         # Process subpackages if needed
@@ -328,6 +360,72 @@ def find_enum_in_requirements(
 
     for pkg in index.get('packages', []):
         result = _search_packages_for_enum(pkg, '', requirements_dir, type_name)
+        if result:
+            return result
+
+    return None
+
+
+def _search_packages_for_primitive(
+    pkg_data: Any,
+    parent_path: str,
+    requirements_dir: Path,
+    type_name: str
+) -> Optional[Dict[str, Any]]:
+    """Recursively search for a primitive in packages."""
+    if isinstance(pkg_data, str):
+        pkg_name = pkg_data
+        pkg_file = None
+    else:
+        pkg_name = pkg_data.get('name', '')
+        pkg_file = pkg_data.get('file', '')
+
+    full_path = f"{parent_path}::{pkg_name}" if parent_path else pkg_name
+
+    pkg_file_path = _get_package_file_path(pkg_data) if not isinstance(pkg_data, str) else None
+    pkg_json = load_package_json(requirements_dir, pkg_file_path) if pkg_file_path else None
+
+    if pkg_json and 'files' in pkg_json and 'primitives' in pkg_json['files']:
+        primitives_file = pkg_json['files']['primitives']
+        if primitives_file:
+            if primitives_file.startswith('packages/'):
+                primitives_path = requirements_dir / primitives_file
+            else:
+                primitives_path = requirements_dir / 'packages' / primitives_file
+
+            if primitives_path.exists():
+                with open(primitives_path, 'r', encoding='utf-8') as f:
+                    primitives_data = json.load(f)
+                    for prim in primitives_data.get('primitives', []):
+                        if prim['name'] == type_name:
+                            return {'primitive_info': prim, 'package_path': full_path}
+
+    if pkg_json and 'subpackages' in pkg_json:
+        for subpkg in pkg_json['subpackages']:
+            result = _search_packages_for_primitive(subpkg, full_path, requirements_dir, type_name)
+            if result:
+                return result
+
+    return None
+
+
+def find_primitive_in_requirements(
+    requirements_dir: Path,
+    type_name: str
+) -> Optional[Dict[str, Any]]:
+    """Find a primitive definition in the requirements JSON files.
+
+    Args:
+        requirements_dir: Path to requirements directory
+        type_name: Primitive name to search for
+
+    Returns:
+        Dictionary with 'primitive_info' and 'package_path' if found, None otherwise
+    """
+    index = load_requirements_index(requirements_dir)
+
+    for pkg in index.get('packages', []):
+        result = _search_packages_for_primitive(pkg, '', requirements_dir, type_name)
         if result:
             return result
 

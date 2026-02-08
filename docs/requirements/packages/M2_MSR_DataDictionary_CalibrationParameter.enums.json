@@ -1,0 +1,50 @@
+{
+  "package": "M2::MSR::DataDictionary::CalibrationParameter",
+  "enumerations": [
+    {
+      "name": "CalprmAxisCategoryEnum",
+      "package": "M2::MSR::DataDictionary::CalibrationParameter",
+      "note": "This enum specifies the possible values of the category property within SwCalprmAxis. Aggregated by RuleBasedAxisCont.category, SwAxisCont.category, SwCalprmAxis.category",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 352,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Software",
+          "index": null,
+          "description": "Component Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "comAxis",
+          "index": 0,
+          "description": "COM_AXIS is equal to an STD_AXIS, the difference is, that a COM_AXIS is an shared axis, that means this axis can be used multiple times by different CURVEs, MAPs, CUBOIDs, CUBE_4s, and<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=COM_AXIS"
+        },
+        {
+          "name": "fixAXIS",
+          "index": 4,
+          "description": "FIX_AXIS means that the input axis is not stored. The axis is calculated using parameters and so on it is also not possible to modify the axis points.<br>Tags: atp.EnumerationLiteralIndex=4, xml.name=FIX_AXIS"
+        },
+        {
+          "name": "resAxis",
+          "index": 6,
+          "description": "RES_AXIS is also an shared axis like COM_AXIS, the difference is that this kind of axis can be used for rescaling.<br>Tags: atp.EnumerationLiteralIndex=6, xml.name=RES_AXIS"
+        },
+        {
+          "name": "stdAxis",
+          "index": 8,
+          "description": "STD_AXIS means that input and output axis definition are stored within this CURVE, MAP, CUBOID, There is no shared or calculated axis.<br>Tags: atp.EnumerationLiteralIndex=8, xml.name=STD_AXIS"
+        }
+      ]
+    }
+  ]
+}

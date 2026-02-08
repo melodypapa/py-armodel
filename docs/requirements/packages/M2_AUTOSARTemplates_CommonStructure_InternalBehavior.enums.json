@@ -1,0 +1,66 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::InternalBehavior",
+  "enumerations": [
+    {
+      "name": "ReentrancyLevelEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::InternalBehavior",
+      "note": "Specifies if and in which kinds of environments an entity is reentrant. Aggregated by ExecutableEntity.reentrancyLevel",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "multicoreReentrant",
+          "index": 0,
+          "description": "Unlimited concurrent execution of this entity is possible, including preemption and parallel execution on multi core systems.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "nonReentrant",
+          "index": 1,
+          "description": "Concurrent execution of this entity is not possible.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "singleCoreReentrant",
+          "index": 2,
+          "description": "Pseudo-concurrent execution (i.e. preemption) of this entity is possible on single core systems.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "ApiPrincipleEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::InternalBehavior",
+      "note": "This enumeration represents the ability to control the granularity of API generation. Aggregated by BswExclusiveAreaPolicy.apiPrinciple, SwcExclusiveAreaPolicy.apiPrinciple",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 83,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 556,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "common",
+          "index": 0,
+          "description": "The Rte or SchM API is provided for the whole software component / BSW Module<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "perExecutableModule",
+          "index": 1,
+          "description": "The Rte or SchM API is provided for a specific ExecutableEntity of a software component / BSW<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

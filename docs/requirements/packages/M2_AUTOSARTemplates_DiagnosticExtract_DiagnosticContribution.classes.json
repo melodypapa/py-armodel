@@ -1,0 +1,242 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+  "classes": [
+    {
+      "name": "DiagnosticContributionSet",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a root node of a diagnostic extract. It bundles a given set of diagnostic model elements. The granularity of the DiagonsticContributionSet is arbitrary in order to support the aspect of decentralized configuration, i.e. different contributors can come up with an own DiagnosticContribution Set.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 56,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "common": {
+          "type": "DiagnosticCommon",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a collection of diagnostic properties that are shared among the entire Diagnostic"
+        },
+        "element": {
+          "type": "DiagnosticCommon",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents a DiagnosticCommonElement considered the context of the DiagnosticContributionSet atpVariation 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "serviceTable": {
+          "type": "DiagnosticServiceTable",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the collection of DiagnosticServiceTables considered in the scope of this Diagnostic atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticProtocol",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a diagnostic protocol.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 58,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnostic": {
+          "type": "DiagnosticConnection",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the collection of applicable Diagnostic for this DiagnosticProtocol. atpVariation"
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the priority of the diagnostic protocol in other diagnostic protocols. Lower numeric higher protocol priority: - Highest protocol priority - Lowest protocol priority"
+        },
+        "protocolKind": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This identifies the applicable protocol."
+        },
+        "sendRespPend": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The purpose of this attribute is to define whether or not ECU should send a NRC 0x78 (response pending) to the bootloader (in this case the be set to \"true\") or if the transition shall be sending NRC 0x78 (in this case the be set to \"false\")."
+        },
+        "serviceTable": {
+          "type": "DiagnosticServiceTable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the service table applicable for the given atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticServiceTable",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a model of a diagnostic service table, i.e. the UDS services applicable for a given ECU.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 59,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnostic": {
+          "type": "DiagnosticConnection",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the DiagnosticConnection that is taken handling the data transmission for the enclosing possible to refer to more than one diagnostic order to support more than one diagnostic atpVariation"
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the applicable EcuInstance for this"
+        },
+        "protocolKind": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This identifies the applicable protocol."
+        },
+        "serviceInstance": {
+          "type": "DiagnosticService",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the collection of DiagnosticService to be considered in the scope of this Diagnostic"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEcuInstanceProps",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model properties that are specific for a given EcuInstance but on the other hand represent purely diagnostic-related information. In the spirit of decentralized configuration it is therefore possible to specify the diagnostic-related information related to a given EcuInstance even if the EcuInstance does not yet exist.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 207,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the actual EcuInstance to which the in the DiagnosticEcuInstance"
+        },
+        "obdSupport": {
+          "type": "DiagnosticObdSupport",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to specify the role (if applicable) in the DiagnosticEcuInstance supports OBD."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine",
+  "classes": [
+    {
+      "name": "InterpolationRoutineMappingSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies a set of interpolation routine mappings. (cid:53) 429 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 429,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 46,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "interpolation": {
+          "type": "InterpolationRoutine",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies one particular mapping of recordlayout and its matching interpolationRoutines."
+        }
+      }
+    },
+    {
+      "name": "InterpolationRoutineMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "InterpolationRoutineMappingSet.interpolationRoutineMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides a mapping between one record layout and its matching interpolation routines. This allows to formally specify the semantics of the interpolation routines. The use case is such that the curves/Maps define an interpolation method. This mapping table specifies which interpolation routine implements methods for a particular record layout. Using this information, the implementer of a software-component can select the appropriate interpolation routine.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 430,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 46,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "interpolation": {
+          "type": "InterpolationRoutine",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular interpolation routine which is to the record layout."
+        },
+        "swRecord": {
+          "type": "SwRecordLayout",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to the record layout which is mapped to routines."
+        }
+      }
+    },
+    {
+      "name": "InterpolationRoutine",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "InterpolationRoutineMapping.interpolationRoutine"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an interpolation routine taken to evaluate the contents of a curve or map against a specific input value.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 430,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 46,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "interpolation": {
+          "type": "BswModuleEntry",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This specifies a BswModuleEntry which implements the interpolation method for the given record layout."
+        },
+        "isDefault": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies whether the enclosing considered the default in the by the System Template) of a given that owns the 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the name of the interpolation method which is the referenced bswModuleEntry. It swInterpolationMethod in SwDataDef"
+        }
+      }
+    }
+  ]
+}

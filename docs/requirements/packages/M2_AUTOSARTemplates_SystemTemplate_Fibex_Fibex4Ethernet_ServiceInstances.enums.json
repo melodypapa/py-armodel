@@ -1,0 +1,175 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+  "enumerations": [
+    {
+      "name": "PduCollectionTriggerEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "note": "Defines whether a Pdu contributes to the triggering of the data transmission if Pdu collection is enabled. Aggregated by ContainedIPduProps.trigger, IEEE1722TpAcfBusPart.collectionTrigger, SocketConnectionIpdu Identifier.pduCollectionTrigger, SoConIPduIdentifier.pduCollectionTrigger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 357,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "always",
+          "index": 0,
+          "description": "Pdu will trigger the transmission of the data.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "never",
+          "index": 1,
+          "description": "Pdu will be buffered and will not trigger the transmission of the data.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "UdpChecksumCalculationEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "note": "This enumeration defines the UDP checksum calculation. Aggregated by SocketAddress.udpChecksumHandling, SocketConnectionBundle.udpChecksumHandling",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 454,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "udpChecksumDisabled",
+          "index": 1,
+          "description": "Udp checksum handling shall be disabled<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "udpChecksumEnabled",
+          "index": 0,
+          "description": "Udp checksum handling shall be enabled<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "EventGroupControlTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "note": "Types of a RoutingGroups for the event communication. Aggregated by PduActivationRoutingGroup.eventGroupControlType, SoAdRoutingGroup.eventGroupControlType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 489,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "activationAnd",
+          "index": 0,
+          "description": "Activate the data path for unicast events and triggered unicast events that are sent out after a client TriggerUnicast got subscribed.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "activationMulticast",
+          "index": 1,
+          "description": "Activate the data path for multicast events of an EventGroup.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "activationUnicast",
+          "index": 2,
+          "description": "Activate the data path for unicast events of an EventGroup.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "triggerUnicast",
+          "index": 3,
+          "description": "Activate the data path for triggered unicast events that are sent out after a client got subscribed.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "PduCollectionSemanticsEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "note": "Defines the collection semantics for the PDU collection feature. Aggregated by SocketConnectionIpduIdentifier.pduCollectionSemantics, SoConIPduIdentifier.pduCollection Semantics",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 490,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "lastIsBest",
+          "index": 0,
+          "description": "Only the latest PDU instances are transmitted.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "queued",
+          "index": 1,
+          "description": "All instances of PDUs are transmitted.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ServiceVersionAcceptanceKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "note": "Defined the possible acceptance kinds for required service instances. Aggregated by ConsumedServiceInstance.versionDrivenFindBehavior, RequiredSomeipServiceInstance.version DrivenFindBehavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2056,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "exactOrAnyMinor",
+          "index": 0,
+          "description": "Search for ANY or specific minor version service instance and select either ALL returned service Version instances (in case of ANY) or exactly the specific minor version service instances defined in required<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "minimumMinor",
+          "index": 1,
+          "description": "Search for ANY minor version service instance and select only those service instances which have Version an equal or greater minor version than given in requiredMinorVersion.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TcpRoleEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "note": "This enumeration defines whether a TCP node has the tcp server role or the client role. Aggregated by StaticSocketConnection.tcpRole",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2074,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "connect",
+          "index": 0,
+          "description": "Connects the client to a remote TCP host.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "listen",
+          "index": 1,
+          "description": "Socket is put into the server mode (listen for connections).<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

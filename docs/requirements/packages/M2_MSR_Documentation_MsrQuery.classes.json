@@ -1,0 +1,335 @@
+{
+  "package": "M2::MSR::Documentation::MsrQuery",
+  "classes": [
+    {
+      "name": "MsrQueryP1",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TopicContentOrMsrQuery.msrQueryP1"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a query which yields the content of a topic as a result.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 343,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "msrQueryProps": {
+          "type": "MsrQueryProps",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is argument and properties of the paragraph query."
+        },
+        "msrQueryResult": {
+          "type": "TopicContent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the result of the query. xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "MsrQueryTopic1",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TopicOrMsrQuery.msrQueryTopic1"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a query which yields a set of topics as a result.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 343,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "msrQueryProps": {
+          "type": "MsrQueryProps",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is argument and properties of the topic query."
+        },
+        "msrQueryResult": {
+          "type": "MsrQueryResultTopic1",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the result of the query. xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "MsrQueryChapter",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ChapterOrMsrQuery.msrQueryChapter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a query which yields a set of chapters as a result.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 343,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "msrQueryProps": {
+          "type": "MsrQueryProps",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is argument and properties of the chapter query."
+        },
+        "msrQueryResult": {
+          "type": "MsrQueryResult",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the result of the query. Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "MsrQueryProps",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MsrQueryChapter.msrQueryProps",
+        "MsrQueryP1.msrQueryProps",
+        "MsrQueryP2.msrQueryProps",
+        "Msr"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to specificy a query which yields some documentation text. The qualities of the result are determined by the context in which the query is used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 344,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "comment": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element contains a commentary in text form."
+        },
+        "msrQueryArg": {
+          "type": "MsrQueryArg",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies an argument within an MsrQuery."
+        },
+        "msrQueryName": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies the name of the MSR-QUERY"
+        }
+      }
+    },
+    {
+      "name": "MsrQueryArg",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MsrQueryProps.msrQueryArg"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an argument to the query. Note that the arguments are not standardized and therefore subject to mutual agreement.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 344,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arg": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the value of the argument."
+        },
+        "si": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the name of the query argument (semantic"
+        }
+      }
+    },
+    {
+      "name": "MsrQueryResultChapter",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MsrQueryChapter.msrQueryResultChapter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the result of an msrquery which is a set of chapters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 344,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "chapter": {
+          "type": "Chapter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular chapter in the query result."
+        }
+      }
+    },
+    {
+      "name": "MsrQueryResultTopic1",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MsrQueryTopic1.msrQueryResultTopic1"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to express the result of a query which is a set of topics.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 345,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "MsrQueryP2",
+      "package": "M2::MSR::Documentation::MsrQuery",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.msrQueryP2"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a query which yields the content of a Documentation Block as a result.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 456,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "msrQueryProps": {
+          "type": "MsrQueryProps",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is argument and properties of the Documentation"
+        },
+        "msrQueryResult": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the result of the query. xml.sequenceOffset=30"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,3465 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+  "classes": [
+    {
+      "name": "ServiceDependency",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "BswServiceDependency",
+        "SwcServiceDependency"
+      ],
+      "subclasses": [
+        "BswServiceDependency",
+        "SwcServiceDependency"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collects all dependencies of a software module or component on an AUTOSAR Service related to a specific item (e.g. an NVRAM Block, a diagnostic event etc.). It defines the quality of service (Service Needs) of this item as well as (optionally) references to additional elements. This information is required for tools in order to generate the related basic software configuration and ServiceSwComponentTypes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 225,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 609,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assignedData": {
+          "type": "RoleBasedDataType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the role of the assignment data type in the given context. atpVariation"
+        },
+        "diagnostic": {
+          "type": "ServiceDiagnostic",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this attribute indicates a relevance for diagnostics then the integrator has a much easier time identifying the the configuration of the diagnostic stack. of mode conditions (e.g. application and BswM) relevant Dcm."
+        },
+        "symbolicName": {
+          "type": "SymbolicNameProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be taken to contribute to the creation of name values."
+        }
+      }
+    },
+    {
+      "name": "RoleBasedDataAssignment",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.assignedData",
+        "NvBlockDescriptor.writingStrategy",
+        "SwcServiceDependency."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies an assignment of a role to a particular data object in either • the SwcInternalBehavior of a software component (or in the BswInternalBehavior of a BSW module or BSW cluster) in the context of an AUTOSAR Service or • an NvBlockDescriptor to sort out the assignment of event-based writing strategies to data elements in a PortPrototype. With this assignment, the role of the data can be mapped to a DataPrototype that is used in the context of the definition of a specific ServiceNeeds or NvBlockDescriptor, so that a tool is able to create the correct access or writing strategy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 226,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 607,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the role of the assigned data in the given context. need to be specified on M1 level. TPS Software Component Template list of applicable roles for various service service use cases in chapter 13 and Service Use Cases\" (e.g., case of the needs for a permanent RAM"
+        },
+        "usedData": {
+          "type": "AutosarVariableRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The VariableDataPrototype used in this role, e.g. Permanent RAM Block of an NVRAM Block which shall the same SwcInternalBehavior or Bsw the role signalBasedDiagnostics it has to refer to a a SenderReceiverInterface or"
+        },
+        "usedParameter": {
+          "type": "AutosarParameterRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The ParameterDataPrototype used in this role, e.g. ROM Block of an NVRAM Block. It shall belong to the or BswInternalbehavior. the role signalBasedDiagnostics it has to refer to a a ParameterInterface."
+        },
+        "usedPim": {
+          "type": "PerInstanceMemory",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The (untyped) PerInstanceMemory used in this role (e.g. Permanent RAM Block for an NVRAM Block)."
+        }
+      }
+    },
+    {
+      "name": "ServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "NvBlockNeeds",
+        "SupervisedEntityNeeds",
+        "ComMgrUserNeeds",
+        "EcuStateMgrUserNeeds",
+        "CryptoServiceNeeds",
+        "DltUserNeeds",
+        "SyncTimeBaseMgrUserNeeds",
+        "DiagnosticCapabilityElement",
+        "FunctionInhibitionNeeds",
+        "DoIpServiceNeeds",
+        "SupervisedEntityCheckpointNeeds",
+        "ErrorTracerNeeds",
+        "HardwareTestNeeds",
+        "FunctionInhibitionAvailabilityNeeds",
+        "GlobalSupervisionNeeds",
+        "VendorSpecificServiceNeeds",
+        "BswMgrNeeds",
+        "CryptoServiceJobNeeds",
+        "CryptoKeyManagementNeeds",
+        "IndicatorStatusNeeds",
+        "SecureOnBoardCommunicationNeeds",
+        "J1939RmOutgoingRequestServiceNeeds",
+        "J1939RmIncomingRequestServiceNeeds",
+        "J1939DcmDm19Support",
+        "V2xFacUserNeeds",
+        "V2xMUserNeeds",
+        "V2xDataManagerNeeds",
+        "IdsMgrNeeds",
+        "IdsMgrCustomTimestampNeeds"
+      ],
+      "subclasses": [
+        "BswMgrNeeds",
+        "ComMgrUserNeeds",
+        "CryptoKeyManagementNeeds",
+        "CryptoServiceJobNeeds",
+        "CryptoServiceNeeds",
+        "DiagnosticCapabilityElement",
+        "DltUserNeeds",
+        "DoIpServiceNeeds",
+        "EcuStateMgrUserNeeds",
+        "ErrorTracerNeeds",
+        "FunctionInhibitionAvailabilityNeeds",
+        "FunctionInhibitionNeeds",
+        "GlobalSupervisionNeeds",
+        "HardwareTestNeeds",
+        "IdsMgrCustomTimestampNeeds",
+        "IdsMgrNeeds",
+        "IndicatorStatusNeeds",
+        "J1939DcmDm19Support",
+        "J1939RmIncomingRequestServiceNeeds",
+        "J1939RmOutgoingRequestServiceNeeds",
+        "NvBlockNeeds",
+        "SecureOnBoardCommunicationNeeds",
+        "SupervisedEntityCheckpointNeeds",
+        "SupervisedEntityNeeds",
+        "SyncTimeBaseMgrUserNeeds",
+        "V2xDataManagerNeeds",
+        "V2xFacUserNeeds",
+        "V2xMUserNeeds",
+        "VendorSpecificServiceNeeds"
+      ],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This expresses the abstract needs that a Software Component or Basic Software Module has on the configuration of an AUTOSAR Service to which it will be connected. \"Abstract needs\" means that the model abstracts from the Configuration Parameters of the underlying Basic Software. (cid:53) 227 of 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module Description Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 227,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 603,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2055,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NvBlockNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "NvBlockDescriptor.nvBlockNeeds",
+        "SwcServiceDependency."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of a single NVRAM Block.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 231,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 679,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "calcRamBlock": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if CRC (re)calculation for the permanent RAM is required."
+        },
+        "checkStatic": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if the Static Block Id check shall be enabled."
+        },
+        "cyclicWriting": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the period for cyclic writing of NvData to the associated RAM Block."
+        },
+        "nDataSets": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of data sets to be provided by the NVRAM this block. This is the total number of ROM RAM Blocks."
+        },
+        "nRomBlocks": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of ROM Blocks to be provided by the NVRAM this block. Please note that these multiple are given in a contiguous area."
+        },
+        "ramBlockStatus": {
+          "type": "RamBlockStatusControl",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines how the management of the RAM Block status is controlled."
+        },
+        "readonly": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "true: data of this NVRAM Block are write protected for (but protection can be disabled) restriction 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "reliability": {
+          "type": "NvBlockNeeds",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reliability against data loss on the non-volatile medium."
+        },
+        "resistantTo": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether an NVRAM Block shall be treated to configuration changes (true) or not (false). For to handle initialization in the latter case, to the NVRAM specification."
+        },
+        "restoreAtStart": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the associated RAM Block shall be during startup by the basic software."
+        },
+        "selectBlockFor": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this attribute is set to true the NvM shall process this in the NvM_FirstInitAll() function."
+        },
+        "storeAt": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether or not the associated RAM Block shall be stored during shutdown by the basic software."
+        },
+        "storeCyclic": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether or not the associated RAM Block shall stored periodically by the basic software."
+        },
+        "store": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether or not the associated RAM Block shall implicitly stored in case of ECU failure (e.g. loss of the basic software. If the attribute store set to true the associated RAM Block shall to have immediate priority."
+        },
+        "storeImmediate": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether or not the associated RAM Block shall stored immediately during or after execution according SW-C RunnableEntity by the basic"
+        },
+        "storeOnChange": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the associated RAM Block stored immediately if the written value is different value stored in the associated RAM Block(s) during execution of the according SW-C RunnableEntity."
+        },
+        "useAuto": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true the RAM Block shall be auto validated during phase."
+        },
+        "useCRCComp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true the CRC of the RAM Block shall be during a write job with the CRC which was the last successful read or write job in skip unnecessary NVRAM writings."
+        },
+        "writeOnlyOnce": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines write protection after first write: block is prevented from being changed/erased replaced with the default ROM data after first the software-component. such restriction."
+        },
+        "writeVerification": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if Write Verification shall be enabled for this"
+        },
+        "writing": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provides the amount of updates to this block from the point of view. It has to be provided in \"number access per year\"."
+        },
+        "writingPriority": {
+          "type": "NvBlockNeedsWriting",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Requires the priority of writing this block in case of requests to write other blocks."
+        }
+      }
+    },
+    {
+      "name": "SupervisedEntityNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that this value has to be recalculated with respect to the WdgM’s own cycle time for ECU configuration. Table 12.12: SupervisedEntityNeeds 234 of 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module Description Template AUTOSAR CP R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 234,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 707,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "activateAtStart": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "true/false: supervision activation status of Supervised be enabled/disabled at start."
+        },
+        "checkpoints": {
+          "type": "SupervisedEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference indicates the checkpoints belonging to the Entity. atpVariation"
+        },
+        "enable": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "true: software-component shall be allowed to deactivate of this SupervisedEntity shall be not allowed to of this SupervisedEntity"
+        },
+        "expectedAlive": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Expected cycle time of alive trigger of this Supervised (in seconds)."
+        },
+        "maxAliveCycle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum cycle time of alive trigger of this Supervised seconds)."
+        },
+        "minAliveCycle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum cycle time of alive trigger of this Supervised seconds)."
+        },
+        "toleratedFailed": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of consecutive failed alive cycles for this which shall be tolerated until the of the SupervisedEntity is set to SWS WdgM for more"
+        }
+      }
+    },
+    {
+      "name": "ComMgrUserNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the Communication Manager for one \"user\".",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 711,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxComm": {
+          "type": "MaxCommModeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum communication mode requested by this ComM"
+        }
+      }
+    },
+    {
+      "name": "EcuStateMgrUserNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the ECU State Manager for one \"user\". This class currently contains no attributes. Its name can be regarded as a symbol identifying the user from the viewpoint of the component or module which owns this class.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 714,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CryptoServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the needs on the configuration of the CryptoServiceManager for one ConfigID (see Specification AUTOSAR_SWS_CSM.doc). An instance of this class is used to find out which ports of a software-component belong to this ConfigID.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 733,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "algorithmFamily": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a description of the family (e.g. crypto algorithm implemented by the crypto case."
+        },
+        "algorithmMode": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This meta-class has the ability to represent a crypto case."
+        },
+        "cryptoKey": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows for a verbal description of the cryptographic key. The goal is to pass a hint for about how to treat the corresponding case."
+        },
+        "maximumKey": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum length of a cryptographic key, that is used the software-component or module for this bit."
+        }
+      }
+    },
+    {
+      "name": "DltUserNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the needs on the configuration of the Diagnostic Log and Trace module for one SessionId. This class currently contains no attributes. An instance of this class is used to find out which PortPrototypes of an AtomicSwComponentType belong to this SessionId in order to group the request and response PortPrototypes of the same SessionId. The actual SessionId value is stored in the PortDefinedArgumentValue of the respective PortPrototype specification.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 236,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 817,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SyncTimeBaseMgrUserNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the needs on the configuration of the Synchronized Time-base Manager for one time-base. This class currently contains no attributes. An instance of this class is used to find out which ports of a software-component belong to this time-base in order to group the request and response ports of the same time-base. The actual time-base value is stored in the PortDefinedArgumentValue of the respective port specification.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 236,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 818,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticCapabilityElement",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [
+        "DiagnosticValueNeeds",
+        "DiagnosticRoutineNeeds",
+        "DiagnosticIoControlNeeds",
+        "DiagnosticsCommunicationSecurityNeeds",
+        "DiagnosticCommunicationManagerNeeds",
+        "DiagnosticUploadDownloadNeeds",
+        "DiagnosticEventNeeds",
+        "DiagnosticComponentNeeds",
+        "DiagnosticEventInfoNeeds",
+        "ObdInfoServiceNeeds",
+        "ObdPidServiceNeeds",
+        "ObdControlServiceNeeds",
+        "ObdMonitorServiceNeeds",
+        "DiagnosticEventManagerNeeds",
+        "DiagnosticOperationCycleNeeds",
+        "DiagnosticEnableConditionNeeds",
+        "DiagnosticStorageConditionNeeds",
+        "DtcStatusChangeNotificationNeeds",
+        "DiagnosticRequestFileTransferNeeds",
+        "ObdRatioServiceNeeds",
+        "ObdRatioDenominatorNeeds",
+        "WarningIndicatorRequestedBitNeeds",
+        "DiagnosticControlNeeds"
+      ],
+      "subclasses": [
+        "DiagnosticCommunicationManagerNeeds",
+        "DiagnosticComponentNeeds",
+        "DiagnosticControlNeeds",
+        "DiagnosticEnableConditionNeeds",
+        "DiagnosticEventInfoNeeds",
+        "DiagnosticEventManagerNeeds",
+        "DiagnosticEventNeeds",
+        "DiagnosticIoControlNeeds",
+        "DiagnosticOperationCycleNeeds",
+        "DiagnosticRequestFileTransferNeeds",
+        "DiagnosticRoutineNeeds",
+        "DiagnosticStorageConditionNeeds",
+        "DiagnosticUploadDownloadNeeds",
+        "DiagnosticValueNeeds",
+        "DiagnosticsCommunicationSecurityNeeds",
+        "DtcStatusChangeNotificationNeeds",
+        "ObdControlServiceNeeds",
+        "ObdInfoServiceNeeds",
+        "ObdMonitorServiceNeeds",
+        "ObdPidServiceNeeds",
+        "ObdRatioDenominatorNeeds",
+        "ObdRatioServiceNeeds",
+        "WarningIndicatorRequestedBit"
+      ],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that with the implementation of a generic tracing concept in AUTOSAR this attribute might become obsolete. (cid:53) 236 of 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module Description Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 236,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 753,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "audience": {
+          "type": "DiagnosticAudience",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the intended audience for the diagnostic Note that this is not only for the documentation but audience specific implementation."
+        },
+        "diag": {
+          "type": "DiagRequirementId",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the requirement identifier to which the object can be linked to."
+        },
+        "securityAccess": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute denotes the level of security which is by the diagnostic object. The higher the level the for the security exists. shall be mapped to the security level in the"
+        }
+      }
+    },
+    {
+      "name": "FunctionInhibitionNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the Function Inhibition Manager for one Function Identifier (FID). This class currently contains no attributes. Its name can be regarded as a symbol identifying the FID from the viewpoint of the component or module which owns this class.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 237,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 265,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 750,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DoIpServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [
+        "DoIpGidNeeds",
+        "DoIpGidSynchronizationNeeds",
+        "DoIpPowerModeStatusNeeds",
+        "DoIpRoutingActivationAuthenticationNeeds",
+        "DoIpRoutingActivationConfirmationNeeds",
+        "DoIpActivationLineNeeds",
+        "FurtherActionByteNeeds"
+      ],
+      "subclasses": [
+        "DoIpActivationLineNeeds",
+        "DoIpGidNeeds",
+        "DoIpGidSynchronizationNeeds",
+        "DoIpPowerModeStatusNeeds",
+        "DoIpRoutingActivationAuthenticationNeeds",
+        "DoIpRoutingActivationConfirmationNeeds",
+        "Further"
+      ],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an abstract base class for ServiceNeeds related to DoIP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 237,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 805,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2020,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticValueNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the general needs on the configuration of the Diagnostic Communication Manager (DCM) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the DCM which are not related to a particular item. In the case of using a sender receiver communicated value, the related value shall be taken via assigned Data in the role \"signalBasedDiagnostics\". In case of using a client/server communicated value, the related value shall be communicated via the port referenced by assignedPort. The details of this communication (e.g. appropriate naming conventions) are specified in the related software specifications (SWS). (cid:53) 245 of 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module Description Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 245,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 114,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 782,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is applicable only if the DiagnosticValue aggregated within a BswModuleDependency. represents the length of data (in bytes) this particular PID signal."
+        },
+        "diagnosticValue": {
+          "type": "DiagnosticValueAccess",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is applicable only if the DiagnosticValue Needs is aggregated within a BswModuleDependency. controls whether the data can be read and whether it is to be handled read-only."
+        },
+        "fixedLength": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is applicable only if the DiagnosticValue aggregated within a BswModuleDependency. controls whether the data length of the data"
+        },
+        "processingStyle": {
+          "type": "DiagnosticProcessing",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls whether interaction requires the to react synchronously on a request it processes the request in background but still has to issue the call again to eventually obtain of the request."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticRoutineNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the general needs on the configuration of the Diagnostic Communication Manager (Dcm) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 247,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 126,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 780,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagRoutine": {
+          "type": "DiagnosticRoutineType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the type of diagnostic routine which is implemented by the referenced server port."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticIoControlNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the general needs on the configuration of the Diagnostic Communication Manager (DCM) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 248,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 119,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 781,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "currentValue": {
+          "type": "DiagnosticValueNeeds",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DiagnosticValueNeeds indicating the the current value via signalBasedDiagnostics."
+        },
+        "freezeCurrent": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute determines, if the referenced port supports freezing of I/O value. freeze is not supported if the enclosing aggregated by a Swc [constr_1364]."
+        },
+        "resetToDefault": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a flag for the existence of the ResetTo operation in the service interface."
+        },
+        "shortTerm": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute determines, if the referenced port supports setting of I/O value to a specific value by the diagnostic tester. term adjustment is not supported if the is aggregated by a [constr_1364]."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticsCommunicationSecurityNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the needs of a software-component to verify the access to security level via diagnostic services.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 248,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 783,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticCommunicationManagerNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the general needs on the configuration of the Diagnostic Communication Manager (Dcm) which are not related to a particular item (e.g. a PID or DiagnosticRoutineNeeds). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 248,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 779,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "serviceRequest": {
+          "type": "DiagnosticService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to define whether the usage of PortInterface ServiceRequestNotification has the of being initiated by a manufacturer or by a"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticUploadDownloadNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify needs regarding upload and download by means of diagnostic services.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 252,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 816,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SupervisedEntityCheckpointNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the Watchdog Manager to support a Checkpoint for a Supervised Entity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 254,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 708,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticEventNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the Diagnostic Event Manager for one diagnostic event. Its shortName can be regarded as a symbol identifying the diagnostic event from the viewpoint of the component or module which owns this element. In case the diagnostic event specifies a production error, the shortName shall be the name of the production error.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 258,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 311,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 756,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "deferringFid": {
+          "type": "FunctionInhibitionNeeds",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference contains the link to a function identifier FiM which is used by the monitor before result."
+        },
+        "diagEvent": {
+          "type": "DiagEventDebounce",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the abstract need on the Debounce Algorithm applied by the Diagnostic Event Manager."
+        },
+        "inhibitingFid": {
+          "type": "FunctionInhibitionNeeds",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the primary Function Inhibition Identifier inhibition of the diagnostic monitor. The FID inhibit the monitoring of a symptom or the detected faults."
+        },
+        "inhibiting": {
+          "type": "FunctionInhibitionNeeds",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the secondary Function Inhibition used for inhibition of the diagnostic monitor. Any FID inhibitions leads to an inhibition of the a symptom or the reporting of detected"
+        },
+        "prestored": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If the Event uses a prestored freeze-frame (using the PrestoreFreezeFrame and ClearPrestored of the service interface DiagnosticMonitor) indicates if the Event requires the data to be non-volatile memory. TRUE = Dem shall store data in non-volatile memory, FALSE = Data lost at shutdown (not stored in Nvm)."
+        },
+        "usesMonitor": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether additional monitor data be added to the reporting of events."
+        }
+      }
+    },
+    {
+      "name": "DiagEventDebounceAlgorithm",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "DiagEventDebounceCounterBased",
+        "DiagEventDebounceTimeBased",
+        "DiagEventDebounceMonitorInternal"
+      ],
+      "subclasses": [
+        "DiagEventDebounceCounterBased",
+        "DiagEventDebounceMonitorInternal",
+        "DiagEventDebounceTime"
+      ],
+      "aggregated_by": [
+        "DiagnosticDebounceAlgorithmProps.debounceAlgorithm",
+        "DiagnosticEventNeeds.diagEventDebounce"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents the ability to specify the pre-debounce algorithm which is selected and/or required by the particular monitor. This class inherits from Identifiable in order to allow further documentation of the expected or implemented debouncing and to use the category for the identification of the expected / implemented debouncing.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 259,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 196,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 756,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagEventDebounceCounterBased",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagEventDebounceAlgorithm",
+      "bases": [
+        "ARObject",
+        "DiagEventDebounceAlgorithm",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticDebounceAlgorithmProps.debounceAlgorithm",
+        "DiagnosticEventNeeds.diagEventDebounce"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to indicate that the counter-based debounce algorithm shall be used by the DEM for this diagnostic monitor. This is related to set the ECUC choice container DemDebounceAlgorithmClass to DemDebounce CounterBased.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 259,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 196,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 757,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "counterBased": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Threshold to allocate an event memory entry and to the Freeze Frame."
+        },
+        "counter": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value shall be taken to increment the internal counter. atpVariation"
+        },
+        "counterFailed": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value defines the event-specific limit that indicates \"failed\" counter status."
+        },
+        "counterJump": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value represents the initial value of the internal counter if the counting direction changes from decrementing. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "counterJumpUp": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value represents the initial value of the internal counter if the counting direction changes from incrementing."
+        },
+        "counterPassed": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value defines the event-specific limit that indicates \"passed\" counter status."
+        }
+      }
+    },
+    {
+      "name": "DiagEventDebounceTimeBased",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagEventDebounceAlgorithm",
+      "bases": [
+        "ARObject",
+        "DiagEventDebounceAlgorithm",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticDebounceAlgorithmProps.debounceAlgorithm",
+        "DiagnosticEventNeeds.diagEventDebounce"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to indicate that the time-based pre-debounce algorithm shall be used by the Dem for this diagnostic monitor. This is related to set the EcuC choice container DemDebounceAlgorithmClass to DemDebounceTime Base.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 260,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 198,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 758,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timeBasedFdc": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Threshold to allocate an event memory entry and to the Freeze Frame. atpVariation"
+        },
+        "timeFailed": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value represents the event-specific delay indicating \"failed\" status."
+        },
+        "timePassed": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value represents the event-specific delay indicating \"passed\" status."
+        }
+      }
+    },
+    {
+      "name": "DiagEventDebounceMonitorInternal",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagEventDebounceAlgorithm",
+      "bases": [
+        "ARObject",
+        "DiagEventDebounceAlgorithm",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticDebounceAlgorithmProps.debounceAlgorithm",
+        "DiagnosticEventNeeds.diagEventDebounce"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to indicate that no Dem pre-debounce algorithm shall be used for this diagnostic monitor. The SWC might implement an internal debouncing algorithm and report qualified (debounced) results to the Dem/DM.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 260,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 758,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ErrorTracerNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the need to report failures to the error tracer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 263,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 832,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tracedFailure": {
+          "type": "TracedFailure",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "list of traced failures atpVariation"
+        }
+      }
+    },
+    {
+      "name": "TracedFailure",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "DevelopmentError",
+        "RuntimeError",
+        "TransientFault"
+      ],
+      "subclasses": [
+        "DevelopmentError",
+        "RuntimeError",
+        "TransientFault"
+      ],
+      "aggregated_by": [
+        "ErrorTracerNeeds.tracedFailure"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the ability to report a specific failure to the error tracer. The short name specifies the literal applicable for the Default Error Tracer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 263,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 832,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ID of detected failure used in reporting API as error or"
+        }
+      }
+    },
+    {
+      "name": "DevelopmentError",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TracedFailure",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TracedFailure"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ErrorTracerNeeds.tracedFailure"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The reported failure is classified as development error.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 263,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 832,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RuntimeError",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TracedFailure",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TracedFailure"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ErrorTracerNeeds.tracedFailure"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The reported failure is classified as runtime error.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 263,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 832,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "HardwareTestNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to indicate that a software-component is interested in the results of the hardware test and will establish a PortPrototype to query the hardware test manager.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 264,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 841,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticComponentNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify the service needs for the configuration of component events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 312,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 816,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticEventInfoNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the needs of a software-component interested to get information regarding specific DTCs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 312,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 760,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "obdDtcNumber": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a reasonable Diagnostic Trouble Code. to predefine the Diagnostic Trouble Code, e.g. function developer has received a particular the OEM or from a standardization applies for the OBD diagnostics use case."
+        },
+        "udsDtcNumber": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a reasonable Diagnostic Trouble Code. to predefine the Diagnostic Trouble Code, e.g. function developer has received a particular the OEM or from a standardization applies for the UDS diagnostics use case."
+        }
+      }
+    },
+    {
+      "name": "FunctionInhibitionAvailabilityNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the Function Inhibition Manager to provide the control function for one Function Identifier (FID).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 318,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 751,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "controlledFid": {
+          "type": "FunctionInhibitionNeeds",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the controlled FID"
+        }
+      }
+    },
+    {
+      "name": "GlobalSupervisionNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the Watchdog Manager to get access on the Global Supervision control and status interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 318,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 709,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ObdInfoServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a given InfoType (OBD Service 09) which is supported by this component or module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 797,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ObdPidServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular PID (parameter identifier) which is supported by this component or module. In case of using a client/server communicated value, the related value shall be communicated via the port referenced by assignedPort. The details of this communication (e.g. appropriate naming conventions) are specified in the related software specifications (SWS).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 325,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 797,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ObdControlServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs of a component or module on the configuration of OBD Service 08 (request control of on-board system) in relation to a particular test-Identifier (TID) supported by this component or module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 796,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ObdMonitorServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular on-board monitoring test supported by this component or module. (OBD Service 06).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 797,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "applicationData": {
+          "type": "ApplicationDataType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "reference to an ApplicationDataType that describes the of the data reported by the software-component to"
+        },
+        "eventNeeds": {
+          "type": "DiagnosticEventNeeds",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the corresponding diagnostic"
+        },
+        "unitAndScalingId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unit and scaling ID according to ISO 15031-5."
+        },
+        "updateKind": {
+          "type": "DiagnosticMonitor",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates the settings for the acceptance of to the Dem."
+        }
+      }
+    },
+    {
+      "name": "VendorSpecificServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define vendor-specific service needs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 603,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SymbolicNameProps",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ImplementationProps",
+      "bases": [
+        "ARObject",
+        "ImplementationProps",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ServiceDependency.symbolicNameProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class can be taken to contribute to the creation of symbolic name values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 610,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "BswMgrNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs on the configuration of the Basic Software Manager for one \"user\".",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 716,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CryptoServiceJobNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class shall be taken to indicate that the service use case modeled with this kind of Service Needs assumes the usage of the crypto job API.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 733,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CryptoKeyManagementNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class can be used to indicate a service use case for key management.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 745,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticEventManagerNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the general needs on the configuration of the Diagnostic Event Manager (Dem) which are not related to a particular item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 753,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticOperationCycleNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the needs of a software-component to provide information regarding the operation cycle management to the Dem module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 761,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operationCycle": {
+          "type": "OperationCycleType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Operation cycles types for the Dem to be supported by APIs."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnableConditionNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the needs of a software-component to provide the capability to set an enable condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 762,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialStatus": {
+          "type": "EventAcceptanceStatus",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the initial status for enable or disable of of event reports of a diagnostic event."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticStorageConditionNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the needs of a software-component to provide the capability to set a storage condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 762,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialStatus": {
+          "type": "StorageConditionStatus",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the initial status for enable or disable of storage a diagnostic event."
+        }
+      }
+    },
+    {
+      "name": "IndicatorStatusNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class shall be taken to signal a service use case that affects the indicator status.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 766,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "typeEnum": {
+          "type": "DiagnosticIndicatorType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the type of the indicator."
+        }
+      }
+    },
+    {
+      "name": "DtcStatusChangeNotificationNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the needs of a software-component interested to get information regarding any DTC status change.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 776,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "notificationTime": {
+          "type": "DiagnosticClearDtc",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute determines the time when the notification the DTC operation shall be executed. This attribute relevant for the configuration of the ClearDtc"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticRequestFileTransferNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class indicates the existence of a service use case that involves UDS service 0x38, Request File Transfer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 795,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ObdRatioServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular \"ratio monitoring\" which is supported by this component or module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 795,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connectionType": {
+          "type": "ObdRatioConnection",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines how the DEM is connected to the component or to perform the IUMPR (In use monitor service."
+        },
+        "rateBasedMonitoredEvent": {
+          "type": "DiagnosticEventNeeds",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The rate based monitored Diagnostic Event."
+        },
+        "usedFid": {
+          "type": "FunctionInhibitionNeeds",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the primary Function Inhibition Identifier the rate based monitor. This is an optional"
+        }
+      }
+    },
+    {
+      "name": "ObdRatioDenominatorNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class shall be used to indicate that a software-component wants to access the in-use-monitoring performance ration denominator.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 802,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "denominator": {
+          "type": "DiagnosticDenominator",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates the applicable denominator condition."
+        }
+      }
+    },
+    {
+      "name": "DoIpGidNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DoIpServiceNeeds",
+      "bases": [
+        "ARObject",
+        "DoIpServiceNeeds",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The DoIpGidNeeds indicates that the software-component owning this ServiceNeeds is providing the GID number either after a GID Synchronisation or by other means like e.g. flashed EEPROM parameter. This need can be used independent from DoIpGidSynchronizationNeeds and is necessary if the GID can not be provided out of the DoIP configuration options.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 805,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2019,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DoIpGidSynchronizationNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DoIpServiceNeeds",
+      "bases": [
+        "ARObject",
+        "DoIpServiceNeeds",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The DoIpGidSynchronizationNeeds indicates that the software-component owning this ServiceNeeds is triggered by the DoIP entity to start a synchronization of the GID (Group Identification) on the DoIP service 0x0001, 0x0002, 0x0003 or before announcement via service 0x0004 according to ISO 13400-2:2012 if necessary. Note that this need is only relevant for DoIP synchronization masters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 805,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2019,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DoIpPowerModeStatusNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DoIpServiceNeeds",
+      "bases": [
+        "ARObject",
+        "DoIpServiceNeeds",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The DoIpPowerModeStatusNeeds indicates that the software-component owning this ServiceNeeds is providing the PowerModeStatus for the DoIP service 0x4003 according to ISO 13400-2:2012.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 806,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2019,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DoIpRoutingActivationAuthenticationNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DoIpServiceNeeds",
+      "bases": [
+        "ARObject",
+        "DoIpServiceNeeds",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "DoIPRoutingActivationAuthenticationNeeds indicates that the software-component owning this Service Needs will have an authentication required for a DoIP routing activation service (0x0005) according to ISO 13400-2:2012.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 806,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the length in byte of the additional information RA authentication that is provided by the software the software entity is a software-component the not need to exist as the information is the length of the uint8 Array type. Otherwise software entity is a Complex Driver) this attribute be filled in if additional information is provided."
+        },
+        "routing": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the ISO 13400-2:2012 \"routing activation activation type\" which is received via DoIP 0x00 is DEFAULT, 0x01 is WWH-OBD. If the specified values (0x00 or 0x01) is needed shall contain RA_ + hex value representation of value shall be used (i.e: RA_0xE1)."
+        }
+      }
+    },
+    {
+      "name": "DoIpRoutingActivationConfirmationNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DoIpServiceNeeds",
+      "bases": [
+        "ARObject",
+        "DoIpServiceNeeds",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "DoIpRoutingActivationConfirmationNeeds indicates that the software-component that owns this Service Needs will have a confirmation required for a DoIP routing activation service (0x0005) according to ISO 13400-2:2012.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 807,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the length in byte of the additional information RA confirmation that is provided by the software entity. software entity is a software-component the not need to exist as the information is the length of the uint8 Array type. Otherwise software entity is a Complex Driver) this attribute be filled out if additional information is provided."
+        },
+        "routing": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the ISO 13400-2:2012 \"routing activation activation type\" which is received via DoIP 0x00 is DEFAULT, 0x01 is WWH-OBD. If the specified values (0x00 or 0x01) is needed shall contain RA_ + hex value representation of value shall be used (i.e: RA_0xE1)."
+        }
+      }
+    },
+    {
+      "name": "DoIpActivationLineNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DoIpServiceNeeds",
+      "bases": [
+        "ARObject",
+        "DoIpServiceNeeds",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A DoIP entity needs to be informed when an external tester is attached or activated. The DoIpActivation ServiceNeeds specifies the trigger for such an event. Examples would be a Pdu via a regular communication bus, a PWM signal, or an I/O. For details please refer to the ISO 13400.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 807,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2019,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "WarningIndicatorRequestedBitNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to explicitly request the existence of the WarningIndicator RequestedBit.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 811,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "FurtherActionByteNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DoIpServiceNeeds",
+      "bases": [
+        "ARObject",
+        "DoIpServiceNeeds",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The FurtherActionByteNeeds indicates that the software-component is able to provide the \"further action byte\" to the DoIp Service Component.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 812,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticControlNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCapabilityElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticCapabilityElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Service"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class indicates a service use-case for reporting the controlled status by diagnostic services.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 812,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SecureOnBoardCommunicationNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the need for the existence of the SecOc module on the respective ECU. This class currently contains no attributes. An instance of this class is used to find out which ports of a software-component deal with the administration of secure communication in order to group the request and response ports.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 824,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "verification": {
+          "type": "VerificationStatus",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides the ability to control the mode in which the application software is notified about the result authentication attempts."
+        }
+      }
+    },
+    {
+      "name": "J1939RmOutgoingRequestServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class shall be used to specify needs with respect to the configuration of the J1939Rm, in particular for the case where an ApplicationSwComponentType needs to send a request to another J1939 node.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 829,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "J1939RmIncomingRequestServiceNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "\"This meta-class shall be used to specify needs with respect to the configuration of the J1939Rm, in particular for the case where an ApplicationSwComponentType needs to accept a request from another J1939 node.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 829,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "J1939DcmDm19Support",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The software-component provides information about calibration verification numbers for inclusion in DM19",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 831,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "V2xFacUserNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define service needs for V2x facilities.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 834,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "V2xMUserNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express service needs for the V2x management.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 835,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "V2xDataManagerNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define service needs for V2x Data Manager.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 840,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "IdsMgrNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to indicate that the enclosing SwcServiceDependency represents a service use case for the Intrusion Detection System Manager.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 842,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "useSmart": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls whether the reporting of the event shall be done by means of the smart"
+        }
+      }
+    },
+    {
+      "name": "IdsMgrCustomTimestampNeeds",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceNeeds",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceNeeds"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswServiceDependency.serviceNeeds",
+        "SwcServiceDependency.serviceNeeds"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to indicate that the enclosing SwcServiceDependency represents a service use case for the retrieval of a custom timestamp by the Intrusion Detection System Manager.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 842,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TransientFault",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TracedFailure",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TracedFailure"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ErrorTracerNeeds.tracedFailure"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The reported failure is classified as runtime error.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1009,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "possibleError": {
+          "type": "PossibleErrorReaction",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes a possible error reactions for the transient fault"
+        }
+      }
+    }
+  ]
+}

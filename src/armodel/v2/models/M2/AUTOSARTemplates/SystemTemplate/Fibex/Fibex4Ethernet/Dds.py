@@ -1,16 +1,42 @@
-from typing import Optional
+"""
+AUTOSAR Package - Dds
 
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Float,
+    PositiveInteger,
+    RefType,
+    String,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    AbstractServiceInstance,
+)
+
+
 
 
 class DdsCpISignalToDdsTopicMapping(ARObject):
     """
     Mapping of an ISignal to a DdsTopic.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpISignalToDdsTopicMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 293, Classic Platform R23-11)
     """
@@ -30,10 +56,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def dds_topic(self, value: Optional["DdsCpTopic"]) -> None:
         """
         Set ddsTopic with validation.
-
+        
         Args:
             value: The ddsTopic to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +84,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def i_signal(self, value: Optional["ISignal"]) -> None:
         """
         Set iSignal with validation.
-
+        
         Args:
             value: The iSignal to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +106,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def getDdsTopic(self) -> "DdsCpTopic":
         """
         AUTOSAR-compliant getter for ddsTopic.
-
+        
         Returns:
             The ddsTopic value
-
+        
         Note:
             Delegates to dds_topic property (CODING_RULE_V2_00017)
         """
@@ -92,13 +118,13 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def setDdsTopic(self, value: "DdsCpTopic") -> "DdsCpISignalToDdsTopicMapping":
         """
         AUTOSAR-compliant setter for ddsTopic with method chaining.
-
+        
         Args:
             value: The ddsTopic to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_topic property setter (gets validation automatically)
         """
@@ -108,10 +134,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def getISignal(self) -> "ISignal":
         """
         AUTOSAR-compliant getter for iSignal.
-
+        
         Returns:
             The iSignal value
-
+        
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -120,13 +146,13 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def setISignal(self, value: "ISignal") -> "DdsCpISignalToDdsTopicMapping":
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
-
+        
         Args:
             value: The iSignal to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to i_signal property setter (gets validation automatically)
         """
@@ -138,13 +164,13 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def with_dds_topic(self, value: Optional["DdsCpTopic"]) -> "DdsCpISignalToDdsTopicMapping":
         """
         Set ddsTopic and return self for chaining.
-
+        
         Args:
             value: The ddsTopic to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_topic("value")
         """
@@ -154,34 +180,28 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def with_i_signal(self, value: Optional["ISignal"]) -> "DdsCpISignalToDdsTopicMapping":
         """
         Set iSignal and return self for chaining.
-
+        
         Args:
             value: The iSignal to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_i_signal("value")
         """
         self.i_signal = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
-    AbstractServiceInstance,
-)
 
 
 class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     """
     Provided and Consumed Dds Service Instances that are available at the
     ApplicationEndpoint.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpServiceInstance
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 472, Classic Platform R23-11)
     """
@@ -203,10 +223,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def dds_field_reply(self, value: Optional["DdsCpTopic"]) -> None:
         """
         Set ddsFieldReply with validation.
-
+        
         Args:
             value: The ddsFieldReply to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -231,10 +251,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def dds_field(self, value: Optional["DdsCpTopic"]) -> None:
         """
         Set ddsField with validation.
-
+        
         Args:
             value: The ddsField to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -259,10 +279,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def dds_method(self, value: Optional["DdsCpTopic"]) -> None:
         """
         Set ddsMethod with validation.
-
+        
         Args:
             value: The ddsMethod to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -289,10 +309,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def dds_service_qos(self, value: Optional["DdsCpQosProfile"]) -> None:
         """
         Set ddsServiceQos with validation.
-
+        
         Args:
             value: The ddsServiceQos to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -318,10 +338,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def service_instance(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceInstance with validation.
-
+        
         Args:
             value: The serviceInstance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -329,9 +349,9 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
             self._serviceInstance = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"serviceInstance must be PositiveInteger or None, got {type(value).__name__}"
+                f"serviceInstance must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._serviceInstance = value
         # Unique Identifier that identifies the ServiceInterface in This Identifier is
@@ -348,10 +368,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def service_interface(self, value: Optional["String"]) -> None:
         """
         Set serviceInterface with validation.
-
+        
         Args:
             value: The serviceInterface to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -359,9 +379,9 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
             self._serviceInterface = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"serviceInterface must be String or None, got {type(value).__name__}"
+                f"serviceInterface must be String or str or None, got {type(value).__name__}"
             )
         self._serviceInterface = value
 
@@ -370,10 +390,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def getDdsFieldReply(self) -> "DdsCpTopic":
         """
         AUTOSAR-compliant getter for ddsFieldReply.
-
+        
         Returns:
             The ddsFieldReply value
-
+        
         Note:
             Delegates to dds_field_reply property (CODING_RULE_V2_00017)
         """
@@ -382,13 +402,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def setDdsFieldReply(self, value: "DdsCpTopic") -> "DdsCpServiceInstance":
         """
         AUTOSAR-compliant setter for ddsFieldReply with method chaining.
-
+        
         Args:
             value: The ddsFieldReply to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_field_reply property setter (gets validation automatically)
         """
@@ -398,10 +418,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def getDdsField(self) -> "DdsCpTopic":
         """
         AUTOSAR-compliant getter for ddsField.
-
+        
         Returns:
             The ddsField value
-
+        
         Note:
             Delegates to dds_field property (CODING_RULE_V2_00017)
         """
@@ -410,13 +430,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def setDdsField(self, value: "DdsCpTopic") -> "DdsCpServiceInstance":
         """
         AUTOSAR-compliant setter for ddsField with method chaining.
-
+        
         Args:
             value: The ddsField to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_field property setter (gets validation automatically)
         """
@@ -426,10 +446,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def getDdsMethod(self) -> "DdsCpTopic":
         """
         AUTOSAR-compliant getter for ddsMethod.
-
+        
         Returns:
             The ddsMethod value
-
+        
         Note:
             Delegates to dds_method property (CODING_RULE_V2_00017)
         """
@@ -438,13 +458,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def setDdsMethod(self, value: "DdsCpTopic") -> "DdsCpServiceInstance":
         """
         AUTOSAR-compliant setter for ddsMethod with method chaining.
-
+        
         Args:
             value: The ddsMethod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_method property setter (gets validation automatically)
         """
@@ -454,10 +474,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def getDdsServiceQos(self) -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant getter for ddsServiceQos.
-
+        
         Returns:
             The ddsServiceQos value
-
+        
         Note:
             Delegates to dds_service_qos property (CODING_RULE_V2_00017)
         """
@@ -466,13 +486,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def setDdsServiceQos(self, value: "DdsCpQosProfile") -> "DdsCpServiceInstance":
         """
         AUTOSAR-compliant setter for ddsServiceQos with method chaining.
-
+        
         Args:
             value: The ddsServiceQos to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_service_qos property setter (gets validation automatically)
         """
@@ -482,10 +502,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def getServiceInstance(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceInstance.
-
+        
         Returns:
             The serviceInstance value
-
+        
         Note:
             Delegates to service_instance property (CODING_RULE_V2_00017)
         """
@@ -494,13 +514,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def setServiceInstance(self, value: "PositiveInteger") -> "DdsCpServiceInstance":
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
-
+        
         Args:
             value: The serviceInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to service_instance property setter (gets validation automatically)
         """
@@ -510,10 +530,10 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def getServiceInterface(self) -> "String":
         """
         AUTOSAR-compliant getter for serviceInterface.
-
+        
         Returns:
             The serviceInterface value
-
+        
         Note:
             Delegates to service_interface property (CODING_RULE_V2_00017)
         """
@@ -522,13 +542,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def setServiceInterface(self, value: "String") -> "DdsCpServiceInstance":
         """
         AUTOSAR-compliant setter for serviceInterface with method chaining.
-
+        
         Args:
             value: The serviceInterface to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to service_interface property setter (gets validation automatically)
         """
@@ -540,13 +560,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def with_dds_field_reply(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstance":
         """
         Set ddsFieldReply and return self for chaining.
-
+        
         Args:
             value: The ddsFieldReply to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_field_reply("value")
         """
@@ -556,13 +576,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def with_dds_field(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstance":
         """
         Set ddsField and return self for chaining.
-
+        
         Args:
             value: The ddsField to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_field("value")
         """
@@ -572,13 +592,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def with_dds_method(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstance":
         """
         Set ddsMethod and return self for chaining.
-
+        
         Args:
             value: The ddsMethod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_method("value")
         """
@@ -588,13 +608,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def with_dds_service_qos(self, value: Optional["DdsCpQosProfile"]) -> "DdsCpServiceInstance":
         """
         Set ddsServiceQos and return self for chaining.
-
+        
         Args:
             value: The ddsServiceQos to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_service_qos("value")
         """
@@ -604,13 +624,13 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def with_service_instance(self, value: Optional["PositiveInteger"]) -> "DdsCpServiceInstance":
         """
         Set serviceInstance and return self for chaining.
-
+        
         Args:
             value: The serviceInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_service_instance("value")
         """
@@ -620,526 +640,27 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     def with_service_interface(self, value: Optional["String"]) -> "DdsCpServiceInstance":
         """
         Set serviceInterface and return self for chaining.
-
+        
         Args:
             value: The serviceInterface to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_service_interface("value")
         """
         self.service_interface = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    PositiveInteger,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import (
-    DdsCpServiceInstance,
-)
-
-
-class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
-    """
-    This meta-class represents the ability to describe the existence and
-    configuration of a provided service instance in a concrete implementation on
-    top of DDS.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
-    Sources:
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 472, Classic Platform R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # The local address over which the Service is provided.
-        # atpSplitable; atpVariation.
-        self._localUnicast: Optional["ApplicationEndpoint"] = None
-
-    @property
-    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
-        """Get localUnicast (Pythonic accessor)."""
-        return self._localUnicast
-
-    @local_unicast.setter
-    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
-        """
-        Set localUnicast with validation.
-
-        Args:
-            value: The localUnicast to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._localUnicast = None
-            return
-
-        if not isinstance(value, ApplicationEndpoint):
-            raise TypeError(
-                f"localUnicast must be ApplicationEndpoint or None, got {type(value).__name__}"
-            )
-        self._localUnicast = value
-        # Minor Version of the Service that is provided by this Dds.
-        self._minorVersion: Optional["PositiveInteger"] = None
-
-    @property
-    def minor_version(self) -> Optional["PositiveInteger"]:
-        """Get minorVersion (Pythonic accessor)."""
-        return self._minorVersion
-
-    @minor_version.setter
-    def minor_version(self, value: Optional["PositiveInteger"]) -> None:
-        """
-        Set minorVersion with validation.
-
-        Args:
-            value: The minorVersion to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._minorVersion = None
-            return
-
-        if not isinstance(value, PositiveInteger):
-            raise TypeError(
-                f"minorVersion must be PositiveInteger or None, got {type(value).__name__}"
-            )
-        self._minorVersion = value
-        # Collection of provided events.
-        # Stereotypes: atpSplitable; atpVariation Event Tags:.
-        self._providedDds: List["DdsCpServiceInstance"] = []
-
-    @property
-    def provided_dds(self) -> List["DdsCpServiceInstance"]:
-        """Get providedDds (Pythonic accessor)."""
-        return self._providedDds
-        # This reference defines the remote unicast addresses of consumers.
-        # shall ONLY be used if the remote unicast the clients is determined from the
-                # not at runtime.
-        # atpVariation.
-        self._staticRemote: List["ApplicationEndpoint"] = []
-
-    @property
-    def static_remote(self) -> List["ApplicationEndpoint"]:
-        """Get staticRemote (Pythonic accessor)."""
-        return self._staticRemote
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getLocalUnicast(self) -> "ApplicationEndpoint":
-        """
-        AUTOSAR-compliant getter for localUnicast.
-
-        Returns:
-            The localUnicast value
-
-        Note:
-            Delegates to local_unicast property (CODING_RULE_V2_00017)
-        """
-        return self.local_unicast  # Delegates to property
-
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> "DdsCpProvidedServiceInstance":
-        """
-        AUTOSAR-compliant setter for localUnicast with method chaining.
-
-        Args:
-            value: The localUnicast to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to local_unicast property setter (gets validation automatically)
-        """
-        self.local_unicast = value  # Delegates to property setter
-        return self
-
-    def getMinorVersion(self) -> "PositiveInteger":
-        """
-        AUTOSAR-compliant getter for minorVersion.
-
-        Returns:
-            The minorVersion value
-
-        Note:
-            Delegates to minor_version property (CODING_RULE_V2_00017)
-        """
-        return self.minor_version  # Delegates to property
-
-    def setMinorVersion(self, value: "PositiveInteger") -> "DdsCpProvidedServiceInstance":
-        """
-        AUTOSAR-compliant setter for minorVersion with method chaining.
-
-        Args:
-            value: The minorVersion to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to minor_version property setter (gets validation automatically)
-        """
-        self.minor_version = value  # Delegates to property setter
-        return self
-
-    def getProvidedDds(self) -> List["DdsCpServiceInstance"]:
-        """
-        AUTOSAR-compliant getter for providedDds.
-
-        Returns:
-            The providedDds value
-
-        Note:
-            Delegates to provided_dds property (CODING_RULE_V2_00017)
-        """
-        return self.provided_dds  # Delegates to property
-
-    def getStaticRemote(self) -> List["ApplicationEndpoint"]:
-        """
-        AUTOSAR-compliant getter for staticRemote.
-
-        Returns:
-            The staticRemote value
-
-        Note:
-            Delegates to static_remote property (CODING_RULE_V2_00017)
-        """
-        return self.static_remote  # Delegates to property
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpProvidedServiceInstance":
-        """
-        Set localUnicast and return self for chaining.
-
-        Args:
-            value: The localUnicast to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_local_unicast("value")
-        """
-        self.local_unicast = value  # Use property setter (gets validation)
-        return self
-
-    def with_minor_version(self, value: Optional["PositiveInteger"]) -> "DdsCpProvidedServiceInstance":
-        """
-        Set minorVersion and return self for chaining.
-
-        Args:
-            value: The minorVersion to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_minor_version("value")
-        """
-        self.minor_version = value  # Use property setter (gets validation)
-        return self
-
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import (
-    DdsCpServiceInstance,
-)
-
-
-class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
-    """
-    This meta-class represents the ability to describe the existence and
-    configuration of a consumed (required) service instance in a concrete
-    implementation on top of DDS.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
-    Sources:
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 474, Classic Platform R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # Collection of consumed events.
-        # Stereotypes: atpSplitable; atpVariation.
-        self._consumedDds: List["DdsCpServiceInstance"] = []
-
-    @property
-    def consumed_dds(self) -> List["DdsCpServiceInstance"]:
-        """Get consumedDds (Pythonic accessor)."""
-        return self._consumedDds
-        # The local address over which the Service is consumed.
-        # atpSplitable; atpVariation.
-        self._localUnicast: Optional["ApplicationEndpoint"] = None
-
-    @property
-    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
-        """Get localUnicast (Pythonic accessor)."""
-        return self._localUnicast
-
-    @local_unicast.setter
-    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
-        """
-        Set localUnicast with validation.
-
-        Args:
-            value: The localUnicast to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._localUnicast = None
-            return
-
-        if not isinstance(value, ApplicationEndpoint):
-            raise TypeError(
-                f"localUnicast must be ApplicationEndpoint or None, got {type(value).__name__}"
-            )
-        self._localUnicast = value
-        # Minor Version of the ServiceInterface.
-        # Value can be set to that represents the Minor Version of the or to ANY.
-        self._minorVersion: Optional["AnyVersionString"] = None
-
-    @property
-    def minor_version(self) -> Optional["AnyVersionString"]:
-        """Get minorVersion (Pythonic accessor)."""
-        return self._minorVersion
-
-    @minor_version.setter
-    def minor_version(self, value: Optional["AnyVersionString"]) -> None:
-        """
-        Set minorVersion with validation.
-
-        Args:
-            value: The minorVersion to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._minorVersion = None
-            return
-
-        if not isinstance(value, AnyVersionString):
-            raise TypeError(
-                f"minorVersion must be AnyVersionString or None, got {type(value).__name__}"
-            )
-        self._minorVersion = value
-        # This reference defines the remote unicast address of the provider.
-        # shall ONLY be used if the remote unicast the server is determined from the
-                # not at runtime.
-        # atpVariation.
-        self._staticRemote: Optional["ApplicationEndpoint"] = None
-
-    @property
-    def static_remote(self) -> Optional["ApplicationEndpoint"]:
-        """Get staticRemote (Pythonic accessor)."""
-        return self._staticRemote
-
-    @static_remote.setter
-    def static_remote(self, value: Optional["ApplicationEndpoint"]) -> None:
-        """
-        Set staticRemote with validation.
-
-        Args:
-            value: The staticRemote to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._staticRemote = None
-            return
-
-        if not isinstance(value, ApplicationEndpoint):
-            raise TypeError(
-                f"staticRemote must be ApplicationEndpoint or None, got {type(value).__name__}"
-            )
-        self._staticRemote = value
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getConsumedDds(self) -> List["DdsCpServiceInstance"]:
-        """
-        AUTOSAR-compliant getter for consumedDds.
-
-        Returns:
-            The consumedDds value
-
-        Note:
-            Delegates to consumed_dds property (CODING_RULE_V2_00017)
-        """
-        return self.consumed_dds  # Delegates to property
-
-    def getLocalUnicast(self) -> "ApplicationEndpoint":
-        """
-        AUTOSAR-compliant getter for localUnicast.
-
-        Returns:
-            The localUnicast value
-
-        Note:
-            Delegates to local_unicast property (CODING_RULE_V2_00017)
-        """
-        return self.local_unicast  # Delegates to property
-
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
-        """
-        AUTOSAR-compliant setter for localUnicast with method chaining.
-
-        Args:
-            value: The localUnicast to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to local_unicast property setter (gets validation automatically)
-        """
-        self.local_unicast = value  # Delegates to property setter
-        return self
-
-    def getMinorVersion(self) -> "AnyVersionString":
-        """
-        AUTOSAR-compliant getter for minorVersion.
-
-        Returns:
-            The minorVersion value
-
-        Note:
-            Delegates to minor_version property (CODING_RULE_V2_00017)
-        """
-        return self.minor_version  # Delegates to property
-
-    def setMinorVersion(self, value: "AnyVersionString") -> "DdsCpConsumedServiceInstance":
-        """
-        AUTOSAR-compliant setter for minorVersion with method chaining.
-
-        Args:
-            value: The minorVersion to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to minor_version property setter (gets validation automatically)
-        """
-        self.minor_version = value  # Delegates to property setter
-        return self
-
-    def getStaticRemote(self) -> "ApplicationEndpoint":
-        """
-        AUTOSAR-compliant getter for staticRemote.
-
-        Returns:
-            The staticRemote value
-
-        Note:
-            Delegates to static_remote property (CODING_RULE_V2_00017)
-        """
-        return self.static_remote  # Delegates to property
-
-    def setStaticRemote(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
-        """
-        AUTOSAR-compliant setter for staticRemote with method chaining.
-
-        Args:
-            value: The staticRemote to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to static_remote property setter (gets validation automatically)
-        """
-        self.static_remote = value  # Delegates to property setter
-        return self
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
-        """
-        Set localUnicast and return self for chaining.
-
-        Args:
-            value: The localUnicast to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_local_unicast("value")
-        """
-        self.local_unicast = value  # Use property setter (gets validation)
-        return self
-
-    def with_minor_version(self, value: Optional["AnyVersionString"]) -> "DdsCpConsumedServiceInstance":
-        """
-        Set minorVersion and return self for chaining.
-
-        Args:
-            value: The minorVersion to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_minor_version("value")
-        """
-        self.minor_version = value  # Use property setter (gets validation)
-        return self
-
-    def with_static_remote(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
-        """
-        Set staticRemote and return self for chaining.
-
-        Args:
-            value: The staticRemote to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_static_remote("value")
-        """
-        self.static_remote = value  # Use property setter (gets validation)
-        return self
-
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class DdsCpServiceInstanceEvent(ARObject):
     """
     This element represents an event as part of the Provided Service Instance.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpServiceInstanceEvent
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 475, Classic Platform R23-11)
     """
@@ -1149,21 +670,21 @@ class DdsCpServiceInstanceEvent(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the PduTriggerung used for the upper layer this DdsEvent
         # message.
-        self._ddsEvent: RefType = None
+        self._ddsEvent: Optional["RefType"] = None
 
     @property
-    def dds_event(self) -> RefType:
+    def dds_event(self) -> Optional["RefType"]:
         """Get ddsEvent (Pythonic accessor)."""
         return self._ddsEvent
 
     @dds_event.setter
-    def dds_event(self, value: RefType) -> None:
+    def dds_event(self, value: Optional["RefType"]) -> None:
         """
         Set ddsEvent with validation.
-
+        
         Args:
             value: The ddsEvent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1186,10 +707,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def dds_event_qos(self, value: Optional["DdsCpQosProfile"]) -> None:
         """
         Set ddsEventQos with validation.
-
+        
         Args:
             value: The ddsEventQos to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1214,10 +735,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def dds_event_topic(self, value: Optional["DdsCpTopic"]) -> None:
         """
         Set ddsEventTopic with validation.
-
+        
         Args:
             value: The ddsEventTopic to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1233,28 +754,28 @@ class DdsCpServiceInstanceEvent(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsEvent(self) -> RefType:
+    def getDdsEvent(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ddsEvent.
-
+        
         Returns:
             The ddsEvent value
-
+        
         Note:
             Delegates to dds_event property (CODING_RULE_V2_00017)
         """
         return self.dds_event  # Delegates to property
 
-    def setDdsEvent(self, value: RefType) -> "DdsCpServiceInstanceEvent":
+    def setDdsEvent(self, value: "RefType") -> "DdsCpServiceInstanceEvent":
         """
         AUTOSAR-compliant setter for ddsEvent with method chaining.
-
+        
         Args:
             value: The ddsEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_event property setter (gets validation automatically)
         """
@@ -1264,10 +785,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def getDdsEventQos(self) -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant getter for ddsEventQos.
-
+        
         Returns:
             The ddsEventQos value
-
+        
         Note:
             Delegates to dds_event_qos property (CODING_RULE_V2_00017)
         """
@@ -1276,13 +797,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def setDdsEventQos(self, value: "DdsCpQosProfile") -> "DdsCpServiceInstanceEvent":
         """
         AUTOSAR-compliant setter for ddsEventQos with method chaining.
-
+        
         Args:
             value: The ddsEventQos to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_event_qos property setter (gets validation automatically)
         """
@@ -1292,10 +813,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def getDdsEventTopic(self) -> "DdsCpTopic":
         """
         AUTOSAR-compliant getter for ddsEventTopic.
-
+        
         Returns:
             The ddsEventTopic value
-
+        
         Note:
             Delegates to dds_event_topic property (CODING_RULE_V2_00017)
         """
@@ -1304,13 +825,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def setDdsEventTopic(self, value: "DdsCpTopic") -> "DdsCpServiceInstanceEvent":
         """
         AUTOSAR-compliant setter for ddsEventTopic with method chaining.
-
+        
         Args:
             value: The ddsEventTopic to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_event_topic property setter (gets validation automatically)
         """
@@ -1322,13 +843,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def with_dds_event(self, value: Optional[RefType]) -> "DdsCpServiceInstanceEvent":
         """
         Set ddsEvent and return self for chaining.
-
+        
         Args:
             value: The ddsEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_event("value")
         """
@@ -1338,13 +859,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def with_dds_event_qos(self, value: Optional["DdsCpQosProfile"]) -> "DdsCpServiceInstanceEvent":
         """
         Set ddsEventQos and return self for chaining.
-
+        
         Args:
             value: The ddsEventQos to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_event_qos("value")
         """
@@ -1354,36 +875,28 @@ class DdsCpServiceInstanceEvent(ARObject):
     def with_dds_event_topic(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstanceEvent":
         """
         Set ddsEventTopic and return self for chaining.
-
+        
         Args:
             value: The ddsEventTopic to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_event_topic("value")
         """
         self.dds_event_topic = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class DdsCpServiceInstanceOperation(ARObject):
     """
     This element represents an operation as part of the Provided Service
     Instance.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpServiceInstanceOperation
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 475, Classic Platform R23-11)
     """
@@ -1395,21 +908,21 @@ class DdsCpServiceInstanceOperation(ARObject):
                 # response message.
         # atp.
         # Status=candidate.
-        self._ddsOperation: RefType = None
+        self._ddsOperation: Optional["RefType"] = None
 
     @property
-    def dds_operation(self) -> RefType:
+    def dds_operation(self) -> Optional["RefType"]:
         """Get ddsOperation (Pythonic accessor)."""
         return self._ddsOperation
 
     @dds_operation.setter
-    def dds_operation(self, value: RefType) -> None:
+    def dds_operation(self, value: Optional["RefType"]) -> None:
         """
         Set ddsOperation with validation.
-
+        
         Args:
             value: The ddsOperation to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1421,28 +934,28 @@ class DdsCpServiceInstanceOperation(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsOperation(self) -> RefType:
+    def getDdsOperation(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ddsOperation.
-
+        
         Returns:
             The ddsOperation value
-
+        
         Note:
             Delegates to dds_operation property (CODING_RULE_V2_00017)
         """
         return self.dds_operation  # Delegates to property
 
-    def setDdsOperation(self, value: RefType) -> "DdsCpServiceInstanceOperation":
+    def setDdsOperation(self, value: "RefType") -> "DdsCpServiceInstanceOperation":
         """
         AUTOSAR-compliant setter for ddsOperation with method chaining.
-
+        
         Args:
             value: The ddsOperation to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_operation property setter (gets validation automatically)
         """
@@ -1454,33 +967,28 @@ class DdsCpServiceInstanceOperation(ARObject):
     def with_dds_operation(self, value: Optional[RefType]) -> "DdsCpServiceInstanceOperation":
         """
         Set ddsOperation and return self for chaining.
-
+        
         Args:
             value: The ddsOperation to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_operation("value")
         """
         self.dds_operation = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 
 
 class DdsCpConfig(ARElement):
     """
     Collection of DDS definitions. (cid:53) 525 of 2090 Document ID 63:
     AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpConfig
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 525, Classic Platform R23-11)
     """
@@ -1508,10 +1016,10 @@ class DdsCpConfig(ARElement):
     def getDdsDomain(self) -> List["DdsCpDomain"]:
         """
         AUTOSAR-compliant getter for ddsDomain.
-
+        
         Returns:
             The ddsDomain value
-
+        
         Note:
             Delegates to dds_domain property (CODING_RULE_V2_00017)
         """
@@ -1520,10 +1028,10 @@ class DdsCpConfig(ARElement):
     def getDdsQosProfile(self) -> List["DdsCpQosProfile"]:
         """
         AUTOSAR-compliant getter for ddsQosProfile.
-
+        
         Returns:
             The ddsQosProfile value
-
+        
         Note:
             Delegates to dds_qos_profile property (CODING_RULE_V2_00017)
         """
@@ -1531,22 +1039,14 @@ class DdsCpConfig(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class DdsCpDomain(Identifiable):
     """
     Definition of a DDS Domain.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpDomain
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 526, Classic Platform R23-11)
     """
@@ -1580,10 +1080,10 @@ class DdsCpDomain(Identifiable):
     def domain_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set domainId with validation.
-
+        
         Args:
             value: The domainId to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1591,9 +1091,9 @@ class DdsCpDomain(Identifiable):
             self._domainId = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"domainId must be PositiveInteger or None, got {type(value).__name__}"
+                f"domainId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._domainId = value
 
@@ -1602,10 +1102,10 @@ class DdsCpDomain(Identifiable):
     def getDdsPartition(self) -> List["DdsCpPartition"]:
         """
         AUTOSAR-compliant getter for ddsPartition.
-
+        
         Returns:
             The ddsPartition value
-
+        
         Note:
             Delegates to dds_partition property (CODING_RULE_V2_00017)
         """
@@ -1614,10 +1114,10 @@ class DdsCpDomain(Identifiable):
     def getDdsTopic(self) -> List["DdsCpTopic"]:
         """
         AUTOSAR-compliant getter for ddsTopic.
-
+        
         Returns:
             The ddsTopic value
-
+        
         Note:
             Delegates to dds_topic property (CODING_RULE_V2_00017)
         """
@@ -1626,10 +1126,10 @@ class DdsCpDomain(Identifiable):
     def getDomainId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for domainId.
-
+        
         Returns:
             The domainId value
-
+        
         Note:
             Delegates to domain_id property (CODING_RULE_V2_00017)
         """
@@ -1638,13 +1138,13 @@ class DdsCpDomain(Identifiable):
     def setDomainId(self, value: "PositiveInteger") -> "DdsCpDomain":
         """
         AUTOSAR-compliant setter for domainId with method chaining.
-
+        
         Args:
             value: The domainId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to domain_id property setter (gets validation automatically)
         """
@@ -1656,32 +1156,27 @@ class DdsCpDomain(Identifiable):
     def with_domain_id(self, value: Optional["PositiveInteger"]) -> "DdsCpDomain":
         """
         Set domainId and return self for chaining.
-
+        
         Args:
             value: The domainId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_domain_id("value")
         """
         self.domain_id = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class DdsCpTopic(Identifiable):
     """
     Definition of a DDS Partition.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpTopic
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 526, Classic Platform R23-11)
     """
@@ -1701,10 +1196,10 @@ class DdsCpTopic(Identifiable):
     def dds_partition(self, value: Optional["DdsCpPartition"]) -> None:
         """
         Set ddsPartition with validation.
-
+        
         Args:
             value: The ddsPartition to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1729,10 +1224,10 @@ class DdsCpTopic(Identifiable):
     def topic_name(self, value: Optional["String"]) -> None:
         """
         Set topicName with validation.
-
+        
         Args:
             value: The topicName to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1740,9 +1235,9 @@ class DdsCpTopic(Identifiable):
             self._topicName = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"topicName must be String or None, got {type(value).__name__}"
+                f"topicName must be String or str or None, got {type(value).__name__}"
             )
         self._topicName = value
 
@@ -1751,10 +1246,10 @@ class DdsCpTopic(Identifiable):
     def getDdsPartition(self) -> "DdsCpPartition":
         """
         AUTOSAR-compliant getter for ddsPartition.
-
+        
         Returns:
             The ddsPartition value
-
+        
         Note:
             Delegates to dds_partition property (CODING_RULE_V2_00017)
         """
@@ -1763,13 +1258,13 @@ class DdsCpTopic(Identifiable):
     def setDdsPartition(self, value: "DdsCpPartition") -> "DdsCpTopic":
         """
         AUTOSAR-compliant setter for ddsPartition with method chaining.
-
+        
         Args:
             value: The ddsPartition to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to dds_partition property setter (gets validation automatically)
         """
@@ -1779,10 +1274,10 @@ class DdsCpTopic(Identifiable):
     def getTopicName(self) -> "String":
         """
         AUTOSAR-compliant getter for topicName.
-
+        
         Returns:
             The topicName value
-
+        
         Note:
             Delegates to topic_name property (CODING_RULE_V2_00017)
         """
@@ -1791,13 +1286,13 @@ class DdsCpTopic(Identifiable):
     def setTopicName(self, value: "String") -> "DdsCpTopic":
         """
         AUTOSAR-compliant setter for topicName with method chaining.
-
+        
         Args:
             value: The topicName to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to topic_name property setter (gets validation automatically)
         """
@@ -1809,13 +1304,13 @@ class DdsCpTopic(Identifiable):
     def with_dds_partition(self, value: Optional["DdsCpPartition"]) -> "DdsCpTopic":
         """
         Set ddsPartition and return self for chaining.
-
+        
         Args:
             value: The ddsPartition to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_dds_partition("value")
         """
@@ -1825,32 +1320,27 @@ class DdsCpTopic(Identifiable):
     def with_topic_name(self, value: Optional["String"]) -> "DdsCpTopic":
         """
         Set topicName and return self for chaining.
-
+        
         Args:
             value: The topicName to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_topic_name("value")
         """
         self.topic_name = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class DdsCpPartition(Identifiable):
     """
     Definition of a DDS Partition.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpPartition
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 527, Classic Platform R23-11)
     """
@@ -1871,10 +1361,10 @@ class DdsCpPartition(Identifiable):
     def partition_name(self, value: Optional["String"]) -> None:
         """
         Set partitionName with validation.
-
+        
         Args:
             value: The partitionName to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1882,9 +1372,9 @@ class DdsCpPartition(Identifiable):
             self._partitionName = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"partitionName must be String or None, got {type(value).__name__}"
+                f"partitionName must be String or str or None, got {type(value).__name__}"
             )
         self._partitionName = value
 
@@ -1893,10 +1383,10 @@ class DdsCpPartition(Identifiable):
     def getPartitionName(self) -> "String":
         """
         AUTOSAR-compliant getter for partitionName.
-
+        
         Returns:
             The partitionName value
-
+        
         Note:
             Delegates to partition_name property (CODING_RULE_V2_00017)
         """
@@ -1905,13 +1395,13 @@ class DdsCpPartition(Identifiable):
     def setPartitionName(self, value: "String") -> "DdsCpPartition":
         """
         AUTOSAR-compliant setter for partitionName with method chaining.
-
+        
         Args:
             value: The partitionName to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to partition_name property setter (gets validation automatically)
         """
@@ -1923,32 +1413,27 @@ class DdsCpPartition(Identifiable):
     def with_partition_name(self, value: Optional["String"]) -> "DdsCpPartition":
         """
         Set partitionName and return self for chaining.
-
+        
         Args:
             value: The partitionName to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_partition_name("value")
         """
         self.partition_name = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class DdsCpQosProfile(Identifiable):
     """
     Definition of a DDS QOS Profile.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpQosProfile
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 528, Classic Platform R23-11)
     """
@@ -1968,10 +1453,10 @@ class DdsCpQosProfile(Identifiable):
     def deadline(self, value: Optional["DdsDeadline"]) -> None:
         """
         Set deadline with validation.
-
+        
         Args:
             value: The deadline to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1996,10 +1481,10 @@ class DdsCpQosProfile(Identifiable):
     def destination_order(self, value: Optional["DdsDestinationOrder"]) -> None:
         """
         Set destinationOrder with validation.
-
+        
         Args:
             value: The destinationOrder to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2026,10 +1511,10 @@ class DdsCpQosProfile(Identifiable):
     def durability(self, value: Optional["DdsDurabilityService"]) -> None:
         """
         Set durability with validation.
-
+        
         Args:
             value: The durability to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2054,10 +1539,10 @@ class DdsCpQosProfile(Identifiable):
     def history(self, value: Optional["DdsHistory"]) -> None:
         """
         Set history with validation.
-
+        
         Args:
             value: The history to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2082,10 +1567,10 @@ class DdsCpQosProfile(Identifiable):
     def latency_budget(self, value: Optional["DdsLatencyBudget"]) -> None:
         """
         Set latencyBudget with validation.
-
+        
         Args:
             value: The latencyBudget to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2110,10 +1595,10 @@ class DdsCpQosProfile(Identifiable):
     def lifespan(self, value: Optional["DdsLifespan"]) -> None:
         """
         Set lifespan with validation.
-
+        
         Args:
             value: The lifespan to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2138,10 +1623,10 @@ class DdsCpQosProfile(Identifiable):
     def liveliness(self, value: Optional["DdsLiveliness"]) -> None:
         """
         Set liveliness with validation.
-
+        
         Args:
             value: The liveliness to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2168,10 +1653,10 @@ class DdsCpQosProfile(Identifiable):
     def ownership(self, value: Optional["DdsOwnershipStrength"]) -> None:
         """
         Set ownership with validation.
-
+        
         Args:
             value: The ownership to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2196,10 +1681,10 @@ class DdsCpQosProfile(Identifiable):
     def reliability(self, value: Optional["DdsReliability"]) -> None:
         """
         Set reliability with validation.
-
+        
         Args:
             value: The reliability to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2224,10 +1709,10 @@ class DdsCpQosProfile(Identifiable):
     def resource_limits(self, value: Optional["DdsResourceLimits"]) -> None:
         """
         Set resourceLimits with validation.
-
+        
         Args:
             value: The resourceLimits to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2252,10 +1737,10 @@ class DdsCpQosProfile(Identifiable):
     def topic_data(self, value: Optional["DdsTopicData"]) -> None:
         """
         Set topicData with validation.
-
+        
         Args:
             value: The topicData to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2280,10 +1765,10 @@ class DdsCpQosProfile(Identifiable):
     def transport_priority(self, value: Optional["DdsTransportPriority"]) -> None:
         """
         Set transportPriority with validation.
-
+        
         Args:
             value: The transportPriority to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2302,10 +1787,10 @@ class DdsCpQosProfile(Identifiable):
     def getDeadline(self) -> "DdsDeadline":
         """
         AUTOSAR-compliant getter for deadline.
-
+        
         Returns:
             The deadline value
-
+        
         Note:
             Delegates to deadline property (CODING_RULE_V2_00017)
         """
@@ -2314,13 +1799,13 @@ class DdsCpQosProfile(Identifiable):
     def setDeadline(self, value: "DdsDeadline") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for deadline with method chaining.
-
+        
         Args:
             value: The deadline to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to deadline property setter (gets validation automatically)
         """
@@ -2330,10 +1815,10 @@ class DdsCpQosProfile(Identifiable):
     def getDestinationOrder(self) -> "DdsDestinationOrder":
         """
         AUTOSAR-compliant getter for destinationOrder.
-
+        
         Returns:
             The destinationOrder value
-
+        
         Note:
             Delegates to destination_order property (CODING_RULE_V2_00017)
         """
@@ -2342,13 +1827,13 @@ class DdsCpQosProfile(Identifiable):
     def setDestinationOrder(self, value: "DdsDestinationOrder") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for destinationOrder with method chaining.
-
+        
         Args:
             value: The destinationOrder to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to destination_order property setter (gets validation automatically)
         """
@@ -2358,10 +1843,10 @@ class DdsCpQosProfile(Identifiable):
     def getDurability(self) -> "DdsDurabilityService":
         """
         AUTOSAR-compliant getter for durability.
-
+        
         Returns:
             The durability value
-
+        
         Note:
             Delegates to durability property (CODING_RULE_V2_00017)
         """
@@ -2370,13 +1855,13 @@ class DdsCpQosProfile(Identifiable):
     def setDurability(self, value: "DdsDurabilityService") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for durability with method chaining.
-
+        
         Args:
             value: The durability to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to durability property setter (gets validation automatically)
         """
@@ -2386,10 +1871,10 @@ class DdsCpQosProfile(Identifiable):
     def getHistory(self) -> "DdsHistory":
         """
         AUTOSAR-compliant getter for history.
-
+        
         Returns:
             The history value
-
+        
         Note:
             Delegates to history property (CODING_RULE_V2_00017)
         """
@@ -2398,13 +1883,13 @@ class DdsCpQosProfile(Identifiable):
     def setHistory(self, value: "DdsHistory") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for history with method chaining.
-
+        
         Args:
             value: The history to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to history property setter (gets validation automatically)
         """
@@ -2414,10 +1899,10 @@ class DdsCpQosProfile(Identifiable):
     def getLatencyBudget(self) -> "DdsLatencyBudget":
         """
         AUTOSAR-compliant getter for latencyBudget.
-
+        
         Returns:
             The latencyBudget value
-
+        
         Note:
             Delegates to latency_budget property (CODING_RULE_V2_00017)
         """
@@ -2426,13 +1911,13 @@ class DdsCpQosProfile(Identifiable):
     def setLatencyBudget(self, value: "DdsLatencyBudget") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for latencyBudget with method chaining.
-
+        
         Args:
             value: The latencyBudget to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to latency_budget property setter (gets validation automatically)
         """
@@ -2442,10 +1927,10 @@ class DdsCpQosProfile(Identifiable):
     def getLifespan(self) -> "DdsLifespan":
         """
         AUTOSAR-compliant getter for lifespan.
-
+        
         Returns:
             The lifespan value
-
+        
         Note:
             Delegates to lifespan property (CODING_RULE_V2_00017)
         """
@@ -2454,13 +1939,13 @@ class DdsCpQosProfile(Identifiable):
     def setLifespan(self, value: "DdsLifespan") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for lifespan with method chaining.
-
+        
         Args:
             value: The lifespan to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to lifespan property setter (gets validation automatically)
         """
@@ -2470,10 +1955,10 @@ class DdsCpQosProfile(Identifiable):
     def getLiveliness(self) -> "DdsLiveliness":
         """
         AUTOSAR-compliant getter for liveliness.
-
+        
         Returns:
             The liveliness value
-
+        
         Note:
             Delegates to liveliness property (CODING_RULE_V2_00017)
         """
@@ -2482,13 +1967,13 @@ class DdsCpQosProfile(Identifiable):
     def setLiveliness(self, value: "DdsLiveliness") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for liveliness with method chaining.
-
+        
         Args:
             value: The liveliness to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to liveliness property setter (gets validation automatically)
         """
@@ -2498,10 +1983,10 @@ class DdsCpQosProfile(Identifiable):
     def getOwnership(self) -> "DdsOwnershipStrength":
         """
         AUTOSAR-compliant getter for ownership.
-
+        
         Returns:
             The ownership value
-
+        
         Note:
             Delegates to ownership property (CODING_RULE_V2_00017)
         """
@@ -2510,13 +1995,13 @@ class DdsCpQosProfile(Identifiable):
     def setOwnership(self, value: "DdsOwnershipStrength") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for ownership with method chaining.
-
+        
         Args:
             value: The ownership to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ownership property setter (gets validation automatically)
         """
@@ -2526,10 +2011,10 @@ class DdsCpQosProfile(Identifiable):
     def getReliability(self) -> "DdsReliability":
         """
         AUTOSAR-compliant getter for reliability.
-
+        
         Returns:
             The reliability value
-
+        
         Note:
             Delegates to reliability property (CODING_RULE_V2_00017)
         """
@@ -2538,13 +2023,13 @@ class DdsCpQosProfile(Identifiable):
     def setReliability(self, value: "DdsReliability") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for reliability with method chaining.
-
+        
         Args:
             value: The reliability to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to reliability property setter (gets validation automatically)
         """
@@ -2554,10 +2039,10 @@ class DdsCpQosProfile(Identifiable):
     def getResourceLimits(self) -> "DdsResourceLimits":
         """
         AUTOSAR-compliant getter for resourceLimits.
-
+        
         Returns:
             The resourceLimits value
-
+        
         Note:
             Delegates to resource_limits property (CODING_RULE_V2_00017)
         """
@@ -2566,13 +2051,13 @@ class DdsCpQosProfile(Identifiable):
     def setResourceLimits(self, value: "DdsResourceLimits") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for resourceLimits with method chaining.
-
+        
         Args:
             value: The resourceLimits to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to resource_limits property setter (gets validation automatically)
         """
@@ -2582,10 +2067,10 @@ class DdsCpQosProfile(Identifiable):
     def getTopicData(self) -> "DdsTopicData":
         """
         AUTOSAR-compliant getter for topicData.
-
+        
         Returns:
             The topicData value
-
+        
         Note:
             Delegates to topic_data property (CODING_RULE_V2_00017)
         """
@@ -2594,13 +2079,13 @@ class DdsCpQosProfile(Identifiable):
     def setTopicData(self, value: "DdsTopicData") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for topicData with method chaining.
-
+        
         Args:
             value: The topicData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to topic_data property setter (gets validation automatically)
         """
@@ -2610,10 +2095,10 @@ class DdsCpQosProfile(Identifiable):
     def getTransportPriority(self) -> "DdsTransportPriority":
         """
         AUTOSAR-compliant getter for transportPriority.
-
+        
         Returns:
             The transportPriority value
-
+        
         Note:
             Delegates to transport_priority property (CODING_RULE_V2_00017)
         """
@@ -2622,13 +2107,13 @@ class DdsCpQosProfile(Identifiable):
     def setTransportPriority(self, value: "DdsTransportPriority") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for transportPriority with method chaining.
-
+        
         Args:
             value: The transportPriority to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to transport_priority property setter (gets validation automatically)
         """
@@ -2640,13 +2125,13 @@ class DdsCpQosProfile(Identifiable):
     def with_deadline(self, value: Optional["DdsDeadline"]) -> "DdsCpQosProfile":
         """
         Set deadline and return self for chaining.
-
+        
         Args:
             value: The deadline to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_deadline("value")
         """
@@ -2656,13 +2141,13 @@ class DdsCpQosProfile(Identifiable):
     def with_destination_order(self, value: Optional["DdsDestinationOrder"]) -> "DdsCpQosProfile":
         """
         Set destinationOrder and return self for chaining.
-
+        
         Args:
             value: The destinationOrder to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_destination_order("value")
         """
@@ -2672,13 +2157,13 @@ class DdsCpQosProfile(Identifiable):
     def with_durability(self, value: Optional["DdsDurabilityService"]) -> "DdsCpQosProfile":
         """
         Set durability and return self for chaining.
-
+        
         Args:
             value: The durability to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_durability("value")
         """
@@ -2688,13 +2173,13 @@ class DdsCpQosProfile(Identifiable):
     def with_history(self, value: Optional["DdsHistory"]) -> "DdsCpQosProfile":
         """
         Set history and return self for chaining.
-
+        
         Args:
             value: The history to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_history("value")
         """
@@ -2704,13 +2189,13 @@ class DdsCpQosProfile(Identifiable):
     def with_latency_budget(self, value: Optional["DdsLatencyBudget"]) -> "DdsCpQosProfile":
         """
         Set latencyBudget and return self for chaining.
-
+        
         Args:
             value: The latencyBudget to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_latency_budget("value")
         """
@@ -2720,13 +2205,13 @@ class DdsCpQosProfile(Identifiable):
     def with_lifespan(self, value: Optional["DdsLifespan"]) -> "DdsCpQosProfile":
         """
         Set lifespan and return self for chaining.
-
+        
         Args:
             value: The lifespan to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_lifespan("value")
         """
@@ -2736,13 +2221,13 @@ class DdsCpQosProfile(Identifiable):
     def with_liveliness(self, value: Optional["DdsLiveliness"]) -> "DdsCpQosProfile":
         """
         Set liveliness and return self for chaining.
-
+        
         Args:
             value: The liveliness to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_liveliness("value")
         """
@@ -2752,13 +2237,13 @@ class DdsCpQosProfile(Identifiable):
     def with_ownership(self, value: Optional["DdsOwnershipStrength"]) -> "DdsCpQosProfile":
         """
         Set ownership and return self for chaining.
-
+        
         Args:
             value: The ownership to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ownership("value")
         """
@@ -2768,13 +2253,13 @@ class DdsCpQosProfile(Identifiable):
     def with_reliability(self, value: Optional["DdsReliability"]) -> "DdsCpQosProfile":
         """
         Set reliability and return self for chaining.
-
+        
         Args:
             value: The reliability to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_reliability("value")
         """
@@ -2784,13 +2269,13 @@ class DdsCpQosProfile(Identifiable):
     def with_resource_limits(self, value: Optional["DdsResourceLimits"]) -> "DdsCpQosProfile":
         """
         Set resourceLimits and return self for chaining.
-
+        
         Args:
             value: The resourceLimits to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_resource_limits("value")
         """
@@ -2800,13 +2285,13 @@ class DdsCpQosProfile(Identifiable):
     def with_topic_data(self, value: Optional["DdsTopicData"]) -> "DdsCpQosProfile":
         """
         Set topicData and return self for chaining.
-
+        
         Args:
             value: The topicData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_topic_data("value")
         """
@@ -2816,32 +2301,27 @@ class DdsCpQosProfile(Identifiable):
     def with_transport_priority(self, value: Optional["DdsTransportPriority"]) -> "DdsCpQosProfile":
         """
         Set transportPriority and return self for chaining.
-
+        
         Args:
             value: The transportPriority to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_transport_priority("value")
         """
         self.transport_priority = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsTopicData(ARObject):
     """
     Describes the DDS TOPIC_DATA QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsTopicData
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 529, Classic Platform R23-11)
     """
@@ -2861,10 +2341,10 @@ class DdsTopicData(ARObject):
     def topic_data(self, value: Optional["String"]) -> None:
         """
         Set topicData with validation.
-
+        
         Args:
             value: The topicData to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2872,9 +2352,9 @@ class DdsTopicData(ARObject):
             self._topicData = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"topicData must be String or None, got {type(value).__name__}"
+                f"topicData must be String or str or None, got {type(value).__name__}"
             )
         self._topicData = value
 
@@ -2883,10 +2363,10 @@ class DdsTopicData(ARObject):
     def getTopicData(self) -> "String":
         """
         AUTOSAR-compliant getter for topicData.
-
+        
         Returns:
             The topicData value
-
+        
         Note:
             Delegates to topic_data property (CODING_RULE_V2_00017)
         """
@@ -2895,13 +2375,13 @@ class DdsTopicData(ARObject):
     def setTopicData(self, value: "String") -> "DdsTopicData":
         """
         AUTOSAR-compliant setter for topicData with method chaining.
-
+        
         Args:
             value: The topicData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to topic_data property setter (gets validation automatically)
         """
@@ -2913,32 +2393,27 @@ class DdsTopicData(ARObject):
     def with_topic_data(self, value: Optional["String"]) -> "DdsTopicData":
         """
         Set topicData and return self for chaining.
-
+        
         Args:
             value: The topicData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_topic_data("value")
         """
         self.topic_data = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsDurability(ARObject):
     """
     Describes the DDS DURABILITY QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDurability
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 530, Classic Platform R23-11)
     """
@@ -2958,10 +2433,10 @@ class DdsDurability(ARObject):
     def durability_kind(self, value: Optional["DdsDurabilityKindEnum"]) -> None:
         """
         Set durabilityKind with validation.
-
+        
         Args:
             value: The durabilityKind to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2980,10 +2455,10 @@ class DdsDurability(ARObject):
     def getDurabilityKind(self) -> "DdsDurabilityKindEnum":
         """
         AUTOSAR-compliant getter for durabilityKind.
-
+        
         Returns:
             The durabilityKind value
-
+        
         Note:
             Delegates to durability_kind property (CODING_RULE_V2_00017)
         """
@@ -2992,13 +2467,13 @@ class DdsDurability(ARObject):
     def setDurabilityKind(self, value: "DdsDurabilityKindEnum") -> "DdsDurability":
         """
         AUTOSAR-compliant setter for durabilityKind with method chaining.
-
+        
         Args:
             value: The durabilityKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to durability_kind property setter (gets validation automatically)
         """
@@ -3010,32 +2485,27 @@ class DdsDurability(ARObject):
     def with_durability_kind(self, value: Optional["DdsDurabilityKindEnum"]) -> "DdsDurability":
         """
         Set durabilityKind and return self for chaining.
-
+        
         Args:
             value: The durabilityKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_durability_kind("value")
         """
         self.durability_kind = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsDurabilityService(ARObject):
     """
     Describes the DDS DURABILITY_SERVICE QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDurabilityService
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 530, Classic Platform R23-11)
     """
@@ -3057,10 +2527,10 @@ class DdsDurabilityService(ARObject):
     def durability(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set durability with validation.
-
+        
         Args:
             value: The durability to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3068,9 +2538,9 @@ class DdsDurabilityService(ARObject):
             self._durability = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"durability must be PositiveInteger or None, got {type(value).__name__}"
+                f"durability must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._durability = value
 
@@ -3079,10 +2549,10 @@ class DdsDurabilityService(ARObject):
     def getDurability(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for durability.
-
+        
         Returns:
             The durability value
-
+        
         Note:
             Delegates to durability property (CODING_RULE_V2_00017)
         """
@@ -3091,13 +2561,13 @@ class DdsDurabilityService(ARObject):
     def setDurability(self, value: "PositiveInteger") -> "DdsDurabilityService":
         """
         AUTOSAR-compliant setter for durability with method chaining.
-
+        
         Args:
             value: The durability to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to durability property setter (gets validation automatically)
         """
@@ -3109,32 +2579,27 @@ class DdsDurabilityService(ARObject):
     def with_durability(self, value: Optional["PositiveInteger"]) -> "DdsDurabilityService":
         """
         Set durability and return self for chaining.
-
+        
         Args:
             value: The durability to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_durability("value")
         """
         self.durability = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsDeadline(ARObject):
     """
     Describes the DDS DEADLINE QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDeadline
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 532, Classic Platform R23-11)
     """
@@ -3155,10 +2620,10 @@ class DdsDeadline(ARObject):
     def deadline_period(self, value: Optional["Float"]) -> None:
         """
         Set deadlinePeriod with validation.
-
+        
         Args:
             value: The deadlinePeriod to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3166,9 +2631,9 @@ class DdsDeadline(ARObject):
             self._deadlinePeriod = None
             return
 
-        if not isinstance(value, Float):
+        if not isinstance(value, (Float, float)):
             raise TypeError(
-                f"deadlinePeriod must be Float or None, got {type(value).__name__}"
+                f"deadlinePeriod must be Float or float or None, got {type(value).__name__}"
             )
         self._deadlinePeriod = value
 
@@ -3177,10 +2642,10 @@ class DdsDeadline(ARObject):
     def getDeadlinePeriod(self) -> "Float":
         """
         AUTOSAR-compliant getter for deadlinePeriod.
-
+        
         Returns:
             The deadlinePeriod value
-
+        
         Note:
             Delegates to deadline_period property (CODING_RULE_V2_00017)
         """
@@ -3189,13 +2654,13 @@ class DdsDeadline(ARObject):
     def setDeadlinePeriod(self, value: "Float") -> "DdsDeadline":
         """
         AUTOSAR-compliant setter for deadlinePeriod with method chaining.
-
+        
         Args:
             value: The deadlinePeriod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to deadline_period property setter (gets validation automatically)
         """
@@ -3207,32 +2672,27 @@ class DdsDeadline(ARObject):
     def with_deadline_period(self, value: Optional["Float"]) -> "DdsDeadline":
         """
         Set deadlinePeriod and return self for chaining.
-
+        
         Args:
             value: The deadlinePeriod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_deadline_period("value")
         """
         self.deadline_period = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsLatencyBudget(ARObject):
     """
     Describes the DDS LATENCY_BUDGET QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsLatencyBudget
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 532, Classic Platform R23-11)
     """
@@ -3253,10 +2713,10 @@ class DdsLatencyBudget(ARObject):
     def latency_budget(self, value: Optional["Float"]) -> None:
         """
         Set latencyBudget with validation.
-
+        
         Args:
             value: The latencyBudget to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3264,9 +2724,9 @@ class DdsLatencyBudget(ARObject):
             self._latencyBudget = None
             return
 
-        if not isinstance(value, Float):
+        if not isinstance(value, (Float, float)):
             raise TypeError(
-                f"latencyBudget must be Float or None, got {type(value).__name__}"
+                f"latencyBudget must be Float or float or None, got {type(value).__name__}"
             )
         self._latencyBudget = value
 
@@ -3275,10 +2735,10 @@ class DdsLatencyBudget(ARObject):
     def getLatencyBudget(self) -> "Float":
         """
         AUTOSAR-compliant getter for latencyBudget.
-
+        
         Returns:
             The latencyBudget value
-
+        
         Note:
             Delegates to latency_budget property (CODING_RULE_V2_00017)
         """
@@ -3287,13 +2747,13 @@ class DdsLatencyBudget(ARObject):
     def setLatencyBudget(self, value: "Float") -> "DdsLatencyBudget":
         """
         AUTOSAR-compliant setter for latencyBudget with method chaining.
-
+        
         Args:
             value: The latencyBudget to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to latency_budget property setter (gets validation automatically)
         """
@@ -3305,32 +2765,27 @@ class DdsLatencyBudget(ARObject):
     def with_latency_budget(self, value: Optional["Float"]) -> "DdsLatencyBudget":
         """
         Set latencyBudget and return self for chaining.
-
+        
         Args:
             value: The latencyBudget to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_latency_budget("value")
         """
         self.latency_budget = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsOwnership(ARObject):
     """
     Describes the DDS OWNERSHIP QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsOwnership
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 532, Classic Platform R23-11)
     """
@@ -3352,10 +2807,10 @@ class DdsOwnership(ARObject):
     def ownership_kind(self, value: Optional["DdsOwnershipKind"]) -> None:
         """
         Set ownershipKind with validation.
-
+        
         Args:
             value: The ownershipKind to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3374,10 +2829,10 @@ class DdsOwnership(ARObject):
     def getOwnershipKind(self) -> "DdsOwnershipKind":
         """
         AUTOSAR-compliant getter for ownershipKind.
-
+        
         Returns:
             The ownershipKind value
-
+        
         Note:
             Delegates to ownership_kind property (CODING_RULE_V2_00017)
         """
@@ -3386,13 +2841,13 @@ class DdsOwnership(ARObject):
     def setOwnershipKind(self, value: "DdsOwnershipKind") -> "DdsOwnership":
         """
         AUTOSAR-compliant setter for ownershipKind with method chaining.
-
+        
         Args:
             value: The ownershipKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ownership_kind property setter (gets validation automatically)
         """
@@ -3404,32 +2859,27 @@ class DdsOwnership(ARObject):
     def with_ownership_kind(self, value: Optional["DdsOwnershipKind"]) -> "DdsOwnership":
         """
         Set ownershipKind and return self for chaining.
-
+        
         Args:
             value: The ownershipKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ownership_kind("value")
         """
         self.ownership_kind = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsOwnershipStrength(ARObject):
     """
     Describes the DDS OWNERSHIP_STRENGTH QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsOwnershipStrength
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 533, Classic Platform R23-11)
     """
@@ -3451,10 +2901,10 @@ class DdsOwnershipStrength(ARObject):
     def ownership(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ownership with validation.
-
+        
         Args:
             value: The ownership to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3462,9 +2912,9 @@ class DdsOwnershipStrength(ARObject):
             self._ownership = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"ownership must be PositiveInteger or None, got {type(value).__name__}"
+                f"ownership must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._ownership = value
 
@@ -3473,10 +2923,10 @@ class DdsOwnershipStrength(ARObject):
     def getOwnership(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ownership.
-
+        
         Returns:
             The ownership value
-
+        
         Note:
             Delegates to ownership property (CODING_RULE_V2_00017)
         """
@@ -3485,13 +2935,13 @@ class DdsOwnershipStrength(ARObject):
     def setOwnership(self, value: "PositiveInteger") -> "DdsOwnershipStrength":
         """
         AUTOSAR-compliant setter for ownership with method chaining.
-
+        
         Args:
             value: The ownership to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ownership property setter (gets validation automatically)
         """
@@ -3503,32 +2953,27 @@ class DdsOwnershipStrength(ARObject):
     def with_ownership(self, value: Optional["PositiveInteger"]) -> "DdsOwnershipStrength":
         """
         Set ownership and return self for chaining.
-
+        
         Args:
             value: The ownership to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ownership("value")
         """
         self.ownership = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsLiveliness(ARObject):
     """
     Describes the DDS LIVELINESS QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsLiveliness
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 534, Classic Platform R23-11)
     """
@@ -3549,10 +2994,10 @@ class DdsLiveliness(ARObject):
     def liveliness_lease(self, value: Optional["Float"]) -> None:
         """
         Set livelinessLease with validation.
-
+        
         Args:
             value: The livelinessLease to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3560,9 +3005,9 @@ class DdsLiveliness(ARObject):
             self._livelinessLease = None
             return
 
-        if not isinstance(value, Float):
+        if not isinstance(value, (Float, float)):
             raise TypeError(
-                f"livelinessLease must be Float or None, got {type(value).__name__}"
+                f"livelinessLease must be Float or float or None, got {type(value).__name__}"
             )
         self._livelinessLease = value
         # See "LIVELINESS" chapter of DDS.
@@ -3577,10 +3022,10 @@ class DdsLiveliness(ARObject):
     def liveness_kind(self, value: Optional["DdsLivenessKindEnum"]) -> None:
         """
         Set livenessKind with validation.
-
+        
         Args:
             value: The livenessKind to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3599,10 +3044,10 @@ class DdsLiveliness(ARObject):
     def getLivelinessLease(self) -> "Float":
         """
         AUTOSAR-compliant getter for livelinessLease.
-
+        
         Returns:
             The livelinessLease value
-
+        
         Note:
             Delegates to liveliness_lease property (CODING_RULE_V2_00017)
         """
@@ -3611,13 +3056,13 @@ class DdsLiveliness(ARObject):
     def setLivelinessLease(self, value: "Float") -> "DdsLiveliness":
         """
         AUTOSAR-compliant setter for livelinessLease with method chaining.
-
+        
         Args:
             value: The livelinessLease to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to liveliness_lease property setter (gets validation automatically)
         """
@@ -3627,10 +3072,10 @@ class DdsLiveliness(ARObject):
     def getLivenessKind(self) -> "DdsLivenessKindEnum":
         """
         AUTOSAR-compliant getter for livenessKind.
-
+        
         Returns:
             The livenessKind value
-
+        
         Note:
             Delegates to liveness_kind property (CODING_RULE_V2_00017)
         """
@@ -3639,13 +3084,13 @@ class DdsLiveliness(ARObject):
     def setLivenessKind(self, value: "DdsLivenessKindEnum") -> "DdsLiveliness":
         """
         AUTOSAR-compliant setter for livenessKind with method chaining.
-
+        
         Args:
             value: The livenessKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to liveness_kind property setter (gets validation automatically)
         """
@@ -3657,13 +3102,13 @@ class DdsLiveliness(ARObject):
     def with_liveliness_lease(self, value: Optional["Float"]) -> "DdsLiveliness":
         """
         Set livelinessLease and return self for chaining.
-
+        
         Args:
             value: The livelinessLease to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_liveliness_lease("value")
         """
@@ -3673,32 +3118,27 @@ class DdsLiveliness(ARObject):
     def with_liveness_kind(self, value: Optional["DdsLivenessKindEnum"]) -> "DdsLiveliness":
         """
         Set livenessKind and return self for chaining.
-
+        
         Args:
             value: The livenessKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_liveness_kind("value")
         """
         self.liveness_kind = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsReliability(ARObject):
     """
     Describes the DDS RELIABILITY QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsReliability
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 534, Classic Platform R23-11)
     """
@@ -3718,10 +3158,10 @@ class DdsReliability(ARObject):
     def reliability_kind(self, value: Optional["DdsReliabilityKindEnum"]) -> None:
         """
         Set reliabilityKind with validation.
-
+        
         Args:
             value: The reliabilityKind to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3747,10 +3187,10 @@ class DdsReliability(ARObject):
     def reliability_max(self, value: Optional["Float"]) -> None:
         """
         Set reliabilityMax with validation.
-
+        
         Args:
             value: The reliabilityMax to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3758,9 +3198,9 @@ class DdsReliability(ARObject):
             self._reliabilityMax = None
             return
 
-        if not isinstance(value, Float):
+        if not isinstance(value, (Float, float)):
             raise TypeError(
-                f"reliabilityMax must be Float or None, got {type(value).__name__}"
+                f"reliabilityMax must be Float or float or None, got {type(value).__name__}"
             )
         self._reliabilityMax = value
 
@@ -3769,10 +3209,10 @@ class DdsReliability(ARObject):
     def getReliabilityKind(self) -> "DdsReliabilityKindEnum":
         """
         AUTOSAR-compliant getter for reliabilityKind.
-
+        
         Returns:
             The reliabilityKind value
-
+        
         Note:
             Delegates to reliability_kind property (CODING_RULE_V2_00017)
         """
@@ -3781,13 +3221,13 @@ class DdsReliability(ARObject):
     def setReliabilityKind(self, value: "DdsReliabilityKindEnum") -> "DdsReliability":
         """
         AUTOSAR-compliant setter for reliabilityKind with method chaining.
-
+        
         Args:
             value: The reliabilityKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to reliability_kind property setter (gets validation automatically)
         """
@@ -3797,10 +3237,10 @@ class DdsReliability(ARObject):
     def getReliabilityMax(self) -> "Float":
         """
         AUTOSAR-compliant getter for reliabilityMax.
-
+        
         Returns:
             The reliabilityMax value
-
+        
         Note:
             Delegates to reliability_max property (CODING_RULE_V2_00017)
         """
@@ -3809,13 +3249,13 @@ class DdsReliability(ARObject):
     def setReliabilityMax(self, value: "Float") -> "DdsReliability":
         """
         AUTOSAR-compliant setter for reliabilityMax with method chaining.
-
+        
         Args:
             value: The reliabilityMax to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to reliability_max property setter (gets validation automatically)
         """
@@ -3827,13 +3267,13 @@ class DdsReliability(ARObject):
     def with_reliability_kind(self, value: Optional["DdsReliabilityKindEnum"]) -> "DdsReliability":
         """
         Set reliabilityKind and return self for chaining.
-
+        
         Args:
             value: The reliabilityKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_reliability_kind("value")
         """
@@ -3843,32 +3283,27 @@ class DdsReliability(ARObject):
     def with_reliability_max(self, value: Optional["Float"]) -> "DdsReliability":
         """
         Set reliabilityMax and return self for chaining.
-
+        
         Args:
             value: The reliabilityMax to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_reliability_max("value")
         """
         self.reliability_max = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsTransportPriority(ARObject):
     """
     Describes the DDS TRANSPORT_PRIORITY QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsTransportPriority
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 535, Classic Platform R23-11)
     """
@@ -3888,10 +3323,10 @@ class DdsTransportPriority(ARObject):
     def transport_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set transportPriority with validation.
-
+        
         Args:
             value: The transportPriority to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3899,9 +3334,9 @@ class DdsTransportPriority(ARObject):
             self._transportPriority = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"transportPriority must be PositiveInteger or None, got {type(value).__name__}"
+                f"transportPriority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._transportPriority = value
 
@@ -3910,10 +3345,10 @@ class DdsTransportPriority(ARObject):
     def getTransportPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for transportPriority.
-
+        
         Returns:
             The transportPriority value
-
+        
         Note:
             Delegates to transport_priority property (CODING_RULE_V2_00017)
         """
@@ -3922,13 +3357,13 @@ class DdsTransportPriority(ARObject):
     def setTransportPriority(self, value: "PositiveInteger") -> "DdsTransportPriority":
         """
         AUTOSAR-compliant setter for transportPriority with method chaining.
-
+        
         Args:
             value: The transportPriority to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to transport_priority property setter (gets validation automatically)
         """
@@ -3940,32 +3375,27 @@ class DdsTransportPriority(ARObject):
     def with_transport_priority(self, value: Optional["PositiveInteger"]) -> "DdsTransportPriority":
         """
         Set transportPriority and return self for chaining.
-
+        
         Args:
             value: The transportPriority to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_transport_priority("value")
         """
         self.transport_priority = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsLifespan(ARObject):
     """
     Describes the DDS LIFESPAN QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsLifespan
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 536, Classic Platform R23-11)
     """
@@ -3986,10 +3416,10 @@ class DdsLifespan(ARObject):
     def lifespan_duration(self, value: Optional["Float"]) -> None:
         """
         Set lifespanDuration with validation.
-
+        
         Args:
             value: The lifespanDuration to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3997,9 +3427,9 @@ class DdsLifespan(ARObject):
             self._lifespanDuration = None
             return
 
-        if not isinstance(value, Float):
+        if not isinstance(value, (Float, float)):
             raise TypeError(
-                f"lifespanDuration must be Float or None, got {type(value).__name__}"
+                f"lifespanDuration must be Float or float or None, got {type(value).__name__}"
             )
         self._lifespanDuration = value
 
@@ -4008,10 +3438,10 @@ class DdsLifespan(ARObject):
     def getLifespanDuration(self) -> "Float":
         """
         AUTOSAR-compliant getter for lifespanDuration.
-
+        
         Returns:
             The lifespanDuration value
-
+        
         Note:
             Delegates to lifespan_duration property (CODING_RULE_V2_00017)
         """
@@ -4020,13 +3450,13 @@ class DdsLifespan(ARObject):
     def setLifespanDuration(self, value: "Float") -> "DdsLifespan":
         """
         AUTOSAR-compliant setter for lifespanDuration with method chaining.
-
+        
         Args:
             value: The lifespanDuration to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to lifespan_duration property setter (gets validation automatically)
         """
@@ -4038,32 +3468,27 @@ class DdsLifespan(ARObject):
     def with_lifespan_duration(self, value: Optional["Float"]) -> "DdsLifespan":
         """
         Set lifespanDuration and return self for chaining.
-
+        
         Args:
             value: The lifespanDuration to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_lifespan_duration("value")
         """
         self.lifespan_duration = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsDestinationOrder(ARObject):
     """
     Describes the DDS DESTINATION_ORDER QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDestinationOrder
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 536, Classic Platform R23-11)
     """
@@ -4085,10 +3510,10 @@ class DdsDestinationOrder(ARObject):
     def destination(self, value: Optional["DdsDestinationOrder"]) -> None:
         """
         Set destination with validation.
-
+        
         Args:
             value: The destination to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4107,10 +3532,10 @@ class DdsDestinationOrder(ARObject):
     def getDestination(self) -> "DdsDestinationOrder":
         """
         AUTOSAR-compliant getter for destination.
-
+        
         Returns:
             The destination value
-
+        
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """
@@ -4119,13 +3544,13 @@ class DdsDestinationOrder(ARObject):
     def setDestination(self, value: "DdsDestinationOrder") -> "DdsDestinationOrder":
         """
         AUTOSAR-compliant setter for destination with method chaining.
-
+        
         Args:
             value: The destination to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to destination property setter (gets validation automatically)
         """
@@ -4137,32 +3562,27 @@ class DdsDestinationOrder(ARObject):
     def with_destination(self, value: Optional["DdsDestinationOrder"]) -> "DdsDestinationOrder":
         """
         Set destination and return self for chaining.
-
+        
         Args:
             value: The destination to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_destination("value")
         """
         self.destination = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsHistory(ARObject):
     """
     Describes the DDS HISTORY QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsHistory
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 537, Classic Platform R23-11)
     """
@@ -4182,10 +3602,10 @@ class DdsHistory(ARObject):
     def history_kind(self, value: Optional["DdsHistoryKindEnum"]) -> None:
         """
         Set historyKind with validation.
-
+        
         Args:
             value: The historyKind to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4212,10 +3632,10 @@ class DdsHistory(ARObject):
     def history_order(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set historyOrder with validation.
-
+        
         Args:
             value: The historyOrder to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4223,9 +3643,9 @@ class DdsHistory(ARObject):
             self._historyOrder = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"historyOrder must be PositiveInteger or None, got {type(value).__name__}"
+                f"historyOrder must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._historyOrder = value
 
@@ -4234,10 +3654,10 @@ class DdsHistory(ARObject):
     def getHistoryKind(self) -> "DdsHistoryKindEnum":
         """
         AUTOSAR-compliant getter for historyKind.
-
+        
         Returns:
             The historyKind value
-
+        
         Note:
             Delegates to history_kind property (CODING_RULE_V2_00017)
         """
@@ -4246,13 +3666,13 @@ class DdsHistory(ARObject):
     def setHistoryKind(self, value: "DdsHistoryKindEnum") -> "DdsHistory":
         """
         AUTOSAR-compliant setter for historyKind with method chaining.
-
+        
         Args:
             value: The historyKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to history_kind property setter (gets validation automatically)
         """
@@ -4262,10 +3682,10 @@ class DdsHistory(ARObject):
     def getHistoryOrder(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for historyOrder.
-
+        
         Returns:
             The historyOrder value
-
+        
         Note:
             Delegates to history_order property (CODING_RULE_V2_00017)
         """
@@ -4274,13 +3694,13 @@ class DdsHistory(ARObject):
     def setHistoryOrder(self, value: "PositiveInteger") -> "DdsHistory":
         """
         AUTOSAR-compliant setter for historyOrder with method chaining.
-
+        
         Args:
             value: The historyOrder to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to history_order property setter (gets validation automatically)
         """
@@ -4292,13 +3712,13 @@ class DdsHistory(ARObject):
     def with_history_kind(self, value: Optional["DdsHistoryKindEnum"]) -> "DdsHistory":
         """
         Set historyKind and return self for chaining.
-
+        
         Args:
             value: The historyKind to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_history_kind("value")
         """
@@ -4308,32 +3728,27 @@ class DdsHistory(ARObject):
     def with_history_order(self, value: Optional["PositiveInteger"]) -> "DdsHistory":
         """
         Set historyOrder and return self for chaining.
-
+        
         Args:
             value: The historyOrder to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_history_order("value")
         """
         self.history_order = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DdsResourceLimits(ARObject):
     """
     Describes the DDS RESOURCE_LIMITS QoS policy.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsResourceLimits
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 537, Classic Platform R23-11)
     """
@@ -4354,10 +3769,10 @@ class DdsResourceLimits(ARObject):
     def max_instances(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxInstances with validation.
-
+        
         Args:
             value: The maxInstances to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4365,9 +3780,9 @@ class DdsResourceLimits(ARObject):
             self._maxInstances = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxInstances must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxInstances must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxInstances = value
         # See "RESOURCE_LIMITS" chapter of DDS.
@@ -4382,10 +3797,10 @@ class DdsResourceLimits(ARObject):
     def max_samples(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSamples with validation.
-
+        
         Args:
             value: The maxSamples to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4393,9 +3808,9 @@ class DdsResourceLimits(ARObject):
             self._maxSamples = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxSamples must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxSamples must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSamples = value
         # See "RESOURCE_LIMITS" chapter of DDS.
@@ -4410,10 +3825,10 @@ class DdsResourceLimits(ARObject):
     def max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSamplesPerInstance with validation.
-
+        
         Args:
             value: The maxSamplesPerInstance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4421,9 +3836,9 @@ class DdsResourceLimits(ARObject):
             self._maxSamplesPerInstance = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxSamplesPerInstance must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxSamplesPerInstance must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSamplesPerInstance = value
 
@@ -4432,10 +3847,10 @@ class DdsResourceLimits(ARObject):
     def getMaxInstances(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxInstances.
-
+        
         Returns:
             The maxInstances value
-
+        
         Note:
             Delegates to max_instances property (CODING_RULE_V2_00017)
         """
@@ -4444,13 +3859,13 @@ class DdsResourceLimits(ARObject):
     def setMaxInstances(self, value: "PositiveInteger") -> "DdsResourceLimits":
         """
         AUTOSAR-compliant setter for maxInstances with method chaining.
-
+        
         Args:
             value: The maxInstances to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_instances property setter (gets validation automatically)
         """
@@ -4460,10 +3875,10 @@ class DdsResourceLimits(ARObject):
     def getMaxSamples(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSamples.
-
+        
         Returns:
             The maxSamples value
-
+        
         Note:
             Delegates to max_samples property (CODING_RULE_V2_00017)
         """
@@ -4472,13 +3887,13 @@ class DdsResourceLimits(ARObject):
     def setMaxSamples(self, value: "PositiveInteger") -> "DdsResourceLimits":
         """
         AUTOSAR-compliant setter for maxSamples with method chaining.
-
+        
         Args:
             value: The maxSamples to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_samples property setter (gets validation automatically)
         """
@@ -4488,10 +3903,10 @@ class DdsResourceLimits(ARObject):
     def getMaxSamplesPerInstance(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSamplesPerInstance.
-
+        
         Returns:
             The maxSamplesPerInstance value
-
+        
         Note:
             Delegates to max_samples_per_instance property (CODING_RULE_V2_00017)
         """
@@ -4500,13 +3915,13 @@ class DdsResourceLimits(ARObject):
     def setMaxSamplesPerInstance(self, value: "PositiveInteger") -> "DdsResourceLimits":
         """
         AUTOSAR-compliant setter for maxSamplesPerInstance with method chaining.
-
+        
         Args:
             value: The maxSamplesPerInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_samples_per_instance property setter (gets validation automatically)
         """
@@ -4518,13 +3933,13 @@ class DdsResourceLimits(ARObject):
     def with_max_instances(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
         """
         Set maxInstances and return self for chaining.
-
+        
         Args:
             value: The maxInstances to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_instances("value")
         """
@@ -4534,13 +3949,13 @@ class DdsResourceLimits(ARObject):
     def with_max_samples(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
         """
         Set maxSamples and return self for chaining.
-
+        
         Args:
             value: The maxSamples to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_samples("value")
         """
@@ -4550,15 +3965,577 @@ class DdsResourceLimits(ARObject):
     def with_max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
         """
         Set maxSamplesPerInstance and return self for chaining.
-
+        
         Args:
             value: The maxSamplesPerInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_samples_per_instance("value")
         """
         self.max_samples_per_instance = value  # Use property setter (gets validation)
         return self
+
+
+
+class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
+    """
+    This meta-class represents the ability to describe the existence and
+    configuration of a provided service instance in a concrete implementation on
+    top of DDS.
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpProvidedServiceInstance
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 472, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # The local address over which the Service is provided.
+        # atpSplitable; atpVariation.
+        self._localUnicast: Optional["ApplicationEndpoint"] = None
+
+    @property
+    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
+        """Get localUnicast (Pythonic accessor)."""
+        return self._localUnicast
+
+    @local_unicast.setter
+    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
+        """
+        Set localUnicast with validation.
+        
+        Args:
+            value: The localUnicast to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._localUnicast = None
+            return
+
+        if not isinstance(value, ApplicationEndpoint):
+            raise TypeError(
+                f"localUnicast must be ApplicationEndpoint or None, got {type(value).__name__}"
+            )
+        self._localUnicast = value
+        # Minor Version of the Service that is provided by this Dds.
+        self._minorVersion: Optional["PositiveInteger"] = None
+
+    @property
+    def minor_version(self) -> Optional["PositiveInteger"]:
+        """Get minorVersion (Pythonic accessor)."""
+        return self._minorVersion
+
+    @minor_version.setter
+    def minor_version(self, value: Optional["PositiveInteger"]) -> None:
+        """
+        Set minorVersion with validation.
+        
+        Args:
+            value: The minorVersion to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._minorVersion = None
+            return
+
+        if not isinstance(value, (PositiveInteger, str)):
+            raise TypeError(
+                f"minorVersion must be PositiveInteger or str or None, got {type(value).__name__}"
+            )
+        self._minorVersion = value
+        # Collection of provided events.
+        # Stereotypes: atpSplitable; atpVariation Event Tags:.
+        self._providedDds: List["DdsCpServiceInstance"] = []
+
+    @property
+    def provided_dds(self) -> List["DdsCpServiceInstance"]:
+        """Get providedDds (Pythonic accessor)."""
+        return self._providedDds
+        # This reference defines the remote unicast addresses of consumers.
+        # shall ONLY be used if the remote unicast the clients is determined from the
+                # not at runtime.
+        # atpVariation.
+        self._staticRemote: List["ApplicationEndpoint"] = []
+
+    @property
+    def static_remote(self) -> List["ApplicationEndpoint"]:
+        """Get staticRemote (Pythonic accessor)."""
+        return self._staticRemote
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getLocalUnicast(self) -> "ApplicationEndpoint":
+        """
+        AUTOSAR-compliant getter for localUnicast.
+        
+        Returns:
+            The localUnicast value
+        
+        Note:
+            Delegates to local_unicast property (CODING_RULE_V2_00017)
+        """
+        return self.local_unicast  # Delegates to property
+
+    def setLocalUnicast(self, value: "ApplicationEndpoint") -> "DdsCpProvidedServiceInstance":
+        """
+        AUTOSAR-compliant setter for localUnicast with method chaining.
+        
+        Args:
+            value: The localUnicast to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to local_unicast property setter (gets validation automatically)
+        """
+        self.local_unicast = value  # Delegates to property setter
+        return self
+
+    def getMinorVersion(self) -> "PositiveInteger":
+        """
+        AUTOSAR-compliant getter for minorVersion.
+        
+        Returns:
+            The minorVersion value
+        
+        Note:
+            Delegates to minor_version property (CODING_RULE_V2_00017)
+        """
+        return self.minor_version  # Delegates to property
+
+    def setMinorVersion(self, value: "PositiveInteger") -> "DdsCpProvidedServiceInstance":
+        """
+        AUTOSAR-compliant setter for minorVersion with method chaining.
+        
+        Args:
+            value: The minorVersion to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to minor_version property setter (gets validation automatically)
+        """
+        self.minor_version = value  # Delegates to property setter
+        return self
+
+    def getProvidedDds(self) -> List["DdsCpServiceInstance"]:
+        """
+        AUTOSAR-compliant getter for providedDds.
+        
+        Returns:
+            The providedDds value
+        
+        Note:
+            Delegates to provided_dds property (CODING_RULE_V2_00017)
+        """
+        return self.provided_dds  # Delegates to property
+
+    def getStaticRemote(self) -> List["ApplicationEndpoint"]:
+        """
+        AUTOSAR-compliant getter for staticRemote.
+        
+        Returns:
+            The staticRemote value
+        
+        Note:
+            Delegates to static_remote property (CODING_RULE_V2_00017)
+        """
+        return self.static_remote  # Delegates to property
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpProvidedServiceInstance":
+        """
+        Set localUnicast and return self for chaining.
+        
+        Args:
+            value: The localUnicast to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_local_unicast("value")
+        """
+        self.local_unicast = value  # Use property setter (gets validation)
+        return self
+
+    def with_minor_version(self, value: Optional["PositiveInteger"]) -> "DdsCpProvidedServiceInstance":
+        """
+        Set minorVersion and return self for chaining.
+        
+        Args:
+            value: The minorVersion to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_minor_version("value")
+        """
+        self.minor_version = value  # Use property setter (gets validation)
+        return self
+
+
+
+class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
+    """
+    This meta-class represents the ability to describe the existence and
+    configuration of a consumed (required) service instance in a concrete
+    implementation on top of DDS.
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpConsumedServiceInstance
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 474, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Collection of consumed events.
+        # Stereotypes: atpSplitable; atpVariation.
+        self._consumedDds: List["DdsCpServiceInstance"] = []
+
+    @property
+    def consumed_dds(self) -> List["DdsCpServiceInstance"]:
+        """Get consumedDds (Pythonic accessor)."""
+        return self._consumedDds
+        # The local address over which the Service is consumed.
+        # atpSplitable; atpVariation.
+        self._localUnicast: Optional["ApplicationEndpoint"] = None
+
+    @property
+    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
+        """Get localUnicast (Pythonic accessor)."""
+        return self._localUnicast
+
+    @local_unicast.setter
+    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
+        """
+        Set localUnicast with validation.
+        
+        Args:
+            value: The localUnicast to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._localUnicast = None
+            return
+
+        if not isinstance(value, ApplicationEndpoint):
+            raise TypeError(
+                f"localUnicast must be ApplicationEndpoint or None, got {type(value).__name__}"
+            )
+        self._localUnicast = value
+        # Minor Version of the ServiceInterface.
+        # Value can be set to that represents the Minor Version of the or to ANY.
+        self._minorVersion: Optional["AnyVersionString"] = None
+
+    @property
+    def minor_version(self) -> Optional["AnyVersionString"]:
+        """Get minorVersion (Pythonic accessor)."""
+        return self._minorVersion
+
+    @minor_version.setter
+    def minor_version(self, value: Optional["AnyVersionString"]) -> None:
+        """
+        Set minorVersion with validation.
+        
+        Args:
+            value: The minorVersion to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._minorVersion = None
+            return
+
+        if not isinstance(value, AnyVersionString):
+            raise TypeError(
+                f"minorVersion must be AnyVersionString or None, got {type(value).__name__}"
+            )
+        self._minorVersion = value
+        # This reference defines the remote unicast address of the provider.
+        # shall ONLY be used if the remote unicast the server is determined from the
+                # not at runtime.
+        # atpVariation.
+        self._staticRemote: Optional["ApplicationEndpoint"] = None
+
+    @property
+    def static_remote(self) -> Optional["ApplicationEndpoint"]:
+        """Get staticRemote (Pythonic accessor)."""
+        return self._staticRemote
+
+    @static_remote.setter
+    def static_remote(self, value: Optional["ApplicationEndpoint"]) -> None:
+        """
+        Set staticRemote with validation.
+        
+        Args:
+            value: The staticRemote to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._staticRemote = None
+            return
+
+        if not isinstance(value, ApplicationEndpoint):
+            raise TypeError(
+                f"staticRemote must be ApplicationEndpoint or None, got {type(value).__name__}"
+            )
+        self._staticRemote = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getConsumedDds(self) -> List["DdsCpServiceInstance"]:
+        """
+        AUTOSAR-compliant getter for consumedDds.
+        
+        Returns:
+            The consumedDds value
+        
+        Note:
+            Delegates to consumed_dds property (CODING_RULE_V2_00017)
+        """
+        return self.consumed_dds  # Delegates to property
+
+    def getLocalUnicast(self) -> "ApplicationEndpoint":
+        """
+        AUTOSAR-compliant getter for localUnicast.
+        
+        Returns:
+            The localUnicast value
+        
+        Note:
+            Delegates to local_unicast property (CODING_RULE_V2_00017)
+        """
+        return self.local_unicast  # Delegates to property
+
+    def setLocalUnicast(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
+        """
+        AUTOSAR-compliant setter for localUnicast with method chaining.
+        
+        Args:
+            value: The localUnicast to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to local_unicast property setter (gets validation automatically)
+        """
+        self.local_unicast = value  # Delegates to property setter
+        return self
+
+    def getMinorVersion(self) -> "AnyVersionString":
+        """
+        AUTOSAR-compliant getter for minorVersion.
+        
+        Returns:
+            The minorVersion value
+        
+        Note:
+            Delegates to minor_version property (CODING_RULE_V2_00017)
+        """
+        return self.minor_version  # Delegates to property
+
+    def setMinorVersion(self, value: "AnyVersionString") -> "DdsCpConsumedServiceInstance":
+        """
+        AUTOSAR-compliant setter for minorVersion with method chaining.
+        
+        Args:
+            value: The minorVersion to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to minor_version property setter (gets validation automatically)
+        """
+        self.minor_version = value  # Delegates to property setter
+        return self
+
+    def getStaticRemote(self) -> "ApplicationEndpoint":
+        """
+        AUTOSAR-compliant getter for staticRemote.
+        
+        Returns:
+            The staticRemote value
+        
+        Note:
+            Delegates to static_remote property (CODING_RULE_V2_00017)
+        """
+        return self.static_remote  # Delegates to property
+
+    def setStaticRemote(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
+        """
+        AUTOSAR-compliant setter for staticRemote with method chaining.
+        
+        Args:
+            value: The staticRemote to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to static_remote property setter (gets validation automatically)
+        """
+        self.static_remote = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
+        """
+        Set localUnicast and return self for chaining.
+        
+        Args:
+            value: The localUnicast to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_local_unicast("value")
+        """
+        self.local_unicast = value  # Use property setter (gets validation)
+        return self
+
+    def with_minor_version(self, value: Optional["AnyVersionString"]) -> "DdsCpConsumedServiceInstance":
+        """
+        Set minorVersion and return self for chaining.
+        
+        Args:
+            value: The minorVersion to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_minor_version("value")
+        """
+        self.minor_version = value  # Use property setter (gets validation)
+        return self
+
+    def with_static_remote(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
+        """
+        Set staticRemote and return self for chaining.
+        
+        Args:
+            value: The staticRemote to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_static_remote("value")
+        """
+        self.static_remote = value  # Use property setter (gets validation)
+        return self
+
+
+class DdsDurabilityKindEnum(AREnum):
+    """
+    DdsDurabilityKindEnum enumeration
+
+Defines the DDS DURABILITY kind. Tags: atp.Status=candidate Aggregated by DdsDurability.durabilityKind
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+    """
+    # See "DURABILITY" chapter of DDS.
+    persistenttransienttransientLocalvolatile = "0"
+
+
+
+class DdsDurabilityServiceHistoryKindEnum(AREnum):
+    """
+    DdsDurabilityServiceHistoryKindEnum enumeration
+
+Defines the DDS DURABILITY_SERVICE HISTORY kind. Tags: atp.Status=candidate Aggregated by DdsDurabilityService.durabilityServiceHistoryKind
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+    """
+    # See "DURABILITY_SERVICE" chapter of DDS.
+    keepAllkeepLast = "1"
+
+
+
+class DdsOwnershipKindEnum(AREnum):
+    """
+    DdsOwnershipKindEnum enumeration
+
+Defines the DDS OWNERSHIP kind. Tags: atp.Status=candidate Aggregated by DdsOwnership.ownershipKind
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+    """
+    # See "OWNERSHIP" chapter of DDS.
+    exclusiveshared = "0"
+
+
+
+class DdsLivenessKindEnum(AREnum):
+    """
+    DdsLivenessKindEnum enumeration
+
+Defines the DDS LIVELINESS kind. Tags: atp.Status=candidate Aggregated by DdsLiveliness.livenessKind
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+    """
+    # See "LIVELINESS" chapter of DDS.
+    automaticmanualByParticipantmanualByTopic = "1"
+
+
+
+class DdsReliabilityKindEnum(AREnum):
+    """
+    DdsReliabilityKindEnum enumeration
+
+See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate Aggregated by DdsReliability.reliabilityKind
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+    """
+    # See "RELIABILITY" chapter of DDS.
+    bestEffortreliable = "0"
+
+
+
+class DdsDestinationOrderKindEnum(AREnum):
+    """
+    DdsDestinationOrderKindEnum enumeration
+
+Defines the DDS DESTINATION_ORDER kind. Tags: atp.Status=candidate Aggregated by DdsDestinationOrder.destinationOrderKind
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+    """
+    # See "DESTINATION_ORDER" chapter of DDS.
+    byReceptionTimestampbySourceTimestamp = "1"
+
+
+
+class DdsHistoryKindEnum(AREnum):
+    """
+    DdsHistoryKindEnum enumeration
+
+Defines the DDS HISTORY kind. Tags: atp.Status=candidate Aggregated by DdsHistory.historyKind
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
+    """
+    # See "HISTORY" chapter of DDS.
+    keepAllkeepLast = "0"

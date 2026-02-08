@@ -1,0 +1,203 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl",
+  "classes": [
+    {
+      "name": "DiagnosticComControl",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceInstance",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Communication Control\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 108,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "comControl": {
+          "type": "DiagnosticComControl",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the reference represents the ability to access among all DiagnosticComControl in the"
+        },
+        "customSub": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall be used to define a custom number if none of the standardized values of shall be used."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticComControlSpecificChannel",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticComControlClass.specificChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to add further attributes to the definition of a specific channel that is subject to the diagnostic service \"communication control\".",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "specificChannel": {
+          "type": "CommunicationCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the affected CommunicationCluster in the"
+        },
+        "specificPhysical": {
+          "type": "EthernetPhysical",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the affected specific EthernetPhysical Channel."
+        },
+        "subnetNumber": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the applicable subnet number (which is number ranging from 1..14)"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticComControlClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Communication Control\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allChannels": {
+          "type": "CommunicationCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the semantics that all available be affected. It is still necessary to refer to because there could CommunicationClusters in the System Extract not subject to the service \"communication to the applicable CommunicationClusters it made sure that only the affected Communication accessed."
+        },
+        "allPhysical": {
+          "type": "EthernetPhysical",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the semantics that all available channels shall be affected. It is still necessary to refer to because there could VLANs (and thus private EthernetPhysical the System Extract that are not subject to \"communication control\". to the applicable EthernetPhysicalChannels it made sure that only the affected EthernetPhysical accessed."
+        },
+        "specificChannel": {
+          "type": "DiagnosticComControl",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to add additional attributes to case that only specific channels are supposed to be"
+        },
+        "subNode": {
+          "type": "DiagnosticComControl",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to add further attributes to the definition of a specific sub-node channel subject to the diagnostic service \"communication"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticComControlSubNodeChannel",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticComControlClass.subNodeChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to add further attributes to the definition of a specific sub-node channel that is subject to the diagnostic service \"communication control\".",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "subNode": {
+          "type": "EthernetPhysical",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the affected sub-node EthernetPhysical Channel."
+        }
+      }
+    }
+  ]
+}

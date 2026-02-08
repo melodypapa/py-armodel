@@ -1,0 +1,42 @@
+{
+  "name": "M2::MSR::AsamHdo",
+  "path": "M2::MSR::AsamHdo",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "ComputationMethod",
+      "full_path": "M2::MSR::AsamHdo::ComputationMethod",
+      "file": "packages/M2_MSR_AsamHdo_ComputationMethod.json"
+    },
+    {
+      "name": "BaseTypes",
+      "full_path": "M2::MSR::AsamHdo::BaseTypes",
+      "file": "packages/M2_MSR_AsamHdo_BaseTypes.json"
+    },
+    {
+      "name": "Constraints",
+      "full_path": "M2::MSR::AsamHdo::Constraints",
+      "file": "packages/M2_MSR_AsamHdo_Constraints.json"
+    },
+    {
+      "name": "SpecialData",
+      "full_path": "M2::MSR::AsamHdo::SpecialData",
+      "file": "packages/M2_MSR_AsamHdo_SpecialData.json"
+    },
+    {
+      "name": "Units",
+      "full_path": "M2::MSR::AsamHdo::Units",
+      "file": "packages/M2_MSR_AsamHdo_Units.json"
+    },
+    {
+      "name": "AdminData",
+      "full_path": "M2::MSR::AsamHdo::AdminData",
+      "file": "packages/M2_MSR_AsamHdo_AdminData.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

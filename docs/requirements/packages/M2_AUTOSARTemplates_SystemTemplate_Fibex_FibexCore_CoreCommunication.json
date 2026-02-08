@@ -1,0 +1,20 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreCommunication.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreCommunication.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "Timing",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreCommunication_Timing.json"
+    }
+  ],
+  "summary": {
+    "class_count": 41,
+    "enumeration_count": 11,
+    "primitive_count": 0
+  }
+}

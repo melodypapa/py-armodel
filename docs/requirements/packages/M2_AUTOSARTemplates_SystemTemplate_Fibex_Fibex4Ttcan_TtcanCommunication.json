@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ttcan_TtcanCommunication.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ttcan_TtcanCommunication.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

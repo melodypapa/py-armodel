@@ -1,0 +1,69 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PerInstanceMemory",
+  "classes": [
+    {
+      "name": "PerInstanceMemory",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PerInstanceMemory",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.perInstanceMemory"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Defines a ’C’ typed memory-block that needs to be available for each instance of the SW-component. This is typically only useful if supportsMultipleInstantiation is set to \"true\" or if the software-component defines NVRAM access via permanent blocks.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 597,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies initial value(s) of the PerInstanceMemory"
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to to allocate RAM at specific sections, for example, to support the RAM Block by mapping to uninitialized RAM."
+        },
+        "type": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The name of the \"C\"-type"
+        },
+        "typeDefinition": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A definition of the type with the syntax of a ’C’ typedef."
+        }
+      }
+    }
+  ]
+}

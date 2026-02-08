@@ -1,0 +1,42 @@
+{
+  "name": "M2::MSR::Documentation::TextModel",
+  "path": "M2::MSR::Documentation::TextModel",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "MultilanguageData",
+      "full_path": "M2::MSR::Documentation::TextModel::MultilanguageData",
+      "file": "packages/M2_MSR_Documentation_TextModel_MultilanguageData.json"
+    },
+    {
+      "name": "LanguageDataModel",
+      "full_path": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "file": "packages/M2_MSR_Documentation_TextModel_LanguageDataModel.json"
+    },
+    {
+      "name": "SingleLanguageData",
+      "full_path": "M2::MSR::Documentation::TextModel::SingleLanguageData",
+      "file": "packages/M2_MSR_Documentation_TextModel_SingleLanguageData.json"
+    },
+    {
+      "name": "InlineTextModel",
+      "full_path": "M2::MSR::Documentation::TextModel::InlineTextModel",
+      "file": "packages/M2_MSR_Documentation_TextModel_InlineTextModel.json"
+    },
+    {
+      "name": "InlineTextElements",
+      "full_path": "M2::MSR::Documentation::TextModel::InlineTextElements",
+      "file": "packages/M2_MSR_Documentation_TextModel_InlineTextElements.json"
+    },
+    {
+      "name": "InlineAttributeEnums",
+      "full_path": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "file": "packages/M2_MSR_Documentation_TextModel_InlineAttributeEnums.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

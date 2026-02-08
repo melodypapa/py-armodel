@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult",
+  "enumerations": [
+    {
+      "name": "DiagnosticTestResultUpdateEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult",
+      "note": "This meta-class represents the ability to define the update behavior of a DiagnosticTestResult. Aggregated by DiagnosticTestResult.updateKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "always",
+          "index": 0,
+          "description": "Any DTR result reported by the monitor is used by the Dem.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "steady",
+          "index": 1,
+          "description": "The Dem accepts reported DTRs only when the configured debouncing mechanism is stable at the FAIL or PASS limit.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

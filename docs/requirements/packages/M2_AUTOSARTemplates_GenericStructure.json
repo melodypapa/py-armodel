@@ -1,0 +1,62 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure",
+  "path": "M2::AUTOSARTemplates::GenericStructure",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "GeneralTemplateClasses",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses.json"
+    },
+    {
+      "name": "BuildActionManifest",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_BuildActionManifest.json"
+    },
+    {
+      "name": "VariantHandling",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_VariantHandling.json"
+    },
+    {
+      "name": "DocumentationOnM1",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_DocumentationOnM1.json"
+    },
+    {
+      "name": "AbstractStructure",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_AbstractStructure.json"
+    },
+    {
+      "name": "ViewMapSet",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::ViewMapSet",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_ViewMapSet.json"
+    },
+    {
+      "name": "FormulaLanguage",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::FormulaLanguage",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_FormulaLanguage.json"
+    },
+    {
+      "name": "RolesAndRights",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_RolesAndRights.json"
+    },
+    {
+      "name": "LifeCycles",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_LifeCycles.json"
+    },
+    {
+      "name": "ImpositionTimes",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure::ImpositionTimes",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure_ImpositionTimes.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

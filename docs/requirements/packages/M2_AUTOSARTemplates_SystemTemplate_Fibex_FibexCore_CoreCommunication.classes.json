@@ -1,0 +1,2451 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+  "classes": [
+    {
+      "name": "ISignal",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Signal of the Interaction Layer. The RTE supports a \"signal fan-out\" where the same System Signal is sent in different SignalIPdus to multiple receivers. To support the RTE \"signal fan-out\" each SignalIPdu contains ISignals. If the same System Signal is to be mapped into several SignalIPdus there is one ISignal needed for each ISignalToIPduMapping. ISignals describe the Interface between the Precompile configured RTE and the potentially Postbuild configured Com Stack (see ECUC Parameter Mapping). In case of the SystemSignalGroup an ISignal shall be created for each SystemSignal contained in the SystemSignalGroup.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 315,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 992,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 320,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 227,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "data": {
+          "type": "DataTransformation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional reference to a DataTransformation which the transformer chain that is used to transform that shall be placed inside this ISignal. atpVariation"
+        },
+        "dataTypePolicy": {
+          "type": "DataTypePolicyEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "With the aggregation of SwDataDefProps an ISignal it is represented on the network. This a particular policy. Note that this redundancy which is intended and can be support flexible development methodology as well integrity checks. policy \"networkRepresentationFromComSpec\" is network representation from the ComSpec aggregated by the PortPrototype shall be used. If policy is chosen the requirements specified PortInterface and in the ComSpec are not fulfilled networkRepresentationProps. In case the System use a complete Software Component View) the \"legacy\" policy can be"
+        },
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional definition of a ISignal’s initValue in case the doesn’t use a complete Software (VFB View). This supports the legacy system signals. can be used to configure the Signal’s \"Init full DataMapping exist for the SystemSignal this be available from a configured Sender ReceiverComSpec. In this case the SenderComSpec and/or ReceiverComSpec optional value specification. Further from the RTE specification."
+        },
+        "iSignalProps": {
+          "type": "ISignalProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Additional optional ISignal properties that may be stored files."
+        },
+        "iSignalType": {
+          "type": "ISignalTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether this iSignal is an array that a UINT8_N / UINT8_DYN ComSignalType in the or a primitive type. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "length": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size of the signal in bits. The size needs to be derived mapped VariableDataPrototype according to the primitive DataTypes to BaseTypes as used in Indicates maximum size for dynamic length length of zero bits is allowed."
+        },
+        "network": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of the actual network representation. The of SwDataDefProps for this purpose is restricted to attributes compuMethod and baseType. The optional \"memAllignment\" and \"byteOrder\" be used. \"dataTypePolicy\" in the SystemTemplate whether this network representation shall and the information shall be taken over from representation of the ComSpec. is chosen by the system integrator the can violate against the in the PortInterface and in the of the ComSpec. that the System Description doesn’t use a Component Description (VFB View) is used to configure \"ComSignalDataInvalid the Data Semantics."
+        },
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the System Signal that is supposed to be the ISignal."
+        },
+        "timeout": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines and enables the ComTimeoutSubstituition for this"
+        },
+        "transformation": {
+          "type": "TransformationISignal",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A transformer chain consists of an ordered list of transformers. The ISignal specific configuration each transformer are defined in the The transformer that are common for all ISignals in the TransformationTechnology class."
+        }
+      }
+    },
+    {
+      "name": "ISignalIPduGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The AUTOSAR COM Layer is able to start and to stop sending and receiving configurable groups of I-Pdus during runtime. An ISignalIPduGroup contains either ISignalIPdus or ISignalIPduGroups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 316,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 350,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the use-case for this ISignalIPdu (e.g. diagnostic, debugging etc.). For example, in a all IPdus - which are not involved in are disabled. The use cases are not limited to enumeration and can be specified as a string."
+        },
+        "contained": {
+          "type": "ISignalIPduGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "An I-Pdu group can be included in other I-Pdu groups. I-Pdu groups shall not be referenced by the"
+        },
+        "iSignalIPdu": {
+          "type": "ISignalIPdu",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a set of Signal I-Pdus, which are contained ISignal I-Pdu Group. content of a ISignal I-Pdu group can modes). atpVariation"
+        },
+        "nmPdu": {
+          "type": "NmPdu",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a set of NmPdus with NmUserData, which in the ISignalIPduGroup. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "J1939DcmIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents the IPdus handled by J1939Dcm.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 321,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 344,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnostic": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to identify the actual DMx message,"
+        },
+        "MessageType": {
+          "type": "e.g",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "SystemSignal",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The system signal represents the communication system’s view of data exchanged between SW components which reside on different ECUs. The system signals allow to represent this communication in a flattened structure, with exactly one system signal defined for each data element prototype sent and received by connected SW component instances.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 332,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1009,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 218,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dynamicLength": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The length of dynamic length signals is variable in a maximum length of such a signal is the configuration (attribute length in ISignal"
+        },
+        "physicalProps": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of the physical representation."
+        }
+      }
+    },
+    {
+      "name": "Frame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "LinFrame",
+        "FlexrayFrame",
+        "CanFrame",
+        "AbstractEthernetFrame"
+      ],
+      "subclasses": [
+        "AbstractEthernetFrame",
+        "CanFrame",
+        "FlexrayFrame",
+        "LinFrame"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Data frame which is sent over a communication medium. This element describes the pure Layout of a frame sent on a channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 295,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 418,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 224,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "frameLength": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The used length (in bytes) of the referencing frame. be confused with a static byte length reserved frame by some platforms (e.g. FlexRay). of zero bytes is allowed. also TPS_SYST_02255."
+        },
+        "pduToFrame": {
+          "type": "PduToFrameMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "A frames layout as a sequence of Pdus. The content of a frame can be variable. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "FrameTriggering",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "LinFrameTriggering",
+        "FlexrayFrameTriggering",
+        "CanFrameTriggering",
+        "EthernetFrameTriggering"
+      ],
+      "subclasses": [
+        "CanFrameTriggering",
+        "EthernetFrameTriggering",
+        "FlexrayFrameTriggering",
+        "LinFrameTriggering"
+      ],
+      "aggregated_by": [
+        "PhysicalChannel.frameTriggering"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The FrameTriggering describes the instance of a frame sent on a channel and defines the manner of triggering (timing information) and identification of a frame on the channel, on which it is sent. For the same frame, if FrameTriggerings exist on more than one channel of the same cluster the fan-out/ in is handled by the Bus interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 295,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 418,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 224,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "frame": {
+          "type": "Frame",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "One frame can be triggered several times, e.g. on If a frame has no frame triggering, it sent at all. A frame triggering has assigned frame, which it triggers."
+        },
+        "framePort": {
+          "type": "FramePort",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "References to the FramePort on every ECU of the system and/or receives the frame. both the sender and the receiver side included when the system is completely defined."
+        },
+        "pduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference provides the relationship to the Pdu are implemented by the FrameTriggering. is optional since no PduTriggering can be NmPdus and XCP Pdus. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "NPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is a Pdu of the Transport Layer. The main purpose of the TP Layer is to segment and reassemble IPdus.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 301,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 343,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NmPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Pdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Network Management Pdu",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 342,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iSignalToIPdu": {
+          "type": "ISignalToIPduMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This optional aggregation is used to describe NmUser that is transmitted in the NmPdu. The counting of starts at the beginning of the NmPdu Cbv or Nid are used."
+        },
+        "nmData": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if the Pdu contains NM Data. If the NmPdu does aggregate any ISignalToIPduMappings it still may that is set via Nm_SetUserData(). If the then the nmDataInformation be ignored."
+        },
+        "nmVoteInformation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if the Pdu contains NM Vote information."
+        },
+        "unusedBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AUTOSAR COM is filling not used areas of an Pdu with bit-pattern. This attribute can only be used if the nm is set to true."
+        }
+      }
+    },
+    {
+      "name": "Pdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [
+        "NmPdu",
+        "UserDefinedPdu",
+        "IPdu",
+        "GeneralPurposePdu"
+      ],
+      "subclasses": [
+        "GeneralPurposePdu",
+        "IPdu",
+        "NmPdu",
+        "UserDefinedPdu"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of all Pdus that can be routed through a bus interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 303,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 340,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hasDynamic": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the Pdu has dynamic (true) or not (false). Please note that the usage of is restricted by [constr_3448]."
+        },
+        "length": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Pdu length in bytes. In case of dynamic length IPdus dynamical length signal), this value maximum data length. It should be noted former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 4.0 Rev. 1) this parameter was defined in bits. length of zero bytes is allowed."
+        }
+      }
+    },
+    {
+      "name": "PduTriggering",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PhysicalChannel.pduTriggering"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The PduTriggering describes on which channel the IPdu is transmitted. The Pdu routing by the PduR is only allowed for subclasses of IPdu. Depending on its relation to entities such channels and clusters it can be unambiguously deduced whether a fan-out is handled by the Pdu router or the Bus Interface. If the fan-out is specified between different clusters it shall be handled by the Pdu Router. If the fan-out is specified between different channels of the same cluster it shall be handled by the Bus Interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 303,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 348,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 234,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iPdu": {
+          "type": "Pdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the Pdu for which the PduTriggering is I-Pdu can be triggered on different channels The Pdu routing by the PduR is only subclasses of IPdu. the reference to the Pdu element the PduTriggering element is also used the sending and receiving connections to Ecu"
+        },
+        "iPduPort": {
+          "type": "IPduPort",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "References to the IPduPort on every ECU of the system and/or receives the I-PDU. both the sender and the receiver side included when the system is completely defined."
+        },
+        "iSignal": {
+          "type": "ISignalTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference provides the relationship to the ISignal that are implemented by the PduTriggering. is optional since no ISignalTriggering can for DCM and Multiplexed Pdus. atpVariation 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11"
+        },
+        "secOcCrypto": {
+          "type": "SecOcCryptoService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured reference is only applicable if the references a SecuredIPdu in the role i"
+        },
+        "triggerIPduSend": {
+          "type": "TriggerIPduSend",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions true (AND associated) the Com_Trigger shall be called."
+        }
+      }
+    },
+    {
+      "name": "UserDefinedPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Pdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "UserDefinedPdu allows to describe PDU-based communication over Complex Drivers. If a new BSW module is added above the BusIf (e.g. a new Nm module) then this Pdu element shall be used to describe the communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 314,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 345,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cddType": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the CDD that transmits or receives If several CDDs are defined this used to distinguish between them."
+        }
+      }
+    },
+    {
+      "name": "ISignalGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "SignalGroup of the Interaction Layer. The RTE supports a \"signal fan-out\" where the same System Signal Group is sent in different SignalIPdus to multiple receivers. An ISignalGroup refers to a set of ISignals that shall always be kept together. A ISignalGroup represents a COM Signal Group. Therefore it is recommended to put the ISignalGroup in the same Package as ISignals (see atp.recommendedPackage)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 993,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "comBased": {
+          "type": "DataTransformation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional reference to a DataTransformation which the transformer chain that is used to transform data that shall be placed inside this ISignalGroup the COMBasedTransformer approach. atpVariation"
+        },
+        "iSignal": {
+          "type": "ISignal",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a set of ISignals that shall always be kept"
+        },
+        "systemSignal": {
+          "type": "SystemSignalGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the SystemSignalGroup that is defined on level and that is supposed to be transmitted in the"
+        },
+        "transformation": {
+          "type": "TransformationISignal",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration each transformer are defined in the The transformer that are common for all ISignal described in the TransformationTechnology"
+        }
+      }
+    },
+    {
+      "name": "ISignalIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents the IPdus handled by Com. The ISignalIPdu assembled and disassembled in AUTOSAR COM consists of one or more signals. In case no multiplexing is performed this IPdu is routed to/from the Interface Layer. A maximum of one dynamic length signal per IPdu is allowed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 994,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 342,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iPduTiming": {
+          "type": "IPduTiming",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timing specification for Com IPdus (Transmission This information is mandatory for the sender in a This information may be omitted on a System Extract. timing of a Pdu can vary. atpVariation 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "iSignalToPdu": {
+          "type": "ISignalToIPduMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Definition of SignalToIPduMappings included in the Signal content of a PDU can be variable. atpVariation"
+        },
+        "unusedBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AUTOSAR COM and AUTOSAR IPDUM are filling not areas of an IPDU with this bit-pattern. This attribute to avoid undefined behavior. This be repeated throughout the IPdu."
+        }
+      }
+    },
+    {
+      "name": "FramePort",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommConnectorPort",
+      "bases": [
+        "ARObject",
+        "CommConnectorPort",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationConnector.ecuCommPortInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Connectors reception or send port on the referenced channel referenced by a FrameTriggering.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 304,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "IPduPort",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommConnectorPort",
+      "bases": [
+        "ARObject",
+        "CommConnectorPort",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationConnector.ecuCommPortInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Connectors reception or send port on the referenced channel referenced by a PduTriggering.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 304,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iPduSignal": {
+          "type": "IPduSignalProcessing",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus."
+        },
+        "rxSecurity": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the bypassing of signature or MAC verification in the receiving ECU. If or set to true the signature authentication or shall be performed for the SecuredIPdu. to false the signature authentication or MAC not be performed for the SecuredIPdu."
+        },
+        "timestampRx": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to define the maximum allowed in seconds from the expected timestamp for a SecuredIPdu is still deemed authentic. Please this attribute is for documentation only to allow of required freshness value manager upstream mapping is defined for it."
+        },
+        "useAuthData": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes whether a part of AuthenticPdu in a SecuredIPdu shall be passed on to the verifies and generates the Freshness. The part Authentic-PDU is defined by the authData authDataFreshnessLength."
+        }
+      }
+    },
+    {
+      "name": "ISignalPort",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommConnectorPort",
+      "bases": [
+        "ARObject",
+        "CommConnectorPort",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Ecu Configuration of the COM module."
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationConnector.ecuCommPortInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Connectors reception or send port on the referenced channel referenced by an ISignalTriggering. If different timeouts or DataFilters for ISignals need to be specified several ISignalPorts may be created.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 305,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataFilter": {
+          "type": "DataFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional specification of a signal COM filter at the in case that the System Description doesn’t complete Software Component Description (VFB supports the inclusion of legacy system a full DataMapping exist for the SystemSignal may be available from a configured this case the ReceiverComSpec optional specification."
+        },
+        "ddsQosProfile": {
+          "type": "DdsCpQosProfile",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DDS Qos profile used for this ISignal."
+        },
+        "firstTimeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "• ISignalPort with communicationDirection = in: timeout value in seconds for the reception of with communicationDirection = out: timeout value in seconds for transmission"
+        },
+        "handleInvalid": {
+          "type": "HandleInvalidEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines how invalidation is applied to the in the context of this ISignalPort. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "timeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "• ISignalPort with communicationDirection = in: value in seconds for the reception of the attribute value is used to configure the Com the COM module. The RTE ignores this timeout can also be specified with the If a exists for the SystemSignal and the available in the configured ReceiverComSpec, timeout value in the ReceiverComSpec overrides timeout specification during the creation of Ecu Configuration of the COM module. with communicationDirection = out: value in seconds for the transmission of The attribute value is used to configure the the COM module. The RTE ignores this timeout can also be specified with the ender If DataMapping exists for the SystemSignal and the available in the configured SenderComSpec, then value in the SenderComSpec overrides this specification during the creation of the can be used in the following cases: signal where the System Description doesn’t complete Software Component Description (VFB where the DataMapping is missing. monitoring use cases in which the DataMapping is"
+        }
+      }
+    },
+    {
+      "name": "ISignalProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ISignal.iSignalProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Additional ISignal properties that may be stored in different files.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "handleOutOf": {
+          "type": "HandleOutOfRange",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the outOfRangeHandling for received and sent signals."
+        }
+      }
+    },
+    {
+      "name": "SystemSignalGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A signal group refers to a set of signals that shall always be kept together. A signal group is used to guarantee the atomic transfer of AUTOSAR composite data types. The SystemSignalGroup defines a signal grouping on VFB level. On cluster level the Signal grouping is described by the ISignalGroup element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a set of SystemSignals that shall always be"
+        },
+        "transforming": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional reference to the SystemSignal which shall the transformed (linear) data."
+        }
+      }
+    },
+    {
+      "name": "ISignalToIPduMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ISignalIPdu.iSignalToPduMapping",
+        "NmPdu.iSignalToIPduMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for \"Little Endian\" and the most significant bit for \"Big Endian\" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to \"sawtooth\" and the bit order is set to \"Decreasing\". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Table 6.14: ISignalToIPduMapping [constr_5322] Value range of ISignalToIPduMapping.startPosition (cid:100)The value of ISignalToIPduMapping.startPosition shall be in the range of 0..4294967295 Bits.(cid:99)() Please note that the range of ISignalToIPduMapping.startPosition is resc- tricted by [constr_5322] to the max value of 4294967295 Bits because of the de- fined range of the ComBitPosition parameter that is defined in the COM Config- uration [21]. [constr_5323] Value range of ISignalToIPduMapping.updateIndicationBit- Position (cid:100)The value of ISignalToIPduMapping.updateIndicationBitPosi- tion shall be in the range of 0..4294967295 Bits.(cid:99)() Please note that the range of ISignalToIPduMapping.updateIndicationBit- Position is resctricted by [constr_5323] to the max value of 4294967295 Bits be- cause of the defined range of the ComUpdateBitPosition parameter that is defined in the COM Configuration [21]. [constr_3514] No two ISignalToIPduMappings shall reference the identical ISignal (cid:100)No two ISignalToIPduMappings shall reference the identical ISignal in the role iSignal in the scope of one System.(cid:99)() 326 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 325,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iSignal": {
+          "type": "ISignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a ISignal that is mapped into the ISignal contained in the ISignalGroup shall be an IPdu by an own ISignalToIPduMapping. to the ISignal and to the ISignalGroup in are mutually exclusive."
+        },
+        "iSignalGroup": {
+          "type": "ISignalGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to an ISignalGroup that is mapped into the an ISignalToIPduMapping for an ISignal defined, only the UpdateIndicationBitPosition transferProperty is relevant. The startPosition packingByteOrder shall be ignored. contained in the ISignalGroup shall be an IPdu by an own ISignalToIPduMapping. to the ISignal and to the ISignalGroup in are mutually exclusive."
+        },
+        "packingByte": {
+          "type": "ByteOrderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the order of the bytes of the signal the packing into the SignalIPdu. The byte ordering (MostSignificantByteLast), \"Big Endian\" \"Opaque\" can be selected. data endianness conversion shall be Opaque. The value of this attribute impacts position of the signal into the SignalIPdu startPosition attribute description). ISignalGroup the packingByteOrder is irrelevant be ignored."
+        },
+        "startPosition": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter is necessary to describe the bitposition of within an SignalIPdu. It denotes the least for \"Little Endian\" and the most significant \"Big Endian\" packed signals within the IPdu (see of the packingByteOrder attribute). In bit counting is always set to \"sawtooth\" bit order is set to \"Decreasing\". The bit counting 0 starts with bit 0 (least significant bit). The most in byte 0 is bit 7. that the way the bytes will be actually sent on does not impact this representation: they will seen by the software as a byte array. mapping for the ISignalGroup is defined, this attribute and shall be ignored."
+        },
+        "transferProperty": {
+          "type": "TransferPropertyEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines how the referenced ISignal contributes to the of the ISignalIPdu. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "update": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The UpdateIndicationBit indicates to the receivers that the (or the signal group) was updated by the sender. is always one bit. The UpdateIndicationBitPosition the position of the update bit within the Signals of a ISignalGroup this attribute is shall be ignored."
+        }
+      }
+    },
+    {
+      "name": "ISignalTriggering",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PhysicalChannel.iSignalTriggering"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A ISignalTriggering allows an assignment of ISignals to physical channels.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 330,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 229,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iSignal": {
+          "type": "ISignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference shall be used if an ISignal is transported PhysicalChannel. This reference forms an XOR the ISignalTriggering-ISignalGroup"
+        },
+        "iSignalGroup": {
+          "type": "ISignalGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference shall be used if an ISignalGroup is the PhysicalChannel. This reference XOR relationship with the ISignal"
+        },
+        "iSignalPort": {
+          "type": "ISignalPort",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "References to the ISignalPort on every ECU of the sends and/or receives the ISignal. both the sender and the receiver side included when the system is completely defined."
+        }
+      }
+    },
+    {
+      "name": "IPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Pdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [
+        "J1939DcmIPdu",
+        "NPdu",
+        "ISignalIPdu",
+        "DcmIPdu",
+        "GeneralPurposeIPdu",
+        "UserDefinedIPdu",
+        "ContainerIPdu",
+        "SecuredIPdu",
+        "MultiplexedIPdu"
+      ],
+      "subclasses": [
+        "ContainerIPdu",
+        "DcmIPdu",
+        "GeneralPurposeIPdu",
+        "ISignalIPdu",
+        "J1939DcmIPdu",
+        "MultiplexedIPdu",
+        "NPdu",
+        "SecuredIPdu",
+        "UserDefinedIPdu"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The IPdu (Interaction Layer Protocol Data Unit) element is used to sum up all Pdus that are routed by the PduR.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 341,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 226,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "containedIPdu": {
+          "type": "ContainedIPduProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether this IPdu may be collected inside a"
+        }
+      }
+    },
+    {
+      "name": "DcmIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents the IPdus handled by Dcm.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 343,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagPduType": {
+          "type": "DiagPduType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Attribute is used to distinguish a request from a response."
+        }
+      }
+    },
+    {
+      "name": "GeneralPurposePdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Pdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used for AUTOSAR Pdus without additional attributes that are routed by a bus interface. Please note that the category name of such Pdus is standardized in the AUTOSAR System Template.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 344,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "GeneralPurposeIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used for AUTOSAR Pdus without attributes that are routed by the PduR. Please note that the category name of such Pdus is standardized in the AUTOSAR System Template.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 345,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 60,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UserDefinedIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "UserDefinedIPdu allows to describe PDU-based communication over Complex Drivers. If a new BSW module is added above the PduR (e.g. a Diagnostic Service ) then this IPdu element shall be used to describe the communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 346,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cddType": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the CDD that transmits or receives If several CDDs are defined this used to distinguish between them."
+        }
+      }
+    },
+    {
+      "name": "PduToFrameMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": "atpPrototype",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Frame.pduToFrameMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the exact bit position of the updateIndicationBit Position is linked to the value of the attribute packingByte Order because the method of finding the bit position is different for the values mostSignificantByteFirst and most SignificantByteLast. This means that if the value of packingByteOrder is changed while the value of update IndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for \"Little Endian\" and the most significant bit for \"Big Endian\" (cid:53) (cid:53) 346 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 346,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "packingByte": {
+          "type": "ByteOrderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the order of the bytes of the Pdu the packing into the Frame. Please consider that [constr_3222] are restricting the usage attribute."
+        },
+        "pdu": {
+          "type": "Pdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted Frame."
+        },
+        "startPosition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the bitposition of a Pdu within a that the absolute position of the Pdu in the determined by the definition of the packingByte If Big Endian is specified, the start the bit position of the most significant bit Frame. If Little Endian is specified, the start position bit position of the least significant bit in the bit counting in byte 0 starts with bit 0 (least The most significant bit in byte 0 is bit 7. are byte aligned in a Frame and only the values 16, 24,... (for little endian) and 7, 15, 23, ... (for big allowed."
+        },
+        "update": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indication to the receivers that the corresponding Pdu updated by the sender. This attribute describes the of the update bit in the frame that aggregates this is always one bit. within the IPdu (see the description of the In AUTOSAR the bit always set to \"sawtooth\" and the bit order is \"Decreasing\". The bit counting in byte 0 starts with (least significant bit). The most significant bit in byte bit 7."
+        }
+      }
+    },
+    {
+      "name": "IPduTiming",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ISignalIPdu.iPduTimingSpecification"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AUTOSAR COM provides the possibility to define two different TRANSMISSION MODES for each IPdu. The Transmission Mode of an IPdu that is valid at a specific point in time is selected using the values of the signals that are mapped to this IPdu. For each IPdu a Transmission Mode Selector is defined. The Transmission Mode Selector is calculated by evaluating the conditions for a subset of signals (class TransmissionModeCondition in the System Template). The Transmission Mode Selector is defined to be true, if at least one Condition evaluates to true and is defined to be false, if all Conditions evaluate to false.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 348,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "minimumDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum Delay in seconds between successive this I-PDU, independent of the"
+        },
+        "transmission": {
+          "type": "TransmissionMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Mode Selector evaluates the conditions for of signals and decides the transmission mode. It to switch between the transmission modes"
+        }
+      }
+    },
+    {
+      "name": "PdurIPduGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The AUTOSAR PduR will enable and disable the sending of configurable groups of IPdus during runtime according to the AUTOSAR PduR specification.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 352,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the use-case for this PduRIPdu For example, in a diagnostic mode all IPdus - not involved in diagnostic - are disabled. The are not limited to a fixed enumeration and can as a string."
+        },
+        "iPdu": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a set of IPdus, which are contained in the Group. If an IPdu is routed by the PduR to (PduR fan-out) than an Pdu each destination is created in the System enable/disable a specific destination the to the PduTriggering. content of a PduR I-Pdu group can vary atpVariation"
+        }
+      }
+    },
+    {
+      "name": "ContainerIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Allows to collect several IPdus in one ContainerIPdu based on the headerType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 353,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "containedIPdu": {
+          "type": "ContainedIPduProps",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines properties for an IPdu that is part of the"
+        },
+        "containedPdu": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This PduTriggering shall be collected inside the Container 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "container": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "When this timeout expires the ContainerIPdu is sent out. respective timer is started when the first Ipdu is put ContainerIPdu. This attribute is ignored on"
+        },
+        "containerTrigger": {
+          "type": "ContainerIPduTrigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines if the transmission of the ContainerIPdu shall be right after the first ContainedIPdu was put into attribute shall be ignored on receiver side."
+        },
+        "headerType": {
+          "type": "ContainerIPduHeader",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether and which header type is used (header and length)."
+        },
+        "minimumRx": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the minimum queue size for containers."
+        },
+        "minimumTx": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the minimum queue size for containers."
+        },
+        "rxAccept": {
+          "type": "RxAcceptContainedI",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether this ContainerIPdu has a fixed set of containedIPdus assigned for reception."
+        },
+        "thresholdSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the size threshold which, when exceeded, sending of the ContainerIPdu although the size has not been reached yet. Unit: byte."
+        },
+        "unusedBit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IPduM fills not updated areas of the ContainerPdu with byte-pattern."
+        }
+      }
+    },
+    {
+      "name": "ContainedIPduProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ContainerIPdu.containedIPduTriggeringProps",
+        "IPdu.containedIPduProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the aspects of an IPdu which can be collected inside a ContainerIPdu.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 355,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "collection": {
+          "type": "ContainedIPdu",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether this ContainedIPdu shall be collected using a last-is-best or queued semantics."
+        },
+        "containedPdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to Pdu for which the ContainedIPduProps are"
+        },
+        "headerIdLong": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the header id this IPdu shall have in case this is put inside a ContainerIPdu with headerType = 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "headerIdShort": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the header id this IPdu shall have in case this is put inside a ContainerIPdu with headerType ="
+        },
+        "offset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Byte offset that describes the location of the Contained the ContainerPdu if no header is used."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a priority of a ContainedTxPdu. 255 represents priority and 0 represent the highest priority."
+        },
+        "timeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a IPdu specific sender timeout which can reduce timer when this containedIPdu is put ContainerIPdu. This attribute is ignored on"
+        },
+        "trigger": {
+          "type": "PduCollectionTrigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines whether this IPdu does trigger the sending of the This attribute is ignored on receiver side."
+        },
+        "update": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The updateIndicationBit specifies the bit location of Update-Bit in the Container PDU. It to the receivers that the ContainedIPdu in the updated."
+        }
+      }
+    },
+    {
+      "name": "SecuredIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "If useAsCryptographicPdu is not set or set to false this IPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information (Freshness Counter and an Authenticator). If useAsCryptographicPdu is set to true this IPdu contains the Authenticator for a payload that is transported in a separate message. The separate Authentic IPdu is described by the Pdu that is referenced with the payload reference from this SecuredIPdu.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 367,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "SecureCommunication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to authentication properties that are valid for this SecuredIPdu."
+        },
+        "dynamic": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the length information for handling this with SecuredIPdu.useSecuredPdu is taken from the configuration or from provided length information during runtime. length information is taken from the length information during runtime. length information is taken from the"
+        },
+        "freshnessProps": {
+          "type": "SecureCommunication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to freshness properties that are valid for this"
+        },
+        "payload": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a Pdu that will be protected against and replay attacks."
+        },
+        "secure": {
+          "type": "SecureCommunication",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specific configuration properties for this SecuredIPdu."
+        },
+        "useAs": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this attribute is set to true the SecuredIPdu contains the Information for an AuthenticIPdu that is in a separate message. The AuthenticIPdu original payload, i.e. the secured data. attribute is set to false this SecuredIPdu contains of an Authentic IPdu supplemented by Information."
+        },
+        "useSecuredPdu": {
+          "type": "SecuredPduHeader",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the size of the header which is inserted into the SecuredIPdu. If this attribute is set to noHeader, the SecuredIPdu contains the Header to indicate the length of the AuthenticIPdu contains the original the secured data."
+        }
+      }
+    },
+    {
+      "name": "SecureCommunicationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecuredIPdu.secureCommunicationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains configuration settings that are specific for an individual SecuredIPdu.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 369,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authData": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value determines the start position in bits of the PDU that shall be passed on to the SWC that and generates the Freshness. The bit counting is to TPS_SYST_01068."
+        },
+        "authentication": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the additional number of attempts that are to be carried out when of the authentication information failed for SecuredIPdu. If zero is set than only one is done."
+        },
+        "dataId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines a numerical identifier for the"
+        },
+        "freshnessValue": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the Id of the Freshness Value. The Value might be a normal counter or a time"
+        },
+        "messageLink": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "SecOC links an AuthenticIPdu and CryptographicIPdu by repeating a specific part (Message Linker) of in the CryptographicIPdu. This attribute startPosition in bits of the messageLinker."
+        },
+        "secondary": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the Id of the Secondary Freshness The Secondary Freshness Value might be a counter or a time value. Please note that this for documentation only to allow the required freshness value manager and no is defined for it."
+        },
+        "securedArea": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the start position (offset in byte) of area within the payload Pdu which will be secured."
+        }
+      }
+    },
+    {
+      "name": "SecureCommunicationPropsSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of properties used to configure SecuredIPdus.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 370,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "SecureCommunication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Authentication properties used to configure Secured IPdus."
+        },
+        "freshnessProps": {
+          "type": "SecureCommunication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Freshness properties used to configure SecuredIPdus."
+        }
+      }
+    },
+    {
+      "name": "SecureCommunicationFreshnessProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecureCommunicationPropsSet.freshnessProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Freshness properties used to configure SecuredIPdus.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 370,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "freshness": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines a factor that specifies the time for the Freshness Timestamp. It holds a factor that specifies the concrete meaning Freshness Timestamp increment by one on basis of"
+        },
+        "freshnessValue": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the length in bits of the Freshness to be included in the payload of the Secured I-PDU. is specific to the least significant bits of the Counter. If the attribute is 0 no is included in the Secured I-PDU. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "useFreshness": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies whether the Freshness Value is through individual Freshness Counters or by a value is set to TRUE when Timestamps"
+        }
+      }
+    },
+    {
+      "name": "SecureCommunicationAuthenticationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecureCommunicationPropsSet.authenticationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Authentication properties used to configure SecuredIPdus.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 371,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authInfoTx": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the length in bits of the code to be included in the payload of the"
+        }
+      }
+    },
+    {
+      "name": "MultiplexedIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IPdu",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "IPdu",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Pdu",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the absolute position of the selectorField in the MultiplexedIPdu is determined by the definition of the selectorFieldByteOrder attribute of the Multiplexed Pdu. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to \"sawtooth\" and the bit order is set to \"Decreasing\". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn’t need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1. staticPart StaticPart 0..1 aggr The static part of the multiplexed IPdu is the same regardless of the selector field. The static part is optional. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation , staticPart.variationPoint.short Label vh.latestBindingTime=postBuild triggerMode TriggerMode 0..1 attr IPduM can be configured to send a transmission request for the new multiplexed IPdu to the PDU-Router because of the trigger conditions/ modes that are described in the TriggerMode enumeration. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn’t need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1. (cid:53) 409 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 408,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dynamicPart": {
+          "type": "DynamicPart",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "According to the value of the selector field some parts of have a different layout. In a complete System MultiplexedIPdu shall contain a Dynamic following use cases support the multiplicity to a MultiplexedIPdu is received by a Pdu Gateway and delivered to the IPduM but routed directly to a then the content of the MulitplexedIPdu to be described in the System Extract/ a MultiplexedIPdu is received by an ECU which is in the static part of the MultiplexedIPdu dynamicPart does not need to be described in Extract/Ecu Extract. of a multiplexed PDU can vary. atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "selectorField": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter is necessary to describe the position of selector field within the IPdu."
+        },
+        "unusedBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AUTOSAR COM and AUTOSAR IPDUM are filling not areas of an IPdu with this bit-pattern. This attribute to avoid undefined behavior. This be repeated throughout the IPdu. complete System Description this attribute is a MultiplexedPdu is received by a Pdu is not delivered to the IPduM but routed a bus interface then the content of the need to be described in the Extract. To support this use case the set to 0..1."
+        }
+      }
+    },
+    {
+      "name": "StaticPart",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "MultiplexedPart",
+      "bases": [
+        "ARObject",
+        "MultiplexedPart"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MultiplexedIPdu.staticPart"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Some parts/signals of the I-PDU may be the same regardless of the selector field. Such a part is called static part. The static part is optional.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 410,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iPdu": {
+          "type": "ISignalIPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a Com IPdu which is routed to the IPduM is combined to a multiplexedPdu."
+        }
+      }
+    },
+    {
+      "name": "DynamicPart",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "MultiplexedPart",
+      "bases": [
+        "ARObject",
+        "MultiplexedPart"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MultiplexedIPdu.dynamicPart"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Dynamic part of a multiplexed I-Pdu. Reserved space which is used to transport varying SignalIPdus at the same position, controlled by the corresponding selectorFieldCode.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 410,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dynamicPart": {
+          "type": "DynamicPartAlternative",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Com IPdu alternatives that are transmitted in the Dynamic of the MultiplexedIPdu."
+        }
+      }
+    },
+    {
+      "name": "DynamicPartAlternative",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DynamicPart.dynamicPartAlternative"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "One of the Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu. The selectorFieldCode specifies which Com IPdu is contained in the DynamicPart within a certain transmission of a multiplexed PDU.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 411,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialDynamic": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Dynamic part that shall be used to initialize this IPdu. one \"DynamicPartAlternative\" in a be the initialDynamicPart."
+        },
+        "iPdu": {
+          "type": "ISignalIPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a Com IPdu which is routed to the IPduM is combined to a multiplexedPdu."
+        },
+        "selectorField": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The selector field is part of a multiplexed IPdu. It consists contiguous bits. The value of the selector field selects of the multiplexed part of the IPdu."
+        }
+      }
+    },
+    {
+      "name": "MultiplexedPart",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "StaticPart",
+        "DynamicPart"
+      ],
+      "subclasses": [
+        "DynamicPart",
+        "StaticPart"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The StaticPart and the DynamicPart have common properties. Both can be separated in multiple segments within the multiplexed PDU.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 411,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "segment": {
+          "type": "SegmentPosition",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The StaticPart and the DynamicPart can be separated in segments within the multiplexed PDU. Therefore and the DynamicPart can contain multiple"
+        }
+      }
+    },
+    {
+      "name": "SegmentPosition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MultiplexedPart.segmentPosition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to \"sawtooth\" and the bit order is set to \"Decreasing\". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Table 6.77: SegmentPosition [constr_9182] Existence of SegmentPosition.segmentByteOrder (cid:100)For each SegmentPosition, the attribute segmentByteOrder shall exist at the time when the System Description is complete.(cid:99)() [constr_9183] Existence of SegmentPosition.segmentLength (cid:100)For each Seg- mentPosition, the attribute segmentLength shall exist at the time when the System Description is complete.(cid:99)() [constr_9184] Existence of SegmentPosition.segmentPosition (cid:100)For each SegmentPosition, the attribute segmentPosition shall exist at the time when the System Description is complete.(cid:99)() [constr_3247] Byte order mix within a MultiplexedIPdu is not allowed (cid:100)The segmentByteOrder of all SegmentPositions and the selectorFieldByte- Order shall have the same value in the MultiplexedIPdu.(cid:99)() [constr_3223] No ByteOrderEnum.opaque allowed for MultiplexedIPdu.se- lectorFieldByteOrder (cid:100)The values of MultiplexedIPdu.selectorFieldBy- teOrder are restricted to ByteOrderEnum.mostSignificantByteFirst and ByteOrderEnum.mostSignificantByteLast. I.e. the value ByteOrderEnum. opaque is not allowed.(cid:99)() [constr_3224] No ByteOrderEnum.opaque allowed for SegmentPosition.seg- mentByteOrder. (cid:100)The values of SegmentPosition.segmentByteOrder are re- stricted to ByteOrderEnum.mostSignificantByteFirst and ByteOrderEnum. 412 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 mostSignificantByteLast. I.e. the value ByteOrderEnum.opaque is not al- lowed.(cid:99)() Figure 6.26 shows an example of an IPdu Multiplexer. The static part of the multiplexed IPdu contains ComIPduA. The value of the selector field in the dynamic part decides which content is transmitted. ComIPduB is transmitted if the selector field value is \"0\". ComIPduC is transmitted if the selector field value is \"1\". The static and the dynamic part can consist of more than one element. These sub parts of the static or dynamic parts are called segments. In Figure 6.26 the dynamic Part is segmented into two parts. More details can be found in [23]. MuxPdu: MultiplexedIPdu selectorFieldLength = 1 length = 64 selectorFieldStartPosition = 0 staticSegment: SegmentPosition :StaticPart segmentLength = 16 segmentPosition = 32 :DynamicPart dynamicSegment1: SegmentPosition segmentLength = 31 segmentPosition = 1 PduA: ISignalIPdu dynamicSegment2: SegmentPosition segmentLength = 16 segmentPosition = 48 PduC: ISignalIPdu alternative1: DynamicPartAlternative selectorFieldCode = 1 PduB: ISignalIPdu alternative2: DynamicPartAlternative selectorFieldCode = 0 Figure 6.26: I-Pdu Multiplexer Example Each of the following figures shows an example with an allowed IPduM configuration. Please note that the AUTOSAR IPduM module does not shift any part (static or dy- namic) IPdu and just merges the payload. ISignalIPdus that are referenced by the different DynamicPartAlternatives in one MultiplexedIPdu shall always have the same length. A configuration may be optimized with respect to unused data at end of a StaticPart ISignalIPdu. This is shown in figure 6.27 where the ISignalIPdu that is referenced by the StaticPart is shorter than the Multi- plexedIPdu. An optimization with respect to unused data at end of DynamicPar- tAlternative ISignalIPdus is shown in figure 6.28. 413 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 0 48 64 MultiplexedPdu: Switch DynamicPart StaticPart DynamicPart All(cid:2)dynamic part Referenced ISignalIPdus:(cid:2)(cid:2) alternatives(cid:2)have the 0 8 same(cid:2)size,(cid:2)even if alternatives(cid:2)contain DynamicPartAlternative: 1 Signal1 Signal2 unused areas. 0 8 DynamicPartAlternative: 2 Signal3 Signal4 Signal5 0 8 DynamicPartAlternative: 3 Signal3 Signal4 Signal6 0 The(cid:2)static StaticPart: Signal6 part may be shorter Figure 6.27: Multiplexer configuration example optimized with respect to unused data at end of static part Pdu 0 48 64 MultiplexedPdu: Switch DynamicPart StaticPart Referenced ISignalIPdus:(cid:2)(cid:2) 0 8 DynamicPartAlternative: 1 Signal1 Signal2 All(cid:2)dynamic part The(cid:2)dynamic alternatives(cid:2)have the parts may be same(cid:2)size,(cid:2)even if 0 8 alternatives(cid:2)contain shorter than the static part unused areas. DynamicPartAlternative: 2 Signal3 Signal4 0 8 DynamicPartAlternative: 3 Signal3 Signal4 Signal5 0 48 StaticPart: Signal6 Figure 6.28: Multiplexer configuration example optimized with respect to unused data at end of dynamic part Pdus 414 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 6.5.1 I-Pdu Multiplexer in System Extract/ECU Extract The processing in the ECU determines the description of MultiplexedIPdus in the System Extract/Ecu Extract. In case that a Gateway ECU only routes a Multi- plexedIPdu without being interested in the content leads to a reduced description in the System Extract/ECU Extract. The following items describe the different scenar- ios and the consequences for the System Extract/ECU Extract description. A complete System Description contains all information. [TPS_SYST_01080] Sending or receiving of a MultiplexedIPdu in System Ex- tract/ECU Extract (cid:100) • all attributes of the MultiplexedIPdu are mandatory • aggregated DynamicPart with associated ISignalIPdus is mandatory in case – of sending – of receiving if at least one DynamicPartAlternative is received by one Ecu of the Extract. • a PduTriggering shall be defined for the MultiplexedIPdu • a PduTriggering shall be defined for all included ISignalIPdus in the Dy- namicPart and StaticPart (cid:99)() The initial ECU Configuration Generator configures COM, PduR, IpduM and lower lay- ers with the information from the System Extract/ECU Extract. [TPS_SYST_01081] Gatewaying of a MultiplexedIPdu in System Extract/ECU Extract (cid:100) • StaticPart and DynamicPart definitions shall be omitted, thus no ISig- nalIPdu description shall be included • all attributes of the MultiplexedIPdu shall be omitted. • a PduTriggering shall be defined only for the gatewayed MultiplexedIPdu • an IPduMapping between the source and the target PduTriggerings shall be defined (cid:99)() The initial ECU Configuration Generator configures PduR and lower layers with the information from the System Extract/ECU Extract. [TPS_SYST_01082] Receiving and gatewaying of a MultiplexedIPdu in System Extract/ECU Extract (cid:100) • all attributes of the MultiplexedIPdu are mandatory 415 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 • aggregated DynamicPart with associated ISignalIPdus is mandatory in case at least one DynamicPartAlternative is received by one Ecu of the Extract. • a PduTriggering shall be defined for the MultiplexedIPdu • an IPduMapping between the source and the target PduTriggerings shall be defined • a PduTriggering shall be defined for all included ISignalIPdus in the Dy- namicPart and StaticPart (cid:99)() The initial ECU Configuration Generator configures Com, PduR, IpduM and lower lay- ers with the information from the System Extract/ECU Extract. 416 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 6.6 Frames Identifiable PhysicalChannel Identifiable FrameTriggering FibexElement Frame + frameLength: Integer [0..1] Identifiable «atpPrototype» FibexElement PduToFrameMapping UploadableDesignElement Pdu + packingByteOrder: ByteOrderEnum [0..1] + startPosition: Integer [0..1] + hasDynamicLength: Boolean [0..1] + updateIndicationBitPosition: Integer [0..1] + length: UnlimitedInteger [0..1] (cid:1) (cid:16) (cid:4) (cid:23) (cid:14) (cid:2) (cid:17) (cid:8) (cid:24) (cid:3) (cid:4) (cid:18) (cid:19) (cid:14) (cid:23) (cid:5) (cid:2) (cid:3) (cid:3) (cid:21) (cid:3) (cid:18) (cid:29) (cid:20) (cid:26) (cid:30) (cid:2) (cid:25) (cid:6) (cid:7) (cid:2) (cid:14) (cid:3) (cid:21) (cid:7) (cid:19) (cid:22) (cid:14) (cid:20) (cid:1) (cid:16) (cid:4) (cid:3) (cid:7) (cid:3) (cid:6) (cid:2) (cid:17) (cid:8) (cid:7) (cid:8) (cid:9) (cid:7) (cid:27) (cid:3) (cid:4) (cid:18) (cid:19) (cid:14) (cid:9) (cid:22) (cid:3) (cid:2) (cid:3) (cid:7) (cid:12) (cid:5) (cid:3) (cid:21) (cid:10) (cid:9) (cid:20) (cid:8) (cid:2) (cid:25) (cid:12) (cid:13) (cid:28) (cid:6) (cid:7) (cid:14) (cid:3) (cid:7) (cid:19) (cid:2) (cid:12) (cid:3) (cid:2) (cid:21) (cid:22) (cid:13) (cid:7) (cid:23) (cid:2) (cid:9) (cid:3) (cid:7) (cid:8) (cid:7) (cid:9) (cid:14) (cid:15) (cid:20) (cid:22) (cid:9) (cid:22) (cid:2) (cid:10) (cid:7) (cid:9) (cid:24) (cid:6) (cid:22) (cid:12) (cid:13) (cid:2) (cid:12) (cid:13) (cid:7) (cid:23) (cid:14) (cid:15) (cid:20) (cid:24) +managedPhysicalChannel 0..* «atpVariation,atpSplitable» +frameTriggering 0..* +frame 0..1 «atpVariation,atpSplitable» +pduToFrameMapping 0..* +pdu 0..1 Figure 6.29: Frame Overview (FibexCore: FrameOverview) [TPS_SYST_01083] Frame (cid:100)A Frame represents a general design object that is used to describe the layout of the included Pdus as a reusable asset.(cid:99)() [TPS_SYST_01084] FrameTriggering (cid:100)The FrameTriggering implements the reusable definition of a Frame within a concrete context and thus defines a Frame’s send behavior and identification on a certain PhysicalChannel.(cid:99)() [TPS_SYST_02255] Frame.frameLength usage for FlexrayFrames and Can- Frames (cid:100)The frameLength for a FlexrayFrame shall be equal or larger than the combined length of all Pdus that are mapped to the frame. The frameLength for a CanFrame is used to describe the minimum length of a re- ceived L-PDU to be accepted by a data length check. Therefore, it is possible to configure a frameLength which is smaller than the mapped Pdu to this frame. If data length check is not needed the frameLength of a CanFrame may be left unde- fined. The reason for that is that if the CanFrame.frameLength is larger than the Pdu.length of the mapped Pdu and data length check is used, a received Pdu will always be discarded due to a failing minimum length check.(cid:99)() 417 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 412,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "segmentByte": {
+          "type": "ByteOrderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the order of the bytes of the and the packing into the MultiplexedIPdu. that [constr_3247] and [constr_3224] are usage of this attribute."
+        },
+        "segmentLength": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Data Length of the segment in bits."
+        },
+        "segment": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Segments bit position relatively to the beginning of a IPdu."
+        }
+      }
+    }
+  ]
+}

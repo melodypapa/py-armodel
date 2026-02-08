@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::AbstractPlatform",
+  "path": "M2::AUTOSARTemplates::AbstractPlatform",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_AbstractPlatform.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

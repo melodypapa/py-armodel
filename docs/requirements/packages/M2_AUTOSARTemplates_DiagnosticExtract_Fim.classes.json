@@ -1,0 +1,260 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+  "classes": [
+    {
+      "name": "DiagnosticFimAliasEvent",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticAbstractAliasEvent",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticAbstractAliasEvent",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to represent a given event semantics. However, the name of the actual events used in a specific project is sometimes not defined yet, not known or not in the responsibility of the author. Therefore, the DiagnosticFimAliasEvent has a reference to the actual DiagnosticEvent and by this the final connection is created.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 214,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticFunctionIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a diagnostic function identifier (a.k.a. FID).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 215,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticFunctionIdentifierInhibit",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define the inhibition of a specific function identifier within the Fim configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 215,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "function": {
+          "type": "DiagnosticFunction",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the corresponding function identifier."
+        },
+        "inhibitionMask": {
+          "type": "DiagnosticInhibition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the value of the inhibition mask behavior."
+        },
+        "inhibitSource": {
+          "type": "DiagnosticFunction",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a collection of DiagnosticFunctionInhibit that contribute to the configuration of the"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticFunctionInhibitSource",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticFunctionIdentifierInhibit.inhibitSource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define an inhibition source in the context of the Fim configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 216,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "event": {
+          "type": "DiagnosticFimAlias",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the alias event applicable for the inhibition source."
+        },
+        "eventGroup": {
+          "type": "DiagnosticFimAlias",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the event group applicable for the inhibition source."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticFimEventGroup",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model a Fim event group, also known as a summary event in Fim terminology. This represents a group of single diagnostic events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 217,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "event": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the way of grouping diagnostic a summary event in the context of the Fim."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticFimAliasEventGroup",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticAbstractAliasEvent",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticAbstractAliasEvent",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define an alias for a Fim summarized event. This alias can be used in early phases of the configuration process until a further refinement is possible.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 263,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "groupedAlias": {
+          "type": "DiagnosticFimAlias",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "By means of this reference the grouping of Diagnostic AliasEvents within the DiagnosticFimSummaryEvent can"
+        }
+      }
+    }
+  ]
+}

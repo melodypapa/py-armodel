@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::AsamHdo::SpecialData",
+  "path": "M2::MSR::AsamHdo::SpecialData",
+  "files": {
+    "classes": "packages/M2_MSR_AsamHdo_SpecialData.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

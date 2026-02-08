@@ -1,0 +1,98 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset",
+  "classes": [
+    {
+      "name": "DiagnosticEcuReset",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceInstance",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"ECU Reset\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "customSub": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall be used to define a custom number if none of the standardized values of shall be used."
+        },
+        "ecuResetClass": {
+          "type": "DiagnosticEcuReset",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the reference represents the ability to access among all DiagnosticEcuReset in the"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEcuResetClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Ecu Reset\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "respondTo": {
+          "type": "DiagnosticResponseTo",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the response to the Ecu Reset service shall be transmitted before or after the"
+        }
+      }
+    }
+  ]
+}

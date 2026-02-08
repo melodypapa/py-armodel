@@ -1,0 +1,238 @@
+{
+  "package": "M2::MSR::CalibrationData::CalibrationValue",
+  "classes": [
+    {
+      "name": "SwValueCont",
+      "package": "M2::MSR::CalibrationData::CalibrationValue",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationValueSpecification.swValueCont"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the content of one particular SwInstance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 449,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swArraysize": {
+          "type": "ValueList",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This attribute defines the size of each dimension for CURVE, MAP, CUBOID, CUBE_4, RES_AXIS, VAL_BLK. dimension one value has to be defined, e.g. one of COM_AXIS and two or more in case of MAP."
+        },
+        "swValuesPhys": {
+          "type": "SwValues",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "swValuesPhys represents the values in the physical"
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the physical unit of the provided values."
+        },
+        "unitDisplay": {
+          "type": "SingleLanguageUnit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies how the physical units of the current value set shall be displayed in documents or in user interfaces"
+        }
+      }
+    },
+    {
+      "name": "SwAxisCont",
+      "package": "M2::MSR::CalibrationData::CalibrationValue",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationValueSpecification.swAxisCont"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the values for the axis of a compound primitive (curve, map). For standard and fix axes, SwAxisCont contains the values of the axis directly. The axis values of SwAxisCont with the category COM_AXIS, RES_AXIS are for display only. For editing and processing, only the values in the related GroupAxis are binding.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 457,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "CalprmAxisCategory",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This category specifies the particular axis types: STD_AXIS (swArraysize necessary)"
+        },
+        "swArraysize": {
+          "type": "ValueList",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "For multidimensional compound primitivies (curve, map is necessary to know the dimensions.They are swArraySize."
+        },
+        "swAxisIndex": {
+          "type": "AxisIndexType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property allows to explicitly assign the axis contents particular axis. It is specified by numbers where 1 the x-axis. It is also possible to derive the from the sequence of the parent."
+        },
+        "swValuesPhys": {
+          "type": "SwValues",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "swValuesPhys represents the values in the physical"
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the physical unit of the provided values."
+        },
+        "unitDisplay": {
+          "type": "SingleLanguageUnit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the display name which is used for the physical unit of the axis."
+        }
+      }
+    },
+    {
+      "name": "SwValues",
+      "package": "M2::MSR::CalibrationData::CalibrationValue",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwAxisCont.swValuesPhys",
+        "SwValueCont.swValuesPhys",
+        "ValueGroup.vgContents"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that numerical values and textual values should not be mixed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 458,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "v": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a non variant Value. It is provided for sake of ASAM CDF."
+        },
+        "vf": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This allows to specify the value as VariationPoint. It is non variant for sake of compatibility to 2.0."
+        },
+        "vg": {
+          "type": "ValueGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This allows to have intersections in the values in order to rendering (eg. using stylesheets). For is important that the v values are always the same (flattened) order and the tool is interpret it without respecting vg."
+        },
+        "vt": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the values of textual data elements that vt uses the | to separate the values for bitfield masks in case that the semantics of DataPrototype is described by means of a the associated CompuMethod."
+        },
+        "vtf": {
+          "type": "NumericalOrText",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the ability to provide a value either numerical or text which existence is subject formal point of view, the aggregation needs to multiplicity 1 because SwValues is modelled with Nevertheless, the existence of optional and subject to constraints. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "ValueGroup",
+      "package": "M2::MSR::CalibrationData::CalibrationValue",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwValues.vg"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element enables values to be grouped. It can be used to perform row and column-orientated groupings, so that these can be rendered properly e.g. as a table.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 458,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "label": {
+          "type": "MultilanguageLong",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This label allows to give the valueGroup a particular It can be used if the Values are rendered as a"
+        },
+        "vgContents": {
+          "type": "SwValues",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the contents of the value group."
+        }
+      }
+    }
+  ]
+}

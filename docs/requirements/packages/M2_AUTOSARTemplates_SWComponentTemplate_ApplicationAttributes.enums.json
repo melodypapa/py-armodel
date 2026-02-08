@@ -1,0 +1,155 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+  "enumerations": [
+    {
+      "name": "ProcessingKindEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "note": "Kind of processing which has been applied to a data element. Aggregated by SenderReceiverAnnotation.processingKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 153,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "filtered",
+          "index": 0,
+          "description": "Indicates that a raw signal has been manipulated by some application software components by using<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "Indicates that none of the other option apply.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "raw",
+          "index": 2,
+          "description": "Specifies that a signal is taken directly from the basic software modules, i.e. from the ECU abstraction<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "DataLimitKindEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "note": "Indicates whether the data element carries a minimum or maximum value, thereby limiting the current range of another value. Aggregated by SenderReceiverAnnotation.limitKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 153,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "max",
+          "index": 0,
+          "description": "Limitation to maximum value<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "Software",
+          "index": null,
+          "description": "Component Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "min",
+          "index": 1,
+          "description": "Limitation to minimum value<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "none",
+          "index": 2,
+          "description": "No limitation applicable<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "FilterDebouncingEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "note": "This enumeration defines possible values for the filter debouncing strategy. Aggregated by IoHwAbstractionServerAnnotation.filteringDebouncing",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 157,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "debounceData",
+          "index": 0,
+          "description": "The signal is a mean value<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "rawData",
+          "index": 1,
+          "description": "Means that no modification of the signal has been applied. This is the default value<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "waitTimeDate",
+          "index": 2,
+          "description": "The signal is delivered by a GET operation after a certain amount of time<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "PulseTestEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "note": "This element indicates to the connected Actuator Software component whether the data-element can be used to generate pulse test sequences using the IoHwAbstraction layer Aggregated by IoHwAbstractionServerAnnotation.pulseTest",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 157,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "disable",
+          "index": 0,
+          "description": "Disables the pulse test<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "enable",
+          "index": 1,
+          "description": "Enables the pulse test<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "SignalFanEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "note": "Signal Fan inside the Composition Component Type. Aggregated by DelegatedPortAnnotation.signalFan",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 162,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "nfold",
+          "index": 0,
+          "description": "The connections internally in the CompositionSwComponentType via DelegationSwConnectors and AssemblySwConnectors are defined in a way that at least one data element present in the S/R interface or one ClientServerOperation in the C/S interface of the outer PortPrototype is involved in a<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "single",
+          "index": 1,
+          "description": "The connections internally in the CompositionSwComponentType via DelegationSwConnectors and AssemblySwConnectors are defined in a way that each VariableDataPrototype present in the S/R interface or ClientServerOperation in the C/S interface of the outer PortPrototype is involved in a 1:1 communication pattern only.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

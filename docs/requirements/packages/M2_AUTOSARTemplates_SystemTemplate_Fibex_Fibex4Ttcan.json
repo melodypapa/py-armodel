@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "TtcanTopology",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ttcan_TtcanTopology.json"
+    },
+    {
+      "name": "TtcanCommunication",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ttcan_TtcanCommunication.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection",
+  "classes": [
+    {
+      "name": "EndToEndProtectionISignalIPdu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EndToEndProtection.endToEndProtectionISignalIPdu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "It is possible to protect the inter-ECU data exchange of safety-related ISignalGroups at the level of COM IPdus using protection mechanisms provided by E2E Library. For each ISignalGroup to be protected, a separate EndToEndProtectionISignalIPdu element shall be created within the EndToEndProtectionSet. The EndToEndProtectionISignalIPdu element refers to the ISignalGroup that is to be protected and to the ISignalIPdu that transmits the protected ISignalGroup. The information how the referenced ISignalGroup shall be protected (through which E2E Profile and with which E2E settings) is defined in the EndToEnd Description element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 987,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 384,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataOffset": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the beginning offset (in bits) of the of the Signal Group (including CRC, application signal group) in the IPdu. This mandatory and the dataOffset shall always be"
+        },
+        "iSignalGroup": {
+          "type": "ISignalGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the ISignalGroup that is to be protected."
+        },
+        "iSignalIPdu": {
+          "type": "ISignalIPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ISignalIPdu that transmits the protected"
+        }
+      }
+    }
+  ]
+}

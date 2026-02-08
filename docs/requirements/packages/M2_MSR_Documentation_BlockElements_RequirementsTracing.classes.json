@@ -1,0 +1,247 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::RequirementsTracing",
+  "classes": [
+    {
+      "name": "StructuredReq",
+      "package": "M2::MSR::Documentation::BlockElements::RequirementsTracing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Paginateable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.structuredReq"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that this can be rendered as a labeled list.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 168,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 49,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 313,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 208,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "appliesTo": {
+          "type": "StandardNameEnum",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the platform the requirement is 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "conflicts": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents an informal specification of conflicts."
+        },
+        "date": {
+          "type": "DateTime",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the date when the requirement was"
+        },
+        "dependencies": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents an informal specification of that upstream tracing should be the property trace provided by the"
+        },
+        "description": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the general description of the"
+        },
+        "importance": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This allows to represent the importance of the"
+        },
+        "issuedBy": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the person, organization or authority the requirement."
+        },
+        "rationale": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the rationale of the requirement."
+        },
+        "remark": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents an informal remark. Note that this is not annotation, since these remark is still of the requirement."
+        },
+        "supporting": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents an informal specification of the material."
+        },
+        "testedItem": {
+          "type": "Traceable",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association represents the ability to trace on the level. This supports for example the of"
+        },
+        "type": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows to denote the type of requirement to example is it an \"enhancement\", \"new feature\""
+        },
+        "useCase": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This describes the relevant use cases. Note that formal use cases should be done in the trace"
+        }
+      }
+    },
+    {
+      "name": "TraceableText",
+      "package": "M2::MSR::Documentation::BlockElements::RequirementsTracing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Paginateable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.trace"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to denote a traceable text item such as requirements etc. The following approach applies: • shortName represents the tag for tracing • longName represents the head line • category represents the kind of the tagged text (see [constr_2540])",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 178,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 313,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 222,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "text": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the text to which the tag applies."
+        }
+      }
+    },
+    {
+      "name": "Traceable",
+      "package": "M2::MSR::Documentation::BlockElements::RequirementsTracing",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "MultilanguageReferrable",
+      "bases": [
+        "ARObject",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "TimingConstraint"
+      ],
+      "subclasses": [
+        "StructuredReq",
+        "TimingConstraint",
+        "TraceableTable",
+        "TraceableText"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that it is expected that its subclasses inherit either from MultilanguageReferrable or from Identifiable. Nevertheless it also inherits from MultilanguageReferrable in order to provide a common reference target for all Traceables.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 312,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 221,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "trace": {
+          "type": "Traceable",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association represents the ability to trace to / constraints. This supports for bottom up tracing MainRequirements <- Features <- BSW/AI"
+        }
+      }
+    }
+  ]
+}

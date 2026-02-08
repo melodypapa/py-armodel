@@ -1,0 +1,281 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+  "classes": [
+    {
+      "name": "NvBlockDescriptor",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "NvBlockSwComponentType.nvBlockDescriptor"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Specifies the properties of exactly on NVRAM Block.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 669,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clientServerPort": {
+          "type": "RoleBasedPort",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The RoleBasedPortAssignement defines which client port of the NvBlockSwComponentType serves for of service or notification. In case of common callback function is provided by for each individual kind of notification defined by of RoleBasedPortAssignment is subject with the purpose to support the conditional ports. atpVariation"
+        },
+        "constantValue": {
+          "type": "ConstantSpecification",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block"
+        },
+        "dataType": {
+          "type": "DataTypeMappingSet",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the DataTypeMapping to be applied for the NVRAM Block."
+        },
+        "instantiation": {
+          "type": "InstantiationDataDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual the context of a NvBlockSw of InstantiationDataDefProps is subject with the purpose to support the conditional ports, component internal memory objects attributes. atpVariation"
+        },
+        "modeSwitch": {
+          "type": "ModeSwitchEvent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the collection of ModeSwitchEvent TriggeredActivities related to the enclosing NvBlock atpVariation 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "nvBlockData": {
+          "type": "NvBlockDataMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines the mapping between the VariableData in the NvBlockComponents ports and the the RAM Block. of NvBlockDataMapping is subject to the purpose to support the conditional nv data ports. atpVariation"
+        },
+        "nvBlockNeeds": {
+          "type": "NvBlockNeeds",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the abstract needs on the configuration of the for the single NVRAM Block described NvBlockDescriptor. it may define requirements for writing an implementation of an NvBlockSw the RTE. that the attributes nDataSets and nRom not relevant for this aggregation because the allocate just one block anyway. In a different they do make sense."
+        },
+        "ramBlock": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines the RAM Block of the NVRAM Block provided by"
+        },
+        "romBlock": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the ROM Block of the NVRAM Block provided by"
+        },
+        "supportDirty": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies whether calling of NvM functions for writing and/ status control of potentially modified RAM Blocks to NV be controlled by the RTE."
+        },
+        "timingEvent": {
+          "type": "TimingEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "this reference can be taken to identify the TimingEvent to by the RTE for implementing a cyclic writing this block"
+        },
+        "writingStrategy": {
+          "type": "RoleBasedData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows for assigning a specific writing for an incoming AutosarDataPrototype."
+        }
+      }
+    },
+    {
+      "name": "ModeSwitchEventTriggeredActivity",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NvBlockDescriptor.modeSwitchEventTriggeredActivity"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines an activity of the NvBlockSwComponentType for a specific NvBlock which is triggered by a ModeSwitchEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 675,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates which service of the NvM for the be requested."
+        },
+        "swcModeSwitch": {
+          "type": "SwcModeSwitchEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the SwcModeSwitchEvent that the activity."
+        }
+      }
+    },
+    {
+      "name": "NvBlockDataMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BulkNvDataDescriptor.nvBlockDataMapping",
+        "NvBlockDescriptor.nvBlockDataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The data types of the referenced VariableDataPrototypes in the ports and the referenced sub-element (inside a CompositeDataType) of the VariableDataPrototype representing the RAM Block shall be compatible.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 688,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bitfieldTextTable": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute identifies the applicable bit mask on the side the PortPrototype."
+        },
+        "nvRamBlock": {
+          "type": "AutosarVariableRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Reference to a VariableDataPrototype of a RAM Block."
+        },
+        "readNvData": {
+          "type": "AutosarVariableRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Reference to a VariableDataPrototype of a pPort of the read access to the RAM is no PortPrototype providing read access reference can be omitted."
+        },
+        "writtenNvData": {
+          "type": "AutosarVariableRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Reference to a VariableDataPrototype of a rPort of the Nv write access to the RAM there is no port providing write access reference can be omitted."
+        },
+        "writtenReadNv": {
+          "type": "AutosarVariableRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Reference to a VariableDataPrototype of a PRPort of the NvBlockSwComponentType providing read access to the RAM Block."
+        }
+      }
+    },
+    {
+      "name": "BulkNvDataDescriptor",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "NvBlockSwComponentType.bulkNvDataDescriptor"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents one bulk NV Data Block that is read-only for the application software. The purpose of a bulk NV Data Block is to provide access to information uploaded to the vehicle at e.g. the end of the production line.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 692,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bulkNvBlock": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This aggregation represents the actual bulk NVBlock."
+        },
+        "nvBlockData": {
+          "type": "NvBlockDataMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines the mapping between the VariableData in the NvBlockComponents ports and the the non-volatile memory. of NvBlockDataMapping is subject to the purpose to support the conditional nv data ports. atpVariation"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+{
+  "package": "M2::MSR::DataDictionary::Axis",
+  "classes": [
+    {
+      "name": "SwAxisIndividual",
+      "package": "M2::MSR::DataDictionary::Axis",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SwCalprmAxisTypeProps",
+      "bases": [
+        "ARObject",
+        "SwCalprmAxisTypeProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwCalprmAxis.swCalprmAxisTypeProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class describes an axis integrated into a parameter (field etc.). The integration makes this individual to each parameter. The so-called grouped axis represents the counterpart to this. It is conceived as an independent parameter (see class SwAxisGrouped).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 354,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuMethod": {
+          "type": "CompuMethod",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the compuMethod which is expected for the axis. It in early stages if the particular input-value is not"
+        },
+        "dataConstr": {
+          "type": "DataConstr",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to constraints, e.g. for plausibility checks."
+        },
+        "inputVariable": {
+          "type": "ApplicationPrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the datatype of the input value for the axis. This allows to define e.g. a type of curve, where the input finalized at the access point."
+        },
+        "swAxisGeneric": {
+          "type": "SwAxisGeneric",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "this specifies the properties of a generic axis if applicable."
+        },
+        "swMaxAxis": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of base points contained in the axis of map or curve."
+        },
+        "swMinAxis": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum number of base points contained in the axis of a or curve."
+        },
+        "swVariableRef": {
+          "type": "SwVariableRefProxy",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to input variables of the axis. It is possible to more than one variable. Here the following is variable with the highest priority shall be given first. used in the generation of the code and is also in the application system. variables referenced shall be of the same physical is usually detected in that the conversion refer back to the same SI-units. this ensured by the constraint, that the variables shall use a type compatible to multiple referencing allows a base point more than one input variable to be used. of this are the temperature curves which both on the induction air temperature and temperature. can be displayed simultaneously by MCD systems), enabling operating points shown in the curves. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the physical unit of the input value of the is provided to support the case that the particular is not yet known."
+        }
+      }
+    },
+    {
+      "name": "SwAxisGeneric",
+      "package": "M2::MSR::DataDictionary::Axis",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwAxisIndividual.swAxisGeneric"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines a generic axis. In a generic axis the axispoints points are calculated in the ECU. The ECU is equipped with a fixed calculation algorithm. Parameters for the algorithm can be stored in the data component of the ECU. Therefore these parameters are specified in the data declaration, not in the calibration data.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 355,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swAxisType": {
+          "type": "SwAxisType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Associated axis calculation strategy."
+        },
+        "swGenericAxis": {
+          "type": "SwGenericAxisParam",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specific parameter of a generic axis."
+        }
+      }
+    },
+    {
+      "name": "SwAxisType",
+      "package": "M2::MSR::DataDictionary::Axis",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a specific axis calculation strategy. No formal specification is given, due to the fact that it is possible to use arbitrary algorithms for calculating axis-points. Instead, the algorithm is described verbally but the parameters are specified formally with respect to their names and constraints. As a result, SwAxisType mainly reserves appropriate keywords.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 355,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swGenericAxis": {
+          "type": "SwGenericAxisParam",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Parameters for this calculation algorithm. Tags:"
+        }
+      }
+    },
+    {
+      "name": "SwGenericAxisParam",
+      "package": "M2::MSR::DataDictionary::Axis",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwAxisGeneric.swGenericAxisParam"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class describes a specific parameter of a generic axis. The name of the parameter is defined through a reference to a parameter type defined on a corresponding axis type. The value of the parameter is given here in case that it is not changeable during calibration. Example is shift / offset in a fixed axis.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 356,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swGenericAxis": {
+          "type": "SwGenericAxisParam",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Parameter type defined on a corresponding axis type. References can only be made to axis parameters types defined within the referenced axis type. Numerical * attr This attribute represents the value of the generic axis"
+        }
+      }
+    },
+    {
+      "name": "SwGenericAxisParamType",
+      "package": "M2::MSR::DataDictionary::Axis",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwAxisType.swGenericAxisParamType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class describes a generic axis parameter type, namely: • Plausibility checks can be specified via dataConstr. • Textual description (desc), as a formal description is not of any use, due to the large variety of possibilities. • If this parameter contains structures, these can be simulated through the recursive use of SwGeneric AxisParamTypes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 356,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataConstr": {
+          "type": "DataConstr",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference denoted data constraints applicable to the parameter."
+        }
+      }
+    },
+    {
+      "name": "SwAxisGrouped",
+      "package": "M2::MSR::DataDictionary::Axis",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SwCalprmAxisTypeProps",
+      "bases": [
+        "ARObject",
+        "SwCalprmAxisTypeProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwCalprmAxis.swCalprmAxisTypeProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An SwAxisGrouped is an axis which is shared between multiple calibration parameters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 357,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sharedAxisType": {
+          "type": "ApplicationPrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the datatype of the calibration parameter providing shared axis."
+        },
+        "swAxisIndex": {
+          "type": "AxisIndexType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes which axis of the referenced calibration the values for the group axis. The the following convention: = value axis. in this case, the interpolation result of parameter is used as a base point index should only be specified if the parameter contains more than one axis. It is for the axis index of parameters with one axis, to be set to 1, if data has not been swAxisIndex."
+        },
+        "swCalprmRef": {
+          "type": "SwCalprmRefProxy",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This property specifies the calibration parameter which the input axis. In AUTOSAR, the type of the parameter shall be compatible to specified by sharedAxisType. that the multiplicity of this aggregation cannot to 0..1 based on the non-mainstream schema defined at the aggregation. multiplicity has to be factually considered a SwAxisGrouped that does not aggregate the is still valid according to the XML on the use case documented in"
+        }
+      }
+    }
+  ]
+}

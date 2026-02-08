@@ -1,5 +1,5 @@
 {
-  "classes": [
+  "types": [
     {
       "name": "BswModuleDescription",
       "type": "Class",
@@ -355,322 +355,368 @@
       "type": "Enumeration",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "AlignmentType",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "SectionInitializationPolicyType",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "String",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "TimeValue",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "ByteOrderEnum",
       "type": "Enumeration",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "NameToken",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Ref",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "CIdentifier",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Identifier",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "IntervalTypeEnum",
       "type": "Enumeration",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Limit",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "VerbatimString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "CseCodeType",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "NativeDeclarationString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "DisplayFormatString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "MonotonyEnum",
       "type": "Enumeration",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "DiagRequirementIdString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Ip4AddressString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Ip6AddressString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Boolean",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Float",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Numerical",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "PositiveInteger",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "ReferrableSubtypesEnum",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "MetaClassName",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Address",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "CIdentifierWithIndex",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "CategoryString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "DateTime",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "MacAddressString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "McdIdentifier",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "MimeTypeString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "NameTokens",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "PrimitiveIdentifier",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "RegularExpression",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "RevisionLabelString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "StrongRevisionLabelString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "SymbolString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "UriString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "VerbatimStringPlain",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "AnyServiceInstanceId",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "AnyVersionString",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Integer",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "PositiveUnlimitedInteger",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "UnlimitedInteger",
       "type": "Primitive",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "AutosarEngineeringObject",
@@ -726,42 +772,48 @@
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Identifiable",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "Referrable",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "MultilanguageReferrable",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "SingleLanguageReferrable",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "ShortNameFragment",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "AnyInstanceRef",
@@ -922,7 +974,8 @@
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObject",
       "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py",
-      "package_structure": "leaf"
+      "package_structure": "leaf",
+      "manually_maintained": true
     },
     {
       "name": "BuildActionManifest",
@@ -1551,22 +1604,22 @@
       "name": "ResourceConsumption",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption.py",
+      "package_structure": "leaf"
     },
     {
       "name": "HardwareConfiguration",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption.py",
+      "package_structure": "leaf"
     },
     {
       "name": "SoftwareContext",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption.py",
+      "package_structure": "leaf"
     },
     {
       "name": "MemorySection",
@@ -1684,57 +1737,57 @@
       "name": "McSupportData",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "McDataInstance",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "McSwEmulationMethodSupport",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "McParameterElementGroup",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "ImplementationElementInParameterInstanceRef",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "McFunction",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "McDataAccessDetails",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "RoleBasedMcDataAssignment",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport.py",
+      "package_structure": "leaf"
     },
     {
       "name": "McFunctionDataRefSet",
@@ -2769,29 +2822,29 @@
       "name": "DataExchangePoint",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint.py",
+      "package_structure": "leaf"
     },
     {
       "name": "Baseline",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint.py",
+      "package_structure": "leaf"
     },
     {
       "name": "DataExchangePointKind",
       "type": "Enumeration",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint.py",
+      "package_structure": "leaf"
     },
     {
       "name": "SeverityEnum",
       "type": "Enumeration",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/DataExchangePoint.py",
+      "package_structure": "leaf"
     },
     {
       "name": "SpecElementReference",
@@ -3210,22 +3263,22 @@
       "name": "TimingDescriptionEventChain",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription.py",
+      "package_structure": "leaf"
     },
     {
       "name": "TimingDescription",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription.py",
+      "package_structure": "leaf"
     },
     {
       "name": "TimingDescriptionEvent",
       "type": "Class",
       "package_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
-      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription/__init__.py",
-      "package_structure": "non-leaf"
+      "python_file": "src/armodel/v2/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription.py",
+      "package_structure": "leaf"
     },
     {
       "name": "TDEventVfb",

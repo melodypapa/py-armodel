@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::MultidimensionalTime",
+  "path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::MultidimensionalTime",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_MultidimensionalTime.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

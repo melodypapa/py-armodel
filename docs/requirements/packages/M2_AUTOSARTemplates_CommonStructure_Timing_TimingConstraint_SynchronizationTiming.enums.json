@@ -1,0 +1,55 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming",
+  "enumerations": [
+    {
+      "name": "SynchronizationTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming",
+      "note": "Specifies the synchronizationConstraintType for a SynchronizationTimingConstraint. Aggregated by SynchronizationTimingConstraint.synchronizationConstraintType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 93,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "response",
+          "index": 0,
+          "description": "In case that the Synchronization Timing Constraint is specified for event chains, the response events Synchronization of the associated event chains shall occur synchronously with respect to the specified tolerance. All associated event chains shall have the same stimulus event. In case that the Synchronization Timing Constraint is specified for events, the associated events shall occur synchronously with respect to the specified tolerance. All associated events represent the response events of a common stimulus event, even such a stimulus event is not known yet or not available in the scope of the model.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "stimulus",
+          "index": 1,
+          "description": "In case that the Synchronization Timing Constraint is specified for event chains, the stimulus events Synchronization of the associated event chains shall occur synchronously with respect to the specified tolerance. All associated event chains shall have the same response event. In case that the Synchronization Timing Constraint is specified for events, the associated events shall occur synchronously with respect to the specified tolerance. All associated events represent the stimulus events of a common response event, even such a response event is not known yet or not available in the scope of the model.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "EventOccurrenceKindEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming",
+      "note": "Specifies the eventOccurrenceKind for a SynchronizationTimingConstraint. Aggregated by SynchronizationTimingConstraint.eventOccurrenceKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 93,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "multipleOccurrences",
+          "index": 0,
+          "description": "Specifies that an event may occur more than once in a given time interval.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "singleOccurrence",
+          "index": 1,
+          "description": "The referenced event shall occur only once in a given time interval. Indicates whether the referenced events shall occur only once (single occurrence) or multiple times<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

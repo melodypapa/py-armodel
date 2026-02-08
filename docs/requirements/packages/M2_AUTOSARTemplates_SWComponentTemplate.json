@@ -1,0 +1,82 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "SwcInternalBehavior",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior.json"
+    },
+    {
+      "name": "Datatype",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Datatype.json"
+    },
+    {
+      "name": "RPTScenario",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_RPTScenario.json"
+    },
+    {
+      "name": "NvBlockComponent",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_NvBlockComponent.json"
+    },
+    {
+      "name": "PortInterface",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_PortInterface.json"
+    },
+    {
+      "name": "Components",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Components.json"
+    },
+    {
+      "name": "SoftwareComponentDocumentation",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SoftwareComponentDocumentation.json"
+    },
+    {
+      "name": "SwcImplementation",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcImplementation.json"
+    },
+    {
+      "name": "Composition",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::Composition",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Composition.json"
+    },
+    {
+      "name": "Communication",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Communication.json"
+    },
+    {
+      "name": "ApplicationAttributes",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_ApplicationAttributes.json"
+    },
+    {
+      "name": "EndToEndProtection",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_EndToEndProtection.json"
+    },
+    {
+      "name": "ImplicitCommunicationBehavior",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_ImplicitCommunicationBehavior.json"
+    },
+    {
+      "name": "MeasurementAndCalibration",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_MeasurementAndCalibration.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

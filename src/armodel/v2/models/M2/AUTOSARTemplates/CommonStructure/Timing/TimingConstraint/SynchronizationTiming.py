@@ -1,11 +1,19 @@
-from typing import (
-    List,
-    Optional,
-)
+"""
+AUTOSAR Package - SynchronizationTiming
 
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
+Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (
     TimingConstraint,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
 
 
 class SynchronizationTimingConstraint(TimingConstraint):
@@ -31,9 +39,9 @@ class SynchronizationTimingConstraint(TimingConstraint):
     (eventOccurrenceKind==multipleOccurrences): any of the events may occur more
     than once in the given time interval. In other words multiple occurrences of
     an event within the given time interval are permitted.
-
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming
-
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming::SynchronizationTimingConstraint
+    
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 92, Classic Platform R23-11)
     """
@@ -54,10 +62,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def event(self, value: Optional["EventOccurrenceKind"]) -> None:
         """
         Set event with validation.
-
+        
         Args:
             value: The event to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +107,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def synchronization(self, value: Optional["SynchronizationType"]) -> None:
         """
         Set synchronization with validation.
-
+        
         Args:
             value: The synchronization to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -129,10 +137,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def tolerance(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set tolerance with validation.
-
+        
         Args:
             value: The tolerance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,10 +159,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def getEvent(self) -> "EventOccurrenceKind":
         """
         AUTOSAR-compliant getter for event.
-
+        
         Returns:
             The event value
-
+        
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -163,13 +171,13 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def setEvent(self, value: "EventOccurrenceKind") -> "SynchronizationTimingConstraint":
         """
         AUTOSAR-compliant setter for event with method chaining.
-
+        
         Args:
             value: The event to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -179,10 +187,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def getScope(self) -> List["TimingDescriptionEvent"]:
         """
         AUTOSAR-compliant getter for scope.
-
+        
         Returns:
             The scope value
-
+        
         Note:
             Delegates to scope property (CODING_RULE_V2_00017)
         """
@@ -191,10 +199,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def getScopeEvent(self) -> List["TimingDescriptionEvent"]:
         """
         AUTOSAR-compliant getter for scopeEvent.
-
+        
         Returns:
             The scopeEvent value
-
+        
         Note:
             Delegates to scope_event property (CODING_RULE_V2_00017)
         """
@@ -203,10 +211,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def getSynchronization(self) -> "SynchronizationType":
         """
         AUTOSAR-compliant getter for synchronization.
-
+        
         Returns:
             The synchronization value
-
+        
         Note:
             Delegates to synchronization property (CODING_RULE_V2_00017)
         """
@@ -215,13 +223,13 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def setSynchronization(self, value: "SynchronizationType") -> "SynchronizationTimingConstraint":
         """
         AUTOSAR-compliant setter for synchronization with method chaining.
-
+        
         Args:
             value: The synchronization to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to synchronization property setter (gets validation automatically)
         """
@@ -231,10 +239,10 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def getTolerance(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for tolerance.
-
+        
         Returns:
             The tolerance value
-
+        
         Note:
             Delegates to tolerance property (CODING_RULE_V2_00017)
         """
@@ -243,13 +251,13 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def setTolerance(self, value: "MultidimensionalTime") -> "SynchronizationTimingConstraint":
         """
         AUTOSAR-compliant setter for tolerance with method chaining.
-
+        
         Args:
             value: The tolerance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to tolerance property setter (gets validation automatically)
         """
@@ -261,13 +269,13 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def with_event(self, value: Optional["EventOccurrenceKind"]) -> "SynchronizationTimingConstraint":
         """
         Set event and return self for chaining.
-
+        
         Args:
             value: The event to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_event("value")
         """
@@ -277,13 +285,13 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def with_synchronization(self, value: Optional["SynchronizationType"]) -> "SynchronizationTimingConstraint":
         """
         Set synchronization and return self for chaining.
-
+        
         Args:
             value: The synchronization to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_synchronization("value")
         """
@@ -293,15 +301,46 @@ class SynchronizationTimingConstraint(TimingConstraint):
     def with_tolerance(self, value: Optional["MultidimensionalTime"]) -> "SynchronizationTimingConstraint":
         """
         Set tolerance and return self for chaining.
-
+        
         Args:
             value: The tolerance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_tolerance("value")
         """
         self.tolerance = value  # Use property setter (gets validation)
         return self
+
+
+class SynchronizationTypeEnum(AREnum):
+    """
+    SynchronizationTypeEnum enumeration
+
+Specifies the synchronizationConstraintType for a SynchronizationTimingConstraint. Aggregated by SynchronizationTimingConstraint.synchronizationConstraintType
+
+Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming
+    """
+    # In case that the Synchronization Timing Constraint is specified for event chains, the response events Synchronization of the associated event chains shall occur synchronously with respect to the specified tolerance. All associated event chains shall have the same stimulus event. In case that the Synchronization Timing Constraint is specified for events, the associated events shall occur synchronously with respect to the specified tolerance. All associated events represent the response events of a common stimulus event, even such a stimulus event is not known yet or not available in the scope of the model.
+    response = "0"
+
+    # In case that the Synchronization Timing Constraint is specified for event chains, the stimulus events Synchronization of the associated event chains shall occur synchronously with respect to the specified tolerance. All associated event chains shall have the same response event. In case that the Synchronization Timing Constraint is specified for events, the associated events shall occur synchronously with respect to the specified tolerance. All associated events represent the stimulus events of a common response event, even such a response event is not known yet or not available in the scope of the model.
+    stimulus = "1"
+
+
+
+class EventOccurrenceKindEnum(AREnum):
+    """
+    EventOccurrenceKindEnum enumeration
+
+Specifies the eventOccurrenceKind for a SynchronizationTimingConstraint. Aggregated by SynchronizationTimingConstraint.eventOccurrenceKind
+
+Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming
+    """
+    # Specifies that an event may occur more than once in a given time interval.
+    multipleOccurrences = "0"
+
+    # The referenced event shall occur only once in a given time interval. Indicates whether the referenced events shall occur only once (single occurrence) or multiple times
+    singleOccurrence = "1"

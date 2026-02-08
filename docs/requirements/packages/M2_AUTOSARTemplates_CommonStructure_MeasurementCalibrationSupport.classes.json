@@ -1,0 +1,522 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+  "classes": [
+    {
+      "name": "McSupportData",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Implementation.mcSupport"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Root element for all measurement and calibration support data related to one Implementation artifact on an ECU. There shall be one such element related to the RTE implementation (if it owns MC data) and a separate one for each module or component, which owns private MC data.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 172,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 999,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "emulation": {
+          "type": "McSwEmulationMethod",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the calibration method used by the RTE. This information is not needed for A2L generation, but to setup in the ECU. atpVariation"
+        },
+        "mcParameter": {
+          "type": "McDataInstance",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A data instance to be used for calibration. atpSplitable; atpVariation"
+        },
+        "mcVariable": {
+          "type": "McDataInstance",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A data instance to be used for measurement. atpSplitable; atpVariation"
+        },
+        "measurable": {
+          "type": "SwSystemconstant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Sets of system constant values to be transferred to the MCD system, because the system constants have been with \"swCalibrationAccess\" = readonly."
+        },
+        "rptSupportData": {
+          "type": "RptSupportData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The rapid prototyping support data belonging to this aggregtion is <<atpSplitable>> case of an already exisiting BSW this description will be added later process, namely at code generation time."
+        }
+      }
+    },
+    {
+      "name": "McDataInstance",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McDataInstance.subElement",
+        "McSupportData.mcParameterInstance",
+        "McSupportData.mcVariable"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the specific properties of one data instance in order to support measurement and/or calibration of this data instance. The most important attributes are: • Its shortName is copied from the ECU Flat map (if applicable) and will be used as identifier and for display by the MC system. • The category is copied from the corresponding data type (ApplicationDataType if defined, otherwise ImplementationDataType) as far as applicable. • The symbol is the one used in the programming language. It will be used to find out the actual memory address by the final generation tool with the help of linker generated information. It is assumed that in the M1 model this part and all the aggregated and referred elements (with the exception of the Flat Map and the references from ImplementationElementInParameterInstanceRef and McAccessDetails) are completely generated from \"upstream\" information. This means, that even if an element like e.g. a CompuMethod is only used via reference here, it will be copied into the M1 artifact which holds the complete McSupportData for a given Implementation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 177,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 997,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arraySize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The existence of this attribute turns the data instance into of data. The attribute determines the size of the terms of number of elements."
+        },
+        "displayIdentifier": {
+          "type": "McdIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An optional attribute to be used to set the ASAM ASAP2"
+        },
+        "flatMapEntry": {
+          "type": "FlatInstanceDescriptor",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the corresponding entry in the ECU Flat allows to trace back to the original specification generated data instance. This link shall be added RTE generator mainly for documentation purposes. is optional because McDataInstance may represent an array or struct only the subElements correspond to FlatMap McDataInstance may represent a task local buffer prototyping access which is different from the used for measurement access."
+        },
+        "instanceIn": {
+          "type": "ImplementationElement",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reference to the corresponding data instance in the description of calibration data structures published by the generator. This is used to support emulation the ECU, it is not required for A2L"
+        },
+        "mcDataAccess": {
+          "type": "McDataAccessDetails",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Refers to \"upstream\" information on how the RTE uses data instance. Use Case: Rapid Prototyping"
+        },
+        "mcData": {
+          "type": "RoleBasedMcData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An assignment between McDataInstances. This supports the indication of related McDataElement implementing \"RP global buffer\", \"RP global measurement enabler flag\"."
+        },
+        "resulting": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "These are the generated properties resulting from taken by the RTE generator for the actually instance. Only those properties are which are needed for the measurement system."
+        },
+        "resultingRptSw": {
+          "type": "RptSwPrototyping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the implemented accessibility of data and modes by the rapid prototyping tooling. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An optional attribute to be used for additional information role of this data instance, for example in the rapid prototyping."
+        },
+        "rptImplPolicy": {
+          "type": "RptImplPolicy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the implemented code preparation for rapid data accesses for a hook based bypassing."
+        },
+        "subElement": {
+          "type": "McDataInstance",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This relation indicates, that the target element is part of a which is given by the source element. This be used by the final generator to set up addressing scheme. atpVariation"
+        },
+        "symbol": {
+          "type": "SymbolString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This String is used to determine the memory address generation of the MC configuration data (e.g. . It shall be the name of the element in the such that it can be identified in information. the McDataInstance is part of composite data in language, the symbol String may denoting the element context, unless the given by the symbol attribute of an enclosing means in particular for the C the \".\" character shall be used as a the name of a \"struct\" variable the one of its elements. can differ from the shortName in case of data declarations. an optional attribute since it may be missing in case represents an element (e.g. a single array has no name in the linker map."
+        }
+      }
+    },
+    {
+      "name": "McSwEmulationMethodSupport",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McSupportData.emulationSupport"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This denotes the method used by the RTE to handle the calibration data. It is published by the RTE generator and can be used e.g. to generate the corresponding emulation method in a Complex Driver. According to the actual method given by the category attribute, not all attributes are always needed: • double pointered method: only baseReference is mandatory • single pointered method: only referenceTable is mandatory • initRam method: only elementGroup(s) are mandatory Note: For single/double pointered method the group locations are implicitly accessed via the reference table and their location can be found from the initial values in the M1 model of the respective pointers. Therefore, the description of elementGroups is not needed in these cases. Likewise, for double pointered method the reference table description can be accessed via the M1 model under baseReference.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 180,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baseReference": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Refers to the base pointer in case of the double-pointered"
+        },
+        "category": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identifies the actual method. The possible names shall the symbols of the ECU configuration the calibration method of the RTE, and can specific methods."
+        },
+        "elementGroup": {
+          "type": "McParameterElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Denotes the grouping of calibration parameters in the RTE code. Depending on the category, this required to set up the emulation code."
+        },
+        "referenceTable": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Refers to the pointer table in case of the single-pointered"
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Assigns a name to this element."
+        }
+      }
+    },
+    {
+      "name": "McParameterElementGroup",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McSwEmulationMethodSupport.elementGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Denotes a group of calibration parameters which are handled by the RTE as one data structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 181,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ramLocation": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Refers to the RAM location of this parameter group. To be the init-RAM method."
+        },
+        "romLocation": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to the ROM location of this parameter group. To used for the init-RAM method."
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Assigns a name to this element."
+        }
+      }
+    },
+    {
+      "name": "ImplementationElementInParameterInstanceRef",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McDataInstance.instanceInMemory"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn’t either, especially because ImplementationDataType Element isn’t derived from AtpPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 184,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "context": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The context for the referred element. xml.sequenceOffset=20"
+        },
+        "target": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referred data element. xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "McFunction",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents a functional element to be used as input to support measurement and calibration. It is used to • assign calibration parameters to a logical function • assign measurement variables to a logical function • structure functions hierarchically",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 186,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defCalprmSet": {
+          "type": "McFunctionDataRefSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to the set of adjustable data (= calibration in this function."
+        },
+        "inMeasurement": {
+          "type": "McFunctionDataRefSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to the set of measurable input data for this"
+        },
+        "loc": {
+          "type": "McFunctionDataRefSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to the set of measurable local data in this function. atpSplitable Set Tags:"
+        },
+        "out": {
+          "type": "McFunctionDataRefSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to the set of measurable output data from this atpSplitable"
+        },
+        "refCalprmSet": {
+          "type": "McFunctionDataRefSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to the set of adjustable data (= calibration by this function."
+        },
+        "subFunction": {
+          "type": "McFunction",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A sub-function that is seen as part of the enclosing"
+        }
+      }
+    },
+    {
+      "name": "McDataAccessDetails",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McDataInstance.mcDataAccessDetails"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the SwComponentPrototype, the RunnableEntity and the VariableDataPrototype are implicitly given be the referred instances of RTEEvent and VariableAccess.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 195,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rteEventRef": {
+          "type": "RTEEvent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by: RteEventInEcuInstance"
+        },
+        "variableAccessInstanceRef": {
+          "type": "VariableAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by: VariableAccessInEcu"
+        }
+      }
+    },
+    {
+      "name": "RoleBasedMcDataAssignment",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McDataInstance.mcDataAssignment",
+        "RptComponent.mcDataAssignment",
+        "RptExecutableEntity.rptRead",
+        "RptExecutableEntity.rptWrite",
+        "RptExecutableEntityEvent.mcDataAssignment"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class allows to define links that specify logical relationships between single McDataInstances. The details on the existence and semantics of such links are not standardized. Possible Use Case: Rapid Prototyping solutions in which additional communication buffers and switches are implemented in the RTE that allow to switch between the usage of the original and the bypass buffers. The different buffers and the switch can be represented by McDataInstances (in order to be accessed by MC tools) which have relationships to each other.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "execution": {
+          "type": "RptExecutionContext",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Determines the executionContext in which the McData describing a local (e.g Task-Local) buffer of a is valid."
+        },
+        "mcDataInstance": {
+          "type": "McDataInstance",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The target of the assignment."
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Shall be used to specify the role of the assigned data relation to the instance that owns the roles of the RoleBasedMcData are:"
+        }
+      }
+    }
+  ]
+}

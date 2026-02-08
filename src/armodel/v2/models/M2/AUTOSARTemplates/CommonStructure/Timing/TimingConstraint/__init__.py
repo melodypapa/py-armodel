@@ -1,61 +1,109 @@
 """
-This module defines the abstract base class for timing constraints in AUTOSAR.
+AUTOSAR Package - TimingConstraint
 
-Timing constraints represent temporal relationships between AUTOSAR elements,
-such as execution order, timing requirements, and synchronization constraints.
-This module provides the base abstract class from which specific timing
-constraint types inherit their common functionality.
-
-Classes:
-    TimingConstraint: Abstract base class for all timing constraints
+Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint
 """
 
-from abc import ABC
-from typing import Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     Traceable,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
+
+
 
 
 class TimingConstraint(Traceable, ABC):
     """
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint
-    Abstract base class for all timing constraints in AUTOSAR.
-    This class cannot be instantiated directly and serves as the base for concrete
-    timing constraint implementations such as execution order constraints.
+    The abstract parent class of different timing constraints supported by the
+    Timing extension. A concrete timing constraint is used to bound the timing
+    behavior of the model elements in its scope.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingConstraint
+    
+    Sources:
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 253, Classic Platform R23-11)
     """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
+    def __init__(self):
         if type(self) is TimingConstraint:
             raise TypeError("TimingConstraint is an abstract class.")
+        super().__init__()
 
-        super().__init__(parent, short_name)
-
-        self.timing_condition_ref: Union[Union[RefType, None] , None] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # A timing condition the timing constraint depends on.
+        # In it specifies the condition the timing constraint.
+        self._timingCondition: Optional["TimingCondition"] = None
 
     @property
-    def timingConditionRef(self) -> Union[RefType, None]:
-        """
-        Gets the timing condition reference for this constraint.
+    def timing_condition(self) -> Optional["TimingCondition"]:
+        """Get timingCondition (Pythonic accessor)."""
+        return self._timingCondition
 
-        Returns:
-            Reference to the timing condition
+    @timing_condition.setter
+    def timing_condition(self, value: Optional["TimingCondition"]) -> None:
         """
-        return self.timing_condition_ref
-
-    @timingConditionRef.setter
-    def timingConditionRef(self, ref: RefType) -> None:
-        """
-        Sets the timing condition reference for this constraint.
-
+        Set timingCondition with validation.
+        
         Args:
-            ref: Reference to the timing condition
+            value: The timingCondition to set
+        
+        Raises:
+            TypeError: If value type is incorrect
         """
-        self.timing_condition_ref = ref
+        if value is None:
+            self._timingCondition = None
+            return
+
+        if not isinstance(value, TimingCondition):
+            raise TypeError(
+                f"timingCondition must be TimingCondition or None, got {type(value).__name__}"
+            )
+        self._timingCondition = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getTimingCondition(self) -> "TimingCondition":
+        """
+        AUTOSAR-compliant getter for timingCondition.
+        
+        Returns:
+            The timingCondition value
+        
+        Note:
+            Delegates to timing_condition property (CODING_RULE_V2_00017)
+        """
+        return self.timing_condition  # Delegates to property
+
+    def setTimingCondition(self, value: "TimingCondition") -> "TimingConstraint":
+        """
+        AUTOSAR-compliant setter for timingCondition with method chaining.
+        
+        Args:
+            value: The timingCondition to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to timing_condition property setter (gets validation automatically)
+        """
+        self.timing_condition = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_timing_condition(self, value: Optional["TimingCondition"]) -> "TimingConstraint":
+        """
+        Set timingCondition and return self for chaining.
+        
+        Args:
+            value: The timingCondition to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_timing_condition("value")
+        """
+        self.timing_condition = value  # Use property setter (gets validation)
+        return self

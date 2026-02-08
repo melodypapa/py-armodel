@@ -1,0 +1,188 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
+  "classes": [
+    {
+      "name": "ResourceConsumption",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuResourceEstimation.bswResourceEstimation",
+        "EcuResourceEstimation.rteResourceEstimation",
+        "Implementation.resourceConsumption",
+        "StateDependentStartupConfig.resourceConsumption"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of consumed resources by one implementation of a software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 137,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 260,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 238,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accessCount": {
+          "type": "AccessCountSet",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Set of access count values atpSplitable; atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "executionTime": {
+          "type": "ExecutionTime",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of the execution time descriptions for this aggregation of executionTime is variability with the purpose to support the of runnable entities. atpVariation"
+        },
+        "heapUsage": {
+          "type": "HeapUsage",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of the heap memory allocated by this atpVariation"
+        },
+        "memorySection": {
+          "type": "MemorySection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An abstract memory section required by this atpVariation"
+        },
+        "sectionName": {
+          "type": "SectionNamePrefix",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A prefix to be used for the memory section symbol in the atpVariation"
+        },
+        "stackUsage": {
+          "type": "StackUsage",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of the stack memory usage for each runnable this implementation. The aggregation of Stack subject to variability with the purpose to support existence of runnable entities. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "HardwareConfiguration",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExecutionTime.hardwareConfiguration",
+        "HeapUsage.hardwareConfiguration",
+        "StackUsage.hardware"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes in which mode the hardware is operating while needing this resource consumption.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 161,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "additional": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies additional information on the Hardware"
+        },
+        "processorMode": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies in which mode the processor is operating."
+        },
+        "processorSpeed": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the speed the processor is operating."
+        }
+      }
+    },
+    {
+      "name": "SoftwareContext",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExecutionTime.softwareContext",
+        "HeapUsage.softwareContext",
+        "StackUsage.softwareContext"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the context of the software for this resource consumption.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 163,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "input": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the input vector which is used to provide the"
+        },
+        "state": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the state the software is in when the Execution provided."
+        }
+      }
+    }
+  ]
+}

@@ -1,16 +1,37 @@
-from typing import Optional
+"""
+AUTOSAR Package - RPTScenario
 
+Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    NameToken,
+    PositiveInteger,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
 
 
 class RptImplPolicy(ARObject):
     """
     Describes the code preparation for rapid prototyping at data accesses.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptImplPolicy
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 202, Classic
       Platform R23-11)
@@ -34,10 +55,10 @@ class RptImplPolicy(ARObject):
     def rpt_enabler_impl(self, value: Optional["RptEnablerImplType"]) -> None:
         """
         Set rptEnablerImpl with validation.
-
+        
         Args:
             value: The rptEnablerImpl to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +84,10 @@ class RptImplPolicy(ARObject):
     def rpt_preparation(self, value: Optional["RptPreparationEnum"]) -> None:
         """
         Set rptPreparation with validation.
-
+        
         Args:
             value: The rptPreparation to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +106,10 @@ class RptImplPolicy(ARObject):
     def getRptEnablerImpl(self) -> "RptEnablerImplType":
         """
         AUTOSAR-compliant getter for rptEnablerImpl.
-
+        
         Returns:
             The rptEnablerImpl value
-
+        
         Note:
             Delegates to rpt_enabler_impl property (CODING_RULE_V2_00017)
         """
@@ -97,13 +118,13 @@ class RptImplPolicy(ARObject):
     def setRptEnablerImpl(self, value: "RptEnablerImplType") -> "RptImplPolicy":
         """
         AUTOSAR-compliant setter for rptEnablerImpl with method chaining.
-
+        
         Args:
             value: The rptEnablerImpl to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_enabler_impl property setter (gets validation automatically)
         """
@@ -113,10 +134,10 @@ class RptImplPolicy(ARObject):
     def getRptPreparation(self) -> "RptPreparationEnum":
         """
         AUTOSAR-compliant getter for rptPreparation.
-
+        
         Returns:
             The rptPreparation value
-
+        
         Note:
             Delegates to rpt_preparation property (CODING_RULE_V2_00017)
         """
@@ -125,13 +146,13 @@ class RptImplPolicy(ARObject):
     def setRptPreparation(self, value: "RptPreparationEnum") -> "RptImplPolicy":
         """
         AUTOSAR-compliant setter for rptPreparation with method chaining.
-
+        
         Args:
             value: The rptPreparation to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_preparation property setter (gets validation automatically)
         """
@@ -143,13 +164,13 @@ class RptImplPolicy(ARObject):
     def with_rpt_enabler_impl(self, value: Optional["RptEnablerImplType"]) -> "RptImplPolicy":
         """
         Set rptEnablerImpl and return self for chaining.
-
+        
         Args:
             value: The rptEnablerImpl to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_enabler_impl("value")
         """
@@ -159,33 +180,28 @@ class RptImplPolicy(ARObject):
     def with_rpt_preparation(self, value: Optional["RptPreparationEnum"]) -> "RptImplPolicy":
         """
         Set rptPreparation and return self for chaining.
-
+        
         Args:
             value: The rptPreparation to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_preparation("value")
         """
         self.rpt_preparation = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class RptExecutableEntityProperties(ARObject):
     """
     Describes the code preparation for rapid prototyping at ExecutableEntity
     invocation.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptExecutableEntityProperties
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 203, Classic
       Platform R23-11)
@@ -210,10 +226,10 @@ class RptExecutableEntityProperties(ARObject):
     def max_rpt_event_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxRptEventId with validation.
-
+        
         Args:
             value: The maxRptEventId to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -221,9 +237,9 @@ class RptExecutableEntityProperties(ARObject):
             self._maxRptEventId = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxRptEventId must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxRptEventId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxRptEventId = value
         # Lowest RPT event id usable for RTE generated service attribute is relevant,
@@ -240,10 +256,10 @@ class RptExecutableEntityProperties(ARObject):
     def min_rpt_event_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minRptEventId with validation.
-
+        
         Args:
             value: The minRptEventId to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -251,9 +267,9 @@ class RptExecutableEntityProperties(ARObject):
             self._minRptEventId = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"minRptEventId must be PositiveInteger or None, got {type(value).__name__}"
+                f"minRptEventId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minRptEventId = value
         # This attribute specifies the rapid prototyping control of the executable.
@@ -268,10 +284,10 @@ class RptExecutableEntityProperties(ARObject):
     def rpt_execution(self, value: Optional["RptExecutionControl"]) -> None:
         """
         Set rptExecution with validation.
-
+        
         Args:
             value: The rptExecution to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -296,10 +312,10 @@ class RptExecutableEntityProperties(ARObject):
     def rpt_service_point(self, value: Optional["RptServicePointEnum"]) -> None:
         """
         Set rptServicePoint with validation.
-
+        
         Args:
             value: The rptServicePoint to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -318,10 +334,10 @@ class RptExecutableEntityProperties(ARObject):
     def getMaxRptEventId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxRptEventId.
-
+        
         Returns:
             The maxRptEventId value
-
+        
         Note:
             Delegates to max_rpt_event_id property (CODING_RULE_V2_00017)
         """
@@ -330,13 +346,13 @@ class RptExecutableEntityProperties(ARObject):
     def setMaxRptEventId(self, value: "PositiveInteger") -> "RptExecutableEntityProperties":
         """
         AUTOSAR-compliant setter for maxRptEventId with method chaining.
-
+        
         Args:
             value: The maxRptEventId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_rpt_event_id property setter (gets validation automatically)
         """
@@ -346,10 +362,10 @@ class RptExecutableEntityProperties(ARObject):
     def getMinRptEventId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minRptEventId.
-
+        
         Returns:
             The minRptEventId value
-
+        
         Note:
             Delegates to min_rpt_event_id property (CODING_RULE_V2_00017)
         """
@@ -358,13 +374,13 @@ class RptExecutableEntityProperties(ARObject):
     def setMinRptEventId(self, value: "PositiveInteger") -> "RptExecutableEntityProperties":
         """
         AUTOSAR-compliant setter for minRptEventId with method chaining.
-
+        
         Args:
             value: The minRptEventId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to min_rpt_event_id property setter (gets validation automatically)
         """
@@ -374,10 +390,10 @@ class RptExecutableEntityProperties(ARObject):
     def getRptExecution(self) -> "RptExecutionControl":
         """
         AUTOSAR-compliant getter for rptExecution.
-
+        
         Returns:
             The rptExecution value
-
+        
         Note:
             Delegates to rpt_execution property (CODING_RULE_V2_00017)
         """
@@ -386,13 +402,13 @@ class RptExecutableEntityProperties(ARObject):
     def setRptExecution(self, value: "RptExecutionControl") -> "RptExecutableEntityProperties":
         """
         AUTOSAR-compliant setter for rptExecution with method chaining.
-
+        
         Args:
             value: The rptExecution to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_execution property setter (gets validation automatically)
         """
@@ -402,10 +418,10 @@ class RptExecutableEntityProperties(ARObject):
     def getRptServicePoint(self) -> "RptServicePointEnum":
         """
         AUTOSAR-compliant getter for rptServicePoint.
-
+        
         Returns:
             The rptServicePoint value
-
+        
         Note:
             Delegates to rpt_service_point property (CODING_RULE_V2_00017)
         """
@@ -414,13 +430,13 @@ class RptExecutableEntityProperties(ARObject):
     def setRptServicePoint(self, value: "RptServicePointEnum") -> "RptExecutableEntityProperties":
         """
         AUTOSAR-compliant setter for rptServicePoint with method chaining.
-
+        
         Args:
             value: The rptServicePoint to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_service_point property setter (gets validation automatically)
         """
@@ -432,13 +448,13 @@ class RptExecutableEntityProperties(ARObject):
     def with_max_rpt_event_id(self, value: Optional["PositiveInteger"]) -> "RptExecutableEntityProperties":
         """
         Set maxRptEventId and return self for chaining.
-
+        
         Args:
             value: The maxRptEventId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_rpt_event_id("value")
         """
@@ -448,13 +464,13 @@ class RptExecutableEntityProperties(ARObject):
     def with_min_rpt_event_id(self, value: Optional["PositiveInteger"]) -> "RptExecutableEntityProperties":
         """
         Set minRptEventId and return self for chaining.
-
+        
         Args:
             value: The minRptEventId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_min_rpt_event_id("value")
         """
@@ -464,13 +480,13 @@ class RptExecutableEntityProperties(ARObject):
     def with_rpt_execution(self, value: Optional["RptExecutionControl"]) -> "RptExecutableEntityProperties":
         """
         Set rptExecution and return self for chaining.
-
+        
         Args:
             value: The rptExecution to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_execution("value")
         """
@@ -480,27 +496,19 @@ class RptExecutableEntityProperties(ARObject):
     def with_rpt_service_point(self, value: Optional["RptServicePointEnum"]) -> "RptExecutableEntityProperties":
         """
         Set rptServicePoint and return self for chaining.
-
+        
         Args:
             value: The rptServicePoint to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_service_point("value")
         """
         self.rpt_service_point = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 
 
 class RapidPrototypingScenario(ARElement):
@@ -508,9 +516,9 @@ class RapidPrototypingScenario(ARElement):
     This meta-class provides the ability to describe a Rapid Prototyping
     Scenario. Such a Rapid Prototyping Scenario consist out of two main aspects,
     the description of the byPassPoints and the relation to an rpt Hook.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RapidPrototypingScenario
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 327, Classic
       Platform R23-11)
@@ -533,10 +541,10 @@ class RapidPrototypingScenario(ARElement):
     def host_system(self, value: Optional["System"]) -> None:
         """
         Set hostSystem with validation.
-
+        
         Args:
             value: The hostSystem to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -579,10 +587,10 @@ class RapidPrototypingScenario(ARElement):
     def rpt_system(self, value: Optional["System"]) -> None:
         """
         Set rptSystem with validation.
-
+        
         Args:
             value: The rptSystem to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -601,10 +609,10 @@ class RapidPrototypingScenario(ARElement):
     def getHostSystem(self) -> "System":
         """
         AUTOSAR-compliant getter for hostSystem.
-
+        
         Returns:
             The hostSystem value
-
+        
         Note:
             Delegates to host_system property (CODING_RULE_V2_00017)
         """
@@ -613,13 +621,13 @@ class RapidPrototypingScenario(ARElement):
     def setHostSystem(self, value: "System") -> "RapidPrototypingScenario":
         """
         AUTOSAR-compliant setter for hostSystem with method chaining.
-
+        
         Args:
             value: The hostSystem to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to host_system property setter (gets validation automatically)
         """
@@ -629,10 +637,10 @@ class RapidPrototypingScenario(ARElement):
     def getRptContainer(self) -> List["RptContainer"]:
         """
         AUTOSAR-compliant getter for rptContainer.
-
+        
         Returns:
             The rptContainer value
-
+        
         Note:
             Delegates to rpt_container property (CODING_RULE_V2_00017)
         """
@@ -641,10 +649,10 @@ class RapidPrototypingScenario(ARElement):
     def getRptProfile(self) -> List["RptProfile"]:
         """
         AUTOSAR-compliant getter for rptProfile.
-
+        
         Returns:
             The rptProfile value
-
+        
         Note:
             Delegates to rpt_profile property (CODING_RULE_V2_00017)
         """
@@ -653,10 +661,10 @@ class RapidPrototypingScenario(ARElement):
     def getRptSystem(self) -> "System":
         """
         AUTOSAR-compliant getter for rptSystem.
-
+        
         Returns:
             The rptSystem value
-
+        
         Note:
             Delegates to rpt_system property (CODING_RULE_V2_00017)
         """
@@ -665,13 +673,13 @@ class RapidPrototypingScenario(ARElement):
     def setRptSystem(self, value: "System") -> "RapidPrototypingScenario":
         """
         AUTOSAR-compliant setter for rptSystem with method chaining.
-
+        
         Args:
             value: The rptSystem to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_system property setter (gets validation automatically)
         """
@@ -683,13 +691,13 @@ class RapidPrototypingScenario(ARElement):
     def with_host_system(self, value: Optional["System"]) -> "RapidPrototypingScenario":
         """
         Set hostSystem and return self for chaining.
-
+        
         Args:
             value: The hostSystem to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_host_system("value")
         """
@@ -699,33 +707,28 @@ class RapidPrototypingScenario(ARElement):
     def with_rpt_system(self, value: Optional["System"]) -> "RapidPrototypingScenario":
         """
         Set rptSystem and return self for chaining.
-
+        
         Args:
             value: The rptSystem to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_system("value")
         """
         self.rpt_system = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class IdentCaption(Identifiable, ABC):
     """
     This meta-class represents the caption. This allows having some meta-classes
     optionally identifiable.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::IdentCaption
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 317, Classic Platform
       R23-11)
@@ -743,14 +746,6 @@ class IdentCaption(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class RptContainer(Identifiable):
@@ -762,9 +757,9 @@ class RptContainer(Identifiable):
     RunnableEntity. The RptContainer structure on M1 shall follow the M1
     structure of the Software Component Descriptions. The category attribute
     denotes which level of the Software Component Description is annotated.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptContainer
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 847, Classic Platform
       R23-11)
@@ -813,10 +808,10 @@ class RptContainer(Identifiable):
     def rpt_executable(self, value: Optional["RptExecutableEntity"]) -> None:
         """
         Set rptExecutable with validation.
-
+        
         Args:
             value: The rptExecutable to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -843,10 +838,10 @@ class RptContainer(Identifiable):
     def rpt_hook(self, value: Optional["RptHook"]) -> None:
         """
         Set rptHook with validation.
-
+        
         Args:
             value: The rptHook to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -871,10 +866,10 @@ class RptContainer(Identifiable):
     def rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> None:
         """
         Set rptImplPolicy with validation.
-
+        
         Args:
             value: The rptImplPolicy to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -900,10 +895,10 @@ class RptContainer(Identifiable):
     def rpt_sw(self, value: Optional["RptSwPrototyping"]) -> None:
         """
         Set rptSw with validation.
-
+        
         Args:
             value: The rptSw to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -922,10 +917,10 @@ class RptContainer(Identifiable):
     def getByPassPoint(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for byPassPoint.
-
+        
         Returns:
             The byPassPoint value
-
+        
         Note:
             Delegates to by_pass_point property (CODING_RULE_V2_00017)
         """
@@ -934,10 +929,10 @@ class RptContainer(Identifiable):
     def getExplicitRpt(self) -> List["RptProfile"]:
         """
         AUTOSAR-compliant getter for explicitRpt.
-
+        
         Returns:
             The explicitRpt value
-
+        
         Note:
             Delegates to explicit_rpt property (CODING_RULE_V2_00017)
         """
@@ -946,10 +941,10 @@ class RptContainer(Identifiable):
     def getRptContainer(self) -> List["RptContainer"]:
         """
         AUTOSAR-compliant getter for rptContainer.
-
+        
         Returns:
             The rptContainer value
-
+        
         Note:
             Delegates to rpt_container property (CODING_RULE_V2_00017)
         """
@@ -958,10 +953,10 @@ class RptContainer(Identifiable):
     def getRptExecutable(self) -> "RptExecutableEntity":
         """
         AUTOSAR-compliant getter for rptExecutable.
-
+        
         Returns:
             The rptExecutable value
-
+        
         Note:
             Delegates to rpt_executable property (CODING_RULE_V2_00017)
         """
@@ -970,13 +965,13 @@ class RptContainer(Identifiable):
     def setRptExecutable(self, value: "RptExecutableEntity") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptExecutable with method chaining.
-
+        
         Args:
             value: The rptExecutable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_executable property setter (gets validation automatically)
         """
@@ -986,10 +981,10 @@ class RptContainer(Identifiable):
     def getRptHook(self) -> "RptHook":
         """
         AUTOSAR-compliant getter for rptHook.
-
+        
         Returns:
             The rptHook value
-
+        
         Note:
             Delegates to rpt_hook property (CODING_RULE_V2_00017)
         """
@@ -998,13 +993,13 @@ class RptContainer(Identifiable):
     def setRptHook(self, value: "RptHook") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptHook with method chaining.
-
+        
         Args:
             value: The rptHook to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_hook property setter (gets validation automatically)
         """
@@ -1014,10 +1009,10 @@ class RptContainer(Identifiable):
     def getRptImplPolicy(self) -> "RptImplPolicy":
         """
         AUTOSAR-compliant getter for rptImplPolicy.
-
+        
         Returns:
             The rptImplPolicy value
-
+        
         Note:
             Delegates to rpt_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -1026,13 +1021,13 @@ class RptContainer(Identifiable):
     def setRptImplPolicy(self, value: "RptImplPolicy") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptImplPolicy with method chaining.
-
+        
         Args:
             value: The rptImplPolicy to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_impl_policy property setter (gets validation automatically)
         """
@@ -1042,10 +1037,10 @@ class RptContainer(Identifiable):
     def getRptSw(self) -> "RptSwPrototyping":
         """
         AUTOSAR-compliant getter for rptSw.
-
+        
         Returns:
             The rptSw value
-
+        
         Note:
             Delegates to rpt_sw property (CODING_RULE_V2_00017)
         """
@@ -1054,13 +1049,13 @@ class RptContainer(Identifiable):
     def setRptSw(self, value: "RptSwPrototyping") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptSw with method chaining.
-
+        
         Args:
             value: The rptSw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_sw property setter (gets validation automatically)
         """
@@ -1072,13 +1067,13 @@ class RptContainer(Identifiable):
     def with_rpt_executable(self, value: Optional["RptExecutableEntity"]) -> "RptContainer":
         """
         Set rptExecutable and return self for chaining.
-
+        
         Args:
             value: The rptExecutable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_executable("value")
         """
@@ -1088,13 +1083,13 @@ class RptContainer(Identifiable):
     def with_rpt_hook(self, value: Optional["RptHook"]) -> "RptContainer":
         """
         Set rptHook and return self for chaining.
-
+        
         Args:
             value: The rptHook to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_hook("value")
         """
@@ -1104,13 +1099,13 @@ class RptContainer(Identifiable):
     def with_rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> "RptContainer":
         """
         Set rptImplPolicy and return self for chaining.
-
+        
         Args:
             value: The rptImplPolicy to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_impl_policy("value")
         """
@@ -1120,27 +1115,19 @@ class RptContainer(Identifiable):
     def with_rpt_sw(self, value: Optional["RptSwPrototyping"]) -> "RptContainer":
         """
         Set rptSw and return self for chaining.
-
+        
         Args:
             value: The rptSw to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_sw("value")
         """
         self.rpt_sw = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class RptHook(ARObject):
@@ -1148,9 +1135,9 @@ class RptHook(ARObject):
     This meta-class provide the ability to describe a rapid prototyping hook.
     This can either be described by an other AUTOSAR system with the category
     RPT_SYSTEM or as a non AUTOSAR software.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptHook
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 848, Classic Platform
       R23-11)
@@ -1172,10 +1159,10 @@ class RptHook(ARObject):
     def code_label(self, value: Optional["CIdentifier"]) -> None:
         """
         Set codeLabel with validation.
-
+        
         Args:
             value: The codeLabel to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1201,10 +1188,10 @@ class RptHook(ARObject):
     def mcd_identifier(self, value: Optional["NameToken"]) -> None:
         """
         Set mcdIdentifier with validation.
-
+        
         Args:
             value: The mcdIdentifier to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1212,9 +1199,9 @@ class RptHook(ARObject):
             self._mcdIdentifier = None
             return
 
-        if not isinstance(value, NameToken):
+        if not isinstance(value, (NameToken, str)):
             raise TypeError(
-                f"mcdIdentifier must be NameToken or None, got {type(value).__name__}"
+                f"mcdIdentifier must be NameToken or str or None, got {type(value).__name__}"
             )
         self._mcdIdentifier = value
         # by: AnyInstanceRef.
@@ -1229,10 +1216,10 @@ class RptHook(ARObject):
     def rpt_ar_hook(self, value: Optional["AtpFeature"]) -> None:
         """
         Set rptArHook with validation.
-
+        
         Args:
             value: The rptArHook to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1259,10 +1246,10 @@ class RptHook(ARObject):
     def getCodeLabel(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for codeLabel.
-
+        
         Returns:
             The codeLabel value
-
+        
         Note:
             Delegates to code_label property (CODING_RULE_V2_00017)
         """
@@ -1271,13 +1258,13 @@ class RptHook(ARObject):
     def setCodeLabel(self, value: "CIdentifier") -> "RptHook":
         """
         AUTOSAR-compliant setter for codeLabel with method chaining.
-
+        
         Args:
             value: The codeLabel to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to code_label property setter (gets validation automatically)
         """
@@ -1287,10 +1274,10 @@ class RptHook(ARObject):
     def getMcdIdentifier(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for mcdIdentifier.
-
+        
         Returns:
             The mcdIdentifier value
-
+        
         Note:
             Delegates to mcd_identifier property (CODING_RULE_V2_00017)
         """
@@ -1299,13 +1286,13 @@ class RptHook(ARObject):
     def setMcdIdentifier(self, value: "NameToken") -> "RptHook":
         """
         AUTOSAR-compliant setter for mcdIdentifier with method chaining.
-
+        
         Args:
             value: The mcdIdentifier to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to mcd_identifier property setter (gets validation automatically)
         """
@@ -1315,10 +1302,10 @@ class RptHook(ARObject):
     def getRptArHook(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for rptArHook.
-
+        
         Returns:
             The rptArHook value
-
+        
         Note:
             Delegates to rpt_ar_hook property (CODING_RULE_V2_00017)
         """
@@ -1327,13 +1314,13 @@ class RptHook(ARObject):
     def setRptArHook(self, value: "AtpFeature") -> "RptHook":
         """
         AUTOSAR-compliant setter for rptArHook with method chaining.
-
+        
         Args:
             value: The rptArHook to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to rpt_ar_hook property setter (gets validation automatically)
         """
@@ -1343,10 +1330,10 @@ class RptHook(ARObject):
     def getSdg(self) -> List["Sdg"]:
         """
         AUTOSAR-compliant getter for sdg.
-
+        
         Returns:
             The sdg value
-
+        
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """
@@ -1357,13 +1344,13 @@ class RptHook(ARObject):
     def with_code_label(self, value: Optional["CIdentifier"]) -> "RptHook":
         """
         Set codeLabel and return self for chaining.
-
+        
         Args:
             value: The codeLabel to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_code_label("value")
         """
@@ -1373,13 +1360,13 @@ class RptHook(ARObject):
     def with_mcd_identifier(self, value: Optional["NameToken"]) -> "RptHook":
         """
         Set mcdIdentifier and return self for chaining.
-
+        
         Args:
             value: The mcdIdentifier to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_mcd_identifier("value")
         """
@@ -1389,85 +1376,28 @@ class RptHook(ARObject):
     def with_rpt_ar_hook(self, value: Optional["AtpFeature"]) -> "RptHook":
         """
         Set rptArHook and return self for chaining.
-
+        
         Args:
             value: The rptArHook to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_rpt_ar_hook("value")
         """
         self.rpt_ar_hook = value  # Use property setter (gets validation)
         return self
 
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
-    IdentCaption,
-)
-
-
-class ModeAccessPointIdent(IdentCaption):
-    """
-    This meta-class has been created to introduce the ability to become
-    referenced into the meta-class Mode AccessPoint without breaking backwards
-    compatibility.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
-    Sources:
-      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform
-      R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
-    IdentCaption,
-)
-
-
-class ExternalTriggeringPointIdent(IdentCaption):
-    """
-    This meta-class has been created to introduce the ability to become
-    referenced into the meta-class ExternalTriggeringPoint without breaking
-    backwards compatibility.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
-    Sources:
-      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform
-      R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class RptProfile(Identifiable):
     """
     The RptProfile describes the common properties of a Rapid Prototyping
     method.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptProfile
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 853, Classic Platform
       R23-11)
@@ -1488,10 +1418,10 @@ class RptProfile(Identifiable):
     def max_service(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxService with validation.
-
+        
         Args:
             value: The maxService to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1499,9 +1429,9 @@ class RptProfile(Identifiable):
             self._maxService = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxService must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxService must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxService = value
         # Lowest service point id useable for RTE generated points.
@@ -1516,10 +1446,10 @@ class RptProfile(Identifiable):
     def min_service_point(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minServicePoint with validation.
-
+        
         Args:
             value: The minServicePoint to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1527,9 +1457,9 @@ class RptProfile(Identifiable):
             self._minServicePoint = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"minServicePoint must be PositiveInteger or None, got {type(value).__name__}"
+                f"minServicePoint must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minServicePoint = value
         # Complete symbol of the function implementing the pre point.
@@ -1546,10 +1476,10 @@ class RptProfile(Identifiable):
     def service_point(self, value: Optional["CIdentifier"]) -> None:
         """
         Set servicePoint with validation.
-
+        
         Args:
             value: The servicePoint to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1576,10 +1506,10 @@ class RptProfile(Identifiable):
     def stim_enabler(self, value: Optional["RptEnablerImplType"]) -> None:
         """
         Set stimEnabler with validation.
-
+        
         Args:
             value: The stimEnabler to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1598,10 +1528,10 @@ class RptProfile(Identifiable):
     def getMaxService(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxService.
-
+        
         Returns:
             The maxService value
-
+        
         Note:
             Delegates to max_service property (CODING_RULE_V2_00017)
         """
@@ -1610,13 +1540,13 @@ class RptProfile(Identifiable):
     def setMaxService(self, value: "PositiveInteger") -> "RptProfile":
         """
         AUTOSAR-compliant setter for maxService with method chaining.
-
+        
         Args:
             value: The maxService to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_service property setter (gets validation automatically)
         """
@@ -1626,10 +1556,10 @@ class RptProfile(Identifiable):
     def getMinServicePoint(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minServicePoint.
-
+        
         Returns:
             The minServicePoint value
-
+        
         Note:
             Delegates to min_service_point property (CODING_RULE_V2_00017)
         """
@@ -1638,13 +1568,13 @@ class RptProfile(Identifiable):
     def setMinServicePoint(self, value: "PositiveInteger") -> "RptProfile":
         """
         AUTOSAR-compliant setter for minServicePoint with method chaining.
-
+        
         Args:
             value: The minServicePoint to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to min_service_point property setter (gets validation automatically)
         """
@@ -1654,10 +1584,10 @@ class RptProfile(Identifiable):
     def getServicePoint(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for servicePoint.
-
+        
         Returns:
             The servicePoint value
-
+        
         Note:
             Delegates to service_point property (CODING_RULE_V2_00017)
         """
@@ -1666,13 +1596,13 @@ class RptProfile(Identifiable):
     def setServicePoint(self, value: "CIdentifier") -> "RptProfile":
         """
         AUTOSAR-compliant setter for servicePoint with method chaining.
-
+        
         Args:
             value: The servicePoint to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to service_point property setter (gets validation automatically)
         """
@@ -1682,10 +1612,10 @@ class RptProfile(Identifiable):
     def getStimEnabler(self) -> "RptEnablerImplType":
         """
         AUTOSAR-compliant getter for stimEnabler.
-
+        
         Returns:
             The stimEnabler value
-
+        
         Note:
             Delegates to stim_enabler property (CODING_RULE_V2_00017)
         """
@@ -1694,13 +1624,13 @@ class RptProfile(Identifiable):
     def setStimEnabler(self, value: "RptEnablerImplType") -> "RptProfile":
         """
         AUTOSAR-compliant setter for stimEnabler with method chaining.
-
+        
         Args:
             value: The stimEnabler to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to stim_enabler property setter (gets validation automatically)
         """
@@ -1712,13 +1642,13 @@ class RptProfile(Identifiable):
     def with_max_service(self, value: Optional["PositiveInteger"]) -> "RptProfile":
         """
         Set maxService and return self for chaining.
-
+        
         Args:
             value: The maxService to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_service("value")
         """
@@ -1728,13 +1658,13 @@ class RptProfile(Identifiable):
     def with_min_service_point(self, value: Optional["PositiveInteger"]) -> "RptProfile":
         """
         Set minServicePoint and return self for chaining.
-
+        
         Args:
             value: The minServicePoint to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_min_service_point("value")
         """
@@ -1744,13 +1674,13 @@ class RptProfile(Identifiable):
     def with_service_point(self, value: Optional["CIdentifier"]) -> "RptProfile":
         """
         Set servicePoint and return self for chaining.
-
+        
         Args:
             value: The servicePoint to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_service_point("value")
         """
@@ -1760,15 +1690,76 @@ class RptProfile(Identifiable):
     def with_stim_enabler(self, value: Optional["RptEnablerImplType"]) -> "RptProfile":
         """
         Set stimEnabler and return self for chaining.
-
+        
         Args:
             value: The stimEnabler to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_stim_enabler("value")
         """
         self.stim_enabler = value  # Use property setter (gets validation)
         return self
+
+
+
+class ModeAccessPointIdent(IdentCaption):
+    """
+    This meta-class has been created to introduce the ability to become
+    referenced into the meta-class Mode AccessPoint without breaking backwards
+    compatibility.
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::ModeAccessPointIdent
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform
+      R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+
+class ExternalTriggeringPointIdent(IdentCaption):
+    """
+    This meta-class has been created to introduce the ability to become
+    referenced into the meta-class ExternalTriggeringPoint without breaking
+    backwards compatibility.
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::ExternalTriggeringPointIdent
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform
+      R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+class RptServicePointEnum(AREnum):
+    """
+    RptServicePointEnum enumeration
+
+Specifies whether the invocation of ExecutableEntitys due to activation of specific RteEvents/Bsw Events requires the insertion of Service Points. Aggregated by RptExecutableEntityProperties.rptServicePoint
+
+Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
+    """
+    # Enables generation of service points by the RTE generator.
+    enabled = "0"
+
+    # No Service Points are requested.
+    none = "1"

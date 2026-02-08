@@ -1,0 +1,466 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+  "classes": [
+    {
+      "name": "ParameterDataPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AutosarDataPrototype",
+      "bases": [
+        "ARObject",
+        "AutosarDataPrototype",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "BswInternalBehavior.perInstanceParameter",
+        "InternalBehavior.constantMemory",
+        "NvBlockDescriptor.romBlock",
+        "ParameterInterface.parameter",
+        "SwcInternalBehavior.perInstanceParameter",
+        "SwcInternalBehavior.sharedParameter"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "A ParameterDataPrototype represents a formalized generic piece of information that is typically immutable by the application software layer, but mutable by measurement and calibration tools. ParameterDataPrototype is used in various contexts and the specific context gives the otherwise generic ParameterDataPrototype a dedicated semantics.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 310,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2042,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 457,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies initial value(s) of the ParameterDataPrototype"
+        }
+      }
+    },
+    {
+      "name": "VariableDataPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AutosarDataPrototype",
+      "bases": [
+        "ARObject",
+        "AutosarDataPrototype",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationInterface.indication",
+        "AtpClassifier.atpFeature",
+        "BswInternalBehavior.arTypedPerInstanceMemory",
+        "BswModuleDescription.providedData",
+        "BswModuleDescription.requiredData",
+        "BulkNvDataDescriptor.bulkNvBlock",
+        "InternalBehavior.staticMemory",
+        "NvBlockDescriptor.ramBlock",
+        "NvDataInterface.nvData",
+        "SenderReceiverInterface.dataElement",
+        "ServiceInterface.event",
+        "SwcInternalBehavior.arTypedPerInstanceMemory",
+        "SwcInternalBehavior.explicitInterRunnableVariable",
+        "SwcInternalBehavior.implicitInter"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "A VariableDataPrototype represents a formalized generic piece of information that is typically mutable by the application software layer. VariableDataPrototype is used in various contexts and the specific context gives the otherwise generic VariableDataPrototype a dedicated semantics.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 310,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2077,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 256,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 29,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 223,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies initial value(s) of the VariableDataPrototype"
+        }
+      }
+    },
+    {
+      "name": "AutosarDataPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DataPrototype",
+      "bases": [
+        "ARObject",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "ParameterDataPrototype",
+        "VariableDataPrototype",
+        "ArgumentDataPrototype",
+        "Field"
+      ],
+      "subclasses": [
+        "ArgumentDataPrototype",
+        "ParameterDataPrototype",
+        "VariableDataPrototype"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "Base class for prototypical roles of an AutosarDataType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 305,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 301,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2001,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "type": {
+          "type": "AutosarDataType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "DataPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "AutosarDataPrototype",
+        "ApplicationCompositeElementDataPrototype"
+      ],
+      "subclasses": [
+        "ApplicationCompositeElementDataPrototype",
+        "AutosarDataPrototype"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "Base class for prototypical roles of any data type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 311,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 311,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 305,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2013,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property allows to specify data definition properties apply on data prototype level."
+        }
+      }
+    },
+    {
+      "name": "ApplicationArrayElement",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ApplicationCompositeElementDataPrototype",
+      "bases": [
+        "ARObject",
+        "ApplicationCompositeElementDataPrototype",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationArrayDataType.element",
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "Describes the properties of the elements of an application array data type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 252,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 43,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arraySize": {
+          "type": "ArraySizeSemantics",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls how the information about the array size shall be interpreted."
+        },
+        "indexDataType": {
+          "type": "ApplicationPrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference can be taken to assign a CompuMethod of TEXTTABLE to the array. The texttable entries textual value to an index number such that with that index number is represented by a"
+        },
+        "maxNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum number of elements that the array can"
+        }
+      }
+    },
+    {
+      "name": "ApplicationRecordElement",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ApplicationCompositeElementDataPrototype",
+      "bases": [
+        "ARObject",
+        "ApplicationCompositeElementDataPrototype",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationRecordDataType.element",
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "Describes the properties of one particular element of an application record data type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 261,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1997,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 43,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "isOptional": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to declare the as optional. This that, at runtime, the ApplicationRecord or may not have a valid value and shall ignored. runtime software provides means to set as not valid at the sending a communication and determine its validity at the"
+        }
+      }
+    },
+    {
+      "name": "ApplicationCompositeElementDataPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DataPrototype",
+      "bases": [
+        "ARObject",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "ApplicationArrayElement",
+        "ApplicationRecordElement"
+      ],
+      "subclasses": [
+        "ApplicationArrayElement",
+        "ApplicationRecordElement"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "This class represents a data prototype which is aggregated within a composite application data type (record or array). It is introduced to provide a better distinction between target and context in instance Refs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1996,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "type": {
+          "type": "ApplicationDataType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    }
+  ]
+}

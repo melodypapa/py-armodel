@@ -1,0 +1,237 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation",
+  "classes": [
+    {
+      "name": "SignalServiceTranslationProps",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SignalServiceTranslationPropsSet.signalServiceTranslationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows to define the properties which are applicable for the signal/service translation service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 336,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1005,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 730,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "control": {
+          "type": "ConsumedEventGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the EventGroup which encapsulates the payload."
+        },
+        "controlPnc": {
+          "type": "PncMappingIdent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the PNCs which control the offer/subscribe the translated service instance."
+        },
+        "controlProvided": {
+          "type": "EventHandler",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the provided event group (aka Event which is automatically available when service translationStart."
+        },
+        "serviceControl": {
+          "type": "SignalService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines how the service instance control shall behave."
+        },
+        "signalServiceEventProps": {
+          "type": "SignalService",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines properties for a single translated event."
+        }
+      }
+    },
+    {
+      "name": "SignalServiceTranslationPropsSet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of SignalServiceTranslationProps.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 730,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "signalServiceProps": {
+          "type": "SignalService",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of SignalServiceTranslationProps."
+        }
+      }
+    },
+    {
+      "name": "SignalServiceTranslationEventProps",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SignalServiceTranslationProps.signalServiceTranslationEventProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows to define the properties which are applicable for the signal/service translation event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 731,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "elementProps": {
+          "type": "SignalService",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines properties for a single translated element."
+        },
+        "safeTranslation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defined whether the translation shall happen in a safe"
+        },
+        "secure": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defined whether the translation shall happen in a secure"
+        },
+        "translation": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "of signal/service translation. by: VariableDataPrototypeIn"
+        }
+      }
+    },
+    {
+      "name": "SignalServiceTranslationElementProps",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SignalServiceTranslationEventProps.elementProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defined translation properties for individual mapped elements.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 735,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "element": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Reference to the leaf element the SignalService apply to."
+        },
+        "filter": {
+          "type": "DataFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines an optional filter to be applied during translation."
+        },
+        "transmission": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the source element (which is mapped to referenced element) triggers the sending of the"
+        }
+      }
+    }
+  ]
+}

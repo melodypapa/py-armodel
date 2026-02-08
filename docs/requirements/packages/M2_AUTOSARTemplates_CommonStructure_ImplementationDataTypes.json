@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+  "path": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 4,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

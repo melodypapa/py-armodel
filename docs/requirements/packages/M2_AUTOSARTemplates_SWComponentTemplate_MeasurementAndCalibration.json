@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "InterpolationRoutine",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_MeasurementAndCalibration_InterpolationRoutine.json"
+    },
+    {
+      "name": "CalibrationParameter",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_MeasurementAndCalibration_CalibrationParameter.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

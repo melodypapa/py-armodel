@@ -1,0 +1,111 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1",
+  "classes": [
+    {
+      "name": "Documentation",
+      "package": "M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to handle a so called standalone documentation. Standalone means, that such a documentation is not embedded in another ARElement or identifiable object. The standalone documentation is an entity of its own which denotes its context by reference to other objects and instances.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 294,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 439,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 181,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "context": {
+          "type": "DocumentationContext",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the context of the particular documentation."
+        },
+        "documentation": {
+          "type": "PredefinedChapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the content of the documentation related to the contexts."
+        }
+      }
+    },
+    {
+      "name": "DocumentationContext",
+      "package": "M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "MultilanguageReferrable",
+      "bases": [
+        "ARObject",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Documentation.context"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents the ability to denote a context of a so called standalone documentation. Note that this is an <<atpMixed>>. The contents needs to be considered as ordered.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 327,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "feature": {
+          "type": "AtpFeature",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "which is the context of the documentation. by: AnyInstanceRef"
+        },
+        "identifiable": {
+          "type": "Identifiable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is an identifiable object which is part of the context of"
+        }
+      }
+    }
+  ]
+}

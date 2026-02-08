@@ -1,16 +1,30 @@
-from typing import Optional
+"""
+AUTOSAR Package - DiagnosticDebouncingAlgorithm
 
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
 
 
 class DiagnosticDebounceAlgorithmProps(Identifiable):
     """
     Defines properties for the debounce algorithm class.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm::DiagnosticDebounceAlgorithmProps
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 195, Classic Platform
       R23-11)
@@ -35,10 +49,10 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def debounce(self, value: Optional["Boolean"]) -> None:
         """
         Set debounce with validation.
-
+        
         Args:
             value: The debounce to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -46,9 +60,9 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
             self._debounce = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"debounce must be Boolean or None, got {type(value).__name__}"
+                f"debounce must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._debounce = value
 
@@ -57,10 +71,10 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def getDebounce(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for debounce.
-
+        
         Returns:
             The debounce value
-
+        
         Note:
             Delegates to debounce property (CODING_RULE_V2_00017)
         """
@@ -69,13 +83,13 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def setDebounce(self, value: "Boolean") -> "DiagnosticDebounceAlgorithmProps":
         """
         AUTOSAR-compliant setter for debounce with method chaining.
-
+        
         Args:
             value: The debounce to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to debounce property setter (gets validation automatically)
         """
@@ -87,15 +101,30 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def with_debounce(self, value: Optional["Boolean"]) -> "DiagnosticDebounceAlgorithmProps":
         """
         Set debounce and return self for chaining.
-
+        
         Args:
             value: The debounce to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_debounce("value")
         """
         self.debounce = value  # Use property setter (gets validation)
         return self
+
+
+class DiagnosticDebounceBehaviorEnum(AREnum):
+    """
+    DiagnosticDebounceBehaviorEnum enumeration
+
+Event debounce algorithm behavior options. Aggregated by DiagnosticDebounceAlgorithmProps.debounceBehavior
+
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm
+    """
+    # The event debounce counter will be frozen with the current value and will not change while a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. After all related enable conditions are fulfilled and ControlDTCSetting of the related event is enabled again, the event qualification will continue with the next report of the event (i.e. SetEventStatus).
+    freeze = "0"
+
+    # The event debounce counter will be reset to initial value if a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. The qualification of the event will be restarted with the next valid event report.
+    reset = "1"

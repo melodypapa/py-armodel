@@ -1,0 +1,32 @@
+{
+  "name": "M2::MSR",
+  "path": "M2::MSR",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "DataDictionary",
+      "full_path": "M2::MSR::DataDictionary",
+      "file": "packages/M2_MSR_DataDictionary.json"
+    },
+    {
+      "name": "AsamHdo",
+      "full_path": "M2::MSR::AsamHdo",
+      "file": "packages/M2_MSR_AsamHdo.json"
+    },
+    {
+      "name": "Documentation",
+      "full_path": "M2::MSR::Documentation",
+      "file": "packages/M2_MSR_Documentation.json"
+    },
+    {
+      "name": "CalibrationData",
+      "full_path": "M2::MSR::CalibrationData",
+      "file": "packages/M2_MSR_CalibrationData.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

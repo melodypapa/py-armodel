@@ -1,0 +1,285 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+  "classes": [
+    {
+      "name": "DiagnosticAccessPermission",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the specification of whether a given service can be accessed according to the existence of meta-classes referenced by a particular DiagnosticAccessPermission. In other words, this meta-class acts as a mapping element between several (otherwise unrelated) pieces of information that are put into context for the purpose of checking for access rights.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "DiagnosticAuthRole",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The existence of this aggregation indicates that an authentication is foreseen. The details are clarified by the"
+        },
+        "diagnostic": {
+          "type": "DiagnosticSession",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the associated DiagnosticSessions atpSplitable"
+        },
+        "environmental": {
+          "type": "Diagnostic",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the environmental conditions associated with the access permission."
+        },
+        "securityLevel": {
+          "type": "DiagnosticSecurityLevel",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the associated DiagnosticSecurityLevels"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticSession",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a diagnostic session.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the numerical identifier used to identify the the scope of diagnostic workflow"
+        },
+        "jumpToBoot": {
+          "type": "DiagnosticJumpToBoot",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to define whether this diagnostic session allows to jump to Bootloader (OEM System Supplier Bootloader). diagnostic session doesn’t allow to jump to value JumpToBootLoaderEnum.noBoot chosen. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "p2ServerMax": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the session value for P2ServerMax in seconds Control). configuration standard is to use SI units, parameter is defined as a float value in seconds."
+        },
+        "p2StarServer": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the session value for P2*ServerMax in seconds Session Control). configuration standard is to use SI units, parameter is defined as a float value in seconds."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticSecurityLevel",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a security level considered for diagnostic purposes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 75,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accessData": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the size of the AccessDataRecord used GetSeed. Unit:byte."
+        },
+        "keySize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the size of the security key. Unit: byte."
+        },
+        "numFailed": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the number of failed security accesses which the delay time is activated."
+        },
+        "securityDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the delay time after a failed security Unit: second."
+        },
+        "seedSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the size of the security seed. Unit: byte."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticAuthRoleProxy",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticAccessPermission.authenticationEnabled"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class indicates that an authentication is generally foreseen. The question whether the authentication is done in general or whether it is done role-specific depends on the existence of references to DiagAuthRole.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 76,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "DiagnosticAuthRole",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the authenticationRole applicable the enclosing DiagnosticAccessPermission."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticAuthRole",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify an authentication role that can be used to deliver fine-grained access rights.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 77,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bitPosition": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows for the specification of the position of role in a bitfield of roles."
+        },
+        "isDefault": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates whether the enclosing role is default role."
+        }
+      }
+    }
+  ]
+}

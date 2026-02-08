@@ -1,0 +1,412 @@
+{
+  "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+  "classes": [
+    {
+      "name": "HwElement",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "HwDescriptionEntity",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "HwDescriptionEntity",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to describe Hardware Elements on an instance level. The particular types of hardware are distinguished by the category. This category determines the applicable attributes. The possible categories and attributes are defined in HwCategory.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 296,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 18,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 991,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2026,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwElement": {
+          "type": "HwElementConnector",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents one particular connection between two elements. atpVariation"
+        },
+        "hwPinGroup": {
+          "type": "HwPinGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This aggregation is used to describe the connection a hardware element. Note that hardware no pins but only pingroups. atpVariation"
+        },
+        "nestedElement": {
+          "type": "HwElement",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association is used to establish hierarchies of hw that one particular HwElement can be this association only once. I.e. multiple the same HwElement is not supported (at level). atpVariation"
+        }
+      }
+    },
+    {
+      "name": "HwDescriptionEntity",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [
+        "HwElement",
+        "HwType"
+      ],
+      "subclasses": [
+        "HwElement",
+        "HwPin",
+        "HwPinGroup",
+        "HwType"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe a hardware entity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 15,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 990,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwAttribute": {
+          "type": "HwAttributeValue",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents a particular hardware value. atpVariation"
+        },
+        "hwCategory": {
+          "type": "HwCategory",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "One of the associations representing one particular the hardware entity."
+        },
+        "hwType": {
+          "type": "HwType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association is used to assign an optional HwType the common attribute values for all this HwDescriptionEntity. Note that Hw not be redefined and therefore shall not have a"
+        }
+      }
+    },
+    {
+      "name": "HwPinGroup",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "HwDescriptionEntity",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwElement.hwPinGroup",
+        "HwPinGroupContent.hwPinGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe groups of pins which are used to connect hardware elements. This group acts as a bundle of pins. Thereby they allow to describe high level connections. Pin groups can even be nested.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 19,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2027,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwPinGroup": {
+          "type": "HwPinGroupContent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This aggregation describes the contained pins/pin groups."
+        }
+      }
+    },
+    {
+      "name": "HwPinGroupContent",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwPinGroup.hwPinGroupContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies a mixture of hwPins and hwPinGroups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 20,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwPin": {
+          "type": "HwPin",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents a hardware pin in a hardware atpVariation"
+        },
+        "hwPinGroup": {
+          "type": "HwPinGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This aggregation represents a nested hardware pin group. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "HwPin",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "HwDescriptionEntity",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwPinGroupContent.hwPin"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the possibility to describe a hardware pin.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 20,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "functionName": {
+          "type": "String",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the function of the pin (e.g. CLK"
+        },
+        "packagingPin": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute contains the name of the pin according to packaging of the hardware element (e.g. A03)."
+        },
+        "pinNumber": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute contains the physical pin number."
+        }
+      }
+    },
+    {
+      "name": "HwElementConnector",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwElement.hwElementConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to connect two hardware elements. The details of the connection can be refined by hwPinGroupConnection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 21,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwElement": {
+          "type": "HwElement",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association connects two hardware elements."
+        },
+        "hwPin": {
+          "type": "HwPinConnector",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents one particular connection between two pins. This connection shall be used if to be described but no description connection between the hierarchical composition of HwPinGroupConnector) is required. atpVariation"
+        },
+        "hwPinGroup": {
+          "type": "HwPinGroupConnector",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents one particular connection between two pin groups. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "HwPinGroupConnector",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwElementConnector.hwPinGroupConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to connect two pin groups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 22,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwPin": {
+          "type": "HwPinConnector",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents one particular connection between two pins. The connected pins shall match the by the parent hwPinGroup atpVariation"
+        },
+        "hwPinGroup": {
+          "type": "HwPinGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This association connects two hardware pin groups."
+        }
+      }
+    },
+    {
+      "name": "HwPinConnector",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwElementConnector.hwPinConnection",
+        "HwPinGroupConnector.hwPinConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to connect two pins.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 22,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwPin": {
+          "type": "HwPin",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association connects two hardware pins."
+        }
+      }
+    }
+  ]
+}

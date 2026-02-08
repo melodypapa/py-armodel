@@ -1,0 +1,465 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+  "classes": [
+    {
+      "name": "ImplementationProps",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [
+        "ExecutableEntityActivationReason",
+        "BswSchedulerNamePrefix",
+        "SectionNamePrefix",
+        "SymbolicNameProps",
+        "SymbolProps"
+      ],
+      "subclasses": [
+        "BswSchedulerNamePrefix",
+        "ExecutableEntityActivationReason",
+        "SectionNamePrefix",
+        "SymbolProps"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a symbol to be used as (depending on the concrete case) either a complete replacement or a prefix when generating code artifacts.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 86,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 287,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2033,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "symbol": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The symbol to be used as (depending on the concrete a complete replacement or a prefix."
+        }
+      }
+    },
+    {
+      "name": "Implementation",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "BswImplementation",
+        "SwcImplementation"
+      ],
+      "subclasses": [
+        "BswImplementation",
+        "SwcImplementation"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of an implementation a single software component or module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 126,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 619,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2029,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 449,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "buildAction": {
+          "type": "BuildActionManifest",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A manifest specifying the intended build actions for the delivered with this implementation. atpVariation"
+        },
+        "codeDescriptor": {
+          "type": "Code",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the provided implementation code."
+        },
+        "compiler": {
+          "type": "Compiler",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the compiler for which this implementation has 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "generated": {
+          "type": "DependencyOnArtifact",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Relates to an artifact that will be generated during the of this Implementation by an associated Note that this is an optional information might not always be in the scope of a single component to provide this information. atpVariation"
+        },
+        "hwElement": {
+          "type": "HwElement",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The hardware elements (e.g. the processor) required for"
+        },
+        "linker": {
+          "type": "Linker",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the linker for which this implementation has"
+        },
+        "mcSupport": {
+          "type": "McSupportData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The measurement & calibration support data belonging to The aggregtion is <<atpSplitable>> case of an already exisiting BSW this description will be added later process, namely at code generation time."
+        },
+        "programming": {
+          "type": "Programminglanguage",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Programming language the implementation was created in."
+        },
+        "requiredArtifact": {
+          "type": "DependencyOnArtifact",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Specifies that this Implementation depends on the another artifact (e.g. a library). This DependencyOnArtifact is subject to the purpose to support variability in the algorithms in the cause different dependencies, e.g. of used libraries. atpVariation"
+        },
+        "required": {
+          "type": "DependencyOnArtifact",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Relates this Implementation to a generator tool in order to additional artifacts during integration. atpVariation"
+        },
+        "resource": {
+          "type": "ResourceConsumption",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "All static and dynamic resources for each implementation described within the ResourceConsumption class."
+        },
+        "swcBsw": {
+          "type": "SwcBswMapping",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This allows a mapping between an SWC and a BSW to be attached to an implementation description Service, ECU Abstraction and Complex It is up to the methodology to define reference has to be set for the Swc- or Bsw for both."
+        },
+        "swVersion": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Software version of this implementation. The numbering levels (like major, minor, patch), its values specific."
+        },
+        "usedCodeGenerator": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional: code generator used. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "vendorId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Vendor ID of this Implementation according to the list"
+        }
+      }
+    },
+    {
+      "name": "Code",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Implementation.codeDescriptor"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A generic code descriptor. The type of the code (source or object) is defined via the category attribute of the associated engineering object.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 130,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 622,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "artifact": {
+          "type": "AutosarEngineering",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Refers to the artifact belonging to this code descriptor."
+        },
+        "callbackHeader": {
+          "type": "ServiceNeeds",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The association callbackHeader describes in which the function declarations of callback functions to a service module. With this information module can include the appropriate header its configuration files."
+        }
+      }
+    },
+    {
+      "name": "DependencyOnArtifact",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Implementation.generatedArtifact",
+        "Implementation.requiredArtifact",
+        "Implementation.requiredGenerator"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Dependency on the existence of another artifact, e.g. a library.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 131,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 412,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "artifact": {
+          "type": "AutosarEngineering",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specified artifact needs to exist."
+        },
+        "usage": {
+          "type": "DependencyUsage",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Specification for which process step(s) this dependency is"
+        }
+      }
+    },
+    {
+      "name": "Compiler",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Implementation.compiler"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the compiler attributes. In case of source code this specifies requirements how the compiler shall be invoked. In case of object code this documents the used compiler settings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 133,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 621,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 434,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "name": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Compiler name (like gcc)."
+        },
+        "options": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the compiler options."
+        },
+        "vendor": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Vendor of compiler."
+        },
+        "version": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Exact version of compiler executable."
+        }
+      }
+    },
+    {
+      "name": "Linker",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Implementation.linker"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the linker attributes used to describe how the linker shall be invoked.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 134,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 622,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "name": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Linker name."
+        },
+        "options": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the linker options."
+        },
+        "vendor": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Vendor of linker."
+        },
+        "version": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Exact version of linker executable."
+        }
+      }
+    }
+  ]
+}

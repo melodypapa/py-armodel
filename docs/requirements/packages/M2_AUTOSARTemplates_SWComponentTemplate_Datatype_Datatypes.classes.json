@@ -1,0 +1,517 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+  "classes": [
+    {
+      "name": "ApplicationDataType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "AutosarDataType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AutosarDataType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "ApplicationPrimitiveDataType",
+        "ApplicationCompositeDataType",
+        "ApplicationDeferredDataType"
+      ],
+      "subclasses": [
+        "ApplicationCompositeDataType",
+        "ApplicationPrimitiveDataType"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "ApplicationDataType defines a data type from the application point of view. Especially it should be used whenever something \"physical\" is at stake. An ApplicationDataType represents a set of values as seen in the application model, such as measurement units. It does not consider implementation details such as bit-size, endianess, etc. It should be possible to model the application level aspects of a VFB system by using ApplicationData Types only.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 299,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 232,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1996,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 34,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 160,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AutosarDataType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "ApplicationDataType",
+        "AbstractImplementationDataType"
+      ],
+      "subclasses": [
+        "AbstractImplementationDataType",
+        "ApplicationDataType"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "Abstract base class for user defined AUTOSAR data types for software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 231,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2001,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 44,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The properties of this AutosarDataType. atpSplitable"
+        }
+      }
+    },
+    {
+      "name": "DataTypeMappingSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This class represents a list of mappings between ApplicationDataTypes and ImplementationDataTypes. In addition, it can contain mappings between ImplementationDataTypes and ModeDeclarationGroups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 311,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 234,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2015,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 180,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataTypeMap": {
+          "type": "DataTypeMap",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular association between an Application its AbstractImplementationDataType."
+        },
+        "modeRequest": {
+          "type": "ModeRequestTypeMap",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular association between an Mode and its AbstractImplementationData"
+        }
+      }
+    },
+    {
+      "name": "ApplicationPrimitiveDataType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ApplicationDataType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "ApplicationDataType",
+        "AutosarDataType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A primitive data type defines a set of allowed values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 230,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 241,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1997,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 34,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DataTypeMap",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataTypeMappingSet.dataTypeMap"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents the relationship between ApplicationDataType and its implementing Abstract ImplementationDataType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 232,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2015,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "applicationDataType": {
+          "type": "ApplicationDataType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the corresponding ApplicationDataType"
+        },
+        "implementation": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the corresponding AbstractImplementationData Type."
+        }
+      }
+    },
+    {
+      "name": "ApplicationCompositeDataType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ApplicationDataType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "ApplicationDataType",
+        "AutosarDataType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "ApplicationArrayDataType",
+        "ApplicationRecordDataType"
+      ],
+      "subclasses": [
+        "ApplicationArrayDataType",
+        "ApplicationRecordDataType"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "Abstract base class for all application data types composed of other data types.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 241,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1996,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 34,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ApplicationArrayDataType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ApplicationCompositeDataType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "ApplicationCompositeDataType",
+        "ApplicationDataType",
+        "AutosarDataType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "An application data type which is an array, each element is of the same application data type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 252,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1995,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 35,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dynamicArray": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the profile which the array will follow if it is a size array."
+        },
+        "element": {
+          "type": "ApplicationArray",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This association implements the concept of an array That is, in some cases it is necessary to be able single array elements, e.g. as input values for routine."
+        }
+      }
+    },
+    {
+      "name": "ApplicationRecordDataType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ApplicationCompositeDataType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "ApplicationCompositeDataType",
+        "ApplicationDataType",
+        "AutosarDataType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "An application data type which can be decomposed into prototypes of other application data types.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 261,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1997,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 34,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "element": {
+          "type": "ApplicationRecord",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies an element of a record. The aggregation of ApplicationRecordElement is subject with the purpose to support the conditional elements inside a ApplicationrecordData atpVariation"
+        }
+      }
+    }
+  ]
+}

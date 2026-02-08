@@ -1,0 +1,122 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::McGroups",
+  "classes": [
+    {
+      "name": "McGroup",
+      "package": "M2::AUTOSARTemplates::CommonStructure::McGroups",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents a group element to be used as input to support measurement and calibration. It is used to provide selection lists (groups) of calibration parameters, measurement variables, and functions in a hierarchical manner (subGroups).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 190,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2034,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mcFunction": {
+          "type": "McFunction",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A McFunction that is seen as part of the enclosing group."
+        },
+        "refCalprmSet": {
+          "type": "McGroupDataRefSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to the set of adjustable data (= calibration by this McGroup. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "ref": {
+          "type": "McGroupDataRefSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Refers to the set of measurable belonging to this Mc atpSplitable"
+        },
+        "subGroup": {
+          "type": "McGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "A sub-group that is seen as part of the enclosing group."
+        }
+      }
+    },
+    {
+      "name": "McGroupDataRefSet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::McGroups",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McGroup.refCalprmSet",
+        "McGroup.refMeasurementSet"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Refers to a set of data assigned to an McGroup in a particular role. The data are given • either by entries in a FlatMap • or by data instances that are part of MC support data. These two possibilities can be mixed within a given McGroupDataRefSet. Which one to use depends on the process and tool environment. The set is subject to variability because the same functional model may be used with various representation of the data. Tags: vh.latestBindingTime=preCompileTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 191,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2035,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "flatMapEntry": {
+          "type": "FlatInstanceDescriptor",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to an entry in a FlatMap that is part of the set, for calibration parameter or measured variable. atpSplitable property has no atp.Splitkey due (PropertySetPattern)."
+        },
+        "mcDataInstance": {
+          "type": "McDataInstance",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to a data instance within MC support data that is the set, i.e. a calibration parameter or measured atpSplitable property has no atp.Splitkey due (PropertySetPattern)."
+        }
+      }
+    }
+  ]
+}

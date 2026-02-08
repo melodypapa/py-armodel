@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::PncMapping",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::PncMapping",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_PncMapping.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

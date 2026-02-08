@@ -1,0 +1,114 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate",
+  "path": "M2::AUTOSARTemplates::SystemTemplate",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "DiagnosticConnection",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_DiagnosticConnection.json"
+    },
+    {
+      "name": "Fibex",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex.json"
+    },
+    {
+      "name": "SoftwareCluster",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_SoftwareCluster.json"
+    },
+    {
+      "name": "SecureCommunication",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_SecureCommunication.json"
+    },
+    {
+      "name": "NetworkManagement",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_NetworkManagement.json"
+    },
+    {
+      "name": "Transformer",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Transformer.json"
+    },
+    {
+      "name": "DataMapping",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_DataMapping.json"
+    },
+    {
+      "name": "EndToEndProtection",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_EndToEndProtection.json"
+    },
+    {
+      "name": "ECUResourceMapping",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_ECUResourceMapping.json"
+    },
+    {
+      "name": "SWmapping",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_SWmapping.json"
+    },
+    {
+      "name": "RteEventToOsTaskMapping",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_RteEventToOsTaskMapping.json"
+    },
+    {
+      "name": "SignalPaths",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_SignalPaths.json"
+    },
+    {
+      "name": "PncMapping",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::PncMapping",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_PncMapping.json"
+    },
+    {
+      "name": "GeneralPurposeConnection",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::GeneralPurposeConnection",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_GeneralPurposeConnection.json"
+    },
+    {
+      "name": "DoIP",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_DoIP.json"
+    },
+    {
+      "name": "TransportProtocols",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_TransportProtocols.json"
+    },
+    {
+      "name": "BusMirror",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_BusMirror.json"
+    },
+    {
+      "name": "Dlt",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Dlt.json"
+    },
+    {
+      "name": "GlobalTime",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime.json"
+    },
+    {
+      "name": "InstanceRefs",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_InstanceRefs.json"
+    }
+  ],
+  "summary": {
+    "class_count": 8,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

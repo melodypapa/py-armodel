@@ -1,0 +1,56 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::Note",
+  "classes": [
+    {
+      "name": "Note",
+      "package": "M2::MSR::Documentation::BlockElements::Note",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.note"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a note in a documentation, which may be used to highlight specific issues such as hints or caution notes. N.B., Documentation notes can be nested recursively, even if this is not really intended. In case of nested notes e.g. the note icon of inner notes might be omitted while rendering the note.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 310,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "label": {
+          "type": "MultilanguageLong",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This label can be used to superseed the default label by the noteType attribute. It is in particular noteType=\"other\"."
+        },
+        "noteText": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the text content of the note."
+        },
+        "noteType": {
+          "type": "NoteTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Type of the Note. Default is \"HINT\""
+        }
+      }
+    }
+  ]
+}

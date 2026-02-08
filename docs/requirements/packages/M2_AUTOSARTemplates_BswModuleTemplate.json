@@ -1,0 +1,32 @@
+{
+  "name": "M2::AUTOSARTemplates::BswModuleTemplate",
+  "path": "M2::AUTOSARTemplates::BswModuleTemplate",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "BswOverview",
+      "full_path": "M2::AUTOSARTemplates::BswModuleTemplate::BswOverview",
+      "file": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswOverview.json"
+    },
+    {
+      "name": "BswInterfaces",
+      "full_path": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "file": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswInterfaces.json"
+    },
+    {
+      "name": "BswBehavior",
+      "full_path": "M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior",
+      "file": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswBehavior.json"
+    },
+    {
+      "name": "BswImplementation",
+      "full_path": "M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation",
+      "file": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswImplementation.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::TagWithOptionalValue",
+  "classes": [
+    {
+      "name": "TagWithOptionalValue",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::TagWithOptionalValue",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractServiceInstance.capabilityRecord",
+        "Machine.environmentVariable",
+        "ProvidedSomeipServiceInstance.capabilityRecord",
+        "RequiredSomeipServiceInstance.capabilityRecord",
+        "SdClientConfig.capabilityRecord",
+        "SdServerConfig.capabilityRecord",
+        "StartupConfig.environmentVariable"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A tagged value is a combination of a tag (key) and a value that gives supplementary information that is attached to a model element. Please note that keys without a value are allowed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 477,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 166,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "key": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a key. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "sequenceOffset": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The sequenceOffset attribute supports the use case is aggregated as splitable. If define the same value of attribute the order in which the value collection is merged significant. As an example consider the the $PATH environment variable by means of class TagWithOptionalValue. The sequenceOffset relative position of each contribution in the The contributions are sorted in order."
+        },
+        "value": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the corresponding value."
+        }
+      }
+    }
+  ]
+}

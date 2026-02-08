@@ -1,0 +1,380 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+  "enumerations": [
+    {
+      "name": "MacSecConfidentialityOffsetEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This enum defines the MACsec capability options. Tags: atp.Status=candidate Aggregated by MacSecCryptoAlgoConfig.confidentialityOffset",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 176,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ConfidentialityOffset_0Offset_30",
+          "index": 1,
+          "description": "confidentiality offset of 0. Confidentiality confidentiality offset of 30.<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=CONFIDENTIALITY-OFFSET–30"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAROffset_50",
+          "index": 2,
+          "description": "CP R23-11 Confidentiality confidentiality offset of 50.<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=CONFIDENTIALITY-OFFSET–50"
+        }
+      ]
+    },
+    {
+      "name": "MacSecCapabilityEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This enum defines the MACsec capability options. Tags: atp.Status=candidate Aggregated by MacSecCryptoAlgoConfig.capability",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 177,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "intergrityAndConfidentiality",
+          "index": 1,
+          "description": "Option that ensures confidentiality and integrity<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "intergrityWithoutConfidentiality",
+          "index": 0,
+          "description": "Option that ensures integrity without confidentiality<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "MacSecRoleEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This enum defines the MACsec Role options. Tags: atp.Status=candidate Aggregated by MacSecLocalKayProps.role",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 177,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "keyServer",
+          "index": 1,
+          "description": "Port acts in the KeyServer role<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "peer",
+          "index": 0,
+          "description": "Port acts in the peer role<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "MacSecFailPermissiveModeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "Behavior options of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate Aggregated by MacSecProps.onFailPermissiveMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 177,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "never",
+          "index": 0,
+          "description": "The controlled port will never be set to enabled if the participants cannot establish and successfully use a MACsec Secure Channel.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "timeout",
+          "index": 1,
+          "description": "The controlled port will be set to enabled and MACsec will not be used in the port if the timeout value<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "CryptoServiceKeyGenerationEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This enumeration shall be taken to express the handling of a crypto key in terms of whether it is obtained from e.g. a diagnostic tester or whether it is created by derivation from a master key. Aggregated by CryptoServiceKey.keyGeneration",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 378,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "keyDerivation",
+          "index": 0,
+          "description": "This means that the crypto key is created by derivation from a master key.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "keyStorage",
+          "index": 1,
+          "description": "This means that the crypto key is obtained from an external entity, e.g. a diagnostic tester.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TlsVersionEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This meta-class has the ability to identify a specific version of the transport-layer security (TLS) protocol. Aggregated by TlsCryptoCipherSuite.version",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 563,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "tls12",
+          "index": 0,
+          "description": "TLS version 1.2<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "tls13",
+          "index": 2,
+          "description": "TLS version 1.3<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "CryptoCertificateAlgorithmFamilyEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This meta-class defies possible cryptographic algorithm families used to create public keys and signatures within the certificate. Aggregated by CryptoServiceCertificate.algorithmFamily",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 565,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ecc",
+          "index": 2,
+          "description": "The cryptographic operations in the certificate are executed using elliptic curves (ecc)<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "rsa",
+          "index": 1,
+          "description": "The cryptographic operations in the certificate are executed using the RSA approach.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "CryptoCertificateFormatEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This meta-class defines possible formats of cryptographic certificates. Aggregated by CryptoServiceCertificate.format",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 565,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "cvc",
+          "index": 2,
+          "description": "The certificate has been created in Card Verifiable Certificate (CVC) format<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "x509",
+          "index": 1,
+          "description": "The certificate is created in X.509 format.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "IPsecIpProtocolEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "Definition of supported TcpIp protocols that are supported in Security Policy Database (SPD) entries in IPSec configurations. Aggregated by IPSecRule.ipProtocol",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 573,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "any",
+          "index": 3,
+          "description": "ANY protocol<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "icmp",
+          "index": 2,
+          "description": "Internet Control Message Protocol (ICMP)<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "tcp",
+          "index": 1,
+          "description": "TCP Protocol<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "udp",
+          "index": 0,
+          "description": "UDP Protocol<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "IPsecPolicyEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "Defines the filter actions that are supported by IPsec. Aggregated by IPSecRule.policy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 574,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "drop",
+          "index": 3,
+          "description": "Signifying that packets should be discarded<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "ipsec",
+          "index": 1,
+          "description": "Signifying that packets should be protected.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "passthrough",
+          "index": 2,
+          "description": "Signifying that no IPsec processing should be done at all.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "reject",
+          "index": 4,
+          "description": "Signifying that packets should be discarded and a diagnostic ICMP returned.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "IPsecModeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "This enumeration describes the supported IPSec modes. Aggregated by IPSecRule.mode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 575,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "transport",
+          "index": 1,
+          "description": "Signifying that the IPSec transport mode is used. With the transport mode the original IP header is retained and only the IP payload and ESP trailer is encrypted.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "tunnel",
+          "index": 0,
+          "description": "Signifying that the IPSec tunnel mode is used. With tunnel mode, the entire original IP packet is protected by IPSec. This means IPSec wraps the original packet, encrypts it, adds a new IP header and sends it to the other side.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "IPsecHeaderTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "IPsec Header Type options Aggregated by IPSecRule.headerType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 576,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ah",
+          "index": 0,
+          "description": "Authentication Header (AH)<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "esp",
+          "index": 1,
+          "description": "Encapsulating Security Payloads (ESP)<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "none",
+          "index": 2,
+          "description": "No header<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "IPsecDpdActionEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "note": "Potential Dead Peer Detection (Dpd) Actions Aggregated by IPSecConfigProps.dpdAction",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 577,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "clear",
+          "index": 0,
+          "description": "Deletes the SA.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "restart",
+          "index": 1,
+          "description": "Immediately tries to establish the connection. trap tries to establish the connection after traffic is sent to the peer.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

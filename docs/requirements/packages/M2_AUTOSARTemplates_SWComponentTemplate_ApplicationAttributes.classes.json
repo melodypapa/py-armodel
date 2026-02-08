@@ -1,0 +1,435 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+  "classes": [
+    {
+      "name": "SenderReceiverAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [
+        "SenderAnnotation",
+        "ReceiverAnnotation"
+      ],
+      "subclasses": [
+        "ReceiverAnnotation",
+        "SenderAnnotation"
+      ],
+      "aggregated_by": [
+        "PortPrototype.senderReceiverAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation of the data elements in a port that realizes a sender/receiver interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 152,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "computed": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Flag whether this data element was not measured directly was calculated from possibly several other calculated values."
+        },
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The instance of VariableDataPrototype annotated."
+        },
+        "limitKind": {
+          "type": "DataLimitKindEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This min or max has not to be mismatched with the min- for data-value in a compu-method. For example, shows when the result of the calculation a RunnableEntity owned by one AtomicSw transmitted to another AtomicSw RunnableEntity will use this value limit, e.g. the max.power which can be used by that the current min. slip."
+        },
+        "processingKind": {
+          "type": "ProcessingKindEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls how data is processed according to values of ProcessingKindEnum."
+        }
+      }
+    },
+    {
+      "name": "SenderAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SenderReceiverAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation",
+        "SenderReceiverAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.senderReceiverAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation of a sender port, specifying properties of data elements that don’t affect communication or generation of the RTE.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 153,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ReceiverAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SenderReceiverAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation",
+        "SenderReceiverAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.senderReceiverAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation of a receiver port, specifying properties of data elements that don’t affect communication or generation of the RTE. The given attributes are requirements on the required data.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 153,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "signalAge": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum allowed age of the signal since it was by a sensor. This is a requirement the receiver side."
+        }
+      }
+    },
+    {
+      "name": "ClientServerAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.clientServerAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation to a port regarding a certain Operation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 155,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the ClientServerOperation that the Client to."
+        }
+      }
+    },
+    {
+      "name": "IoHwAbstractionServerAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.ioHwAbstractionServerAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the \"server\" in the name of this meta-class is not meant to restrict the usage to ClientServer Interfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 156,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "age": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In case of a SET operation, the age will be interpreted as in a GET operation (input) it specifies the the signal within the IoHwAbstraction Layer"
+        },
+        "argument": {
+          "type": "ArgumentDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the corresponding ArgumentDataPrototype."
+        },
+        "bswResolution": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This value is determined by an appropriate combination range, the unit as well as the data-elements type, (2ˆdatatypelength - 1)"
+        },
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the corresponding VariableDataPrototype."
+        },
+        "failure": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is only applicable in SET operations. If it is enabled, IoHwAbstraction layer will monitor the result of the issue an diagnostic signal. This means an additional client-server port has to be can use this information to cross-check each data-element in a SET operation with an additional port is created port monitors a failure in the to be of the IoHwAbstraction referenced port has to be another port of the or Sensor Component. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "filtering": {
+          "type": "FilterDebouncingEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to indicate what kind of filtering/ has been put to the signal in the IoHw that no modification of the signal has This is the default value debounceData the signal is a mean value waitTimeData the signal is delivered by a GET operation certain amount of time"
+        },
+        "pulseTest": {
+          "type": "PulseTestEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates to the connected SensorActuator the VariableDataPrototype used to generate pulse test sequences using the"
+        },
+        "trigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the corresponding Trigger."
+        }
+      }
+    },
+    {
+      "name": "ParameterPortAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.parameterPortAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation to a port used for calibration regarding a certain ParameterDataPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 158,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "parameterPrototype": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The instance of annotated ParameterDataPrototype."
+        }
+      }
+    },
+    {
+      "name": "ModePortAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.modePortAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation to a port used for calibration regarding a certain ModeDeclarationGroupPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 159,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The instance of annotated ModeDeclarationGroup"
+        }
+      }
+    },
+    {
+      "name": "TriggerPortAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.triggerPortAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation to a port used for calibration regarding a certain Trigger.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 160,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "trigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The instance of annotated trigger."
+        }
+      }
+    },
+    {
+      "name": "NvDataPortAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.nvDataPortAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation to a port regarding a certain VariableDataPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 160,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "variable": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The instance of nv data annotated."
+        }
+      }
+    },
+    {
+      "name": "DelegatedPortAnnotation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototype.delegatedPortAnnotation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Annotation to a \"delegated port\" to specify the Signal Fan In or Signal Fan Out inside the CompositionSw ComponentType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 162,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "signalFan": {
+          "type": "SignalFanEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the Signal Fan In or Signal Fan Out inside the"
+        }
+      }
+    }
+  ]
+}

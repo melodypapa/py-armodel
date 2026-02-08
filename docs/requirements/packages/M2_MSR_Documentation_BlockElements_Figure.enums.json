@@ -1,0 +1,215 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::Figure",
+  "enumerations": [
+    {
+      "name": "AreaEnumNohref",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "note": "This enumerator specifies the fact that the area has no reference. Aggregated by Area.nohref",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 301,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "nohref",
+          "index": 0,
+          "description": "This indicates that the area has no active link.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "AreaEnumShape",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "note": "This enumerator specifies the shape of the area. Aggregated by Area.shape",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 301,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "FO R23-11"
+        },
+        {
+          "name": "circle",
+          "index": 0,
+          "description": "The shape is a circle.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "default",
+          "index": 1,
+          "description": "This specifies the fact that the area covers the rest of the figure.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "poly",
+          "index": 2,
+          "description": "The area is specified as polygon.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "rect",
+          "index": 3,
+          "description": "The shape is specified as rectangle.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "GraphicFitEnum",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "note": "This enumerator specifies the policy how to place and scale the figure on the page. Aggregated by Graphic.editfit, Graphic.fit, Graphic.htmlFit",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 303,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "AsIs",
+          "index": 0,
+          "description": "This indicates that the image shall be incorporated as is without scaling, rotation etc.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "FitToPage",
+          "index": 1,
+          "description": "Fit to the page<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": 2,
+          "description": "FO R23-11 FitToText fit to the text containing the graphic.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "LimitToPage",
+          "index": 3,
+          "description": "This indicates that the width of the graphic shall be limited to the page width. The image shall not be scaled down but cropped.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "LimitToText",
+          "index": 4,
+          "description": "This indicates that the width of the graphic shall be limited to the width of the current text flow. The image shall not be scaled down but cropped.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "Rotate180Rotate180LimitTo",
+          "index": 5,
+          "description": "Rotate 180 degree<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "Text",
+          "index": 6,
+          "description": "Tags:<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "Rotate90ccw",
+          "index": 7,
+          "description": "Rotate 90 degree counter clockwise<br>Tags: atp.EnumerationLiteralIndex=7"
+        },
+        {
+          "name": "Rotate90CcwFitToTextRotate90CcwLimit",
+          "index": 8,
+          "description": "Rotate by 90 degree counter clock wise and then fit to text<br>Tags: atp.EnumerationLiteralIndex=8"
+        },
+        {
+          "name": "ToText",
+          "index": 9,
+          "description": "Tags:<br>Tags: atp.EnumerationLiteralIndex=9"
+        },
+        {
+          "name": "Rotate90Cw",
+          "index": 10,
+          "description": "Rotate 90 degree clockwise<br>Tags: atp.EnumerationLiteralIndex=10"
+        },
+        {
+          "name": "Rotate90CwFitToTextRotate90CwLimitTo",
+          "index": 11,
+          "description": "Rotate by 90 degree and then fit to text<br>Tags: atp.EnumerationLiteralIndex=11"
+        },
+        {
+          "name": "Text",
+          "index": 12,
+          "description": "Tags:<br>Tags: atp.EnumerationLiteralIndex=12"
+        }
+      ]
+    },
+    {
+      "name": "GraphicNotationEnum",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "note": "This enumerator specifies the various notations (finally file types) used to represent the figure. Aggregated by Graphic.notation",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 304,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bmp",
+          "index": 0,
+          "description": "bitmap image<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "eps",
+          "index": 1,
+          "description": "Encapsulated Postscript<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "gif",
+          "index": 2,
+          "description": "Graphics Interchange Format<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "jpg",
+          "index": 3,
+          "description": "\"Joint Photographic Experts Group\" format<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "pdf",
+          "index": 4,
+          "description": "Portable Document Format<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "png",
+          "index": 5,
+          "description": "Portable Network Graphics<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": 6,
+          "description": "FO R23-11 svg scalable vector graphic<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "tiff",
+          "index": 7,
+          "description": "Tagged Image File Format<br>Tags: atp.EnumerationLiteralIndex=7"
+        }
+      ]
+    }
+  ]
+}

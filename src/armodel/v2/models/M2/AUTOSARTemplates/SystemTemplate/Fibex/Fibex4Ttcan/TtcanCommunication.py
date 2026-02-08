@@ -1,11 +1,23 @@
-from typing import Optional
+"""
+AUTOSAR Package - TtcanCommunication
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
     RefType,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
 
 
 class TtcanAbsolutelyScheduledTiming(ARObject):
@@ -15,9 +27,9 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     can be sent multiple times within one communication cycle. For describing
     this case multiple AbsolutelyScheduledTimings have to be used. The main use
     case would be that a frame is sent twice within one communication cycle.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication::TtcanAbsolutelyScheduledTiming
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 450, Classic Platform R23-11)
     """
@@ -37,10 +49,10 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def communication_cycle(self, value: Optional["CommunicationCycle"]) -> None:
         """
         Set communicationCycle with validation.
-
+        
         Args:
             value: The communicationCycle to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +78,10 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def time_mark(self, value: Optional["Integer"]) -> None:
         """
         Set timeMark with validation.
-
+        
         Args:
             value: The timeMark to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,27 +89,27 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
             self._timeMark = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"timeMark must be Integer or None, got {type(value).__name__}"
+                f"timeMark must be Integer or int or None, got {type(value).__name__}"
             )
         self._timeMark = value
         # Trigger type for this time window.
-        self._trigger: RefType = None
+        self._trigger: Optional["RefType"] = None
 
     @property
-    def trigger(self) -> RefType:
+    def trigger(self) -> Optional["RefType"]:
         """Get trigger (Pythonic accessor)."""
         return self._trigger
 
     @trigger.setter
-    def trigger(self, value: RefType) -> None:
+    def trigger(self, value: Optional["RefType"]) -> None:
         """
         Set trigger with validation.
-
+        
         Args:
             value: The trigger to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +124,10 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def getCommunicationCycle(self) -> "CommunicationCycle":
         """
         AUTOSAR-compliant getter for communicationCycle.
-
+        
         Returns:
             The communicationCycle value
-
+        
         Note:
             Delegates to communication_cycle property (CODING_RULE_V2_00017)
         """
@@ -124,13 +136,13 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def setCommunicationCycle(self, value: "CommunicationCycle") -> "TtcanAbsolutelyScheduledTiming":
         """
         AUTOSAR-compliant setter for communicationCycle with method chaining.
-
+        
         Args:
             value: The communicationCycle to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to communication_cycle property setter (gets validation automatically)
         """
@@ -140,10 +152,10 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def getTimeMark(self) -> "Integer":
         """
         AUTOSAR-compliant getter for timeMark.
-
+        
         Returns:
             The timeMark value
-
+        
         Note:
             Delegates to time_mark property (CODING_RULE_V2_00017)
         """
@@ -152,41 +164,41 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def setTimeMark(self, value: "Integer") -> "TtcanAbsolutelyScheduledTiming":
         """
         AUTOSAR-compliant setter for timeMark with method chaining.
-
+        
         Args:
             value: The timeMark to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to time_mark property setter (gets validation automatically)
         """
         self.time_mark = value  # Delegates to property setter
         return self
 
-    def getTrigger(self) -> RefType:
+    def getTrigger(self) -> "RefType":
         """
         AUTOSAR-compliant getter for trigger.
-
+        
         Returns:
             The trigger value
-
+        
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: RefType) -> "TtcanAbsolutelyScheduledTiming":
+    def setTrigger(self, value: "RefType") -> "TtcanAbsolutelyScheduledTiming":
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-
+        
         Args:
             value: The trigger to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -198,13 +210,13 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def with_communication_cycle(self, value: Optional["CommunicationCycle"]) -> "TtcanAbsolutelyScheduledTiming":
         """
         Set communicationCycle and return self for chaining.
-
+        
         Args:
             value: The communicationCycle to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_communication_cycle("value")
         """
@@ -214,13 +226,13 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def with_time_mark(self, value: Optional["Integer"]) -> "TtcanAbsolutelyScheduledTiming":
         """
         Set timeMark and return self for chaining.
-
+        
         Args:
             value: The timeMark to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_time_mark("value")
         """
@@ -230,15 +242,45 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
     def with_trigger(self, value: Optional[RefType]) -> "TtcanAbsolutelyScheduledTiming":
         """
         Set trigger and return self for chaining.
-
+        
         Args:
             value: The trigger to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_trigger("value")
         """
         self.trigger = value  # Use property setter (gets validation)
         return self
+
+
+class TtcanTriggerType(AREnum):
+    """
+    TtcanTriggerType enumeration
+
+This type lists all trigger types for a time window. Aggregated by TtcanAbsolutelyScheduledTiming.trigger
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication
+    """
+    # Check for message reception
+    rxTrigger = "0"
+
+    # Send reference message in periodic case
+    txRefTrigger = "1"
+
+    # Send reference message in event-synchronised case
+    txRefTriggerGap = "2"
+
+    # Send message in a merged arbitration window
+    txTriggerMerged = "3"
+
+    # Send message in an exclusive time window
+    txTriggerSingle = "4"
+
+    # Check for missing reference message in periodic case
+    watchTrigger = "5"
+
+    # Check for missing reference message in event-synchronised case
+    watchTriggerGap = "6"

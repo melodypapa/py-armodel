@@ -1,0 +1,47 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator",
+  "classes": [
+    {
+      "name": "BlueprintGenerator",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "VariationPoint.formalBlueprintGenerator"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class express the Extended Language to generate blueprint derivates in complex descriptions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 424,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "expression": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a formal term in the expression based on language. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the shall be resolved when deriving blueprints."
+        }
+      }
+    }
+  ]
+}

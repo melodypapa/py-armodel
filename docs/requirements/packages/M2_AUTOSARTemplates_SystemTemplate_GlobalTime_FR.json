@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime_FR.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

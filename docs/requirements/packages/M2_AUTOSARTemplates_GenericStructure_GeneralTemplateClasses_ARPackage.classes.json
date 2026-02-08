@@ -1,0 +1,553 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage",
+  "classes": [
+    {
+      "name": "ARElement",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "PackageableElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "BswModuleDescription",
+        "BswModuleEntry",
+        "BswEntryRelationshipSet",
+        "ModeDeclarationGroup",
+        "Implementation",
+        "SwcBswMapping",
+        "BuildActionManifest",
+        "SwAddrMethod",
+        "McFunction",
+        "AliasNameSet",
+        "FlatMap",
+        "McGroup",
+        "RapidPrototypingScenario",
+        "PostBuildVariantCriterion",
+        "PredefinedVariant",
+        "SwSystemconstantValueSet",
+        "PostBuildVariantCriterionValueSet",
+        "EvaluatedVariantSet",
+        "AutosarDataType",
+        "DataTypeMappingSet",
+        "ConstantSpecification",
+        "ConstantSpecificationMappingSet",
+        "PortInterface",
+        "PortInterfaceMappingSet",
+        "ModeDeclarationMappingSet",
+        "SwComponentType",
+        "CompuMethod",
+        "EcucModuleConfigurationValues",
+        "EcucValueCollection",
+        "EcucDefinitionCollection",
+        "EcucDestinationUriDefSet",
+        "SignalServiceTranslationPropsSet",
+        "BaseType",
+        "SwSystemconst",
+        "System",
+        "ClientIdDefinitionSet",
+        "DiagnosticCommonElement",
+        "DiagnosticContributionSet",
+        "DiagnosticConnection",
+        "Documentation",
+        "IdsDesign",
+        "IdsCommonElement",
+        "CpSoftwareCluster",
+        "CpSoftwareClusterMappingSet",
+        "CpSoftwareClusterResourcePool",
+        "CryptoServiceCertificate",
+        "MacSecGlobalKayProps",
+        "MacSecParticipantSet",
+        "CryptoServicePrimitive",
+        "CryptoServiceKey",
+        "CryptoServiceQueue",
+        "CryptoEllipticCurveProps",
+        "CryptoSignatureScheme",
+        "IPSecConfigProps",
+        "DataConstr",
+        "EthIpProps",
+        "EthTcpIpProps",
+        "EthTcpIpIcmpProps",
+        "SystemSignal",
+        "SystemSignalGroup",
+        "Unit",
+        "UnitGroup",
+        "PhysicalDimension",
+        "PhysicalDimensionMappingSet",
+        "HwCategory",
+        "E2EProfileCompatibilityProps",
+        "DataTransformationSet",
+        "TransformationPropsSet",
+        "TlvDataIdDefinitionSet",
+        "EndToEndProtectionSet",
+        "SwAxisType",
+        "SwRecordLayout",
+        "InterpolationRoutineMappingSet",
+        "CalibrationParameterValueSet",
+        "SomeipSdServerServiceInstanceConfig",
+        "SomeipSdServerEventGroupTimingConfig",
+        "SomeipSdClientEventGroupTimingConfig",
+        "SomeipSdClientServiceInstanceConfig",
+        "DltContext",
+        "DltEcu",
+        "LogAndTraceMessageCollectionSet",
+        "ApplicationPartition",
+        "J1939ControllerApplication",
+        "OsTaskProxy",
+        "DdsCpConfig",
+        "GeneralPurposeConnection",
+        "IPv6ExtHeaderFilterSet",
+        "TcpOptionFilterSet",
+        "StateDependentFirewall",
+        "FirewallRule",
+        "IEEE1722TpConnection",
+        "CpSoftwareClusterBinaryManifestDescriptor",
+        "Collection",
+        "ViewMapSet",
+        "TimingExtension",
+        "TDCpSoftwareClusterMappingSet",
+        "PortPrototypeBlueprint",
+        "FMFeatureModel",
+        "FMFeature",
+        "FMFeatureSelectionSet",
+        "FMFeatureMap",
+        "BlueprintMappingSet",
+        "SdgDef",
+        "AclPermission",
+        "AclObjectSet",
+        "AclOperation",
+        "AclRole",
+        "LifeCycleStateDefinitionGroup",
+        "LifeCycleInfoSet",
+        "KeywordSet",
+        "PlatformModuleEthernetEndpointConfiguration",
+        "ClientServerInterfaceToBswModuleEntryBlueprintMapping",
+        "DataExchangePoint",
+        "ConsistencyNeedsBlueprintSet"
+      ],
+      "subclasses": [
+        "AclObjectSet",
+        "AclOperation",
+        "AclPermission",
+        "AclRole",
+        "AliasNameSet",
+        "ApplicabilityInfoSet",
+        "ApplicationPartition",
+        "AutosarDataType",
+        "BaseType",
+        "BlueprintMappingSet",
+        "BswEntryRelationshipSet",
+        "BswModuleDescription",
+        "BswModuleEntry",
+        "BuildActionManifest",
+        "CalibrationParameterValueSet",
+        "ClientIdDefinitionSet",
+        "ClientServerInterfaceToBswModuleEntryBlueprintMapping",
+        "Collection",
+        "CompuMethod",
+        "ConsistencyNeedsBlueprintSet",
+        "ConstantSpecification",
+        "ConstantSpecificationMappingSet",
+        "CpSoftwareCluster",
+        "CpSoftwareClusterBinaryManifestDescriptor",
+        "CpSoftwareClusterMappingSet",
+        "CpSoftwareClusterResourcePool",
+        "CryptoEllipticCurveProps",
+        "CryptoServiceCertificate",
+        "CryptoServiceKey",
+        "CryptoServicePrimitive",
+        "CryptoServiceQueue",
+        "CryptoSignatureScheme",
+        "DataConstr",
+        "DataExchangePoint",
+        "DataTransformationSet",
+        "DataTypeMappingSet",
+        "DdsCpConfig",
+        "DiagnosticCommonElement",
+        "DiagnosticConnection",
+        "DiagnosticContributionSet",
+        "DltContext",
+        "DltEcu",
+        "Documentation",
+        "E2EProfileCompatibilityProps",
+        "EcucDefinitionCollection",
+        "EcucDestinationUriDefSet",
+        "EcucModuleConfigurationValues",
+        "EcucModuleDef",
+        "EcucValueCollection",
+        "EndToEndProtectionSet",
+        "EthIpProps",
+        "EthTcpIpIcmpProps",
+        "EthTcpIpProps",
+        "EvaluatedVariantSet",
+        "FMFeature",
+        "FMFeatureMap",
+        "FMFeatureModel",
+        "FMFeatureSelectionSet",
+        "FirewallRule",
+        "FlatMap",
+        "GeneralPurposeConnection",
+        "HwCategory",
+        "HwElement",
+        "HwType",
+        "IEEE1722TpConnection",
+        "IPSecConfigProps",
+        "IPv6ExtHeaderFilterSet",
+        "IdsCommonElement",
+        "IdsDesign",
+        "Implementation",
+        "ImpositionTimeDefinitionGroup",
+        "InterpolationRoutineMappingSet",
+        "J1939ControllerApplication",
+        "KeywordSet",
+        "LifeCycleInfoSet",
+        "LifeCycleStateDefinitionGroup",
+        "LogAndTraceMessageCollectionSet",
+        "MacSecGlobalKayProps",
+        "MacSecParticipantSet",
+        "McFunction",
+        "McGroup",
+        "ModeDeclarationGroup",
+        "ModeDeclarationMappingSet",
+        "OsTaskProxy",
+        "PhysicalDimension",
+        "PhysicalDimensionMappingSet",
+        "PortInterface",
+        "PortInterfaceMappingSet",
+        "PortPrototypeBlueprint",
+        "PostBuildVariantCriterion",
+        "PostBuildVariantCriterionValueSet",
+        "PredefinedVariant",
+        "RapidPrototypingScenario",
+        "SdgDef",
+        "SignalServiceTranslationPropsSet",
+        "SomeipSdClientEventGroup",
+        "TimingConfig",
+        "SomeipSdClientServiceInstanceConfig",
+        "SomeipSdServerEventGroupTimingConfig",
+        "SomeipSdServerServiceInstanceConfig",
+        "SwAddrMethod",
+        "SwAxisType",
+        "SwComponentMappingConstraints",
+        "SwComponentType",
+        "SwRecordLayout",
+        "SwSystemconst",
+        "SwSystemconstantValueSet",
+        "SwcBswMapping",
+        "System",
+        "SystemSignal",
+        "SystemSignalGroup",
+        "TDCpSoftwareClusterMappingSet",
+        "TcpOptionFilterSet",
+        "TimingExtension",
+        "TlsConnectionGroup",
+        "TlvDataIdDefinitionSet",
+        "TransformationPropsSet",
+        "Unit",
+        "UnitGroup",
+        "UploadablePackageElement",
+        "ViewMapSet"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An element that can be defined stand-alone, i.e. without being part of another element (except for packages of course).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 300,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 297,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 286,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 58,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 967,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1992,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 71,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 54,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 55,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 156,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ARPackage",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CollectableElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.arPackage",
+        "AUTOSAR.arPackage"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "AUTOSAR package, allowing to create top level packages to structure the contained ARElements. ARPackages are open sets. This means that in a file based description system multiple files can be used to partially describe the contents of a package. This is an extended version of MSR’s SW-SYSTEM.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 300,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 297,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 286,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 58,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 967,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1992,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 203,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 53,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 55,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 156,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arPackage": {
+          "type": "ARPackage",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a sub package within an ARPackage, for an unlimited package hierarchy. atpVariation"
+        },
+        "element": {
+          "type": "PackageableElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Elements that are part of this package atpVariation"
+        },
+        "referenceBase": {
+          "type": "ReferenceBase",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This denotes the reference bases for the package. This is for all relative references within the package. needs to be selected according to the base the references."
+        }
+      }
+    },
+    {
+      "name": "PackageableElement",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "CollectableElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "ARElement",
+        "FibexElement",
+        "EnumerationMappingTable"
+      ],
+      "subclasses": [
+        "ARElement",
+        "EnumerationMappingTable",
+        "FibexElement"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the ability to be a member of an AUTOSAR package.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2042,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 54,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ReferenceBase",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.referenceBase"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class establishes a basis for relative references. Reference bases are identified by the short Label which shall be unique in the current package.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 72,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "globalElement": {
+          "type": "ReferrableSubtypes",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This attribute represents a meta-class for which the global is supported via this reference base."
+        },
+        "globalIn": {
+          "type": "ARPackage",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the ability to express that global elements in various packages which do not have a common Packages mentioned by Reference used in addition to the one in"
+        },
+        "isDefault": {
+          "type": "Boolean",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute denotes if the current ReferenceBase is the that there can only be one default reference a package."
+        },
+        "package": {
+          "type": "ARPackage",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association specifies the basis of all relative the base equals shortLabel."
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the name of the reference base. By this name, can denote the applicable base."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::ViewMapSet",
+  "path": "M2::AUTOSARTemplates::GenericStructure::ViewMapSet",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_ViewMapSet.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

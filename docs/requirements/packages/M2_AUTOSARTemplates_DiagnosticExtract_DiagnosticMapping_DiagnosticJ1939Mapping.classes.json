@@ -1,0 +1,163 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping",
+  "classes": [
+    {
+      "name": "DiagnosticJ1939SpnMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a mapping between an SPN and a SystemSignal. The existence of a mapping means that neither the SPN nor the SystemSignal need to be updated if the relation between the two changes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 267,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sendingNode": {
+          "type": "DiagnosticJ1939Node",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This additional reference has a supporting role in that it sending nodes of a given SPN. It is positively a given SPN is sent by more than one node. the reference targets the Diagnostic semantics of the reference is bound to that is in turn referenced by the"
+        },
+        "spn": {
+          "type": "DiagnosticJ1939Spn",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference goes to the SPN that shall be associated SystemSignal."
+        },
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference goes to the SystemSignal that shall be an SPN."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticJ1939SwMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map a piece of application software to a J1939DiagnosticNode. By this means the diagnostic configuration can be associated with the application software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 268,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "node": {
+          "type": "DiagnosticJ1939Node",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the mapped DiagnosticJ1939Node."
+        },
+        "swComponentCompositionInstanceRef": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "InstanceRef implemented by: ComponentIn"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventToTroubleCodeJ1939Mapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "By means of this meta-class it is possible to associate a DiagnosticEvent to a DiagnosticTroubleCode J1939.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 269,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DiagnosticEvent to which a J1939 Code is assigned."
+        },
+        "troubleCode": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is assigned."
+        }
+      }
+    }
+  ]
+}

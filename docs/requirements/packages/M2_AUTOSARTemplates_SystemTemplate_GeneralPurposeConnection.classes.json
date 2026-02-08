@@ -1,0 +1,46 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::GeneralPurposeConnection",
+  "classes": [
+    {
+      "name": "GeneralPurposeConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GeneralPurposeConnection",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class allows to describe the relationship between several PduTriggerings that are defined on the same PhysicalChannel, e.g. to create a link between Rx and Tx Pdu that are used for request/ response.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 388,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "pduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to PduTriggerings that are connected to each a GeneralPurposeConnection."
+        }
+      }
+    }
+  ]
+}

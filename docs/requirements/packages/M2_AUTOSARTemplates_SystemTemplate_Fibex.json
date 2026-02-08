@@ -1,0 +1,52 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "FibexCore",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore.json"
+    },
+    {
+      "name": "Fibex4Ethernet",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet.json"
+    },
+    {
+      "name": "Fibex4Can",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Can.json"
+    },
+    {
+      "name": "Fibex4Ttcan",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ttcan.json"
+    },
+    {
+      "name": "Fibex4Flexray",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Flexray.json"
+    },
+    {
+      "name": "Fibex4Lin",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Lin.json"
+    },
+    {
+      "name": "CddSupport",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_CddSupport.json"
+    },
+    {
+      "name": "Fibex4Multiplatform",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Multiplatform.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

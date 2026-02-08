@@ -1,0 +1,294 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+  "classes": [
+    {
+      "name": "ImplementationDataType",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractImplementationDataType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AbstractImplementationDataType",
+        "AutosarDataType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "Describes a reusable data type on the implementation level. This will typically correspond to a typedef in C-code.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 320,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 230,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 299,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 268,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2031,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 47,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 451,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 193,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dynamicArray": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the profile which the array will follow in case this type is a variable size array."
+        },
+        "subElement": {
+          "type": "ImplementationData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies an element of an array, struct, or union data type. of ImplementionDataTypeElement is variability with the purpose to support the of elements inside a Implementation a structure. atpVariation"
+        },
+        "symbolProps": {
+          "type": "SymbolProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the SymbolProps for the Implementation"
+        },
+        "typeEmitter": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to control which part of the is supposed to trigger data type"
+        }
+      }
+    },
+    {
+      "name": "ImplementationDataTypeElement",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractImplementationDataTypeElement",
+      "bases": [
+        "ARObject",
+        "AbstractImplementationDataTypeElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ImplementationDataType.subElement",
+        "ImplementationDataTypeElement.subElement"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Declares a data object which is locally aggregated. Such an element can only be used within the scope where it is aggregated. This element either consists of further subElements or it is further defined via its swDataDefProps. There are several use cases within the system of ImplementationDataTypes fur such a local declaration: • It can represent the elements of an array, defining the element type and array size • It can represent an element of a struct, defining its type • It can be the local declaration of a debug element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 321,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 269,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2032,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 452,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arrayImplPolicy": {
+          "type": "ArrayImplPolicyEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the implementation of the payload array. It shall only be used if the enclosing an array. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "arraySize": {
+          "type": "ArraySizeSemantics",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the meaning of the value of the array size."
+        },
+        "isOptional": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to declare the as optional. that, at runtime, the ImplementationDataType or may not have a valid value and shall ignored. runtime software provides means to set as not valid at end of a communication and determine its the receiving end."
+        },
+        "subElement": {
+          "type": "ImplementationData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Element of an array, struct, or union in case of a nested declaration (i.e. without using \"typedefs\"). of ImplementionDataTypeElement is variability with the purpose to support the of elements inside a Implementation a structure. atpVariation"
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The properties of this ImplementationDataTypeElement. atpSplitable"
+        }
+      }
+    },
+    {
+      "name": "AbstractImplementationDataType",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "AutosarDataType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AutosarDataType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "ImplementationDataType"
+      ],
+      "subclasses": [
+        "ImplementationDataType"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents an abstract base class for different flavors of ImplementationDataType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 267,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 42,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AbstractImplementationDataTypeElement",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "ImplementationDataTypeElement"
+      ],
+      "subclasses": [
+        "ImplementationDataTypeElement"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to act as an abstract base class for specific derived meta-classes that support the modeling of ImplementationDataTypes for a particular language binding.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 269,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

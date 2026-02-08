@@ -1,0 +1,143 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster",
+  "classes": [
+    {
+      "name": "TDCpSoftwareClusterMappingSet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to gather of classic platform software cluster mappings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 156,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tdCpSoftware": {
+          "type": "TDCpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maps a temporal resource to a mapping between a providing CP software cluster and requesting CP software atpVariation"
+        }
+      }
+    },
+    {
+      "name": "TDCpSoftwareClusterMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TDCpSoftwareClusterMappingSet.tdCpSoftwareClusterToTdMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to specify a mapping between a software cluster that provides temporal and dynamic resources and the software clusters that need these resources.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 157,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "provider": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the software cluster that provides the temporal and"
+        },
+        "requestor": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the software cluster that requests the temporal resource."
+        },
+        "timing": {
+          "type": "TimingDescription",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The timing description representing the temporal and resource."
+        }
+      }
+    },
+    {
+      "name": "TDCpSoftwareClusterResourceMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TDCpSoftwareClusterMappingSet.tdCpSoftwareClusterResourceToTdMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to assign an unequivocal global resource identification to a temporal and dynamic resource.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 158,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "resource": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The specific resource identification assigned to the and dynamic resource."
+        },
+        "timing": {
+          "type": "TimingDescription",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The timing description representing the temporal and resource."
+        }
+      }
+    }
+  ]
+}

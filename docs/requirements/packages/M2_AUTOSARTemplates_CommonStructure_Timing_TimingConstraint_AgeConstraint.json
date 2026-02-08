@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_AgeConstraint.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

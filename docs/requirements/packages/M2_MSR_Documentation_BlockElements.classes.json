@@ -1,0 +1,204 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements",
+  "classes": [
+    {
+      "name": "DocumentationBlock",
+      "package": "M2::MSR::Documentation::BlockElements",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicabilityInfo.remark",
+        "AUTOSAR.introduction",
+        "BlueprintGenerator.introduction",
+        "BlueprintPolicyModifiable.blueprintDerivationGuide",
+        "ClientServerOperationBlueprintMapping.blueprintMappingGuide",
+        "DataMapping.introduction",
+        "DefItem.def",
+        "Describable.introduction",
+        "EcucAddInfoParamValue.value",
+        "EcuResourceEstimation.introduction",
+        "Entry.entryContents",
+        "FrameMapping.introduction",
+        "GeneralAnnotation.annotationText",
+        "Identifiable.introduction",
+        "IPduMapping.introduction",
+        "ISignalMapping.introduction",
+        "Item.itemContents",
+        "LabeledItem.itemContents",
+        "LifeCycleInfo.remark",
+        "MappingConstraint.introduction",
+        "MsrQueryP2.msrQueryResultP2",
+        "Note.noteText",
+        "PortDefinedArgumentBlueprint.blueprintMappingGuide",
+        "PrmChar.cond",
+        "PrmChar.remark",
+        "ScheduleTableEntry.introduction",
+        "SignalPathConstraint.introduction",
+        "StructuredReq.conflicts",
+        "StructuredReq.dependencies",
+        "StructuredReq.description",
+        "StructuredReq.rationale",
+        "StructuredReq.remark",
+        "StructuredReq.supportingMaterial",
+        "StructuredReq.useCase",
+        "SwAxisType.swGenericAxisDesc",
+        "TopicContent.blockLevelContent",
+        "TraceableText.text",
+        "VariationPoint.blueprint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a documentation block. It is made of basic text structure elements which can be displayed in a table cell.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 983,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 285,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 181,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defList": {
+          "type": "DefList",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents a definition list in the documentation atpVariation"
+        },
+        "figure": {
+          "type": "MlFigure",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a figure in the documentation block. atpVariation"
+        },
+        "formula": {
+          "type": "MlFormula",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a formula in the definition block. atpVariation"
+        },
+        "labeledListLabel": {
+          "type": "LabeledList",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents a labeled list. atpVariation"
+        },
+        "list": {
+          "type": "List",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents numbered or unnumbered list. atpVariation"
+        },
+        "msrQueryP2": {
+          "type": "MsrQueryP2",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents automatically contributed contents an msrquery in the context of Documentation 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "note": {
+          "type": "Note",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a note in the text flow. atpVariation"
+        },
+        "p": {
+          "type": "MultiLanguage",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular paragraph. atpSplitable; atpVariation"
+        },
+        "structuredReq": {
+          "type": "StructuredReq",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation supports structured requirements a documentation block. atpVariation"
+        },
+        "trace": {
+          "type": "TraceableText",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents traceable text in the documentation block. to specify requirements/constraints in any of the trace is specified in the category. atpVariation"
+        },
+        "verbatim": {
+          "type": "MultiLanguageVerbatim",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents one particular verbatim text. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "Caption",
+      "package": "M2::MSR::Documentation::BlockElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "MultilanguageReferrable",
+      "bases": [
+        "ARObject",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MlFigure.figureCaption",
+        "MlFormula.formulaCaption",
+        "Table.tableCaption"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a caption which is a title, and a shortName.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 432,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "desc": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a general but brief (one paragraph) what the object in question is about. It is only This property helps a human reader to object in question."
+        }
+      }
+    }
+  ]
+}

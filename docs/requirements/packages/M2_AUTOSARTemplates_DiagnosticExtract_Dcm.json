@@ -1,0 +1,30 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "DiagnosticService",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService.json"
+    },
+    {
+      "name": "EnvironmentalCondition",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_EnvironmentalCondition.json"
+    },
+    {
+      "name": "ObdService",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService.json"
+    }
+  ],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

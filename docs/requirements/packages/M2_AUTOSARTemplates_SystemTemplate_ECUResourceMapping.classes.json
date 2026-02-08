@@ -1,0 +1,148 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping",
+  "classes": [
+    {
+      "name": "ECUMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.ecuResourceMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ECUMapping allows to assign an ECU hardware type (defined in the ECU Resource Template) to an ECUInstance used in a physical topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 182,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "commController": {
+          "type": "Communication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ECUMapping contains the mapping of all CommunicationControllers of the ECU."
+        },
+        "ecu": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a HwElement of category ECU in the ECU"
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the EcuInstance in the System Template"
+        },
+        "hwPortMapping": {
+          "type": "HwPortMapping",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "of the ECU."
+        }
+      }
+    },
+    {
+      "name": "CommunicationControllerMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ECUMapping.commControllerMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CommunicationControllerMapping specifies the CommunicationPeripheral hardware (defined in the ECU Resource Template) to realize the specified CommunicationController in a physical topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 182,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the CommunicationController in the System Template"
+        },
+        "hw": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a HwElement of category Communication in the ECU Resource Template."
+        }
+      }
+    },
+    {
+      "name": "HwPortMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ECUMapping.hwPortMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "HWPortMapping specifies the hwCommunicationPort (defined in the ECU Resource Template) to realize the specified CommunicationConnector in a physical topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 183,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the CommunicationConnector in the System Template"
+        },
+        "hw": {
+          "type": "HwPinGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the HwPinPortGroup of category The connection to the Hw is described in the Ecu"
+        }
+      }
+    }
+  ]
+}

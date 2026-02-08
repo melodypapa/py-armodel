@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port",
+  "path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_BlueprintDedicated_Port.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "EthernetTopology",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_EthernetTopology.json"
+    },
+    {
+      "name": "ServiceInstances",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_ServiceInstances.json"
+    },
+    {
+      "name": "Dds",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_Dds.json"
+    },
+    {
+      "name": "IPv6HeaderFilterList",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_IPv6HeaderFilterList.json"
+    },
+    {
+      "name": "TcpOptionFilterSet",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_TcpOptionFilterSet.json"
+    },
+    {
+      "name": "EthernetFrame",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_EthernetFrame.json"
+    },
+    {
+      "name": "ObsoleteModel",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_ObsoleteModel.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

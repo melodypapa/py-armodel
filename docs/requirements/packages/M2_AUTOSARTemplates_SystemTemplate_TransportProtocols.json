@@ -1,0 +1,20 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_TransportProtocols.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_TransportProtocols.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "IEEE1722Tp",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_TransportProtocols_IEEE1722Tp.json"
+    }
+  ],
+  "summary": {
+    "class_count": 32,
+    "enumeration_count": 4,
+    "primitive_count": 0
+  }
+}

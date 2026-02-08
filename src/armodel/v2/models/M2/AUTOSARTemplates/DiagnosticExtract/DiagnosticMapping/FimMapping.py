@@ -1,8 +1,16 @@
-from typing import Optional
+"""
+AUTOSAR Package - FimMapping
 
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.__init__ import (
     DiagnosticMapping,
 )
+
+
 
 
 class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
@@ -13,9 +21,9 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     be used if the approach via the alias events is not applicable, i.e. when
     diagnostic events defined by the Dem are already available at the time the
     Fim configuration within the diagnostic extract is created.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping::DiagnosticInhibitSourceEventMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 260, Classic Platform
       R23-11)
@@ -38,10 +46,10 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-
+        
         Args:
             value: The diagnosticEvent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +74,10 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def event_group_group(self, value: Optional["DiagnosticFimEvent"]) -> None:
         """
         Set eventGroupGroup with validation.
-
+        
         Args:
             value: The eventGroupGroup to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +102,10 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def inhibition_source(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set inhibitionSource with validation.
-
+        
         Args:
             value: The inhibitionSource to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +124,10 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-
+        
         Returns:
             The diagnosticEvent value
-
+        
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -128,13 +136,13 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticInhibitSourceEventMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-
+        
         Args:
             value: The diagnosticEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -144,10 +152,10 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def getEventGroupGroup(self) -> "DiagnosticFimEvent":
         """
         AUTOSAR-compliant getter for eventGroupGroup.
-
+        
         Returns:
             The eventGroupGroup value
-
+        
         Note:
             Delegates to event_group_group property (CODING_RULE_V2_00017)
         """
@@ -156,13 +164,13 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def setEventGroupGroup(self, value: "DiagnosticFimEvent") -> "DiagnosticInhibitSourceEventMapping":
         """
         AUTOSAR-compliant setter for eventGroupGroup with method chaining.
-
+        
         Args:
             value: The eventGroupGroup to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to event_group_group property setter (gets validation automatically)
         """
@@ -172,10 +180,10 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def getInhibitionSource(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for inhibitionSource.
-
+        
         Returns:
             The inhibitionSource value
-
+        
         Note:
             Delegates to inhibition_source property (CODING_RULE_V2_00017)
         """
@@ -184,13 +192,13 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def setInhibitionSource(self, value: "DiagnosticFunction") -> "DiagnosticInhibitSourceEventMapping":
         """
         AUTOSAR-compliant setter for inhibitionSource with method chaining.
-
+        
         Args:
             value: The inhibitionSource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to inhibition_source property setter (gets validation automatically)
         """
@@ -202,13 +210,13 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticInhibitSourceEventMapping":
         """
         Set diagnosticEvent and return self for chaining.
-
+        
         Args:
             value: The diagnosticEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -218,13 +226,13 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def with_event_group_group(self, value: Optional["DiagnosticFimEvent"]) -> "DiagnosticInhibitSourceEventMapping":
         """
         Set eventGroupGroup and return self for chaining.
-
+        
         Args:
             value: The eventGroupGroup to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_event_group_group("value")
         """
@@ -234,24 +242,19 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     def with_inhibition_source(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticInhibitSourceEventMapping":
         """
         Set inhibitionSource and return self for chaining.
-
+        
         Args:
             value: The inhibitionSource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_inhibition_source("value")
         """
         self.inhibition_source = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
-    DiagnosticMapping,
-)
 
 
 class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
@@ -259,9 +262,9 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     This meta-class represents the ability to map a DiagnosticFimEventGroup to a
     DiagnosticFimAliasEvent Group. By this means the "preliminary" modeling by
     way of a DiagnosticFimAliasEventGroup is further substantiated.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping::DiagnosticFimAliasEventGroupMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 263, Classic Platform
       R23-11)
@@ -282,10 +285,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def actual_event(self, value: Optional["DiagnosticFimEvent"]) -> None:
         """
         Set actualEvent with validation.
-
+        
         Args:
             value: The actualEvent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -310,10 +313,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def alias_event(self, value: Optional["DiagnosticFimAlias"]) -> None:
         """
         Set aliasEvent with validation.
-
+        
         Args:
             value: The aliasEvent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -332,10 +335,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def getActualEvent(self) -> "DiagnosticFimEvent":
         """
         AUTOSAR-compliant getter for actualEvent.
-
+        
         Returns:
             The actualEvent value
-
+        
         Note:
             Delegates to actual_event property (CODING_RULE_V2_00017)
         """
@@ -344,13 +347,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def setActualEvent(self, value: "DiagnosticFimEvent") -> "DiagnosticFimAliasEventGroupMapping":
         """
         AUTOSAR-compliant setter for actualEvent with method chaining.
-
+        
         Args:
             value: The actualEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to actual_event property setter (gets validation automatically)
         """
@@ -360,10 +363,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def getAliasEvent(self) -> "DiagnosticFimAlias":
         """
         AUTOSAR-compliant getter for aliasEvent.
-
+        
         Returns:
             The aliasEvent value
-
+        
         Note:
             Delegates to alias_event property (CODING_RULE_V2_00017)
         """
@@ -372,13 +375,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def setAliasEvent(self, value: "DiagnosticFimAlias") -> "DiagnosticFimAliasEventGroupMapping":
         """
         AUTOSAR-compliant setter for aliasEvent with method chaining.
-
+        
         Args:
             value: The aliasEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to alias_event property setter (gets validation automatically)
         """
@@ -390,13 +393,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def with_actual_event(self, value: Optional["DiagnosticFimEvent"]) -> "DiagnosticFimAliasEventGroupMapping":
         """
         Set actualEvent and return self for chaining.
-
+        
         Args:
             value: The actualEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_actual_event("value")
         """
@@ -406,13 +409,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def with_alias_event(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFimAliasEventGroupMapping":
         """
         Set aliasEvent and return self for chaining.
-
+        
         Args:
             value: The aliasEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_alias_event("value")
         """

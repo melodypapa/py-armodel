@@ -1,0 +1,65 @@
+{
+  "package": "M2::MSR::DataDictionary::RecordLayout",
+  "primitives": [
+    {
+      "name": "AxisIndexType",
+      "package": "M2::MSR::DataDictionary::RecordLayout",
+      "note": "This meta-class specifies an axis in a curve/map data object. The index satisfies the following convention: • 0 output \"axis\" • 1 input axis 1 (X input axis e.g. of a CURVE) • 2 input axis 2 (Y input axis e.g. of a MAP) • 3 input axis 3 (Z input axis e.g. of a CUBOID) • 4 input axis 3 (Z4 input axis e.g. of a CUBE_4) • 5 input axis 3 (Z5 input axis e.g. of a CUBE_5) • 6..9 etc. The output \"axis\" provides access to the output value of the parameter. Note that this access is usually performed via an index according to the input axis. In addition to this, the Values STRING and ARRAY support specific iterations. Tags: xml.xsd.customType=AXIS-INDEX-TYPE xml.xsd.pattern=[0-9]+|STRING|ARRAY xml.xsd.type=string Table 5.101: AxisIndexType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 425,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RecordLayoutIteratorPoint",
+      "package": "M2::MSR::DataDictionary::RecordLayout",
+      "note": "This meta-class denotes a start / endpoint for the iteration of a SwRecordLayoutGroup. It can be an integer or one of the keywords MAX-TEXT-SIZE|ARRAY-SIZE. Note that negative numbers are counted backwards. Therefore e.g. -1 refers to the last value. Tags: xml.xsd.customType=RECORD-LAYOUT-ITERATOR-POINT xml.xsd.pattern=-?([0-9]+|MAX-TEXT-SIZE|ARRAY-SIZE) xml.xsd.type=string Table 5.102: RecordLayoutIteratorPoint [TPS_SWCT_01489] Description of standardized values of SwRecordLayoutV. swRecordLayoutVProp (cid:100) Property Description The value of the axis for the current iterator point. This is e.g. the particular point on an input-axis, but VALUE also the particular character in a string. COUNT The amount of values of the axis. LEFTDIFF The difference to the previous axis point. RIGHTDIFF The difference to the next axis point. DIST The distance value of this axis in case of a fixed axis with distance specification. SHIFT The shift value of this axis in case of a fixed axis with shift/offset. OFFSET The offset value of this axis in case of a fixed axis with shift/offset. FILL Fill with the hex value specified as contents of swRecordLayoutVFixValue. RESERVED Position shall be ignored by MCD tools. IDENTIFIER An “identifier” is deposited at the position. FIXLEFTDIFF Difference between this and a fixed left-hand value specified in swRecordLayoutVFixValue. FIXRIGHTDIFF Difference between this and a fixed right-hand value specified in swRecordLayoutVFixValue. (cid:99)(RS_SWCT_03215) 425 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11 Figure 5.54 and Figure 5.55 illustrate most of these properties. Current point 0 VALUE LLEEFFTTDDIIFFFF RRIIGGHHTTDDIIFFFF FFIIXXLLEEFFTTDDIIFFFF FFIIXXRRIIGGHHTTDDIIFFFF 111 222 333 444 CCOOUUNNTT == 44 Figure 5.54: Values for swRecordLayoutVProp for individual axis VVaalluuee == OOFFFFSSEETT ++ nn ** 22^^SSHHIIFFTT 00 VVaalluuee == OOFFFFSSEETT ++ nn ** DDIISSTT OOFFFFSSEETT DDIISSTT DDIISSTT 22^^SSHHIIFFTT Figure 5.55: Values for swRecordLayoutVProp for fixed axis [TPS_SWCT_01296] Different approaches of ASAM MCD-2MC and AUTOSAR with respect to SwRecordLayout (cid:100)ASAM MCD-2D specification (also known as A2L, or ASAP) uses keywords in record layouts where MSR/AUTOSAR uses the more generic approach specified here. It may happen that this generic approach cannot always be safely mapped to the A2L keywords. Therefore, SwRecordLayoutGroup.category can assist the conversion to the current A2L format.(cid:99)(RS_SWCT_03215) 426 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 425,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 112,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AsamRecordLayoutSemantics",
+      "package": "M2::MSR::DataDictionary::RecordLayout",
+      "note": "This meta-class is used to denote the semantics in particular in terms of the corresponding A2L-Keyword. This is to support the mapping of the more general record layouts in AUTOSAR/MSR to the specific A2L keywords. It is possible to express the specific semantics of A2l RecordLayout keywords in SwRecordlayoutGroup but not always vice versa. Therefore the mapping is provided in this optional attribute. It is specified as NMTOKEN to reduce the direct dependency of ASAM an AUTOSAR standards. Tags: xml.xsd.customType=ASAM-RECORD-LAYOUT-SEMANTICS xml.xsd.type=NMTOKEN Table 5.103: AsamRecordLayoutSemantics The values of SwRecordLayoutGroup.category can, for example, be taken from the ASAM MCD 2D specification provided in [15]. Examples are: • INDEX_INCR • INDEX_DECR • COLUMN_DIR • ROW_DIR • ALTERNATE_WITH_X • ALTERNATE_WITH_Y • ALTERNATE_CURVES",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 427,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

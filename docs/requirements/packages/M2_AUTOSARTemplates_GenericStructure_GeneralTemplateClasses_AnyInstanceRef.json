@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef",
+  "path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_AnyInstanceRef.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

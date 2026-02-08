@@ -1,0 +1,205 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster",
+  "classes": [
+    {
+      "name": "CpSwClusterToDiagEventMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a CpSoftwareClusterResource with a Diagnostic Event. This allows for indicating that the CpSoftwareClusterResource is used to convey the reporting or status query of the mapped DiagnosticEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 272,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cpSoftware": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the mapped CpSoftwareCluster Resource. atp.Status=draft"
+        },
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the mapped DiagnosticEvent."
+        }
+      }
+    },
+    {
+      "name": "CpSwClusterResourceToDiagDataElemMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a CpSoftwareClusterResource with a DiagnosticData Element. This allows for indicating that the CpSoftwareClusterResource is used to convey the Diagnostic DataElement.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 273,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cpSoftware": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the affected CpSoftwareClusterResource. Tags: atp.Status=draft Resource"
+        },
+        "diagnosticData": {
+          "type": "DiagnosticDataElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the affected DiagnosticData"
+        }
+      }
+    },
+    {
+      "name": "CpSwClusterToDiagRoutineSubfunctionMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This allows for indicating that the CpSoftwareClusterResource is used to convey the calling or result return of the mapped DiagnosticRoutine.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 274,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cpSoftware": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the mapped CpSoftwareCluster Resource. atp.Status=draft"
+        },
+        "routine": {
+          "type": "DiagnosticRoutine",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the mapped subfunction of a DiagnosticRoutine."
+        }
+      }
+    },
+    {
+      "name": "CpSwClusterResourceToDiagFunctionIdMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a CpSoftwareClusterResource with a subfunction of a DiagnosticFunctionIdentifier. This allows for indicating that the CpSoftwareClusterResource is used to convey the execution permission associated with the mapped function identifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 275,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cpSoftware": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the mapped CpSoftwareCluster Resource. atp.Status=draft"
+        },
+        "function": {
+          "type": "DiagnosticFunction",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the mapped DiagnosticFunction Identifier."
+        }
+      }
+    }
+  ]
+}

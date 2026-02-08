@@ -1,0 +1,390 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+  "enumerations": [
+    {
+      "name": "IEEE1722TpCrfTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the CRF stream type. Tags: atp.Status=candidate Aggregated by IEEE1722TpCrfConnection.crfType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 640,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "audioSample",
+          "index": 0,
+          "description": "CRF_AUDIO_SAMPLE, Audio sample timestamp<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "machineCycle",
+          "index": 3,
+          "description": "CRF_MACHINE_CYCLE, Machine cycle timestamp<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "user",
+          "index": 4,
+          "description": "CRF_USER, User specified<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "videoFrame",
+          "index": 1,
+          "description": "CRF_VIDEO_FRAME, Video frame sync timestamp<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "videoLine",
+          "index": 2,
+          "description": "CRF_VIDEO_LINE, Video line sync timestamp<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpCrfPullEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the CRF stream pull value. Tags: atp.Status=candidate Aggregated by IEEE1722TpCrfConnection.crfPull (cid:53) 640 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 640,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "_1_0",
+          "index": 0,
+          "description": "Multiply base_frequency field by 1.0<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=1-0"
+        },
+        {
+          "name": "_1_001",
+          "index": 2,
+          "description": "Multiply base_frequency field by 1.001<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=1-001"
+        },
+        {
+          "name": "_1_1_001",
+          "index": 1,
+          "description": "Multiply base_frequency field by 1/1.001<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=1-1-001"
+        },
+        {
+          "name": "_1_8",
+          "index": 5,
+          "description": "Multiply base_frequency field by 1/8<br>Tags: atp.EnumerationLiteralIndex=5, xml.name=1-8"
+        },
+        {
+          "name": "_24_25",
+          "index": 3,
+          "description": "Multiply base_frequency field by 24/25<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=24-25"
+        },
+        {
+          "name": "_25_24",
+          "index": 4,
+          "description": "Multiply base_frequency field by 25/24<br>Tags: atp.EnumerationLiteralIndex=4, xml.name=25-24"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpAafNominalRateEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the AAF nominal sample / frame rate. Tags: atp.Status=candidate Aggregated by IEEE1722TpAafConnection.aafNominalRate",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 643,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "_16kHz",
+          "index": 2,
+          "description": "16 kHz<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=16-KHZ"
+        },
+        {
+          "name": "_176_4kHz",
+          "index": 8,
+          "description": "176.4 kHz<br>Tags: atp.EnumerationLiteralIndex=8, xml.name=176-4-KHZ"
+        },
+        {
+          "name": "_192kHz",
+          "index": 9,
+          "description": "192 kHz<br>Tags: atp.EnumerationLiteralIndex=9, xml.name=192-KHZ"
+        },
+        {
+          "name": "_24kHz",
+          "index": 10,
+          "description": "24 kHz<br>Tags: atp.EnumerationLiteralIndex=10, xml.name=24-KHZ"
+        },
+        {
+          "name": "_32kHz",
+          "index": 3,
+          "description": "32 kHz<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=32-KHZ"
+        },
+        {
+          "name": "_44_1kHz",
+          "index": 4,
+          "description": "44.1 kHz<br>Tags: atp.EnumerationLiteralIndex=4, xml.name=44-1-KHZ"
+        },
+        {
+          "name": "_48kHz",
+          "index": 5,
+          "description": "48 kHz<br>Tags: atp.EnumerationLiteralIndex=5, xml.name=48-KHZ"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR_88_2kHz",
+          "index": 6,
+          "description": "CP R23-11<br>Tags: atp.EnumerationLiteralIndex=6, xml.name=88-2-KHZ"
+        },
+        {
+          "name": "_8kHz",
+          "index": 1,
+          "description": "8 kHz<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=8-KHZ"
+        },
+        {
+          "name": "_96kHz",
+          "index": 7,
+          "description": "96 kHz<br>Tags: atp.EnumerationLiteralIndex=7, xml.name=96-KHZ"
+        },
+        {
+          "name": "user",
+          "index": 0,
+          "description": "User specified<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpAafFormatEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the AAF stream format. Tags: atp.Status=candidate Aggregated by IEEE1722TpAafConnection.aafFormat",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 644,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "aes3_32bit",
+          "index": 5,
+          "description": "AES3_32BIT, 32-bit AES3 format, AES3<br>Tags: atp.EnumerationLiteralIndex=5, xml.name=AES-3-32-BIT"
+        },
+        {
+          "name": "float_32bit",
+          "index": 1,
+          "description": "FLOAT_32BIT, 32bit floating, PCM<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=FLOAT-32-BIT"
+        },
+        {
+          "name": "int_16bit",
+          "index": 4,
+          "description": "INT_16BIT, 16 bit integer, PCM<br>Tags: atp.EnumerationLiteralIndex=4, xml.name=INT-16-BIT"
+        },
+        {
+          "name": "int_24bit",
+          "index": 3,
+          "description": "INT_24BIT, 24 bit integer, PCM<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=INT-24-BIT"
+        },
+        {
+          "name": "int_32bit",
+          "index": 2,
+          "description": "INT_32BIT, 32bit integer, PCM<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=INT-32-BIT"
+        },
+        {
+          "name": "user",
+          "index": 0,
+          "description": "USER, user specific, PCM<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpAafAes3DataTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the AAF AES3 stream aes3_data_type reference. Tags: atp.Status=candidate Aggregated by IEEE1722TpAafConnection.aafAes3DataType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 645,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "iec61937",
+          "index": 4,
+          "description": "Data type reference is IEC 61937-2<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "pcm",
+          "index": 2,
+          "description": "Data type is PCM<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "smpte338",
+          "index": 3,
+          "description": "Data type reference is SMPTE ST 338<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "unspecified",
+          "index": 1,
+          "description": "Data type not specified<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "vendor",
+          "index": 0,
+          "description": "Data type reference is defined by vendor<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpRvfPixelDepthEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the RVF Pixel Depth. Tags: atp.Status=candidate Aggregated by IEEE1722TpRvfConnection.rvfPixelDepth",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 650,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "_10",
+          "index": 4,
+          "description": "pixel depth 10 _12 pixel depth 12 _16 pixel depth 16 _8 pixel depth 8 user pixel depth user defined<br>Tags: atp.EnumerationLiteralIndex=4, xml.name=8"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpRvfPixelFormatEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the RVF Pixel Format. Tags: atp.Status=candidate (cid:53) 650 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 650,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "_4_1_1",
+          "index": 11,
+          "description": "pixel format 4:1:1 _4_2_0 pixel format 4:2:0 _4_2_2 pixel format 4:2:2 _4_2_2_4 pixel format 4:2:2:4 _4_4_4 pixel format 4:4:4 _4_4_4_4 pixel format 4:4:4:4 bayer_bggr pixel format Bayer bggr bayer_gbrg pixel format Bayer gbrg bayer_grbg pixel format Bayer grbg bayer_rggb pixel format Bayer rggb monochrome pixel format Monochrome user pixel format User defined<br>Tags: atp.EnumerationLiteralIndex=11, xml.name=BAYER-RGGB"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpRvfColorSpaceEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the RVF stream colorspace. Tags: atp.Status=candidate Aggregated by IEEE1722TpRvfConnection.rvfColorSpace",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 652,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bt_rec_601",
+          "index": 0,
+          "description": "BT Rec.601<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=BT-REC-601"
+        },
+        {
+          "name": "bt_rec_709",
+          "index": 1,
+          "description": "BT Rec.709<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=BT-REC-709"
+        },
+        {
+          "name": "grayscale",
+          "index": 2,
+          "description": "Grayscale<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "itu_bt_2020",
+          "index": 9,
+          "description": "ITU BT 2020 srgb sRGB<br>Tags: atp.EnumerationLiteralIndex=9, xml.name=ITU-BT-2020"
+        },
+        {
+          "name": "user",
+          "index": 4,
+          "description": "User defined<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "xyz",
+          "index": 5,
+          "description": "XYZ<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "ycbcr",
+          "index": 7,
+          "description": "YCbCr<br>Tags: atp.EnumerationLiteralIndex=7"
+        },
+        {
+          "name": "ycgco",
+          "index": 8,
+          "description": "YCgCo<br>Tags: atp.EnumerationLiteralIndex=8"
+        },
+        {
+          "name": "ycm",
+          "index": 6,
+          "description": "YCM<br>Tags: atp.EnumerationLiteralIndex=6"
+        }
+      ]
+    },
+    {
+      "name": "IEEE1722TpRvfFrameRateEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "note": "Definition of the RVF stream frame_rate. Tags: atp.Status=candidate Aggregated by IEEE1722TpRvfConnection.rvfFrameRate",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 652,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "_1",
+          "index": 3,
+          "description": "frame rate 1 _10 frame rate 10<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=10"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": 9,
+          "description": "CP R23-11 _100 frame rate 100 _120 frame rate 120 _15 frame rate 15 _150 frame rate 150 _2 frame rate 2 _20 frame rate 20 _200 frame rate 200 _24 frame rate 24 _240 frame rate 240 _25 frame rate 25 _30 frame rate 30 _300 frame rate 300 _48 frame rate 48<br>Tags: atp.EnumerationLiteralIndex=9, xml.name=48"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": 20,
+          "description": "CP R23-11 _5 frame rate 5 _50 frame rate 50 _60 frame rate 60 _72 frame rate 72 _85 frame rate 85 user frame rate User defined<br>Tags: atp.EnumerationLiteralIndex=20, xml.name=85"
+        }
+      ]
+    }
+  ]
+}

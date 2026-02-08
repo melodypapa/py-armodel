@@ -1,0 +1,806 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+  "classes": [
+    {
+      "name": "CpSoftwareClusterResource",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "CpSoftwareClusterCommunicationResource",
+        "CpSoftwareClusterServiceResource"
+      ],
+      "subclasses": [
+        "CpSoftwareClusterCommunicationResource",
+        "CpSoftwareClusterServiceResource"
+      ],
+      "aggregated_by": [
+        "CpSoftwareClusterResourcePool.resource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents a single resource required or provided by a CP Software Cluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 271,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 901,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dependent": {
+          "type": "RoleBasedResource",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Link to a resource which depends on this resource to implement them."
+        },
+        "globalResource": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A unique identifiers per resource used for the connection The identifier is required to be unique in the a single machine. If software clusters are be reused on multiple machines the applies for all the intended"
+        },
+        "isMandatory": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates, that the resource is mandatory to Software Cluster. If the resource is not the machine the connection process of any requiring this resource gets aborted."
+        }
+      }
+    },
+    {
+      "name": "RoleBasedResourceDependency",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterResource.dependentResource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies a dependency between CpSoftwareClusterResources.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 272,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 902,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "resource": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to resource for which the dependency is"
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is attributes characterizes the kind of dependency"
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class provides the ability to define a CP Software Cluster. Each CP Software Cluster can be integrated and build individually. It defines the sub-set of hierarchical tree(s) of Software Components belonging to this CP Software Cluster. Resources required or provided by this CP Software Cluster are given in the according mappings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 309,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 893,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 221,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "softwareCluster": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the value of the id of the CP software cluster."
+        },
+        "swComponent": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the collection of SwComponentPrototype Assignments atpVariation"
+        },
+        "swComposition": {
+          "type": "CompositionSw",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Software Components in the context of a CompositionSw belonging to this CP Software Cluster. can be used to describe the belonging the CP Software Cluster is described out of of a System, e.g. reusable CP Software atpVariation"
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterToEcuInstanceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.swClusterMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class maps a CpSoftwareCluster to a EcuInstance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 283,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a specific ECU Instance description."
+        },
+        "machineId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unique number of the (virtual or physical) machine to Software Cluster is mapped."
+        },
+        "swCluster": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The mapped CP Software Cluster atpVariation"
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterResourceToApplicationPartitionMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterMappingSet.resourceToApplicationPartitionMapping",
+        "SystemMapping.resourceTo"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class maps a Software Cluster resource to an Application Partition to restrict the usage.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 284,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationPartition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "ApplicationPartition for which the mapping applies."
+        },
+        "resource": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Software Cluster Resource for which the mapping applies."
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterMappingSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to aggregate a collection of CP Software Cluster relevant mappings. This is applicable if a CP Software Cluster is described besides a concrete System, e.g. a reusable CP Software Cluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 285,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "portElementTo": {
+          "type": "PortElementTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Mapping ResourceMapping Tags:"
+        },
+        "resourceTo": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Mapping Tags:"
+        },
+        "softwareCluster": {
+          "type": "CpSoftwareClusterTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Mapping Tags:"
+        },
+        "swcTo": {
+          "type": "SwcToApplication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "maps SwComponentPrototypes in a CP Software Cluster to ApplicationPartitions atpSplitable; atpVariation Mapping Tags:"
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterToApplicationPartitionMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterMappingSet.softwareClusterToApplicationPartitionMapping",
+        "SystemMapping.software"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class defines ApplicationPartitions that are applicable for the CpSoftwareCluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 287,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationPartition",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Collection of ApplicationPartitions available in the Cp"
+        },
+        "softwareCluster": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Software Cluster Resource for which the mapping applies"
+        }
+      }
+    },
+    {
+      "name": "SystemSignalToCommunicationResourceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.systemSignalToComResourceMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class maps a communication resource to a SystemSignal. This mapping can be used in an early process stage in which the DataMapping linking the Ports and mapped CpSoftwareCluster CommunicationResource(s) to the SystemSignal is not yet available.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 289,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "softwareCluster": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Communication resource for which the mapping applies."
+        },
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "SystemSignal to which the communication resource is"
+        }
+      }
+    },
+    {
+      "name": "SystemSignalGroupToCommunicationResourceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.systemSignalGroupToComResourceMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class maps a communication resource to a SystemSignalGroup. This mapping can be used in an early process stage in which the DataMapping linking the Ports and mapped CpSoftwareCluster CommunicationResource(s) to SystemSignals of a SystemSignalGroup is not yet available.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 290,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "softwareCluster": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Communication resource for which the mapping applies."
+        },
+        "systemSignal": {
+          "type": "SystemSignalGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "SystemSignalGroup to which the communication is assigned"
+        }
+      }
+    },
+    {
+      "name": "SwComponentPrototypeAssignment",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareCluster.swComponentAssignment"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is only required to allow for the variant modeling of an instanceRef.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 894,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swComponent": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CP Software Cluster. This reference is used to belonging SWCs if the CP Software Cluster in the context of a System, by: ComponentInSystem"
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterResourcePool",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents the pool of resources which can be provided or required by CP Software Clusters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 901,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecuScope": {
+          "type": "EcuInstance",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the EcuInstance in which the is defined."
+        },
+        "resource": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of resources in enclosing resource pool."
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterCommunicationResource",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CpSoftwareClusterResource",
+      "bases": [
+        "ARObject",
+        "CpSoftwareClusterResource",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterResourcePool.resource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 902,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation supports the further qualification of the enclosing CpSoftwareClusterCommunicationRecource by of additional attributes depending on the nature of"
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterCommunicationResourceProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "DataComProps",
+        "ClientServerOperationComProps"
+      ],
+      "subclasses": [
+        "ClientServerOperationComProps",
+        "DataComProps"
+      ],
+      "aggregated_by": [
+        "CpSoftwareClusterCommunicationResource.communicationResourceProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Communication properties for cross cluster communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 902,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DataComProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CpSoftwareClusterCommunicationResourceProps",
+      "bases": [
+        "ARObject",
+        "CpSoftwareClusterCommunicationResourceProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterCommunicationResource.communicationResourceProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents a single resource required or provided by a CP Software Cluster which relates to the port based communication on VFB level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 903,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "data": {
+          "type": "DataConsistencyPolicy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines requirements on the data consistency mechanism in the cross cluster If the attribute is not set, the default value"
+        },
+        "sendIndication": {
+          "type": "SendIndicationEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Send indication behavior for last-is-the best data"
+        }
+      }
+    },
+    {
+      "name": "ClientServerOperationComProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CpSoftwareClusterCommunicationResourceProps",
+      "bases": [
+        "ARObject",
+        "CpSoftwareClusterCommunicationResourceProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterCommunicationResource.communicationResourceProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines additional attributes for the implementation of Client Server communication between software clusters",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 903,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "queueLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of call request queue on the server side. The implemented by the SwCluC. The value shall be equal to 1. Setting the value of queueLength to that incoming requests are rejected while that arrived earlier is being processed."
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterServiceResource",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CpSoftwareClusterResource",
+      "bases": [
+        "ARObject",
+        "CpSoftwareClusterResource",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterResourcePool.resource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents a single resource required or provided by a CP Software Cluster which relates to the BSW.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 904,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "resourceNeeds": {
+          "type": "EcucContainerValue",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refernce(s) to one or multiple EcucContainerValue(s) characteristics of the resource."
+        }
+      }
+    },
+    {
+      "name": "CpSoftwareClusterToResourceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterMappingSet.softwareClusterToResourceMapping",
+        "SystemMapping.softwareClusterTo"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class maps a service resource to CP Software Clusters. By this mapping it’s specified whether the Software Cluster has to provide or to require the resource.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 907,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "provider": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "CP Software Cluster providing the resource"
+        },
+        "requester": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "CP Software Cluster requesting the resource"
+        },
+        "service": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Service resource for which the mapping applies."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Can_CanTopology.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 17,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

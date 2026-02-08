@@ -1,0 +1,17 @@
+{
+  "name": "M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign",
+  "path": "M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "PortInterface",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform_ApplicationDesign_PortInterface.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

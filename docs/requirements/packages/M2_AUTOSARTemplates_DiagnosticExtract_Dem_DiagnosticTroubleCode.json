@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticTroubleCode.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticTroubleCode.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 8,
+    "enumeration_count": 6,
+    "primitive_count": 0
+  }
+}

@@ -1,6 +1,25 @@
+"""
+AUTOSAR Package - Fim
+
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticEvent import (
     DiagnosticAbstractAliasEvent,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
 
 
 class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
@@ -10,9 +29,9 @@ class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
     defined yet, not known or not in the responsibility of the author.
     Therefore, the DiagnosticFimAliasEvent has a reference to the actual
     DiagnosticEvent and by this the final connection is created.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimAliasEvent
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 214, Classic Platform
       R23-11)
@@ -26,17 +45,14 @@ class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-    DiagnosticCommonElement,
-)
 
 
 class DiagnosticFunctionIdentifier(DiagnosticCommonElement):
     """
     This meta-class represents a diagnostic function identifier (a.k.a. FID).
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFunctionIdentifier
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 215, Classic Platform
       R23-11)
@@ -50,23 +66,15 @@ class DiagnosticFunctionIdentifier(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-    DiagnosticCommonElement,
-)
 
 
 class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define the inhibition of a
     specific function identifier within the Fim configuration.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFunctionIdentifierInhibit
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 215, Classic Platform
       R23-11)
@@ -87,10 +95,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def function(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set function with validation.
-
+        
         Args:
             value: The function to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +123,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def inhibition_mask(self, value: Optional["DiagnosticInhibition"]) -> None:
         """
         Set inhibitionMask with validation.
-
+        
         Args:
             value: The inhibitionMask to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +153,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def getFunction(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for function.
-
+        
         Returns:
             The function value
-
+        
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -157,13 +165,13 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def setFunction(self, value: "DiagnosticFunction") -> "DiagnosticFunctionIdentifierInhibit":
         """
         AUTOSAR-compliant setter for function with method chaining.
-
+        
         Args:
             value: The function to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -173,10 +181,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def getInhibitionMask(self) -> "DiagnosticInhibition":
         """
         AUTOSAR-compliant getter for inhibitionMask.
-
+        
         Returns:
             The inhibitionMask value
-
+        
         Note:
             Delegates to inhibition_mask property (CODING_RULE_V2_00017)
         """
@@ -185,13 +193,13 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def setInhibitionMask(self, value: "DiagnosticInhibition") -> "DiagnosticFunctionIdentifierInhibit":
         """
         AUTOSAR-compliant setter for inhibitionMask with method chaining.
-
+        
         Args:
             value: The inhibitionMask to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to inhibition_mask property setter (gets validation automatically)
         """
@@ -201,10 +209,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def getInhibitSource(self) -> List["DiagnosticFunction"]:
         """
         AUTOSAR-compliant getter for inhibitSource.
-
+        
         Returns:
             The inhibitSource value
-
+        
         Note:
             Delegates to inhibit_source property (CODING_RULE_V2_00017)
         """
@@ -215,13 +223,13 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def with_function(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticFunctionIdentifierInhibit":
         """
         Set function and return self for chaining.
-
+        
         Args:
             value: The function to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_function("value")
         """
@@ -231,33 +239,28 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def with_inhibition_mask(self, value: Optional["DiagnosticInhibition"]) -> "DiagnosticFunctionIdentifierInhibit":
         """
         Set inhibitionMask and return self for chaining.
-
+        
         Args:
             value: The inhibitionMask to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_inhibition_mask("value")
         """
         self.inhibition_mask = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class DiagnosticFunctionInhibitSource(Identifiable):
     """
     This meta-class represents the ability to define an inhibition source in the
     context of the Fim configuration.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFunctionInhibitSource
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 216, Classic Platform
       R23-11)
@@ -278,10 +281,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def event(self, value: Optional["DiagnosticFimAlias"]) -> None:
         """
         Set event with validation.
-
+        
         Args:
             value: The event to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -306,10 +309,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def event_group(self, value: Optional["DiagnosticFimAlias"]) -> None:
         """
         Set eventGroup with validation.
-
+        
         Args:
             value: The eventGroup to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -328,10 +331,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def getEvent(self) -> "DiagnosticFimAlias":
         """
         AUTOSAR-compliant getter for event.
-
+        
         Returns:
             The event value
-
+        
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -340,13 +343,13 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def setEvent(self, value: "DiagnosticFimAlias") -> "DiagnosticFunctionInhibitSource":
         """
         AUTOSAR-compliant setter for event with method chaining.
-
+        
         Args:
             value: The event to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -356,10 +359,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def getEventGroup(self) -> "DiagnosticFimAlias":
         """
         AUTOSAR-compliant getter for eventGroup.
-
+        
         Returns:
             The eventGroup value
-
+        
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -368,13 +371,13 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def setEventGroup(self, value: "DiagnosticFimAlias") -> "DiagnosticFunctionInhibitSource":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-
+        
         Args:
             value: The eventGroup to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -386,13 +389,13 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def with_event(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFunctionInhibitSource":
         """
         Set event and return self for chaining.
-
+        
         Args:
             value: The event to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_event("value")
         """
@@ -402,24 +405,19 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def with_event_group(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFunctionInhibitSource":
         """
         Set eventGroup and return self for chaining.
-
+        
         Args:
             value: The eventGroup to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_event_group("value")
         """
         self.event_group = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-    DiagnosticCommonElement,
-)
 
 
 class DiagnosticFimEventGroup(DiagnosticCommonElement):
@@ -427,9 +425,9 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
     This meta-class represents the ability to model a Fim event group, also
     known as a summary event in Fim terminology. This represents a group of
     single diagnostic events.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimEventGroup
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 217, Classic Platform
       R23-11)
@@ -452,10 +450,10 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
     def getEvent(self) -> List["DiagnosticEvent"]:
         """
         AUTOSAR-compliant getter for event.
-
+        
         Returns:
             The event value
-
+        
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -463,11 +461,6 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticEvent import (
-    DiagnosticAbstractAliasEvent,
-)
 
 
 class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
@@ -475,9 +468,9 @@ class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
     This meta-class represents the ability to define an alias for a Fim
     summarized event. This alias can be used in early phases of the
     configuration process until a further refinement is possible.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimAliasEventGroup
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 263, Classic Platform
       R23-11)
@@ -500,13 +493,34 @@ class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
     def getGroupedAlias(self) -> List["DiagnosticFimAlias"]:
         """
         AUTOSAR-compliant getter for groupedAlias.
-
+        
         Returns:
             The groupedAlias value
-
+        
         Note:
             Delegates to grouped_alias property (CODING_RULE_V2_00017)
         """
         return self.grouped_alias  # Delegates to property
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+class DiagnosticInhibitionMaskEnum(AREnum):
+    """
+    DiagnosticInhibitionMaskEnum enumeration
+
+This meta-class represents the ability to define different kinds of inhibition mask behavior. Aggregated by DiagnosticFunctionIdentifierInhibit.inhibitionMask
+
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
+    """
+    # This represents the inhibition mask behavior "last failed".
+    lastFailed = "0"
+
+    # This represents the inhibition mask behavior "not tested".
+    notTested = "1"
+
+    # This represents the inhibition mask behavior "tested".
+    tested = "3"
+
+    # This represents the inhibition mask behavior "tested and failed".
+    testedAndFailed = "2"

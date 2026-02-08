@@ -1,0 +1,110 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+  "classes": [
+    {
+      "name": "DiagnosticCommonProps",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticContributionSet.commonProperties"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class aggregates a number of common properties that are shared among a diagnostic extract. Tags: vh.latestBindingTime=codeGenerationTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 64,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the time (in seconds) that the state is maintained in default-session if no communication from the authenticated client. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "debounce": {
+          "type": "DiagnosticDebounce",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the used debounce algorithms relevant in the context of the enclosing DiagnosticCommonProps. is a variety of debouncing algorithms to account and therefore the multiplicity of this set to 0..*."
+        },
+        "default": {
+          "type": "ByteOrderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the default endianness of the data belonging to a or RID which is applicable if the DiagnosticData not define the endianness via the swData"
+        },
+        "event": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In case of EventCombination on Retrieval, this attribute specifies if a specific order of reporting is to be maintained."
+        },
+        "maxNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of negative responses with response 0x78 (requestCorrectlyReceived-ResponsePending) per request. DCM will send a negative response response code 0x10 (generalReject), in case the limit gets reached. Value 0xFF means that no limit of NRC 0x78 response apply."
+        },
+        "occurrence": {
+          "type": "DiagnosticOccurrence",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the consideration of the fault confirmation process for the occurrence counter."
+        },
+        "resetConfirmed": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines, whether the confirmed bit is reset not while an event memory entry will be displaced."
+        },
+        "resetPendingBit": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines, whether the pending bit is reset or while an event memory entry will be displaced. In be compliant to ISO 14229-1 [1], this parameter be set to \"false\"."
+        },
+        "responseOnAll": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to FALSE the DCM will not respond to diagnostic that contains a service ID which is in the range to 0x7F or in the range from 0xC0 to 0xFF"
+        },
+        "responseOn": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the reaction upon a second request (ClientB) that not be processed (e.g. due to priority assessment). when the second request (Client B) can not be Request processed, it shall be answered with NRC21 BusyRepeat the second request (Client B) can not be shall not be responded."
+        },
+        "typeOfEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Select type of Event Combination support."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,784 @@
+{
+  "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+  "classes": [
+    {
+      "name": "FMFeatureModel",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A Feature model describes the features of a product line and their dependencies. Feature models are an optional part of an AUTOSAR model.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 21,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 444,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "feature": {
+          "type": "FMFeature",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "\"feature\" holds the list of features of the feature model. No be contained twice in this list. Also, each be contained on only one feature model."
+        },
+        "root": {
+          "type": "FMFeature",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The features of a feature model define a tree. The points to the root of this tree."
+        }
+      }
+    },
+    {
+      "name": "FMFeature",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A FMFeature describes an essential characteristic of a product. Each FMFeature is contained in exactly one FMFeatureModel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 24,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 444,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "attributeDef": {
+          "type": "FMAttributeDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This defines the attributes of the given feature."
+        },
+        "decompositionDecomposition": {
+          "type": "FMFeature",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Lists the sub-features of a feature."
+        },
+        "maximum": {
+          "type": "BindingTimeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines an upper bound for the binding time of the points that are associated with the FMFeature. attribute is meant as a hint for the development"
+        },
+        "minimum": {
+          "type": "BindingTimeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a lower bound for the binding time of the variation that are associated with the FMFeature. This is meant as a hint for the development process."
+        },
+        "relation": {
+          "type": "FMFeatureRelation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines relations for FMFeatures, for example other FMFeatures, or conflicts with A FMFeature can only be part of a all its relations are fulfilled."
+        },
+        "restriction": {
+          "type": "FMFeatureRestriction",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines restrictions for FMFeatures. A FMFeature can part of a FMFeatureSelectionSet if at least one of evaluates to true."
+        }
+      }
+    },
+    {
+      "name": "FMAttributeDef",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeature.attributeDef"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to define attributes for a feature.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 26,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the default value of the attribute."
+        },
+        "max": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum possible value for the value of this attribute"
+        },
+        "min": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum possible value for the value of this attribute"
+        }
+      }
+    },
+    {
+      "name": "FMFeatureDecomposition",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeature.decomposition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A FMFeatureDecomposition describes dependencies between a list of features and their parent feature (i.e., the FMFeature that aggregates the FMFeatureDecomposition). The kind of dependency is defined by the attribute category.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 27,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "CategoryString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The category of a FMFeatureDecomposition defines the dependency that is defined by the FMFeature are four different categories: MULTIPLEFEATURE."
+        },
+        "feature": {
+          "type": "FMFeature",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The features that are affected by the dependency defined FMFeatureDecomposition. 92 Document ID 606: AUTOSAR_FO_TPS_FeatureModelExchangeFormat Model Exchange Format R23-11"
+        },
+        "max": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "For a dependency of category MULTIPLEFEATURE, this maximum number of features allowed."
+        },
+        "min": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "For a dependency of category MULTIPLEFEATURE, this minimum number of features allowed."
+        }
+      }
+    },
+    {
+      "name": "FMFeatureRestriction",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeature.restriction"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines restrictions for FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if at least one of its restrictions evaluate to true.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 32,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "restrictionAndAttributes": {
+          "type": "FMConditionByFeatures",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A formula that contains the actual restriction."
+        }
+      }
+    },
+    {
+      "name": "FMFeatureRelation",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeature.relation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines relations for FMFeatures, for example dependencies on other FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part of a FMFeatureSelectionSet if all its relations are fulfilled.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 34,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "feature": {
+          "type": "FMFeature",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The FMFeature that is targeted by this FMFeature"
+        },
+        "restriction": {
+          "type": "FMConditionByFeatures",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If given, the condition shall evaluate to true, in order for FMFeatureRelation to be active."
+        }
+      }
+    },
+    {
+      "name": "FMFeatureSelection",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeatureSelectionSet.selection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that a FMFeatureSelection cannot include two FMAttributeValues that refer to the same FMAttributeDef in the role definition. feature FMFeature 0..1 ref The FMFeature whose state is defined by this FMFeature Selection. maximum BindingTimeEnum 0..1 attr Defines an upper bound for the binding time of the SelectedBinding variation points that are associated with the FMFeature, Time and refines its maximumIntendedBindingTime. This attribute is meant as a hint for the development process. minimum BindingTimeEnum 0..1 attr Defines a lower bound for the binding time of the variation SelectedBinding points that are associated with the FMFeature, and Time refines its minimumIntendedBindingTime. This attribute is meant as a hint for the development process. state FMFeatureSelection 0..1 attr Defines how the FMFeature that is described by this State FMFeatureSelection contributes to the FMFeature SelectionSet. A FMFeature may have the state selected, deselected or undecided. Table 5.2: FMFeatureSelection [constr_3661] Multiplicity of FMFeatureSelection.feature (cid:100)For each FMFea- tureSelection the reference in the role feature shall exist.(cid:99)() [constr_3662] Multiplicity of FMFeatureSelection.state (cid:100)For each FMFea- tureSelection the attribute state shall exist.(cid:99)() 40 of 92 Document ID 606: AUTOSAR_FO_TPS_FeatureModelExchangeFormat AUTOSAR Feature Model Exchange Format AUTOSAR FO R23-11 5.2.1 Reference feature The reference feature points to the feature that is described by this FMFeatureSe- lection. 5.2.2 Attribute state FMFeatureSelection has an attribute state that defines how the feature referred to by feature contributes to the selection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 40,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "attributeValue": {
+          "type": "FMAttributeValue",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This defines a value for the attribute that is referred to in definition."
+        }
+      }
+    },
+    {
+      "name": "FMAttributeValue",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeatureSelection.attributeValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This defines a value for the attribute that is referred to in the role definition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 42,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "definition": {
+          "type": "FMAttributeDef",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to the definition of this attribute."
+        },
+        "value": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the value of this attribute."
+        }
+      }
+    },
+    {
+      "name": "FMFeatureSelectionSet",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A FMFeatureSelectionSet is a set of FMFeatures that describes a specific product.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 44,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "featureModel": {
+          "type": "FMFeatureModel",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "All FMFeatures in this FMFeatureSelectionSet shall be the referenced FMFeatureModel."
+        },
+        "include": {
+          "type": "FMFeatureSelectionSet",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Each FMFeatureSelectionSet may include one or more establishes a hierarchy See constr_5003 and details."
+        },
+        "selection": {
+          "type": "FMFeatureSelection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The set of FMFeatureSelections of this FMFeature"
+        }
+      }
+    },
+    {
+      "name": "FMFeatureMap",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A FMFeatureMap associates FMFeatures with variation points in the AUTOSAR model. To do this, it defines value sets for system constants and postbuild variant criterions that shall be chosen whenever a certain combination of features (and system constants) is encountered.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 53,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mapping": {
+          "type": "FMFeatureMapElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Set of mappings defined by this FMFeatureMap."
+        }
+      }
+    },
+    {
+      "name": "FMFeatureMapElement",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeatureMap.mapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines value sets for system constants and postbuild variant criterions that shall be chosen whenever a certain combination of features (and system constants) is encountered.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 53,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assertion": {
+          "type": "FMFeatureMap",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a boolean expression based on features and constants which needs to evaluate to true for this become active."
+        },
+        "condition": {
+          "type": "FMFeatureMap",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a condition which needs to be fulfilled for this to become active."
+        },
+        "postBuildVariant": {
+          "type": "PostBuildVariant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Selects a set of values for postbuild variant criterions."
+        },
+        "swValueSet": {
+          "type": "SwSystemconstant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Selects a set of values for system constants."
+        }
+      }
+    },
+    {
+      "name": "FMFeatureMapCondition",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeatureMapElement.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a condition which needs to be fulfilled for this mapping to become active. The condition is implemented as formula that is based on features and attributes and is defined by fmCond.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 55,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "fmCondAndAttributes": {
+          "type": "FMConditionByFeatures",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The formula that implements the condition."
+        }
+      }
+    },
+    {
+      "name": "FMFeatureMapAssertion",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeatureMapElement.assertion"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a boolean expression which shall evaluate to true for this mapping to become active. The expression is a formula that is based on features and system constants, and is defined by fmSyscond.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 55,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "fmSyscondAndSwSystemconsts": {
+          "type": "FMConditionByFeatures",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The formula that implements the assertion."
+        }
+      }
+    },
+    {
+      "name": "FMFormulaByFeaturesAndAttributes",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [
+        "FMConditionByFeaturesAndAttributes"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An expression that has the syntax of the AUTOSAR formula language but uses only references to features or feature attributes (not system constants) as operands.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 61,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "attribute": {
+          "type": "FMAttributeDef",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "An expression of type FMFormulaByFeaturesAnd refer to attributes of FMFeatures."
+        },
+        "feature": {
+          "type": "FMFeature",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "An expression of type FMFormulaByFeaturesAnd refer to FMFeatures."
+        }
+      }
+    },
+    {
+      "name": "FMConditionByFeaturesAndAttributes",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FMFormulaByFeaturesAndAttributes",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeatureMapCondition.fmCond",
+        "FMFeatureRelation.restriction",
+        "FMFeatureRestriction.restriction"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A boolean expression that has the syntax of the AUTOSAR formula language but uses only references to features or feature attributes (not system constants) as operands.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 62,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "FMFormulaByFeaturesAndSwSystemconsts",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression",
+        "SwSystemconstDependentFormula"
+      ],
+      "children": [],
+      "subclasses": [
+        "FMConditionByFeaturesAndSwSystemconsts"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An expression that has the syntax of the AUTOSAR formula language and may use references to features or system constants as operands.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 63,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "feature": {
+          "type": "FMFeature",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "An expression of type FMFormulaByFeaturesAndSw refer to FMFeatures."
+        }
+      }
+    },
+    {
+      "name": "FMConditionByFeaturesAndSwSystemconsts",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FMFormulaByFeaturesAndSwSystemconsts",
+        "FormulaExpression",
+        "SwSystemconstDependent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FMFeatureMapAssertion.fmSyscond"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A boolean expression that has the syntax of the AUTOSAR formula language and may use references to features or system constants as operands.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 63,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

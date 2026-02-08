@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::AsamHdo::Units",
+  "path": "M2::MSR::AsamHdo::Units",
+  "files": {
+    "classes": "packages/M2_MSR_AsamHdo_Units.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

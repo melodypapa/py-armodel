@@ -1,0 +1,426 @@
+{
+  "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+  "classes": [
+    {
+      "name": "DltArgument",
+      "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DltArgument.dltArgumentEntry",
+        "DltMessage.dltArgument"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines an Argument in a DltMessage.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 983,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 13,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dltArgument": {
+          "type": "DltArgument",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation is used to describe subElements of a Dlt that defines a Structure."
+        },
+        "length": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the DltArgument length in case of Arrays and number of BaseTypes."
+        },
+        "network": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the networkRepresentation of the Dlt"
+        },
+        "optional": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the argument is optional or set to true, the argument can be omitted from the a DLT message."
+        },
+        "predefinedText": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the DltArgument is a Data)."
+        },
+        "variableLength": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the length of the Dlt variable (determined at runtime) or not."
+        }
+      }
+    },
+    {
+      "name": "DltApplication",
+      "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DltEcu.application"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the application from which the log and trace message originates.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2017,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 8,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be used to describe the applicationId is used in the log and trace message in more detail."
+        },
+        "applicationId": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute identifies the SW-C/BSW module in the log message."
+        },
+        "context": {
+          "type": "DltContext",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Definition of ContextIds for the Application. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DltContext",
+      "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the Context that groups Log and Trace Messages that are generated by an application.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2017,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 9,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "context": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be used to describe the contextId that is in the log and trace message in more detail."
+        },
+        "contextId": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to group log and trace messages an application to distinguish functionality. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "dltMessage": {
+          "type": "DltMessage",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Group of Log and Trace Messages assigned to the Dlt atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DltEcu",
+      "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element represents an Ecu or Machine that produces logging and tracing information.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2018,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 8,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "DltApplication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Application on DltEcu that provides log or trace data. atpVariation"
+        },
+        "ecuId": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the name of the ECU for use within protocol."
+        }
+      }
+    },
+    {
+      "name": "DltMessage",
+      "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LogAndTraceMessageCollectionSet.dltMessage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines a DltMessage.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2018,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 12,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dltArgument": {
+          "type": "DltArgument",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Ordered collection of DltArguments in the DltMessage."
+        },
+        "messageId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the unique Id for the DltMessage."
+        },
+        "messageLine": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the position in the source file in this log message was called."
+        },
+        "messageSource": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the source file in which this log was called."
+        },
+        "messageTypeInfo": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the message Type"
+        },
+        "privacyLevel": {
+          "type": "PrivacyLevel",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The Privacy Level helps to identify the Log and Trace the degree of privacy to it."
+        }
+      }
+    },
+    {
+      "name": "LogAndTraceMessageCollectionSet",
+      "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of DltMessages",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 12,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dltMessage": {
+          "type": "DltMessage",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of DltMessages in the DltMessageCollection atpVariation"
+        }
+      }
+    },
+    {
+      "name": "PrivacyLevel",
+      "package": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DltMessage.privacyLevel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines the Privacy Level for a Log and Trace content.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 18,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuMethod": {
+          "type": "CompuMethod",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to CompuMethod of category TEXTTABLE the supported user-defined privacy levels."
+        },
+        "privacyLevel": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The value that represents the privacy level and is the Extension Header."
+        }
+      }
+    }
+  ]
+}

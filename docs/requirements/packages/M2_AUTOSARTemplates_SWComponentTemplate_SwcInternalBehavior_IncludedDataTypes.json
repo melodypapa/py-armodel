@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_IncludedDataTypes.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

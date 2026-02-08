@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+  "enumerations": [
+    {
+      "name": "FlexrayChannelName",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "note": "Name of the channel. Aggregated by FlexrayPhysicalChannel.channelName",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 89,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "channelA",
+          "index": 0,
+          "description": "Channel A<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "channelB",
+          "index": 1,
+          "description": "Channel B<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

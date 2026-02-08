@@ -1,17 +1,26 @@
-from typing import Optional
+"""
+AUTOSAR Package - ReadDTCInformation
 
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDTCInformation
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
+
+
 
 
 class DiagnosticReadDTCInformation(DiagnosticServiceInstance):
     """
     This represents an instance of the "Read DTC Information" diagnostic
     service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDTCInformation
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDTCInformation::DiagnosticReadDTCInformation
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 136, Classic Platform
       R23-11)
@@ -34,10 +43,10 @@ class DiagnosticReadDTCInformation(DiagnosticServiceInstance):
     def read(self, value: Optional["DiagnosticReadDTC"]) -> None:
         """
         Set read with validation.
-
+        
         Args:
             value: The read to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +65,10 @@ class DiagnosticReadDTCInformation(DiagnosticServiceInstance):
     def getRead(self) -> "DiagnosticReadDTC":
         """
         AUTOSAR-compliant getter for read.
-
+        
         Returns:
             The read value
-
+        
         Note:
             Delegates to read property (CODING_RULE_V2_00017)
         """
@@ -68,13 +77,13 @@ class DiagnosticReadDTCInformation(DiagnosticServiceInstance):
     def setRead(self, value: "DiagnosticReadDTC") -> "DiagnosticReadDTCInformation":
         """
         AUTOSAR-compliant setter for read with method chaining.
-
+        
         Args:
             value: The read to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to read property setter (gets validation automatically)
         """
@@ -86,31 +95,28 @@ class DiagnosticReadDTCInformation(DiagnosticServiceInstance):
     def with_read(self, value: Optional["DiagnosticReadDTC"]) -> "DiagnosticReadDTCInformation":
         """
         Set read and return self for chaining.
-
+        
         Args:
             value: The read to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_read("value")
         """
         self.read = value  # Use property setter (gets validation)
         return self
 
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
-    DiagnosticServiceClass,
-)
 
 
 class DiagnosticReadDTCInformationClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the
     "ReadDTCInformation" diagnostic service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDTCInformation
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDTCInformation::DiagnosticReadDTCInformationClass
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 136, Classic Platform
       R23-11)

@@ -1,0 +1,67 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::OffsetConstraint",
+  "classes": [
+    {
+      "name": "OffsetTimingConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::OffsetConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Bounds the time offset between the occurrence of two timing events, without requiring a direct functional dependency between the source and the target. If the target event occurs, it is expected to occur earliest with the minimum, and latest with the maximum offset relatively after the occurrence of the source event. Note: not every source event occurrence shall be followed by a target event occurrence. In contrast to LatencyTimingConstraint, there shall not necessarily be a causal dependency between the source and target event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 114,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maximum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum offset the target event occurs relatively occurrence of the source event."
+        },
+        "minimum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The mimum offset the target event occurs relatively after of the source event."
+        },
+        "source": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The timing event that the target event is to be"
+        },
+        "target": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The timing event which is expected to occur timely after event."
+        }
+      }
+    }
+  ]
+}

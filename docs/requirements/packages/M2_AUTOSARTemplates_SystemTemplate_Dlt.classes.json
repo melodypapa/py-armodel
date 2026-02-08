@@ -1,0 +1,155 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+  "classes": [
+    {
+      "name": "DltConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.dltConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines a Dlt configuration for a specific Ecu.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 722,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dltEcu": {
+          "type": "DltEcu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the Ecu representation in the Log And Trace"
+        },
+        "dltLogChannel": {
+          "type": "DltLogChannel",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the DltLogChannels that are configured for the output"
+        },
+        "sessionId": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the sessionId is used or"
+        },
+        "timestamp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether a timestamp shall be added the Dlt messages or not."
+        }
+      }
+    },
+    {
+      "name": "DltLogChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DltConfig.dltLogChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element contains the settings for the log/trace message output for a tuple of ApplicationId and ContextId (verbose mode) or a SessionId (non-verbose mode).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 722,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "DltContext",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the Swc that produces the log or trace Please note that this reference shall not be set that the Bsw module produces the associated log messages."
+        },
+        "defaultTrace": {
+          "type": "DltDefaultTraceState",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes defines the default trace status."
+        },
+        "dltMessage": {
+          "type": "DltMessage",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to DltMessages that can be transported over in the DltPdu. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "logChannelId": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute identifies the Channel for usage within the Trace protocol."
+        },
+        "logTraceDefault": {
+          "type": "LogTraceDefaultLog",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows to set a log level Threshold for Log Level filtering."
+        },
+        "nonVerbose": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether this channel supports Dlt messages. If disabled only verbose shall be used."
+        },
+        "rxPduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to DltPdu that is received by the DltLog"
+        },
+        "segmentation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled, segmentation will be used if a DLT message is than Pdu.length referenced via DltLogChannel.tx"
+        },
+        "txPduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to DltPdu that is transmitted by the DltLog"
+        }
+      }
+    }
+  ]
+}

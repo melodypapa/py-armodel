@@ -1,0 +1,14 @@
+{
+  "name": "M2::MSR::DataDictionary::ServiceProcessTask",
+  "path": "M2::MSR::DataDictionary::ServiceProcessTask",
+  "files": {
+    "classes": "packages/M2_MSR_DataDictionary_ServiceProcessTask.classes.json",
+    "enumerations": "packages/M2_MSR_DataDictionary_ServiceProcessTask.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

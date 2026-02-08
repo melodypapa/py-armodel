@@ -1,0 +1,274 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs",
+  "classes": [
+    {
+      "name": "ComponentInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticJ1939SwMapping.swComponentPrototype",
+        "EOCEventRef.component",
+        "EOCExecutableEntityRef.component",
+        "ExecutionTimeConstraint.component",
+        "TDEventSwc.component",
+        "TDEventVfb."
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "The ComponentInCompositionInstanceRef points to a concrete SwComponentPrototype within a CompositionSwComponentType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 950,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 219,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "context": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The context for the scope of this timing event. Tags: xml.sequenceOffset=20 (ordered)"
+        },
+        "target": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "PortInCompositionTypeInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "PPortInCompositionInstanceRef",
+        "RPortInCompositionInstanceRef"
+      ],
+      "subclasses": [
+        "PPortInCompositionInstanceRef",
+        "RPortInCompositionInstanceRef"
+      ],
+      "aggregated_by": [
+        "DelegationSwConnector.innerPort"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 950,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "abstractContext": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpAbstract Tags: xml.sequenceOffset=20"
+        },
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "targetPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract"
+        }
+      }
+    },
+    {
+      "name": "PPortInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInCompositionTypeInstanceRef",
+      "bases": [
+        "ARObject",
+        "PortInCompositionTypeInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AssemblySwConnector.provider",
+        "DelegationSwConnector.innerPort"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 951,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "context": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetPPortPrototype": {
+          "type": "AbstractProvidedPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "RPortInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInCompositionTypeInstanceRef",
+      "bases": [
+        "ARObject",
+        "PortInCompositionTypeInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AssemblySwConnector.requester",
+        "DelegationSwConnector.innerPort",
+        "SecurityEventReportToSecurity"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 952,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "context": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetRPortPrototype": {
+          "type": "AbstractRequiredPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "InstanceEventInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "InstantiationRTEEventProps.refinedEvent"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 959,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextPrototype": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetEvent": {
+          "type": "RTEEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    }
+  ]
+}

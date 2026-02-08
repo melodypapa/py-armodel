@@ -1,0 +1,47 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintFormula",
+  "classes": [
+    {
+      "name": "BlueprintFormula",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintFormula",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression",
+        "SwSystemconstDependentFormula"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class express the extension of the Formula Language to provide formalized blueprint-Value resp. blueprintCondition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 163,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecuc": {
+          "type": "EcucDefinitionElement",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The EcucDefinitionElement serves as a argument for the"
+        },
+        "verbatim": {
+          "type": "MultiLanguageVerbatim",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents an informal term in the expression as Note that the result of this is same as \"undefined\"."
+        }
+      }
+    }
+  ]
+}

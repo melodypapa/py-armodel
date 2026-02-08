@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_ModeDeclarationGroup.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

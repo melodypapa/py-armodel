@@ -1,0 +1,643 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+  "classes": [
+    {
+      "name": "DiagnosticMemoryByAddress",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticServiceInstance",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticMemoryAddressableRangeAccess",
+        "DiagnosticTransferExit",
+        "DiagnosticDataTransfer"
+      ],
+      "subclasses": [
+        "DiagnosticDataTransfer",
+        "DiagnosticMemoryAddressableRangeAccess",
+        "DiagnosticTransferExit"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an abstract base class for diagnostic services that deal with accessing memory by address.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 139,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticMemoryAddressableRangeAccess",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryByAddress",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticWriteMemoryByAddress",
+        "DiagnosticReadMemoryByAddress",
+        "DiagnosticRequestDownload",
+        "DiagnosticRequestUpload"
+      ],
+      "subclasses": [
+        "DiagnosticReadMemoryByAddress",
+        "DiagnosticRequestDownload",
+        "DiagnosticRequestUpload",
+        "Diagnostic"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract base class",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 140,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "memoryRange": {
+          "type": "DiagnosticMemory",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the formal description of the memory to which the DiagnosticMemoryByAddress"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticMemoryIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define memory properties from the diagnostics point of view.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 140,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "access": {
+          "type": "DiagnosticAccess",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents that access permission defined for the specific DiagnosticMemoryIdentifier."
+        },
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the identification of the memory segment."
+        },
+        "memoryHigh": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a symbolic label for the upper bound for of the memory segment."
+        },
+        "memoryLow": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a symbolic label for the lower bound for of the memory segment."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticWriteMemoryByAddress",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryAddressableRangeAccess",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryAddressableRangeAccess",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Write Memory by Address\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 140,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "writeClass": {
+          "type": "DiagnosticWriteMemory",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the serviceClass for this specific concrete class. reference represents the ability to access among all DiagnosticWritememoryBy the given context."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticWriteMemoryByAddressClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Write Memory by Address\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 141,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticReadMemoryByAddress",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryAddressableRangeAccess",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryAddressableRangeAccess",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Read Memory by Address\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 141,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "readClass": {
+          "type": "DiagnosticReadMemory",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the serviceClass for this specific concrete class. reference represents the ability to access among all DiagnosticReadMemoryBy the given context."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticReadMemoryByAddressClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Read Memory by Address\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 142,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticTransferExit",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryByAddress",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Transfer Exit\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 142,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "transferExit": {
+          "type": "DiagnosticTransferExit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the reference represents the ability to access among all DiagnosticTransferExit in the"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticTransferExitClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Transfer Exit\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 143,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticDataTransfer",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryByAddress",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Data Transfer\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 143,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataTransfer": {
+          "type": "DiagnosticDataTransfer",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the reference represents the ability to access among all DiagnosticDataTransfer in the"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticDataTransferClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Data Transfer\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 144,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticRequestDownload",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryAddressableRangeAccess",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryAddressableRangeAccess",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Request Download\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 144,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "request": {
+          "type": "DiagnosticRequest",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. reference represents the ability to access among all DiagnosticRequestDownload given context."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticRequestDownloadClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Request Download\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 144,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticRequestUpload",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryAddressableRangeAccess",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryAddressableRangeAccess",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an instance of the \"Request Upload\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 145,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "requestUpload": {
+          "type": "DiagnosticRequest",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference substantiates that abstract reference in the reference represents the ability to access among all DiagnosticRequestUpload in context."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticRequestUploadClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class contains attributes shared by all instances of the \"Request Upload\" diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

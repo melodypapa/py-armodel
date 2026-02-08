@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+  "path": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_EcuResourceTemplate_HwElementCategory.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

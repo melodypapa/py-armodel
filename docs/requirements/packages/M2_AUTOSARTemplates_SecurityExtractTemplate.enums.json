@@ -1,0 +1,80 @@
+{
+  "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+  "enumerations": [
+    {
+      "name": "SecurityEventContextDataSourceEnum",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "note": "This enumeration controls the elements used to creating the resulting qualified security event Tags: atp.Status=candidate Aggregated by SecurityEventAggregationFilter.contextDataSource",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 25,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "useFirstContextData",
+          "index": 0,
+          "description": "Context data of first received security event shall be used for resulting qualified security event.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "useLastContextData",
+          "index": 1,
+          "description": "Context data of last received security event shall be used for resulting qualified security event.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "SecurityEventReportingModeEnum",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "note": "This enumeration controls the reporting mode of a security event. Tags: atp.Status=candidate Aggregated by SecurityEventContextProps.defaultReportingMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 35,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "brief",
+          "index": 1,
+          "description": "Only the main security event properties such as its ID are processed. Any additional context data (if<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "briefBypassing",
+          "index": 3,
+          "description": "The reported security event without its context data (if existing) is processed further but the filter chain Filters is bypassed.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "detailed",
+          "index": 2,
+          "description": "The main properties and the context data (if existing) of the reported security event are processed<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "Security",
+          "index": null,
+          "description": "Extract Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "FO R23-11"
+        },
+        {
+          "name": "detailedBypassing",
+          "index": 4,
+          "description": "The reported security event including its context data (if existing) is processed further but the filter Filters chain is bypassed.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "off",
+          "index": 0,
+          "description": "The reported security event is not further processed by the IdsM and therefore discarded.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

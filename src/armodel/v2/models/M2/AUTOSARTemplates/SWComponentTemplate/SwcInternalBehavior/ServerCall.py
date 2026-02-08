@@ -1,8 +1,16 @@
-from typing import Optional
+"""
+AUTOSAR Package - ServerCall
 
+Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
     AbstractAccessPoint,
 )
+
+
 
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint):
@@ -13,9 +21,9 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     the completion of the required ClientServerOperation or a timeout. The
     occurrence of this event can either unblock a WaitPoint or can lead to the
     invocation of a RunnableEntity.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::AsynchronousServerCallResultPoint
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 304, Classic
       Platform R23-11)
@@ -39,10 +47,10 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def asynchronous(self, value: Optional["AsynchronousServer"]) -> None:
         """
         Set asynchronous with validation.
-
+        
         Args:
             value: The asynchronous to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +69,10 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def getAsynchronous(self) -> "AsynchronousServer":
         """
         AUTOSAR-compliant getter for asynchronous.
-
+        
         Returns:
             The asynchronous value
-
+        
         Note:
             Delegates to asynchronous property (CODING_RULE_V2_00017)
         """
@@ -73,13 +81,13 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def setAsynchronous(self, value: "AsynchronousServer") -> "AsynchronousServerCallResultPoint":
         """
         AUTOSAR-compliant setter for asynchronous with method chaining.
-
+        
         Args:
             value: The asynchronous to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to asynchronous property setter (gets validation automatically)
         """
@@ -91,25 +99,19 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def with_asynchronous(self, value: Optional["AsynchronousServer"]) -> "AsynchronousServerCallResultPoint":
         """
         Set asynchronous and return self for chaining.
-
+        
         Args:
             value: The asynchronous to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_asynchronous("value")
         """
         self.asynchronous = value  # Use property setter (gets validation)
         return self
 
-from abc import ABC
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
-    AbstractAccessPoint,
-)
 
 
 class ServerCallPoint(AbstractAccessPoint, ABC):
@@ -117,9 +119,9 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a
     particular ClientServerOperation of a specific RPortPrototype of the
     corresponding AtomicSwComponentType
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::ServerCallPoint
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 335, Classic
       Platform R23-11)
@@ -145,10 +147,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operationInstanceRef with validation.
-
+        
         Args:
             value: The operationInstanceRef to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +176,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-
+        
         Args:
             value: The timeout to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -196,10 +198,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def getOperationInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operationInstanceRef.
-
+        
         Returns:
             The operationInstanceRef value
-
+        
         Note:
             Delegates to operation_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -208,13 +210,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def setOperationInstanceRef(self, value: "ClientServerOperation") -> "ServerCallPoint":
         """
         AUTOSAR-compliant setter for operationInstanceRef with method chaining.
-
+        
         Args:
             value: The operationInstanceRef to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to operation_instance_ref property setter (gets validation automatically)
         """
@@ -224,10 +226,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-
+        
         Returns:
             The timeout value
-
+        
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -236,13 +238,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def setTimeout(self, value: "TimeValue") -> "ServerCallPoint":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-
+        
         Args:
             value: The timeout to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -254,13 +256,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def with_operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> "ServerCallPoint":
         """
         Set operationInstanceRef and return self for chaining.
-
+        
         Args:
             value: The operationInstanceRef to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_operation_instance_ref("value")
         """
@@ -270,33 +272,28 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ServerCallPoint":
         """
         Set timeout and return self for chaining.
-
+        
         Args:
             value: The timeout to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_timeout("value")
         """
         self.timeout = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
-    ServerCallPoint,
-)
 
 
 class SynchronousServerCallPoint(ServerCallPoint):
     """
     This means that the RunnableEntity is supposed to perform a blocking wait
     for a response from the server.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::SynchronousServerCallPoint
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 580, Classic Platform
       R23-11)
@@ -319,10 +316,10 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def called_from(self, value: Optional["ExclusiveAreaNesting"]) -> None:
         """
         Set calledFrom with validation.
-
+        
         Args:
             value: The calledFrom to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -341,10 +338,10 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def getCalledFrom(self) -> "ExclusiveAreaNesting":
         """
         AUTOSAR-compliant getter for calledFrom.
-
+        
         Returns:
             The calledFrom value
-
+        
         Note:
             Delegates to called_from property (CODING_RULE_V2_00017)
         """
@@ -353,13 +350,13 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def setCalledFrom(self, value: "ExclusiveAreaNesting") -> "SynchronousServerCallPoint":
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
-
+        
         Args:
             value: The calledFrom to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to called_from property setter (gets validation automatically)
         """
@@ -371,22 +368,19 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> "SynchronousServerCallPoint":
         """
         Set calledFrom and return self for chaining.
-
+        
         Args:
             value: The calledFrom to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_called_from("value")
         """
         self.called_from = value  # Use property setter (gets validation)
         return self
 
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
-    ServerCallPoint,
-)
 
 
 class AsynchronousServerCallPoint(ServerCallPoint):
@@ -396,9 +390,9 @@ class AsynchronousServerCallPoint(ServerCallPoint):
     concurrently. Once the client RunnableEntity has made the invocation, the
     ServerCallPoint cannot be used until the call returns (or an error occurs!)
     at which point the ServerCallPoint becomes available again.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::AsynchronousServerCallPoint
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 581, Classic Platform
       R23-11)

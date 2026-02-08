@@ -1,0 +1,85 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+  "enumerations": [
+    {
+      "name": "CanAddressingModeType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "note": "Indicates whether standard or extended CAN identifiers are used Aggregated by CanFrameTriggering.canAddressingMode, IEEE1722TpAcfCanPart.canAddressingMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 443,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "extended",
+          "index": 0,
+          "description": "Extended 29-bit-identifiers are used (CAN 2.0B)<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "standard",
+          "index": 1,
+          "description": "Standard 11-bit-identifiers are used (CAN 2.0A)<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "CanFrameRxBehaviorEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "note": "Defines different CAN protocols for frame reception behavior. Aggregated by CanFrameTriggering.canFrameRxBehavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 444,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "any",
+          "index": 0,
+          "description": "This CAN frame may be received as both, CAN 2.0 and CAN FD.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "can20",
+          "index": 1,
+          "description": "This CAN frame shall be received as CAN 2.0 only. In case the CAN frame is received as CAN FD it is discarded during reception.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "canFd",
+          "index": 2,
+          "description": "This CAN frame shall be received as CAN FD only. In case the CAN frame is received as CAN 2.0 it is discarded during reception.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "CanFrameTxBehaviorEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "note": "Defines different CAN protocols for frame transmission behavior. Aggregated by CanFrameTriggering.canFrameTxBehavior, IEEE1722TpAcfCanPart.canFrameTxBehavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 445,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "can20",
+          "index": 0,
+          "description": "This CAN frame shall be sent as CAN 2.0 only.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "canFd",
+          "index": 1,
+          "description": "This CAN frame shall be sent as CAN FD.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

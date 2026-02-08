@@ -1,0 +1,253 @@
+{
+  "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+  "classes": [
+    {
+      "name": "LLongName",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "LanguageSpecific",
+        "MixedContentForLongName"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MultilanguageLongName.l4"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "MixedContentForLongNames in one particular language. The language is denoted in the attribute l.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprintValue": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the be defined when deriving objects from the"
+        }
+      }
+    },
+    {
+      "name": "WhitespaceControlled",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "MixedContentForPlainText",
+        "MixedContentForVerbatim"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to control the white-space handling e.g. in xml serialization. This is implemented by adding the attribute \"space\".",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 292,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "xmlSpace": {
+          "type": "XmlSpaceEnum",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to signal an intention that in that space should be preserved by is defined according to xml:space as W3C."
+        }
+      }
+    },
+    {
+      "name": "LVerbatim",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "LanguageSpecific",
+        "MixedContentForVerbatim",
+        "WhitespaceControlled"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MultiLanguageVerbatim.l5"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "MixedContentForVerbatim in one particular language. The language is denoted in the attribute l.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 347,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LOverviewParagraph",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "LanguageSpecific",
+        "MixedContentForOverviewParagraph"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IndentSample.l2",
+        "MultiLanguageOverviewParagraph.l2"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "MixedContentForOverviewParagraph in one particular language. The language is denoted in the attribute l.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 348,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprintValue": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the be defined when deriving objects from the"
+        }
+      }
+    },
+    {
+      "name": "LParagraph",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "LanguageSpecific",
+        "MixedContentForParagraph"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MultiLanguageParagraph.l1"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the text for a paragraph in one particular language. The language is denoted in the attribute l.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 348,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LPlainText",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "LanguageSpecific",
+        "MixedContentForPlainText",
+        "WhitespaceControlled"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MultiLanguagePlainText.l10"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents plain string in one particular language. The language is denoted in the attribute l.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 349,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LanguageSpecific",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "LGraphic"
+      ],
+      "subclasses": [
+        "LGraphic",
+        "LLongName",
+        "LOverviewParagraph",
+        "LParagraph",
+        "LPlainText",
+        "LVerbatim"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to denote a particular language for which an object is applicable.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 350,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "l": {
+          "type": "LEnum",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "’This attribute denotes the language in which the document entity is given. Note that that the entity is applicable to all is language neutral. ISO 639-1:2002 and is specified in upper case."
+        }
+      }
+    }
+  ]
+}

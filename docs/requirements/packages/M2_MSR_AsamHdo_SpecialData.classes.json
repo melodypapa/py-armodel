@@ -1,0 +1,270 @@
+{
+  "package": "M2::MSR::AsamHdo::SpecialData",
+  "classes": [
+    {
+      "name": "Sdg",
+      "package": "M2::MSR::AsamHdo::SpecialData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AdminData.sdg",
+        "BuildActionEnvironment.sdg",
+        "BuildActionInvocator.sdg",
+        "BuildActionIoElement.sdg",
+        "FileInfoComment.sdg",
+        "RptHook.sdg",
+        "SdgContents.sdg",
+        "VariationPoint.sdg"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Sdg (SpecialDataGroup) is a generic model which can be used to keep arbitrary information which is not explicitly modeled in the meta-model. Sdg can have various contents as defined by sdgContentsType. Special Data should only be used moderately since all elements should be defined in the meta-model. Thereby SDG should be considered as a temporary solution when no explicit model is available. If an sdg Caption is available, it is possible to establish a reference to the sdg structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 328,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1004,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 78,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 90,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "gid": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes specifies an identifier. Gid comes from the Identifier\" which is the in XML. The role of this attribute is the the name of an XML - element."
+        },
+        "sdgCaption": {
+          "type": "SdgCaption",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation allows to assign the properties of the sdg. By this, a shortName etc. can be the Sdg."
+        },
+        "sdgContents": {
+          "type": "SdgContents",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the content of the Sdg."
+        }
+      }
+    },
+    {
+      "name": "SdgContents",
+      "package": "M2::MSR::AsamHdo::SpecialData",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Sdg.sdgContentsType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the possible contents of a special data group. It can be an arbitrary mix of references, of primitive special data and nested special data groups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 90,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sd": {
+          "type": "Sd",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular special data element."
+        },
+        "sdf": {
+          "type": "Sdf",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular special data element."
+        },
+        "sdg": {
+          "type": "Sdg",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation allows to express nested special data this, any structure can be represented in atpVariation"
+        },
+        "sdx": {
+          "type": "Referrable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to any identifiable element. This allows to use to establish arbitrary relationships. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "sdxf": {
+          "type": "Referrable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Additional reference with variant support. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SdgCaption",
+      "package": "M2::MSR::AsamHdo::SpecialData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "MultilanguageReferrable",
+      "bases": [
+        "ARObject",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Sdg.sdgCaption"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the caption of a special data group. This allows to have some parts of special data as identifiable.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 91,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "desc": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a general but brief (one paragraph) what the special data in question is about. It is paragraph! Desc is intended to be collected into This property helps a human reader to special data in question."
+        }
+      }
+    },
+    {
+      "name": "Sd",
+      "package": "M2::MSR::AsamHdo::SpecialData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgContents.sd"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a primitive element in a special data group.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 91,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "gid": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes specifies an identifier. Gid comes from the Identifier\" which is the in XML. The role of this attribute is the the name of an XML - element."
+        },
+        "value": {
+          "type": "VerbatimStringPlain",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the value of the special data."
+        },
+        "xmlSpace": {
+          "type": "XmlSpaceEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to signal an intention that in that space should be preserved by is defined according to xml:space as W3C."
+        }
+      }
+    },
+    {
+      "name": "Sdf",
+      "package": "M2::MSR::AsamHdo::SpecialData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgContents.sdf"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a numerical value in a special data group which may be subject to variability.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 92,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "gid": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes specifies an identifier. Gid comes from the Identifier\" which is the in XML. The role of this attribute is the the name of an XML - element."
+        },
+        "value": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the value of the special data."
+        }
+      }
+    }
+  ]
+}

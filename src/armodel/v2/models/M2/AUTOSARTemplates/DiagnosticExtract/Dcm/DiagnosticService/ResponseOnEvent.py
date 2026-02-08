@@ -1,19 +1,35 @@
-from typing import (
-    List,
-    Optional,
-)
+"""
+AUTOSAR Package - ResponseOnEvent
 
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    PositiveInteger,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
 
 
 class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     """
     This represents an instance of the "Response on Event" diagnostic service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent::DiagnosticResponseOnEvent
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 132, Classic Platform
       R23-11)
@@ -44,10 +60,10 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def response_on(self, value: Optional["DiagnosticResponseOn"]) -> None:
         """
         Set responseOn with validation.
-
+        
         Args:
             value: The responseOn to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +82,10 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def getEventWindow(self) -> List["DiagnosticEventWindow"]:
         """
         AUTOSAR-compliant getter for eventWindow.
-
+        
         Returns:
             The eventWindow value
-
+        
         Note:
             Delegates to event_window property (CODING_RULE_V2_00017)
         """
@@ -78,10 +94,10 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def getResponseOn(self) -> "DiagnosticResponseOn":
         """
         AUTOSAR-compliant getter for responseOn.
-
+        
         Returns:
             The responseOn value
-
+        
         Note:
             Delegates to response_on property (CODING_RULE_V2_00017)
         """
@@ -90,13 +106,13 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def setResponseOn(self, value: "DiagnosticResponseOn") -> "DiagnosticResponseOnEvent":
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
-
+        
         Args:
             value: The responseOn to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to response_on property setter (gets validation automatically)
         """
@@ -108,33 +124,28 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def with_response_on(self, value: Optional["DiagnosticResponseOn"]) -> "DiagnosticResponseOnEvent":
         """
         Set responseOn and return self for chaining.
-
+        
         Args:
             value: The responseOn to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_response_on("value")
         """
         self.response_on = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
-    DiagnosticServiceClass,
-)
 
 
 class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     """
     This represents the ability to define common properties for all instances of
     the "Response on Event" diagnostic service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent::DiagnosticResponseOnEventClass
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 132, Classic Platform
       R23-11)
@@ -156,10 +167,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-
+        
         Args:
             value: The maxNumberOf to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,9 +178,9 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
             self._maxNumberOf = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxNumberOf must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
         # The maximum number of events that can be configured with sub function on.
@@ -184,10 +195,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def max_num(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNum with validation.
-
+        
         Args:
             value: The maxNum to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -195,9 +206,9 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
             self._maxNum = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxNum must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxNum must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNum = value
         # The maximum number of measurable data bytes allowed each DID that is used for
@@ -213,10 +224,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def max_supported(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSupported with validation.
-
+        
         Args:
             value: The maxSupported to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,9 +235,9 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
             self._maxSupported = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"maxSupported must be PositiveInteger or None, got {type(value).__name__}"
+                f"maxSupported must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSupported = value
         # The call rate of the periodic scheduler to compare the of the DataIdentifier
@@ -242,10 +253,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def response_on(self, value: Optional["TimeValue"]) -> None:
         """
         Set responseOn with validation.
-
+        
         Args:
             value: The responseOn to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -273,10 +284,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def store_event(self, value: Optional["Boolean"]) -> None:
         """
         Set storeEvent with validation.
-
+        
         Args:
             value: The storeEvent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -284,9 +295,9 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
             self._storeEvent = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"storeEvent must be Boolean or None, got {type(value).__name__}"
+                f"storeEvent must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._storeEvent = value
 
@@ -295,10 +306,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-
+        
         Returns:
             The maxNumberOf value
-
+        
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -307,13 +318,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "DiagnosticResponseOnEventClass":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-
+        
         Args:
             value: The maxNumberOf to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -323,10 +334,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def getMaxNum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNum.
-
+        
         Returns:
             The maxNum value
-
+        
         Note:
             Delegates to max_num property (CODING_RULE_V2_00017)
         """
@@ -335,13 +346,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def setMaxNum(self, value: "PositiveInteger") -> "DiagnosticResponseOnEventClass":
         """
         AUTOSAR-compliant setter for maxNum with method chaining.
-
+        
         Args:
             value: The maxNum to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_num property setter (gets validation automatically)
         """
@@ -351,10 +362,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def getMaxSupported(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSupported.
-
+        
         Returns:
             The maxSupported value
-
+        
         Note:
             Delegates to max_supported property (CODING_RULE_V2_00017)
         """
@@ -363,13 +374,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def setMaxSupported(self, value: "PositiveInteger") -> "DiagnosticResponseOnEventClass":
         """
         AUTOSAR-compliant setter for maxSupported with method chaining.
-
+        
         Args:
             value: The maxSupported to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to max_supported property setter (gets validation automatically)
         """
@@ -379,10 +390,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def getResponseOn(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for responseOn.
-
+        
         Returns:
             The responseOn value
-
+        
         Note:
             Delegates to response_on property (CODING_RULE_V2_00017)
         """
@@ -391,13 +402,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def setResponseOn(self, value: "TimeValue") -> "DiagnosticResponseOnEventClass":
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
-
+        
         Args:
             value: The responseOn to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to response_on property setter (gets validation automatically)
         """
@@ -407,10 +418,10 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def getStoreEvent(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeEvent.
-
+        
         Returns:
             The storeEvent value
-
+        
         Note:
             Delegates to store_event property (CODING_RULE_V2_00017)
         """
@@ -419,13 +430,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def setStoreEvent(self, value: "Boolean") -> "DiagnosticResponseOnEventClass":
         """
         AUTOSAR-compliant setter for storeEvent with method chaining.
-
+        
         Args:
             value: The storeEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to store_event property setter (gets validation automatically)
         """
@@ -437,13 +448,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "DiagnosticResponseOnEventClass":
         """
         Set maxNumberOf and return self for chaining.
-
+        
         Args:
             value: The maxNumberOf to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -453,13 +464,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def with_max_num(self, value: Optional["PositiveInteger"]) -> "DiagnosticResponseOnEventClass":
         """
         Set maxNum and return self for chaining.
-
+        
         Args:
             value: The maxNum to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_num("value")
         """
@@ -469,13 +480,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def with_max_supported(self, value: Optional["PositiveInteger"]) -> "DiagnosticResponseOnEventClass":
         """
         Set maxSupported and return self for chaining.
-
+        
         Args:
             value: The maxSupported to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_max_supported("value")
         """
@@ -485,13 +496,13 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def with_response_on(self, value: Optional["TimeValue"]) -> "DiagnosticResponseOnEventClass":
         """
         Set responseOn and return self for chaining.
-
+        
         Args:
             value: The responseOn to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_response_on("value")
         """
@@ -501,33 +512,28 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     def with_store_event(self, value: Optional["Boolean"]) -> "DiagnosticResponseOnEventClass":
         """
         Set storeEvent and return self for chaining.
-
+        
         Args:
             value: The storeEvent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_store_event("value")
         """
         self.store_event = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DiagnosticEventWindow(ARObject):
     """
     This represents the ability to define the characteristics of the applicable
     event window
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent::DiagnosticEventWindow
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 133, Classic Platform
       R23-11)
@@ -548,10 +554,10 @@ class DiagnosticEventWindow(ARObject):
     def event_window(self, value: Optional["DiagnosticEventWindow"]) -> None:
         """
         Set eventWindow with validation.
-
+        
         Args:
             value: The eventWindow to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -570,10 +576,10 @@ class DiagnosticEventWindow(ARObject):
     def getEventWindow(self) -> "DiagnosticEventWindow":
         """
         AUTOSAR-compliant getter for eventWindow.
-
+        
         Returns:
             The eventWindow value
-
+        
         Note:
             Delegates to event_window property (CODING_RULE_V2_00017)
         """
@@ -582,13 +588,13 @@ class DiagnosticEventWindow(ARObject):
     def setEventWindow(self, value: "DiagnosticEventWindow") -> "DiagnosticEventWindow":
         """
         AUTOSAR-compliant setter for eventWindow with method chaining.
-
+        
         Args:
             value: The eventWindow to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to event_window property setter (gets validation automatically)
         """
@@ -600,15 +606,67 @@ class DiagnosticEventWindow(ARObject):
     def with_event_window(self, value: Optional["DiagnosticEventWindow"]) -> "DiagnosticEventWindow":
         """
         Set eventWindow and return self for chaining.
-
+        
         Args:
             value: The eventWindow to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_event_window("value")
         """
         self.event_window = value  # Use property setter (gets validation)
         return self
+
+
+class DiagnosticEventWindowTimeEnum(AREnum):
+    """
+    DiagnosticEventWindowTimeEnum enumeration
+
+This represents the ability to define the semantics of the event window. Aggregated by DiagnosticEventWindow.eventWindowTime
+
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent
+    """
+    # This value specifies that the event window shall stay active for an infinite amount of time (e.g. open Response window until power off).
+    infiniteTimeTo = "3"
+
+    # This enumeration value specifies that the server shall send response on event messages until the server is powered down. The server stops sending response on event messages with the power down and will send no more response on event messages after server is up again.
+    powerWindowTime = "4"
+
+
+
+class DiagnosticResponseOnEventActionEnum(AREnum):
+    """
+    DiagnosticResponseOnEventActionEnum enumeration
+
+This meta-class has the ability to define sub-functions of the UDS service ResponseOnEvent. Aggregated by DiagnosticResponseOnEvent.responseOnEventAction
+
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent
+    """
+    # Clears the configured events.
+    clear = "2"
+
+    # Reports based on change of data identifier.
+    onChangeOfDataIdentifier = "6"
+
+    # Triggered if data condition is met (e.g. RPM over 5000 1/min).
+    onComparisonOfValues = "8"
+
+    # Reports based on change of DTC status.
+    onDTCStatusChange = "7"
+
+    # Reports the activated events.
+    report = "3"
+
+    # Reports the DTC record-related information based on a DTC status change. (Subfunction 0x09)
+    reportDTCRecordInformationOnDtc = "5"
+
+    # Triggers the report of the most recent failed or confirmed DTC (Subfunction 0x08).
+    reportMostRecentDtcOnStatus = "4"
+
+    # Starts the response on event service.
+    start = "1"
+
+    # Stops the response on event service.
+    stop = "0"

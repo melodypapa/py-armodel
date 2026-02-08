@@ -1,0 +1,422 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+  "classes": [
+    {
+      "name": "EventTriggeringConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [
+        "PeriodicEventTriggering",
+        "SporadicEventTriggering",
+        "ConcretePatternEventTriggering",
+        "BurstPatternEventTriggering",
+        "ArbitraryEventTriggering"
+      ],
+      "subclasses": [
+        "ArbitraryEventTriggering",
+        "BurstPatternEventTriggering",
+        "ConcretePatternEventTriggering",
+        "PeriodicEventTriggering",
+        "SporadicEventTriggering"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the occurrence behavior of the referenced timing event. The occurrence behavior can only be determined when a mapping from the timing events to the implementation can be obtained. However, such an occurrence behavior can also be described by the modeler as an assumption or as a requirement about the occurrence of the event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 100,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "event": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced timing event"
+        }
+      }
+    },
+    {
+      "name": "PeriodicEventTriggering",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EventTriggeringConstraint",
+      "bases": [
+        "ARObject",
+        "EventTriggeringConstraint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the behavior of an event with a strict periodic occurrence pattern, given by period. Additionally, it is possible to soften the strictness of the periodic occurrence behavior by specifying a jitter, so that there can be a deviation from the period up to the size of the jitter.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 101,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "jitter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum deviation of the periodic event occurrence."
+        },
+        "minimumInter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum time distance between subsequent occurrences of the associated event. minimumInterArrivalTime is less than the the jitter, then the no effect on the the constraint."
+        },
+        "period": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The periodic distance between subsequent occurrences event."
+        }
+      }
+    },
+    {
+      "name": "SporadicEventTriggering",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EventTriggeringConstraint",
+      "bases": [
+        "ARObject",
+        "EventTriggeringConstraint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the behavior of an event which occurs occasionally or singularly.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 105,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "jitter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum devation of the sporadic event occurrence. - standardPeriod|"
+        },
+        "maximumInter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum time distance between two consecutive occurrences of the associated event."
+        },
+        "minimumInter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum time distance between two consecutive occurrences of the associated event."
+        },
+        "period": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The periodic distance between subsequent occurrences event."
+        }
+      }
+    },
+    {
+      "name": "ConcretePatternEventTriggering",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EventTriggeringConstraint",
+      "bases": [
+        "ARObject",
+        "EventTriggeringConstraint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the behavior of an event that occurs according to a precisely known pattern.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 106,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "offset": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The offset for each occurrence of the event in the interval. A list of point-in-times in the time by the parameter patternLength at which occurs."
+        },
+        "patternJitter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum deviation of the time interval’s starting the beginning of the given period. This only applicable in conjunction with the"
+        },
+        "patternLength": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The duration of the time interval within which the event The event occurs at concrete points in the given time interval."
+        },
+        "patternPeriod": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The time distance between the beginnings of subsequent the given concrete pattern."
+        }
+      }
+    },
+    {
+      "name": "BurstPatternEventTriggering",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EventTriggeringConstraint",
+      "bases": [
+        "ARObject",
+        "EventTriggeringConstraint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the maximum number of occurrences of the same event in a given time interval. Typically used to model a worst case activation scenario.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 109,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum number of event occurrences within the time interval. The event may never occur, or may times between 1 and the parameter specified then the event least the number of times specified by at maximum by"
+        },
+        "minimumInter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimum distance between subsequent of the event within the given time interval."
+        },
+        "minNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum number of event occurrences within the time interval."
+        },
+        "patternJitter": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum deviation of the time interval’s starting the beginning of the given period. This only applicable in conjunction with the"
+        },
+        "patternLength": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The duration of the time interval within which the event The event occurs at arbitrary points in the given time interval."
+        },
+        "patternPeriod": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The time distance between the beginnings of subsequent the given burst pattern."
+        }
+      }
+    },
+    {
+      "name": "ArbitraryEventTriggering",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EventTriggeringConstraint",
+      "bases": [
+        "ARObject",
+        "EventTriggeringConstraint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes that an event occurs occasionally, singly, irregularly or randomly. The primary purpose of this event triggering is to abstract event occurrences captured by data acquisition tools (background debugger, trace analyzer, etc.) during system runtime.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 111,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "confidence": {
+          "type": "ConfidenceInterval",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "List of confidence intervals. xml.sequenceOffset=30 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "maximum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The nth array element describes the maximum distance can be observed for a sample of n+1 event an array with an identical number of elements as minimumDistance."
+        },
+        "minimum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The nth array element describes the minimum distance can be observed for a sample of n+1 event an array with an identical number of elements as maximumDistance."
+        }
+      }
+    },
+    {
+      "name": "ConfidenceInterval",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ArbitraryEventTriggering.confidenceInterval"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Additionally to the list of measured distances of event occurrences, a confidence interval can be specified for the expected distance of two consecutive event occurrences with a given probability.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 112,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "lowerBound": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The lower bound of the expected distance of two occurrences."
+        },
+        "propability": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The probability for the measured lower and upper bound confidence interval."
+        },
+        "upperBound": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The upper bound of the expected distance of two occurrences."
+        }
+      }
+    }
+  ]
+}

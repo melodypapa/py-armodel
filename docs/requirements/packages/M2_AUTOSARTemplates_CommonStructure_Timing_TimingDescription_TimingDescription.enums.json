@@ -1,0 +1,360 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+  "enumerations": [
+    {
+      "name": "TDEventVariableDataPrototypeTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventVariableDataPrototype Aggregated by TDEventVariableDataPrototype.tdEventVariableDataPrototypeType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 54,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "variableData",
+          "index": 0,
+          "description": "A point in time where the referenced variable data prototype has been successfully transmitted and is PrototypeReceived available in the related communication buffer (of the RTE) for the receiving SWC.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "variableData",
+          "index": 1,
+          "description": "A point in time where the referenced variable data prototype has been successfully sent out by the PrototypeSent sending SWC, so that it is available in the related communication buffer (of the RTE) for transmission.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TDEventOperationTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventOperation. Aggregated by TDEventOperation.tdEventOperationType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 56,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "operationCalled",
+          "index": 0,
+          "description": "A point in time where the referenced operation is called by the client SWC.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "operationCallReceived",
+          "index": 1,
+          "description": "A point in time where the call of the referenced operation is received by the server SWC.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "operationCallResponseReceived",
+          "index": 2,
+          "description": "A point in time where the client SWC has received the response of the referenced operation call.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "operationCall",
+          "index": 3,
+          "description": "A point in time where the server SWC has terminated with the execution of the referenced operation, ResponseSent and has sent out a response.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "TDEventModeDeclarationTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventModeDeclaration Aggregated by TDEventModeDeclaration.tdEventModeDeclarationType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 57,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "modeDeclaration",
+          "index": 0,
+          "description": "A point in time where the switch to the associated ModeDeclarationGroupPrototype has been SwitchCompleted completed.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "modeDeclaration",
+          "index": 1,
+          "description": "A point in time where the switch to the associated ModeDeclarationGroupPrototype has been SwitchInitiated initiated.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TDEventTriggerTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventTrigger. Aggregated by TDEventTrigger.tdEventTriggerType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 59,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "triggerActivated",
+          "index": 0,
+          "description": "A point in time where the referenced trigger has been successfully released and is activating runnable entities of the receiving SW-C.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "triggerReleased",
+          "index": 1,
+          "description": "A point in time where the referenced trigger has been successfully released by the emitting SW-C.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TDEventSwcInternalBehaviorTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventSwcInternalBehavior. Aggregated by TDEventSwcInternalBehavior.tdEventSwcInternalBehaviorType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 62,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "runnableEntity",
+          "index": 0,
+          "description": "A point in time where the associated RunnableEntity has been activated, which means that it has Activated entered the state \"to be started\".<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "runnableEntity",
+          "index": 1,
+          "description": "A point in time where the associated RunnableEntity has entered the state \"started\" after its Started activation.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "runnableEntityTerminated",
+          "index": 2,
+          "description": "A point in time where the associated RunnableEntity has terminated and entered the state<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "runnableEntityVariableAccess",
+          "index": 3,
+          "description": "A point in time where the associated variable is accessed.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "TDEventISignalTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventISignal. Aggregated by TDEventISignal.tdEventType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "iSignalAvailableFor",
+          "index": null,
+          "description": "A point in time, where the COM module makes the contained signal / signal group available for the"
+        },
+        {
+          "name": "RTE",
+          "index": 0,
+          "description": "RTE and the corresponding Rx Indication callout is generated (if configured).<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "iSignalSentToCOM",
+          "index": 1,
+          "description": "A point in time, where a transmission request call is issued by the RTE on a named COM signal / signal group and the new value is stored to the carrier COM I-PDU buffer.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TDEventIPduTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventIPdu. Aggregated by TDEventIPdu.tdEventType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 67,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "iPduReceivedBy",
+          "index": null,
+          "description": "A point in time where the received frame is processed by the corresponding (FlexRay / CAN / LIN)"
+        },
+        {
+          "name": "COM",
+          "index": 0,
+          "description": "Interface BSW module, routed through the PDUR and the contained PDUs are pushed to the COM<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "iPduSentToIfspecific",
+          "index": 1,
+          "description": "A point in time where the carrier COM I-PDU is routed through the PDUR and is pushed to the bus<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TDEventFrameTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventFrame. Aggregated by TDEventFrame.tdEventType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 68,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "frameQueuedFor",
+          "index": 0,
+          "description": "A point in time where the frame containing the named signal / I-PDU is queued for transmission within Transmission the related Communication Driver.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "frameReceivedByIfcorresponding",
+          "index": 1,
+          "description": "A point in time where the frame is pushed from the subscriber’s communication controller to the<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "frameTransmitted",
+          "index": 2,
+          "description": "A point in time where the transmission of the frame completes successfully, and the subscriber’s OnBus communication controller receives the frame from the bus.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "TDEventFrameEthernetTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventFrameEthernet. Aggregated by TDEventFrameEthernet.tdEventType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 70,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "frameEthernetTransmission",
+          "index": 0,
+          "description": "A point in time where the Ethernet frame containing the specified PDUs is queued for transmission QueuedFor within the corresponding Ethernet Communication Driver.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "frameEthernet",
+          "index": 1,
+          "description": "A point in time where the frame is pushed from the corresponding Ethernet communication controller ReceivedByIf to the BSW Ethernet communication interface.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "frameEthernet",
+          "index": 2,
+          "description": "A point in time where the receipt of the Ethernet frame/packet completes successfully on the ReceivedOnBus recipient’s Ethernet communication controller. In other words, the Ethernet frame/packet has entered the recipient’s Ethernet communication controller which means the last bit of the Ethernet frame/ packet has been received.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "frameEthernetSent",
+          "index": 3,
+          "description": "A point in time where the transmission of the Ethernet frame/packet completes successfully on the OnBus physical Ethernet communication network. In other words, the Ethernet frame/packet has left the packet has been sent.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "TDEventBswInternalBehaviorTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventBswInternalBehavior. Aggregated by TDEventBswInternalBehavior.tdEventBswInternalBehaviorType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 74,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bswModuleEntity",
+          "index": 0,
+          "description": "A point in time where the associated BswModuleEntity has been activated, which means that it has Activated entered the state \"to be started\".<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "bswModuleEntity",
+          "index": 1,
+          "description": "A point in time where the associated BswModuleEntity has entered the state \"started\" after its Started activation.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "bswModuleEntityTerminated",
+          "index": 2,
+          "description": "A point in time where the associated BswModuleEntity has terminated and entered the state<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "TDEventBswModuleTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventBswModule. Aggregated by TDEventBswModule.tdEventBswModuleType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 76,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bswMEntryCalled",
+          "index": 0,
+          "description": "A point in time where the associated BswModuleEntry has been called.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "bswMEntryCallReturned",
+          "index": 1,
+          "description": "A point in time where the call of the associated BswModuleEntry has returned.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TDEventBswModeDeclarationTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "note": "This is used to describe the specific event type of a TDEventBswModeDeclaration. Aggregated by TDEventBswModeDeclaration.tdEventBswModeDeclarationType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 77,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "modeDeclarationRequested",
+          "index": 0,
+          "description": "A point in time where the associated ModeDeclarationGroupPrototype has been requested.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "modeDeclaration",
+          "index": 1,
+          "description": "A point in time where the switch to the associated ModeDeclarationGroupPrototype has been SwitchCompleted completed.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "modeDeclaration",
+          "index": 2,
+          "description": "A point in time where the switch to the associated ModeDeclarationGroupPrototype has been initiated SwitchInitiated by the BswM.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 8,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

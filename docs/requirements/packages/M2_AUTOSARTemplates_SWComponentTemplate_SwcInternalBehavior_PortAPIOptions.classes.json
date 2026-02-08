@@ -1,0 +1,209 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+  "classes": [
+    {
+      "name": "PortDefinedArgumentValue",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortAPIOption.portArgValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A PortDefinedArgumentValue is passed to a RunnableEntity dealing with the ClientServerOperations provided by a given PortPrototype. Note that this is restricted to PPortPrototypes of a ClientServer Interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 326,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 593,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "value": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the actual value."
+        },
+        "valueType": {
+          "type": "ImplementationData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "be composite type or a pointer."
+        }
+      }
+    },
+    {
+      "name": "PortAPIOption",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwcInternalBehavior.portAPIOption"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Options how to generate the signatures of calls for an AtomicSwComponentType in order to communicate over a PortPrototype (for calls into a RunnableEntity as well as for calls from a Runnable Entity to the PortPrototype).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 589,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2045,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "enableTake": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true, the software-component is able to use the reference for deriving a pointer to an object."
+        },
+        "errorHandling": {
+          "type": "DataTransformation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies whether a RunnableEntity accessing a Port that is referenced by this PortAPIOption shall transformer errors or not."
+        },
+        "indirectAPI": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true this attribute specifies an \"indirect API\" to be the associated port which means that the able to access the actions on a a pointer to an object representing a port. This iterating over ports in a loop. This option has for PPortPrototypes of client/server interfaces."
+        },
+        "port": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The option is valid for generated functions related to this port"
+        },
+        "portArgValue": {
+          "type": "PortDefinedArgument",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An argument value defined by this port."
+        },
+        "supported": {
+          "type": "SwcSupportedFeature",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This collection specifies which features are supported by RunnableEntitys which access a PortPrototype that it this PortAPIOption."
+        },
+        "transformer": {
+          "type": "DataTransformation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies whether a RunnableEntity accessing a PortPrototype that is referenced by this Port shall be able to forward a status code to the"
+        }
+      }
+    },
+    {
+      "name": "SwcSupportedFeature",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CommunicationBufferLocking"
+      ],
+      "subclasses": [
+        "CommunicationBufferLocking"
+      ],
+      "aggregated_by": [
+        "PortAPIOption.supportedFeature"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a abstract base class for features that can be supported by a RunnableEntity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 594,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CommunicationBufferLocking",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SwcSupportedFeature",
+      "bases": [
+        "ARObject",
+        "SwcSupportedFeature"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortAPIOption.supportedFeature"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The aggregation of this meta-class specifies that a RunnableEntity supports locked communication buffers supplied by the RTE. It is able to cope with the error RTE_E_COM_BUSY.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 595,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "supportBuffer": {
+          "type": "SupportBufferLocking",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to indicate the intended buffer locking behavior."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,4277 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+  "classes": [
+    {
+      "name": "EthernetPhysicalChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PhysicalChannel",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PhysicalChannel",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationCluster.physicalChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The EthernetPhysicalChannel represents a VLAN or an untagged channel. An untagged channel is modeled as an EthernetPhysicalChannel without an aggregated VLAN.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 314,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 105,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "network": {
+          "type": "NetworkEndpoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of NetworkEndpoints that are used in the VLan. atpSplitable"
+        },
+        "soAdConfig": {
+          "type": "SoAdConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "SoAd Configuration for one specific Physical Channel."
+        },
+        "vlan": {
+          "type": "VlanConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "VLAN Configuration."
+        }
+      }
+    },
+    {
+      "name": "EthernetCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "CommunicationCluster",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Ethernet-specific cluster attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 103,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "couplingPort": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Switch off delay for CouplingPorts in seconds. It denotes delay of switching off couplingPorts after the request off a couplingPort was issued. (e.g. switch off of ports)."
+        },
+        "macMulticast": {
+          "type": "MacMulticastGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "MacMulticastGroup that is defined for the Subnet"
+        }
+      }
+    },
+    {
+      "name": "MacMulticastGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthernetCluster.macMulticastGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Per EthernetCluster globally defined MacMulticastGroup. One sender can handle many receivers simultaneously if the receivers have all the same macMulticastAddress. The addresses need to be unique for the particular EthernetCluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 103,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "macMulticast": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A multicast MAC address (Media Access Control is a identifier for a group of hosts in a network."
+        }
+      }
+    },
+    {
+      "name": "VlanConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthernetPhysicalChannel.vlan"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "VLAN Configuration attributes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 106,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "vlanIdentifier": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A VLAN is identified by this attribute according to IEEE allowed values range is from 0..4095."
+        }
+      }
+    },
+    {
+      "name": "CouplingElement",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A CouplingElement is used to connect EcuInstances to the VLAN of an EthernetCluster. Coupling Elements can reach from a simple hub to a complex managed switch or even devices with functionalities in higher layers. A CouplingElement that is not related to an EcuInstance occurs as a dedicated single device.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "EthernetCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This relationship defines to which cluster the Coupling belongs."
+        },
+        "coupling": {
+          "type": "CouplingElement",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of details for this specific CouplingElement. Stereotypes: atpSplitable; atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "couplingPort": {
+          "type": "CouplingPort",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Hardware Port of the CouplingElement that is used to CouplingPort to EcuInstances or other atpVariation"
+        },
+        "couplingType": {
+          "type": "CouplingElementEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the coupling type of this CouplingElement."
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional reference to the ECU where the Coupling located."
+        },
+        "firewallRule": {
+          "type": "StateDependentFirewall",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Firewall rules defined in the context of a Coupling"
+        }
+      }
+    },
+    {
+      "name": "CouplingPort",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingElement.couplingPort",
+        "EthernetCommunicationController.couplingPort"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A CouplingPort is used to connect a CouplingElement with an EcuInstance or two CouplingElements with each other via a CouplingPortConnection. Optionally, the CouplingPort may also have a reference to a macMulticastGroup and a defaultVLAN.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connection": {
+          "type": "EthernetConnection",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the connection negotiation of the CouplingPort."
+        },
+        "couplingPort": {
+          "type": "CouplingPortRoleEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the role this CouplingPort takes in the context of CouplingElement."
+        },
+        "defaultVlan": {
+          "type": "EthernetPhysical",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The vLanIdentifier of the referenced VLAN is the (port VLAN ID). A Port VLAN ID is a default that is assigned to an access CouplingPort to VLAN segment to which this port is if a CouplingPort has not been any VLAN memberships, the virtual VLAN ID (pvid) becomes the default VLAN the ports connection. is added for incoming untagged the port (ingress tagging). For outgoing this identifier, the tag is removed at the untagging, depending on the Vlan"
+        },
+        "macLayerTypeEnum": {
+          "type": "EthernetMacLayerType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the mac layer type of the CouplingPort."
+        },
+        "macMulticast": {
+          "type": "MacMulticastGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Assigns a set of MAC-Multicast-Addresses which are via this CouplingPort. This is a static further addresses may be learned"
+        },
+        "macSecProps": {
+          "type": "MacSecProps",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Properties to configure MACsec (Media access control the MKA (MACsec Key Agreement) for the"
+        },
+        "physicalLayer": {
+          "type": "EthernetPhysicalLayer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the physical layer type of the CouplingPort."
+        },
+        "plcaProps": {
+          "type": "PlcaProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional properties for configuration of PLCA (Physical Avoidance) in case 10-BASE-T1S used and PLCA is enabled on the Coupling"
+        },
+        "pncMapping": {
+          "type": "PncMappingIdent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the partial networks this CouplingPort"
+        },
+        "receiveActivity": {
+          "type": "EthernetSwitchVlan",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the handling of frames at the ingress port."
+        },
+        "vlan": {
+          "type": "VlanMembership",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Messages of VLANs that are defined here can be via the CouplingPort."
+        },
+        "vlanModifier": {
+          "type": "EthernetPhysical",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "All incoming messages at this CouplingPort shall be with this VLAN Id. This tagging is performed the message already has a VLAN tag untagged, an existing VLAN tag will be overwritten. is XOR with CoupligPort.defaultVlan. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "wakeupSleep": {
+          "type": "EthernetWakeupSleep",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional reference to EthernetWakeupSleepOnDataline Config."
+        }
+      }
+    },
+    {
+      "name": "VlanMembership",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPort.vlanMembership"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Static logical channel or VLAN binding to a switch-port. The reference to an EthernetPhysicalChannel without a VLAN defined represents the handling of untagged frames. (cid:53) 111 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Standard output-priority outgoing Frames will be tagged priority that received frames are assigned the VLAN Id (defaultVlan). The values from effort) to 7 (highest) are allowed. modifyVlan and an already tagged received actual priority of the received frame is not"
+        },
+        "dhcpAddress": {
+          "type": "DhcpServer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddress provided all DHCP-Discover messages this Port will be discarded by the DHCP"
+        },
+        "sendActivity": {
+          "type": "EthernetSwitchVlan",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Attribute denotes whether a VLAN tagged ethernet frame be with its VLAN tag (sentTagged) without a VLAN tag (sentUntagged) be dropped at this port (notSent or VLAN not this list)"
+        },
+        "vlan": {
+          "type": "EthernetPhysical",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "References a channel that represents a VLAN or an channel."
+        }
+      }
+    },
+    {
+      "name": "CouplingPortConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthernetCluster.couplingPortConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Connection between two CouplingPorts (firstPort and secondPort) or between a collection of Ports that are all referenced by the portCollection reference.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 112,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstPort": {
+          "type": "CouplingPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the first CouplingPort that is connected via 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "nodePort": {
+          "type": "CouplingPort",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a number of CouplingPorts that are the CouplingPortConnection. This be used to describe a 10BASE-T1S where several CouplingPorts of connected via atpVariation"
+        },
+        "plcaLocalNode": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the number of communication participants in 10BASE-T1S and the nodePort reference is used."
+        },
+        "plcaTransmit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timer for the transmission in bit time to evaluate if a Opportunity is yield or not."
+        },
+        "secondPort": {
+          "type": "CouplingPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the second CouplingPort that is connected CouplingPortConnection."
+        }
+      }
+    },
+    {
+      "name": "EthernetCommunicationController",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "CommunicationController",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Ethernet specific communication port attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 115,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "canXlConfig": {
+          "type": "AbstractCan",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "If the Ethernet frames handled by this Ethernet are to be tunneled through XL, then this reference shall refer to the Abstract aggregates the Can the physical CAN XL channel used for tunneling."
+        },
+        "couplingPort": {
+          "type": "CouplingPort",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional CouplingPort that can be used to connect the a CouplingElement (e.g. a switch)."
+        },
+        "macLayerType": {
+          "type": "EthernetMacLayerType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the mac layer type of the ethernet controller."
+        },
+        "macUnicast": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Media Access Control address (MAC address) that identifies each EthernetCommunication the network."
+        },
+        "maximum": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Determines the maximum transmit buffer length (frame in bytes. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "slaveActAs": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies if the EcuInstance is acting as a communication slave on the connected Physical This is used for EthernetCommunication that use Ethernet hardware which supports sleep on the network (e.g. Open Alliance Ethernet hardware)."
+        },
+        "slaveQualified": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies time when an unexpected link is evaluated as link down and indicated to the communication stack."
+        }
+      }
+    },
+    {
+      "name": "EthernetCommunicationConnector",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommunicationConnector",
+      "bases": [
+        "ARObject",
+        "CommunicationConnector",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.connector",
+        "MachineDesign.communicationConnector"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Ethernet specific attributes to the CommunicationConnector.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 117,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ethIpProps": {
+          "type": "EthIpProps",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "EcuInstance specific IP attributes."
+        },
+        "maximum": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the maximum transmission unit in"
+        },
+        "neighborCache": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the size of neighbor cache or ARP in units of entries."
+        },
+        "pathMtu": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled the IPv4/IPv6 processes incoming ICMP Too Big\" messages and stores a MTU value for address."
+        },
+        "pathMtuTimeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this value is >0 the IPv4/IPv6 will reset the MTU value each destination after n seconds."
+        }
+      }
+    },
+    {
+      "name": "CouplingPortDetails",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPort.couplingPortDetails"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines details of a CouplingPort. May be used to configure the structures of a switch.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 121,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "couplingPort": {
+          "type": "CouplingPortStructural",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collects all the structural parts at which a CouplingPort may be configurable."
+        },
+        "ethernetPriority": {
+          "type": "EthernetPriority",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "is replaced by regenerated priority."
+        },
+        "ethernetTraffic": {
+          "type": "CouplingPortTraffic",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "globalTime": {
+          "type": "GlobalTimeCoupling",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "lastEgress": {
+          "type": "CouplingPortScheduler",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defines which CouplingPortScheduler is the last in the port structure."
+        },
+        "ratePolicy": {
+          "type": "CouplingPortRatePolicy",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Rate policies to be applied for this CouplingPort."
+        }
+      }
+    },
+    {
+      "name": "CouplingPortStructuralElement",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "CouplingPortScheduler",
+        "CouplingPortShaper",
+        "CouplingPortFifo"
+      ],
+      "subclasses": [
+        "CouplingPortFifo",
+        "CouplingPortScheduler",
+        "CouplingPortShaper"
+      ],
+      "aggregated_by": [
+        "CouplingPortDetails.couplingPortStructuralElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "General class to define structural elements a CouplingPort may consist of.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 122,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CouplingPortScheduler",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CouplingPortStructuralElement",
+      "bases": [
+        "ARObject",
+        "CouplingPortStructuralElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortDetails.couplingPortStructuralElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a scheduler for the CouplingPort egress structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 123,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "portSchedulerSchedulerEnum": {
+          "type": "EthernetCouplingPort",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the schedule algorithm to be used."
+        },
+        "predecessor": {
+          "type": "CouplingPortStructural",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Ordered List of predecessor inputs. The first element has the highest priority. The following elements have"
+        }
+      }
+    },
+    {
+      "name": "CouplingPortShaper",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CouplingPortStructuralElement",
+      "bases": [
+        "ARObject",
+        "CouplingPortStructuralElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortDetails.couplingPortStructuralElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a shaper for the CouplingPort egress structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 123,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "idleSlope": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the increase of credit in bits per second for the"
+        },
+        "predecessorFifo": {
+          "type": "CouplingPortFifo",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defines the CouplingPortFifo which provides the input to"
+        }
+      }
+    },
+    {
+      "name": "CouplingPortFifo",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CouplingPortStructuralElement",
+      "bases": [
+        "ARObject",
+        "CouplingPortStructuralElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortDetails.couplingPortStructuralElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a FIFO for the CouplingPort egress structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 124,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assignedTraffic": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "minimumFifo": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FIFO minimum length in Byte. An actual configuration/ may use a bigger value."
+        },
+        "shaper": {
+          "type": "CouplingPortAbstract",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the shaper to be used for the processing of FIFO."
+        }
+      }
+    },
+    {
+      "name": "CouplingPortRatePolicy",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortDetails.ratePolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a rate policy on a CouplingPort.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 124,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Amount of data in bytes (excluding header information) be received to define the rate policy."
+        },
+        "policyAction": {
+          "type": "CouplingPortRatePolicy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the action to be performed when this rate policy violated."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the priority which this rate policy shall be limited no priority is given this rate policy is not considering"
+        },
+        "timeInterval": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time interval used to define the base of the rate policy."
+        },
+        "vLan": {
+          "type": "EthernetPhysical",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defines the VLANs this rate policy shall be limited on. If VLAN is given this rate policy is not considering VLAN"
+        }
+      }
+    },
+    {
+      "name": "EthernetPriorityRegeneration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortDetails.ethernetPriorityRegeneration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a priority regeneration where the ingressPriority is replaced by regeneratedPriority. The ethernetPriorityRegeneration is optional in case no priority regeneration shall be performed. In case a ethernetPriorityRegeneration is defined it shall have 8 mappings, one for each priority.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 128,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ingressPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Message priority of the incoming message."
+        },
+        "regenerated": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Regenerated message priority. 0-7"
+        }
+      }
+    },
+    {
+      "name": "CouplingPortTrafficClassAssignment",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortDetails.ethernetTrafficClassAssignment"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the assignment of Traffic Class to a frame.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 128,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "trafficClass": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the Traffic Class which is assigned."
+        }
+      }
+    },
+    {
+      "name": "DhcpServerConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "VlanMembership.dhcpAddressAssignment"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the configuration of DHCP servers that are running on the network endpoint. It is possible that an Ipv4DhcpServer and an Ipv6DhcpServer run on the same Ecu.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 131,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ipv4DhcpServer": {
+          "type": "Ipv4DhcpServer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of a IPv4 DHCP server that runs on the network endpoint."
+        },
+        "ipv6DhcpServer": {
+          "type": "Ipv6DhcpServer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of a IPv6 DHCP server that runs on the network endpoint."
+        }
+      }
+    },
+    {
+      "name": "Ipv4DhcpServerConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DhcpServerConfiguration.ipv4DhcpServerConfiguration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the configuration of a IPv4 DHCP server that runs on the network endpoint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 131,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "addressRange": {
+          "type": "Ip4AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Upper range of IP addresses to be issued to DHCP Pv4 Address. Notation: 255.255.255.255."
+        },
+        "defaultGateway": {
+          "type": "Ip4AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP address of the default gateway. Notation"
+        },
+        "defaultLease": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Amount of time in seconds that a client may keep the IP"
+        },
+        "dnsServer": {
+          "type": "Ip4AddressString",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP addresses of preconfigured DNS servers. Notation"
+        },
+        "networkMask": {
+          "type": "Ip4AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default network mask to be used by DHCP clients."
+        }
+      }
+    },
+    {
+      "name": "Ipv6DhcpServerConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DhcpServerConfiguration.ipv6DhcpServerConfiguration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the configuration of a IPv6 DHCP server that runs on the network endpoint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 132,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "addressRange": {
+          "type": "Ip6AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Upper range of IP addresses to be issued to DHCP IPv6 Address. Notation: FFFF:...:FFFF."
+        },
+        "defaultGateway": {
+          "type": "Ip6AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP address of the default gateway. Notation"
+        },
+        "defaultLease": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Amount of time in seconds that a client may keep the IP"
+        },
+        "dnsServer": {
+          "type": "Ip6AddressString",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP addresses of preconfigured DNS servers. Notation:"
+        },
+        "networkMask": {
+          "type": "Ip6AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default network mask to be used by DHCP clients."
+        }
+      }
+    },
+    {
+      "name": "CouplingElementAbstractDetails",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "CouplingElementSwitchDetails"
+      ],
+      "subclasses": [
+        "CouplingElementSwitchDetails"
+      ],
+      "aggregated_by": [
+        "CouplingElement.couplingElementDetails"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of specific details for the CouplingElement.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 133,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CouplingElementSwitchDetails",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CouplingElementAbstractDetails",
+      "bases": [
+        "ARObject",
+        "CouplingElementAbstractDetails",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingElement.couplingElementDetails"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of specific details for the CouplingElement of couplingType switch.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 133,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "flowMetering": {
+          "type": "SwitchFlowMetering",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of Flow Metering Entries. atp.Status=candidate"
+        },
+        "streamFilter": {
+          "type": "SwitchStreamFilterEntry",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of Stream Filter Entries. atp.Status=candidate"
+        },
+        "streamGate": {
+          "type": "SwitchStreamGateEntry",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of Stream Gate Entries."
+        },
+        "switchStream": {
+          "type": "SwitchStream",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of switch stream identification entries. Tags: atp.Status=candidate (ordered)"
+        },
+        "trafficShaper": {
+          "type": "SwitchAsynchronous",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of Traffic Shaper Groups. Tags: atp.Status=candidate Entry"
+        }
+      }
+    },
+    {
+      "name": "SwitchStreamIdentification",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingElementSwitchDetails.switchStreamIdentification"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "SwitchStreamIdentification",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 135,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "egressPort": {
+          "type": "CouplingPort",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the CouplingPort to be taken into account as role for this SwitchStreamIdentification."
+        },
+        "filterActionBlock": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables Blocking all frames from the MAC address. atp.Status=candidate"
+        },
+        "filterActionDest": {
+          "type": "SwitchStreamFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the action to modify the destination port(s) determined by the frame forwarding process for an Ethernet frame."
+        },
+        "filterActionDrop": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables Drop Frame action. atp.Status=candidate"
+        },
+        "filterActionVlan": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the action to modify the VLAN-ID within a VLAN of an Ethernet frame."
+        },
+        "ingressPort": {
+          "type": "CouplingPort",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the CouplingPort to be taken into account as role for this SwitchStreamIdentification."
+        },
+        "streamFilter": {
+          "type": "SwitchStreamFilterRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a stream filter rule for this SwitchStream"
+        }
+      }
+    },
+    {
+      "name": "SwitchStreamFilterRule",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwitchStreamIdentification.streamFilterRule"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "SwitchStreamIdentification",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 136,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataLinkLayer": {
+          "type": "StreamFilterRuleData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a filter rule on the data link layer. Tags: atp.Status=candidate"
+        },
+        "ieee1722Tp": {
+          "type": "StreamFilterIEEE1722",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a filter rule for IEEE1722Tp. Tags: atp.Status=candidate"
+        },
+        "ipTpRule": {
+          "type": "StreamFilterRuleIpTp",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a filter rule IP and TP."
+        }
+      }
+    },
+    {
+      "name": "StreamFilterRuleDataLinkLayer",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwitchStreamFilterRule.dataLinkLayerRule"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of filter rules on the DataLink layer",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 137,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationMac": {
+          "type": "StreamFilterMAC",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the destination MAC address/ mask."
+        },
+        "etherType": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets based on the EtherType field in frame."
+        },
+        "sourceMac": {
+          "type": "StreamFilterMAC",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the source MAC address/ mask."
+        },
+        "vlanId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter of packets with a VlanId."
+        },
+        "vlanPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter of packets with a Vlan priority."
+        }
+      }
+    },
+    {
+      "name": "StreamFilterMACAddress",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "StreamFilterRuleDataLinkLayer.destinationMacAddress",
+        "StreamFilterRuleDataLinkLayer.sourceMac"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of filter rules on the DataLink layer",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 137,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "macAddress": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the MAC address range. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "StreamFilterRuleIpTp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwitchStreamFilterRule.ipTpRule"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of filter rules for IP and TP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 137,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destination": {
+          "type": "StreamFilterIpv6",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the destination IPv6 address range."
+        },
+        "destinationPort": {
+          "type": "StreamFilterPortRange",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the set of destination UDP/ ranges."
+        },
+        "source": {
+          "type": "StreamFilterIpv6",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the source IPv6 address range."
+        },
+        "sourcePort": {
+          "type": "StreamFilterPortRange",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the set of source UDP/TCP"
+        }
+      }
+    },
+    {
+      "name": "StreamFilterIpv4Address",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "StreamFilterRuleIpTp.destinationIpv4Address",
+        "StreamFilterRuleIpTp.sourceIpv4Address"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "IPv4 address range definition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 138,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ipv4Address": {
+          "type": "Ip4AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the IPv4 address range. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "StreamFilterIpv6Address",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "StreamFilterRuleIpTp.destinationIpv6Address",
+        "StreamFilterRuleIpTp.sourceIpv6Address"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "IPv6 address range definition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 138,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ipv6Address": {
+          "type": "Ip6AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the IPv6 address range. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "StreamFilterPortRange",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "StreamFilterRuleIpTp.destinationPort",
+        "StreamFilterRuleIpTp.sourcePort"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of filter rules for IP and TP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 139,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "max": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the maximum UDP/TCP port"
+        },
+        "min": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match packets with the minimum UDP/TCP port"
+        }
+      }
+    },
+    {
+      "name": "StreamFilterIEEE1722Tp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwitchStreamFilterRule.ieee1722TpRule"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of filter rules for IP and TP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 139,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "streamId": {
+          "type": "PositiveUnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filter to match IEEE1722Tp packets with the stream Id as 64bit stream id."
+        }
+      }
+    },
+    {
+      "name": "SwitchStreamFilterActionDestPortModification",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwitchStreamIdentification.filterActionDestPortModification"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Either the egress destination of an Ethernet frame is extended or overwritten.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 140,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "egressPort": {
+          "type": "CouplingPort",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the egress ports used as the target of the to modify the egress port."
+        },
+        "modification": {
+          "type": "SwitchStreamFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the method to modify the egress destination. overwrite or extend the egress destination. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "SwitchStreamFilterEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingElementSwitchDetails.streamFilter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a Stream Filter Entry.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 141,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "asynchronous": {
+          "type": "CouplingPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the Asynchronous Traffic Shaper (ATS). Tags: atp.Status=candidate Shaper"
+        },
+        "filterPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the Priority of this Stream Filter Entry."
+        },
+        "flowMetering": {
+          "type": "SwitchFlowMetering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a Flow Metering Entry. atp.Status=candidate"
+        },
+        "maxSduSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the maximum SDU size (size of an Ethernet is acceptable to be processed by the"
+        },
+        "streamGate": {
+          "type": "SwitchStreamGateEntry",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a Stream Gate Entry."
+        },
+        "stream": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether this Stream Filter Entry includes the for SwitchStreamIdentification. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "SwitchAsynchronousTrafficShaperGroupEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingElementSwitchDetails.trafficShaperGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines an Asynchronous Traffic Shapter (ATS) Group for a switch.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 142,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maximum": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the maximum duration limit for which frames can in a switch (in seconds)."
+        }
+      }
+    },
+    {
+      "name": "SwitchStreamGateEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingElementSwitchDetails.streamGate"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a Asynchronous Traffic Shapter (ATS) Group for a switch.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 142,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "internalPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Internal Priority Value (IPV), a priority value that the assigned traffic class."
+        }
+      }
+    },
+    {
+      "name": "SwitchFlowMeteringEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingElementSwitchDetails.flowMetering"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a Flow Metering Entry for a switch.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 143,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "colorMode": {
+          "type": "FlowMeteringColor",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether color-aware or color-blind mode shall be"
+        },
+        "committedBurst": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Committed Burst Size (CBS) (accepted burst size in token bucket)."
+        },
+        "committed": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Committed Information Rate (CIR) (accepted rate in token bucket) in bits per second."
+        },
+        "couplingFlag": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Coupling Flag that defines if unused \"green\" tokens in the are transferred to the second bucket as"
+        },
+        "excessBurst": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Excess burst size (EBS) (accepted burst size in yellow bucket)."
+        },
+        "excess": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Excess Information Rate (EIR) (accepted rate in yellow bucket) in bits per second."
+        }
+      }
+    },
+    {
+      "name": "EthIpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to configure the EcuInstance specific IP attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ipv4Props": {
+          "type": "Ipv4Props",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration options for IPv4."
+        },
+        "ipv6Props": {
+          "type": "Ipv6Props",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration options for IPv6."
+        }
+      }
+    },
+    {
+      "name": "Ipv4Props",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthIpProps.ipv4Props"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for IPv4.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arpProps": {
+          "type": "Ipv4ArpProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration properties for the ARP (Address Resolution"
+        },
+        "autoIpProps": {
+          "type": "Ipv4AutoIpProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration options for Auto-IP (automatic private IP"
+        },
+        "fragmentation": {
+          "type": "Ipv4Fragmentation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration options for IPv4 packet fragmentation/ reassembly."
+        }
+      }
+    },
+    {
+      "name": "Ipv4ArpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Ipv4Props.arpProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the configuration options for the ARP (Address Resolution Protocol).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpArpNum": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the number of gratuitous ARP which shall be sent on assignment of a new IP"
+        },
+        "tcpIpArpPacket": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute enables (TRUE) or disables (FALSE) of the ARP Packet Queue according to IETF RFC 2.3.2.2."
+        },
+        "tcpIpArp": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies a timeout in seconds for the of ARP requests. After the transmission of an request the TcpIp shall skip the transmission of any requests to the same destination within a tcpIpArpRequestTimeout seconds. (IETF RFC 2.3.2.1)."
+        },
+        "tcpIpArpTable": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the timeout in seconds after which unused ARP entry is removed."
+        }
+      }
+    },
+    {
+      "name": "Ipv4AutoIpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Ipv4Props.autoIpProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the configuration options for Auto-IP (automatic private IP addressing).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 147,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpAutoIpInit": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the time in seconds Auto-IP waits startup, before beginning with ARP probing. This delay to give DHCP time to acquire a lease in case a is present."
+        }
+      }
+    },
+    {
+      "name": "Ipv4FragmentationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Ipv4Props.fragmentationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the configuration options for IPv4 packet fragmentation/reassembly.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 147,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpIp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables (TRUE) or disables (FALSE) support for of incoming datagrams that are fragmented to IETF RFC 815 (IP Datagram Reassembly"
+        },
+        "tcpIpIpNum": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum number of fragmented IP that can be reassembled in parallel."
+        },
+        "tcpIpIpReass": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the timeout in [s] after which an incomplete gets discarded."
+        }
+      }
+    },
+    {
+      "name": "Ipv6Props",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthIpProps.ipv6Props"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for IPv6.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 147,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dhcpProps": {
+          "type": "Dhcpv6Props",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration properties for DHCPv6."
+        },
+        "fragmentation": {
+          "type": "Ipv6Fragmentation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration properties for IPv6 packet fragmentation/ reassembly."
+        },
+        "ndpProps": {
+          "type": "Ipv6NdpProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration properties for the Neighbor Discovery IPv6."
+        }
+      }
+    },
+    {
+      "name": "Ipv6FragmentationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Ipv6Props.fragmentationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for IPv6 packet fragmentation/reassembly.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 148,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpIp": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the timeout in seconds after which an datagram gets discarded."
+        },
+        "tcpIpIpReassemblyBufferSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size of each fragment tx buffer in bytes."
+        },
+        "tcpIpIpTx": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "These buffers will be used if the IpV6 receives packets the upper layer that do not fit into the MTU and thus be fragmented. of 0 disables tx fragmentation."
+        },
+        "tcpIpIpTxFragmentBufferSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size of each fragment tx buffer in bytes."
+        }
+      }
+    },
+    {
+      "name": "Dhcpv6Props",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Ipv6Props.dhcpProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for DHCPv6.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 149,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpDhcp": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum delay in seconds before the first Confirm will be sent."
+        },
+        "tcpIpDhcpV6Inf": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum delay (s) before the first Information Request will be sent."
+        },
+        "tcpIpDhcpV6Sol": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum delay (s) before the first Solicit message will be"
+        }
+      }
+    },
+    {
+      "name": "Ipv6NdpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Ipv6Props.ndpProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for the Neighbor Discovery Protocol for IPv6.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 150,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpNdpDefault": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configures the default value (s) for the RetransTimer specified in [RFC4861 6.3.2. Host Variables]."
+        },
+        "tcpIpNdpDefaultRouterListSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of default router entries."
+        },
+        "tcpIpNdp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled the value of ReachableTime will be multiplied a random value between MIN_RANDOM_FACTOR MAX_RANDOM_FACTOR in order to prevent nodes from transmitting at exactly the same time."
+        },
+        "tcpIpNdpDelayFirstProbeTimeValue": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Delay before sending the first NUD probe in (s)."
+        },
+        "tcpIpNdpMaxRandomFactor": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum random factor used for randomization"
+        },
+        "tcpIpNdpMaxRtr": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of Router Solicitations that will be sent the first Router Advertisement has been received."
+        },
+        "tcpIpNdpMinRandomFactor": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum random factor used for randomization"
+        },
+        "tcpIpNdpNum": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of unicast solicitations that will be sent performig Neighbor Unreachability Detection."
+        },
+        "tcpIpNdpPacket": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables (TRUE) or disables (FALSE) support of a NDP Queue according to IETF RFC 4861, section"
+        },
+        "tcpIpNdpPrefix": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of entries in the on-link prefix list."
+        },
+        "tcpIpNdpRndRtr": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled the first router solicitation will be delayed from [0...MAX_RTR_SOLICITATION_DELAY]. the first router solicitation will be sent after milliseconds."
+        },
+        "tcpIpNdpRtr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Interval between consecutive Router Solicitations in (s)."
+        },
+        "tcpIpNdpSlaac": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enable Optimistic Duplicate Address Detection (DAD) to RFC4429."
+        }
+      }
+    },
+    {
+      "name": "EthTcpIpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to configure the EcuInstance specific TcpIp Stack attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 153,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpProps": {
+          "type": "TcpProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "TCP configuration properties"
+        },
+        "udpProps": {
+          "type": "UdpProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "UDP configuration properties"
+        }
+      }
+    },
+    {
+      "name": "UdpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthTcpIpProps.udpProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for UDP (User Datagram Protocol).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 154,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "udpTtl": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default Time-to-live value of outgoing UDP packets."
+        }
+      }
+    },
+    {
+      "name": "TcpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthTcpIpProps.tcpProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for TCP (Transmission Control Protocol).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 154,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpCongestion": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables (TRUE) or disables (FALSE) support of TCP avoidance algorithm according to IETF RFC"
+        },
+        "tcpDelayedAck": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximal time an acknowledgement is delayed for in seconds."
+        },
+        "tcpFast": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables (TRUE) or disables (FALSE) support of TCP Fast according to IETF RFC 5681."
+        },
+        "tcpFin": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout in [s] to receive a FIN from the remote node this node has initiated connection termination), i.e. waiting in FINWAIT-2 for a connection from the remote TCP."
+        },
+        "tcpKeepAlive": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the time in [s] between the last data packet sent ACKs are not considered data) and the first"
+        },
+        "tcpMaxRtx": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of times that a TCP segment is the TCP connection is closed. This only valid if tcpRetransmissionTimeout is This parameter also applies for FIN"
+        },
+        "tcpMsl": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum segment lifetime in [s]. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "tcpNagle": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables (TRUE) or disables (FALSE) support of Nagle’s according to IETF RFC 1122 (chapter 4.2.3.4 Send Data). If enabled the Nagle’s algorithm is default for all TCP sockets, but can be Socket (with the attribute TcpTp.nagle"
+        },
+        "tcpReceiveWindowMax": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default value of maximum receive window in bytes."
+        },
+        "tcp": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout in [s] before an unacknowledged TCP segment sent again. If the timeout is disabled, no TCP segments be retransmitted."
+        },
+        "tcpSlowStart": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables (TRUE) or disables (FALSE) support of TCP start algorithm according to IETF RFC 5681."
+        },
+        "tcpSynMaxRtx": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of times that a TCP SYN is"
+        },
+        "tcpSynReceived": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout in [s] to complete a remotely initiated TCP establishment, i.e. maximum time waiting in a confirming connection request having both received and sent a"
+        },
+        "tcpTtl": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default Time-to-live value of outgoing TCP packets."
+        }
+      }
+    },
+    {
+      "name": "EthTcpIpIcmpProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to configure the EcuInstance specific ICMP (Internet Control Message Protocol) attributes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 156,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "icmpV4Props": {
+          "type": "TcpIpIcmpv4Props",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ICMPv4 configuration properties"
+        },
+        "icmpV6Props": {
+          "type": "TcpIpIcmpv6Props",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ICMPv6 configuration properties"
+        }
+      }
+    },
+    {
+      "name": "TcpIpIcmpv4Props",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthTcpIpIcmpProps.icmpV4Props"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for ICMPv4 (Internet Control Message Protocol).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 156,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpIcmp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute enables or disables transmission of ICMP reply message in case of a ICMP echo reception."
+        },
+        "tcpIpIcmpV4Ttl": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is only relevant in case that ICMP (Internet Protocol) is used. It specifies the default of outgoing ICMP packets."
+        }
+      }
+    },
+    {
+      "name": "TcpIpIcmpv6Props",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthTcpIpIcmpProps.icmpV6Props"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the configuration options for ICMPv6 (Internet Control Message Protocol).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 156,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpIcmp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled an ICMPv6 parameter problem message will sent if a received packet has been dropped due to options or headers that are found in the packet."
+        }
+      }
+    },
+    {
+      "name": "EthernetWakeupSleepOnDatalineConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthernetWakeupSleepOnDatalineConfigSet.ethernetWakeupSleepOnDatalineConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "EthernetWakeupSleepOnDatalineConfigSet is the main element that aggregates different config set regarding the wakeup and sleep on data line. An EthernetWakeupSleepOnDatalineConfigSet could aggregate multiple different configurations regarding the wakeup and sleep on dataline (EthernetWakeupSleepOnDatalineConfig).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 158,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sleepMode": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Delay in seconds to perform a sleep request if the hardware (PHY) detect a pending wake-up. This to avoid the race condition, if a sleep was a wake-up of a neighboring PHY was a local wake-up connection (e.g. I/O pin)."
+        },
+        "sleepRepetition": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Delay in seconds for a repetition of a sleep request. This used to retry a synchronized shutdown of the Ethernet hardware (PHY) of the link partner."
+        },
+        "sleep": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Count of repetitions for a sleep on dataline. If a sleep is by the linked communication partner, the sleep is until the count of repetitions exceed. If count of the Ethernet hardware (PHY) transit without acknowledgement of the connected link"
+        },
+        "wakeupForward": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled, then a local wake-up is forwarded to the dataline (e.g. 100BASE-T1). If disabled, then a is not forwarded to the physical dataline."
+        },
+        "wakeupLocal": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled, then a local wake-up received via a local (e.g. I/O pin) shall be detected by the Ethernet If disabled, Ethernet hardware is not a local wake-up. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "wakeupRemote": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If enabled, then a remote wake-up received via the dataline (e.g. 100BASE-T1) shall be detected by hardware (PHY). If disabled, Ethernet not reaction on a remote wake-up."
+        },
+        "wakeup": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Count of repetitions for a wake-up. This is used to the reliability in the network, such that an ECU initiates the wake-up does repeat the wake-up and the probability that affected ECUs receive the"
+        }
+      }
+    },
+    {
+      "name": "EthernetWakeupSleepOnDatalineConfigSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is the main element that aggregates different config set regarding the ethernet wakeup and sleep on data line.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 159,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ethernet": {
+          "type": "EthernetWakeupSleep",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The relationship defines a collection of EthernetWakeup SleepOnDatalineConfig configurations which are"
+        }
+      }
+    },
+    {
+      "name": "PlcaProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPort.plcaProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class allows to configure the PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the CouplingPort (PHY).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 169,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "plcaLocalNode": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the node ID when the PLCA mode 10BASE-T1S is used."
+        },
+        "plcaMaxBurst": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Limits the burst frames in bit time. This configuration can different from one ECU to another within the PLCA For PLCA burst mode to work properly should be set greater than one IPG."
+        }
+      }
+    },
+    {
+      "name": "ApplicationEndpoint",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SocketAddress.applicationEndpoint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An application endpoint is the endpoint on an Ecu in terms of application addressing (e.g. socket). The application endpoint represents e.g. the listen socket in client-server-based communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 457,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "consumed": {
+          "type": "ConsumedService",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Consumed service instances. Tags: atp.Status=obsolete"
+        },
+        "maxNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximal number of clients the is able to deal with in case of Service Discovery. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "networkEndpoint": {
+          "type": "NetworkEndpoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the network address."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the frame priority where values from 0 (best 7 (highest) are allowed."
+        },
+        "providedService": {
+          "type": "ProvidedService",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provided service instances. Tags: atp.Status=obsolete"
+        },
+        "tlsCrypto": {
+          "type": "TlsCryptoService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable TlsCryptoService Mapping that adds the ability for TLS-based encryption enclosing ApplicationEndpoint."
+        },
+        "tpConfigurationConfiguration": {
+          "type": "TransportProtocol",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of the used transport protocol."
+        }
+      }
+    },
+    {
+      "name": "TransportProtocolConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "GenericTp",
+        "TcpUdpConfig",
+        "RtpTp",
+        "Ieee1722Tp",
+        "HttpTp"
+      ],
+      "subclasses": [
+        "GenericTp",
+        "HttpTp",
+        "Ieee1722Tp",
+        "RtpTp",
+        "TcpUdpConfig"
+      ],
+      "aggregated_by": [
+        "ApplicationEndpoint.tpConfiguration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Transport Protocol configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "GenericTp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransportProtocolConfiguration",
+      "bases": [
+        "ARObject",
+        "TransportProtocolConfiguration"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationEndpoint.tpConfiguration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Content Model for a generic transport protocol.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpAddress": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Transport Protocol dependent Address."
+        },
+        "tpTechnology": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Name of the used Transport Protocol."
+        }
+      }
+    },
+    {
+      "name": "TcpUdpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TransportProtocolConfiguration",
+      "bases": [
+        "ARObject",
+        "TransportProtocolConfiguration"
+      ],
+      "children": [
+        "UdpTp",
+        "TcpTp"
+      ],
+      "subclasses": [
+        "TcpTp",
+        "UdpTp"
+      ],
+      "aggregated_by": [
+        "ApApplicationEndpoint.tpConfiguration",
+        "ApplicationEndpoint.tpConfiguration",
+        "RtpTp.tcpUdpConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tcp or Udp Transport Protocol Configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UdpTp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TcpUdpConfig",
+      "bases": [
+        "ARObject",
+        "TcpUdpConfig",
+        "TransportProtocolConfiguration"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApApplicationEndpoint.tpConfiguration",
+        "ApplicationEndpoint.tpConfiguration",
+        "RtpTp.tcpUdpConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Content Model for UDP configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "udpTpPort": {
+          "type": "TpPort",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Udp Port configuration."
+        }
+      }
+    },
+    {
+      "name": "TcpTp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TcpUdpConfig",
+      "bases": [
+        "ARObject",
+        "TcpUdpConfig",
+        "TransportProtocolConfiguration"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApApplicationEndpoint.tpConfiguration",
+        "ApplicationEndpoint.tpConfiguration",
+        "HttpTp.tcpTpConfig",
+        "RtpTp."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Content Model for TCP configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 460,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "keepAlive": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of times that TCP retransmits an data segment before aborting the connection."
+        },
+        "keepAlives": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if Keep-Alive messages are sent."
+        },
+        "keepAliveTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the time in seconds between the last data and the first keepalive probe."
+        },
+        "naglesAlgorithm": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if Nagle’s Algorithm is used."
+        },
+        "receiveWindowMin": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum size of the TCP receive window in bytes."
+        },
+        "tcp": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the timeout in seconds before an TCP segment is sent again. If the tcp is not defined or set to \"INF\", no shall be re-transmitted."
+        },
+        "tcpTpPort": {
+          "type": "TpPort",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "TCP Port configuration."
+        }
+      }
+    },
+    {
+      "name": "RtpTp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransportProtocolConfiguration",
+      "bases": [
+        "ARObject",
+        "TransportProtocolConfiguration"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationEndpoint.tpConfiguration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "RTP over UDP or over TCP as transport protocol.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 460,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ssrc": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Synchronization source identifier uniquely identifies the a stream. The synchronization sources within RTP session will be unique."
+        },
+        "tcpUdpConfig": {
+          "type": "TcpUdpConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Tcp or Udp Configuration."
+        }
+      }
+    },
+    {
+      "name": "Ieee1722Tp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransportProtocolConfiguration",
+      "bases": [
+        "ARObject",
+        "TransportProtocolConfiguration"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationEndpoint.tpConfiguration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Content Model for IEEE 1722 configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 460,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "relative": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time when content shall be presented (in The actual absolute time is creation time plus presentation time. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "streamIdentifier": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IEEE 1722 stream identifier"
+        },
+        "subType": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Protocol type."
+        },
+        "version": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Revision of Ieee1722 standard"
+        }
+      }
+    },
+    {
+      "name": "HttpTp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransportProtocolConfiguration",
+      "bases": [
+        "ARObject",
+        "TransportProtocolConfiguration"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationEndpoint.tpConfiguration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Http over TCP as transport protocol.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 461,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contentType": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Descriptor for the transported content."
+        },
+        "protocolVersion": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "HTTP Protocol version (e.g. 1.1)"
+        },
+        "requestMethod": {
+          "type": "RequestMethodEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "HTTP request method to be used."
+        },
+        "tcpTpConfig": {
+          "type": "TcpTp",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "TcpTp Configuration."
+        },
+        "uri": {
+          "type": "UriString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "URI to be called."
+        }
+      }
+    },
+    {
+      "name": "TpPort",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TcpTp.tcpTpPort",
+        "UdpTp.udpTpPort"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Dynamic or direct assignment of a PortNumber.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 461,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dynamically": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether the source port is dynamically"
+        },
+        "portNumber": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Port Number."
+        }
+      }
+    },
+    {
+      "name": "NetworkEndpoint",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthernetPhysicalChannel.networkEndpoint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The network endpoint defines the network addressing (e.g. IP-Address or MAC multicast address).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 463,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "fullyQualified": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the fully qualified domain name (FQDN) e.g."
+        },
+        "infrastructure": {
+          "type": "InfrastructureServices",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the network infrastructure services provided or"
+        },
+        "ipSecConfig": {
+          "type": "IPSecConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional IPSec configuration that provides security IP packets."
+        },
+        "network": {
+          "type": "NetworkEndpoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a Network Address. Tags: xml.name Address Plural=NETWORK-ENDPOINT-ADDRESSES"
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the frame priority where values from 0 (best 7 (highest) are allowed."
+        }
+      }
+    },
+    {
+      "name": "NetworkEndpointAddress",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "Ipv4Configuration",
+        "Ipv6Configuration",
+        "MacMulticastConfiguration"
+      ],
+      "subclasses": [
+        "Ipv4Configuration",
+        "Ipv6Configuration",
+        "MacMulticastConfiguration"
+      ],
+      "aggregated_by": [
+        "NetworkEndpoint.networkEndpointAddress"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "To build a valid network endpoint address there has to be either one MAC multicast group reference or an ipv4 configuration or an ipv6 configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 464,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Ipv4Configuration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NetworkEndpointAddress",
+      "bases": [
+        "ARObject",
+        "NetworkEndpointAddress"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NetworkEndpoint.networkEndpointAddress"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Internet Protocol version 4 (IPv4) configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 465,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assignment": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Priority of assignment (1 is highest). If a new address an assignment method with a higher priority is overwrites the IP address previously assigned assignment method with a lower priority."
+        },
+        "defaultGateway": {
+          "type": "Ip4AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP address of the default gateway."
+        },
+        "dnsServer": {
+          "type": "Ip4AddressString",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP addresses of preconfigured DNS servers. xml.namePlural=DNS-SERVER-ADDRESSES"
+        },
+        "ipAddressKeep": {
+          "type": "IpAddressKeepEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the lifetime of a dynamically fetched IP address."
+        },
+        "ipv4Address": {
+          "type": "Ipv4AddressSource",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines how the node obtains its IP address."
+        },
+        "networkMask": {
+          "type": "Ip4AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Network mask. Notation 255.255.255.255"
+        },
+        "ttl": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Lifespan of data (0..255). The purpose of the TimeToLive to avoid a situation in which an undeliverable circulating on a system."
+        }
+      }
+    },
+    {
+      "name": "Ipv6Configuration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NetworkEndpointAddress",
+      "bases": [
+        "ARObject",
+        "NetworkEndpointAddress"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NetworkEndpoint.networkEndpointAddress"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Internet Protocol version 6 (IPv6) configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 466,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assignment": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Priority of assignment (1 is highest). If a new address an assignment method with a higher priority is overwrites the IP address previously assigned assignment method with a lower priority."
+        },
+        "defaultRouter": {
+          "type": "Ip6AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP address of the default router."
+        },
+        "dnsServer": {
+          "type": "Ip6AddressString",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IP addresses of pre configured DNS servers. xml.namePlural=DNS-SERVER-ADDRESSES"
+        },
+        "enableAnycast": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to enable anycast addressing (i.e. to multiple receivers)."
+        },
+        "hopCount": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The distance between two hosts. The hop count n means gateways separate the source host from the (Range 0..255)"
+        },
+        "ipAddressKeep": {
+          "type": "IpAddressKeepEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the lifetime of a dynamically fetched IP address."
+        },
+        "ipAddressPrefix": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IPv6 prefix length defines the part of the IPv6 address is the network prefix."
+        },
+        "ipv6Address": {
+          "type": "Ipv6AddressSource",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines how the node obtains its IP address."
+        }
+      }
+    },
+    {
+      "name": "MacMulticastConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NetworkEndpointAddress",
+      "bases": [
+        "ARObject",
+        "NetworkEndpointAddress"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NetworkEndpoint.networkEndpointAddress"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "References a per cluster globally defined MAC-Multicast-Group.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 467,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "macMulticastGroup": {
+          "type": "MacMulticastGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a macMulticastGroup."
+        }
+      }
+    },
+    {
+      "name": "InfrastructureServices",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NetworkEndpoint.infrastructureServices"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the network infrastructure services provided or consumed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 469,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "doIpEntity": {
+          "type": "DoIpEntity",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether a infrastructure service that runs on the is a DoIP-Entity."
+        },
+        "time": {
+          "type": "TimeSynchronization",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the servers / clients in a time synchronised"
+        }
+      }
+    },
+    {
+      "name": "TimeSynchronization",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "InfrastructureServices.timeSynchronization"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the servers / clients in a time synchronised network.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 469,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timeSyncClientConfiguration": {
+          "type": "TimeSyncClient",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of the time synchronisation client."
+        },
+        "timeSyncServerConfiguration": {
+          "type": "TimeSyncServer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of the time synchronisation server."
+        }
+      }
+    },
+    {
+      "name": "TimeSyncClientConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimeSynchronization.timeSyncClient"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the configuration of the time synchronisation client.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 469,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "orderedMaster": {
+          "type": "OrderedMaster",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a list of ordered NetworkEndpoints. xml.namePlural=ORDERED-MASTER-LIST"
+        },
+        "timeSync": {
+          "type": "TimeSyncTechnology",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time synchronisation technology used."
+        }
+      }
+    },
+    {
+      "name": "TimeSyncServerConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimeSynchronization.timeSyncServer"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the configuration of the time synchronisation server.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 470,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Server Priority."
+        },
+        "syncInterval": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Synchronisation interval used by the time synchronisation seconds)."
+        },
+        "timeSyncServerIdentifier": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identifier of the TimeSyncServer."
+        },
+        "timeSync": {
+          "type": "TimeSyncTechnology",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time synchronisation technology used. Possible values are: NTP_RFC958, PTP_ AVB_ others."
+        }
+      }
+    },
+    {
+      "name": "OrderedMaster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimeSyncClientConfiguration.orderedMaster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Element in the network endpoint list.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 470,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "index": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the order of the network endpoint list (e.g. 0, 1, 2,"
+        },
+        "timeSyncServerConfiguration": {
+          "type": "TimeSyncServer",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a master (Time Sync Server)."
+        }
+      }
+    },
+    {
+      "name": "DoIpEntity",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "InfrastructureServices.doIpEntity"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ECU providing this infrastructure service is a DoIP-Entity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 471,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "doIpEntityRole": {
+          "type": "DoIpEntityRoleEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identifies the role in terms of DoIP this network-node has."
+        }
+      }
+    },
+    {
+      "name": "GlobalTimeCouplingPortProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortDetails.globalTimeProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines properties for the usage of the CouplingPort in the scope of Global Time Sync.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 875,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "propagation": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If cyclic propagation delay measurement is enabled, this represents the default value of the propagation the first actually measured propagation delay is cyclic propagation delay measurement is parameter defines a fixed value for the"
+        }
+      }
+    },
+    {
+      "name": "CouplingPortAsynchronousTrafficShaper",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "CouplingPortAbstractShaper",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortFifo.shaper"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines an Asynchronous Traffic Shaper (ATS) for the CouplingPort egress structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2012,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "committedBurst": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum token capacity of the token bucket in bit. atp.Status=candidate"
+        },
+        "committed": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the rate at which the token bucket is refilled with in bit per second."
+        },
+        "trafficShaper": {
+          "type": "SwitchAsynchronous",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the Traffic Shaper Group this Asynchronous Traffic Shaper is part of. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "CouplingPortCreditBasedShaper",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "CouplingPortAbstractShaper",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPortFifo.shaper"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a Credit Based Shaper (CBS) for the CouplingPort egress structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2013,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "idleSlope": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the increase of credit in bits per second for the"
+        },
+        "lowerBoundary": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the lower boundary of credit for the CBS shaper."
+        },
+        "upperBoundary": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the upper boundary of credit for the CBS shaper."
+        }
+      }
+    }
+  ]
+}

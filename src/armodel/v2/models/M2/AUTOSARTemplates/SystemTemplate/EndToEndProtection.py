@@ -1,11 +1,20 @@
-from typing import Optional
+"""
+AUTOSAR Package - EndToEndProtection
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+Package: M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
     RefType,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
+
 
 
 class EndToEndProtectionISignalIPdu(ARObject):
@@ -19,9 +28,9 @@ class EndToEndProtectionISignalIPdu(ARObject):
     transmits the protected ISignalGroup. The information how the referenced
     ISignalGroup shall be protected (through which E2E Profile and with which
     E2E settings) is defined in the EndToEnd Description element.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection::EndToEndProtectionISignalIPdu
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 987, Classic Platform
       R23-11)
@@ -45,10 +54,10 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def data_offset(self, value: Optional["Integer"]) -> None:
         """
         Set dataOffset with validation.
-
+        
         Args:
             value: The dataOffset to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,27 +65,27 @@ class EndToEndProtectionISignalIPdu(ARObject):
             self._dataOffset = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"dataOffset must be Integer or None, got {type(value).__name__}"
+                f"dataOffset must be Integer or int or None, got {type(value).__name__}"
             )
         self._dataOffset = value
         # Reference to the ISignalGroup that is to be protected.
-        self._iSignalGroup: RefType = None
+        self._iSignalGroup: Optional["RefType"] = None
 
     @property
-    def i_signal_group(self) -> RefType:
+    def i_signal_group(self) -> Optional["RefType"]:
         """Get iSignalGroup (Pythonic accessor)."""
         return self._iSignalGroup
 
     @i_signal_group.setter
-    def i_signal_group(self, value: RefType) -> None:
+    def i_signal_group(self, value: Optional["RefType"]) -> None:
         """
         Set iSignalGroup with validation.
-
+        
         Args:
             value: The iSignalGroup to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +106,10 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def i_signal_i_pdu(self, value: Optional["ISignalIPdu"]) -> None:
         """
         Set iSignalIPdu with validation.
-
+        
         Args:
             value: The iSignalIPdu to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +128,10 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def getDataOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for dataOffset.
-
+        
         Returns:
             The dataOffset value
-
+        
         Note:
             Delegates to data_offset property (CODING_RULE_V2_00017)
         """
@@ -131,41 +140,41 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def setDataOffset(self, value: "Integer") -> "EndToEndProtectionISignalIPdu":
         """
         AUTOSAR-compliant setter for dataOffset with method chaining.
-
+        
         Args:
             value: The dataOffset to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to data_offset property setter (gets validation automatically)
         """
         self.data_offset = value  # Delegates to property setter
         return self
 
-    def getISignalGroup(self) -> RefType:
+    def getISignalGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for iSignalGroup.
-
+        
         Returns:
             The iSignalGroup value
-
+        
         Note:
             Delegates to i_signal_group property (CODING_RULE_V2_00017)
         """
         return self.i_signal_group  # Delegates to property
 
-    def setISignalGroup(self, value: RefType) -> "EndToEndProtectionISignalIPdu":
+    def setISignalGroup(self, value: "RefType") -> "EndToEndProtectionISignalIPdu":
         """
         AUTOSAR-compliant setter for iSignalGroup with method chaining.
-
+        
         Args:
             value: The iSignalGroup to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to i_signal_group property setter (gets validation automatically)
         """
@@ -175,10 +184,10 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def getISignalIPdu(self) -> "ISignalIPdu":
         """
         AUTOSAR-compliant getter for iSignalIPdu.
-
+        
         Returns:
             The iSignalIPdu value
-
+        
         Note:
             Delegates to i_signal_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -187,13 +196,13 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def setISignalIPdu(self, value: "ISignalIPdu") -> "EndToEndProtectionISignalIPdu":
         """
         AUTOSAR-compliant setter for iSignalIPdu with method chaining.
-
+        
         Args:
             value: The iSignalIPdu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to i_signal_i_pdu property setter (gets validation automatically)
         """
@@ -205,13 +214,13 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def with_data_offset(self, value: Optional["Integer"]) -> "EndToEndProtectionISignalIPdu":
         """
         Set dataOffset and return self for chaining.
-
+        
         Args:
             value: The dataOffset to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_data_offset("value")
         """
@@ -221,13 +230,13 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def with_i_signal_group(self, value: Optional[RefType]) -> "EndToEndProtectionISignalIPdu":
         """
         Set iSignalGroup and return self for chaining.
-
+        
         Args:
             value: The iSignalGroup to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_i_signal_group("value")
         """
@@ -237,13 +246,13 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def with_i_signal_i_pdu(self, value: Optional["ISignalIPdu"]) -> "EndToEndProtectionISignalIPdu":
         """
         Set iSignalIPdu and return self for chaining.
-
+        
         Args:
             value: The iSignalIPdu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_i_signal_i_pdu("value")
         """

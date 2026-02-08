@@ -1,0 +1,61 @@
+{
+  "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule",
+  "classes": [
+    {
+      "name": "PlatformModuleEthernetEndpointConfiguration",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PlatformModuleEndpointConfiguration",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines the attributes for the configuration of a port, protocol type and IP address of the communication on a VLAN.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 65,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "EthernetCommunication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the CommunicationConnector (VLAN) for which the network configuration is defined."
+        },
+        "ipv4MulticastIp": {
+          "type": "Ip4AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Multicast IPv4 Address to which the message will be"
+        },
+        "ipv6MulticastIp": {
+          "type": "Ip6AddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Multicast IPv6 Address to which the message will be"
+        }
+      }
+    }
+  ]
+}

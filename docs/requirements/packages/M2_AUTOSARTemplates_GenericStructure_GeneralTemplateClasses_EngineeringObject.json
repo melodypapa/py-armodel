@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject",
+  "path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_EngineeringObject.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

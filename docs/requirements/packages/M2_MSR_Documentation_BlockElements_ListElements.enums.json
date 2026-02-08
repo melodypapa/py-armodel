@@ -1,0 +1,60 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::ListElements",
+  "enumerations": [
+    {
+      "name": "ListEnum",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "note": "This meta-class represents the notation of the various types of lists. Aggregated by List.type",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 295,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "number",
+          "index": 0,
+          "description": "This indicates that the list is an numerated list.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "unnumber",
+          "index": 1,
+          "description": "This indicates that it is an enumeration (bulleted list)<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ItemLabelPosEnum",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "note": "This enumerator specifies, how the label of a labeled list shall be rendered. Aggregated by IndentSample.itemLabelPos",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 297,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "newline",
+          "index": 0,
+          "description": "The label is renders in a new line.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "newlineIfNecessary",
+          "index": 1,
+          "description": "The label is rendered in a new line if it is longer than the indentation.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "noNewline",
+          "index": 2,
+          "description": "The label is rendered in one line with the item even if it is longer than the indentation.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

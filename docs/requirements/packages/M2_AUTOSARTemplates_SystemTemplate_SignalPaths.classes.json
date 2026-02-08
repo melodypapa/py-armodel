@@ -1,0 +1,318 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+  "classes": [
+    {
+      "name": "CommonSignalPath",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SignalPathConstraint",
+      "bases": [
+        "ARObject",
+        "SignalPathConstraint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.signalPathConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The CommonSignalPath describes that two or more SwcToSwcSignals and/or SwcToSwcOperation Arguments shall take the same way (Signal Path) in the topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "SwcToSwcOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The arguments sent in one direction (either from client to or server to client) of the operations that shall take signal path."
+        },
+        "signal": {
+          "type": "SwcToSwcSignal",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The SwcToSwcSignals that shall take the same way in the topology."
+        }
+      }
+    },
+    {
+      "name": "SwcToSwcSignal",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommonSignalPath.signal",
+        "ForbiddenSignalPath.signal",
+        "PermissibleSignalPath.signal",
+        "SeparateSignal"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The SwcToSwcSignal describes the information (data element) that is exchanged between two SW Components. On the SWC Level it is possible that a SW Component sends one data element from one P-Port to two different SW Components (1:n Communication). The SwcToSwcSignal describes exactly the information which is exchanged between one P-Port of a SW Component and one R-Port of another SW Component.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "same data element on the RPortPrototype. by: VariableDataPrototypeIn"
+        }
+      }
+    },
+    {
+      "name": "SwcToSwcOperationArguments",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommonSignalPath.operation",
+        "ForbiddenSignalPath.operation",
+        "PermissibleSignalPath.operation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The SwcToSwcOperationArguments describes the information (client server operation arguments, plus the operation identification, if required) that are exchanged between two SW Components from exactly one client to one server, or from one server back to one client. The direction attribute defines which direction is described. If direction == IN, all arguments sent from the client to the server are described by the SwcToSwcOperationArguments, in direction == OUT, it’s the arguments sent back from server to client.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "direction": {
+          "type": "SwcToSwcOperation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Direction addressed by this SwcToSwcClientServer element."
+        },
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "arguments are described by SwcToSwc two ports referenced shall be a connector in the software component by: OperationInSystem"
+        }
+      }
+    },
+    {
+      "name": "ForbiddenSignalPath",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SignalPathConstraint",
+      "bases": [
+        "ARObject",
+        "SignalPathConstraint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.signalPathConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The ForbiddenSignalPath describes the physical channels which an element shall not take in the topology. Such a signal path can be a constraint for the communication matrix, because such a path has an effect on the frame generation and the frame path.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 255,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "SwcToSwcOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reference to the operation arguments of one operation shall not take the predefined way in the topology."
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The SwcToSwcSignal shall not be transmitted on one of physical channels."
+        },
+        "signal": {
+          "type": "SwcToSwcSignal",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The data element which shall not take the predefined way topology."
+        }
+      }
+    },
+    {
+      "name": "PermissibleSignalPath",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SignalPathConstraint",
+      "bases": [
+        "ARObject",
+        "SignalPathConstraint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.signalPathConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The PermissibleSignalPath describes the way a data element shall take in the topology. The path is described by ordered references to PhysicalChannels. If more than one PermissibleSignalPath is defined for the same signal/operation attributes, any of them can be chosen. Such a signal path can be a constraint for the communication matrix . This path describes that one data element should take path A (e.g. 1. CAN channel, 2. LIN channel) and not path B (1. CAN channel, FlexRay channel A). This has an effect on the frame generation and the frame path.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 256,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "SwcToSwcOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The arguments of an operation that can take the way in the topology."
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The SwcToSwcSignal can be transmitted on one of these channels."
+        },
+        "signal": {
+          "type": "SwcToSwcSignal",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The data element which can take the predefined way in"
+        }
+      }
+    },
+    {
+      "name": "SeparateSignalPath",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SignalPathConstraint",
+      "bases": [
+        "ARObject",
+        "SignalPathConstraint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.signalPathConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The SeparateSignalPath describes that two SwcToSwcSignals and/or SwcToSwcOperationArguments shall not take the same way (Signal Path) in the topology (e.g. Redundancy). This means that the signals are not allowed to share even a single physical channel in their path.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 257,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "SwcToSwcOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The SwcToSwcOperationArguments that shall not take same way (Signal Path) in the topology."
+        },
+        "signal": {
+          "type": "SwcToSwcSignal",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The SwcToSwcSignals that shall not take the same way in the topology."
+        }
+      }
+    },
+    {
+      "name": "SignalPathConstraint",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CommonSignalPath",
+        "ForbiddenSignalPath",
+        "PermissibleSignalPath",
+        "SeparateSignalPath"
+      ],
+      "subclasses": [
+        "CommonSignalPath",
+        "ForbiddenSignalPath",
+        "PermissibleSignalPath",
+        "SeparateSignalPath"
+      ],
+      "aggregated_by": [
+        "SystemMapping.signalPathConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Additional guidelines for the System Generator, which specific way a signal between two Software Components should take in the network without defining in which frame and with which timing it is transmitted.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2057,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the constraint."
+        }
+      }
+    }
+  ]
+}

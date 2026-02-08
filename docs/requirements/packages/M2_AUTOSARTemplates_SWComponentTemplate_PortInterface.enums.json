@@ -1,0 +1,60 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+  "enumerations": [
+    {
+      "name": "ServerArgumentImplPolicyEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "note": "This defines how the argument type of the servers RunnableEntity is implemented. Aggregated by ArgumentDataPrototype.serverArgumentImplPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 105,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "useArgumentType",
+          "index": 0,
+          "description": "The argument type of the RunnableEntity is derived from the AutosarDataType of the Argument<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "useVoid",
+          "index": 2,
+          "description": "The argument type of the RunnableEntity is void.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "MappingDirectionEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "note": "Specifies the conversion direction for which the mapping is applicable. Aggregated by TextTableMapping.mappingDirection",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bidirectional",
+          "index": 0,
+          "description": "The TextTableMapping is applicable in both directions.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "firstToSecond",
+          "index": 1,
+          "description": "The TextTableMapping is applicable in the direction from firstDataPrototype / firstOperationArgument referring into the PortInterface of the PPortPrototype to secondDataPrototype / secondOperation Argument referring into the PortInterface of the RPortPrototype.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "secondToFirst",
+          "index": 2,
+          "description": "The TextTableMapping is applicable in the direction from secondDataPrototype / secondOperation Argument referring into the PortInterface of the PPortPrototype to firstDataPrototype / firstOperation Argument referring into the PortInterface of the RPortPrototype.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

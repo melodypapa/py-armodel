@@ -1,0 +1,858 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+  "classes": [
+    {
+      "name": "LinErrorResponse",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinSlave.linErrorResponse",
+        "LinSlaveConfig.linErrorResponse"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Each slave node shall publish a one bit signal, named response_error, to the master node in one of its transmitted unconditional frames. The response_error signal shall be set whenever a frame (except for event triggered frame responses) that is transmitted or received by the slave node contains an error in the frame response. The response_error signal shall be cleared when the unconditional frame containing the response_error signal is successfully transmitted.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 97,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "responseError": {
+          "type": "ISignalTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This ISignal shall be taken to transport the responseError"
+        }
+      }
+    },
+    {
+      "name": "LinFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Frame",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "LinUnconditionalFrame",
+        "LinSporadicFrame",
+        "LinEventTriggeredFrame"
+      ],
+      "subclasses": [
+        "LinEventTriggeredFrame",
+        "LinSporadicFrame",
+        "LinUnconditionalFrame"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Lin specific Frame element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 428,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LinFrameTriggering",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FrameTriggering",
+      "bases": [
+        "ARObject",
+        "FrameTriggering",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PhysicalChannel.frameTriggering"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "LIN specific attributes to the FrameTriggering",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 428,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "identifier": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "To describe a frames identifier on the communication with a fixed identifierValue. For Lin attribute shall be ignored."
+        },
+        "linChecksum": {
+          "type": "LinChecksumType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Type of checksum that the frame is using. This attribute is in case of sporadic frames it should not"
+        }
+      }
+    },
+    {
+      "name": "LinUnconditionalFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinFrame",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "LinFrame",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Unconditional frames carry signals. The master sends a frame header in a scheduled frame slot and the designated slave node fills the frame with data.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 429,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LinSporadicFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinFrame",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "LinFrame",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A sporadic frame is a group of unconditional frames that share the same frame slot. The sporadic frame shall not contain any Pdus.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 429,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "substituted": {
+          "type": "LinUnconditionalFrame",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a group of unconditional frames that share the same frame slot. In case that more than one of the needs to be transferred, the one first be chosen. channel a LIN Frame shall be referenced by only This allows a derivation of the a substituted Frame. The identifier is specified element. associated with a LinSporadic not be allocated in the same LinSchedule"
+        }
+      }
+    },
+    {
+      "name": "LinEventTriggeredFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinFrame",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "LinFrame",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An event triggered frame is used as a placeholder to allow multiple slave nodes to provide its response. The header of an event triggered frame is transmitted when a frame slot allocated to the event triggered frame is processed. The publisher of an associated unconditional frame shall only transmit the response if at least one of the signals carried in its unconditional frame is updated. The LIN Master discovers and purges collisions with the collisionResolvingScheduleTable. The event controlled frame shall not contain any Pdus.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 430,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "collisionSchedule": {
+          "type": "LinScheduleTable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the schedule table, which resolves a"
+        },
+        "linUnconditional": {
+          "type": "LinUnconditionalFrame",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A list of slaves can respond to the master request if at one of the signals carried in its unconditional frame For each response a LinFrameTriggering and shall be defined. Within a LIN Frame shall be referenced by only one allows a derivation of the identifier substituted Frame. The identifier is specified in The Unconditional frames an event triggered frame shall: equal length. the same checksum model (i.e. mixing LIN 1.x and frames is not allowed). the first data field to its protected identifier the associated unconditional frame is a unconditional frame in the same or table). published by different slave nodes. not be included directly in the same schedule the event triggered frame is scheduled."
+        }
+      }
+    },
+    {
+      "name": "LinScheduleTable",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinPhysicalChannel.scheduleTable"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The master task (in the master node) transmits frame headers based on a schedule table. The schedule table specifies the identifiers for each header and the interval between the start of a frame and the start of the following frame.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 432,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "resumePosition": {
+          "type": "ResumePosition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines, where a schedule table shall be proceeded in it has been interrupted by a run-once table or"
+        },
+        "runMode": {
+          "type": "RunMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The schedule table can be executed in two different"
+        },
+        "tableEntry": {
+          "type": "ScheduleTableEntry",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The scheduling table consists of table entries, which slots."
+        }
+      }
+    },
+    {
+      "name": "ScheduleTableEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "ApplicationEntry",
+        "FreeFormatEntry",
+        "LinConfigurationEntry"
+      ],
+      "subclasses": [
+        "ApplicationEntry",
+        "FreeFormatEntry",
+        "LinConfigurationEntry"
+      ],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Table entry in a LinScheduleTable. Specifies what will be done in the frame slot.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 433,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "delay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Relative delay between this tableEntry and the start of the the schedule table in seconds."
+        },
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the entry."
+        },
+        "positionInTable": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Relative position in the schedule table. The first entry the schedule table is 0."
+        }
+      }
+    },
+    {
+      "name": "ApplicationEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ScheduleTableEntry",
+      "bases": [
+        "ARObject",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Schedule table entry for application messages.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 433,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "frameTriggering": {
+          "type": "LinFrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Specifies the LinFrame that will be transmitted in this"
+        }
+      }
+    },
+    {
+      "name": "FreeFormatEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ScheduleTableEntry",
+      "bases": [
+        "ARObject",
+        "ScheduleTableEntry"
+      ],
+      "children": [
+        "FreeFormat"
+      ],
+      "subclasses": [
+        "FreeFormat"
+      ],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FreeFormat transmits a fixed master request frame with the eight data bytes provided. This may for instance be used to issue user specific fixed frames.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 433,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LinConfigurationEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ScheduleTableEntry",
+      "bases": [
+        "ARObject",
+        "ScheduleTableEntry"
+      ],
+      "children": [
+        "AssignFrameId",
+        "UnassignFrameId",
+        "AssignFrameIdRange",
+        "AssignNad",
+        "ConditionalChangeNad",
+        "SaveConfigurationEntry",
+        "DataDumpEntry"
+      ],
+      "subclasses": [
+        "AssignFrameId",
+        "AssignFrameIdRange",
+        "AssignNad",
+        "ConditionalChangeNad",
+        "DataDumpEntry",
+        "SaveConfigurationEntry",
+        "UnassignFrameId"
+      ],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A ScheduleTableEntry which contains LIN specific assignments.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 434,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assigned": {
+          "type": "LinSlave",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The LIN slaves controller who is target of this assignment. in case LinConfigurationEntry.assignedLinSlave"
+        },
+        "assignedLin": {
+          "type": "LinSlaveConfigIdent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The LIN slave that is target of this assignment. note that this reference is redundant to the Ecu Extract of the LinMaster the LinSlave Ecus shall available. that is described here is necessary in the for the configuration of the LinMaster."
+        }
+      }
+    },
+    {
+      "name": "AssignFrameId",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinConfigurationEntry",
+      "bases": [
+        "ARObject",
+        "LinConfigurationEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Schedule entry for an Assign Frame Id master request.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 436,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assignedFrame": {
+          "type": "LinFrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The frame whose identifier is set by this assignment."
+        }
+      }
+    },
+    {
+      "name": "UnassignFrameId",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinConfigurationEntry",
+      "bases": [
+        "ARObject",
+        "LinConfigurationEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Schedule entry for an Unassign Frame Id master request where the protected identifier is assigned the value 0x40. This will disable reception/transmission of a previously dynamically assigned frame identifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 436,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "unassigned": {
+          "type": "LinFrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The frame whose identifier is reset by this assignment."
+        }
+      }
+    },
+    {
+      "name": "AssignFrameIdRange",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinConfigurationEntry",
+      "bases": [
+        "ARObject",
+        "LinConfigurationEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AssignFrameIdRange generates an assign frame PID range request.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 437,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "framePid": {
+          "type": "FramePid",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "the request. The frame_PIDs are ordered."
+        },
+        "startIndex": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The startIndex sets the index to the first frame to assign a"
+        }
+      }
+    },
+    {
+      "name": "FramePid",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AssignFrameIdRange.framePid"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Frame_PIDs that are included in the request. The \"pid\" attribute describes the value and the \"index\" attribute the position of the frame_PID in the request.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 437,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "index": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to order the frame_PIDs. The values shall be unique within one AssignFrameIdRange."
+        },
+        "pid": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Frame_PID value."
+        }
+      }
+    },
+    {
+      "name": "AssignNad",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinConfigurationEntry",
+      "bases": [
+        "ARObject",
+        "LinConfigurationEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Schedule entry for an Assign NAD master request.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 438,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "newNad": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The newly assigned NAD value."
+        }
+      }
+    },
+    {
+      "name": "ConditionalChangeNad",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinConfigurationEntry",
+      "bases": [
+        "ARObject",
+        "LinConfigurationEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Generates an conditional change NAD request. See ISO 17987 protocol specification for more information.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 438,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "byte": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Byte Position of Data Byte that should be used for the with Invert and the bitwise AND with Mask."
+        },
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Byte Position of Id."
+        },
+        "invert": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Byte Position of Invert."
+        },
+        "mask": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Byte Position of Mask."
+        },
+        "newNad": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The newly assigned NAD value (Byte Position)."
+        }
+      }
+    },
+    {
+      "name": "SaveConfigurationEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinConfigurationEntry",
+      "bases": [
+        "ARObject",
+        "LinConfigurationEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This service is used to notify a slave node to store its configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 439,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DataDumpEntry",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LinConfigurationEntry",
+      "bases": [
+        "ARObject",
+        "LinConfigurationEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This service is reserved for initial configuration of a slave node by the slave node supplier and the format of this message is supplier specific.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 439,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "byteValue": {
+          "type": "Integer",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Supplier specific format."
+        }
+      }
+    },
+    {
+      "name": "FreeFormat",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FreeFormatEntry",
+      "bases": [
+        "ARObject",
+        "FreeFormatEntry",
+        "ScheduleTableEntry"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinScheduleTable.tableEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Representing freely defined data.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 439,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "byteValue": {
+          "type": "Integer",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The integer Value of a freely defined data byte."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+  "enumerations": [
+    {
+      "name": "DefaultValueApplicationStrategyEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "note": "Enumeration that describes how to handle AUTOSAR defined default values. If the strategy requires application of the AUTOSAR defined default value, then the value shall be added before further validation or processing. Aggregated by PrimitiveAttributeTailoring.defaultValueHandling",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 112,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "defaultIfRevision",
+          "index": 1,
+          "description": "If the AUTOSAR model is older than the Baseline of the Data Exchange Point and the older version Update did not yet support the attribute, then the AUTOSAR defined default value SHALL be applied before further validation or processing.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "defaultIfUndefined",
+          "index": 0,
+          "description": "If the AUTOSAR model does not explicitly specify a value, then the apply the AUTOSAR defined default value before further validation or processing. noDefault do not apply the AUTOSAR defined default value<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

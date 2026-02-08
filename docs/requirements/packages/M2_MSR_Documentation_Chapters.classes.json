@@ -1,0 +1,426 @@
+{
+  "package": "M2::MSR::Documentation::Chapters",
+  "classes": [
+    {
+      "name": "Chapter",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Paginateable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ChapterOrMsrQuery.chapter",
+        "MsrQueryResultChapter.chapter",
+        "SwComponentDocumentation.chapter",
+        "SwComponentDocumentation.swCalibrationNotes",
+        "SwComponentDocumentation.swCarbDoc",
+        "SwComponentDocumentation.swDiagnosticsNotes",
+        "SwComponentDocumentation.swFeatureDef",
+        "SwComponentDocumentation.swFeatureDesc",
+        "SwComponentDocumentation.swMaintenanceNotes",
+        "SwComponentDocumentation.swTestDesc",
+        "System.systemDocumentation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a chapter of a document. Chapters are the primary structuring element in documentation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 698,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "chapterModel": {
+          "type": "ChapterModel",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the overall contents of the chapter. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help is a concatenated Identifier, but as of now we as an arbitrary string."
+        }
+      }
+    },
+    {
+      "name": "ChapterModel",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Chapter.chapterModel",
+        "PredefinedChapter.chapterModel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the basic content model of a chapter except the Chapter title. This can be utilized in general chapters as well as in predefined chapters. A chapter has content on three levels: 1. chapter content 2. topics 3. subchapters",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 699,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "chapter": {
+          "type": "ChapterOrMsrQuery",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a particular subchapter."
+        },
+        "chapterContent": {
+          "type": "ChapterContent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the chapter content which is not a topic or a is the content which is directly in the"
+        },
+        "topic1": {
+          "type": "TopicOrMsrQuery",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a topic within the chapter."
+        }
+      }
+    },
+    {
+      "name": "ChapterContent",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ChapterModel.chapterContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents the content which is directly in a chapter. It is basically the same as the one in a Topic but might have additional complex structures (e.g. Synopsis)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 330,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "prms": {
+          "type": "Prms",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a parameter table within a chapter."
+        },
+        "topicContent": {
+          "type": "TopicContentOrMsr",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is that part of a chapter content which may appear in chapter as well as in a topic."
+        }
+      }
+    },
+    {
+      "name": "PredefinedChapter",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Documentation.documentationContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a predefined chapter.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 330,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "chapterModel": {
+          "type": "ChapterModel",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the content of the predefined chapter."
+        }
+      }
+    },
+    {
+      "name": "Topic1",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Paginateable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MsrQueryResultTopic1.topic1",
+        "TopicOrMsrQuery.topic1"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a topic of a documentation. Topics are similar to chapters but they cannot be nested. They also do not appear in the table of content. Topics can be used to produce intermediate headlines thus structuring a chapter internally.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 338,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help"
+        },
+        "topicContent": {
+          "type": "TopicContentOrMsr",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the content of the topic."
+        }
+      }
+    },
+    {
+      "name": "TopicContentOrMsrQuery",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ChapterContent.topicContent",
+        "Topic1.topicContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a topic or a topic content which is generated using queries.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 342,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "msrQueryP1": {
+          "type": "MsrQueryP1",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents automatically contributed contents an msrquery."
+        },
+        "topicContent": {
+          "type": "TopicContent",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the content of a topic."
+        }
+      }
+    },
+    {
+      "name": "TopicOrMsrQuery",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ChapterModel.topic1"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class provides the alternative of a Topic with an MsrQuery which delivers a topic.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 342,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "msrQuery": {
+          "type": "MsrQueryTopic1",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents automatically contributed topics provided an msrquery."
+        },
+        "topic1": {
+          "type": "Topic1",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is used to create particular topics within a chapter. A similar to a subchapter, but cannot be nested and appear in the table of contents of the document. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "ChapterOrMsrQuery",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ChapterModel.chapter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to denote a particular chapter or a query returning a chapter.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 342,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "chapter": {
+          "type": "Chapter",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This establishes a subschapter. atpVariation"
+        },
+        "msrQuery": {
+          "type": "MsrQueryChapter",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents automatically contributed chapters by an msrquery."
+        }
+      }
+    },
+    {
+      "name": "TopicContent",
+      "package": "M2::MSR::Documentation::Chapters",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MsrQueryP1.msrQueryResultP1",
+        "TopicContentOrMsrQuery.topicContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the content of a topic. It is mainly a documentation block, but can also be a table.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 478,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blockLevel": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is that part of the content which may also occur in a cell."
+        },
+        "table": {
+          "type": "Table",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a table within a topic. atpVariation"
+        },
+        "traceableTable": {
+          "type": "TraceableTable",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a traceable table within a topic."
+        }
+      }
+    }
+  ]
+}

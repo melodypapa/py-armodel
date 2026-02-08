@@ -1,0 +1,299 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+  "classes": [
+    {
+      "name": "ComponentInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ComponentClustering.clusteredComponent",
+        "ComponentSeparation.separatedComponent",
+        "J1939ControllerApplication.swComponentPrototype",
+        "SwComponentPrototypeAssignment.swComponent",
+        "SwcToApplicationPartitionMapping.swComponentPrototype",
+        "SwcToEcuMapping.component",
+        "SwcToImpl"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 999,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "context": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "target": {
+          "type": "SwComponent",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=40"
+        }
+      }
+    },
+    {
+      "name": "OperationInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientIdDefinition.clientServerOperation",
+        "ClientServerToSignalMapping.clientServerOperation",
+        "PortElementToCommunicationResourceMapping.clientServerOperation",
+        "SwcToSwcOperationArguments."
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1001,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "context": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=40"
+        },
+        "targetOperation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=50"
+        }
+      }
+    },
+    {
+      "name": "VariableDataPrototypeInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EndToEndProtectionVariablePrototype.receiver",
+        "EndToEndProtectionVariablePrototype.sender",
+        "PortElementToCommunicationResourceMapping.variableDataPrototype",
+        "SenderReceiverCompositeElementToSignalMapping.dataElement",
+        "SenderReceiverToSignalGroupMapping.dataElement",
+        "SenderReceiverToSignalMapping.dataElement",
+        "SignalServiceTranslationEventProps.translationTarget",
+        "SwcToSwcSignal.dataElement"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1003,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "context": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": ""
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": ""
+        },
+        "targetData": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "TriggerInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortElementToCommunicationResourceMapping.trigger",
+        "TriggerToSignalMapping.trigger"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1005,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents that base of the InstanceRef"
+        },
+        "context": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the RootSw Compositiontype representing a context of the Instance"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the PortPrototype in which the target located."
+        },
+        "targetTrigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the target Trigger."
+        }
+      }
+    },
+    {
+      "name": "PortGroupInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ComManagementMapping.comManagementPortGroup",
+        "PncMapping.vfc"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1007,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "context": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "target": {
+          "type": "PortGroup",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Link to a PortGroup that is defined in a component which of this CompositionSwComponentType."
+        }
+      }
+    }
+  ]
+}

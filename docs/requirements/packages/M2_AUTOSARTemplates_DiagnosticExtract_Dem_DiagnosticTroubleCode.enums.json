@@ -1,0 +1,210 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+  "enumerations": [
+    {
+      "name": "DiagnosticTypeOfDtcSupportedEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "note": "Supported Dtc Types Aggregated by DiagnosticMemoryDestinationPrimary.typeOfDtcSupported",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "iso11992_4",
+          "index": 0,
+          "description": "ISO11992-4 DTC format<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=ISO-11992–4"
+        },
+        {
+          "name": "iso14229_1",
+          "index": 1,
+          "description": "ISO14229-1 DTC format (3 byte format)<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=ISO-14229–1"
+        },
+        {
+          "name": "iso15031_6",
+          "index": 2,
+          "description": "ISO15031-6 DTC format (2 byte format)<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=ISO-15031–6"
+        },
+        {
+          "name": "saeJ1939_73",
+          "index": 3,
+          "description": "SAEJ1939-73 DTC format<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=SAE-J-1939–73"
+        },
+        {
+          "name": "saeJ2012_da",
+          "index": 4,
+          "description": "SAE_J2012-DA_DTCFormat_00 (3 byte format)<br>Tags: atp.EnumerationLiteralIndex=4, xml.name=SAE-J-2012–DA"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "note": "This enumeration controls whether the aging and displacement mechanism shall be applied to the ’TestFailedSinceLastClear’ status bits. Aggregated by DiagnosticMemoryDestination.statusBitHandlingTestFailedSinceLastClear (cid:53) 183 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 183,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "statusBitAgingAndDisplacement",
+          "index": 0,
+          "description": "The \"TestFailedSinceLastClear\" status bits are reset to 0, if aging or displacement applies.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "statusBitNormal",
+          "index": 1,
+          "description": "Aging and displacement has no impact on the \"TestFailedSinceLastClear\" status bits.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticSignificanceEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "note": "Significance level of a diagnostic event. Aggregated by DiagnosticTroubleCodeProps.significance",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "fault",
+          "index": 0,
+          "description": "Failure, which affects the component/ECU itself.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "occurence",
+          "index": 1,
+          "description": "Issue, which indicates additional information concerning insufficient system behavior.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticUdsSeverityEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "note": "Severity types for a DTC according to ISO 14229-1. Aggregated by DiagnosticTroubleCodeUds.severity",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "checkAtNextHalt",
+          "index": 0,
+          "description": "Check at next halt.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "immediately",
+          "index": 1,
+          "description": "Check immediately.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "maintenanceOnly",
+          "index": 2,
+          "description": "Maintenance required.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "noSeverity",
+          "index": 3,
+          "description": "No severity information available.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticWwhObdDtcClassEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "note": "This meta-class represents the ability to model severity classes of an WWH-OBD DTC. Aggregated by DiagnosticTroubleCodeUds.wwhObdDtcClass",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Diagnostic",
+          "index": null,
+          "description": "Extract Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "demDtcWwhObdClassA",
+          "index": 0,
+          "description": "This attribute represents the severity class A.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "demDtcWwhObdClassB1",
+          "index": 1,
+          "description": "This attribute represents the severity class B1.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "demDtcWwhObdClassB2",
+          "index": 2,
+          "description": "This attribute represents the severity class B2.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "demDtcWwhObdClassC",
+          "index": 3,
+          "description": "This attribute represents the severity class C.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "demDtcWwhObd",
+          "index": null,
+          "description": "This attribute represents the option to intentionally not describe a dedicated severity class of an"
+        },
+        {
+          "name": "ClassNoInformation",
+          "index": 4,
+          "description": "WWH-OBD DTC.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticTroubleCodeJ1939DtcKindEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "note": "This meta-class represents the ability to further specify a J1939 DTC in terms of its semantics. Aggregated by DiagnosticTroubleCodeJ1939.kind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 221,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "serviceOnly",
+          "index": 0,
+          "description": "this represents a DTC that is only relevant for service in a garage, reported by e.g. DM53.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "standard",
+          "index": 1,
+          "description": "This represents a non-specific DTC reported by e.g. DM1.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

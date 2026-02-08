@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_NvBlockComponent.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SWComponentTemplate_NvBlockComponent.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 4,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

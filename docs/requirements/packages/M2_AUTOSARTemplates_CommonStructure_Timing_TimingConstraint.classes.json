@@ -1,0 +1,63 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint",
+  "classes": [
+    {
+      "name": "TimingConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Traceable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "Traceable"
+      ],
+      "children": [
+        "SynchronizationTimingConstraint",
+        "LatencyTimingConstraint",
+        "EventTriggeringConstraint",
+        "OffsetTimingConstraint",
+        "AgeConstraint",
+        "ExecutionOrderConstraint",
+        "ExecutionTimeConstraint",
+        "SynchronizationPointConstraint"
+      ],
+      "subclasses": [
+        "AgeConstraint",
+        "EventTriggeringConstraint",
+        "ExecutionOrderConstraint",
+        "ExecutionTimeConstraint",
+        "LatencyTimingConstraint",
+        "OffsetTimingConstraint",
+        "SynchronizationPointConstraint",
+        "SynchronizationTiming"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The abstract parent class of different timing constraints supported by the Timing extension. A concrete timing constraint is used to bound the timing behavior of the model elements in its scope.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timingCondition": {
+          "type": "TimingCondition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A timing condition the timing constraint depends on. In it specifies the condition the timing constraint"
+        }
+      }
+    }
+  ]
+}

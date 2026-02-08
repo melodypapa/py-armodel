@@ -1,0 +1,140 @@
+{
+  "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+  "enumerations": [
+    {
+      "name": "EcucScopeEnum",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "note": "Possible scope settings for a configuration element. Aggregated by EcucDefinitionElement.scope",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 46,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ECU",
+          "index": 0,
+          "description": "An element may be shared with other modules.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "local",
+          "index": 1,
+          "description": "An element is only be applicable for the module it is defined in.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "EcucConfigurationClassEnum",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "note": "Possible configuration classes for the AUTOSAR configuration parameters. Aggregated by EcucAbstractConfigurationClass.configClass",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Link",
+          "index": 0,
+          "description": "Link Time: parts of configuration are delivered from another object code file<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "PostBuild",
+          "index": 1,
+          "description": "PostBuildTime: after compilation a configuration parameter can be changed.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "PreCompile",
+          "index": 2,
+          "description": "PreCompile Time: after compilation a configuration parameter can not be changed any more.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "Published",
+          "index": 3,
+          "description": "PublishedInformation is used to specify the fact that certain information is fixed even before the Information pre-compile stage.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "EcucConfigurationVariantEnum",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "note": "Specifies the possible Configuration Variants used for AUTOSAR BSW Modules. Aggregated by EcucAbstractConfigurationClass.configVariant, EcucModuleConfigurationValues.implementation ConfigVariant, EcucModuleDef.supportedConfigVariant",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "PreconfiguredConfiguration",
+          "index": 0,
+          "description": "Preconfigured (i.e. fixed) configuration which cannot be changed. Specification of ECU Configuration<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "RecommendedConfiguration",
+          "index": 1,
+          "description": "Recommended configuration for a module.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "VariantLinkTime",
+          "index": 2,
+          "description": "Specifies that the BSW Module implementation may use PreCompileTime and LinkTime configuration<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "VariantPostBuild",
+          "index": 3,
+          "description": "Specifies that the BSW Module implementation may use PreCompileTime, LinkTime and PostBuild configuration parameters.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "VariantPreCompile",
+          "index": 6,
+          "description": "Specifies that the BSW Module implementation uses only PreCompileTime configuration parameters.<br>Tags: atp.EnumerationLiteralIndex=6"
+        }
+      ]
+    },
+    {
+      "name": "EcucDestinationUriNestingContractEnum",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "note": "EcucDestinationUriNestingContractEnum is used to determine what is qualified by the Ecuc DestinationUriPolicy. Aggregated by EcucDestinationUriPolicy.destinationUriNestingContract",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 83,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "leafOfTarget",
+          "index": 0,
+          "description": "EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) that are Container directly owned by the target container.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "targetContainer",
+          "index": 1,
+          "description": "EcucDestinationUriPolicy describes the target container of EcucUriReferenceDef.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "vertexOfTarget",
+          "index": 2,
+          "description": "EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) of the target Container container which can be defined in arbitrary nested subContainer structure.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

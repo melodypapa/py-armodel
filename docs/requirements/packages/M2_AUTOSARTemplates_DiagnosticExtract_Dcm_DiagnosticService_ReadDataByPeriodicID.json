@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ReadDataByPeriodicID.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ReadDataByPeriodicID.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

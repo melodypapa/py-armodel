@@ -1,0 +1,507 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+  "classes": [
+    {
+      "name": "RptImplPolicy",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McDataInstance.rptImplPolicy",
+        "RptComponent.rpImplPolicy",
+        "RptContainer.rptImplPolicy",
+        "RptExecutable"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the code preparation for rapid prototyping at data accesses.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 202,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 854,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rptEnablerImpl": {
+          "type": "RptEnablerImplType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "For Level 2 or Level3 this property determines how the RTE implements the additional \"RP enabler\" flag."
+        },
+        "rptPreparation": {
+          "type": "RptPreparationEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mandates RP preparation level for access to VariableData within generated RTE implementation."
+        }
+      }
+    },
+    {
+      "name": "RptExecutableEntityProperties",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RptContainer.rptExecutableEntityProperties",
+        "RptExecutableEntityEvent.rptExecutableEntityProperties"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the code preparation for rapid prototyping at ExecutableEntity invocation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 203,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 859,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxRptEventId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Highest RPT event id usable for RTE generated service attribute is relevant, if dedicated id range applied to the ExecutableEntitys of a software specific ExecutableEntitys."
+        },
+        "minRptEventId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Lowest RPT event id usable for RTE generated service attribute is relevant, if dedicated id range applied to the ExecutableEntitys of a software specific ExecutableEntitys."
+        },
+        "rptExecution": {
+          "type": "RptExecutionControl",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the rapid prototyping control of the executable"
+        },
+        "rptServicePoint": {
+          "type": "RptServicePointEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables generation of service points by the RTE"
+        }
+      }
+    },
+    {
+      "name": "RapidPrototypingScenario",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to describe a Rapid Prototyping Scenario. Such a Rapid Prototyping Scenario consist out of two main aspects, the description of the byPassPoints and the relation to an rpt Hook.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 327,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 846,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hostSystem": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "System which describes the software components of the"
+        },
+        "rptContainer": {
+          "type": "RptContainer",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Top-level rptContainer definitions of this specific rapid atpVariation"
+        },
+        "rptProfile": {
+          "type": "RptProfile",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defiens the applicable Rapid Prototyping profils which are the smbol of the service functions and id range. The order of the RptProfiles determines of the service function invocation by RTE."
+        },
+        "rptSystem": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "System which describes the rapid prototyping algorithm in of AUTOSAR Software Components."
+        }
+      }
+    },
+    {
+      "name": "IdentCaption",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "ModeAccessPointIdent",
+        "ExternalTriggeringPointIdent",
+        "DiagnosticParameterIdent",
+        "BswServiceDependencyIdent"
+      ],
+      "subclasses": [
+        "BswServiceDependencyIdent",
+        "DiagnosticParameterIdent",
+        "ExternalTriggeringPointIdent",
+        "ModeAccess"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the caption. This allows having some meta-classes optionally identifiable.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 317,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 851,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RptContainer",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RapidPrototypingScenario.rptContainer",
+        "RptContainer.rptContainer"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines a byPassPoint and the relation to a rptHook. Additionally it may contain further rptContainers if the byPassPoint is not atomic. For example a byPass Point referencing to a RunnableEntity may contain rptContainers referring to the data access points of the RunnableEntity. The RptContainer structure on M1 shall follow the M1 structure of the Software Component Descriptions. The category attribute denotes which level of the Software Component Description is annotated.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 847,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "byPassPoint": {
+          "type": "AtpFeature",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "At a byPassPoint the host ECU shall be communicate with a RPT System in order to execution of the rapid prototyping algorithms original data calculated by the host system and to results of the host system by the the rapid prototyping algorithm. atpVariation by: AnyInstanceRef"
+        },
+        "explicitRpt": {
+          "type": "RptProfile",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This attribute defines the applicable RptProfiles for the RptContainer. If not any references to a specific defined, all RptProfiles defined in the Rapid applicable."
+        },
+        "rptContainer": {
+          "type": "RptContainer",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Sub-level rptContainer definitions of this specific rapid atpVariation"
+        },
+        "rptExecutable": {
+          "type": "RptExecutableEntity",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the required code preparation for rapid prototyping at ExecutableEntity invocation."
+        },
+        "rptHook": {
+          "type": "RptHook",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The rptHook describes the link between a byPassPoint rapid prototyping algorithm. atpVariation"
+        },
+        "rptImplPolicy": {
+          "type": "RptImplPolicy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the required code preparation for rapid data accesses."
+        },
+        "rptSw": {
+          "type": "RptSwPrototyping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the required accessibility of data and modes by the rapid prototyping tooling."
+        }
+      }
+    },
+    {
+      "name": "RptHook",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RptContainer.rptHook"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provide the ability to describe a rapid prototyping hook. This can either be described by an other AUTOSAR system with the category RPT_SYSTEM or as a non AUTOSAR software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 848,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "codeLabel": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides a code label which is used in the the hook. For example this can be an C or the name of data definition."
+        },
+        "mcdIdentifier": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides an identifier which shall be used in System to display the Rpt Hook."
+        },
+        "rptArHook": {
+          "type": "AtpFeature",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by: AnyInstanceRef"
+        },
+        "sdg": {
+          "type": "Sdg",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property allows to keep special data which is not the standard model. It can be utilized to tool specific data."
+        }
+      }
+    },
+    {
+      "name": "ModeAccessPointIdent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdentCaption",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "IdentCaption",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ModeAccessPoint.ident"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class has been created to introduce the ability to become referenced into the meta-class Mode AccessPoint without breaking backwards compatibility.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 852,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ExternalTriggeringPointIdent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdentCaption",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "IdentCaption",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ExternalTriggeringPoint.ident"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class has been created to introduce the ability to become referenced into the meta-class ExternalTriggeringPoint without breaking backwards compatibility.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 852,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RptProfile",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RapidPrototypingScenario.rptProfile"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The RptProfile describes the common properties of a Rapid Prototyping method.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 853,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxService": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Highest service point id useable for RTE generated points."
+        },
+        "minServicePoint": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Lowest service point id useable for RTE generated points."
+        },
+        "servicePoint": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Complete symbol of the function implementing the pre point. This symbol is used for post-build hooking 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "stimEnabler": {
+          "type": "RptEnablerImplType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if the service points support the stimulation If RptProfile.stimEnabler is \"none\" then no is passed to the service function. stimulation enabler will be passed as a"
+        }
+      }
+    }
+  ]
+}

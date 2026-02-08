@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "CanTopology",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Can_CanTopology.json"
+    },
+    {
+      "name": "CanCommunication",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Can_CanCommunication.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

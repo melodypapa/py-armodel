@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "LinTopology",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Lin_LinTopology.json"
+    },
+    {
+      "name": "LinCommunication",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Lin_LinCommunication.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

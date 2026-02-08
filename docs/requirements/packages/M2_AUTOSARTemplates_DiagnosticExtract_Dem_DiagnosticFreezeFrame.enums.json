@@ -1,0 +1,35 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticFreezeFrame",
+  "enumerations": [
+    {
+      "name": "DiagnosticRecordTriggerEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticFreezeFrame",
+      "note": "Triggers to allocate an event memory entry. Aggregated by DiagnosticExtendedDataRecord.trigger, DiagnosticFreezeFrame.trigger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 191,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "confirmed",
+          "index": 3,
+          "description": "capture on \"Confirmed\" custom implement custom capture fdcThreshold capture on \"FDC Threshold\" pending capture on \"Pending\" testFailed capture on \"Test Failed\"<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "testFailedThisOperationCycle",
+          "index": 5,
+          "description": "Test Failed This Operation Cycle.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "testPassed",
+          "index": 6,
+          "description": "Capture on testFailed bit transition 1 –> 0.<br>Tags: atp.EnumerationLiteralIndex=6"
+        }
+      ]
+    }
+  ]
+}

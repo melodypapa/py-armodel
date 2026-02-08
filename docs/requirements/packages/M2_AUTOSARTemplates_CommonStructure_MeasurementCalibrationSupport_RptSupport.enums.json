@@ -1,0 +1,159 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+  "enumerations": [
+    {
+      "name": "RptEnablerImplTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "note": "Describes the required / implemented usage of enabler flags for data access in the code. Aggregated by RptImplPolicy.rptEnablerImplType, RptProfile.stimEnabler",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 202,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 855,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "none",
+          "index": 0,
+          "description": "No \"RP enabler\" is implemented.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "rptEnablerRam",
+          "index": 1,
+          "description": "\"RP enabler\" is implemented as a RAM variable<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "rptEnablerRamAndRom",
+          "index": 3,
+          "description": "The RTE generator implements both the RAM and ROM \"RP enabler\".<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "rptEnablerRom",
+          "index": 2,
+          "description": "\"RP enabler\" is implemented as a calibrateable ROM variable.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "RptPreparationEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "note": "Determines the RP preparation level for access to VariableDataPrototypes within the generated RTE implementation. Aggregated by RptImplPolicy.rptPreparationLevel",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 203,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 855,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "none",
+          "index": 0,
+          "description": "No RP preparation for VariableDataPrototype.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "rptLevel1",
+          "index": 1,
+          "description": "The RTE implementation uses an \"RP global buffer\" for measurement and post-build hooking<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "rptLevel2",
+          "index": 2,
+          "description": "As rpLevel1 but the RTE implementation also uses both \"RP enabler flag\" to permit RP overwrite at<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "rptLevel3",
+          "index": null,
+          "description": "As rpLevel2 but the RTE implementation also uses \"RP global measurement buffer\" to record the"
+        },
+        {
+          "name": "original",
+          "index": 3,
+          "description": "ECU-generated value in addition to the RP value.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "RptExecutionControlEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "note": "Determines rapid prototyping preparation of an ExecutableEntity. Aggregated by RptExecutableEntityProperties.rptExecutionControl",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 203,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 859,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "conditional",
+          "index": 0,
+          "description": "The ExecutableEntity is only executed when the rapid prototyping disable flag is NOT set.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "The ExecutableEntity is executed without specific rapid prototyping condition.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "RptAccessEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "note": "Determines the access rights to a data object with respect to rapid prototyping. Aggregated by RptSwPrototypingAccess.rptHookAccess, RptSwPrototypingAccess.rptReadAccess, RptSw PrototypingAccess.rptWriteAccess",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 857,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "enabled",
+          "index": 0,
+          "description": "The related data element is accessible by RP tool.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "The related data element is not accessible by RP tool.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "protected",
+          "index": 2,
+          "description": "The data element is known to the RP tool however its usage for RP can be restricted. Use case: limitation based on access rights<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

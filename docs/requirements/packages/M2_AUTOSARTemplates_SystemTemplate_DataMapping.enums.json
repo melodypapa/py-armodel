@@ -1,0 +1,60 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+  "enumerations": [
+    {
+      "name": "DataTypePolicyEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "note": "This class lists the supported DataTypePolicies. Aggregated by ISignal.dataTypePolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ddsService",
+          "index": 6,
+          "description": "This literal indicates that this ISignal is used to transport a message as part of a service for Dds.<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "ddsSignal",
+          "index": 5,
+          "description": "This literal indicates that this ISignal is used to transport a signal based signal for Dds.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "legacy",
+          "index": 0,
+          "description": "In case the System Description doesn’t use a complete Software Component Description (VFB View) this value can be chosen. This supports the inclusion of legacy signals. The aggregation of SwDataDefProps shall be used to configure the \"ComSignalDataInvalidValue\" and the Data Semantics.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "network",
+          "index": null,
+          "description": "Ignore any networkRepresentationProps of this ISignal and use the networkRepresentation from the"
+        },
+        {
+          "name": "Representation",
+          "index": null,
+          "description": "ComSpec."
+        },
+        {
+          "name": "FromComSpec",
+          "index": 1,
+          "description": "Please note that the usage does not imply the existence of the SwDataDefProps in the role network Representation aggregated by the SenderComSpec or ReceiverComSpec if an ImplementationData Type is defined.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "override",
+          "index": 2,
+          "description": "If this value is chosen the requirements specified in the ComSpec (networkRepresentationFromCom specified by the aggregated swDataDefProps.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "transformingISignal",
+          "index": 4,
+          "description": "This literal indicates that a transformer chain shall be used to communicate the ISignal as UINT8_N over the bus.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    }
+  ]
+}

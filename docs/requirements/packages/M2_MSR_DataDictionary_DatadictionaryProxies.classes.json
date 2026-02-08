@@ -1,0 +1,93 @@
+{
+  "package": "M2::MSR::DataDictionary::DatadictionaryProxies",
+  "classes": [
+    {
+      "name": "SwCalprmRefProxy",
+      "package": "M2::MSR::DataDictionary::DatadictionaryProxies",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwAxisGrouped.swCalprmRef",
+        "SwDataDependencyArgs.swCalprmRef"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Wrapper class for different kinds of references to a calibration parameter.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 370,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arParameter": {
+          "type": "AutosarParameterRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents a Parameter within AUTOSAR. Note that of the referenced ParameterDataPrototype an ApplicationDataType of category VALUE."
+        },
+        "mcDataInstance": {
+          "type": "McDataInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference is used in the McSupport file to express instance of group axis etc. It is not allowed to use of an McDataInstance. mcDataInstance shall be originated from"
+        }
+      }
+    },
+    {
+      "name": "SwVariableRefProxy",
+      "package": "M2::MSR::DataDictionary::DatadictionaryProxies",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwAxisIndividual.swVariableRef",
+        "SwDataDefProps.swComparisonVariable",
+        "SwDataDefProps.swHostVariable",
+        "SwDataDependencyArgs.swVariable"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Proxy class for several kinds of references to a variable.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 370,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "autosarVariable": {
+          "type": "AutosarVariableRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents the reference to a Variable in an Autosar that the target of the reference within be typed by a primitive data type"
+        },
+        "mcDataInstance": {
+          "type": "McDataInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference is used in the McSupport file to express final instance of input values etc. It is not allowed to outside of an McDataInstance. mcDataInstance shall be originated from"
+        }
+      }
+    }
+  ]
+}

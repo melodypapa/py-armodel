@@ -1,0 +1,85 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+  "enumerations": [
+    {
+      "name": "DltDefaultTraceStateEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+      "note": "This enumeration defines the supported values for the Dlt default trace state. Aggregated by DltLogChannel.defaultTraceState",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 723,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "DefaultTraceStateDisabled",
+          "index": 1,
+          "description": "The default trace state is disabled<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "DefaultTraceStateEnabled",
+          "index": 0,
+          "description": "The default trace state is enabled<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "LogTraceDefaultLogLevelEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+      "note": "This enum defines available log&trace log levels that may be used to define the severity level of a log message. Aggregated by DltLogChannel.logTraceDefaultLogThreshold, DltLogSink.defaultLogThreshold",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 723,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "debug",
+          "index": 4,
+          "description": "Detailed information for programmers<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "error",
+          "index": 1,
+          "description": "Error with impact to correct functionality<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "fatal",
+          "index": 0,
+          "description": "Fatal error<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "info",
+          "index": 6,
+          "description": "High level information off logging is turned off<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "verbose",
+          "index": 5,
+          "description": "Verbose debug message<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "warn",
+          "index": 2,
+          "description": "Warning if correct behavior cannot be ensured<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

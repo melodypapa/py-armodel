@@ -6,7 +6,59 @@ This module handles generation of Python class code from AUTOSAR requirements.
 """
 
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
+
+# =============================================================================
+# AUTOSAR Primitive Types Mapping
+# =============================================================================
+# These are the actual importable AUTOSAR primitive type classes from V1 PrimitiveTypes.py
+AUTOSAR_PRIMITIVE_TYPES = {
+    'Identifier',
+    'String',
+    'NameToken',
+    'Boolean',
+    'Float',
+    'Integer',
+    'PositiveInteger',
+    'RefType',
+}
+
+AUTOSAR_TO_PYTHON_TYPES = {
+    'Identifier': 'str',
+    'String': 'str',
+    'NameToken': 'str',
+    'Boolean': 'bool',
+    'Float': 'float',
+    'Integer': 'int',
+    'PositiveInteger': 'str',  # PositiveInteger is special, keep as str
+    'RefType': 'str',
+}
+
+
+def _is_autosar_primitive_type(attr_type: str) -> bool:
+    """Check if a type is an AUTOSAR primitive type.
+
+    Args:
+        attr_type: Type name to check
+
+    Returns:
+        True if it's an AUTOSAR primitive type, False otherwise
+    """
+    return attr_type in AUTOSAR_PRIMITIVE_TYPES
+
+
+def _get_python_equivalent_type(autosar_type: str) -> Tuple[bool, str]:
+    """Get the Python equivalent type for an AUTOSAR primitive type.
+
+    Args:
+        autosar_type: AUTOSAR type name
+
+    Returns:
+        Tuple of (is_autosar_primitive, python_type_name)
+    """
+    if autosar_type in AUTOSAR_TO_PYTHON_TYPES:
+        return (True, AUTOSAR_TO_PYTHON_TYPES[autosar_type])
+    return (False, autosar_type)
 
 
 def _is_container_class(class_name: str, parent: str, attributes: Dict[str, Any]) -> bool:
@@ -360,6 +412,9 @@ def _generate_attribute_initialization(
         attr_note = attr_info.get('note', '')
         original_type = attr_info.get('original_type')
 
+        # Keep AUTOSAR primitive types as-is (ShortName, Identifier, String, etc.)
+        # These are AUTOSAR primitive types and should not be mapped to Python types
+
         # Use string annotation (forward reference) for self-referencing types
         is_self_reference = (attr_type == class_name)
 
@@ -386,7 +441,8 @@ def _generate_attribute_initialization(
             if is_ref:
                 py_type = 'List[RefType]'
             else:
-                py_type = f'List["{class_name}"]' if is_self_reference else f'List[{attr_type}]'
+                # Use direct class type instead of string annotation
+                py_type = f'List[{class_name}]' if is_self_reference else f'List[{attr_type}]'
 
             if attr_note:
                 attr_code.append(f'        {_format_attr_comment(attr_note)}')
@@ -396,7 +452,9 @@ def _generate_attribute_initialization(
             if is_ref:
                 py_type = 'RefType'
             else:
-                py_type = f'Optional["{class_name}"]' if is_self_reference else f'Optional[{attr_type}]'
+                # Use direct class type instead of string annotation
+                from typing import Optional
+                py_type = f'Optional[{class_name}]' if is_self_reference else f'Optional[{attr_type}]'
 
             if attr_note:
                 attr_code.append(f'        {_format_attr_comment(attr_note)}')
@@ -406,7 +464,8 @@ def _generate_attribute_initialization(
             if is_ref:
                 py_type = 'RefType'
             else:
-                py_type = f'"{class_name}"' if is_self_reference else attr_type
+                # Use direct class type instead of string annotation
+                py_type = class_name if is_self_reference else attr_type
 
             if attr_note:
                 attr_code.append(f'        {_format_attr_comment(attr_note)}')
@@ -442,12 +501,14 @@ def _generate_getter_method(
         if is_ref:
             return_type = 'List[RefType]'
         else:
-            return_type = f'List["{class_name}"]' if is_self_reference else f'List[{actual_type}]'
+            # Use direct class type
+            return_type = f'List[{class_name}]' if is_self_reference else f'List[{actual_type}]'
     else:
         if is_ref:
             return_type = 'RefType'
         else:
-            return_type = f'"{class_name}"' if is_self_reference else actual_type
+            # Use direct class type
+            return_type = class_name if is_self_reference else actual_type
 
     return f'''    def get{py_attr_name[0].upper()}{py_attr_name[1:]}(self) -> {return_type}:
         return self.{py_attr_name}
@@ -480,12 +541,14 @@ def _generate_setter_method(
         if is_ref:
             param_type = 'List[RefType]'
         else:
-            param_type = f'List["{class_name}"]' if is_self_reference else f'List[{actual_type}]'
+            # Use direct class type for parameter (will be imported)
+            param_type = f'List[{class_name}]' if is_self_reference else f'List[{actual_type}]'
     else:
         if is_ref:
             param_type = 'RefType'
         else:
-            param_type = f'"{class_name}"' if is_self_reference else actual_type
+            # Use direct class type for parameter
+            param_type = class_name if is_self_reference else actual_type
 
     return f'''    def set{py_attr_name[0].upper()}{py_attr_name[1:]}(self, value: {param_type}) -> "{class_name}":
         self.{py_attr_name} = value
@@ -719,6 +782,9 @@ def _generate_property_based_attributes(
         is_ref = attr_info.get('is_ref', False)
         attr_note = attr_info.get('note', '')
 
+        # Keep AUTOSAR primitive types as-is (ShortName, Identifier, String, etc.)
+        # These are AUTOSAR primitive types and should not be mapped to Python types
+
         # Private attribute name (original AUTOSAR naming)
         private_attr = f"_{attr_name}"
 
@@ -726,15 +792,24 @@ def _generate_property_based_attributes(
         py_prop_name = _camel_to_snake(attr_name)
 
         # Determine type annotation
-        # Use string annotations for all non-ref types to avoid import issues
-        if use_string_annotations and attr_type != 'Any' and not is_ref:
-            # Wrap entire type in quotes for non-ref types: e.g., "String" or Optional["String"]
+        # Use string annotations for ALL types to avoid import issues (CODING_RULE_V2_00002)
+        if use_string_annotations and attr_type != 'Any':
+            # Wrap entire type in quotes: e.g., "String" or Optional["String"]
             if multiplicity == '*':
-                py_type = f'List["{attr_type}"]'
+                if is_ref:
+                    py_type = 'List["RefType"]'
+                else:
+                    py_type = f'List["{attr_type}"]'
             elif multiplicity == '0..1':
-                py_type = f'Optional["{attr_type}"]'
+                if is_ref:
+                    py_type = 'Optional["RefType"]'
+                else:
+                    py_type = f'Optional["{attr_type}"]'
             else:
-                py_type = f'"{attr_type}"'
+                if is_ref:
+                    py_type = '"RefType"'
+                else:
+                    py_type = f'"{attr_type}"'
         else:
             # Normal type annotations
             if multiplicity == '*':
@@ -798,20 +873,40 @@ def _generate_property_based_attributes(
                     # RefType or Any - minimal validation
                     attr_code.append(f'        self.{private_attr} = value')
                 else:
-                    attr_code.append(f'        if not isinstance(value, {attr_type}):')
-                    attr_code.append('            raise TypeError(')
-                    attr_code.append(f'                f"{attr_name} must be {attr_type} or None, got {{type(value).__name__}}"')
-                    attr_code.append('            )')
+                    # Check if it's an AUTOSAR primitive type
+                    is_autosar_prim, python_equivalent = _get_python_equivalent_type(attr_type)
+                    if is_autosar_prim:
+                        # Accept both AUTOSAR primitive type and Python equivalent
+                        attr_code.append(f'        if not isinstance(value, ({attr_type}, {python_equivalent})):')
+                        attr_code.append('            raise TypeError(')
+                        attr_code.append(f'                f"{attr_name} must be {attr_type} or {python_equivalent} or None, got {{type(value).__name__}}"')
+                        attr_code.append('            )')
+                    else:
+                        # Normal type validation
+                        attr_code.append(f'        if not isinstance(value, {attr_type}):')
+                        attr_code.append('            raise TypeError(')
+                        attr_code.append(f'                f"{attr_name} must be {attr_type} or None, got {{type(value).__name__}}"')
+                        attr_code.append('            )')
                     attr_code.append(f'        self.{private_attr} = value')
             else:
                 # Required attribute
                 if is_ref or attr_type == 'Any':
                     attr_code.append(f'        self.{private_attr} = value')
                 else:
-                    attr_code.append(f'        if not isinstance(value, {attr_type}):')
-                    attr_code.append('            raise TypeError(')
-                    attr_code.append(f'                f"{attr_name} must be {attr_type}, got {{type(value).__name__}}"')
-                    attr_code.append('            )')
+                    # Check if it's an AUTOSAR primitive type
+                    is_autosar_prim, python_equivalent = _get_python_equivalent_type(attr_type)
+                    if is_autosar_prim:
+                        # Accept both AUTOSAR primitive type and Python equivalent
+                        attr_code.append(f'        if not isinstance(value, ({attr_type}, {python_equivalent})):')
+                        attr_code.append('            raise TypeError(')
+                        attr_code.append(f'                f"{attr_name} must be {attr_type} or {python_equivalent}, got {{type(value).__name__}}"')
+                        attr_code.append('            )')
+                    else:
+                        # Normal type validation
+                        attr_code.append(f'        if not isinstance(value, {attr_type}):')
+                        attr_code.append('            raise TypeError(')
+                        attr_code.append(f'                f"{attr_name} must be {attr_type}, got {{type(value).__name__}}"')
+                        attr_code.append('            )')
                     attr_code.append(f'        self.{private_attr} = value')
 
     return attr_code
@@ -849,17 +944,26 @@ def _generate_property_based_methods(
         multiplicity = attr_info.get('multiplicity', '1')
         is_ref = attr_info.get('is_ref', False)
 
+        # Keep AUTOSAR primitive types as-is (ShortName, Identifier, String, etc.)
+        # These are AUTOSAR primitive types and should not be mapped to Python types
+
         # Pythonic property name (snake_case)
         py_prop_name = _camel_to_snake(attr_name)
 
         # Determine return type
-        # Use string annotations for all non-ref types to avoid import issues
-        if use_string_annotations and attr_type != 'Any' and not is_ref:
-            # Wrap entire type in quotes for non-ref types: e.g., "String" or List["String"]
+        # Use string annotations for ALL types to avoid import issues (CODING_RULE_V2_00002)
+        if use_string_annotations and attr_type != 'Any':
+            # Wrap entire type in quotes: e.g., "String" or List["String"]
             if multiplicity == '*':
-                return_type = f'List["{attr_type}"]'
+                if is_ref:
+                    return_type = 'List["RefType"]'
+                else:
+                    return_type = f'List["{attr_type}"]'
             else:
-                return_type = f'"{attr_type}"'
+                if is_ref:
+                    return_type = '"RefType"'
+                else:
+                    return_type = f'"{attr_type}"'
         else:
             # Normal type annotations
             if multiplicity == '*':
@@ -918,6 +1022,9 @@ def _generate_property_based_methods(
         attr_type = attr_info.get('type', 'Any')
         multiplicity = attr_info.get('multiplicity', '1')
         is_ref = attr_info.get('is_ref', False)
+
+        # Keep AUTOSAR primitive types as-is (ShortName, Identifier, String, etc.)
+        # These are AUTOSAR primitive types and should not be mapped to Python types
 
         # Skip list attributes for with_ methods
         if multiplicity == '*':

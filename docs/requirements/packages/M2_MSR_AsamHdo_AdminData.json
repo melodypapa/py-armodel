@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::AsamHdo::AdminData",
+  "path": "M2::MSR::AsamHdo::AdminData",
+  "files": {
+    "classes": "packages/M2_MSR_AsamHdo_AdminData.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

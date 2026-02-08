@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_SoftwareCluster_BinaryManifest.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 12,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

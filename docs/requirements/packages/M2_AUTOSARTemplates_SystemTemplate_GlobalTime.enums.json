@@ -1,0 +1,125 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+  "enumerations": [
+    {
+      "name": "GlobalTimeCrcSupportEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "note": "This enumeration is used to define whether and how CRC on the TX side shall be utilized. Aggregated by GlobalTimeCanMaster.crcSecured, GlobalTimeEthMaster.crcSecured, GlobalTimeFrMaster.crc Secured",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 880,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "crcNotSupported",
+          "index": 0,
+          "description": "This indicates that CRC is not supported<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "crcSupported",
+          "index": 1,
+          "description": "This indicates that CRC is supported<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "GlobalTimeCrcValidationEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "note": "This enumeration provides values for the evaluation of the CRC Aggregated by GlobalTimeCanSlave.crcValidated, GlobalTimeEthSlave.crcValidated, GlobalTimeFrSlave.crc Validated",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 880,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "crcIgnored",
+          "index": 0,
+          "description": "The CRC is supposed to be ignored<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "crcNotValidated",
+          "index": 1,
+          "description": "The CRC is not supposed to be present. If CRC is present the message is ignored.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "crcOptional",
+          "index": 3,
+          "description": "Either the CRC is present and then shall be validated or the CRC is not present and no CRC check is<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "crcValidated",
+          "index": 2,
+          "description": "This CRC is supposed to be validated.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "GlobalTimeIcvSupportEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "note": "Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate Aggregated by GlobalTimeMaster.icvSecured",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 880,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "icvNotSupported",
+          "index": 1,
+          "description": "The ICV is not supported<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "icvSupported",
+          "index": 0,
+          "description": "The ICV is supported<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "GlobalTimeIcvVerificationEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "note": "This enumeration is used to define how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate Aggregated by GlobalTimeSlave.icvVerification",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 881,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "icvIgnored",
+          "index": 2,
+          "description": "If the ICV is present, then it is ignored<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "icvNotVerified",
+          "index": 1,
+          "description": "The ICV is not supposed to be present. If the ICV is present, then the message is ignored.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "icvOptional",
+          "index": 3,
+          "description": "If the ICV is present, then it will be verified. If the ICV is not present, then this is also a valid reception<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "icvVerified",
+          "index": 0,
+          "description": "The ICV is required and will be verified.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

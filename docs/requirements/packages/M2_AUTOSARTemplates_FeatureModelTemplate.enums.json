@@ -1,0 +1,35 @@
+{
+  "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+  "enumerations": [
+    {
+      "name": "FMFeatureSelectionState",
+      "package": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "note": "Defines how a particular FMFeature contributes to a FMFSelectionSet. Aggregated by FMFeatureSelection.state",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 41,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "deselected",
+          "index": 0,
+          "description": "The feature is excluded from the selection.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "selected",
+          "index": 1,
+          "description": "The feature is included in the selection.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "undecided",
+          "index": 2,
+          "description": "It is not yet decided whether the feature shall be included into or excluded from the selection.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

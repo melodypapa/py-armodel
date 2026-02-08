@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+  "path": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_ServiceNeeds.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_CommonStructure_ServiceNeeds.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 71,
+    "enumeration_count": 18,
+    "primitive_count": 0
+  }
+}

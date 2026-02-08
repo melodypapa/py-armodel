@@ -1,0 +1,19 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+  "path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_MeasurementCalibrationSupport.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "RptSupport",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_MeasurementCalibrationSupport_RptSupport.json"
+    }
+  ],
+  "summary": {
+    "class_count": 8,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

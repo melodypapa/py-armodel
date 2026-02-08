@@ -1,0 +1,682 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate",
+  "classes": [
+    {
+      "name": "System",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element",
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "The top level element of the System Description. The System description defines five major elements: Topology, Software, Communication, Mapping and Mapping Constraints. The System element directly aggregates the elements describing the Software, Mapping and Mapping Constraints; it contains a reference to an ASAM FIBEX description specifying Communication and Topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 349,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 331,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1007,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 40,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 249,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 17,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 476,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clientId": {
+          "type": "ClientIdDefinitionSet",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Set of Client Identifiers that are used for inter-ECU communication in the System."
+        },
+        "containerIPdu": {
+          "type": "ByteOrderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the byteOrder of the header in ContainerIPdus."
+        },
+        "ecuExtractVersion": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version number of the Ecu Extract."
+        },
+        "fibexElement": {
+          "type": "FibexElement",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to ASAM FIBEX elements specifying Topology. Elements used within a System Description shall from the System Element. order to describe a product-line, all Fibex be optional. atpVariation"
+        },
+        "interpolation": {
+          "type": "InterpolationRoutine",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the InterpolationRoutineMapping Sets that are relevant in the context of the enclosing"
+        },
+        "j1939Shared": {
+          "type": "J1939SharedAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of J1939Clusters that share a common address space for the routing of messages. atpVariation"
+        },
+        "mapping": {
+          "type": "SystemMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Aggregation of all mapping aspects (mapping of SW ECUs, mapping of data elements to mapping constraints). to support OEM / Tier 1 interaction and shared one common System this aggregation is atpVariation. The content of System be provided by several parties using for the SystemMapping. is not required when the System description for a network-only use-case. atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "pncVector": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of the partial networking request release vector (in bytes)."
+        },
+        "pncVectorOffset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Absolute offset (with respect to the NM-PDU) of the request release information vector that in bytes as an index starting with 0."
+        },
+        "rootSoftware": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Aggregation of the root software composition, containing all software components in the System in a hierarchical element is not required when the System used for a network-only use-case. RootSwCompositionPrototype can vary. atpVariation"
+        },
+        "swCluster": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "CP Software Clusters of this System atpVariation"
+        },
+        "system": {
+          "type": "Chapter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Possibility to provide additional documentation while the System. The System documentation can be several chapters. atpVariation"
+        },
+        "systemVersion": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version number of the System Description."
+        }
+      }
+    },
+    {
+      "name": "RootSwCompositionPrototype",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "System.rootSoftwareComposition"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "The RootSwCompositionPrototype represents the top-level-composition of software components within a given System. According to the use case of the System, this may for example be a more or less complete VFB description, the software of a System Extract or the software of a flat ECU Extract with only atomic SWCs. Therefore the RootSwComposition will only occasionally contain all atomic software components that are used in a complete VFB System. The OEM is primarily interested in the required functionality and the interfaces defining the integration of the Software Component into the System. The internal structure of such a component contains often substantial intellectual property of a supplier. Therefore a top-level software composition will often contain empty compositions which represent subsystems. The contained SwComponentPrototypes are fully specified by their SwComponentTypes (including Port Prototypes, PortInterfaces, VariableDataPrototypes, SwcInternalBehavior etc.), and their ports are interconnected using SwConnectorPrototypes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1003,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 186,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 240,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 18,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "calibration": {
+          "type": "CalibrationParameter",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Used CalibrationParameterValueSet for instance specific initialization of calibration parameters. atpSplitable"
+        },
+        "flatMap": {
+          "type": "FlatMap",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The FlatMap used in the scope of this RootSw"
+        },
+        "software": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "that includes all Component instances of the system."
+        }
+      }
+    },
+    {
+      "name": "ClientIdDefinitionSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Set of Client Identifiers that are used for inter-ECU client-server communication in the System.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 44,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clientId": {
+          "type": "ClientIdDefinition",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a Client Identifier that will be used by the in a inter-ECU client-server communication. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "ClientIdDefinition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientIdDefinitionSet.clientIdDefinition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Several clients in one client-ECU can communicate via inter-ECU client-server communication with a server on a different ECU, if a client identifier is used to distinguish the different clients. The Client Identifier of the transaction handle that is used by the RTE can be defined by this element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 45,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clientId": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The Client Identifier of the transaction handle used for an server communication is defined by this defined the RTE generator shall use this client"
+        },
+        "clientServerInstanceRef": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "client. by: OperationInSystem"
+        }
+      }
+    },
+    {
+      "name": "SystemMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "System.mapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The system mapping aggregates all mapping aspects (mapping of SW components to ECUs, mapping of data elements to signals, and mapping constraints).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 190,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationPartitionTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mapping of ApplicationPartitions to EcuPartitions Stereotypes: atpSplitable; atpVariation Partition Tags: Mapping atp.Splitkey=applicationPartitionToEcuPartition"
+        },
+        "appOsTask": {
+          "type": "AppOsTaskProxyToEcu",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mapping of an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was in the context of an Ecu."
+        },
+        "com": {
+          "type": "ComManagement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mappings between Mode Management PortGroups and communication channels. atpSplitable; atpVariation"
+        },
+        "cryptoService": {
+          "type": "CryptoServiceMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This aggregation represents the collection of crypto mappings in the context of the enclosing System atpVariation"
+        },
+        "dataMapping": {
+          "type": "DataMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The data mappings defined. atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "ddsISignalTo": {
+          "type": "DdsCpISignalToDds",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of DdsISignalToDdsTopicMappings. Stereotypes: atpSplitable; atpVariation"
+        },
+        "ecuResource": {
+          "type": "ECUMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Mapping of hardware related topology elements onto their definitions in the ECU Resource Template. ECU Resource type might be variable. atpVariation"
+        },
+        "j1939Controller": {
+          "type": "J1939Controller",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mapping of a J1939ControllerApplication to a J1939Nm Node."
+        },
+        "mapping": {
+          "type": "MappingConstraint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Constraints that limit the mapping freedom for the of SW components to ECUs. atpVariation"
+        },
+        "pncMapping": {
+          "type": "PncMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Mappings between Virtual Function Clusters and Partial atpVariation"
+        },
+        "portElementTo": {
+          "type": "PortElementTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "maps a communication resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Mapping ResourceMapping Tags:"
+        },
+        "resource": {
+          "type": "EcuResourceEstimation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Resource estimations for this set of mappings, zero or per ECU instance. ECUs are variable. atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "resourceTo": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maps a Software Cluster resource to an Application Partition to restrict the usage. Stereotypes: atpSplitable; atpVariation Mapping Tags:"
+        },
+        "rteEvent": {
+          "type": "RteEventInSystem",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Separation constraint that limits the mapping freedom for the mapping of RteEvents to OsTasks in the System"
+        },
+        "rteEventToOs": {
+          "type": "RteEventInSystemToOs",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Constraint that enforces a mapping of RteEvent to a particular OsTask in the System context."
+        },
+        "signalPath": {
+          "type": "SignalPathConstraint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Constraints that limit the mapping freedom for the of data elements to signals. atpVariation"
+        },
+        "softwareCluster": {
+          "type": "CpSoftwareClusterTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "maps a service resource to CP Software Clusters Stereotypes: atpSplitable; atpVariation Mapping Tags:"
+        },
+        "swCluster": {
+          "type": "CpSoftwareClusterTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The mappings of SW cluster to ECUs. Stereotypes: atpSplitable; atpVariation"
+        },
+        "swcTo": {
+          "type": "SwcToApplication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the EcuInstance is not yet known or defined. atpSplitable; atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "swImplMapping": {
+          "type": "SwcToImplMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The mappings of AtomicSoftwareComponent Instances to because SwcToEcuMapping is atpVariation"
+        },
+        "swMapping": {
+          "type": "SwcToEcuMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The mappings of SW components to ECUs. shall be mapped to other ECUs. atpVariation"
+        },
+        "systemSignal": {
+          "type": "SystemSignalGroupTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Mapping of a communication resource to a SystemSignal Group. Stereotypes: atpSplitable; atpVariation Mapping Tags:"
+        },
+        "systemSignalTo": {
+          "type": "SystemSignalTo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mapping of a communication resource to a SystemSignal. Stereotypes: atpSplitable; atpVariation Mapping ResourceMapping Tags:"
+        }
+      }
+    },
+    {
+      "name": "ComManagementMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.comManagementMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes a mapping between one or several Mode Management PortGroups and communication channels.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 282,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "com": {
+          "type": "PortGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "channel. This reference is optional in that the System Description doesn’t use a complete Description (VFB View). This inclusion of legacy systems. by: PortGroupInSystem"
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference maps the Mode Management PortGroup network to communication channels."
+        }
+      }
+    },
+    {
+      "name": "J1939SharedAddressCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "System.j1939SharedAddressCluster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to identify several J1939Clusters that share a common address space for the routing of messages",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 694,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "participating": {
+          "type": "J1939Cluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This identifies the J1939Clusters that share a common space"
+        }
+      }
+    },
+    {
+      "name": "PortElementToCommunicationResourceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterMappingSet.portElementToComResourceMapping",
+        "SystemMapping.portElementTo"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class maps a communication resource to CP Software Clusters. In this case the kind of Port Prototype specified whether the Software Cluster has to provide or to require the resource.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 905,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clientServerInstanceRef": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "resource by: OperationInSystem"
+        },
+        "communication": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Communication resource for which the mapping applies."
+        },
+        "mode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "communication resource implemented by: ModeDeclarationGroup"
+        },
+        "parameterData": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "communication resource. by: ParameterDataPrototype"
+        },
+        "triggerRef": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: TriggerInSystemInstance"
+        },
+        "variableDataSystemInstanceRef": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "resource by: VariableDataPrototypeIn"
+        }
+      }
+    }
+  ]
+}

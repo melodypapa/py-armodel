@@ -1,0 +1,538 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+  "classes": [
+    {
+      "name": "SwcToEcuMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.swMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used: • to map SwComponentPrototypes to a specific ECU Instance unit, • optionally to map SwComponentPrototypes to a HwElement with category ProcessingUnit, • optionally to map SwComponentPrototypes typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator. For each combination of ECUInstance and the optional ProcessingUnit and the optional SensorActuator only one SwcToEcuMapping shall be used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 197,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "component": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "to the referenced ECUInstance. If the referenced is a composition, this all atomic software components within the mapped to the ECU. is aditionally a mapping of some SwComponent the Composition to another ECU inner mapping overrides the outer mapping. by: ComponentInSystem"
+        },
+        "controlledHw": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional mapping of SwComponentPrototypes that are by SensorActuatorSwComponentType to a Hw category SensorActuator."
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a specific ECU Instance description."
+        },
+        "processingUnit": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional mapping of software components to individual residing in one ECU. A is described in the ECU Resource the HwElement of HwCategory Processing"
+        }
+      }
+    },
+    {
+      "name": "SwcToImplMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.swImplMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Map instances of an AtomicSwComponentType to a specific Implementation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "component": {
+          "type": "SwcImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a specific Implementation description. to be used by the specified SW This allows to achieve more precise the resource consumption that results from instance of an atomic SW component onto"
+        }
+      }
+    },
+    {
+      "name": "SwcToApplicationPartitionMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterMappingSet.swcToApplicationPartitionMapping",
+        "SwComponentMappingConstraints.swcToApplicationPartitionMapping",
+        "SystemMapping.swcToApplicationPartitionMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Allows to map a given SwComponentPrototype to a formally defined partition at a point in time when the corresponding EcuInstance is not yet known or defined.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationPartition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an ApplicationPartition to which a Sw is mapped."
+        },
+        "swComponent": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "mapped to the referenced ApplicationPartition. If the referenced is a composition, this all atomic software components within the mapped to the ApplicationPartition. is additionally a mapping of some SwComponent the Composition to another Application inner mapping overrides the outer mapping. by: ComponentInSystem"
+        }
+      }
+    },
+    {
+      "name": "ApplicationPartition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ApplicationPartition to which SwComponentPrototypes are mapped at a point in time when the corresponding EcuInstance is not yet known or defined. In a later methodology step the Application Partition can be assigned to an EcuPartition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ApplicationPartitionToEcuPartitionMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.applicationPartitionToEcuPartitionMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Maps ApplicationPartitions to EcuPartitions. With this mapping an OEM has the option to predefine an allocation of Software Components to EcuPartitions in the System Design phase. The final and complete assignment is described in the OS Configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 201,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationPartition",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to ApplicationPartitions that are mapped to an"
+        },
+        "ecuPartition": {
+          "type": "EcuPartition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to EcuPartition to which the Application assigned."
+        }
+      }
+    },
+    {
+      "name": "EcuPartition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.partition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Partitions are used as error containment regions. They permit the grouping of SWCs and resources and allow to describe recovery policies individually for each partition. Partitions can be terminated or restarted during run-time as a result of a detected error.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 201,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "execInUser": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A partition can execute either in CPU user mode (execIn = TRUE) or supervisor mode (execInUser FALSE). In user mode, the partition has a limited memory, to memory mapped hardware and to user mode, the partition is mapped to a"
+        }
+      }
+    },
+    {
+      "name": "MappingConstraint",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "ComponentClustering",
+        "ComponentSeparation"
+      ],
+      "subclasses": [
+        "ComponentClustering",
+        "ComponentSeparation"
+      ],
+      "aggregated_by": [
+        "SystemMapping.mappingConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Different constraints that may be used to limit the mapping of SW components to applicable ECUs, Partitions or Cores depending on the mappingScope attribute.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 202,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the"
+        }
+      }
+    },
+    {
+      "name": "ComponentClustering",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "MappingConstraint",
+      "bases": [
+        "ARObject",
+        "MappingConstraint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.mappingConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Constraint that forces the mapping of all referenced SW component instances to the same ECU, Core, Partition depending on the defined mappingScope attribute. If mappingScope is not specified then mappingScopeEcu shall be assumed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 203,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clusteredInstanceRef": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "together. by: ComponentInSystem"
+        },
+        "mappingScope": {
+          "type": "MappingScopeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This attribute indicates whether the ComponentClustering applies to different ECUs, partitions or this attribute is not specified then mappingScope be assumed."
+        }
+      }
+    },
+    {
+      "name": "ComponentSeparation",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "MappingConstraint",
+      "bases": [
+        "ARObject",
+        "MappingConstraint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.mappingConstraint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Constraint that forces the two referenced SW components (called A and B in the following) not to be mapped to the same ECU, Core, Partition depending on the defined mappingScope attribute. If mapping Scope is not specified then mappingScopeEcu shall be assumed. If a SW component (e.g. A) is a composition, none of the atomic SW components making up the A composition shall be mapped together with any of the atomic SW components making up the B composition. Furthermore, A and B shall be disjoint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mappingScope": {
+          "type": "MappingScopeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This attribute indicates whether the Component constraint applies to different ECUs, cores. If this attribute is not specified then be assumed. 0..2 iref The two components that have to be mapped to different ECUs by: ComponentInSystem"
+        }
+      }
+    },
+    {
+      "name": "J1939ControllerApplicationToJ1939NmNodeMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.j1939ControllerApplicationToJ1939NmNodeMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map a J1939ControllerApplication to a J1939NmNode. Note that this is similar but not identical to the mapping of SwComponentPrototypes to EcuInstances; for J1939 the semantics of an EcuInstance itself is basically replaced by a J1939NmNode. (cid:53) 206 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 206,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "j1939Controller": {
+          "type": "J1939Controller",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the J1939 Controller Application that is mapped to the referenced J1939NmNode."
+        },
+        "j1939NmNode": {
+          "type": "J1939NmNode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "J1939NmNode that is the target of the J1939Controller"
+        }
+      }
+    },
+    {
+      "name": "J1939ControllerApplication",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element represents a J1939 controller application.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 207,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "functionId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the numerical function id of the application."
+        },
+        "swComponent": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "typically typed by a CompositionSwComponentType) that the J1939ControllerApplication. by: ComponentInSystem"
+        }
+      }
+    },
+    {
+      "name": "EcuResourceEstimation",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.resourceEstimation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Resource estimations for RTE and BSW of a single ECU instance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 260,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswResource": {
+          "type": "ResourceConsumption",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Estimation for the resource consumption of the basic"
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ECU this estimation is done for."
+        },
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the ecu"
+        },
+        "rteResource": {
+          "type": "ResourceConsumption",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Estimation for the resource consumption of the run time"
+        },
+        "swCompToEcu": {
+          "type": "SwcToEcuMapping",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "References to SwcToEcuMappings that have been taken account for the resource estimations. This way it is define dfferent EcuResourceEstimations with e.g. before and after mapping an component."
+        }
+      }
+    }
+  ]
+}

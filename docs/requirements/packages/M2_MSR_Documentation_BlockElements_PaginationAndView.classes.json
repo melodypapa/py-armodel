@@ -1,0 +1,135 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+  "classes": [
+    {
+      "name": "Paginateable",
+      "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DocumentViewSelectable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable"
+      ],
+      "children": [
+        "MultiLanguageParagraph",
+        "MultiLanguageVerbatim",
+        "StructuredReq",
+        "TraceableText",
+        "MlFormula",
+        "Chapter",
+        "Topic1",
+        "List",
+        "Item",
+        "LabeledList",
+        "LabeledItem",
+        "DefList",
+        "DefItem",
+        "MlFigure",
+        "Note",
+        "Table",
+        "Row",
+        "Prms",
+        "MsrQueryP1",
+        "MsrQueryTopic1",
+        "MsrQueryChapter"
+      ],
+      "subclasses": [
+        "Chapter",
+        "DefItem",
+        "DefList",
+        "Item",
+        "LabeledItem",
+        "LabeledList",
+        "List",
+        "MlFigure",
+        "MlFormula",
+        "MsrQueryChapter",
+        "MsrQueryP1",
+        "MsrQueryTopic1",
+        "MultiLanguageParagraph",
+        "MultiLanguageVerbatim",
+        "Note",
+        "Prms",
+        "Row",
+        "StructuredReq",
+        "Table",
+        "Topic1",
+        "TraceableTable",
+        "TraceableText"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to control the pagination policy when creating documents.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 339,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "break": {
+          "type": "ChapterEnumBreak",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes allows to specify a forced page break."
+        },
+        "keepWith": {
+          "type": "KeepWithPreviousEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute denotes the pagination policy. In particular it if the containing text block shall be kept together previous block."
+        }
+      }
+    },
+    {
+      "name": "DocumentViewSelectable",
+      "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "Paginateable"
+      ],
+      "subclasses": [
+        "Paginateable"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to be dedicated to a particular audience or document view.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 340,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "si": {
+          "type": "NameTokens",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows to denote a semantic information used to identify documentation objects to be customizable document views. It shall be agreement between the involved parties."
+        },
+        "view": {
+          "type": "ViewTokens",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute lists the document views in which the object If it is missing, the object appears in all"
+        }
+      }
+    }
+  ]
+}

@@ -1,8 +1,23 @@
-from typing import Optional
+"""
+AUTOSAR Package - ServiceMapping
 
+Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+    RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceDependency,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+
+
 
 
 class RoleBasedDataTypeAssignment(ARObject):
@@ -12,9 +27,9 @@ class RoleBasedDataTypeAssignment(ARObject):
     the context of an AUTOSAR Service. With this assignment, the role of the
     data type can be mapped to a specific ServiceNeeds element, so that a tool
     is able to create the correct access.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping::RoleBasedDataTypeAssignment
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 227, Classic
       Platform R23-11)
@@ -37,10 +52,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-
+        
         Args:
             value: The role to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,9 +63,9 @@ class RoleBasedDataTypeAssignment(ARObject):
             self._role = None
             return
 
-        if not isinstance(value, Identifier):
+        if not isinstance(value, (Identifier, str)):
             raise TypeError(
-                f"role must be Identifier or None, got {type(value).__name__}"
+                f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
         # This represents the associated ImplementationDataType.
@@ -65,10 +80,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def used(self, value: Optional["ImplementationData"]) -> None:
         """
         Set used with validation.
-
+        
         Args:
             value: The used to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +102,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-
+        
         Returns:
             The role value
-
+        
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -99,13 +114,13 @@ class RoleBasedDataTypeAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedDataTypeAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-
+        
         Args:
             value: The role to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -115,10 +130,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def getUsed(self) -> "ImplementationData":
         """
         AUTOSAR-compliant getter for used.
-
+        
         Returns:
             The used value
-
+        
         Note:
             Delegates to used property (CODING_RULE_V2_00017)
         """
@@ -127,13 +142,13 @@ class RoleBasedDataTypeAssignment(ARObject):
     def setUsed(self, value: "ImplementationData") -> "RoleBasedDataTypeAssignment":
         """
         AUTOSAR-compliant setter for used with method chaining.
-
+        
         Args:
             value: The used to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to used property setter (gets validation automatically)
         """
@@ -145,13 +160,13 @@ class RoleBasedDataTypeAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedDataTypeAssignment":
         """
         Set role and return self for chaining.
-
+        
         Args:
             value: The role to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_role("value")
         """
@@ -161,27 +176,19 @@ class RoleBasedDataTypeAssignment(ARObject):
     def with_used(self, value: Optional["ImplementationData"]) -> "RoleBasedDataTypeAssignment":
         """
         Set used and return self for chaining.
-
+        
         Args:
             value: The used to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_used("value")
         """
         self.used = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class RoleBasedPortAssignment(ARObject):
@@ -191,9 +198,9 @@ class RoleBasedPortAssignment(ARObject):
     assignment, the role of the service port can be mapped to a specific
     ServiceNeeds element, so that a tool is able to create the correct
     connector.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping::RoleBasedPortAssignment
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 329, Classic
       Platform R23-11)
@@ -210,21 +217,21 @@ class RoleBasedPortAssignment(ARObject):
         # Service PortPrototype used in the assigned role.
         # This either belong to the same AtomicSw the SwcInternalBehavior which owns or
                 # to the same NvBlockSw the NvBlockDescriptor.
-        self._portPrototype: RefType = None
+        self._portPrototype: Optional["RefType"] = None
 
     @property
-    def port_prototype(self) -> RefType:
+    def port_prototype(self) -> Optional["RefType"]:
         """Get portPrototype (Pythonic accessor)."""
         return self._portPrototype
 
     @port_prototype.setter
-    def port_prototype(self, value: RefType) -> None:
+    def port_prototype(self, value: Optional["RefType"]) -> None:
         """
         Set portPrototype with validation.
-
+        
         Args:
             value: The portPrototype to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -247,10 +254,10 @@ class RoleBasedPortAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-
+        
         Args:
             value: The role to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -258,36 +265,36 @@ class RoleBasedPortAssignment(ARObject):
             self._role = None
             return
 
-        if not isinstance(value, Identifier):
+        if not isinstance(value, (Identifier, str)):
             raise TypeError(
-                f"role must be Identifier or None, got {type(value).__name__}"
+                f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPortPrototype(self) -> RefType:
+    def getPortPrototype(self) -> "RefType":
         """
         AUTOSAR-compliant getter for portPrototype.
-
+        
         Returns:
             The portPrototype value
-
+        
         Note:
             Delegates to port_prototype property (CODING_RULE_V2_00017)
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: RefType) -> "RoleBasedPortAssignment":
+    def setPortPrototype(self, value: "RefType") -> "RoleBasedPortAssignment":
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
-
+        
         Args:
             value: The portPrototype to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to port_prototype property setter (gets validation automatically)
         """
@@ -297,10 +304,10 @@ class RoleBasedPortAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-
+        
         Returns:
             The role value
-
+        
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -309,13 +316,13 @@ class RoleBasedPortAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedPortAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-
+        
         Args:
             value: The role to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -327,13 +334,13 @@ class RoleBasedPortAssignment(ARObject):
     def with_port_prototype(self, value: Optional[RefType]) -> "RoleBasedPortAssignment":
         """
         Set portPrototype and return self for chaining.
-
+        
         Args:
             value: The portPrototype to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_port_prototype("value")
         """
@@ -343,29 +350,19 @@ class RoleBasedPortAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedPortAssignment":
         """
         Set role and return self for chaining.
-
+        
         Args:
             value: The role to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_role("value")
         """
         self.role = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
-
-    RefType,
-)
 
 
 class SwcServiceDependency(ServiceDependency):
@@ -376,9 +373,9 @@ class SwcServiceDependency(ServiceDependency):
     ServiceNeeds element. (cid:53) 224 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping::SwcServiceDependency
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 224, Classic Platform
       R23-11)
@@ -408,21 +405,21 @@ class SwcServiceDependency(ServiceDependency):
         # The referred PortGroup shall be local to SWC, but via the links between the
                 # Port tool can evaluate this information such that all linked via this port
                 # group on the same ECU can.
-        self._representedPort: RefType = None
+        self._representedPort: Optional["RefType"] = None
 
     @property
-    def represented_port(self) -> RefType:
+    def represented_port(self) -> Optional["RefType"]:
         """Get representedPort (Pythonic accessor)."""
         return self._representedPort
 
     @represented_port.setter
-    def represented_port(self, value: RefType) -> None:
+    def represented_port(self, value: Optional["RefType"]) -> None:
         """
         Set representedPort with validation.
-
+        
         Args:
             value: The representedPort to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -443,10 +440,10 @@ class SwcServiceDependency(ServiceDependency):
     def service_needs(self, value: Optional["ServiceNeeds"]) -> None:
         """
         Set serviceNeeds with validation.
-
+        
         Args:
             value: The serviceNeeds to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -465,10 +462,10 @@ class SwcServiceDependency(ServiceDependency):
     def getAssignedData(self) -> List["RoleBasedData"]:
         """
         AUTOSAR-compliant getter for assignedData.
-
+        
         Returns:
             The assignedData value
-
+        
         Note:
             Delegates to assigned_data property (CODING_RULE_V2_00017)
         """
@@ -477,37 +474,37 @@ class SwcServiceDependency(ServiceDependency):
     def getAssignedPort(self) -> List["RoleBasedPort"]:
         """
         AUTOSAR-compliant getter for assignedPort.
-
+        
         Returns:
             The assignedPort value
-
+        
         Note:
             Delegates to assigned_port property (CODING_RULE_V2_00017)
         """
         return self.assigned_port  # Delegates to property
 
-    def getRepresentedPort(self) -> RefType:
+    def getRepresentedPort(self) -> "RefType":
         """
         AUTOSAR-compliant getter for representedPort.
-
+        
         Returns:
             The representedPort value
-
+        
         Note:
             Delegates to represented_port property (CODING_RULE_V2_00017)
         """
         return self.represented_port  # Delegates to property
 
-    def setRepresentedPort(self, value: RefType) -> "SwcServiceDependency":
+    def setRepresentedPort(self, value: "RefType") -> "SwcServiceDependency":
         """
         AUTOSAR-compliant setter for representedPort with method chaining.
-
+        
         Args:
             value: The representedPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to represented_port property setter (gets validation automatically)
         """
@@ -517,10 +514,10 @@ class SwcServiceDependency(ServiceDependency):
     def getServiceNeeds(self) -> "ServiceNeeds":
         """
         AUTOSAR-compliant getter for serviceNeeds.
-
+        
         Returns:
             The serviceNeeds value
-
+        
         Note:
             Delegates to service_needs property (CODING_RULE_V2_00017)
         """
@@ -529,13 +526,13 @@ class SwcServiceDependency(ServiceDependency):
     def setServiceNeeds(self, value: "ServiceNeeds") -> "SwcServiceDependency":
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
-
+        
         Args:
             value: The serviceNeeds to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to service_needs property setter (gets validation automatically)
         """
@@ -547,13 +544,13 @@ class SwcServiceDependency(ServiceDependency):
     def with_represented_port(self, value: Optional[RefType]) -> "SwcServiceDependency":
         """
         Set representedPort and return self for chaining.
-
+        
         Args:
             value: The representedPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_represented_port("value")
         """
@@ -563,13 +560,13 @@ class SwcServiceDependency(ServiceDependency):
     def with_service_needs(self, value: Optional["ServiceNeeds"]) -> "SwcServiceDependency":
         """
         Set serviceNeeds and return self for chaining.
-
+        
         Args:
             value: The serviceNeeds to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_service_needs("value")
         """

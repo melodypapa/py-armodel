@@ -1,0 +1,212 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall",
+  "classes": [
+    {
+      "name": "AsynchronousServerCallResultPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractAccessPoint",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "RunnableEntity.asynchronousServerCallResultPoint"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "If a RunnableEntity owns a AsynchronousServerCallResultPoint it is entitled to get the result of the referenced AsynchronousServerCallPoint. If it is associated with AsynchronousServerCallReturnsEvent, this RTEEvent notifies the completion of the required ClientServerOperation or a timeout. The occurrence of this event can either unblock a WaitPoint or can lead to the invocation of a RunnableEntity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 304,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 581,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "asynchronous": {
+          "type": "AsynchronousServer",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced Asynchronous Server Call Point defines the asynchronous server call from which the results are"
+        }
+      }
+    },
+    {
+      "name": "ServerCallPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "AbstractAccessPoint",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "SynchronousServerCallPoint",
+        "AsynchronousServerCallPoint"
+      ],
+      "subclasses": [
+        "AsynchronousServerCallPoint",
+        "SynchronousServerCallPoint"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "RunnableEntity.serverCallPoint"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a particular ClientServerOperation of a specific RPortPrototype of the corresponding AtomicSwComponentType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 335,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 580,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2055,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operationInstanceRef": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by: ROperationInAtomicSwc"
+        },
+        "timeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time in seconds before the server call times out and an error message. It depends on the call type asynchronous) how this is reported."
+        }
+      }
+    },
+    {
+      "name": "SynchronousServerCallPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServerCallPoint",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServerCallPoint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "RunnableEntity.serverCallPoint"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This means that the RunnableEntity is supposed to perform a blocking wait for a response from the server.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 580,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2074,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "calledFrom": {
+          "type": "ExclusiveAreaNesting",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested the given order."
+        }
+      }
+    },
+    {
+      "name": "AsynchronousServerCallPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServerCallPoint",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServerCallPoint"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "RunnableEntity.serverCallPoint"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "An AsynchronousServerCallPoint is used for asynchronous invocation of a ClientServerOperation. IMPORTANT: a ServerCallPoint cannot be used concurrently. Once the client RunnableEntity has made the invocation, the ServerCallPoint cannot be used until the call returns (or an error occurs!) at which point the ServerCallPoint becomes available again.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 581,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

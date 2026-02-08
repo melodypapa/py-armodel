@@ -1,0 +1,206 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs",
+  "classes": [
+    {
+      "name": "DataPrototypeInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvDataElementCondition.dataPrototype",
+        "DiagnosticServiceDataMapping.mappedDataElement"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 368,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the base of the InstanceRef"
+        },
+        "context": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        },
+        "contextData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=50"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the PortPrototype that is contained in the"
+        },
+        "contextRoot": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "rootDataPrototype": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=45"
+        },
+        "targetData": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the target of the InstanceRef xml.sequenceOffset=60"
+        }
+      }
+    },
+    {
+      "name": "SwcServiceDependencyInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnableConditionPortMapping.swcServiceDependencyInSystem",
+        "DiagnosticEventPortMapping.swcServiceDependencyInSystem",
+        "DiagnosticFimFunctionMapping.mappedSwcServiceDependency",
+        "DiagnosticOperationCyclePortMapping.swcServiceDependencyInSystem",
+        "DiagnosticServiceSwMapping.mappedSwcServiceDependencyInSystem",
+        "DiagnosticStorageConditionPort"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 369,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextRootSw": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": ""
+        },
+        "contextSw": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "targetSwc": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "PModeInSystemInstanceRef",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvSwcModeElement.mode"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 370,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "context": {
+          "type": "RootSwComposition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "contextModeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=50"
+        },
+        "contextPPortPrototype": {
+          "type": "AbstractProvidedPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=40"
+        },
+        "targetMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=60"
+        }
+      }
+    }
+  ]
+}

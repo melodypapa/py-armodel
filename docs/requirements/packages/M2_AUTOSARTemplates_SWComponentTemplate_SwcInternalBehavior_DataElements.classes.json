@@ -1,0 +1,357 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+  "classes": [
+    {
+      "name": "AutosarParameterRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "InstantiationDataDefProps.parameterInstance",
+        "ParameterAccess.accessedParameter",
+        "RoleBasedDataAssignment.usedParameterElement",
+        "SwCalprmRefProxy.arParameter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a reference to a parameter within AUTOSAR which can be one of the following use cases: localParameter: • localParameter which is used as whole (e.g. sharedAxis for curve) autosarVariable: • a parameter provided via PortPrototype which is used as whole (e.g. parameterAccess) • an element inside of a composite local parameter typed by ApplicationDatatype (e.g. sharedAxis for a curve) • an element inside of a composite parameter provided via Port and typed by ApplicationDatatype (e.g. sharedAxis for a curve) autosarParameterInImplDatatype: • an element inside of a composite local parameter typed by ImplementationDatatype • an element inside of a composite parameter provided via PortPrototype and typed by Implementation Datatype",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 317,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "autosar": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "is either imported via a port or is part of a structure. by: ParameterInAtomicSWC 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "localParameter": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "In the majority of cases this reference goes to Parameter than VariableDataPrototypes. reference to a VariableDataPrototype is special use cases, e.g. if the AutosarParameter used in the context of an SwAxisGrouped. is used if the arParameter is local to the it would technically also be feasible to use an this case. However, the InstanceRef have a contextElement (because the current the context). local instance is a special case which may optimization. Therefore an explicit provided for this case."
+        }
+      }
+    },
+    {
+      "name": "AutosarVariableRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "InstantiationDataDefProps.variableInstance",
+        "NvBlockDataMapping.nvRamBlockElement",
+        "NvBlockDataMapping.readNvData",
+        "NvBlockDataMapping.writtenNvData",
+        "NvBlockDataMapping.writtenReadNvData",
+        "RoleBasedDataAssignment.usedDataElement",
+        "SwVariableRefProxy.autosarVariable",
+        "VariableAccess."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a reference to a variable within AUTOSAR which can be one of the following use cases: localVariable: • localVariable which is used as whole (e.g. InterRunnableVariable, inputValue for curve) autosarVariable: • a variable provided via Port which is used as whole (e.g. dataAccesspoints) • an element inside of a composite local variable typed by ApplicationDatatype (e.g. inputValue for a curve) • an element inside of a composite variable provided via Port and typed by ApplicationDatatype (e.g. inputValue for a curve) autosarVariableInImplDatatype: • an element inside of a composite local variable typed by ImplementationDatatype (e.g. nvramData mapping) • an element inside of a composite variable provided via Port and typed by ImplementationDatatype (e.g. inputValue for a curve)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 307,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 315,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "autosarVariable": {
+          "type": "ArVariableIn",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is used if the target variable is inside of variableData Prototype typed by an ImplementationDataType. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "localVariable": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference is used if the variable is local to the current would also be possible to use the instance Such an instance ref would not have a the current instance is the context. local instance is a special case which may provide Therefore an explicit reference is this case."
+        }
+      }
+    },
+    {
+      "name": "ParameterAccess",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractAccessPoint",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "RunnableEntity.parameterAccess"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "The presence of a ParameterAccess implies that a RunnableEntity needs access to a ParameterData Prototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 325,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 586,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accessedParameter": {
+          "type": "AutosarParameterRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Reference to the accessed calibration parameter."
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This allows denote instance and access specific mainly input values and common axis."
+        }
+      }
+    },
+    {
+      "name": "VariableAccess",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractAccessPoint",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ReceiverComSpec.replaceWith",
+        "RunnableEntity.dataReadAccess",
+        "RunnableEntity.dataReceivePointByArgument",
+        "RunnableEntity.dataReceivePointByValue",
+        "RunnableEntity.dataSendPoint",
+        "RunnableEntity.dataWriteAccess",
+        "RunnableEntity.readLocalVariable",
+        "RunnableEntity.written"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "The presence of a VariableAccess implies that a RunnableEntity needs access to a VariableData Prototype. The kind of access is specified by the role in which the class is used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 351,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 567,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2077,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 256,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accessedVariable": {
+          "type": "AutosarVariableRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This denotes the accessed variable."
+        },
+        "scope": {
+          "type": "VariableAccessScope",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows for constraining the scope of the communication. For example, it possible to the communication is intended to cross of an ECU or whether it is intended not to boundary of a single partition."
+        }
+      }
+    },
+    {
+      "name": "ArVariableInImplementationDataInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AutosarVariableRef.autosarVariableInImplDatatype",
+        "ImplementationDataTypeSubElementRef.implementationDataTypeElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn’t either, especially because ImplementationDataType Element isn’t derived from AtpPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextData": {
+          "type": "AbstractImplementation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is a context in case there are subelements with explicit types. The reference has to be ordered to reflect the nested structure."
+        },
+        "portPrototype": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is the port providing/receiving the root of the variable"
+        },
+        "rootVariable": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This refers to the VariableDataPrototype typed by the in which the target can be found."
+        },
+        "targetData": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference points to the target ImplementationData TypeElement."
+        }
+      }
+    },
+    {
+      "name": "ArParameterInImplementationDataInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ImplementationDataTypeSubElementRef.parameterImplementationDataTypeElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn’t either, especially because ImplementationDataType Element (intentionally) isn’t derived from AtpPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextData": {
+          "type": "AbstractImplementation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is a context in case there are subelements with explicit types. The reference has to be ordered to reflect the nested structure."
+        },
+        "portPrototype": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference points to the PortPrototype providing/ root of the parameter."
+        },
+        "rootParameter": {
+          "type": "ParameterData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be"
+        },
+        "targetData": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference points to the target ImplementationData TypeElement."
+        }
+      }
+    }
+  ]
+}

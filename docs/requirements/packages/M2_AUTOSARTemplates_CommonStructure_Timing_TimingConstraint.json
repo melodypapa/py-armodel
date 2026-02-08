@@ -1,0 +1,54 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "SynchronizationTiming",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_SynchronizationTiming.json"
+    },
+    {
+      "name": "LatencyTimingConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::LatencyTimingConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_LatencyTimingConstraint.json"
+    },
+    {
+      "name": "EventTriggeringConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_EventTriggeringConstraint.json"
+    },
+    {
+      "name": "OffsetConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::OffsetConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_OffsetConstraint.json"
+    },
+    {
+      "name": "AgeConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_AgeConstraint.json"
+    },
+    {
+      "name": "ExecutionOrderConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_ExecutionOrderConstraint.json"
+    },
+    {
+      "name": "ExecutionTimeConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_ExecutionTimeConstraint.json"
+    },
+    {
+      "name": "SynchronizationPointConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationPointConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_SynchronizationPointConstraint.json"
+    }
+  ],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

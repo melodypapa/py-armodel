@@ -1,0 +1,22 @@
+{
+  "name": "M2",
+  "path": "M2",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "AUTOSARTemplates",
+      "full_path": "M2::AUTOSARTemplates",
+      "file": "packages/M2_AUTOSARTemplates.json"
+    },
+    {
+      "name": "MSR",
+      "full_path": "M2::MSR",
+      "file": "packages/M2_MSR.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

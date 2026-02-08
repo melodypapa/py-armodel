@@ -1,0 +1,20 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_PortInterface.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SWComponentTemplate_PortInterface.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "InstanceRefs",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_PortInterface_InstanceRefs.json"
+    }
+  ],
+  "summary": {
+    "class_count": 31,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

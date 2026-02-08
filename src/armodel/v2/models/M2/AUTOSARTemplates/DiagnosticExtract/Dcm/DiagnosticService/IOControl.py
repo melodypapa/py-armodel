@@ -1,19 +1,32 @@
-from typing import (
-    List,
-    Optional,
-)
+"""
+AUTOSAR Package - IOControl
 
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    PositiveInteger,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
+
 
 
 class DiagnosticIOControl(DiagnosticServiceInstance):
     """
     This represents an instance of the "I/O Control" diagnostic service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl::DiagnosticIOControl
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 118, Classic Platform
       R23-11)
@@ -42,10 +55,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def data_identifier_identifier(self, value: Optional["DiagnosticDataIdentifier"]) -> None:
         """
         Set dataIdentifierIdentifier with validation.
-
+        
         Args:
             value: The dataIdentifierIdentifier to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +84,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def freeze_current(self, value: Optional["Boolean"]) -> None:
         """
         Set freezeCurrent with validation.
-
+        
         Args:
             value: The freezeCurrent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,9 +95,9 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
             self._freezeCurrent = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"freezeCurrent must be Boolean or None, got {type(value).__name__}"
+                f"freezeCurrent must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._freezeCurrent = value
         # This reference substantiates that abstract reference in the reference
@@ -100,10 +113,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def io_control_class(self, value: Optional["DiagnosticIoControl"]) -> None:
         """
         Set ioControlClass with validation.
-
+        
         Args:
             value: The ioControlClass to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -129,10 +142,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def reset_to_default(self, value: Optional["Boolean"]) -> None:
         """
         Set resetToDefault with validation.
-
+        
         Args:
             value: The resetToDefault to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,9 +153,9 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
             self._resetToDefault = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"resetToDefault must be Boolean or None, got {type(value).__name__}"
+                f"resetToDefault must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._resetToDefault = value
         # Setting this attribute to true represents the ability of the to execute a
@@ -158,10 +171,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def short_term(self, value: Optional["Boolean"]) -> None:
         """
         Set shortTerm with validation.
-
+        
         Args:
             value: The shortTerm to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,9 +182,9 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
             self._shortTerm = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"shortTerm must be Boolean or None, got {type(value).__name__}"
+                f"shortTerm must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._shortTerm = value
 
@@ -180,10 +193,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def getControlEnable(self) -> List["DiagnosticControl"]:
         """
         AUTOSAR-compliant getter for controlEnable.
-
+        
         Returns:
             The controlEnable value
-
+        
         Note:
             Delegates to control_enable property (CODING_RULE_V2_00017)
         """
@@ -192,10 +205,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def getDataIdentifierIdentifier(self) -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant getter for dataIdentifierIdentifier.
-
+        
         Returns:
             The dataIdentifierIdentifier value
-
+        
         Note:
             Delegates to data_identifier_identifier property (CODING_RULE_V2_00017)
         """
@@ -204,13 +217,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def setDataIdentifierIdentifier(self, value: "DiagnosticDataIdentifier") -> "DiagnosticIOControl":
         """
         AUTOSAR-compliant setter for dataIdentifierIdentifier with method chaining.
-
+        
         Args:
             value: The dataIdentifierIdentifier to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to data_identifier_identifier property setter (gets validation automatically)
         """
@@ -220,10 +233,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def getFreezeCurrent(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for freezeCurrent.
-
+        
         Returns:
             The freezeCurrent value
-
+        
         Note:
             Delegates to freeze_current property (CODING_RULE_V2_00017)
         """
@@ -232,13 +245,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def setFreezeCurrent(self, value: "Boolean") -> "DiagnosticIOControl":
         """
         AUTOSAR-compliant setter for freezeCurrent with method chaining.
-
+        
         Args:
             value: The freezeCurrent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to freeze_current property setter (gets validation automatically)
         """
@@ -248,10 +261,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def getIoControlClass(self) -> "DiagnosticIoControl":
         """
         AUTOSAR-compliant getter for ioControlClass.
-
+        
         Returns:
             The ioControlClass value
-
+        
         Note:
             Delegates to io_control_class property (CODING_RULE_V2_00017)
         """
@@ -260,13 +273,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def setIoControlClass(self, value: "DiagnosticIoControl") -> "DiagnosticIOControl":
         """
         AUTOSAR-compliant setter for ioControlClass with method chaining.
-
+        
         Args:
             value: The ioControlClass to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to io_control_class property setter (gets validation automatically)
         """
@@ -276,10 +289,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def getResetToDefault(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for resetToDefault.
-
+        
         Returns:
             The resetToDefault value
-
+        
         Note:
             Delegates to reset_to_default property (CODING_RULE_V2_00017)
         """
@@ -288,13 +301,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def setResetToDefault(self, value: "Boolean") -> "DiagnosticIOControl":
         """
         AUTOSAR-compliant setter for resetToDefault with method chaining.
-
+        
         Args:
             value: The resetToDefault to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to reset_to_default property setter (gets validation automatically)
         """
@@ -304,10 +317,10 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def getShortTerm(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for shortTerm.
-
+        
         Returns:
             The shortTerm value
-
+        
         Note:
             Delegates to short_term property (CODING_RULE_V2_00017)
         """
@@ -316,13 +329,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def setShortTerm(self, value: "Boolean") -> "DiagnosticIOControl":
         """
         AUTOSAR-compliant setter for shortTerm with method chaining.
-
+        
         Args:
             value: The shortTerm to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to short_term property setter (gets validation automatically)
         """
@@ -334,13 +347,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def with_data_identifier_identifier(self, value: Optional["DiagnosticDataIdentifier"]) -> "DiagnosticIOControl":
         """
         Set dataIdentifierIdentifier and return self for chaining.
-
+        
         Args:
             value: The dataIdentifierIdentifier to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_data_identifier_identifier("value")
         """
@@ -350,13 +363,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def with_freeze_current(self, value: Optional["Boolean"]) -> "DiagnosticIOControl":
         """
         Set freezeCurrent and return self for chaining.
-
+        
         Args:
             value: The freezeCurrent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_freeze_current("value")
         """
@@ -366,13 +379,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def with_io_control_class(self, value: Optional["DiagnosticIoControl"]) -> "DiagnosticIOControl":
         """
         Set ioControlClass and return self for chaining.
-
+        
         Args:
             value: The ioControlClass to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_io_control_class("value")
         """
@@ -382,13 +395,13 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def with_reset_to_default(self, value: Optional["Boolean"]) -> "DiagnosticIOControl":
         """
         Set resetToDefault and return self for chaining.
-
+        
         Args:
             value: The resetToDefault to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_reset_to_default("value")
         """
@@ -398,31 +411,28 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
     def with_short_term(self, value: Optional["Boolean"]) -> "DiagnosticIOControl":
         """
         Set shortTerm and return self for chaining.
-
+        
         Args:
             value: The shortTerm to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_short_term("value")
         """
         self.short_term = value  # Use property setter (gets validation)
         return self
 
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
-    DiagnosticServiceClass,
-)
 
 
 class DiagnosticIoControlClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "IO
     Control" diagnostic service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl::DiagnosticIoControlClass
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 118, Classic Platform
       R23-11)
@@ -436,23 +446,15 @@ class DiagnosticIoControlClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class DiagnosticControlEnableMaskBit(ARObject):
     """
     This meta-class has the ability to represent one bit in the control enable
     mask record.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl::DiagnosticControlEnableMaskBit
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 119, Classic Platform
       R23-11)
@@ -475,10 +477,10 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def bit_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitNumber with validation.
-
+        
         Args:
             value: The bitNumber to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -486,9 +488,9 @@ class DiagnosticControlEnableMaskBit(ARObject):
             self._bitNumber = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"bitNumber must be PositiveInteger or None, got {type(value).__name__}"
+                f"bitNumber must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._bitNumber = value
         # This reference represents the collection of Diagnostic that are controlled by
@@ -505,10 +507,10 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def getBitNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitNumber.
-
+        
         Returns:
             The bitNumber value
-
+        
         Note:
             Delegates to bit_number property (CODING_RULE_V2_00017)
         """
@@ -517,13 +519,13 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def setBitNumber(self, value: "PositiveInteger") -> "DiagnosticControlEnableMaskBit":
         """
         AUTOSAR-compliant setter for bitNumber with method chaining.
-
+        
         Args:
             value: The bitNumber to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to bit_number property setter (gets validation automatically)
         """
@@ -533,10 +535,10 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def getControlledData(self) -> List["DiagnosticDataElement"]:
         """
         AUTOSAR-compliant getter for controlledData.
-
+        
         Returns:
             The controlledData value
-
+        
         Note:
             Delegates to controlled_data property (CODING_RULE_V2_00017)
         """
@@ -547,13 +549,13 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def with_bit_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticControlEnableMaskBit":
         """
         Set bitNumber and return self for chaining.
-
+        
         Args:
             value: The bitNumber to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_bit_number("value")
         """

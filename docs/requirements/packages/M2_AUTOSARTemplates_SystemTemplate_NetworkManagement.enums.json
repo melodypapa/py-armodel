@@ -1,0 +1,120 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+  "enumerations": [
+    {
+      "name": "NmCoordinatorRoleEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "note": "Supported NmCoordinator roles. Aggregated by NmNode.nmCoordinatorRole",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 676,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Active",
+          "index": 0,
+          "description": "Coordinator which \"actively\" performs NmCoordinator functionality at this channel<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "Passive",
+          "index": 1,
+          "description": "Coordinator which \"passively\" performs NmCoordinator functionality at this channel - used at Nm CoordinatorSync use case.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "FlexrayNmScheduleVariant",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "note": "FrNm schedule variant according to FrNm SWS. Aggregated by FlexrayNmClusterCoupling.nmScheduleVariant",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 680,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "scheduleVariant1",
+          "index": 0,
+          "description": "NM-Vote and NM Data transmitted within one PDU in static segment. The NM-Vote has to be realized as separate bit within the PDU.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "scheduleVariant2",
+          "index": 1,
+          "description": "NM-Vote and NM-Data transmitted within one PDU in dynamic segment. The presence (or<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "scheduleVariant3recommended",
+          "index": 2,
+          "description": "NM-Vote and NM-Data are transmitted in the static segment in separate PDUs. This alternative is not<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "scheduleVariant4",
+          "index": 3,
+          "description": "NM-Vote transmitted in static and NM-Data transmitted in dynamic segment.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "scheduleVariant5",
+          "index": 4,
+          "description": "NM-Vote is transmitted in dynamic and NM-Data is transmitted in static segment. This alternative is not recommended => Variants 2 or 6 should be used instead.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "scheduleVariant6",
+          "index": 5,
+          "description": "NM-Vote and NM-Data are transmitted in dynamic segment in separate PDUs.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "scheduleVariant7",
+          "index": 6,
+          "description": "NM-Vote and a copy of the CBV are transmitted in the static segment (using the FlexRay NM Vector<br>Tags: atp.EnumerationLiteralIndex=6"
+        }
+      ]
+    },
+    {
+      "name": "J1939NmAddressConfigurationCapabilityEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "note": "Defines the Address Configuration Capability options for the J1939NmNode. Aggregated by J1939NmNode.addressConfigurationCapability",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 692,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "J1939NM_AAC",
+          "index": 4,
+          "description": "Arbitrary Address Capable CA<br>Tags: atp.EnumerationLiteralIndex=4, xml.name=J-1939-NM–AAC"
+        },
+        {
+          "name": "J1939NM_CCA",
+          "index": 3,
+          "description": "Command Configurable Address CA.<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=J-1939-NM–CCA"
+        },
+        {
+          "name": "J1939NM_NCA",
+          "index": 0,
+          "description": "Non-Configurable Address CA.<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=J-1939-NM–NCA"
+        },
+        {
+          "name": "J1939NM_SCA",
+          "index": 2,
+          "description": "Self-Configurable Address CA.<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=J-1939-NM–SCA"
+        },
+        {
+          "name": "J1939NM_SVCA",
+          "index": 1,
+          "description": "Service Configurable Address CA.<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=J-1939-NM–SVCA"
+        }
+      ]
+    }
+  ]
+}

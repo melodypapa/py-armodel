@@ -1,4 +1,19 @@
-from typing import Optional
+"""
+AUTOSAR Package - Note
+
+Package: M2::MSR::Documentation::BlockElements::Note
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
+    Paginateable,
+)
+
+
 
 
 class Note(Paginateable):
@@ -8,9 +23,9 @@ class Note(Paginateable):
     can be nested recursively, even if this is not really intended. In case of
     nested notes e.g. the note icon of inner notes might be omitted while
     rendering the note.
-
-    Package: M2::MSR::Documentation::BlockElements::Note
-
+    
+    Package: M2::MSR::Documentation::BlockElements::Note::Note
+    
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 310, Foundation
       R23-11)
@@ -33,10 +48,10 @@ class Note(Paginateable):
     def label(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set label with validation.
-
+        
         Args:
             value: The label to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +76,10 @@ class Note(Paginateable):
     def note_text(self, value: "DocumentationBlock") -> None:
         """
         Set noteText with validation.
-
+        
         Args:
             value: The noteText to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +101,10 @@ class Note(Paginateable):
     def note_type(self, value: Optional["NoteTypeEnum"]) -> None:
         """
         Set noteType with validation.
-
+        
         Args:
             value: The noteType to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +123,10 @@ class Note(Paginateable):
     def getLabel(self) -> "MultilanguageLong":
         """
         AUTOSAR-compliant getter for label.
-
+        
         Returns:
             The label value
-
+        
         Note:
             Delegates to label property (CODING_RULE_V2_00017)
         """
@@ -120,13 +135,13 @@ class Note(Paginateable):
     def setLabel(self, value: "MultilanguageLong") -> "Note":
         """
         AUTOSAR-compliant setter for label with method chaining.
-
+        
         Args:
             value: The label to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to label property setter (gets validation automatically)
         """
@@ -136,10 +151,10 @@ class Note(Paginateable):
     def getNoteText(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for noteText.
-
+        
         Returns:
             The noteText value
-
+        
         Note:
             Delegates to note_text property (CODING_RULE_V2_00017)
         """
@@ -148,13 +163,13 @@ class Note(Paginateable):
     def setNoteText(self, value: "DocumentationBlock") -> "Note":
         """
         AUTOSAR-compliant setter for noteText with method chaining.
-
+        
         Args:
             value: The noteText to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to note_text property setter (gets validation automatically)
         """
@@ -164,10 +179,10 @@ class Note(Paginateable):
     def getNoteType(self) -> "NoteTypeEnum":
         """
         AUTOSAR-compliant getter for noteType.
-
+        
         Returns:
             The noteType value
-
+        
         Note:
             Delegates to note_type property (CODING_RULE_V2_00017)
         """
@@ -176,13 +191,13 @@ class Note(Paginateable):
     def setNoteType(self, value: "NoteTypeEnum") -> "Note":
         """
         AUTOSAR-compliant setter for noteType with method chaining.
-
+        
         Args:
             value: The noteType to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to note_type property setter (gets validation automatically)
         """
@@ -194,13 +209,13 @@ class Note(Paginateable):
     def with_label(self, value: Optional["MultilanguageLong"]) -> "Note":
         """
         Set label and return self for chaining.
-
+        
         Args:
             value: The label to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_label("value")
         """
@@ -210,13 +225,13 @@ class Note(Paginateable):
     def with_note_text(self, value: "DocumentationBlock") -> "Note":
         """
         Set noteText and return self for chaining.
-
+        
         Args:
             value: The noteText to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_note_text("value")
         """
@@ -226,15 +241,45 @@ class Note(Paginateable):
     def with_note_type(self, value: Optional["NoteTypeEnum"]) -> "Note":
         """
         Set noteType and return self for chaining.
-
+        
         Args:
             value: The noteType to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_note_type("value")
         """
         self.note_type = value  # Use property setter (gets validation)
         return self
+
+
+class NoteTypeEnum(AREnum):
+    """
+    NoteTypeEnum enumeration
+
+This enumerator specifies the type of the note. It can be used to render a note label or even a note icon. Aggregated by Note.noteType
+
+Package: M2::MSR::Documentation::BlockElements::Note
+    """
+    # This indicates that the note is an alert which shall be considered carefully.
+    caution = "0"
+
+    # This indicates that the note represents an example, e.g. a code example etc.
+    example = "1"
+
+    # This indicates that the note represents an exercise for the reader.
+    exercise = "2"
+
+    # This indicates that the note represents a hint which helps the user for better understanding.
+    hint = "3"
+
+    # This indicates that the note represents an instruction, e.g. a step by step procedure.
+    instruction = "4"
+
+    # This indicates that the note is something else. The particular type of the note shall then be specified in the label of the note.
+    other = "5"
+
+    # This indicates that the note represents which is good to know. It is similar to a hint, but focuses more to good practice than to better understanding.
+    tip = "6"

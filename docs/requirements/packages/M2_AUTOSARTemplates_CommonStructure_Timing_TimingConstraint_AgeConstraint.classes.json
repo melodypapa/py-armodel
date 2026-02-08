@@ -1,0 +1,60 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint",
+  "classes": [
+    {
+      "name": "AgeConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Constrains the scope by a minimum and maximum time boundary.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 115,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maximum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The received event referenced by scope should not upper bound."
+        },
+        "minimum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The received event referenced by scope should not lower bound."
+        },
+        "scope": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "TimingDescriptionEvent to be constrained."
+        }
+      }
+    }
+  ]
+}

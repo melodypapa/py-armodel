@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_RunnableEntity.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

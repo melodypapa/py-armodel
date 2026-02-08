@@ -1,0 +1,25 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+  "enumerations": [
+    {
+      "name": "MirroringProtocolEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "note": "Eunumeration that defines the supported bus mirroring protocol options) with two literals. Aggregated by BusMirrorChannelMapping.mirroringProtocol",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 697,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "none",
+          "index": 0,
+          "description": "mirroringProtocol is not used version1 version1 of the mirroringProtocol is used<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

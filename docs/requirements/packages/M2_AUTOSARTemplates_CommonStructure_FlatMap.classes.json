@@ -1,0 +1,305 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::FlatMap",
+  "classes": [
+    {
+      "name": "AliasNameSet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::FlatMap",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents a set of AliasNames. The AliasNameSet can for example be an input to the A2L-Generator.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 968,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 160,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aliasName": {
+          "type": "AliasNameAssignment",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AliasNames contained in the AliasNameSet. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "AliasNameAssignment",
+      "package": "M2::AUTOSARTemplates::CommonStructure::FlatMap",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AliasNameSet.aliasName"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that flatInstance and identifiable are mutually exclusive.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 175,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 968,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "flatInstance": {
+          "type": "FlatInstanceDescriptor",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Assignment of a unique name to a flat representation."
+        },
+        "identifiable": {
+          "type": "Identifiable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Assignment of a unique name to an Identifiable."
+        },
+        "label": {
+          "type": "MultilanguageLong",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents an \"Alias LongName\". xml.sequenceOffset=20"
+        },
+        "shortLabel": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the alias name. It is modeled as the alias name is used outside of therefore no naming conventions can be AUTOSAR."
+        }
+      }
+    },
+    {
+      "name": "FlatInstanceDescriptor",
+      "package": "M2::AUTOSARTemplates::CommonStructure::FlatMap",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlatMap.instance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that in addition it is possible to assign alias names via AliasNameAssignment.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 316,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 989,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 966,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecuExtract": {
+          "type": "AtpFeature",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "if the FlatMap is used in the context of an ECU shall be such that it uniquely defines the For example, if a data prototype is a role within an SwcInternalBehavior, it is not state the SwcInternalBehavior as context and data prototype as target. In addition, the also include the complete path identifying the component prototype and the Atomic is refered by the by: AnyInstanceRef 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The role denotes the particular role of the downstream described by this FlatInstanceDescriptor. to use case where one upstream object results downstream objects, e.g. ModeDeclaration are measurable. In this case the provide locations for current mode, previous next mode."
+        },
+        "rtePluginProps": {
+          "type": "RtePluginProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The properties of a communication graph with respect to of RTE Implementation Plug-in."
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The properties of this FlatInstanceDescriptor. atpSplitable"
+        },
+        "upstream": {
+          "type": "AtpFeature",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "which could be: the SYSTEM_ SYSTEM_EXTRACT, or ECU_ SW_CLUSTER_SYSTEM_ the basic software module description case only the target reference of the AnyInstance needed), or (if a flat map is used in preliminary description of an atomic component or is optional in case the flat map is used in The reference shall be such that it uniquely object instance in the given context. For a data prototype is declared as a role within Behavior, it is not enough to state the Swc as context and the aggregated data target. In addition, the reference shall also complete path identifying the instance of the that contains the particular instance InternalBehavior. by: AnyInstanceRef"
+        }
+      }
+    },
+    {
+      "name": "FlatMap",
+      "package": "M2::AUTOSARTemplates::CommonStructure::FlatMap",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Contains a flat list of references to software objects. This list is used to identify instances and to resolve name conflicts. The scope is given by the RootSwCompositionPrototype for which it is used, i.e. it can be applied to a system, system extract or ECU-extract. An instance of FlatMap may also be used in a preliminary context, e.g. in the scope of a software component before integration into a system. In this case it is not referred by a RootSwComposition Prototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 317,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 965,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 445,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 190,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "instance": {
+          "type": "FlatInstanceDescriptor",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A descriptor instance aggregated in the flat map. point accounts for the fact, that the system can be subject to variability, and thus the some instances is variable. has been made splitable because the be contributed by different stakeholders at in the workflow. Plus, the overall size might big that eventually it becomes more manageable if distributed over several files. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "RtePluginProps",
+      "package": "M2::AUTOSARTemplates::CommonStructure::FlatMap",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlatInstanceDescriptor.rtePluginProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 971,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "associated": {
+          "type": "EcucContainerValue",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This associates a communication graph to a specific RTE Plug-in handling cross Software Cluster"
+        },
+        "associatedRte": {
+          "type": "EcucContainerValue",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This associates a communication graph to a specific RTE Plug-in handling local Software Cluster communication in a non-cluster ECU."
+        }
+      }
+    }
+  ]
+}

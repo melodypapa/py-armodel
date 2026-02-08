@@ -1,0 +1,135 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs",
+  "classes": [
+    {
+      "name": "ParameterInAtomicSWCTypeInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AutosarParameterRef.autosarParameter"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "This class implements an instance reference which can be applied for variables as well as for parameters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 319,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "AtomicSwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This ist the context in a compositeDataType. Tags: xml.sequenceOffset=40 (ordered)"
+        },
+        "portPrototype": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is the port providing the variable or the entry point to structure."
+        },
+        "rootParameter": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the entry point for references into a"
+        },
+        "targetData": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is the target parameter element. Note that this must nested in ParameterDataPrototype. The target must of ParameterDataPrototype, Application"
+        }
+      }
+    },
+    {
+      "name": "VariableInAtomicSWCTypeInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AutosarVariableRef.autosarVariable"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 953,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "AtomicSwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the context in a compositeDataType. Tags: xml.sequenceOffset=40 (ordered)"
+        },
+        "portPrototype": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is the port providing the parameter or the entry point parameter structure."
+        },
+        "rootVariableDataPrototype": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "targetData": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is the target of the instance ref. Note that it shall be of ApplicationCompositeElementDataPrototype of"
+        }
+      }
+    }
+  ]
+}

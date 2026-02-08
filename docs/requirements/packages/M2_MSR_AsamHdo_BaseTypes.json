@@ -1,0 +1,14 @@
+{
+  "name": "M2::MSR::AsamHdo::BaseTypes",
+  "path": "M2::MSR::AsamHdo::BaseTypes",
+  "files": {
+    "classes": "packages/M2_MSR_AsamHdo_BaseTypes.classes.json",
+    "primitives": "packages/M2_MSR_AsamHdo_BaseTypes.primitives.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 4,
+    "enumeration_count": 0,
+    "primitive_count": 1
+  }
+}

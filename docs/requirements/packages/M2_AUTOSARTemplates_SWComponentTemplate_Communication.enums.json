@@ -1,0 +1,182 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+  "enumerations": [
+    {
+      "name": "HandleInvalidEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "note": "Strategies of handling the reception of invalidValue. Aggregated by InvalidationPolicy.handleInvalid, ISignalPort.handleInvalid",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 97,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "dontInvalidate",
+          "index": 0,
+          "description": "Invalidation is switched off.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "external",
+          "index": 1,
+          "description": "Replace a received invalidValue. The replacement value is sourced from the aggregation in the role Replacement replaceWith.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "keep",
+          "index": 2,
+          "description": "The application software is supposed to handle signal invalidation on RTE API level either by Data ReceiveErrorEvent or check of error code on read access.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "replace",
+          "index": 3,
+          "description": "Replace a received invalidValue. The replacement value is specified by the initValue.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "HandleOutOfRangeStatusEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "note": "This enumeration defines how the RTE handles values that are out of range. Aggregated by ReceiverComSpec.handleOutOfRangeStatus",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 172,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "indicate",
+          "index": 0,
+          "description": "The RTE sets the return status to RTE_E_OUT_OF_RANGE if the received value is out of range and the attribute handleOutOfRange is not set to \"none\" or \"invalid\".<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "silent",
+          "index": 1,
+          "description": "The RTE sets the return status to RTE_E_OK<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "HandleTimeoutEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "note": "Strategies of handling a reception timeout violation. Aggregated by NonqueuedReceiverComSpec.handleTimeoutType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "none",
+          "index": 0,
+          "description": "If set to none no replacement shall take place.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "replace",
+          "index": 1,
+          "description": "If set to replace, the replacement value shall be the ComInitValue.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "replaceByTimeoutSubstitutionValue",
+          "index": 2,
+          "description": "If set to replace, the replacement value shall be the timeout substitution value.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "HandleOutOfRangeEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "note": "A value of this type is taken for controlling the range checking behavior of the AUTOSAR RTE. Aggregated by ISignalProps.handleOutOfRange, ReceiverComSpec.handleOutOfRange, SenderComSpec.handle OutOfRange",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 180,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "default",
+          "index": 0,
+          "description": "The RTE will use the initValue if the actual value is out of the specified bounds.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "externalReplacement",
+          "index": 1,
+          "description": "This indicates that the value replacement is sourced from the attribute replaceWith.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "ignore",
+          "index": 2,
+          "description": "The RTE will ignore any attempt to send or receive the corresponding dataElement if the value is out of the specified range.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "invalid",
+          "index": 3,
+          "description": "The RTE will use the invalidValue if the value is out of the specified bounds.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "none",
+          "index": 4,
+          "description": "A range check is not required.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "saturate",
+          "index": 5,
+          "description": "The RTE will saturate the value of the dataElement such that it is limited to the applicable upper bound if it is greater than the upper bound. Consequently, it is limited to the applicable lower bound if the value is less than the lower bound.<br>Tags: atp.EnumerationLiteralIndex=5"
+        }
+      ]
+    },
+    {
+      "name": "TransmissionModeDefinitionEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Communication",
+      "note": "This meta-class defines possible settings for the transmission mode. Aggregated by TransmissionComSpecProps.transmissionMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 181,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "cyclic",
+          "index": 0,
+          "description": "The data is assumed to be transmitted in a cyclic manner. The cycle is defined by dataUpdatePeriod.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "cyclicAndOn",
+          "index": 2,
+          "description": "The data is assumed to be transmitted in a cyclic manner (with cycle time dataUpdatePeriod) and Change additionally there may be arbitrary transmission if the data value changes (minimumSendInterval to be respected, if defined).<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "triggered",
+          "index": 1,
+          "description": "The data is assumed to be transmitted in an arbitrary manner (minimumSendInterval to be respected, if defined).<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,740 @@
+{
+  "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+  "enumerations": [
+    {
+      "name": "LEnum",
+      "package": "M2::MSR::Documentation::TextModel::LanguageDataModel",
+      "note": "This denotes the possible language designators according to the two letter code of ISO 639. Aggregated by AdminData.language, LanguageSpecific.l",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 350,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "aa",
+          "index": 0,
+          "description": "Afar<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "ab",
+          "index": 1,
+          "description": "Abkhazian<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "af",
+          "index": 2,
+          "description": "Afrikaans<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "am",
+          "index": 3,
+          "description": "Amharic<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "ar",
+          "index": 4,
+          "description": "Arabic<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "as",
+          "index": 5,
+          "description": "Assamese<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "ay",
+          "index": 6,
+          "description": "Aymara<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "az",
+          "index": 7,
+          "description": "Azerbaijani<br>Tags: atp.EnumerationLiteralIndex=7"
+        },
+        {
+          "name": "ba",
+          "index": 8,
+          "description": "Bashkir<br>Tags: atp.EnumerationLiteralIndex=8"
+        },
+        {
+          "name": "be",
+          "index": 9,
+          "description": "Byelorussian<br>Tags: atp.EnumerationLiteralIndex=9"
+        },
+        {
+          "name": "bg",
+          "index": 10,
+          "description": "Bulgarian<br>Tags: atp.EnumerationLiteralIndex=10"
+        },
+        {
+          "name": "bh",
+          "index": 11,
+          "description": "Bihari<br>Tags: atp.EnumerationLiteralIndex=11"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSARbi",
+          "index": 12,
+          "description": "FO R23-11<br>Tags: atp.EnumerationLiteralIndex=12"
+        },
+        {
+          "name": "bn",
+          "index": 13,
+          "description": "Bengali<br>Tags: atp.EnumerationLiteralIndex=13"
+        },
+        {
+          "name": "bo",
+          "index": 14,
+          "description": "Tibetian<br>Tags: atp.EnumerationLiteralIndex=14"
+        },
+        {
+          "name": "br",
+          "index": 15,
+          "description": "Breton<br>Tags: atp.EnumerationLiteralIndex=15"
+        },
+        {
+          "name": "ca",
+          "index": 16,
+          "description": "Catalan<br>Tags: atp.EnumerationLiteralIndex=16"
+        },
+        {
+          "name": "co",
+          "index": 17,
+          "description": "Corsican<br>Tags: atp.EnumerationLiteralIndex=17"
+        },
+        {
+          "name": "cs",
+          "index": 18,
+          "description": "Czech<br>Tags: atp.EnumerationLiteralIndex=18"
+        },
+        {
+          "name": "cy",
+          "index": 19,
+          "description": "Welsh<br>Tags: atp.EnumerationLiteralIndex=19"
+        },
+        {
+          "name": "da",
+          "index": 20,
+          "description": "Danish<br>Tags: atp.EnumerationLiteralIndex=20"
+        },
+        {
+          "name": "de",
+          "index": 21,
+          "description": "German<br>Tags: atp.EnumerationLiteralIndex=21"
+        },
+        {
+          "name": "dz",
+          "index": 22,
+          "description": "Bhutani<br>Tags: atp.EnumerationLiteralIndex=22"
+        },
+        {
+          "name": "el",
+          "index": 23,
+          "description": "Greek<br>Tags: atp.EnumerationLiteralIndex=23"
+        },
+        {
+          "name": "en",
+          "index": 24,
+          "description": "English<br>Tags: atp.EnumerationLiteralIndex=24"
+        },
+        {
+          "name": "eo",
+          "index": 25,
+          "description": "Esperanto<br>Tags: atp.EnumerationLiteralIndex=25"
+        },
+        {
+          "name": "es",
+          "index": 26,
+          "description": "Spanish<br>Tags: atp.EnumerationLiteralIndex=26"
+        },
+        {
+          "name": "et",
+          "index": 27,
+          "description": "Estonian<br>Tags: atp.EnumerationLiteralIndex=27"
+        },
+        {
+          "name": "eu",
+          "index": 28,
+          "description": "Basque<br>Tags: atp.EnumerationLiteralIndex=28"
+        },
+        {
+          "name": "fa",
+          "index": 29,
+          "description": "Persian<br>Tags: atp.EnumerationLiteralIndex=29"
+        },
+        {
+          "name": "fi",
+          "index": 30,
+          "description": "Finnish<br>Tags: atp.EnumerationLiteralIndex=30"
+        },
+        {
+          "name": "fj",
+          "index": 31,
+          "description": "Fiji<br>Tags: atp.EnumerationLiteralIndex=31"
+        },
+        {
+          "name": "fo",
+          "index": 32,
+          "description": "Faeroese<br>Tags: atp.EnumerationLiteralIndex=32"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "FO R23-11"
+        },
+        {
+          "name": "forAll",
+          "index": 33,
+          "description": "The content applies to all languages<br>Tags: atp.EnumerationLiteralIndex=33"
+        },
+        {
+          "name": "fr",
+          "index": 34,
+          "description": "French<br>Tags: atp.EnumerationLiteralIndex=34"
+        },
+        {
+          "name": "fy",
+          "index": 35,
+          "description": "Frisian<br>Tags: atp.EnumerationLiteralIndex=35"
+        },
+        {
+          "name": "ga",
+          "index": 36,
+          "description": "Irish<br>Tags: atp.EnumerationLiteralIndex=36"
+        },
+        {
+          "name": "gd",
+          "index": 37,
+          "description": "Scots Gaelic<br>Tags: atp.EnumerationLiteralIndex=37"
+        },
+        {
+          "name": "gl",
+          "index": 38,
+          "description": "Galician<br>Tags: atp.EnumerationLiteralIndex=38"
+        },
+        {
+          "name": "gn",
+          "index": 39,
+          "description": "Guarani<br>Tags: atp.EnumerationLiteralIndex=39"
+        },
+        {
+          "name": "gu",
+          "index": 40,
+          "description": "Gjarati<br>Tags: atp.EnumerationLiteralIndex=40"
+        },
+        {
+          "name": "ha",
+          "index": 41,
+          "description": "Hausa<br>Tags: atp.EnumerationLiteralIndex=41"
+        },
+        {
+          "name": "hi",
+          "index": 42,
+          "description": "Hindi<br>Tags: atp.EnumerationLiteralIndex=42"
+        },
+        {
+          "name": "hr",
+          "index": 43,
+          "description": "Croatian<br>Tags: atp.EnumerationLiteralIndex=43"
+        },
+        {
+          "name": "hu",
+          "index": 44,
+          "description": "Hungarian<br>Tags: atp.EnumerationLiteralIndex=44"
+        },
+        {
+          "name": "hy",
+          "index": 45,
+          "description": "Armenian<br>Tags: atp.EnumerationLiteralIndex=45"
+        },
+        {
+          "name": "ia",
+          "index": 46,
+          "description": "Interlingua<br>Tags: atp.EnumerationLiteralIndex=46"
+        },
+        {
+          "name": "ie",
+          "index": 47,
+          "description": "Interlingue<br>Tags: atp.EnumerationLiteralIndex=47"
+        },
+        {
+          "name": "ik",
+          "index": 48,
+          "description": "Inupiak<br>Tags: atp.EnumerationLiteralIndex=48"
+        },
+        {
+          "name": "in",
+          "index": 49,
+          "description": "Indonesian<br>Tags: atp.EnumerationLiteralIndex=49"
+        },
+        {
+          "name": "is",
+          "index": 50,
+          "description": "Icelandic<br>Tags: atp.EnumerationLiteralIndex=50"
+        },
+        {
+          "name": "it",
+          "index": 51,
+          "description": "Italian<br>Tags: atp.EnumerationLiteralIndex=51"
+        },
+        {
+          "name": "iw",
+          "index": 52,
+          "description": "Hebrew<br>Tags: atp.EnumerationLiteralIndex=52"
+        },
+        {
+          "name": "ja",
+          "index": 53,
+          "description": "Japanese<br>Tags: atp.EnumerationLiteralIndex=53"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSARji",
+          "index": 54,
+          "description": "FO R23-11<br>Tags: atp.EnumerationLiteralIndex=54"
+        },
+        {
+          "name": "jw",
+          "index": 55,
+          "description": "Javanese<br>Tags: atp.EnumerationLiteralIndex=55"
+        },
+        {
+          "name": "ka",
+          "index": 56,
+          "description": "Georgian<br>Tags: atp.EnumerationLiteralIndex=56"
+        },
+        {
+          "name": "kk",
+          "index": 57,
+          "description": "Kazakh<br>Tags: atp.EnumerationLiteralIndex=57"
+        },
+        {
+          "name": "kl",
+          "index": 58,
+          "description": "Greenlandic<br>Tags: atp.EnumerationLiteralIndex=58"
+        },
+        {
+          "name": "km",
+          "index": 59,
+          "description": "Cambodian<br>Tags: atp.EnumerationLiteralIndex=59"
+        },
+        {
+          "name": "kn",
+          "index": 60,
+          "description": "Kannada<br>Tags: atp.EnumerationLiteralIndex=60"
+        },
+        {
+          "name": "ko",
+          "index": 61,
+          "description": "Korean<br>Tags: atp.EnumerationLiteralIndex=61"
+        },
+        {
+          "name": "ks",
+          "index": 62,
+          "description": "Kashmiri<br>Tags: atp.EnumerationLiteralIndex=62"
+        },
+        {
+          "name": "ku",
+          "index": 63,
+          "description": "Kurdish<br>Tags: atp.EnumerationLiteralIndex=63"
+        },
+        {
+          "name": "ky",
+          "index": 64,
+          "description": "Kirghiz<br>Tags: atp.EnumerationLiteralIndex=64"
+        },
+        {
+          "name": "la",
+          "index": 65,
+          "description": "Latin<br>Tags: atp.EnumerationLiteralIndex=65"
+        },
+        {
+          "name": "ln",
+          "index": 66,
+          "description": "Lingala<br>Tags: atp.EnumerationLiteralIndex=66"
+        },
+        {
+          "name": "lo",
+          "index": 67,
+          "description": "Laothian<br>Tags: atp.EnumerationLiteralIndex=67"
+        },
+        {
+          "name": "lt",
+          "index": 68,
+          "description": "Lithuanian<br>Tags: atp.EnumerationLiteralIndex=68"
+        },
+        {
+          "name": "lv",
+          "index": 69,
+          "description": "Lavian, Lettish<br>Tags: atp.EnumerationLiteralIndex=69"
+        },
+        {
+          "name": "mg",
+          "index": 70,
+          "description": "Malagasy<br>Tags: atp.EnumerationLiteralIndex=70"
+        },
+        {
+          "name": "mi",
+          "index": 71,
+          "description": "Maori<br>Tags: atp.EnumerationLiteralIndex=71"
+        },
+        {
+          "name": "mk",
+          "index": 72,
+          "description": "Macedonian<br>Tags: atp.EnumerationLiteralIndex=72"
+        },
+        {
+          "name": "ml",
+          "index": 73,
+          "description": "Malayalam<br>Tags: atp.EnumerationLiteralIndex=73"
+        },
+        {
+          "name": "mn",
+          "index": 74,
+          "description": "Mongolian<br>Tags: atp.EnumerationLiteralIndex=74"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSARmo",
+          "index": 75,
+          "description": "FO R23-11<br>Tags: atp.EnumerationLiteralIndex=75"
+        },
+        {
+          "name": "mr",
+          "index": 76,
+          "description": "Marathi<br>Tags: atp.EnumerationLiteralIndex=76"
+        },
+        {
+          "name": "ms",
+          "index": 77,
+          "description": "Malay<br>Tags: atp.EnumerationLiteralIndex=77"
+        },
+        {
+          "name": "mt",
+          "index": 78,
+          "description": "Maltese<br>Tags: atp.EnumerationLiteralIndex=78"
+        },
+        {
+          "name": "my",
+          "index": 79,
+          "description": "Burmese<br>Tags: atp.EnumerationLiteralIndex=79"
+        },
+        {
+          "name": "na",
+          "index": 80,
+          "description": "Nauru<br>Tags: atp.EnumerationLiteralIndex=80"
+        },
+        {
+          "name": "ne",
+          "index": 81,
+          "description": "Nepali<br>Tags: atp.EnumerationLiteralIndex=81"
+        },
+        {
+          "name": "nl",
+          "index": 82,
+          "description": "Dutch<br>Tags: atp.EnumerationLiteralIndex=82"
+        },
+        {
+          "name": "no",
+          "index": 83,
+          "description": "Norwegian<br>Tags: atp.EnumerationLiteralIndex=83"
+        },
+        {
+          "name": "oc",
+          "index": 84,
+          "description": "Occitan<br>Tags: atp.EnumerationLiteralIndex=84"
+        },
+        {
+          "name": "om",
+          "index": 85,
+          "description": "(Afan) Oromo<br>Tags: atp.EnumerationLiteralIndex=85"
+        },
+        {
+          "name": "or",
+          "index": 86,
+          "description": "Oriya<br>Tags: atp.EnumerationLiteralIndex=86"
+        },
+        {
+          "name": "pa",
+          "index": 87,
+          "description": "Punjabi<br>Tags: atp.EnumerationLiteralIndex=87"
+        },
+        {
+          "name": "pl",
+          "index": 88,
+          "description": "Polish<br>Tags: atp.EnumerationLiteralIndex=88"
+        },
+        {
+          "name": "ps",
+          "index": 89,
+          "description": "Pashto, Pushto<br>Tags: atp.EnumerationLiteralIndex=89"
+        },
+        {
+          "name": "pt",
+          "index": 90,
+          "description": "Portuguese<br>Tags: atp.EnumerationLiteralIndex=90"
+        },
+        {
+          "name": "qu",
+          "index": 91,
+          "description": "Quechua<br>Tags: atp.EnumerationLiteralIndex=91"
+        },
+        {
+          "name": "rm",
+          "index": 92,
+          "description": "Rhaeto-Romance<br>Tags: atp.EnumerationLiteralIndex=92"
+        },
+        {
+          "name": "rn",
+          "index": 93,
+          "description": "Kirundi<br>Tags: atp.EnumerationLiteralIndex=93"
+        },
+        {
+          "name": "ro",
+          "index": 94,
+          "description": "Romanian<br>Tags: atp.EnumerationLiteralIndex=94"
+        },
+        {
+          "name": "ru",
+          "index": 95,
+          "description": "Russian<br>Tags: atp.EnumerationLiteralIndex=95"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSARrw",
+          "index": 96,
+          "description": "FO R23-11<br>Tags: atp.EnumerationLiteralIndex=96"
+        },
+        {
+          "name": "sa",
+          "index": 97,
+          "description": "Sanskrit<br>Tags: atp.EnumerationLiteralIndex=97"
+        },
+        {
+          "name": "sd",
+          "index": 98,
+          "description": "Sindhi<br>Tags: atp.EnumerationLiteralIndex=98"
+        },
+        {
+          "name": "sg",
+          "index": 99,
+          "description": "Sangro<br>Tags: atp.EnumerationLiteralIndex=99"
+        },
+        {
+          "name": "sh",
+          "index": 100,
+          "description": "Serbo-Croatian<br>Tags: atp.EnumerationLiteralIndex=100"
+        },
+        {
+          "name": "si",
+          "index": 101,
+          "description": "Singhalese<br>Tags: atp.EnumerationLiteralIndex=101"
+        },
+        {
+          "name": "sk",
+          "index": 102,
+          "description": "Slovak<br>Tags: atp.EnumerationLiteralIndex=102"
+        },
+        {
+          "name": "sl",
+          "index": 103,
+          "description": "Slovenian<br>Tags: atp.EnumerationLiteralIndex=103"
+        },
+        {
+          "name": "sm",
+          "index": 104,
+          "description": "Samoan<br>Tags: atp.EnumerationLiteralIndex=104"
+        },
+        {
+          "name": "sn",
+          "index": 105,
+          "description": "Shona<br>Tags: atp.EnumerationLiteralIndex=105"
+        },
+        {
+          "name": "so",
+          "index": 106,
+          "description": "Somali<br>Tags: atp.EnumerationLiteralIndex=106"
+        },
+        {
+          "name": "sq",
+          "index": 107,
+          "description": "Albanian<br>Tags: atp.EnumerationLiteralIndex=107"
+        },
+        {
+          "name": "sr",
+          "index": 108,
+          "description": "Serbian<br>Tags: atp.EnumerationLiteralIndex=108"
+        },
+        {
+          "name": "ss",
+          "index": 109,
+          "description": "Siswati<br>Tags: atp.EnumerationLiteralIndex=109"
+        },
+        {
+          "name": "st",
+          "index": 110,
+          "description": "Sesotho<br>Tags: atp.EnumerationLiteralIndex=110"
+        },
+        {
+          "name": "su",
+          "index": 111,
+          "description": "Sundanese<br>Tags: atp.EnumerationLiteralIndex=111"
+        },
+        {
+          "name": "sv",
+          "index": 112,
+          "description": "Swedish<br>Tags: atp.EnumerationLiteralIndex=112"
+        },
+        {
+          "name": "sw",
+          "index": 113,
+          "description": "Swahili<br>Tags: atp.EnumerationLiteralIndex=113"
+        },
+        {
+          "name": "ta",
+          "index": 114,
+          "description": "Tamil<br>Tags: atp.EnumerationLiteralIndex=114"
+        },
+        {
+          "name": "te",
+          "index": 115,
+          "description": "Tegulu<br>Tags: atp.EnumerationLiteralIndex=115"
+        },
+        {
+          "name": "tg",
+          "index": 116,
+          "description": "Tajik<br>Tags: atp.EnumerationLiteralIndex=116"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSARth",
+          "index": 117,
+          "description": "FO R23-11<br>Tags: atp.EnumerationLiteralIndex=117"
+        },
+        {
+          "name": "ti",
+          "index": 118,
+          "description": "Tigrinya<br>Tags: atp.EnumerationLiteralIndex=118"
+        },
+        {
+          "name": "tk",
+          "index": 119,
+          "description": "Turkmen<br>Tags: atp.EnumerationLiteralIndex=119"
+        },
+        {
+          "name": "tl",
+          "index": 120,
+          "description": "Tagalog<br>Tags: atp.EnumerationLiteralIndex=120"
+        },
+        {
+          "name": "tn",
+          "index": 121,
+          "description": "Setswana<br>Tags: atp.EnumerationLiteralIndex=121"
+        },
+        {
+          "name": "to",
+          "index": 122,
+          "description": "Tonga<br>Tags: atp.EnumerationLiteralIndex=122"
+        },
+        {
+          "name": "tr",
+          "index": 123,
+          "description": "Turkish<br>Tags: atp.EnumerationLiteralIndex=123"
+        },
+        {
+          "name": "ts",
+          "index": 124,
+          "description": "Tsonga<br>Tags: atp.EnumerationLiteralIndex=124"
+        },
+        {
+          "name": "tt",
+          "index": 125,
+          "description": "Tatar<br>Tags: atp.EnumerationLiteralIndex=125"
+        },
+        {
+          "name": "tw",
+          "index": 126,
+          "description": "Twi<br>Tags: atp.EnumerationLiteralIndex=126"
+        },
+        {
+          "name": "uk",
+          "index": 127,
+          "description": "Ukrainian<br>Tags: atp.EnumerationLiteralIndex=127"
+        },
+        {
+          "name": "ur",
+          "index": 128,
+          "description": "Urdu<br>Tags: atp.EnumerationLiteralIndex=128"
+        },
+        {
+          "name": "uz",
+          "index": 129,
+          "description": "Uzbek<br>Tags: atp.EnumerationLiteralIndex=129"
+        },
+        {
+          "name": "vi",
+          "index": 130,
+          "description": "Vietnamese<br>Tags: atp.EnumerationLiteralIndex=130"
+        },
+        {
+          "name": "vo",
+          "index": 131,
+          "description": "Volapuk<br>Tags: atp.EnumerationLiteralIndex=131"
+        },
+        {
+          "name": "wo",
+          "index": 132,
+          "description": "Wolof<br>Tags: atp.EnumerationLiteralIndex=132"
+        },
+        {
+          "name": "xh",
+          "index": 133,
+          "description": "Xhosa<br>Tags: atp.EnumerationLiteralIndex=133"
+        },
+        {
+          "name": "yo",
+          "index": 134,
+          "description": "Yoruba<br>Tags: atp.EnumerationLiteralIndex=134"
+        },
+        {
+          "name": "zh",
+          "index": 135,
+          "description": "Chinese<br>Tags: atp.EnumerationLiteralIndex=135"
+        },
+        {
+          "name": "zu",
+          "index": 136,
+          "description": "Zulu<br>Tags: atp.EnumerationLiteralIndex=136"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_TransportProtocols_IEEE1722Tp.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "IEEE1722TpAv",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_TransportProtocols_IEEE1722Tp_IEEE1722TpAv.json"
+    },
+    {
+      "name": "IEEE1722TpAcf",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_TransportProtocols_IEEE1722Tp_IEEE1722TpAcf.json"
+    }
+  ],
+  "summary": {
+    "class_count": 4,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

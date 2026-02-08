@@ -1,0 +1,371 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+  "classes": [
+    {
+      "name": "GlobalTimeEthMaster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GlobalTimeMaster",
+      "bases": [
+        "ARObject",
+        "GlobalTimeMaster",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.globalTimeMaster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the specialization of the GlobalTimeMaster for Ethernet communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 866,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "crcSecured": {
+          "type": "GlobalTimeCrcSupport",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of whether or not CRC is supported. This is relevant for selected bus systems."
+        },
+        "holdOverTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the timeout for transmission of Sync messages on Master ports in absence of Sync and Follow_Up messages on Slave"
+        },
+        "subTlvConfig": {
+          "type": "EthTSynSubTlvConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the subTLV fields which shall be included in the message."
+        }
+      }
+    },
+    {
+      "name": "EthTSynSubTlvConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeEthMaster.subTlvConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the subTLV fields which shall be included in the time sync message.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 867,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ofsSubTlv": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether an AUTOSAR Follow_Up TLV OFS used."
+        },
+        "statusSubTlv": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether an AUTOSAR Follow_Up TLV Status used."
+        },
+        "timeSubTlv": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether an AUTOSAR Follow_Up TLV Time used."
+        },
+        "userDataSubTlv": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether an AUTOSAR Follow_Up TLV UserData used."
+        }
+      }
+    },
+    {
+      "name": "GlobalTimeEthSlave",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GlobalTimeSlave",
+      "bases": [
+        "ARObject",
+        "GlobalTimeSlave",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.slave"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the specialization of the GlobalTimeSlave for Ethernet communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 867,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "crcValidated": {
+          "type": "GlobalTimeCrc",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of whether or not validation of the CRC is"
+        }
+      }
+    },
+    {
+      "name": "EthGlobalTimeDomainProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractGlobalTimeDomainProps",
+      "bases": [
+        "ARObject",
+        "AbstractGlobalTimeDomainProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.globalTimeDomainProperty"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Enables the definition of Ethernet Global Time specific properties.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 867,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "crcFlags": {
+          "type": "EthTSynCrcFlags",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the fields of the message which shall be taken for CRC calculation and verification."
+        },
+        "destination": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the MAC multicast address the Ethernet time messages are communicated on."
+        },
+        "fupDataIDList": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "managed": {
+          "type": "EthGlobalTime",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of CouplingPorts which are managed in the scope of this Ethernet GlobalTimeDomain."
+        },
+        "message": {
+          "type": "EthGlobalTimeMessage",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the compliance of the Ethernet time sync messages to specific standards."
+        },
+        "vlanPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines which VLAN priority shall be assigned to a time in case the message is sent using a VLAN"
+        }
+      }
+    },
+    {
+      "name": "EthTSynCrcFlags",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthGlobalTimeDomainProps.crcFlags"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the fields of the message which shall be taken into account for CRC calculation and verification.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 868,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "crcCorrection": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CorrectionField from the Follow_Up Message Header be included in CRC calculation."
+        },
+        "crcDomain": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "DomainNumber from the Follow_Up Message Header be included in CRC calculation."
+        },
+        "crcMessage": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "MessageLength from the Follow_Up Message Header be included in CRC calculation."
+        },
+        "crcPrecise": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "PreciseOriginTimestamp from the Follow_Up Message shall be included in CRC calculation."
+        },
+        "crcSequenceId": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "SequenceId from the Follow_Up Message Header shall in CRC calculation."
+        },
+        "crcSourcePort": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "SourcePortIdentity from the Follow_Up Message Header be included in CRC calculation."
+        }
+      }
+    },
+    {
+      "name": "EthGlobalTimeManagedCouplingPort",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthGlobalTimeDomainProps.managedCouplingPort"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies a CouplingPort which is managed by an Ethernet Global Time Domain.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 874,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "couplingPort": {
+          "type": "CouplingPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defines which CouplingPort is managed by this EthGlobal"
+        },
+        "globalTimePort": {
+          "type": "GlobalTimePortRole",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the port behavior."
+        },
+        "globalTimeTxPeriod": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the TX period in seconds 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "pdelayLatency": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Threshold for calculated Pdelay. If a measured Pdelay pdelayLatencyThreshold, the measured Pdelay discarded."
+        },
+        "pdelayRequest": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the period for the pdelay request messages."
+        },
+        "pdelayRespAnd": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout value for Pdelay_Resp and Pdelay_Resp_ after a Pdelay_Req has been transmitted resp. Pdelay_Resp has been received. A value of 0 or not attribute deactivates this timeout observation."
+        },
+        "pdelay": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether PDELAY RESPONSE and PDELAY FOLLOW UP shall be sent on this Coupling"
+        }
+      }
+    }
+  ]
+}

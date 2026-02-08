@@ -1,0 +1,36 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+  "enumerations": [
+    {
+      "name": "RamBlockStatusControlEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent",
+      "note": "This enumeration type defines options for how the management of the ramBlock status is controlled. Aggregated by NvBlockNeeds.ramBlockStatusControl",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 701,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "api",
+          "index": 0,
+          "description": "The ramBlock status is controlled via service interface by usage of the SetRamBlockStatus operation.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "nvRamManager",
+          "index": 1,
+          "description": "The ramBlock status is controlled exclusively by the Nv Ram Manager.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

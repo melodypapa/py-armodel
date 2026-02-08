@@ -1,0 +1,209 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage",
+  "classes": [
+    {
+      "name": "HeapUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "WorstCaseHeapUsage",
+        "MeasuredHeapUsage",
+        "RoughEstimateHeapUsage"
+      ],
+      "subclasses": [
+        "MeasuredHeapUsage",
+        "RoughEstimateHeapUsage",
+        "WorstCaseHeapUsage"
+      ],
+      "aggregated_by": [
+        "ResourceConsumption.heapUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the heap memory usage of a SW-Component.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 152,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2026,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hardware": {
+          "type": "HardwareConfiguration",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Contains information about the hardware context this usage is describing."
+        },
+        "hwElement": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies for which hardware element (e.g. ECU) this usage is given."
+        },
+        "softwareContext": {
+          "type": "SoftwareContext",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Contains details about the software context this heap provided for."
+        }
+      }
+    },
+    {
+      "name": "WorstCaseHeapUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "HeapUsage",
+      "bases": [
+        "ARObject",
+        "HeapUsage",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.heapUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Provides a formal worst case heap usage.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 152,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "memoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Worst case heap consumption. Unit: byte."
+        }
+      }
+    },
+    {
+      "name": "MeasuredHeapUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "HeapUsage",
+      "bases": [
+        "ARObject",
+        "HeapUsage",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.heapUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The heap usage has been measured.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 152,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "averageMemoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The average heap usage measured. Unit: byte."
+        },
+        "maximumMemoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum heap usage measured. Unit: byte. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "minimumMemoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum heap usage measured. Unit: byte."
+        },
+        "testPattern": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Description of the test pattern used to acquire the"
+        }
+      }
+    },
+    {
+      "name": "RoughEstimateHeapUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "HeapUsage",
+      "bases": [
+        "ARObject",
+        "HeapUsage",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.heapUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Rough estimation of the heap usage.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 153,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "memoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Rough estimate of the heap usage. Unit: byte."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage",
+  "classes": [
+    {
+      "name": "StackUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "WorstCaseStackUsage",
+        "MeasuredStackUsage",
+        "RoughEstimateStackUsage"
+      ],
+      "subclasses": [
+        "MeasuredStackUsage",
+        "RoughEstimateStackUsage",
+        "WorstCaseStackUsage"
+      ],
+      "aggregated_by": [
+        "ResourceConsumption.stackUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the stack memory usage of a software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 149,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2059,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "executableEntity": {
+          "type": "ExecutableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The executable entity for which this stack usage is"
+        },
+        "hardware": {
+          "type": "HardwareConfiguration",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Contains information about the hardware context this usage is describing."
+        },
+        "hwElement": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies for which hardware element (e.g. ECU) this is given."
+        },
+        "softwareContext": {
+          "type": "SoftwareContext",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Contains details about the software context this stack provided for."
+        }
+      }
+    },
+    {
+      "name": "WorstCaseStackUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "StackUsage",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "StackUsage"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.stackUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Provides a formal worst case stack usage.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 150,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "memoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Worst case stack consumption. Unit: byte."
+        }
+      }
+    },
+    {
+      "name": "MeasuredStackUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "StackUsage",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "StackUsage"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.stackUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The stack usage has been measured.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 150,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "averageMemoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The average stack usage measured. Unit: byte."
+        },
+        "maximumMemoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum stack usage measured. Unit: byte."
+        },
+        "minimumMemoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum stack usage measured. Unit: byte."
+        },
+        "testPattern": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Description of the test pattern used to acquire the"
+        }
+      }
+    },
+    {
+      "name": "RoughEstimateStackUsage",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "StackUsage",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "StackUsage"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.stackUsage"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Rough estimation of the stack usage.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 151,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "memoryConsumption": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Rough estimate of the stack usage. Unit: byte."
+        }
+      }
+    }
+  ]
+}

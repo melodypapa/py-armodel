@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreTopology.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreTopology.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 10,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

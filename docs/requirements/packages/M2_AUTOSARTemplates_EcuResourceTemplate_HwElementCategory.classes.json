@@ -1,0 +1,226 @@
+{
+  "package": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+  "classes": [
+    {
+      "name": "HwAttributeValue",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwDescriptionEntity.hwAttributeValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to assign a hardware attribute value. Note that v and vt are mutually exclusive.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 16,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "annotation": {
+          "type": "Annotation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional annotation that can be added to each Hw"
+        },
+        "hwAttributeDef": {
+          "type": "HwAttributeDef",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association represents the definition of the particular value."
+        },
+        "v": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a numerical hardware attribute value."
+        },
+        "vt": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a textual hardware attribute value."
+        }
+      }
+    },
+    {
+      "name": "HwType",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "HwDescriptionEntity",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "HwDescriptionEntity",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to describe Hardware types on an abstract level. The particular types of hardware are distinguished by the category. This category determines the applicable attributes. The possible categories and attributes are defined in HwCategory.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 17,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 991,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "HwCategory",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to declare hardware categories and its particular attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 24,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwAttributeDef": {
+          "type": "HwAttributeDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation describes particular hardware attribute"
+        }
+      }
+    },
+    {
+      "name": "HwAttributeDef",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwCategory.hwAttributeDef"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to define a particular hardware attribute. The category of this element defines the type of the attributeValue. If the category is Enumeration the hw AttributeEnumerationLiterals specify the available literals.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 26,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hwAttribute": {
+          "type": "HwAttributeLiteralDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The available EnumerationLiterals of the Enumeration Only applicable if the category of the Hw Enumeration."
+        },
+        "isRequired": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies if the defined attribute value is be provided."
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association specifies the physical unit of the defined This is optional due to the fact that textual attributes."
+        }
+      }
+    },
+    {
+      "name": "HwAttributeLiteralDef",
+      "package": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "HwAttributeDef.hwAttributeLiteral"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "One available EnumerationLiteral of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 26,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

@@ -1,13 +1,22 @@
-from typing import (
-    List,
-    Optional,
-)
+"""
+AUTOSAR Package - McGroups
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+Package: M2::AUTOSARTemplates::CommonStructure::McGroups
+"""
 
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
+
 
 
 class McGroup(ARElement):
@@ -16,9 +25,9 @@ class McGroup(ARElement):
     calibration. It is used to provide selection lists (groups) of calibration
     parameters, measurement variables, and functions in a hierarchical manner
     (subGroups).
-
-    Package: M2::AUTOSARTemplates::CommonStructure::McGroups
-
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::McGroups::McGroup
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 190, Classic
       Platform R23-11)
@@ -38,21 +47,21 @@ class McGroup(ARElement):
         # Refers to the set of adjustable data (= calibration by this McGroup.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._refCalprmSet: RefType = None
+        self._refCalprmSet: Optional["RefType"] = None
 
     @property
-    def ref_calprm_set(self) -> RefType:
+    def ref_calprm_set(self) -> Optional["RefType"]:
         """Get refCalprmSet (Pythonic accessor)."""
         return self._refCalprmSet
 
     @ref_calprm_set.setter
-    def ref_calprm_set(self, value: RefType) -> None:
+    def ref_calprm_set(self, value: Optional["RefType"]) -> None:
         """
         Set refCalprmSet with validation.
-
+        
         Args:
             value: The refCalprmSet to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,21 +71,21 @@ class McGroup(ARElement):
 
         self._refCalprmSet = value
         # Refers to the set of measurable belonging to this Mc atpSplitable.
-        self._ref: RefType = None
+        self._ref: Optional["RefType"] = None
 
     @property
-    def ref(self) -> RefType:
+    def ref(self) -> Optional["RefType"]:
         """Get ref (Pythonic accessor)."""
         return self._ref
 
     @ref.setter
-    def ref(self, value: RefType) -> None:
+    def ref(self, value: Optional["RefType"]) -> None:
         """
         Set ref with validation.
-
+        
         Args:
             value: The ref to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +95,10 @@ class McGroup(ARElement):
 
         self._ref = value
         # A sub-group that is seen as part of the enclosing group.
-        self._subGroup: List[RefType] = []
+        self._subGroup: List["RefType"] = []
 
     @property
-    def sub_group(self) -> List[RefType]:
+    def sub_group(self) -> List["RefType"]:
         """Get subGroup (Pythonic accessor)."""
         return self._subGroup
 
@@ -98,78 +107,78 @@ class McGroup(ARElement):
     def getMcFunction(self) -> List["McFunction"]:
         """
         AUTOSAR-compliant getter for mcFunction.
-
+        
         Returns:
             The mcFunction value
-
+        
         Note:
             Delegates to mc_function property (CODING_RULE_V2_00017)
         """
         return self.mc_function  # Delegates to property
 
-    def getRefCalprmSet(self) -> RefType:
+    def getRefCalprmSet(self) -> "RefType":
         """
         AUTOSAR-compliant getter for refCalprmSet.
-
+        
         Returns:
             The refCalprmSet value
-
+        
         Note:
             Delegates to ref_calprm_set property (CODING_RULE_V2_00017)
         """
         return self.ref_calprm_set  # Delegates to property
 
-    def setRefCalprmSet(self, value: RefType) -> "McGroup":
+    def setRefCalprmSet(self, value: "RefType") -> "McGroup":
         """
         AUTOSAR-compliant setter for refCalprmSet with method chaining.
-
+        
         Args:
             value: The refCalprmSet to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ref_calprm_set property setter (gets validation automatically)
         """
         self.ref_calprm_set = value  # Delegates to property setter
         return self
 
-    def getRef(self) -> RefType:
+    def getRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ref.
-
+        
         Returns:
             The ref value
-
+        
         Note:
             Delegates to ref property (CODING_RULE_V2_00017)
         """
         return self.ref  # Delegates to property
 
-    def setRef(self, value: RefType) -> "McGroup":
+    def setRef(self, value: "RefType") -> "McGroup":
         """
         AUTOSAR-compliant setter for ref with method chaining.
-
+        
         Args:
             value: The ref to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ref property setter (gets validation automatically)
         """
         self.ref = value  # Delegates to property setter
         return self
 
-    def getSubGroup(self) -> List[RefType]:
+    def getSubGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for subGroup.
-
+        
         Returns:
             The subGroup value
-
+        
         Note:
             Delegates to sub_group property (CODING_RULE_V2_00017)
         """
@@ -180,13 +189,13 @@ class McGroup(ARElement):
     def with_ref_calprm_set(self, value: Optional[RefType]) -> "McGroup":
         """
         Set refCalprmSet and return self for chaining.
-
+        
         Args:
             value: The refCalprmSet to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ref_calprm_set("value")
         """
@@ -196,24 +205,19 @@ class McGroup(ARElement):
     def with_ref(self, value: Optional[RefType]) -> "McGroup":
         """
         Set ref and return self for chaining.
-
+        
         Args:
             value: The ref to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ref("value")
         """
         self.ref = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class McGroupDataRefSet(ARObject):
@@ -225,9 +229,9 @@ class McGroupDataRefSet(ARObject):
     environment. The set is subject to variability because the same functional
     model may be used with various representation of the data. Tags:
     vh.latestBindingTime=preCompileTime
-
-    Package: M2::AUTOSARTemplates::CommonStructure::McGroups
-
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::McGroups::McGroupDataRefSet
+    
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 191, Classic
       Platform R23-11)
@@ -263,10 +267,10 @@ class McGroupDataRefSet(ARObject):
     def getFlatMapEntry(self) -> List["FlatInstanceDescriptor"]:
         """
         AUTOSAR-compliant getter for flatMapEntry.
-
+        
         Returns:
             The flatMapEntry value
-
+        
         Note:
             Delegates to flat_map_entry property (CODING_RULE_V2_00017)
         """
@@ -275,10 +279,10 @@ class McGroupDataRefSet(ARObject):
     def getMcDataInstance(self) -> List["McDataInstance"]:
         """
         AUTOSAR-compliant getter for mcDataInstance.
-
+        
         Returns:
             The mcDataInstance value
-
+        
         Note:
             Delegates to mc_data_instance property (CODING_RULE_V2_00017)
         """

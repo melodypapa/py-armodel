@@ -1,10 +1,24 @@
+"""
+AUTOSAR Package - Annotation
+
+Package: M2::MSR::Documentation::Annotation
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
+    GeneralAnnotation,
+)
+
+
+
 
 class Annotation(GeneralAnnotation):
     """
     This is a plain annotation which does not have further formal data.
-
-    Package: M2::MSR::Documentation::Annotation
-
+    
+    Package: M2::MSR::Documentation::Annotation::Annotation
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 334, Classic Platform
       R23-11)

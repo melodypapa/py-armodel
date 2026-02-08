@@ -1,20 +1,43 @@
-from abc import ABC
-from typing import (
-    List,
-    Optional,
-)
+"""
+AUTOSAR Package - SoftwareCluster
 
+Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Identifier,
+    PositiveInteger,
+    RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.__init__ import (
+    CpSoftwareClusterCommunicationResourceProps,
+    CpSoftwareClusterResource,
+)
+
+
 
 
 class CpSoftwareClusterResource(Identifiable, ABC):
     """
     Represents a single resource required or provided by a CP Software Cluster.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResource
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 271, Classic Platform
       R23-11)
@@ -48,10 +71,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def global_resource(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set globalResource with validation.
-
+        
         Args:
             value: The globalResource to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,9 +82,9 @@ class CpSoftwareClusterResource(Identifiable, ABC):
             self._globalResource = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"globalResource must be PositiveInteger or None, got {type(value).__name__}"
+                f"globalResource must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._globalResource = value
         # This attribute indicates, that the resource is mandatory to Software Cluster.
@@ -78,10 +101,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def is_mandatory(self, value: Optional["Boolean"]) -> None:
         """
         Set isMandatory with validation.
-
+        
         Args:
             value: The isMandatory to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,9 +112,9 @@ class CpSoftwareClusterResource(Identifiable, ABC):
             self._isMandatory = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"isMandatory must be Boolean or None, got {type(value).__name__}"
+                f"isMandatory must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isMandatory = value
 
@@ -100,10 +123,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def getDependent(self) -> List["RoleBasedResource"]:
         """
         AUTOSAR-compliant getter for dependent.
-
+        
         Returns:
             The dependent value
-
+        
         Note:
             Delegates to dependent property (CODING_RULE_V2_00017)
         """
@@ -112,10 +135,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def getGlobalResource(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for globalResource.
-
+        
         Returns:
             The globalResource value
-
+        
         Note:
             Delegates to global_resource property (CODING_RULE_V2_00017)
         """
@@ -124,13 +147,13 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def setGlobalResource(self, value: "PositiveInteger") -> "CpSoftwareClusterResource":
         """
         AUTOSAR-compliant setter for globalResource with method chaining.
-
+        
         Args:
             value: The globalResource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to global_resource property setter (gets validation automatically)
         """
@@ -140,10 +163,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def getIsMandatory(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isMandatory.
-
+        
         Returns:
             The isMandatory value
-
+        
         Note:
             Delegates to is_mandatory property (CODING_RULE_V2_00017)
         """
@@ -152,13 +175,13 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def setIsMandatory(self, value: "Boolean") -> "CpSoftwareClusterResource":
         """
         AUTOSAR-compliant setter for isMandatory with method chaining.
-
+        
         Args:
             value: The isMandatory to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to is_mandatory property setter (gets validation automatically)
         """
@@ -170,13 +193,13 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def with_global_resource(self, value: Optional["PositiveInteger"]) -> "CpSoftwareClusterResource":
         """
         Set globalResource and return self for chaining.
-
+        
         Args:
             value: The globalResource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_global_resource("value")
         """
@@ -186,32 +209,27 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def with_is_mandatory(self, value: Optional["Boolean"]) -> "CpSoftwareClusterResource":
         """
         Set isMandatory and return self for chaining.
-
+        
         Args:
             value: The isMandatory to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_is_mandatory("value")
         """
         self.is_mandatory = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class RoleBasedResourceDependency(ARObject):
     """
     This class specifies a dependency between CpSoftwareClusterResources.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::RoleBasedResourceDependency
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 272, Classic Platform
       R23-11)
@@ -233,10 +251,10 @@ class RoleBasedResourceDependency(ARObject):
     def resource(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set resource with validation.
-
+        
         Args:
             value: The resource to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -261,10 +279,10 @@ class RoleBasedResourceDependency(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-
+        
         Args:
             value: The role to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -272,9 +290,9 @@ class RoleBasedResourceDependency(ARObject):
             self._role = None
             return
 
-        if not isinstance(value, Identifier):
+        if not isinstance(value, (Identifier, str)):
             raise TypeError(
-                f"role must be Identifier or None, got {type(value).__name__}"
+                f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
 
@@ -283,10 +301,10 @@ class RoleBasedResourceDependency(ARObject):
     def getResource(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for resource.
-
+        
         Returns:
             The resource value
-
+        
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -295,13 +313,13 @@ class RoleBasedResourceDependency(ARObject):
     def setResource(self, value: "CpSoftwareCluster") -> "RoleBasedResourceDependency":
         """
         AUTOSAR-compliant setter for resource with method chaining.
-
+        
         Args:
             value: The resource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to resource property setter (gets validation automatically)
         """
@@ -311,10 +329,10 @@ class RoleBasedResourceDependency(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-
+        
         Returns:
             The role value
-
+        
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -323,13 +341,13 @@ class RoleBasedResourceDependency(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedResourceDependency":
         """
         AUTOSAR-compliant setter for role with method chaining.
-
+        
         Args:
             value: The role to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -341,13 +359,13 @@ class RoleBasedResourceDependency(ARObject):
     def with_resource(self, value: Optional["CpSoftwareCluster"]) -> "RoleBasedResourceDependency":
         """
         Set resource and return self for chaining.
-
+        
         Args:
             value: The resource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_resource("value")
         """
@@ -357,27 +375,19 @@ class RoleBasedResourceDependency(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedResourceDependency":
         """
         Set role and return self for chaining.
-
+        
         Args:
             value: The role to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_role("value")
         """
         self.role = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 
 
 class CpSoftwareCluster(ARElement):
@@ -387,9 +397,9 @@ class CpSoftwareCluster(ARElement):
     sub-set of hierarchical tree(s) of Software Components belonging to this CP
     Software Cluster. Resources required or provided by this CP Software Cluster
     are given in the according mappings.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareCluster
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 309, Classic Platform
       R23-11)
@@ -412,10 +422,10 @@ class CpSoftwareCluster(ARElement):
     def software_cluster(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set softwareCluster with validation.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -423,9 +433,9 @@ class CpSoftwareCluster(ARElement):
             self._softwareCluster = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"softwareCluster must be PositiveInteger or None, got {type(value).__name__}"
+                f"softwareCluster must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._softwareCluster = value
         # This is the collection of SwComponentPrototype Assignments atpVariation.
@@ -453,10 +463,10 @@ class CpSoftwareCluster(ARElement):
     def getSoftwareCluster(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for softwareCluster.
-
+        
         Returns:
             The softwareCluster value
-
+        
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -465,13 +475,13 @@ class CpSoftwareCluster(ARElement):
     def setSoftwareCluster(self, value: "PositiveInteger") -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
@@ -481,10 +491,10 @@ class CpSoftwareCluster(ARElement):
     def getSwComponent(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for swComponent.
-
+        
         Returns:
             The swComponent value
-
+        
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -493,10 +503,10 @@ class CpSoftwareCluster(ARElement):
     def getSwComposition(self) -> List["CompositionSw"]:
         """
         AUTOSAR-compliant getter for swComposition.
-
+        
         Returns:
             The swComposition value
-
+        
         Note:
             Delegates to sw_composition property (CODING_RULE_V2_00017)
         """
@@ -507,35 +517,27 @@ class CpSoftwareCluster(ARElement):
     def with_software_cluster(self, value: Optional["PositiveInteger"]) -> "CpSoftwareCluster":
         """
         Set softwareCluster and return self for chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_software_cluster("value")
         """
         self.software_cluster = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     """
     This meta class maps a CpSoftwareCluster to a EcuInstance.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterToEcuInstanceMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 283, Classic Platform R23-11)
     """
@@ -555,10 +557,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-
+        
         Args:
             value: The ecuInstance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -584,10 +586,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def machine_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set machineId with validation.
-
+        
         Args:
             value: The machineId to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -595,9 +597,9 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
             self._machineId = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"machineId must be PositiveInteger or None, got {type(value).__name__}"
+                f"machineId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._machineId = value
         # The mapped CP Software Cluster atpVariation.
@@ -613,10 +615,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-
+        
         Returns:
             The ecuInstance value
-
+        
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -625,13 +627,13 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def setEcuInstance(self, value: "EcuInstance") -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-
+        
         Args:
             value: The ecuInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -641,10 +643,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def getMachineId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for machineId.
-
+        
         Returns:
             The machineId value
-
+        
         Note:
             Delegates to machine_id property (CODING_RULE_V2_00017)
         """
@@ -653,13 +655,13 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def setMachineId(self, value: "PositiveInteger") -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         AUTOSAR-compliant setter for machineId with method chaining.
-
+        
         Args:
             value: The machineId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to machine_id property setter (gets validation automatically)
         """
@@ -669,10 +671,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def getSwCluster(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for swCluster.
-
+        
         Returns:
             The swCluster value
-
+        
         Note:
             Delegates to sw_cluster property (CODING_RULE_V2_00017)
         """
@@ -683,13 +685,13 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         Set ecuInstance and return self for chaining.
-
+        
         Args:
             value: The ecuInstance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -699,33 +701,28 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def with_machine_id(self, value: Optional["PositiveInteger"]) -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         Set machineId and return self for chaining.
-
+        
         Args:
             value: The machineId to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_machine_id("value")
         """
         self.machine_id = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     """
     This meta class maps a Software Cluster resource to an Application Partition
     to restrict the usage.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResourceToApplicationPartitionMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 284, Classic Platform R23-11)
     """
@@ -745,10 +742,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def application(self, value: Optional["ApplicationPartition"]) -> None:
         """
         Set application with validation.
-
+        
         Args:
             value: The application to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -773,10 +770,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def resource(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set resource with validation.
-
+        
         Args:
             value: The resource to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -795,10 +792,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def getApplication(self) -> "ApplicationPartition":
         """
         AUTOSAR-compliant getter for application.
-
+        
         Returns:
             The application value
-
+        
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -807,13 +804,13 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def setApplication(self, value: "ApplicationPartition") -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for application with method chaining.
-
+        
         Args:
             value: The application to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -823,10 +820,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def getResource(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for resource.
-
+        
         Returns:
             The resource value
-
+        
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -835,13 +832,13 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def setResource(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for resource with method chaining.
-
+        
         Args:
             value: The resource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to resource property setter (gets validation automatically)
         """
@@ -853,13 +850,13 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def with_application(self, value: Optional["ApplicationPartition"]) -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         Set application and return self for chaining.
-
+        
         Args:
             value: The application to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_application("value")
         """
@@ -869,24 +866,19 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def with_resource(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         Set resource and return self for chaining.
-
+        
         Args:
             value: The resource to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_resource("value")
         """
         self.resource = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 
 
 class CpSoftwareClusterMappingSet(ARElement):
@@ -895,9 +887,9 @@ class CpSoftwareClusterMappingSet(ARElement):
     Software Cluster relevant mappings. This is applicable if a CP Software
     Cluster is described besides a concrete System, e.g. a reusable CP Software
     Cluster.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterMappingSet
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 285, Classic Platform R23-11)
     """
@@ -944,10 +936,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getPortElementTo(self) -> List["PortElementTo"]:
         """
         AUTOSAR-compliant getter for portElementTo.
-
+        
         Returns:
             The portElementTo value
-
+        
         Note:
             Delegates to port_element_to property (CODING_RULE_V2_00017)
         """
@@ -956,10 +948,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getResourceTo(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for resourceTo.
-
+        
         Returns:
             The resourceTo value
-
+        
         Note:
             Delegates to resource_to property (CODING_RULE_V2_00017)
         """
@@ -968,10 +960,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getSoftwareCluster(self) -> List["CpSoftwareClusterTo"]:
         """
         AUTOSAR-compliant getter for softwareCluster.
-
+        
         Returns:
             The softwareCluster value
-
+        
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -980,10 +972,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getSwcTo(self) -> List["SwcToApplication"]:
         """
         AUTOSAR-compliant getter for swcTo.
-
+        
         Returns:
             The swcTo value
-
+        
         Note:
             Delegates to swc_to property (CODING_RULE_V2_00017)
         """
@@ -991,23 +983,15 @@ class CpSoftwareClusterMappingSet(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     """
     This meta class defines ApplicationPartitions that are applicable for the
     CpSoftwareCluster.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterToApplicationPartitionMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 287, Classic Platform R23-11)
     """
@@ -1034,10 +1018,10 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def software_cluster(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set softwareCluster with validation.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1056,10 +1040,10 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def getApplication(self) -> List["ApplicationPartition"]:
         """
         AUTOSAR-compliant getter for application.
-
+        
         Returns:
             The application value
-
+        
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -1068,10 +1052,10 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def getSoftwareCluster(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for softwareCluster.
-
+        
         Returns:
             The softwareCluster value
-
+        
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -1080,13 +1064,13 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def setSoftwareCluster(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
@@ -1098,24 +1082,19 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def with_software_cluster(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterToApplicationPartitionMapping":
         """
         Set softwareCluster and return self for chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_software_cluster("value")
         """
         self.software_cluster = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class SystemSignalToCommunicationResourceMapping(Identifiable):
@@ -1124,9 +1103,9 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     mapping can be used in an early process stage in which the DataMapping
     linking the Ports and mapped CpSoftwareCluster CommunicationResource(s) to
     the SystemSignal is not yet available.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::SystemSignalToCommunicationResourceMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 289, Classic Platform R23-11)
     """
@@ -1146,10 +1125,10 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def software_cluster(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set softwareCluster with validation.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1174,10 +1153,10 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-
+        
         Args:
             value: The systemSignal to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1196,10 +1175,10 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def getSoftwareCluster(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for softwareCluster.
-
+        
         Returns:
             The softwareCluster value
-
+        
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -1208,13 +1187,13 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def setSoftwareCluster(self, value: "CpSoftwareCluster") -> "SystemSignalToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
@@ -1224,10 +1203,10 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-
+        
         Returns:
             The systemSignal value
-
+        
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -1236,13 +1215,13 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def setSystemSignal(self, value: "SystemSignal") -> "SystemSignalToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-
+        
         Args:
             value: The systemSignal to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -1254,13 +1233,13 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def with_software_cluster(self, value: Optional["CpSoftwareCluster"]) -> "SystemSignalToCommunicationResourceMapping":
         """
         Set softwareCluster and return self for chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_software_cluster("value")
         """
@@ -1270,27 +1249,19 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "SystemSignalToCommunicationResourceMapping":
         """
         Set systemSignal and return self for chaining.
-
+        
         Args:
             value: The systemSignal to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_system_signal("value")
         """
         self.system_signal = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
@@ -1299,9 +1270,9 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     mapping can be used in an early process stage in which the DataMapping
     linking the Ports and mapped CpSoftwareCluster CommunicationResource(s) to
     SystemSignals of a SystemSignalGroup is not yet available.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::SystemSignalGroupToCommunicationResourceMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 290, Classic Platform R23-11)
     """
@@ -1321,10 +1292,10 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def software_cluster(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set softwareCluster with validation.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1338,21 +1309,21 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
             )
         self._softwareCluster = value
         # SystemSignalGroup to which the communication is assigned.
-        self._systemSignal: RefType = None
+        self._systemSignal: Optional["RefType"] = None
 
     @property
-    def system_signal(self) -> RefType:
+    def system_signal(self) -> Optional["RefType"]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: RefType) -> None:
+    def system_signal(self, value: Optional["RefType"]) -> None:
         """
         Set systemSignal with validation.
-
+        
         Args:
             value: The systemSignal to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1367,10 +1338,10 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def getSoftwareCluster(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for softwareCluster.
-
+        
         Returns:
             The softwareCluster value
-
+        
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -1379,41 +1350,41 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def setSoftwareCluster(self, value: "CpSoftwareCluster") -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
         self.software_cluster = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> RefType:
+    def getSystemSignal(self) -> "RefType":
         """
         AUTOSAR-compliant getter for systemSignal.
-
+        
         Returns:
             The systemSignal value
-
+        
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: RefType) -> "SystemSignalGroupToCommunicationResourceMapping":
+    def setSystemSignal(self, value: "RefType") -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-
+        
         Args:
             value: The systemSignal to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -1425,13 +1396,13 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def with_software_cluster(self, value: Optional["CpSoftwareCluster"]) -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         Set softwareCluster and return self for chaining.
-
+        
         Args:
             value: The softwareCluster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_software_cluster("value")
         """
@@ -1441,33 +1412,28 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def with_system_signal(self, value: Optional[RefType]) -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         Set systemSignal and return self for chaining.
-
+        
         Args:
             value: The systemSignal to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_system_signal("value")
         """
         self.system_signal = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class SwComponentPrototypeAssignment(ARObject):
     """
     This meta-class is only required to allow for the variant modeling of an
     instanceRef.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::SwComponentPrototypeAssignment
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 894, Classic Platform R23-11)
     """
@@ -1489,10 +1455,10 @@ class SwComponentPrototypeAssignment(ARObject):
     def sw_component(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponent with validation.
-
+        
         Args:
             value: The swComponent to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1511,10 +1477,10 @@ class SwComponentPrototypeAssignment(ARObject):
     def getSwComponent(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponent.
-
+        
         Returns:
             The swComponent value
-
+        
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -1523,13 +1489,13 @@ class SwComponentPrototypeAssignment(ARObject):
     def setSwComponent(self, value: "SwComponent") -> "SwComponentPrototypeAssignment":
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
-
+        
         Args:
             value: The swComponent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to sw_component property setter (gets validation automatically)
         """
@@ -1541,33 +1507,28 @@ class SwComponentPrototypeAssignment(ARObject):
     def with_sw_component(self, value: Optional["SwComponent"]) -> "SwComponentPrototypeAssignment":
         """
         Set swComponent and return self for chaining.
-
+        
         Args:
             value: The swComponent to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_sw_component("value")
         """
         self.sw_component = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 
 
 class CpSoftwareClusterResourcePool(ARElement):
     """
     Represents the pool of resources which can be provided or required by CP
     Software Clusters.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResourcePool
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 901, Classic Platform R23-11)
     """
@@ -1596,10 +1557,10 @@ class CpSoftwareClusterResourcePool(ARElement):
     def getEcuScope(self) -> List["EcuInstance"]:
         """
         AUTOSAR-compliant getter for ecuScope.
-
+        
         Returns:
             The ecuScope value
-
+        
         Note:
             Delegates to ecu_scope property (CODING_RULE_V2_00017)
         """
@@ -1608,10 +1569,10 @@ class CpSoftwareClusterResourcePool(ARElement):
     def getResource(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for resource.
-
+        
         Returns:
             The resource value
-
+        
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -1619,119 +1580,14 @@ class CpSoftwareClusterResourcePool(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
-    CpSoftwareClusterResource,
-)
-
-
-class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
-    """
-    Represents a single resource required or provided by a CP Software Cluster
-    which relates to the port based communication on VFB level.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
-    Sources:
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 902, Classic Platform R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This aggregation supports the further qualification of the enclosing
-        # CpSoftwareClusterCommunicationRecource by of additional attributes depending
-        # on the nature of.
-        self._communication: Optional["CpSoftwareCluster"] = None
-
-    @property
-    def communication(self) -> Optional["CpSoftwareCluster"]:
-        """Get communication (Pythonic accessor)."""
-        return self._communication
-
-    @communication.setter
-    def communication(self, value: Optional["CpSoftwareCluster"]) -> None:
-        """
-        Set communication with validation.
-
-        Args:
-            value: The communication to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._communication = None
-            return
-
-        if not isinstance(value, CpSoftwareCluster):
-            raise TypeError(
-                f"communication must be CpSoftwareCluster or None, got {type(value).__name__}"
-            )
-        self._communication = value
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getCommunication(self) -> "CpSoftwareCluster":
-        """
-        AUTOSAR-compliant getter for communication.
-
-        Returns:
-            The communication value
-
-        Note:
-            Delegates to communication property (CODING_RULE_V2_00017)
-        """
-        return self.communication  # Delegates to property
-
-    def setCommunication(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterCommunicationResource":
-        """
-        AUTOSAR-compliant setter for communication with method chaining.
-
-        Args:
-            value: The communication to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to communication property setter (gets validation automatically)
-        """
-        self.communication = value  # Delegates to property setter
-        return self
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_communication(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterCommunicationResource":
-        """
-        Set communication and return self for chaining.
-
-        Args:
-            value: The communication to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_communication("value")
-        """
-        self.communication = value  # Use property setter (gets validation)
-        return self
-
-from abc import ABC
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
     """
     Communication properties for cross cluster communication.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterCommunicationResourceProps
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 902, Classic Platform R23-11)
     """
@@ -1746,333 +1602,6 @@ class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
-    CpSoftwareClusterCommunicationResourceProps,
-)
-
-
-class DataComProps(CpSoftwareClusterCommunicationResourceProps):
-    """
-    Represents a single resource required or provided by a CP Software Cluster
-    which relates to the port based communication on VFB level.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
-    Sources:
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This attribute defines requirements on the data consistency mechanism in the
-        # cross cluster If the attribute is not set, the default value.
-        self._data: Optional["DataConsistencyPolicy"] = None
-
-    @property
-    def data(self) -> Optional["DataConsistencyPolicy"]:
-        """Get data (Pythonic accessor)."""
-        return self._data
-
-    @data.setter
-    def data(self, value: Optional["DataConsistencyPolicy"]) -> None:
-        """
-        Set data with validation.
-
-        Args:
-            value: The data to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._data = None
-            return
-
-        if not isinstance(value, DataConsistencyPolicy):
-            raise TypeError(
-                f"data must be DataConsistencyPolicy or None, got {type(value).__name__}"
-            )
-        self._data = value
-        # Send indication behavior for last-is-the best data.
-        self._sendIndication: Optional["SendIndicationEnum"] = None
-
-    @property
-    def send_indication(self) -> Optional["SendIndicationEnum"]:
-        """Get sendIndication (Pythonic accessor)."""
-        return self._sendIndication
-
-    @send_indication.setter
-    def send_indication(self, value: Optional["SendIndicationEnum"]) -> None:
-        """
-        Set sendIndication with validation.
-
-        Args:
-            value: The sendIndication to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._sendIndication = None
-            return
-
-        if not isinstance(value, SendIndicationEnum):
-            raise TypeError(
-                f"sendIndication must be SendIndicationEnum or None, got {type(value).__name__}"
-            )
-        self._sendIndication = value
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getData(self) -> "DataConsistencyPolicy":
-        """
-        AUTOSAR-compliant getter for data.
-
-        Returns:
-            The data value
-
-        Note:
-            Delegates to data property (CODING_RULE_V2_00017)
-        """
-        return self.data  # Delegates to property
-
-    def setData(self, value: "DataConsistencyPolicy") -> "DataComProps":
-        """
-        AUTOSAR-compliant setter for data with method chaining.
-
-        Args:
-            value: The data to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to data property setter (gets validation automatically)
-        """
-        self.data = value  # Delegates to property setter
-        return self
-
-    def getSendIndication(self) -> "SendIndicationEnum":
-        """
-        AUTOSAR-compliant getter for sendIndication.
-
-        Returns:
-            The sendIndication value
-
-        Note:
-            Delegates to send_indication property (CODING_RULE_V2_00017)
-        """
-        return self.send_indication  # Delegates to property
-
-    def setSendIndication(self, value: "SendIndicationEnum") -> "DataComProps":
-        """
-        AUTOSAR-compliant setter for sendIndication with method chaining.
-
-        Args:
-            value: The sendIndication to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to send_indication property setter (gets validation automatically)
-        """
-        self.send_indication = value  # Delegates to property setter
-        return self
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_data(self, value: Optional["DataConsistencyPolicy"]) -> "DataComProps":
-        """
-        Set data and return self for chaining.
-
-        Args:
-            value: The data to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_data("value")
-        """
-        self.data = value  # Use property setter (gets validation)
-        return self
-
-    def with_send_indication(self, value: Optional["SendIndicationEnum"]) -> "DataComProps":
-        """
-        Set sendIndication and return self for chaining.
-
-        Args:
-            value: The sendIndication to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_send_indication("value")
-        """
-        self.send_indication = value  # Use property setter (gets validation)
-        return self
-
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
-    CpSoftwareClusterCommunicationResourceProps,
-)
-
-
-class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
-    """
-    Defines additional attributes for the implementation of Client Server
-    communication between software clusters
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
-    Sources:
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # Length of call request queue on the server side.
-        # The implemented by the SwCluC.
-        # The value shall be equal to 1.
-        # Setting the value of queueLength to that incoming requests are rejected while
-                # that arrived earlier is being processed.
-        self._queueLength: Optional["PositiveInteger"] = None
-
-    @property
-    def queue_length(self) -> Optional["PositiveInteger"]:
-        """Get queueLength (Pythonic accessor)."""
-        return self._queueLength
-
-    @queue_length.setter
-    def queue_length(self, value: Optional["PositiveInteger"]) -> None:
-        """
-        Set queueLength with validation.
-
-        Args:
-            value: The queueLength to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._queueLength = None
-            return
-
-        if not isinstance(value, PositiveInteger):
-            raise TypeError(
-                f"queueLength must be PositiveInteger or None, got {type(value).__name__}"
-            )
-        self._queueLength = value
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getQueueLength(self) -> "PositiveInteger":
-        """
-        AUTOSAR-compliant getter for queueLength.
-
-        Returns:
-            The queueLength value
-
-        Note:
-            Delegates to queue_length property (CODING_RULE_V2_00017)
-        """
-        return self.queue_length  # Delegates to property
-
-    def setQueueLength(self, value: "PositiveInteger") -> "ClientServerOperationComProps":
-        """
-        AUTOSAR-compliant setter for queueLength with method chaining.
-
-        Args:
-            value: The queueLength to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to queue_length property setter (gets validation automatically)
-        """
-        self.queue_length = value  # Delegates to property setter
-        return self
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_queue_length(self, value: Optional["PositiveInteger"]) -> "ClientServerOperationComProps":
-        """
-        Set queueLength and return self for chaining.
-
-        Args:
-            value: The queueLength to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_queue_length("value")
-        """
-        self.queue_length = value  # Use property setter (gets validation)
-        return self
-
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
-    CpSoftwareClusterResource,
-)
-
-
-class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
-    """
-    Represents a single resource required or provided by a CP Software Cluster
-    which relates to the BSW.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
-    Sources:
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 904, Classic Platform R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # Refernce(s) to one or multiple EcucContainerValue(s) characteristics of the
-        # resource.
-        self._resourceNeeds: List["EcucContainerValue"] = []
-
-    @property
-    def resource_needs(self) -> List["EcucContainerValue"]:
-        """Get resourceNeeds (Pythonic accessor)."""
-        return self._resourceNeeds
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getResourceNeeds(self) -> List["EcucContainerValue"]:
-        """
-        AUTOSAR-compliant getter for resourceNeeds.
-
-        Returns:
-            The resourceNeeds value
-
-        Note:
-            Delegates to resource_needs property (CODING_RULE_V2_00017)
-        """
-        return self.resource_needs  # Delegates to property
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
 
 
 class CpSoftwareClusterToResourceMapping(Identifiable):
@@ -2080,9 +1609,9 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     This meta class maps a service resource to CP Software Clusters. By this
     mapping it’s specified whether the Software Cluster has to provide or to
     require the resource.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterToResourceMapping
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 907, Classic Platform R23-11)
     """
@@ -2102,10 +1631,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def provider(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set provider with validation.
-
+        
         Args:
             value: The provider to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2137,10 +1666,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def service(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set service with validation.
-
+        
         Args:
             value: The service to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2159,10 +1688,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def getProvider(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for provider.
-
+        
         Returns:
             The provider value
-
+        
         Note:
             Delegates to provider property (CODING_RULE_V2_00017)
         """
@@ -2171,13 +1700,13 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def setProvider(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterToResourceMapping":
         """
         AUTOSAR-compliant setter for provider with method chaining.
-
+        
         Args:
             value: The provider to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to provider property setter (gets validation automatically)
         """
@@ -2187,10 +1716,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def getRequester(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for requester.
-
+        
         Returns:
             The requester value
-
+        
         Note:
             Delegates to requester property (CODING_RULE_V2_00017)
         """
@@ -2199,10 +1728,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def getService(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for service.
-
+        
         Returns:
             The service value
-
+        
         Note:
             Delegates to service property (CODING_RULE_V2_00017)
         """
@@ -2211,13 +1740,13 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def setService(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterToResourceMapping":
         """
         AUTOSAR-compliant setter for service with method chaining.
-
+        
         Args:
             value: The service to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to service property setter (gets validation automatically)
         """
@@ -2229,13 +1758,13 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def with_provider(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterToResourceMapping":
         """
         Set provider and return self for chaining.
-
+        
         Args:
             value: The provider to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_provider("value")
         """
@@ -2245,15 +1774,451 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def with_service(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterToResourceMapping":
         """
         Set service and return self for chaining.
-
+        
         Args:
             value: The service to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_service("value")
         """
         self.service = value  # Use property setter (gets validation)
         return self
+
+
+
+class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
+    """
+    Represents a single resource required or provided by a CP Software Cluster
+    which relates to the port based communication on VFB level.
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterCommunicationResource
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 902, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This aggregation supports the further qualification of the enclosing
+        # CpSoftwareClusterCommunicationRecource by of additional attributes depending
+        # on the nature of.
+        self._communication: Optional["CpSoftwareCluster"] = None
+
+    @property
+    def communication(self) -> Optional["CpSoftwareCluster"]:
+        """Get communication (Pythonic accessor)."""
+        return self._communication
+
+    @communication.setter
+    def communication(self, value: Optional["CpSoftwareCluster"]) -> None:
+        """
+        Set communication with validation.
+        
+        Args:
+            value: The communication to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._communication = None
+            return
+
+        if not isinstance(value, CpSoftwareCluster):
+            raise TypeError(
+                f"communication must be CpSoftwareCluster or None, got {type(value).__name__}"
+            )
+        self._communication = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getCommunication(self) -> "CpSoftwareCluster":
+        """
+        AUTOSAR-compliant getter for communication.
+        
+        Returns:
+            The communication value
+        
+        Note:
+            Delegates to communication property (CODING_RULE_V2_00017)
+        """
+        return self.communication  # Delegates to property
+
+    def setCommunication(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterCommunicationResource":
+        """
+        AUTOSAR-compliant setter for communication with method chaining.
+        
+        Args:
+            value: The communication to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to communication property setter (gets validation automatically)
+        """
+        self.communication = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_communication(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterCommunicationResource":
+        """
+        Set communication and return self for chaining.
+        
+        Args:
+            value: The communication to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_communication("value")
+        """
+        self.communication = value  # Use property setter (gets validation)
+        return self
+
+
+
+class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
+    """
+    Represents a single resource required or provided by a CP Software Cluster
+    which relates to the BSW.
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterServiceResource
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 904, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Refernce(s) to one or multiple EcucContainerValue(s) characteristics of the
+        # resource.
+        self._resourceNeeds: List["EcucContainerValue"] = []
+
+    @property
+    def resource_needs(self) -> List["EcucContainerValue"]:
+        """Get resourceNeeds (Pythonic accessor)."""
+        return self._resourceNeeds
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getResourceNeeds(self) -> List["EcucContainerValue"]:
+        """
+        AUTOSAR-compliant getter for resourceNeeds.
+        
+        Returns:
+            The resourceNeeds value
+        
+        Note:
+            Delegates to resource_needs property (CODING_RULE_V2_00017)
+        """
+        return self.resource_needs  # Delegates to property
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+
+class DataComProps(CpSoftwareClusterCommunicationResourceProps):
+    """
+    Represents a single resource required or provided by a CP Software Cluster
+    which relates to the port based communication on VFB level.
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::DataComProps
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This attribute defines requirements on the data consistency mechanism in the
+        # cross cluster If the attribute is not set, the default value.
+        self._data: Optional["DataConsistencyPolicy"] = None
+
+    @property
+    def data(self) -> Optional["DataConsistencyPolicy"]:
+        """Get data (Pythonic accessor)."""
+        return self._data
+
+    @data.setter
+    def data(self, value: Optional["DataConsistencyPolicy"]) -> None:
+        """
+        Set data with validation.
+        
+        Args:
+            value: The data to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._data = None
+            return
+
+        if not isinstance(value, DataConsistencyPolicy):
+            raise TypeError(
+                f"data must be DataConsistencyPolicy or None, got {type(value).__name__}"
+            )
+        self._data = value
+        # Send indication behavior for last-is-the best data.
+        self._sendIndication: Optional["SendIndicationEnum"] = None
+
+    @property
+    def send_indication(self) -> Optional["SendIndicationEnum"]:
+        """Get sendIndication (Pythonic accessor)."""
+        return self._sendIndication
+
+    @send_indication.setter
+    def send_indication(self, value: Optional["SendIndicationEnum"]) -> None:
+        """
+        Set sendIndication with validation.
+        
+        Args:
+            value: The sendIndication to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._sendIndication = None
+            return
+
+        if not isinstance(value, SendIndicationEnum):
+            raise TypeError(
+                f"sendIndication must be SendIndicationEnum or None, got {type(value).__name__}"
+            )
+        self._sendIndication = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getData(self) -> "DataConsistencyPolicy":
+        """
+        AUTOSAR-compliant getter for data.
+        
+        Returns:
+            The data value
+        
+        Note:
+            Delegates to data property (CODING_RULE_V2_00017)
+        """
+        return self.data  # Delegates to property
+
+    def setData(self, value: "DataConsistencyPolicy") -> "DataComProps":
+        """
+        AUTOSAR-compliant setter for data with method chaining.
+        
+        Args:
+            value: The data to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to data property setter (gets validation automatically)
+        """
+        self.data = value  # Delegates to property setter
+        return self
+
+    def getSendIndication(self) -> "SendIndicationEnum":
+        """
+        AUTOSAR-compliant getter for sendIndication.
+        
+        Returns:
+            The sendIndication value
+        
+        Note:
+            Delegates to send_indication property (CODING_RULE_V2_00017)
+        """
+        return self.send_indication  # Delegates to property
+
+    def setSendIndication(self, value: "SendIndicationEnum") -> "DataComProps":
+        """
+        AUTOSAR-compliant setter for sendIndication with method chaining.
+        
+        Args:
+            value: The sendIndication to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to send_indication property setter (gets validation automatically)
+        """
+        self.send_indication = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_data(self, value: Optional["DataConsistencyPolicy"]) -> "DataComProps":
+        """
+        Set data and return self for chaining.
+        
+        Args:
+            value: The data to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_data("value")
+        """
+        self.data = value  # Use property setter (gets validation)
+        return self
+
+    def with_send_indication(self, value: Optional["SendIndicationEnum"]) -> "DataComProps":
+        """
+        Set sendIndication and return self for chaining.
+        
+        Args:
+            value: The sendIndication to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_send_indication("value")
+        """
+        self.send_indication = value  # Use property setter (gets validation)
+        return self
+
+
+
+class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
+    """
+    Defines additional attributes for the implementation of Client Server
+    communication between software clusters
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::ClientServerOperationComProps
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Length of call request queue on the server side.
+        # The implemented by the SwCluC.
+        # The value shall be equal to 1.
+        # Setting the value of queueLength to that incoming requests are rejected while
+                # that arrived earlier is being processed.
+        self._queueLength: Optional["PositiveInteger"] = None
+
+    @property
+    def queue_length(self) -> Optional["PositiveInteger"]:
+        """Get queueLength (Pythonic accessor)."""
+        return self._queueLength
+
+    @queue_length.setter
+    def queue_length(self, value: Optional["PositiveInteger"]) -> None:
+        """
+        Set queueLength with validation.
+        
+        Args:
+            value: The queueLength to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._queueLength = None
+            return
+
+        if not isinstance(value, (PositiveInteger, str)):
+            raise TypeError(
+                f"queueLength must be PositiveInteger or str or None, got {type(value).__name__}"
+            )
+        self._queueLength = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getQueueLength(self) -> "PositiveInteger":
+        """
+        AUTOSAR-compliant getter for queueLength.
+        
+        Returns:
+            The queueLength value
+        
+        Note:
+            Delegates to queue_length property (CODING_RULE_V2_00017)
+        """
+        return self.queue_length  # Delegates to property
+
+    def setQueueLength(self, value: "PositiveInteger") -> "ClientServerOperationComProps":
+        """
+        AUTOSAR-compliant setter for queueLength with method chaining.
+        
+        Args:
+            value: The queueLength to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to queue_length property setter (gets validation automatically)
+        """
+        self.queue_length = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_queue_length(self, value: Optional["PositiveInteger"]) -> "ClientServerOperationComProps":
+        """
+        Set queueLength and return self for chaining.
+        
+        Args:
+            value: The queueLength to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_queue_length("value")
+        """
+        self.queue_length = value  # Use property setter (gets validation)
+        return self
+
+
+class DataConsistencyPolicyEnum(AREnum):
+    """
+    DataConsistencyPolicyEnum enumeration
+
+Defines how data consistency is ensured in the cross cluster communication. Aggregated by DataComProps.dataConsistencyPolicy
+
+Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
+    """
+    # In this case the data consistency is ensured by the implementation of the SwClucC module.
+    consistencyMechanism = "0"
+
+    # In this case the data consistency is not ensured by the SwClucC module. In this case it has to be Mechanism ensured by scheduling.
+    noConsistency = "1"
+
+
+
+class SendIndicationEnum(AREnum):
+    """
+    SendIndicationEnum enumeration
+
+This meta-class provides a way to specify in which way redundancy shall be applied on collection level. Aggregated by DataComProps.sendIndication
+
+Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
+    """
+    # Template
+    System = "None"
+
+    # CP R23-11
+    AUTOSAR = "None"
+
+    # This value represents the requirement that any send operation of the Software Cluster is indicated.
+    anySendOperation = "2"
+
+    # This value represents the requirement that send operations of the Software Cluster are not indicated.
+    none = "1"

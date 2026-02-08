@@ -1,0 +1,45 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+  "enumerations": [
+    {
+      "name": "ArraySizeHandlingEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "note": "This enumeration defines different ways to handle the sizes of variable size arrays. Aggregated by ApplicationArrayElement.arraySizeHandling, ImplementationDataTypeElement.arraySizeHandling",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "allIndicesDifferentArraySize",
+          "index": 0,
+          "description": "All elements of the variable size array may have different sizes.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "allIndicesSameArraySize",
+          "index": 1,
+          "description": "All elements of the variable size array have the same size.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "Software",
+          "index": null,
+          "description": "Component Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "inheritedFromArray",
+          "index": 2,
+          "description": "The size of all dimensions of the variable size array is determined by the size of the contained array ElementTypeSize element.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

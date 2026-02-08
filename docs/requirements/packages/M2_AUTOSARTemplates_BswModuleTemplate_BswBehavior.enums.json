@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior",
+  "enumerations": [
+    {
+      "name": "BswInterruptCategory",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior",
+      "note": "Category of the interrupt service Aggregated by BswInterruptEntity.interruptCategory",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 76,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "cat1",
+          "index": 0,
+          "description": "Cat1 interrupt routines are not controlled by the OS and are only allowed to make a very limited selection of OS calls to enable and disable all interrupts. The BswInterruptEntity is implemented by the interrupt service routine, which is directly called from the interrupt vector (not via the OS).<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "cat2",
+          "index": 1,
+          "description": "Cat2 interrupt routines are controlled by the OS and they are allowed to make OS calls. The Bsw InterruptEntity is implemented by the interrupt handler, which is called from the OS.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

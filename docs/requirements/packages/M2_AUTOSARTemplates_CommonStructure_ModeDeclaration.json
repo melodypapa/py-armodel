@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+  "path": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_ModeDeclaration.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_CommonStructure_ModeDeclaration.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 7,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset",
+  "enumerations": [
+    {
+      "name": "DiagnosticResponseToEcuResetEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset",
+      "note": "This enumeration controls the point in time in which a response to the reception of an EcuReset service shall be generated. Aggregated by DiagnosticEcuResetClass.respondToReset",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "respondAfterReset",
+          "index": 0,
+          "description": "Answer to EcuReset service should come after the reset.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "respondBeforeReset",
+          "index": 1,
+          "description": "Answer to EcuReset service should come before the reset.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

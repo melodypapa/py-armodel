@@ -1,0 +1,92 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+  "enumerations": [
+    {
+      "name": "DataTransformationErrorHandlingEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "note": "This enumeration defines different ways how a RunnableEntity shall handle transformer errors. Aggregated by PortAPIOption.errorHandling",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 590,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2014,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noTransformerErrorHandling",
+          "index": 0,
+          "description": "A runnable does not handle transformer errors.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "transformerErrorHandling",
+          "index": 1,
+          "description": "The runnable implements the handling of transformer errors.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DataTransformationStatusForwardingEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "note": "This enumeration defines different ways how a RunnableEntity shall be able to forward status code into the transformer chain. Aggregated by PortAPIOption.transformerStatusForwarding",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 591,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2015,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noTransformerStatusForwarding",
+          "index": 0,
+          "description": "The RunnableEntity is not able to forward a transformer status code.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "transformerStatusForwarding",
+          "index": 1,
+          "description": "The RunnableEntity is able to forward a transformer status code.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "SupportBufferLockingEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+      "note": "This enumeration represents the ability to define the buffer locking behavior. Aggregated by CommunicationBufferLocking.supportBufferLocking",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 595,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "doesNotSupportBufferLocking",
+          "index": 0,
+          "description": "Buffer locking is not supported.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "supportsBufferLocking",
+          "index": 1,
+          "description": "Buffer locking is supported.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

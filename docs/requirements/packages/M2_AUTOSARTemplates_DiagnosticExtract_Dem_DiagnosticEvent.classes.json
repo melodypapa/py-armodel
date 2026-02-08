@@ -1,0 +1,427 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+  "classes": [
+    {
+      "name": "DiagnosticEvent",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used to configure DiagnosticEvents. (cid:53) 164 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 164,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "associated": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the identification number that is with the enclosing DiagnosticEvent and allows identify it when placed into a snapshot record or record storage. can be reported as internal data element in or extended data records."
+        },
+        "clearEvent": {
+          "type": "DiagnosticClearEvent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the callback"
+        },
+        "confirmation": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the number of operation cycles with failed result before a confirmed DTC is set to 1. The this attribute is a by \"1\" increased value the confirmation threshold of the \"trip in ISO 14229-1 in figure D.4. A value defines the immediate confirmation of the DTC the first reported failed. This is also sometimes trip DTC\". A value of \"2\" defines a DTC the operation cycle after the first occurred value of \"2\" is typically used in the US for OBD"
+        },
+        "connected": {
+          "type": "DiagnosticConnected",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation"
+        },
+        "eventClear": {
+          "type": "DiagnosticEventClear",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the Dem has access to a \"ClearEventAllowed\" callback."
+        },
+        "eventKind": {
+          "type": "DiagnosticEventKind",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to distinguish between SWC and events."
+        },
+        "prestorage": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes whether the Prestorage of Freeze is supported by the assigned event or not. of FreezeFrames is supported of FreezeFrames is not supported"
+        },
+        "prestored": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If the Event uses a prestored freeze-frame (using the PrestoreFreezeFrame and ClearPrestored of the service interface DiagnosticMonitor) indicates if the Event requires the data to be non-volatile memory. TRUE = Dem shall store data in non-volatile memory, FALSE = Data lost at shutdown (not stored in Nvm)"
+        },
+        "recoverableIn": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If the attribute is set to true then reporting PASSED will the indication of a failed test in the current operation If the attribute is set to false then reporting be ignored and not lead to a reset of the a failed test."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticConnectedIndicator",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEvent.connectedIndicator"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of indicators that are defined per DiagnosticEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 166,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "behaviorIndicatorBehaviorEnum": {
+          "type": "DiagnosticConnected",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Behavior of the linked indicator."
+        },
+        "healingCycle": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the number of healing cycles for the atpVariation"
+        },
+        "indicator": {
+          "type": "DiagnosticIndicator",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the used indicator."
+        },
+        "indicatorFailure": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the number of failure cycles for the Please note that this is not relevant for the Adaptive Platform."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticIumpr",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model the in-use monitor performance ratio. The latter computes to the number of times a fault could have been found divided by the number of times the vehicle conditions have been properly fulfilled.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 210,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "event": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the DiagnosticEvent that the IUMPR computation."
+        },
+        "ratioKind": {
+          "type": "DiagnosticIumprKind",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the behavior of how the ratio is"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticIumprGroup",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model a IUMPR groups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 210,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iumpr": {
+          "type": "DiagnosticIumpr",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference collects DiagnosticIumpr to a Diagnostic"
+        },
+        "iumprGroup": {
+          "type": "DiagnosticIumprGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This aggregation allows for the variant modeling of the groupIdentifier. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticIumprGroupIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticIumprGroup.iumprGroupIdentifier"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to the define the group identifier for an IumprGroup.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 211,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "groupId": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall be taken to define an identifier for the Please note that the value of this identifier by regulations outside the scope of AUTOSAR therefore not be limited to the set of characters a shortName."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticIumprDenominatorGroup",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model a IUMPR denominator groups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 211,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iumpr": {
+          "type": "DiagnosticIumpr",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference collects DiagnosticIumpr to a Diagnostic"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticAbstractAliasEvent",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticFimAliasEvent",
+        "DiagnosticFimAliasEventGroup"
+      ],
+      "subclasses": [
+        "DiagnosticFimAliasEvent",
+        "DiagnosticFimAliasEventGroup"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents an abstract base class for all diagnostic alias events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 214,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticFimAliasEventMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model the mapping of a DiagnosticEvent to a DiagnosticAlias Event. By this means the \"preliminary\" modeling by way of a DiagnosticAliasEvent is further substantiated.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 262,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "actualEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the actual diagnostic"
+        },
+        "aliasEventEvent": {
+          "type": "DiagnosticFimAlias",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the alias event."
+        }
+      }
+    }
+  ]
+}

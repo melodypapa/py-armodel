@@ -1,0 +1,52 @@
+{
+  "name": "M2::MSR::DataDictionary",
+  "path": "M2::MSR::DataDictionary",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "ServiceProcessTask",
+      "full_path": "M2::MSR::DataDictionary::ServiceProcessTask",
+      "file": "packages/M2_MSR_DataDictionary_ServiceProcessTask.json"
+    },
+    {
+      "name": "DataDefProperties",
+      "full_path": "M2::MSR::DataDictionary::DataDefProperties",
+      "file": "packages/M2_MSR_DataDictionary_DataDefProperties.json"
+    },
+    {
+      "name": "AuxillaryObjects",
+      "full_path": "M2::MSR::DataDictionary::AuxillaryObjects",
+      "file": "packages/M2_MSR_DataDictionary_AuxillaryObjects.json"
+    },
+    {
+      "name": "SystemConstant",
+      "full_path": "M2::MSR::DataDictionary::SystemConstant",
+      "file": "packages/M2_MSR_DataDictionary_SystemConstant.json"
+    },
+    {
+      "name": "CalibrationParameter",
+      "full_path": "M2::MSR::DataDictionary::CalibrationParameter",
+      "file": "packages/M2_MSR_DataDictionary_CalibrationParameter.json"
+    },
+    {
+      "name": "Axis",
+      "full_path": "M2::MSR::DataDictionary::Axis",
+      "file": "packages/M2_MSR_DataDictionary_Axis.json"
+    },
+    {
+      "name": "DatadictionaryProxies",
+      "full_path": "M2::MSR::DataDictionary::DatadictionaryProxies",
+      "file": "packages/M2_MSR_DataDictionary_DatadictionaryProxies.json"
+    },
+    {
+      "name": "RecordLayout",
+      "full_path": "M2::MSR::DataDictionary::RecordLayout",
+      "file": "packages/M2_MSR_DataDictionary_RecordLayout.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

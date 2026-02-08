@@ -1,0 +1,122 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation",
+  "classes": [
+    {
+      "name": "SwcImplementation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Implementation",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "Implementation",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a specialization of the general Implementation meta-class with respect to the usage in application software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 344,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 623,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2069,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "behavior": {
+          "type": "SwcInternalBehavior",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The internal behavior implemented by this 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "perInstance": {
+          "type": "PerInstanceMemory",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Allows a definition of the size of the per-instance memory for this implementation. The aggregation of PerInstance subject to variability with the purpose to in the software components different algorithms in the requiring different number of memory this case PerInstanceMemory. atpVariation"
+        },
+        "required": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identify a specific RTE vendor. This information is important at the time of integrating (in the application code with the RTE. The that (if the association exists) the has been created to fit to the provided by this specific vendor. integrate the code with another RTE vendor mode is in general not possible."
+        }
+      }
+    },
+    {
+      "name": "PerInstanceMemorySize",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwcImplementation.perInstanceMemorySize"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Resources needed by the allocation of PerInstanceMemory for each SWC instance. Note that these resources are not covered by an ObjectFileSection, because they are supposed to be allocated by the RTE.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 623,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "alignment": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Required alignment (1,2,4,...) of the referenced Per byte."
+        },
+        "perInstanceMemory": {
+          "type": "PerInstanceMemory",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the referenced PerInstanceMemory."
+        },
+        "size": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size (in bytes) of the reference perInstanceMemory. The PerInstanceMemorySize is subject to the purpose to support variability in the implementations. Different the implementation might require a different"
+        }
+      }
+    }
+  ]
+}

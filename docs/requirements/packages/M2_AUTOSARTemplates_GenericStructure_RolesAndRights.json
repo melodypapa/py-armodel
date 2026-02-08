@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+  "path": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_RolesAndRights.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_GenericStructure_RolesAndRights.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,344 @@
+{
+  "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+  "classes": [
+    {
+      "name": "BswModuleEntry",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This class represents a single API entry (C-function prototype) into the BSW module or cluster. The name of the C-function is equal to the short name of this element with one exception: In case of multiple instances of a module on the same CPU, special rules for \"infixes\" apply, see description of class BswImplementation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 32,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 976,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 216,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 431,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 171,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "argument": {
+          "type": "SwServiceArg",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An argument belonging to this BswModuleEntry. atpSplitable; atpVariation"
+        },
+        "bswEntryKind": {
+          "type": "BswEntryKindEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This describes whether the entry is concrete or abstract. attribute is missing the entry is considered as"
+        },
+        "callType": {
+          "type": "BswCallType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The type of call associated with this service."
+        },
+        "execution": {
+          "type": "BswExecutionContext",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the execution context which is required (in case entries into this module) or guaranteed (in case of from this module) for this service."
+        },
+        "function": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to control the generation of function If set to \"RTE\", the RTE generates the prototypes in the Module Interlink Header File."
+        },
+        "isReentrant": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reentrancy from the viewpoint of function callers: Enables the service to be invoked again, before has finished. It is prohibited to invoke the service again before finished."
+        },
+        "isSynchronous": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Synchronicity from the viewpoint of function callers: This calls a synchronous service, i.e. the service when the call returns. The service (on semantical level) may not be the call returns."
+        },
+        "returnType": {
+          "type": "SwServiceArg",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The return type belonging to this bswModuleEntry. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the role of the entry in the given context. It shall to the standardized name of the service call, cases where no ServiceIdentifier is specified, callbacks. Note that the ShortName is not always it maybe vendor specific (e.g. for can have more than one instance)."
+        },
+        "serviceId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Refers to the service identifier of the Standardized AUTOSAR basic software. For it can optionally be used for"
+        },
+        "swServiceImpl": {
+          "type": "SwServiceImplPolicy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Denotes the implementation policy as a standard function call, inline function or macro. This has to be specified on because it determines the signature of the"
+        }
+      }
+    },
+    {
+      "name": "BswModuleDependency",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswModuleDescription.bswModuleDependency"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class collects the dependencies of a BSW module or cluster on a certain other BSW module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 47,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "targetModuleId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AUTOSAR identifier of the target module of which the defined. is optional, because the target module be identified by targetModuleRef. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "targetModule": {
+          "type": "BswModuleDescription",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the target module. It is an <<atpUriDef>> the reference shall be used to identify the target actually needing the description of that atpUriDef; atpVariation"
+        }
+      }
+    },
+    {
+      "name": "BswEntryRelationshipSet",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Describes a set of relationships between two BswModuleEntrys.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 51,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 51,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswEntryRelationship": {
+          "type": "BswEntryRelationship",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Relationship between two BswModuleEntrys."
+        }
+      }
+    },
+    {
+      "name": "BswEntryRelationship",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswEntryRelationshipSet.bswEntryRelationship"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes a relationship between two BswModuleEntrys and the type of relationship.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 51,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 52,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswEntry": {
+          "type": "BswEntryRelationship",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Denotes the type of the relationship. Tags: xml.sequenceOffset=5 Type"
+        },
+        "from": {
+          "type": "BswModuleEntry",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Type of relationship that refers to the abstract BswModule notice that in this case the bswEntry be set to drivedFrom."
+        },
+        "to": {
+          "type": "BswModuleEntry",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Type of relationship that refers to the concrete Bsw"
+        }
+      }
+    },
+    {
+      "name": "BswModuleClientServerEntry",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswModuleDescription.providedClientServerEntry",
+        "BswModuleDescription.requiredClientServerEntry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a single API entry into the BSW module or cluster that has the ability to be called in client-server fashion via the BSW Scheduler. In this regard it is more special than BswModuleEntry and can be seen as a wrapper around the Bsw ModuleEntry to which it refers (property encapsulatedEntry).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 53,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "encapsulated": {
+          "type": "BswModuleEntry",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The underlying BswModuleEntry. xml.sequenceOffset=5"
+        },
+        "isReentrant": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reentrancy from the viewpoint of clients invoking the the BSW Scheduler: Enables the service to be invoked again, before has finished. It is prohibited to invoke the service again before finished. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "isSynchronous": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Synchronicity from the viewpoint of clients invoking the the BSW Scheduler: This calls a synchronous service, i.e. the service when the call returns. The service (on semantical level) may not be the call returns."
+        }
+      }
+    }
+  ]
+}

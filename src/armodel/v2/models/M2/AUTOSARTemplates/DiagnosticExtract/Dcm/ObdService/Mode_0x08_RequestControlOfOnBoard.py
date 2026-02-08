@@ -1,17 +1,32 @@
-from typing import Optional
+"""
+AUTOSAR Package - Mode_0x08_RequestControlOfOnBoard
 
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
+
+
 
 
 class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x08 service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard::DiagnosticRequestControlOfOnBoardDevice
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 157, Classic Platform
       R23-11)
@@ -35,10 +50,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def request_control(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestControl with validation.
-
+        
         Args:
             value: The requestControl to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +78,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def test_id_identifier(self, value: Optional["DiagnosticTestRoutine"]) -> None:
         """
         Set testIdIdentifier with validation.
-
+        
         Args:
             value: The testIdIdentifier to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +100,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def getRequestControl(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestControl.
-
+        
         Returns:
             The requestControl value
-
+        
         Note:
             Delegates to request_control property (CODING_RULE_V2_00017)
         """
@@ -97,13 +112,13 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def setRequestControl(self, value: "DiagnosticRequest") -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         AUTOSAR-compliant setter for requestControl with method chaining.
-
+        
         Args:
             value: The requestControl to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to request_control property setter (gets validation automatically)
         """
@@ -113,10 +128,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def getTestIdIdentifier(self) -> "DiagnosticTestRoutine":
         """
         AUTOSAR-compliant getter for testIdIdentifier.
-
+        
         Returns:
             The testIdIdentifier value
-
+        
         Note:
             Delegates to test_id_identifier property (CODING_RULE_V2_00017)
         """
@@ -125,13 +140,13 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def setTestIdIdentifier(self, value: "DiagnosticTestRoutine") -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         AUTOSAR-compliant setter for testIdIdentifier with method chaining.
-
+        
         Args:
             value: The testIdIdentifier to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to test_id_identifier property setter (gets validation automatically)
         """
@@ -143,13 +158,13 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def with_request_control(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         Set requestControl and return self for chaining.
-
+        
         Args:
             value: The requestControl to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_request_control("value")
         """
@@ -159,22 +174,19 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def with_test_id_identifier(self, value: Optional["DiagnosticTestRoutine"]) -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         Set testIdIdentifier and return self for chaining.
-
+        
         Args:
             value: The testIdIdentifier to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_test_id_identifier("value")
         """
         self.test_id_identifier = value  # Use property setter (gets validation)
         return self
 
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
-    DiagnosticServiceClass,
-)
 
 
 class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
@@ -182,9 +194,9 @@ class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
     This meta-class represents the ability to define common properties for all
     instances of the "Request Control Of On-Board Device" OBD diagnostic
     service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard::DiagnosticRequestControlOfOnBoardDeviceClass
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 158, Classic Platform
       R23-11)
@@ -198,19 +210,14 @@ class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-    DiagnosticCommonElement,
-)
 
 
 class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     """
     This represents the test id of the DiagnosticTestIdentifier.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard::DiagnosticTestRoutineIdentifier
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 158, Classic Platform
       R23-11)
@@ -231,10 +238,10 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-
+        
         Args:
             value: The id to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -242,9 +249,9 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
             self._id = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"id must be PositiveInteger or None, got {type(value).__name__}"
+                f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
         # This represents the specified data size for the request Unit: byte.
@@ -259,10 +266,10 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def request_data(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set requestData with validation.
-
+        
         Args:
             value: The requestData to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -270,9 +277,9 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
             self._requestData = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"requestData must be PositiveInteger or None, got {type(value).__name__}"
+                f"requestData must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._requestData = value
         # This represents the specified data size for the response Unit:byte.
@@ -287,10 +294,10 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def response_data(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set responseData with validation.
-
+        
         Args:
             value: The responseData to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -298,9 +305,9 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
             self._responseData = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"responseData must be PositiveInteger or None, got {type(value).__name__}"
+                f"responseData must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._responseData = value
 
@@ -309,10 +316,10 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-
+        
         Returns:
             The id value
-
+        
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -321,13 +328,13 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticTestRoutineIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-
+        
         Args:
             value: The id to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -337,10 +344,10 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def getRequestData(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for requestData.
-
+        
         Returns:
             The requestData value
-
+        
         Note:
             Delegates to request_data property (CODING_RULE_V2_00017)
         """
@@ -349,13 +356,13 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def setRequestData(self, value: "PositiveInteger") -> "DiagnosticTestRoutineIdentifier":
         """
         AUTOSAR-compliant setter for requestData with method chaining.
-
+        
         Args:
             value: The requestData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to request_data property setter (gets validation automatically)
         """
@@ -365,10 +372,10 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def getResponseData(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for responseData.
-
+        
         Returns:
             The responseData value
-
+        
         Note:
             Delegates to response_data property (CODING_RULE_V2_00017)
         """
@@ -377,13 +384,13 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def setResponseData(self, value: "PositiveInteger") -> "DiagnosticTestRoutineIdentifier":
         """
         AUTOSAR-compliant setter for responseData with method chaining.
-
+        
         Args:
             value: The responseData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to response_data property setter (gets validation automatically)
         """
@@ -395,13 +402,13 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestRoutineIdentifier":
         """
         Set id and return self for chaining.
-
+        
         Args:
             value: The id to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_id("value")
         """
@@ -411,13 +418,13 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def with_request_data(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestRoutineIdentifier":
         """
         Set requestData and return self for chaining.
-
+        
         Args:
             value: The requestData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_request_data("value")
         """
@@ -427,13 +434,13 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
     def with_response_data(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestRoutineIdentifier":
         """
         Set responseData and return self for chaining.
-
+        
         Args:
             value: The responseData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_response_data("value")
         """

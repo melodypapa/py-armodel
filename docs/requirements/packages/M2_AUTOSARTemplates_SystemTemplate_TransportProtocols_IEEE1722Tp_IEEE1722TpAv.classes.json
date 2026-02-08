@@ -1,0 +1,366 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+  "classes": [
+    {
+      "name": "IEEE1722TpCrfConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAvConnection",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "IEEE1722TpAvConnection",
+        "IEEE1722TpConnection",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AV IEEE1722Tp CRF connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 640,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baseFrequency": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CRF base frequency in Hz."
+        },
+        "crfPullEnum": {
+          "type": "IEEE1722TpCrfPull",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the CRF stream pull value."
+        },
+        "crfTypeEnum": {
+          "type": "IEEE1722TpCrfType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the CRF stream type."
+        },
+        "frameSync": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the \"fs\" (frame sync) shall be enabled. atp.Status=candidate"
+        },
+        "timestamp": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CRF timestamp interval as multiple of the baseFrequency. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAafConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAvConnection",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "IEEE1722TpAvConnection",
+        "IEEE1722TpConnection",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AV IEEE1722Tp AAF connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 642,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aafAes3Data": {
+          "type": "IEEE1722TpAafAes3",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the AAF AES3 stream aes3_data_type reference."
+        },
+        "aafFormatEnum": {
+          "type": "IEEE1722TpAafFormat",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the AAF stream format."
+        },
+        "aafNominalRate": {
+          "type": "IEEE1722TpAaf",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the AAF stream nominal sample / frame rate. an AAF PCM stream this is the nominal sample rate. AAF AES3 stream this is the nominal frame rate."
+        },
+        "aes3DataTypeH": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the AAF AES3 aes3_data_type_h default"
+        },
+        "aes3DataTypeL": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the AAF AES3 aes3_data_type_l default"
+        },
+        "channelsPer": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the AAF PCM stream channels_per_frame. 1: mono, 2: stereo, 8: 7.1 multicannel"
+        },
+        "eventDefault": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a value to be used for the 4-bit \"evt\" field. atp.Status=candidate 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "pcmBitDepth": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the AAF PCM stream bit_depth. 24, 32."
+        },
+        "sparse": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the \"sp\" (sparse timestamp) shall be Normal operation, timestamp in every AAF mode, timestamp in every eighth AAF"
+        },
+        "streamsPer": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AAF AES3 stream streams_per_frame. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpIidcConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAvConnection",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "IEEE1722TpAvConnection",
+        "IEEE1722TpConnection",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AV IEEE1722Tp IIDC connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 648,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iidcChannel": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the IIDC channel."
+        },
+        "iidcDataBlock": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the IIDC data block size (DBS). atp.Status=candidate"
+        },
+        "iidcFraction": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the IIDC fractionNumber (FN). atp.Status=candidate"
+        },
+        "iidcSource": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the IIDC source packet header (SPH) existence. atp.Status=candidate"
+        },
+        "iidcStream": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the IIDC stream format (FMT). atp.Status=candidate"
+        },
+        "iidcSy": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the IIDC sy."
+        },
+        "iidcTag": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the IIDC tag."
+        },
+        "iidcTCode": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the IIDC tcode."
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpRvfConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAvConnection",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "IEEE1722TpAvConnection",
+        "IEEE1722TpConnection",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AV IEEE1722Tp RVF connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 649,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rvfActivePixels": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the RVF stream active_pixels."
+        },
+        "rvfColorSpace": {
+          "type": "IEEE1722TpRvfColor",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the RVF stream colorspace. atp.Status=candidate 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "rvfEventDefault": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the RVF stream event (evt) default value."
+        },
+        "rvfFrameRate": {
+          "type": "IEEE1722TpRvfFrame",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the RVF stream frame_rate. atp.Status=candidate"
+        },
+        "rvfInterlaced": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the RVF stream interlaced (i)."
+        },
+        "rvfPixelDepth": {
+          "type": "IEEE1722TpRvfPixel",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the RVF stream pixel_depth. atp.Status=candidate"
+        },
+        "rvfPixelFormat": {
+          "type": "IEEE1722TpRvfPixel",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the RVF stream pixel_format. atp.Status=candidate"
+        },
+        "rvfTotalLines": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the RVF stream total_lines."
+        }
+      }
+    }
+  ]
+}

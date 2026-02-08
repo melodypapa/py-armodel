@@ -1,0 +1,449 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+  "classes": [
+    {
+      "name": "BusMirrorChannelMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "BusMirrorChannelMappingCan",
+        "BusMirrorChannelMappingFlexray",
+        "BusMirrorChannelMappingIp",
+        "BusMirrorChannelMappingUserDefined"
+      ],
+      "subclasses": [
+        "BusMirrorChannelMappingCan",
+        "BusMirrorChannelMappingFlexray",
+        "BusMirrorChannelMappingIp",
+        "Bus"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines a bus mirroring in which the traffic from one communication bus (sourceChannel) is forwarded to another one (targetChannel).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 697,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mirroring": {
+          "type": "MirroringProtocolEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the bus mirroring protocol that is in the BusMirrorChannelMapping"
+        },
+        "sourceChannel": {
+          "type": "BusMirrorChannel",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the sourceChannel from which frames are"
+        },
+        "targetChannel": {
+          "type": "BusMirrorChannel",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the targetChannel to which frames are forwarded."
+        },
+        "targetPdu": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the PduTriggering that is used for of the mirrored frames on the targetChannel. that on FlexRay several targetPduTriggerings used. For all other communication channels only targetPduTriggering is supported. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "BusMirrorChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BusMirrorChannelMapping.sourceChannel",
+        "BusMirrorChannelMapping.targetChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element assigns a busMirrorNetworkId to the referenced channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 698,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "busMirror": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the networkId of the communication"
+        },
+        "channel": {
+          "type": "PhysicalChannel",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to PhysicalChannel that is used in the bus sourceChannel or targetChannel. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "BusMirrorChannelMappingCan",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusMirrorChannelMapping",
+      "bases": [
+        "ARObject",
+        "BusMirrorChannelMapping",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines the bus mirroring between a CAN or LIN sourceChannel and a CAN targetChannel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 700,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "canIdRange": {
+          "type": "BusMirrorCanIdRange",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Rules for remapping of a set of CAN IDs."
+        },
+        "canIdToCanId": {
+          "type": "BusMirrorCanIdToCanId",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Rules for remapping of single CanIds."
+        },
+        "linPidToCanId": {
+          "type": "BusMirrorLinPidToCan",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Rules for remapping of single LIN Frames. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "mirrorSourceLin": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Base ID merged with the LIN frame ID to form the CAN required when a BusMirrorChannel that refers to a the role channel is referenced in sourceChannel."
+        },
+        "mirrorStatus": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CAN ID of the CAN status frame. configured, a status frame will be sent on the CAN that contains the state of all active source"
+        }
+      }
+    },
+    {
+      "name": "BusMirrorCanIdRangeMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BusMirrorChannelMappingCan.canIdRangeMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines a rule for remapping a set of CAN IDs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 702,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationBase": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Base ID merged with the masked parts of the original ID to form the mapped CAN ID."
+        },
+        "sourceCanIdCode": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value to match masked original CAN IDs."
+        },
+        "sourceCanId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mask applied to original CAN IDs before comparison."
+        }
+      }
+    },
+    {
+      "name": "BusMirrorCanIdToCanIdMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BusMirrorChannelMappingCan.canIdToCanIdMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines a rule for remapping a single CAN ID.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 702,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "remappedCanId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the CanId on the targetChannel."
+        },
+        "souceCanId": {
+          "type": "CanFrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference points to the sourceFrame with sourceCan the sourceChannel."
+        }
+      }
+    },
+    {
+      "name": "BusMirrorLinPidToCanIdMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BusMirrorChannelMappingCan.linPidToCanIdMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines a rule for remapping a single LIN Frame.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 702,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "remappedCanId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the CanId on the targetChannel."
+        },
+        "sourceLinPid": {
+          "type": "LinFrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference points to the sourceFrame with sourceCan the sourceChannel."
+        }
+      }
+    },
+    {
+      "name": "BusMirrorChannelMappingFlexray",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusMirrorChannelMapping",
+      "bases": [
+        "ARObject",
+        "BusMirrorChannelMapping",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines the bus mirroring between a CAN, LIN or FlexRay sourceChannel and a FlexRay targetChannel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 704,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "transmission": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time in seconds after which the collection of source into the destination frame is stopped and the sent at the latest. destination frames are only sent when full or time stamp overflows."
+        }
+      }
+    },
+    {
+      "name": "BusMirrorChannelMappingIp",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusMirrorChannelMapping",
+      "bases": [
+        "ARObject",
+        "BusMirrorChannelMapping",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines the bus mirroring between a CAN, LIN or FlexRay sourceChannel and an Ethernet IP targetChannel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 705,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "transmission": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time in seconds after which the collection of source into the destination frame is stopped and the sent at the latest. destination frames are only sent when full or time stamp overflows."
+        }
+      }
+    },
+    {
+      "name": "BusMirrorChannelMappingUserDefined",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::BusMirror",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusMirrorChannelMapping",
+      "bases": [
+        "ARObject",
+        "BusMirrorChannelMapping",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines the bus mirroring between a CAN, LIN or FlexRay sourceChannel and a User Defined targetChannel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 707,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "transmission": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time in seconds after which the collection of source into the destination frame is stopped and the sent at the latest. destination frames are only sent when full or time stamp overflows."
+        }
+      }
+    }
+  ]
+}

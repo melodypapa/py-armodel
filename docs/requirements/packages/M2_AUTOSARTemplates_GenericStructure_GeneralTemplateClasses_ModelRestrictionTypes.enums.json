@@ -1,0 +1,56 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+  "enumerations": [
+    {
+      "name": "FullBindingTimeEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+      "note": "This enumeration specifies the BindingTimes that can be used in AUTOSAR models. Aggregated by AbstractVariationRestriction.validBindingTime (cid:53) 104 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 104,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 89,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "blueprintDerivationTime",
+          "index": 0,
+          "description": "The point in time when an object is created from a blueprint.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "codeGenerationTime",
+          "index": 2,
+          "description": "• Coding by hand, based on requirements document.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "linkTime",
+          "index": 4,
+          "description": "Configure what is included in object code, and what is omitted Based on which variant(s) are selected<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "postBuild",
+          "index": 5,
+          "description": "PostBuild is the binding time which is bound latest at startup of the ECU. In other words this is everything between creation of the executable program and startup of the ECU.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "preCompileTime",
+          "index": 3,
+          "description": "This is typically the C-Preprocessor. Exclude parts of the code from the compilation process, e.g., because they are not required for the selected variant, because they are incompatible with the selected variant, because they require resources that are not present in the selected variant. Object code is only generated for the selected variant(s). The code that is excluded at this stage code will not be available at later stages.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "systemDesignTime",
+          "index": 1,
+          "description": "• Designing the VFB.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,23 +1,28 @@
-from typing import (
-    List,
-    Optional,
-)
+"""
+AUTOSAR Package - InstanceRef
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
+
 
 
 class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
     """
     This meta-class represents the ability to define an InstanceRef to a nested
     DataPrototypeGroup
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef::InnerDataPrototypeGroupInCompositionInstanceRef
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 954, Classic Platform
       R23-11)
@@ -40,10 +45,10 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-
+        
         Args:
             value: The base to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,21 +72,21 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
         return self._contextSw
         # This represents the target of the InstanceRef xml.
         # sequenceOffset=30.
-        self._targetData: RefType = None
+        self._targetData: Optional["RefType"] = None
 
     @property
-    def target_data(self) -> RefType:
+    def target_data(self) -> Optional["RefType"]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: RefType) -> None:
+    def target_data(self, value: Optional["RefType"]) -> None:
         """
         Set targetData with validation.
-
+        
         Args:
             value: The targetData to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +101,10 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-
+        
         Returns:
             The base value
-
+        
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -108,13 +113,13 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "InnerDataPrototypeGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -124,37 +129,37 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-
+        
         Returns:
             The contextSw value
-
+        
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetData(self) -> RefType:
+    def getTargetData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetData.
-
+        
         Returns:
             The targetData value
-
+        
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: RefType) -> "InnerDataPrototypeGroupInCompositionInstanceRef":
+    def setTargetData(self, value: "RefType") -> "InnerDataPrototypeGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-
+        
         Args:
             value: The targetData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -166,13 +171,13 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "InnerDataPrototypeGroupInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_base("value")
         """
@@ -182,39 +187,28 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
     def with_target_data(self, value: Optional[RefType]) -> "InnerDataPrototypeGroupInCompositionInstanceRef":
         """
         Set targetData and return self for chaining.
-
+        
         Args:
             value: The targetData to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_target_data("value")
         """
         self.target_data = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     """
     This meta-class represents the ability to define an InstanceRef to a nested
     RunnableEntityGroup.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef::InnerRunnableEntityGroupInCompositionInstanceRef
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 956, Classic Platform
       R23-11)
@@ -236,10 +230,10 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-
+        
         Args:
             value: The base to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -264,21 +258,21 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
         # This represents the target association of the InstanceRef.
         # xml.
         # sequenceOffset=30.
-        self._targetRunnable: RefType = None
+        self._targetRunnable: "RefType" = None
 
     @property
-    def target_runnable(self) -> RefType:
+    def target_runnable(self) -> "RefType":
         """Get targetRunnable (Pythonic accessor)."""
         return self._targetRunnable
 
     @target_runnable.setter
-    def target_runnable(self, value: RefType) -> None:
+    def target_runnable(self, value: "RefType") -> None:
         """
         Set targetRunnable with validation.
-
+        
         Args:
             value: The targetRunnable to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -289,10 +283,10 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-
+        
         Returns:
             The base value
-
+        
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -301,13 +295,13 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -317,37 +311,37 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-
+        
         Returns:
             The contextSw value
-
+        
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetRunnable(self) -> RefType:
+    def getTargetRunnable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetRunnable.
-
+        
         Returns:
             The targetRunnable value
-
+        
         Note:
             Delegates to target_runnable property (CODING_RULE_V2_00017)
         """
         return self.target_runnable  # Delegates to property
 
-    def setTargetRunnable(self, value: RefType) -> "InnerRunnableEntityGroupInCompositionInstanceRef":
+    def setTargetRunnable(self, value: "RefType") -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetRunnable with method chaining.
-
+        
         Args:
             value: The targetRunnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to target_runnable property setter (gets validation automatically)
         """
@@ -359,13 +353,13 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_base("value")
         """
@@ -375,36 +369,28 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def with_target_runnable(self, value: RefType) -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         Set targetRunnable and return self for chaining.
-
+        
         Args:
             value: The targetRunnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_target_runnable("value")
         """
         self.target_runnable = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class RunnableEntityInCompositionInstanceRef(ARObject):
     """
     This meta-class represents the ability to define an InstanceRef to a
     RunnableEntity in the context of a CompositionSwComponentType.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef::RunnableEntityInCompositionInstanceRef
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 956, Classic Platform
       R23-11)
@@ -426,10 +412,10 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-
+        
         Args:
             value: The base to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -465,10 +451,10 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def target_runnable(self, value: Optional["RunnableEntity"]) -> None:
         """
         Set targetRunnable with validation.
-
+        
         Args:
             value: The targetRunnable to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -487,10 +473,10 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-
+        
         Returns:
             The base value
-
+        
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -499,13 +485,13 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "RunnableEntityInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -515,10 +501,10 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-
+        
         Returns:
             The contextSw value
-
+        
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
@@ -527,10 +513,10 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def getTargetRunnable(self) -> "RunnableEntity":
         """
         AUTOSAR-compliant getter for targetRunnable.
-
+        
         Returns:
             The targetRunnable value
-
+        
         Note:
             Delegates to target_runnable property (CODING_RULE_V2_00017)
         """
@@ -539,13 +525,13 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def setTargetRunnable(self, value: "RunnableEntity") -> "RunnableEntityInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetRunnable with method chaining.
-
+        
         Args:
             value: The targetRunnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to target_runnable property setter (gets validation automatically)
         """
@@ -557,13 +543,13 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "RunnableEntityInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_base("value")
         """
@@ -573,39 +559,28 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     def with_target_runnable(self, value: Optional["RunnableEntity"]) -> "RunnableEntityInCompositionInstanceRef":
         """
         Set targetRunnable and return self for chaining.
-
+        
         Args:
             value: The targetRunnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_target_runnable("value")
         """
         self.target_runnable = value  # Use property setter (gets validation)
         return self
 
-from typing import (
-    List,
-    Optional,
-)
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     """
     This meta-class represents the ability to define an InstanceRef to a
     VariableDataPrototype in the context of a CompositionSwComponentType.
-
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef
-
+    
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef::VariableDataPrototypeInCompositionInstanceRef
+    
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 959, Classic Platform
       R23-11)
@@ -627,10 +602,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-
+        
         Args:
             value: The base to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -646,21 +621,21 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         # This represents a reference to a context PortPrototype.
         # xml.
         # sequenceOffset=30.
-        self._contextPort: RefType = None
+        self._contextPort: Optional["RefType"] = None
 
     @property
-    def context_port(self) -> RefType:
+    def context_port(self) -> Optional["RefType"]:
         """Get contextPort (Pythonic accessor)."""
         return self._contextPort
 
     @context_port.setter
-    def context_port(self, value: RefType) -> None:
+    def context_port(self, value: Optional["RefType"]) -> None:
         """
         Set contextPort with validation.
-
+        
         Args:
             value: The contextPort to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -681,21 +656,21 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         # This represents the target VariableDataPrototype.
         # xml.
         # sequenceOffset=40.
-        self._targetVariable: RefType = None
+        self._targetVariable: Optional["RefType"] = None
 
     @property
-    def target_variable(self) -> RefType:
+    def target_variable(self) -> Optional["RefType"]:
         """Get targetVariable (Pythonic accessor)."""
         return self._targetVariable
 
     @target_variable.setter
-    def target_variable(self, value: RefType) -> None:
+    def target_variable(self, value: Optional["RefType"]) -> None:
         """
         Set targetVariable with validation.
-
+        
         Args:
             value: The targetVariable to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -710,10 +685,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-
+        
         Returns:
             The base value
-
+        
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -722,41 +697,41 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to base property setter (gets validation automatically)
         """
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextPort(self) -> RefType:
+    def getContextPort(self) -> "RefType":
         """
         AUTOSAR-compliant getter for contextPort.
-
+        
         Returns:
             The contextPort value
-
+        
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: RefType) -> "VariableDataPrototypeInCompositionInstanceRef":
+    def setContextPort(self, value: "RefType") -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-
+        
         Args:
             value: The contextPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -766,37 +741,37 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-
+        
         Returns:
             The contextSw value
-
+        
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetVariable(self) -> RefType:
+    def getTargetVariable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetVariable.
-
+        
         Returns:
             The targetVariable value
-
+        
         Note:
             Delegates to target_variable property (CODING_RULE_V2_00017)
         """
         return self.target_variable  # Delegates to property
 
-    def setTargetVariable(self, value: RefType) -> "VariableDataPrototypeInCompositionInstanceRef":
+    def setTargetVariable(self, value: "RefType") -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetVariable with method chaining.
-
+        
         Args:
             value: The targetVariable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to target_variable property setter (gets validation automatically)
         """
@@ -808,13 +783,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-
+        
         Args:
             value: The base to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_base("value")
         """
@@ -824,13 +799,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def with_context_port(self, value: Optional[RefType]) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         Set contextPort and return self for chaining.
-
+        
         Args:
             value: The contextPort to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_context_port("value")
         """
@@ -840,13 +815,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def with_target_variable(self, value: Optional[RefType]) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         Set targetVariable and return self for chaining.
-
+        
         Args:
             value: The targetVariable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_target_variable("value")
         """

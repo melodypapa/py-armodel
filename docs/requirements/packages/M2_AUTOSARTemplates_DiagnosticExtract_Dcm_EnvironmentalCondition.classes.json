@@ -1,0 +1,415 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+  "classes": [
+    {
+      "name": "DiagnosticEnvironmentalCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The meta-class DiagnosticEnvironmentalCondition formalizes the idea of a condition which is evaluated during runtime of the ECU by looking at \"environmental\" states (e.g. one such condition is that the vehicle is not driving, i.e. vehicle speed == 0).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 79,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "formula": {
+          "type": "DiagnosticEnvCondition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the formula part of the"
+        },
+        "modeElement": {
+          "type": "DiagnosticEnvMode",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation contains a representation of Mode in the context of a DiagnosticEnvironmental"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnvConditionFormula",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticEnvConditionFormulaPart",
+      "bases": [
+        "ARObject",
+        "DiagnosticEnvConditionFormulaPart"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvConditionFormula.part",
+        "DiagnosticEnvironmentalCondition.formula"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A DiagnosticEnvConditionFormula embodies the computation instruction that is to be evaluated at runtime to determine if the DiagnosticEnvironmentalCondition is currently present (i.e. the formula is evaluated to true) or not (otherwise). The formula itself consists of parts which are combined by the logical operations specified by DiagnosticEnvConditionFormula.op. If a diagnostic functionality cannot be executed because an environmental condition fails then the diagnostic stack shall send a negative response code (NRC) back to the client. The value of the NRC is directly related to the specific formula and is therefore formalized in the attribute DiagnosticEnvCondition Formula.nrcValue.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 80,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nrcValue": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the concrete NRC value that returned if the condition fails."
+        },
+        "op": {
+          "type": "DiagnosticLogical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the concrete operator operators: and, or) of the condition formula. DiagnosticEnvCondition * aggr This aggregation represents the collection of formula that can be combined by logical operators."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnvConditionFormulaPart",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "DiagnosticEnvConditionFormula",
+        "DiagnosticEnvCompareCondition"
+      ],
+      "subclasses": [
+        "DiagnosticEnvCompareCondition",
+        "DiagnosticEnvConditionFormula"
+      ],
+      "aggregated_by": [
+        "DiagnosticEnvConditionFormula.part"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A DiagnosticEnvConditionFormulaPart can either be a atomic condition, e.g. a DiagnosticEnvCompare Condition, or a DiagnosticEnvConditionFormula, again, which allows arbitrary nesting.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 80,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticEnvCompareCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticEnvConditionFormulaPart",
+      "bases": [
+        "ARObject",
+        "DiagnosticEnvConditionFormulaPart"
+      ],
+      "children": [
+        "DiagnosticEnvDataCondition",
+        "DiagnosticEnvDataElementCondition",
+        "DiagnosticEnvModeCondition"
+      ],
+      "subclasses": [
+        "DiagnosticEnvDataCondition",
+        "DiagnosticEnvDataElementCondition",
+        "DiagnosticEnvModeCondition"
+      ],
+      "aggregated_by": [
+        "DiagnosticEnvConditionFormula.part"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "DiagnosticCompareConditions are atomic conditions. They are based on the idea of a comparison at runtime of some variable data with something constant. The type of the comparison (==, !=, <, <=, ...) is specified in DiagnosticCompareCondition.compareType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 82,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compareType": {
+          "type": "DiagnosticCompare",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes represents the concrete type of the"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnvDataCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticEnvCompareCondition",
+      "bases": [
+        "ARObject",
+        "DiagnosticEnvCompareCondition",
+        "DiagnosticEnvConditionFormulaPart"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvConditionFormula.part"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A DiagnosticEnvDataCondition is an atomic condition that compares the current value of the referenced DiagnosticDataElement with a constant value defined by the ValueSpecification. All compareTypes are supported.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 84,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compareValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a fixed compare value taken to compare condition."
+        },
+        "dataElement": {
+          "type": "DiagnosticDataElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the related diagnostic data"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnvDataElementCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticEnvCompareCondition",
+      "bases": [
+        "ARObject",
+        "DiagnosticEnvCompareCondition",
+        "DiagnosticEnvConditionFormulaPart"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvConditionFormula.part"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to formulate a diagnostic environment condition based on the value of a data element owned by the application software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 85,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compareValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the definition of the compare which the value taken from the application be compared."
+        },
+        "dataPrototype": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by the application software on the platform. by: DataPrototypeInSystem"
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Via this aggregation it is possible to describe the of the data that is obtained from the application environmental condition."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnvModeCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticEnvCompareCondition",
+      "bases": [
+        "ARObject",
+        "DiagnosticEnvCompareCondition",
+        "DiagnosticEnvConditionFormulaPart"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvConditionFormula.part"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "DiagnosticEnvModeCondition are atomic condition based on the comparison of the active Mode Declaration in a ModeDeclarationGroupProtoype with the constant value of a ModeDeclaration. The formulation of this condition uses only one DiagnosticEnvElement, which contains enough information to deduce the variable part (i.e. the part that changes at runtime) as well as the constant part of the comparison. Only DiagnosticCompareTypeEnum.isEqual or DiagnosticCompareTypeEnum.isNotEqual are eligible values for DiagnosticAtomicCondition.compareType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 88,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeElement": {
+          "type": "DiagnosticEnvMode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents both the ModeDeclaration and the ModeDeclaration relevant for the"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnvModeElement",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticEnvSwcModeElement",
+        "DiagnosticEnvBswModeElement"
+      ],
+      "subclasses": [
+        "DiagnosticEnvBswModeElement",
+        "DiagnosticEnvSwcModeElement"
+      ],
+      "aggregated_by": [
+        "DiagnosticEnvironmentalCondition.modeElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "All ModeDeclarations that are referenced in a DiagnosticEnvModeCondition shall be defined as a DiagnosticEnvModeElement of this DiagnosticEnvironmentalCondition. This concept keeps the ARXML clean: It avoids that the DiagnosticEnvConditionFormula is cluttered by lengthy InstanceRef definitions. Furthermore, it allows that an InstanceRef only needs to be defined once and can be used multiple times in the different DiagnosticEnvModeConditions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 89,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticEnvSwcModeElement",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticEnvModeElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticEnvModeElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvironmentalCondition.modeElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to refer to a ModeDeclaration in a concrete System context.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 89,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "the ModeDeclaration for the specific mode by: PModeInSystemInstance"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnvBswModeElement",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticEnvModeElement",
+      "bases": [
+        "ARObject",
+        "DiagnosticEnvModeElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticEnvironmentalCondition.modeElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to refer to a specific ModeDeclaration in the scope of a BswModule Description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 90,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "the ModeDeclaration for the specific mode by: ModeInBswModule"
+        }
+      }
+    }
+  ]
+}

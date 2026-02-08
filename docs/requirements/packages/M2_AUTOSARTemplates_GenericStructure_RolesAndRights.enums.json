@@ -1,0 +1,35 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+  "enumerations": [
+    {
+      "name": "AclScopeEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+      "note": "This enumerator represents the scope of a definition in context of access control. Aggregated by AclObjectSet.aclScope, AclPermission.aclScope",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 384,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "dependant",
+          "index": 0,
+          "description": "This specifies that the AclPermission applies to dependant (in particular referenced) operations / objects as well. Note that this includes the descendant ones.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "descendant",
+          "index": 1,
+          "description": "This specifies that the AclPermission applies to descendant operations / objects as well.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "explicit",
+          "index": 2,
+          "description": "This is indicates that the AclPermission applies to explicit objects / operations only.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

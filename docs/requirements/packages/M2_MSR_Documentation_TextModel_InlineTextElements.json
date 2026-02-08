@@ -1,0 +1,14 @@
+{
+  "name": "M2::MSR::Documentation::TextModel::InlineTextElements",
+  "path": "M2::MSR::Documentation::TextModel::InlineTextElements",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_TextModel_InlineTextElements.classes.json",
+    "primitives": "packages/M2_MSR_Documentation_TextModel_InlineTextElements.primitives.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 9,
+    "enumeration_count": 0,
+    "primitive_count": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "M2::MSR::Documentation::BlockElements::ListElements",
+  "path": "M2::MSR::Documentation::BlockElements::ListElements",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_BlockElements_ListElements.classes.json",
+    "enumerations": "packages/M2_MSR_Documentation_BlockElements_ListElements.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 7,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

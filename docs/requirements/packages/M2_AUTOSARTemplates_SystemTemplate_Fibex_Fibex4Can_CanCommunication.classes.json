@@ -1,0 +1,241 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+  "classes": [
+    {
+      "name": "CanFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Frame",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN specific Frame element. This element shall also be used for TTCan.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 442,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CanFrameTriggering",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FrameTriggering",
+      "bases": [
+        "ARObject",
+        "FrameTriggering",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PhysicalChannel.frameTriggering"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN specific attributes to the FrameTriggering",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 443,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "absolutely": {
+          "type": "TtcanAbsolutely",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Each frame in TTCAN is identified by its slot id and communication cycle. A description is provided by the of AbsolutelyScheduledTiming."
+        },
+        "canAddressing": {
+          "type": "CanAddressingMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The CAN protocol supports two types of frame formats. The standard frame format uses 11-bit identifiers and is the CAN specification 2.0 A. Additionally the format allows 29-bit identifiers and is the CAN specification 2.0 B."
+        },
+        "canFrameRx": {
+          "type": "CanFrameRxBehavior",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines which CAN protocol shall be expected for frame reception."
+        },
+        "canFrameTx": {
+          "type": "CanFrameTxBehavior",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines which CAN protocol shall be used for frame transmission."
+        },
+        "canXlFrame": {
+          "type": "CanXlFrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Definition of CAN XL specific attributes in case the frame is a CAN XL frame."
+        },
+        "identifier": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to define the identifier this frame on the CAN network."
+        },
+        "j1939requestable": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Frame can be triggered by the J1939 request message."
+        },
+        "rxIdentifierRange": {
+          "type": "RxIdentifierRange",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional definition of a CanId range."
+        },
+        "rxMask": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identifier mask which denotes the relevant bits in the CAN with the identifier, this parameter CAN identifier range."
+        },
+        "txMask": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identifier mask which denotes static bits in the CAN other bits can be set dynamically."
+        }
+      }
+    },
+    {
+      "name": "RxIdentifierRange",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CanFrameTriggering.rxIdentifierRange",
+        "CanXlNmNodeProps.rxIdentifierRange",
+        "IEEE1722TpAcfCanPart."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Optional definition of a CanId range to reduce the effort of specifying every possible FrameTriggering within the defined Id range during reception. All frames received within a range are mapped to the same Pdu that is passed to a upper layer module (e.g. Nm, CDD, PduR).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 444,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "lowerCanId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be used together with the upperCanId define a range of CanIds."
+        },
+        "upperCanId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be used together with the lowerCanId define a range of CanIds."
+        }
+      }
+    },
+    {
+      "name": "CanXlFrameTriggeringProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CanFrameTriggering.canXlFrameTriggeringProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element indicates the frame being CAN XL and contains further CAN XL specific attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2007,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "acceptanceField": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Acceptance field of a CAN XL message."
+        },
+        "priorityId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Priority ID of a CAN XL message."
+        },
+        "sduType": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "SDU type of a CAN XL message."
+        },
+        "vcid": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Virtual CAN network ID of a CAN XL message."
+        }
+      }
+    }
+  ]
+}

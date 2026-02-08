@@ -1,11 +1,23 @@
-from typing import (
-    List,
-    Optional,
+"""
+AUTOSAR Package - Timing
+
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
+    RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
 )
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+
 
 
 class TransmissionModeDeclaration(ARObject):
@@ -19,9 +31,9 @@ class TransmissionModeDeclaration(ARObject):
     modeDrivenFalseCondition are defined they shall never evaluate to true both
     at the same time. The mixing of Transmission Mode Switch via API and signal
     value is not allowed.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TransmissionModeDeclaration
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 392, Classic Platform R23-11)
     """
@@ -53,10 +65,10 @@ class TransmissionModeDeclaration(ARObject):
     def transmission(self, value: Optional["TransmissionMode"]) -> None:
         """
         Set transmission with validation.
-
+        
         Args:
             value: The transmission to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +87,10 @@ class TransmissionModeDeclaration(ARObject):
     def getModeDriven(self) -> List["ModeDriven"]:
         """
         AUTOSAR-compliant getter for modeDriven.
-
+        
         Returns:
             The modeDriven value
-
+        
         Note:
             Delegates to mode_driven property (CODING_RULE_V2_00017)
         """
@@ -87,10 +99,10 @@ class TransmissionModeDeclaration(ARObject):
     def getTransmission(self) -> "TransmissionMode":
         """
         AUTOSAR-compliant getter for transmission.
-
+        
         Returns:
             The transmission value
-
+        
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -99,13 +111,13 @@ class TransmissionModeDeclaration(ARObject):
     def setTransmission(self, value: "TransmissionMode") -> "TransmissionModeDeclaration":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-
+        
         Args:
             value: The transmission to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -117,27 +129,19 @@ class TransmissionModeDeclaration(ARObject):
     def with_transmission(self, value: Optional["TransmissionMode"]) -> "TransmissionModeDeclaration":
         """
         Set transmission and return self for chaining.
-
+        
         Args:
             value: The transmission to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_transmission("value")
         """
         self.transmission = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 
 
 class TransmissionModeCondition(ARObject):
@@ -146,9 +150,9 @@ class TransmissionModeCondition(ARObject):
     least one condition evaluates to true, TRANSMISSION MODE True shall be used
     for this I-Pdu. In all other cases, the TRANSMISSION MODE FALSE shall be
     used.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TransmissionModeCondition
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 392, Classic Platform R23-11)
     """
@@ -168,10 +172,10 @@ class TransmissionModeCondition(ARObject):
     def data_filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set dataFilter with validation.
-
+        
         Args:
             value: The dataFilter to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -185,21 +189,21 @@ class TransmissionModeCondition(ARObject):
             )
         self._dataFilter = value
         # Reference to a signal to which a condition is attached.
-        self._iSignalInIPdu: RefType = None
+        self._iSignalInIPdu: Optional["RefType"] = None
 
     @property
-    def i_signal_in_i_pdu(self) -> RefType:
+    def i_signal_in_i_pdu(self) -> Optional["RefType"]:
         """Get iSignalInIPdu (Pythonic accessor)."""
         return self._iSignalInIPdu
 
     @i_signal_in_i_pdu.setter
-    def i_signal_in_i_pdu(self, value: RefType) -> None:
+    def i_signal_in_i_pdu(self, value: Optional["RefType"]) -> None:
         """
         Set iSignalInIPdu with validation.
-
+        
         Args:
             value: The iSignalInIPdu to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -214,10 +218,10 @@ class TransmissionModeCondition(ARObject):
     def getDataFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for dataFilter.
-
+        
         Returns:
             The dataFilter value
-
+        
         Note:
             Delegates to data_filter property (CODING_RULE_V2_00017)
         """
@@ -226,41 +230,41 @@ class TransmissionModeCondition(ARObject):
     def setDataFilter(self, value: "DataFilter") -> "TransmissionModeCondition":
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
-
+        
         Args:
             value: The dataFilter to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to data_filter property setter (gets validation automatically)
         """
         self.data_filter = value  # Delegates to property setter
         return self
 
-    def getISignalInIPdu(self) -> RefType:
+    def getISignalInIPdu(self) -> "RefType":
         """
         AUTOSAR-compliant getter for iSignalInIPdu.
-
+        
         Returns:
             The iSignalInIPdu value
-
+        
         Note:
             Delegates to i_signal_in_i_pdu property (CODING_RULE_V2_00017)
         """
         return self.i_signal_in_i_pdu  # Delegates to property
 
-    def setISignalInIPdu(self, value: RefType) -> "TransmissionModeCondition":
+    def setISignalInIPdu(self, value: "RefType") -> "TransmissionModeCondition":
         """
         AUTOSAR-compliant setter for iSignalInIPdu with method chaining.
-
+        
         Args:
             value: The iSignalInIPdu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to i_signal_in_i_pdu property setter (gets validation automatically)
         """
@@ -272,13 +276,13 @@ class TransmissionModeCondition(ARObject):
     def with_data_filter(self, value: Optional["DataFilter"]) -> "TransmissionModeCondition":
         """
         Set dataFilter and return self for chaining.
-
+        
         Args:
             value: The dataFilter to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_data_filter("value")
         """
@@ -288,24 +292,19 @@ class TransmissionModeCondition(ARObject):
     def with_i_signal_in_i_pdu(self, value: Optional[RefType]) -> "TransmissionModeCondition":
         """
         Set iSignalInIPdu and return self for chaining.
-
+        
         Args:
             value: The iSignalInIPdu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_i_signal_in_i_pdu("value")
         """
         self.i_signal_in_i_pdu = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class ModeDrivenTransmissionModeCondition(ARObject):
@@ -315,9 +314,9 @@ class ModeDrivenTransmissionModeCondition(ARObject):
     modeDeclarations shall be from the same ModeDeclarationGroup. The condition
     is used to define which TransmissionMode shall be activated using
     Com_SwitchIpduTx Mode.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::ModeDrivenTransmissionModeCondition
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 393, Classic Platform R23-11)
     """
@@ -339,10 +338,10 @@ class ModeDrivenTransmissionModeCondition(ARObject):
     def getMode(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for mode.
-
+        
         Returns:
             The mode value
-
+        
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -350,11 +349,6 @@ class ModeDrivenTransmissionModeCondition(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class TransmissionModeTiming(ARObject):
@@ -366,9 +360,9 @@ class TransmissionModeTiming(ARObject):
     COM supports the following Transmission Modes: • Periodic (Cyclic Timing) •
     Direct /n-times (EventControlledTiming) • Mixed (Cyclic and
     EventControlledTiming are assigned) • None (no timing is assigned)
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TransmissionModeTiming
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 393, Classic Platform R23-11)
     """
@@ -388,10 +382,10 @@ class TransmissionModeTiming(ARObject):
     def cyclic_timing(self, value: Optional["CyclicTiming"]) -> None:
         """
         Set cyclicTiming with validation.
-
+        
         Args:
             value: The cyclicTiming to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -416,10 +410,10 @@ class TransmissionModeTiming(ARObject):
     def event_controlled_timing(self, value: Optional["EventControlledTiming"]) -> None:
         """
         Set eventControlledTiming with validation.
-
+        
         Args:
             value: The eventControlledTiming to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -438,10 +432,10 @@ class TransmissionModeTiming(ARObject):
     def getCyclicTiming(self) -> "CyclicTiming":
         """
         AUTOSAR-compliant getter for cyclicTiming.
-
+        
         Returns:
             The cyclicTiming value
-
+        
         Note:
             Delegates to cyclic_timing property (CODING_RULE_V2_00017)
         """
@@ -450,13 +444,13 @@ class TransmissionModeTiming(ARObject):
     def setCyclicTiming(self, value: "CyclicTiming") -> "TransmissionModeTiming":
         """
         AUTOSAR-compliant setter for cyclicTiming with method chaining.
-
+        
         Args:
             value: The cyclicTiming to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to cyclic_timing property setter (gets validation automatically)
         """
@@ -466,10 +460,10 @@ class TransmissionModeTiming(ARObject):
     def getEventControlledTiming(self) -> "EventControlledTiming":
         """
         AUTOSAR-compliant getter for eventControlledTiming.
-
+        
         Returns:
             The eventControlledTiming value
-
+        
         Note:
             Delegates to event_controlled_timing property (CODING_RULE_V2_00017)
         """
@@ -478,13 +472,13 @@ class TransmissionModeTiming(ARObject):
     def setEventControlledTiming(self, value: "EventControlledTiming") -> "TransmissionModeTiming":
         """
         AUTOSAR-compliant setter for eventControlledTiming with method chaining.
-
+        
         Args:
             value: The eventControlledTiming to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to event_controlled_timing property setter (gets validation automatically)
         """
@@ -496,13 +490,13 @@ class TransmissionModeTiming(ARObject):
     def with_cyclic_timing(self, value: Optional["CyclicTiming"]) -> "TransmissionModeTiming":
         """
         Set cyclicTiming and return self for chaining.
-
+        
         Args:
             value: The cyclicTiming to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_cyclic_timing("value")
         """
@@ -512,32 +506,27 @@ class TransmissionModeTiming(ARObject):
     def with_event_controlled_timing(self, value: Optional["EventControlledTiming"]) -> "TransmissionModeTiming":
         """
         Set eventControlledTiming and return self for chaining.
-
+        
         Args:
             value: The eventControlledTiming to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_event_controlled_timing("value")
         """
         self.event_controlled_timing = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Describable,
-)
 
 
 class CyclicTiming(Describable):
     """
     Specification of a cyclic sending behavior.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::CyclicTiming
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 396, Classic Platform R23-11)
     """
@@ -559,10 +548,10 @@ class CyclicTiming(Describable):
     def time_offset(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set timeOffset with validation.
-
+        
         Args:
             value: The timeOffset to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -587,10 +576,10 @@ class CyclicTiming(Describable):
     def time_period(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set timePeriod with validation.
-
+        
         Args:
             value: The timePeriod to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -609,10 +598,10 @@ class CyclicTiming(Describable):
     def getTimeOffset(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for timeOffset.
-
+        
         Returns:
             The timeOffset value
-
+        
         Note:
             Delegates to time_offset property (CODING_RULE_V2_00017)
         """
@@ -621,13 +610,13 @@ class CyclicTiming(Describable):
     def setTimeOffset(self, value: "TimeRangeType") -> "CyclicTiming":
         """
         AUTOSAR-compliant setter for timeOffset with method chaining.
-
+        
         Args:
             value: The timeOffset to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to time_offset property setter (gets validation automatically)
         """
@@ -637,10 +626,10 @@ class CyclicTiming(Describable):
     def getTimePeriod(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for timePeriod.
-
+        
         Returns:
             The timePeriod value
-
+        
         Note:
             Delegates to time_period property (CODING_RULE_V2_00017)
         """
@@ -649,13 +638,13 @@ class CyclicTiming(Describable):
     def setTimePeriod(self, value: "TimeRangeType") -> "CyclicTiming":
         """
         AUTOSAR-compliant setter for timePeriod with method chaining.
-
+        
         Args:
             value: The timePeriod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to time_period property setter (gets validation automatically)
         """
@@ -667,13 +656,13 @@ class CyclicTiming(Describable):
     def with_time_offset(self, value: Optional["TimeRangeType"]) -> "CyclicTiming":
         """
         Set timeOffset and return self for chaining.
-
+        
         Args:
             value: The timeOffset to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_time_offset("value")
         """
@@ -683,24 +672,19 @@ class CyclicTiming(Describable):
     def with_time_period(self, value: Optional["TimeRangeType"]) -> "CyclicTiming":
         """
         Set timePeriod and return self for chaining.
-
+        
         Args:
             value: The timePeriod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_time_period("value")
         """
         self.time_period = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Describable,
-)
 
 
 class EventControlledTiming(Describable):
@@ -708,9 +692,9 @@ class EventControlledTiming(Describable):
     Specification of a event driven sending behavior. The PDU is sent n
     (numberOfRepeat + 1) times separated by the repetitionPeriod. If
     numberOfRepeats = 0, then the Pdu is sent just once.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::EventControlledTiming
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 397, Classic Platform R23-11)
     """
@@ -731,10 +715,10 @@ class EventControlledTiming(Describable):
     def number_of(self, value: Optional["Integer"]) -> None:
         """
         Set numberOf with validation.
-
+        
         Args:
             value: The numberOf to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -742,9 +726,9 @@ class EventControlledTiming(Describable):
             self._numberOf = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"numberOf must be Integer or None, got {type(value).__name__}"
+                f"numberOf must be Integer or int or None, got {type(value).__name__}"
             )
         self._numberOf = value
         # The repetitionPeriod specifies the time in seconds that the pdu can be sent
@@ -761,10 +745,10 @@ class EventControlledTiming(Describable):
     def repetition_period(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set repetitionPeriod with validation.
-
+        
         Args:
             value: The repetitionPeriod to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -783,10 +767,10 @@ class EventControlledTiming(Describable):
     def getNumberOf(self) -> "Integer":
         """
         AUTOSAR-compliant getter for numberOf.
-
+        
         Returns:
             The numberOf value
-
+        
         Note:
             Delegates to number_of property (CODING_RULE_V2_00017)
         """
@@ -795,13 +779,13 @@ class EventControlledTiming(Describable):
     def setNumberOf(self, value: "Integer") -> "EventControlledTiming":
         """
         AUTOSAR-compliant setter for numberOf with method chaining.
-
+        
         Args:
             value: The numberOf to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to number_of property setter (gets validation automatically)
         """
@@ -811,10 +795,10 @@ class EventControlledTiming(Describable):
     def getRepetitionPeriod(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for repetitionPeriod.
-
+        
         Returns:
             The repetitionPeriod value
-
+        
         Note:
             Delegates to repetition_period property (CODING_RULE_V2_00017)
         """
@@ -823,13 +807,13 @@ class EventControlledTiming(Describable):
     def setRepetitionPeriod(self, value: "TimeRangeType") -> "EventControlledTiming":
         """
         AUTOSAR-compliant setter for repetitionPeriod with method chaining.
-
+        
         Args:
             value: The repetitionPeriod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to repetition_period property setter (gets validation automatically)
         """
@@ -841,13 +825,13 @@ class EventControlledTiming(Describable):
     def with_number_of(self, value: Optional["Integer"]) -> "EventControlledTiming":
         """
         Set numberOf and return self for chaining.
-
+        
         Args:
             value: The numberOf to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_number_of("value")
         """
@@ -857,33 +841,28 @@ class EventControlledTiming(Describable):
     def with_repetition_period(self, value: Optional["TimeRangeType"]) -> "EventControlledTiming":
         """
         Set repetitionPeriod and return self for chaining.
-
+        
         Args:
             value: The repetitionPeriod to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_repetition_period("value")
         """
         self.repetition_period = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class TimeRangeType(ARObject):
     """
     The timeRange can be specified with the value attribute. Optionally a
     tolerance can be defined.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TimeRangeType
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 398, Classic Platform R23-11)
     """
@@ -903,10 +882,10 @@ class TimeRangeType(ARObject):
     def tolerance_tolerance(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set toleranceTolerance with validation.
-
+        
         Args:
             value: The toleranceTolerance to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -931,10 +910,10 @@ class TimeRangeType(ARObject):
     def value(self, value: Optional["TimeValue"]) -> None:
         """
         Set value with validation.
-
+        
         Args:
             value: The value to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -953,10 +932,10 @@ class TimeRangeType(ARObject):
     def getToleranceTolerance(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for toleranceTolerance.
-
+        
         Returns:
             The toleranceTolerance value
-
+        
         Note:
             Delegates to tolerance_tolerance property (CODING_RULE_V2_00017)
         """
@@ -965,13 +944,13 @@ class TimeRangeType(ARObject):
     def setToleranceTolerance(self, value: "TimeRangeType") -> "TimeRangeType":
         """
         AUTOSAR-compliant setter for toleranceTolerance with method chaining.
-
+        
         Args:
             value: The toleranceTolerance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to tolerance_tolerance property setter (gets validation automatically)
         """
@@ -981,10 +960,10 @@ class TimeRangeType(ARObject):
     def getValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for value.
-
+        
         Returns:
             The value value
-
+        
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -993,13 +972,13 @@ class TimeRangeType(ARObject):
     def setValue(self, value: "TimeValue") -> "TimeRangeType":
         """
         AUTOSAR-compliant setter for value with method chaining.
-
+        
         Args:
             value: The value to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1011,13 +990,13 @@ class TimeRangeType(ARObject):
     def with_tolerance_tolerance(self, value: Optional["TimeRangeType"]) -> "TimeRangeType":
         """
         Set toleranceTolerance and return self for chaining.
-
+        
         Args:
             value: The toleranceTolerance to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_tolerance_tolerance("value")
         """
@@ -1027,32 +1006,27 @@ class TimeRangeType(ARObject):
     def with_value(self, value: Optional["TimeValue"]) -> "TimeRangeType":
         """
         Set value and return self for chaining.
-
+        
         Args:
             value: The value to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_value("value")
         """
         self.value = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class RelativeTolerance(ARObject):
     """
     Maximum allowable deviation
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::RelativeTolerance
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 398, Classic Platform R23-11)
     """
@@ -1072,10 +1046,10 @@ class RelativeTolerance(ARObject):
     def relative(self, value: Optional["Integer"]) -> None:
         """
         Set relative with validation.
-
+        
         Args:
             value: The relative to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1083,9 +1057,9 @@ class RelativeTolerance(ARObject):
             self._relative = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"relative must be Integer or None, got {type(value).__name__}"
+                f"relative must be Integer or int or None, got {type(value).__name__}"
             )
         self._relative = value
 
@@ -1094,10 +1068,10 @@ class RelativeTolerance(ARObject):
     def getRelative(self) -> "Integer":
         """
         AUTOSAR-compliant getter for relative.
-
+        
         Returns:
             The relative value
-
+        
         Note:
             Delegates to relative property (CODING_RULE_V2_00017)
         """
@@ -1106,13 +1080,13 @@ class RelativeTolerance(ARObject):
     def setRelative(self, value: "Integer") -> "RelativeTolerance":
         """
         AUTOSAR-compliant setter for relative with method chaining.
-
+        
         Args:
             value: The relative to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to relative property setter (gets validation automatically)
         """
@@ -1124,32 +1098,27 @@ class RelativeTolerance(ARObject):
     def with_relative(self, value: Optional["Integer"]) -> "RelativeTolerance":
         """
         Set relative and return self for chaining.
-
+        
         Args:
             value: The relative to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_relative("value")
         """
         self.relative = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class AbsoluteTolerance(ARObject):
     """
     Maximum allowable deviation
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::AbsoluteTolerance
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 398, Classic Platform R23-11)
     """
@@ -1169,10 +1138,10 @@ class AbsoluteTolerance(ARObject):
     def absolute(self, value: Optional["TimeValue"]) -> None:
         """
         Set absolute with validation.
-
+        
         Args:
             value: The absolute to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1191,10 +1160,10 @@ class AbsoluteTolerance(ARObject):
     def getAbsolute(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for absolute.
-
+        
         Returns:
             The absolute value
-
+        
         Note:
             Delegates to absolute property (CODING_RULE_V2_00017)
         """
@@ -1203,13 +1172,13 @@ class AbsoluteTolerance(ARObject):
     def setAbsolute(self, value: "TimeValue") -> "AbsoluteTolerance":
         """
         AUTOSAR-compliant setter for absolute with method chaining.
-
+        
         Args:
             value: The absolute to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to absolute property setter (gets validation automatically)
         """
@@ -1221,24 +1190,19 @@ class AbsoluteTolerance(ARObject):
     def with_absolute(self, value: Optional["TimeValue"]) -> "AbsoluteTolerance":
         """
         Set absolute and return self for chaining.
-
+        
         Args:
             value: The absolute to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_absolute("value")
         """
         self.absolute = value  # Use property setter (gets validation)
         return self
 
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class TriggerIPduSendCondition(ARObject):
@@ -1246,9 +1210,9 @@ class TriggerIPduSendCondition(ARObject):
     The condition defined by this class evaluates to true if one of the
     referenced modeDeclarations (OR associated) is active. The condition is used
     to define when the Pdu is triggered with the Com_Trigger IPDUSend API call.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TriggerIPduSendCondition
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 399, Classic Platform R23-11)
     """
@@ -1270,10 +1234,10 @@ class TriggerIPduSendCondition(ARObject):
     def getMode(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for mode.
-
+        
         Returns:
             The mode value
-
+        
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """

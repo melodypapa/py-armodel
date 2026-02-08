@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingClock.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

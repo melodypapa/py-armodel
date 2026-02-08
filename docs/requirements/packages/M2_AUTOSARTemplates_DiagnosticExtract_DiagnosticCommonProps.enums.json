@@ -1,0 +1,90 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+  "enumerations": [
+    {
+      "name": "DiagnosticOccurrenceCounterProcessingEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+      "note": "The occurrence counter triggering types. Aggregated by DiagnosticCommonProps.occurrenceCounterProcessing",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 65,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Diagnostic",
+          "index": null,
+          "description": "Extract Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "confirmedDtcBit",
+          "index": 0,
+          "description": "The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 if the fault confirmation was successful (ConfirmedDTC bit is already set).<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "testFailedBit",
+          "index": 1,
+          "description": "The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 (and the fault confirmation is not considered).<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticEventCombinationBehaviorEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+      "note": "Select type of Event Combination support Aggregated by DiagnosticCommonProps.typeOfEventCombinationSupported",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 67,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "eventCombination",
+          "index": 1,
+          "description": "Event combination on retrieval is used to combine events. For each event an individual event memory OnRetrieval entry is created, while reporting the data via UDS, the data is combined.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "eventCombination",
+          "index": null,
+          "description": "Event combination on storage is used to combine events. Only one memory entry exists for each"
+        },
+        {
+          "name": "OnStorage",
+          "index": 0,
+          "description": "DTC which is also reported via UDS.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticEventCombinationReportingBehaviorEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+      "note": "Select reporting format of events. Applicable only for Event Combination on Retrieval. Aggregated by DiagnosticCommonProps.eventCombinationReportingBehavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 67,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "reportingInChronlogicalOrder",
+          "index": 0,
+          "description": "The reporting order for event combination on retrieval is the chronological storage order of the events<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

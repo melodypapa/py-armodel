@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingCpSoftwareCluster.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

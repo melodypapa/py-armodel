@@ -1,17 +1,30 @@
-from typing import Optional
+"""
+AUTOSAR Package - FR
 
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
-    GlobalTimeMaster,
+Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.__init__ import (
+    AbstractGlobalTimeDomainProps,
+    GlobalTimeMaster,
+    GlobalTimeSlave,
+)
+
+
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
     """
     This represents the specialization of the GlobalTimeMaster for Flexray
     communication.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR::GlobalTimeFrMaster
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 877, Classic Platform R23-11)
     """
@@ -32,10 +45,10 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
     def crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> None:
         """
         Set crcSecured with validation.
-
+        
         Args:
             value: The crcSecured to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +67,10 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
     def getCrcSecured(self) -> "GlobalTimeCrcSupport":
         """
         AUTOSAR-compliant getter for crcSecured.
-
+        
         Returns:
             The crcSecured value
-
+        
         Note:
             Delegates to crc_secured property (CODING_RULE_V2_00017)
         """
@@ -66,13 +79,13 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
     def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> "GlobalTimeFrMaster":
         """
         AUTOSAR-compliant setter for crcSecured with method chaining.
-
+        
         Args:
             value: The crcSecured to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to crc_secured property setter (gets validation automatically)
         """
@@ -84,33 +97,28 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
     def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> "GlobalTimeFrMaster":
         """
         Set crcSecured and return self for chaining.
-
+        
         Args:
             value: The crcSecured to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_crc_secured("value")
         """
         self.crc_secured = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
-    GlobalTimeSlave,
-)
 
 
 class GlobalTimeFrSlave(GlobalTimeSlave):
     """
     This represents the specialization of the GlobalTimeSlave for Flexray
     communication.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR::GlobalTimeFrSlave
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 878, Classic Platform R23-11)
     """
@@ -130,10 +138,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def crc_validated(self, value: Optional["GlobalTimeCrc"]) -> None:
         """
         Set crcValidated with validation.
-
+        
         Args:
             value: The crcValidated to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -159,10 +167,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def sequence(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sequence with validation.
-
+        
         Args:
             value: The sequence to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -170,9 +178,9 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
             self._sequence = None
             return
 
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"sequence must be PositiveInteger or None, got {type(value).__name__}"
+                f"sequence must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sequence = value
 
@@ -181,10 +189,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def getCrcValidated(self) -> "GlobalTimeCrc":
         """
         AUTOSAR-compliant getter for crcValidated.
-
+        
         Returns:
             The crcValidated value
-
+        
         Note:
             Delegates to crc_validated property (CODING_RULE_V2_00017)
         """
@@ -193,13 +201,13 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def setCrcValidated(self, value: "GlobalTimeCrc") -> "GlobalTimeFrSlave":
         """
         AUTOSAR-compliant setter for crcValidated with method chaining.
-
+        
         Args:
             value: The crcValidated to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to crc_validated property setter (gets validation automatically)
         """
@@ -209,10 +217,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def getSequence(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sequence.
-
+        
         Returns:
             The sequence value
-
+        
         Note:
             Delegates to sequence property (CODING_RULE_V2_00017)
         """
@@ -221,13 +229,13 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def setSequence(self, value: "PositiveInteger") -> "GlobalTimeFrSlave":
         """
         AUTOSAR-compliant setter for sequence with method chaining.
-
+        
         Args:
             value: The sequence to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to sequence property setter (gets validation automatically)
         """
@@ -239,13 +247,13 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def with_crc_validated(self, value: Optional["GlobalTimeCrc"]) -> "GlobalTimeFrSlave":
         """
         Set crcValidated and return self for chaining.
-
+        
         Args:
             value: The crcValidated to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_crc_validated("value")
         """
@@ -255,30 +263,27 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def with_sequence(self, value: Optional["PositiveInteger"]) -> "GlobalTimeFrSlave":
         """
         Set sequence and return self for chaining.
-
+        
         Args:
             value: The sequence to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_sequence("value")
         """
         self.sequence = value  # Use property setter (gets validation)
         return self
 
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
-    AbstractGlobalTimeDomainProps,
-)
 
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     """
     Enables the definition of Flexray GlobalTime specific properties.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR::FrGlobalTimeDomainProps
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 878, Classic Platform R23-11)
     """
@@ -297,16 +302,16 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def ofs_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set ofsDataIDList with validation.
-
+        
         Args:
             value: The ofsDataIDList to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"ofsDataIDList must be PositiveInteger, got {type(value).__name__}"
+                f"ofsDataIDList must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._ofsDataIDList = value
         self._syncDataIDList: "PositiveInteger" = None
@@ -320,16 +325,16 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def sync_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set syncDataIDList with validation.
-
+        
         Args:
             value: The syncDataIDList to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
-        if not isinstance(value, PositiveInteger):
+        if not isinstance(value, (PositiveInteger, str)):
             raise TypeError(
-                f"syncDataIDList must be PositiveInteger, got {type(value).__name__}"
+                f"syncDataIDList must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._syncDataIDList = value
 
@@ -338,10 +343,10 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getOfsDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ofsDataIDList.
-
+        
         Returns:
             The ofsDataIDList value
-
+        
         Note:
             Delegates to ofs_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -350,13 +355,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setOfsDataIDList(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for ofsDataIDList with method chaining.
-
+        
         Args:
             value: The ofsDataIDList to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ofs_data_id_list property setter (gets validation automatically)
         """
@@ -366,10 +371,10 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getSyncDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncDataIDList.
-
+        
         Returns:
             The syncDataIDList value
-
+        
         Note:
             Delegates to sync_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -378,13 +383,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setSyncDataIDList(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for syncDataIDList with method chaining.
-
+        
         Args:
             value: The syncDataIDList to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to sync_data_id_list property setter (gets validation automatically)
         """
@@ -396,13 +401,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_ofs_data_id_list(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         Set ofsDataIDList and return self for chaining.
-
+        
         Args:
             value: The ofsDataIDList to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ofs_data_id_list("value")
         """
@@ -412,13 +417,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_sync_data_id_list(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         Set syncDataIDList and return self for chaining.
-
+        
         Args:
             value: The syncDataIDList to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_sync_data_id_list("value")
         """

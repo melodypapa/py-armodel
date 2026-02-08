@@ -1,16 +1,24 @@
-from abc import ABC
+"""
+AUTOSAR Package - FibexCore
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PackageableElement import (
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     PackageableElement,
 )
+
+
 
 
 class FibexElement(PackageableElement, ABC):
     """
     ASAM FIBEX elements specifying Communication and Topology.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::FibexElement
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2026, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 445, Foundation

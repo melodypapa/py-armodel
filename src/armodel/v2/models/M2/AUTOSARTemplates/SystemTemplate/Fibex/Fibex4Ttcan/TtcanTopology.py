@@ -1,16 +1,32 @@
-from typing import Optional
+"""
+AUTOSAR Package - TtcanTopology
 
+Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Integer,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+    AbstractCanCommunicationConnector,
+    AbstractCanPhysicalChannel,
+)
+
+
 
 
 class TtcanCluster(ARObject):
     """
     TTCAN bus specific cluster attributes.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology::TtcanCluster
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 76, Classic Platform R23-11)
     """
@@ -31,10 +47,10 @@ class TtcanCluster(ARObject):
     def basic_cycle_length(self, value: Optional["Integer"]) -> None:
         """
         Set basicCycleLength with validation.
-
+        
         Args:
             value: The basicCycleLength to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -42,9 +58,9 @@ class TtcanCluster(ARObject):
             self._basicCycleLength = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"basicCycleLength must be Integer or None, got {type(value).__name__}"
+                f"basicCycleLength must be Integer or int or None, got {type(value).__name__}"
             )
         self._basicCycleLength = value
         # Unit measuring all times and providing a constant of the For level 1, this is
@@ -60,10 +76,10 @@ class TtcanCluster(ARObject):
     def ntu(self, value: Optional["TimeValue"]) -> None:
         """
         Set ntu with validation.
-
+        
         Args:
             value: The ntu to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +104,10 @@ class TtcanCluster(ARObject):
     def operation_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set operationMode with validation.
-
+        
         Args:
             value: The operationMode to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,9 +115,9 @@ class TtcanCluster(ARObject):
             self._operationMode = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"operationMode must be Boolean or None, got {type(value).__name__}"
+                f"operationMode must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._operationMode = value
 
@@ -110,10 +126,10 @@ class TtcanCluster(ARObject):
     def getBasicCycleLength(self) -> "Integer":
         """
         AUTOSAR-compliant getter for basicCycleLength.
-
+        
         Returns:
             The basicCycleLength value
-
+        
         Note:
             Delegates to basic_cycle_length property (CODING_RULE_V2_00017)
         """
@@ -122,13 +138,13 @@ class TtcanCluster(ARObject):
     def setBasicCycleLength(self, value: "Integer") -> "TtcanCluster":
         """
         AUTOSAR-compliant setter for basicCycleLength with method chaining.
-
+        
         Args:
             value: The basicCycleLength to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to basic_cycle_length property setter (gets validation automatically)
         """
@@ -138,10 +154,10 @@ class TtcanCluster(ARObject):
     def getNtu(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ntu.
-
+        
         Returns:
             The ntu value
-
+        
         Note:
             Delegates to ntu property (CODING_RULE_V2_00017)
         """
@@ -150,13 +166,13 @@ class TtcanCluster(ARObject):
     def setNtu(self, value: "TimeValue") -> "TtcanCluster":
         """
         AUTOSAR-compliant setter for ntu with method chaining.
-
+        
         Args:
             value: The ntu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to ntu property setter (gets validation automatically)
         """
@@ -166,10 +182,10 @@ class TtcanCluster(ARObject):
     def getOperationMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for operationMode.
-
+        
         Returns:
             The operationMode value
-
+        
         Note:
             Delegates to operation_mode property (CODING_RULE_V2_00017)
         """
@@ -178,13 +194,13 @@ class TtcanCluster(ARObject):
     def setOperationMode(self, value: "Boolean") -> "TtcanCluster":
         """
         AUTOSAR-compliant setter for operationMode with method chaining.
-
+        
         Args:
             value: The operationMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to operation_mode property setter (gets validation automatically)
         """
@@ -196,13 +212,13 @@ class TtcanCluster(ARObject):
     def with_basic_cycle_length(self, value: Optional["Integer"]) -> "TtcanCluster":
         """
         Set basicCycleLength and return self for chaining.
-
+        
         Args:
             value: The basicCycleLength to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_basic_cycle_length("value")
         """
@@ -212,13 +228,13 @@ class TtcanCluster(ARObject):
     def with_ntu(self, value: Optional["TimeValue"]) -> "TtcanCluster":
         """
         Set ntu and return self for chaining.
-
+        
         Args:
             value: The ntu to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_ntu("value")
         """
@@ -228,32 +244,27 @@ class TtcanCluster(ARObject):
     def with_operation_mode(self, value: Optional["Boolean"]) -> "TtcanCluster":
         """
         Set operationMode and return self for chaining.
-
+        
         Args:
             value: The operationMode to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_operation_mode("value")
         """
         self.operation_mode = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class TtcanCommunicationController(ARObject):
     """
     TTCAN bus specific communication port attributes.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology::TtcanCommunicationController
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 76, Classic Platform R23-11)
     """
@@ -274,10 +285,10 @@ class TtcanCommunicationController(ARObject):
     def appl_watchdog(self, value: Optional["Integer"]) -> None:
         """
         Set applWatchdog with validation.
-
+        
         Args:
             value: The applWatchdog to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -285,9 +296,9 @@ class TtcanCommunicationController(ARObject):
             self._applWatchdog = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"applWatchdog must be Integer or None, got {type(value).__name__}"
+                f"applWatchdog must be Integer or int or None, got {type(value).__name__}"
             )
         self._applWatchdog = value
         # The Expected_Tx_Trigger shall be an eight (8) bit value limits the number of
@@ -303,10 +314,10 @@ class TtcanCommunicationController(ARObject):
     def expected_tx(self, value: Optional["Integer"]) -> None:
         """
         Set expectedTx with validation.
-
+        
         Args:
             value: The expectedTx to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -314,9 +325,9 @@ class TtcanCommunicationController(ARObject):
             self._expectedTx = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"expectedTx must be Integer or None, got {type(value).__name__}"
+                f"expectedTx must be Integer or int or None, got {type(value).__name__}"
             )
         self._expectedTx = value
         # One bit shall be used to configure whether or not external synchronisation
@@ -332,10 +343,10 @@ class TtcanCommunicationController(ARObject):
     def external_clock(self, value: Optional["Boolean"]) -> None:
         """
         Set externalClock with validation.
-
+        
         Args:
             value: The externalClock to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -343,9 +354,9 @@ class TtcanCommunicationController(ARObject):
             self._externalClock = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"externalClock must be Boolean or None, got {type(value).__name__}"
+                f"externalClock must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._externalClock = value
         # The Initial_Ref_Offset shall be an eight (8) bit value for of
@@ -361,10 +372,10 @@ class TtcanCommunicationController(ARObject):
     def initial_ref_offset(self, value: Optional["Integer"]) -> None:
         """
         Set initialRefOffset with validation.
-
+        
         Args:
             value: The initialRefOffset to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -372,9 +383,9 @@ class TtcanCommunicationController(ARObject):
             self._initialRefOffset = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"initialRefOffset must be Integer or None, got {type(value).__name__}"
+                f"initialRefOffset must be Integer or int or None, got {type(value).__name__}"
             )
         self._initialRefOffset = value
         # One bit shall be used to distinguish between (potential) and time slaves.
@@ -391,10 +402,10 @@ class TtcanCommunicationController(ARObject):
     def master(self, value: Optional["Boolean"]) -> None:
         """
         Set master with validation.
-
+        
         Args:
             value: The master to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -402,9 +413,9 @@ class TtcanCommunicationController(ARObject):
             self._master = None
             return
 
-        if not isinstance(value, Boolean):
+        if not isinstance(value, (Boolean, bool)):
             raise TypeError(
-                f"master must be Boolean or None, got {type(value).__name__}"
+                f"master must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._master = value
         # The time master priority shall contain a three bit value for priority of the
@@ -422,10 +433,10 @@ class TtcanCommunicationController(ARObject):
     def time_master(self, value: Optional["Integer"]) -> None:
         """
         Set timeMaster with validation.
-
+        
         Args:
             value: The timeMaster to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -433,9 +444,9 @@ class TtcanCommunicationController(ARObject):
             self._timeMaster = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"timeMaster must be Integer or None, got {type(value).__name__}"
+                f"timeMaster must be Integer or int or None, got {type(value).__name__}"
             )
         self._timeMaster = value
         # One bit shall be used to distinguish between Level 1 and 2.
@@ -450,10 +461,10 @@ class TtcanCommunicationController(ARObject):
     def time_triggered(self, value: Optional["Integer"]) -> None:
         """
         Set timeTriggered with validation.
-
+        
         Args:
             value: The timeTriggered to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -461,9 +472,9 @@ class TtcanCommunicationController(ARObject):
             self._timeTriggered = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"timeTriggered must be Integer or None, got {type(value).__name__}"
+                f"timeTriggered must be Integer or int or None, got {type(value).__name__}"
             )
         self._timeTriggered = value
         # The length of the Tx_Enable window shall be a four (4) bit specifying the
@@ -479,10 +490,10 @@ class TtcanCommunicationController(ARObject):
     def tx_enable(self, value: Optional["Integer"]) -> None:
         """
         Set txEnable with validation.
-
+        
         Args:
             value: The txEnable to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -490,9 +501,9 @@ class TtcanCommunicationController(ARObject):
             self._txEnable = None
             return
 
-        if not isinstance(value, Integer):
+        if not isinstance(value, (Integer, int)):
             raise TypeError(
-                f"txEnable must be Integer or None, got {type(value).__name__}"
+                f"txEnable must be Integer or int or None, got {type(value).__name__}"
             )
         self._txEnable = value
 
@@ -501,10 +512,10 @@ class TtcanCommunicationController(ARObject):
     def getApplWatchdog(self) -> "Integer":
         """
         AUTOSAR-compliant getter for applWatchdog.
-
+        
         Returns:
             The applWatchdog value
-
+        
         Note:
             Delegates to appl_watchdog property (CODING_RULE_V2_00017)
         """
@@ -513,13 +524,13 @@ class TtcanCommunicationController(ARObject):
     def setApplWatchdog(self, value: "Integer") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for applWatchdog with method chaining.
-
+        
         Args:
             value: The applWatchdog to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to appl_watchdog property setter (gets validation automatically)
         """
@@ -529,10 +540,10 @@ class TtcanCommunicationController(ARObject):
     def getExpectedTx(self) -> "Integer":
         """
         AUTOSAR-compliant getter for expectedTx.
-
+        
         Returns:
             The expectedTx value
-
+        
         Note:
             Delegates to expected_tx property (CODING_RULE_V2_00017)
         """
@@ -541,13 +552,13 @@ class TtcanCommunicationController(ARObject):
     def setExpectedTx(self, value: "Integer") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for expectedTx with method chaining.
-
+        
         Args:
             value: The expectedTx to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to expected_tx property setter (gets validation automatically)
         """
@@ -557,10 +568,10 @@ class TtcanCommunicationController(ARObject):
     def getExternalClock(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for externalClock.
-
+        
         Returns:
             The externalClock value
-
+        
         Note:
             Delegates to external_clock property (CODING_RULE_V2_00017)
         """
@@ -569,13 +580,13 @@ class TtcanCommunicationController(ARObject):
     def setExternalClock(self, value: "Boolean") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for externalClock with method chaining.
-
+        
         Args:
             value: The externalClock to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to external_clock property setter (gets validation automatically)
         """
@@ -585,10 +596,10 @@ class TtcanCommunicationController(ARObject):
     def getInitialRefOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for initialRefOffset.
-
+        
         Returns:
             The initialRefOffset value
-
+        
         Note:
             Delegates to initial_ref_offset property (CODING_RULE_V2_00017)
         """
@@ -597,13 +608,13 @@ class TtcanCommunicationController(ARObject):
     def setInitialRefOffset(self, value: "Integer") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for initialRefOffset with method chaining.
-
+        
         Args:
             value: The initialRefOffset to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to initial_ref_offset property setter (gets validation automatically)
         """
@@ -613,10 +624,10 @@ class TtcanCommunicationController(ARObject):
     def getMaster(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for master.
-
+        
         Returns:
             The master value
-
+        
         Note:
             Delegates to master property (CODING_RULE_V2_00017)
         """
@@ -625,13 +636,13 @@ class TtcanCommunicationController(ARObject):
     def setMaster(self, value: "Boolean") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for master with method chaining.
-
+        
         Args:
             value: The master to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to master property setter (gets validation automatically)
         """
@@ -641,10 +652,10 @@ class TtcanCommunicationController(ARObject):
     def getTimeMaster(self) -> "Integer":
         """
         AUTOSAR-compliant getter for timeMaster.
-
+        
         Returns:
             The timeMaster value
-
+        
         Note:
             Delegates to time_master property (CODING_RULE_V2_00017)
         """
@@ -653,13 +664,13 @@ class TtcanCommunicationController(ARObject):
     def setTimeMaster(self, value: "Integer") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for timeMaster with method chaining.
-
+        
         Args:
             value: The timeMaster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to time_master property setter (gets validation automatically)
         """
@@ -669,10 +680,10 @@ class TtcanCommunicationController(ARObject):
     def getTimeTriggered(self) -> "Integer":
         """
         AUTOSAR-compliant getter for timeTriggered.
-
+        
         Returns:
             The timeTriggered value
-
+        
         Note:
             Delegates to time_triggered property (CODING_RULE_V2_00017)
         """
@@ -681,13 +692,13 @@ class TtcanCommunicationController(ARObject):
     def setTimeTriggered(self, value: "Integer") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for timeTriggered with method chaining.
-
+        
         Args:
             value: The timeTriggered to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to time_triggered property setter (gets validation automatically)
         """
@@ -697,10 +708,10 @@ class TtcanCommunicationController(ARObject):
     def getTxEnable(self) -> "Integer":
         """
         AUTOSAR-compliant getter for txEnable.
-
+        
         Returns:
             The txEnable value
-
+        
         Note:
             Delegates to tx_enable property (CODING_RULE_V2_00017)
         """
@@ -709,13 +720,13 @@ class TtcanCommunicationController(ARObject):
     def setTxEnable(self, value: "Integer") -> "TtcanCommunicationController":
         """
         AUTOSAR-compliant setter for txEnable with method chaining.
-
+        
         Args:
             value: The txEnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to tx_enable property setter (gets validation automatically)
         """
@@ -727,13 +738,13 @@ class TtcanCommunicationController(ARObject):
     def with_appl_watchdog(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
         """
         Set applWatchdog and return self for chaining.
-
+        
         Args:
             value: The applWatchdog to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_appl_watchdog("value")
         """
@@ -743,13 +754,13 @@ class TtcanCommunicationController(ARObject):
     def with_expected_tx(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
         """
         Set expectedTx and return self for chaining.
-
+        
         Args:
             value: The expectedTx to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_expected_tx("value")
         """
@@ -759,13 +770,13 @@ class TtcanCommunicationController(ARObject):
     def with_external_clock(self, value: Optional["Boolean"]) -> "TtcanCommunicationController":
         """
         Set externalClock and return self for chaining.
-
+        
         Args:
             value: The externalClock to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_external_clock("value")
         """
@@ -775,13 +786,13 @@ class TtcanCommunicationController(ARObject):
     def with_initial_ref_offset(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
         """
         Set initialRefOffset and return self for chaining.
-
+        
         Args:
             value: The initialRefOffset to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_initial_ref_offset("value")
         """
@@ -791,13 +802,13 @@ class TtcanCommunicationController(ARObject):
     def with_master(self, value: Optional["Boolean"]) -> "TtcanCommunicationController":
         """
         Set master and return self for chaining.
-
+        
         Args:
             value: The master to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_master("value")
         """
@@ -807,13 +818,13 @@ class TtcanCommunicationController(ARObject):
     def with_time_master(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
         """
         Set timeMaster and return self for chaining.
-
+        
         Args:
             value: The timeMaster to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_time_master("value")
         """
@@ -823,13 +834,13 @@ class TtcanCommunicationController(ARObject):
     def with_time_triggered(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
         """
         Set timeTriggered and return self for chaining.
-
+        
         Args:
             value: The timeTriggered to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_time_triggered("value")
         """
@@ -839,30 +850,27 @@ class TtcanCommunicationController(ARObject):
     def with_tx_enable(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
         """
         Set txEnable and return self for chaining.
-
+        
         Args:
             value: The txEnable to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_tx_enable("value")
         """
         self.tx_enable = value  # Use property setter (gets validation)
         return self
 
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
-    AbstractCanPhysicalChannel,
-)
 
 
 class TtcanPhysicalChannel(AbstractCanPhysicalChannel):
     """
     TTCAN bus specific physical channel attributes.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology::TtcanPhysicalChannel
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 77, Classic Platform R23-11)
     """
@@ -875,17 +883,14 @@ class TtcanPhysicalChannel(AbstractCanPhysicalChannel):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
-    AbstractCanCommunicationConnector,
-)
 
 
 class TtcanCommunicationConnector(AbstractCanCommunicationConnector):
     """
     TTCAN bus specific communication connector attributes.
-
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
-
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology::TtcanCommunicationConnector
+    
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 77, Classic Platform R23-11)
     """

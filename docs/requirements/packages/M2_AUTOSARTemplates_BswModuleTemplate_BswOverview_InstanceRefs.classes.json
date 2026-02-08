@@ -1,0 +1,58 @@
+{
+  "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs",
+  "classes": [
+    {
+      "name": "ModeInBswModuleDescriptionInstanceRef",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswEvent.disabledInMode",
+        "BswModeSwitchEvent.mode",
+        "DiagnosticEnvBswModeElement.mode"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "BswModuleDescription",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived"
+        },
+        "contextModeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    }
+  ]
+}

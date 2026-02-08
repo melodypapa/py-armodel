@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::AsamHdo::ComputationMethod",
+  "path": "M2::MSR::AsamHdo::ComputationMethod",
+  "files": {
+    "classes": "packages/M2_MSR_AsamHdo_ComputationMethod.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 16,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

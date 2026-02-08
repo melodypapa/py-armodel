@@ -1,0 +1,90 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent",
+  "enumerations": [
+    {
+      "name": "DiagnosticEventWindowTimeEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent",
+      "note": "This represents the ability to define the semantics of the event window. Aggregated by DiagnosticEventWindow.eventWindowTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 133,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "infiniteTimeTo",
+          "index": 3,
+          "description": "This value specifies that the event window shall stay active for an infinite amount of time (e.g. open Response window until power off).<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "powerWindowTime",
+          "index": 4,
+          "description": "This enumeration value specifies that the server shall send response on event messages until the server is powered down. The server stops sending response on event messages with the power down and will send no more response on event messages after server is up again.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticResponseOnEventActionEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent",
+      "note": "This meta-class has the ability to define sub-functions of the UDS service ResponseOnEvent. Aggregated by DiagnosticResponseOnEvent.responseOnEventAction",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 134,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "clear",
+          "index": 2,
+          "description": "Clears the configured events.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "onChangeOfDataIdentifier",
+          "index": 6,
+          "description": "Reports based on change of data identifier.<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "onComparisonOfValues",
+          "index": 8,
+          "description": "Triggered if data condition is met (e.g. RPM over 5000 1/min).<br>Tags: atp.EnumerationLiteralIndex=8"
+        },
+        {
+          "name": "onDTCStatusChange",
+          "index": 7,
+          "description": "Reports based on change of DTC status.<br>Tags: atp.EnumerationLiteralIndex=7"
+        },
+        {
+          "name": "report",
+          "index": 3,
+          "description": "Reports the activated events.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "reportDTCRecordInformationOnDtc",
+          "index": 5,
+          "description": "Reports the DTC record-related information based on a DTC status change. (Subfunction 0x09)<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "reportMostRecentDtcOnStatus",
+          "index": 4,
+          "description": "Triggers the report of the most recent failed or confirmed DTC (Subfunction 0x08).<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "start",
+          "index": 1,
+          "description": "Starts the response on event service.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "stop",
+          "index": 0,
+          "description": "Stops the response on event service.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

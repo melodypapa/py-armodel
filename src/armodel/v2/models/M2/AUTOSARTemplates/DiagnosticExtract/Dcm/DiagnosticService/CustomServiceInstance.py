@@ -1,17 +1,25 @@
-from typing import Optional
+"""
+AUTOSAR Package - CustomServiceInstance
 
+Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CustomServiceInstance
+"""
+
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
     DiagnosticServiceInstance,
 )
+
+
 
 
 class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
     """
     This meta-class has the ability to define an instance of a custom diagnostic
     service.
-
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CustomServiceInstance
-
+    
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CustomServiceInstance::DiagnosticCustomServiceInstance
+    
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 70, Classic Platform
       R23-11)
@@ -32,10 +40,10 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
     def custom_service(self, value: Optional["DiagnosticCustom"]) -> None:
         """
         Set customService with validation.
-
+        
         Args:
             value: The customService to set
-
+        
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +62,10 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
     def getCustomService(self) -> "DiagnosticCustom":
         """
         AUTOSAR-compliant getter for customService.
-
+        
         Returns:
             The customService value
-
+        
         Note:
             Delegates to custom_service property (CODING_RULE_V2_00017)
         """
@@ -66,13 +74,13 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
     def setCustomService(self, value: "DiagnosticCustom") -> "DiagnosticCustomServiceInstance":
         """
         AUTOSAR-compliant setter for customService with method chaining.
-
+        
         Args:
             value: The customService to set
-
+        
         Returns:
             self for method chaining
-
+        
         Note:
             Delegates to custom_service property setter (gets validation automatically)
         """
@@ -84,13 +92,13 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
     def with_custom_service(self, value: Optional["DiagnosticCustom"]) -> "DiagnosticCustomServiceInstance":
         """
         Set customService and return self for chaining.
-
+        
         Args:
             value: The customService to set
-
+        
         Returns:
             self for method chaining
-
+        
         Example:
             >>> obj.with_custom_service("value")
         """

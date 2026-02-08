@@ -1,0 +1,198 @@
+{
+  "package": "M2::MSR::AsamHdo::AdminData",
+  "classes": [
+    {
+      "name": "AdminData",
+      "package": "M2::MSR::AsamHdo::AdminData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AUTOSAR.adminData",
+        "Describable.adminData",
+        "Identifiable.adminData"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that information about previous revisions can also be logged here. The entries shall be sorted descendant by date in order to reflect the history. Therefore the most recent entry representing the current version is denoted first. language LEnum 0..1 attr This attribute specifies the master language of the document or the document fragment. The master language is the one in which the document is maintained and from which the other languages are derived from. In particular in case of inconsistencies, the information in the master language is priority. sdg Sdg * aggr This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data. Stereotypes: atpSplitable (cid:53) 288 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of ECU Configuration AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 288,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 969,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1994,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 72,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 84,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "docRevision": {
+          "type": "DocRevision",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This allows to denote information about the current of the object."
+        },
+        "usedLanguages": {
+          "type": "MultiLanguagePlainText",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property specifies the languages which are provided document. Therefore it should only be specified in level admin data. For each language provided in there is one entry in MultilanguagePlain content of each entry can be used for the language. The used language itself the language attribute in the entry."
+        }
+      }
+    },
+    {
+      "name": "DocRevision",
+      "package": "M2::MSR::AsamHdo::AdminData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AdminData.docRevision"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to maintain information which relates to revision management of documents or objects.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 293,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 85,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "date": {
+          "type": "DateTime",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the date and time, when the object in released"
+        },
+        "issuedBy": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the name of an individual or an organization who current revision of the document or document"
+        },
+        "modification": {
+          "type": "Modification",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property represents one particular modification in its predecessor."
+        },
+        "revisionLabel": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the version number of the object."
+        },
+        "revisionLabelP1": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the version number of the first the object."
+        },
+        "revisionLabelP2": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the version number of the of the object. is used if the object is the result of a merge which two branches are merged in to one new"
+        },
+        "state": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The attribute state represents the current state of the according to the configuration management is a NameToken until possible states are"
+        }
+      }
+    },
+    {
+      "name": "Modification",
+      "package": "M2::MSR::AsamHdo::AdminData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocRevision.modification"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to record what has changed in a document in comparison to its predecessor.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 86,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "change": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property denotes the one particular change which performed on the object."
+        },
+        "reason": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property represents the rationale for the particular"
+        }
+      }
+    }
+  ]
+}

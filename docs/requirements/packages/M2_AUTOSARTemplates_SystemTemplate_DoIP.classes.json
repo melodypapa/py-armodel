@@ -1,0 +1,313 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+  "classes": [
+    {
+      "name": "DoIpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.doIpConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines the DoIp configuration for a specific Ecu.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 551,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "doipInterface": {
+          "type": "DoIpInterface",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "DoIP node consists of one or several DoIPInterfaces over ECU is able to communicate via DoIP DoIP functionalities on each IP isolated from each other."
+        },
+        "logicAddress": {
+          "type": "DoIpLogicAddress",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the logical address of the DoIP entity, i.e. the that will route diagnostic requests to the the DoIP entity."
+        }
+      }
+    },
+    {
+      "name": "DoIpInterface",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DoIpConfig.doipInterface"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A logical interface over which the DoIP Node is able to communicate via DoIP independently from other existing DoIpInterfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 551,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aliveCheck": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the timeout in seconds for waiting response to an Alive Check request before the is considered to be disconnected. Represents of ISO 13400-2:2012. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "doipChannel": {
+          "type": "DoIpTpConfig",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Configuration of DoIPChannels available in an DoIp Each DoIPChannel describes a connection doIpSourceAddress and a doIpTargetAddress exchange of DcmIPdus between the PduR and DoIP channel is constituted by the set of all DoIp via which the configured Ecu or receives SDUs that are sharing the diagnosis address and tester address."
+        },
+        "doipConnection": {
+          "type": "SocketConnection",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "DoIP Connections in the DoIpInterface that define the Do Pdus that are sent and received via SoAd over TCP or"
+        },
+        "doIpRouting": {
+          "type": "DoIpRoutingActivation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of DoIpRoutingActivation possibilities defined the DoIpInterface."
+        },
+        "generalInactivity": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the timeout in seconds for maximum of a TCP socket connection before the DoIP close the according socket connection. T_TCP_General_Inactivity of ISO"
+        },
+        "initialInactivity": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the timeout in seconds used for inactivity of a connected TCP socket connection socket connection. Represents parameter ISO 13400-2:2012"
+        },
+        "initialVehicle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the waiting time in seconds for first vehicle announcement message after IP assignment. Represents parameter A_DoIP_ ISO 13400-2:2012"
+        },
+        "isActivationLine": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the network interface is started \"on-demand\" when an activation line is always available."
+        },
+        "maxTester": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum amount of tester connections that shall be at one time before alive check is performed."
+        },
+        "socket": {
+          "type": "StaticSocketConnection",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "DoIP Connections in the DoIpInterface that define the Do Pdus that are sent and received via SoAd over TCP or"
+        },
+        "useMacAddress": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether a configured EID at vehicle response/vehicle announcement is used or address. TRUE: Use MAC Address instead of Vehicle identification/announcement. FALSE: Use for vehicle identification/announcement."
+        },
+        "useVehicle": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines if the optional VIN/GID status is used additionally in the vehicle"
+        },
+        "vehicle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the waiting time in seconds for subsequent vehicle announcement messages. parameter A_DoIP_Announce_Interval of"
+        }
+      }
+    },
+    {
+      "name": "DoIpRoutingActivation",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DoIpInterface.doIpRoutingActivation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines a DoIP routing activation possibility that activates the routing to the referenced doIPTargetAddress. This means that the diagnostic request messages related to the specified do IPTargetAddress received by socketConnections that are referenced by the same DoIpInterface that aggregates this DoIpRoutingActivation are activated.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 553,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "doIpTarget": {
+          "type": "DoIpLogicTarget",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to DoIPTargetAddress which is activated on this DoIpRoutingActivation."
+        }
+      }
+    },
+    {
+      "name": "AbstractDoIpLogicAddressProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "DoIpLogicTargetAddressProps",
+        "DoIpLogicTesterAddressProps"
+      ],
+      "subclasses": [
+        "DoIpLogicTargetAddressProps",
+        "DoIpLogicTesterAddressProps"
+      ],
+      "aggregated_by": [
+        "DoIpLogicAddress.doIpLogicAddressProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract meta-class that collects common properties for all specialized DoIpLogicAddressProps.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 556,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DoIpLogicTargetAddressProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractDoIpLogicAddressProps",
+      "bases": [
+        "ARObject",
+        "AbstractDoIpLogicAddressProps",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DoIpLogicAddress.doIpLogicAddressProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as a target for references to the DoIpLogicTargetAddress and collects DoIpLogic TargetAddress specific settings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 556,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DoIpLogicTesterAddressProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractDoIpLogicAddressProps",
+      "bases": [
+        "ARObject",
+        "AbstractDoIpLogicAddressProps",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DoIpLogicAddress.doIpLogicAddressProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as a target for references to the DoIpLogicTesterAddress and collects DoIpLogic TesterAddress specific settings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 556,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "doIpTester": {
+          "type": "DoIpRoutingActivation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DoIPRoutingActivation describing the routing activations of the DoIPTester."
+        }
+      }
+    }
+  ]
+}

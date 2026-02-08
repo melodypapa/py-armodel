@@ -1,0 +1,154 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN",
+  "classes": [
+    {
+      "name": "GlobalTimeCanMaster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GlobalTimeMaster",
+      "bases": [
+        "ARObject",
+        "GlobalTimeMaster",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.globalTimeMaster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the specialization of the GlobalTimeMaster for the CAN communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 864,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "crcSecured": {
+          "type": "GlobalTimeCrcSupport",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of whether or not CRC is supported. This is relevant for selected bus systems."
+        },
+        "sync": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the value for the confirmation timeout. seconds."
+        }
+      }
+    },
+    {
+      "name": "GlobalTimeCanSlave",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GlobalTimeSlave",
+      "bases": [
+        "ARObject",
+        "GlobalTimeSlave",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.slave"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the specialization of the GlobalTimeSlave for the CAN communication.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 864,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "crcValidated": {
+          "type": "GlobalTimeCrc",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of whether or not validation of the CRC is"
+        },
+        "sequence": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum allowed gap of the sequence between two SYNC resp. two OFS messages."
+        }
+      }
+    },
+    {
+      "name": "CanGlobalTimeDomainProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractGlobalTimeDomainProps",
+      "bases": [
+        "ARObject",
+        "AbstractGlobalTimeDomainProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.globalTimeDomainProperty"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Enables the definition of Can Global Time specific properties.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 864,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "fupDataIDList": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "ofnsDataIDList": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "ofsDataIDList": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "syncDataIDList": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    }
+  ]
+}

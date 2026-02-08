@@ -1,0 +1,110 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::ViewMapSet",
+  "classes": [
+    {
+      "name": "ViewMap",
+      "package": "M2::AUTOSARTemplates::GenericStructure::ViewMapSet",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ViewMapSet.viewMap"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The ViewMap allows to relate any number of elements on the \"first\" side to any number of elements on the \"second\" side. Since the ViewMap does not address a specific mapping use-case the roles \"first\" and \"second\" shall imply this generality. This mapping allows to trace transformations of artifacts within the AUTOSAR environment. The references to the mapped elements can be plain references and/or InstanceRefs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2079,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 401,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstElement": {
+          "type": "AtpFeature",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "xml.sequenceOffset=50 by: AnyInstanceRef"
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to describe specific mapping the mappings:"
+        },
+        "secondElement": {
+          "type": "AtpFeature",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "xml.sequenceOffset=60 by: AnyInstanceRef"
+        }
+      }
+    },
+    {
+      "name": "ViewMapSet",
+      "package": "M2::AUTOSARTemplates::GenericStructure::ViewMapSet",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of ViewMaps that are used to establish relationships between different AUTOSAR artifacts.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2079,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 401,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "viewMap": {
+          "type": "ViewMap",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ViewMaps that are collected by the ViewMapSet."
+        }
+      }
+    }
+  ]
+}

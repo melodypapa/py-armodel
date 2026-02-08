@@ -1,0 +1,347 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+  "classes": [
+    {
+      "name": "Gateway",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A gateway is an ECU that is connected to two or more clusters (channels, but not redundant), and performs a frame, Pdu or signal mapping between them.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 837,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecu": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to one ECU instance that implements the"
+        },
+        "frameMapping": {
+          "type": "FrameMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Frame Gateway: The entire source frame is mapped as it the target frame (what in general is only possible a common platform). In this case source and should be the identical object. frames are variable in clusters, the mapping needs to be variable, too. atpVariation"
+        },
+        "iPduMapping": {
+          "type": "IPduMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "IPdu Gateway: Arranges those IPdus that are transferred gateway from one channel to the other in pairs and mapping between them. PDUs are variable in clusters, the gateway needs to be variable, too. atpVariation"
+        },
+        "signalMapping": {
+          "type": "ISignalMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Signal Gateway: Arranges those signals that are the gateway from one channel to the other and defines the mapping between them. signals are variable in clusters, the mapping needs to be variable, too. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "FrameMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Gateway.frameMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The entire source frame is mapped as it is onto the target frame (what in general is only possible inside of a common platform). In this case source and target frame should be the identical object. Each pair consists in a SOURCE and a TARGET referencing to a FrameTriggering. The Frame Mapping is not supported by the Autosar BSW. The existence is optional and has been incorporated into the System Template mainly for compatibility in order to allow interchange between FIBEX and AUTOSAR descriptions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 838,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the"
+        },
+        "sourceFrame": {
+          "type": "FrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Source destination of the referencing mapping."
+        },
+        "targetFrame": {
+          "type": "FrameTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Target destination of the referencing mapping."
+        }
+      }
+    },
+    {
+      "name": "IPduMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Gateway.iPduMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Arranges those IPdus that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 840,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the"
+        },
+        "pduMaxLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Define the maximum length in bytes which limits the the Pdu during gateway operation if the runtime the received Pdu exceeds this limit."
+        },
+        "pdurTpChunk": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optionally defines the to be configured Pdu Router Tp for this routing relation."
+        },
+        "sourceIPdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Source destination of the referencing mapping."
+        },
+        "targetIPdu": {
+          "type": "TargetIPduRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Target destination of the referencing mapping."
+        }
+      }
+    },
+    {
+      "name": "TargetIPduRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IPduMapping.targetIPdu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Target destination of the referencing mapping.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 841,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "PduMappingDefault",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "If no I-Pdu has been received a default value will be"
+        },
+        "targetIPdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "IPdu Reference"
+        }
+      }
+    },
+    {
+      "name": "PduMappingDefaultValue",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TargetIPduRef.defaultValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Default Value which will be distributed if no I-Pdu has been received since last sending.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 841,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "DefaultValueElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The default value consists of a number of elements. Each value element is represented by the element and in an array."
+        }
+      }
+    },
+    {
+      "name": "DefaultValueElement",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PduMappingDefaultValue.defaultValueElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The default value consists of a number of elements. Each element is one byte long and the number of elements is specified by SduLength.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 841,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "elementByteValue": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The integer value of a freely defined data byte."
+        },
+        "elementPosition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the byte position of the element default value"
+        }
+      }
+    },
+    {
+      "name": "ISignalMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Gateway.signalMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Arranges those signals (or SignalGroups) that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. Each pair consists in a source and a target referencing to a ISignalTriggering.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 846,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the"
+        },
+        "sourceSignal": {
+          "type": "ISignalTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Source destination of the referencing mapping."
+        },
+        "targetSignal": {
+          "type": "ISignalTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Target destination of the referencing mapping."
+        }
+      }
+    }
+  ]
+}

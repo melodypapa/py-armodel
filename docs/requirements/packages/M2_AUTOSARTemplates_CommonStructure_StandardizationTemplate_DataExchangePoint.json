@@ -1,0 +1,25 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+  "path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_DataExchangePoint.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_DataExchangePoint.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "Common",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_DataExchangePoint_Common.json"
+    },
+    {
+      "name": "Data",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_DataExchangePoint_Data.json"
+    }
+  ],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}
