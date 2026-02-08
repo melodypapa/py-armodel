@@ -1,0 +1,20 @@
+[flake8]
+# Exclude V2 modules from flake8 checks
+# V2 uses ruff for linting instead
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    build,
+    dist,
+    src/armodel/v2,
+
+# Max line length for non-V2 code
+max-line-length = 127
+
+# Select only critical errors (E9, F63, F7, F82)
+# V2 uses ruff for comprehensive linting
+select = E9,F63,F7,F82
+
+# Show source of violations
+show-source = true

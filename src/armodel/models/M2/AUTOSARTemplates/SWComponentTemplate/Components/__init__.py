@@ -294,7 +294,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
 
 
-        self.internalBehavior: SwcInternalBehavior = None
+        self.internalBehavior: SwcInternalBehavior = None  # noqa: F821
 
 
         self.symbolProps: SymbolProps = None
