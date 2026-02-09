@@ -4,24 +4,23 @@ AUTOSAR Package - BinaryManifest
 Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
@@ -133,6 +132,102 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
                 f"softwareCluster must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._softwareCluster = value
+
+    def with_meta_data_field(self, value):
+        """
+        Set meta_data_field and return self for chaining.
+
+        Args:
+            value: The meta_data_field to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_meta_data_field("value")
+        """
+        self.meta_data_field = value  # Use property setter (gets validation)
+        return self
+
+    def with_provide(self, value):
+        """
+        Set provide and return self for chaining.
+
+        Args:
+            value: The provide to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provide("value")
+        """
+        self.provide = value  # Use property setter (gets validation)
+        return self
+
+    def with_require(self, value):
+        """
+        Set require and return self for chaining.
+
+        Args:
+            value: The require to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_require("value")
+        """
+        self.require = value  # Use property setter (gets validation)
+        return self
+
+    def with_item_definition(self, value):
+        """
+        Set item_definition and return self for chaining.
+
+        Args:
+            value: The item_definition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_item_definition("value")
+        """
+        self.item_definition = value  # Use property setter (gets validation)
+        return self
+
+    def with_auxiliary_field(self, value):
+        """
+        Set auxiliary_field and return self for chaining.
+
+        Args:
+            value: The auxiliary_field to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_auxiliary_field("value")
+        """
+        self.auxiliary_field = value  # Use property setter (gets validation)
+        return self
+
+    def with_auxiliary_field(self, value):
+        """
+        Set auxiliary_field and return self for chaining.
+
+        Args:
+            value: The auxiliary_field to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_auxiliary_field("value")
+        """
+        self.auxiliary_field = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

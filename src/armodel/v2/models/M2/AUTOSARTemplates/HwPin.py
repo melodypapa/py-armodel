@@ -91,6 +91,22 @@ class HwPin(Identifiable):
             )
         self._pinNumber = value
 
+    def with_function_name(self, value):
+        """
+        Set function_name and return self for chaining.
+
+        Args:
+            value: The function_name to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_function_name("value")
+        """
+        self.function_name = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getFunctionName(self) -> List["String"]:

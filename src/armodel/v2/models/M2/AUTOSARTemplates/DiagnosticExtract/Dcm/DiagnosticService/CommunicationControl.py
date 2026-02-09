@@ -4,8 +4,8 @@ AUTOSAR Package - CommunicationControl
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class DiagnosticComControl(DiagnosticServiceInstance):
@@ -93,6 +91,38 @@ class DiagnosticComControl(DiagnosticServiceInstance):
                 f"customSub must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._customSub = value
+
+    def with_all_channels(self, value):
+        """
+        Set all_channels and return self for chaining.
+
+        Args:
+            value: The all_channels to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_all_channels("value")
+        """
+        self.all_channels = value  # Use property setter (gets validation)
+        return self
+
+    def with_all_physical(self, value):
+        """
+        Set all_physical and return self for chaining.
+
+        Args:
+            value: The all_physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_all_physical("value")
+        """
+        self.all_physical = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

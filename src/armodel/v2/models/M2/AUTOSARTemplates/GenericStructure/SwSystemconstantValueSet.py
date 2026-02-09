@@ -35,6 +35,22 @@ class SwSystemconstantValueSet(ARElement):
         """Get sw (Pythonic accessor)."""
         return self._sw
 
+    def with_sw(self, value):
+        """
+        Set sw and return self for chaining.
+
+        Args:
+            value: The sw to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw("value")
+        """
+        self.sw = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getSw(self) -> List["SwSystemconstValue"]:

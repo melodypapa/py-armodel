@@ -172,6 +172,54 @@ class RptContainer(Identifiable):
             )
         self._rptSw = value
 
+    def with_by_pass_point(self, value):
+        """
+        Set by_pass_point and return self for chaining.
+
+        Args:
+            value: The by_pass_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_by_pass_point("value")
+        """
+        self.by_pass_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_explicit_rpt(self, value):
+        """
+        Set explicit_rpt and return self for chaining.
+
+        Args:
+            value: The explicit_rpt to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_explicit_rpt("value")
+        """
+        self.explicit_rpt = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_container(self, value):
+        """
+        Set rpt_container and return self for chaining.
+
+        Args:
+            value: The rpt_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_container("value")
+        """
+        self.rpt_container = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getByPassPoint(self) -> List["AtpFeature"]:

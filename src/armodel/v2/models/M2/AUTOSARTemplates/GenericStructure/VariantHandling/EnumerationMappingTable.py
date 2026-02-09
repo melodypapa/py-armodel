@@ -30,6 +30,22 @@ class EnumerationMappingTable(PackageableElement):
         """Get entry (Pythonic accessor)."""
         return self._entry
 
+    def with_entry(self, value):
+        """
+        Set entry and return self for chaining.
+
+        Args:
+            value: The entry to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_entry("value")
+        """
+        self.entry = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getEntry(self) -> List[RefType]:

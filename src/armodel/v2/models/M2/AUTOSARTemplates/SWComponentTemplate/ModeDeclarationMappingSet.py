@@ -28,6 +28,22 @@ class ModeDeclarationMappingSet(ARElement):
         """Get mode (Pythonic accessor)."""
         return self._mode
 
+    def with_mode(self, value):
+        """
+        Set mode and return self for chaining.
+
+        Args:
+            value: The mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode("value")
+        """
+        self.mode = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getMode(self) -> List["ModeDeclaration"]:

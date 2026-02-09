@@ -4,8 +4,8 @@ AUTOSAR Package - CanCommunication
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -24,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
 )
 
 
-
-
 class CanFrame(Frame):
     """
     CAN specific Frame element. This element shall also be used for TTCan.
@@ -39,6 +37,22 @@ class CanFrame(Frame):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_absolutely(self, value):
+        """
+        Set absolutely and return self for chaining.
+
+        Args:
+            value: The absolutely to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_absolutely("value")
+        """
+        self.absolutely = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

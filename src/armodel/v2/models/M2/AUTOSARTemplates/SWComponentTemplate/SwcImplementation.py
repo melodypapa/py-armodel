@@ -4,8 +4,8 @@ AUTOSAR Package - SwcImplementation
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class SwcImplementation(Implementation):
@@ -113,6 +111,22 @@ class SwcImplementation(Implementation):
                 f"required must be String or str or None, got {type(value).__name__}"
             )
         self._required = value
+
+    def with_per_instance(self, value):
+        """
+        Set per_instance and return self for chaining.
+
+        Args:
+            value: The per_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_per_instance("value")
+        """
+        self.per_instance = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

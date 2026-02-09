@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
     RefType,
 )
@@ -32,6 +34,22 @@ class PortInterfaceMappingSet(ARElement):
     def port_interface(self) -> List[RefType]:
         """Get portInterface (Pythonic accessor)."""
         return self._portInterface
+
+    def with_port_interface(self, value):
+        """
+        Set port_interface and return self for chaining.
+
+        Args:
+            value: The port_interface to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_interface("value")
+        """
+        self.port_interface = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

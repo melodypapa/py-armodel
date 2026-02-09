@@ -4,8 +4,9 @@ AUTOSAR Package - DataMapping
 Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DataMapping(ARObject, ABC):
@@ -66,6 +65,38 @@ class DataMapping(ARObject, ABC):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
+
+    def with_array_element(self, value):
+        """
+        Set array_element and return self for chaining.
+
+        Args:
+            value: The array_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_array_element("value")
+        """
+        self.array_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_record_element(self, value):
+        """
+        Set record_element and return self for chaining.
+
+        Args:
+            value: The record_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_record_element("value")
+        """
+        self.record_element = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

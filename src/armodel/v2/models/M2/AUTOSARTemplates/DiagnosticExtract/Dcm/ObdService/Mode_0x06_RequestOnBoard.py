@@ -4,14 +4,12 @@ AUTOSAR Package - Mode_0x06_RequestOnBoard
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
-
-
 
 
 class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
@@ -68,6 +66,22 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
                 f"requestOn must be DiagnosticRequestOn or None, got {type(value).__name__}"
             )
         self._requestOn = value
+
+    def with_diagnostic_test(self, value):
+        """
+        Set diagnostic_test and return self for chaining.
+
+        Args:
+            value: The diagnostic_test to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_diagnostic_test("value")
+        """
+        self.diagnostic_test = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

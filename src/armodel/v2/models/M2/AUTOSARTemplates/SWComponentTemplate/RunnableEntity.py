@@ -4,7 +4,9 @@ from typing import (
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    ExecutableEntity,
+)
 
     RefType,
 )
@@ -255,6 +257,246 @@ class RunnableEntity(ExecutableEntity):
     def written_local(self) -> List["VariableAccess"]:
         """Get writtenLocal (Pythonic accessor)."""
         return self._writtenLocal
+
+    def with_argument(self, value):
+        """
+        Set argument and return self for chaining.
+
+        Args:
+            value: The argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_argument("value")
+        """
+        self.argument = value  # Use property setter (gets validation)
+        return self
+
+    def with_asynchronous(self, value):
+        """
+        Set asynchronous and return self for chaining.
+
+        Args:
+            value: The asynchronous to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_asynchronous("value")
+        """
+        self.asynchronous = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_read(self, value):
+        """
+        Set data_read and return self for chaining.
+
+        Args:
+            value: The data_read to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_read("value")
+        """
+        self.data_read = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_receive(self, value):
+        """
+        Set data_receive and return self for chaining.
+
+        Args:
+            value: The data_receive to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_receive("value")
+        """
+        self.data_receive = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_send_point(self, value):
+        """
+        Set data_send_point and return self for chaining.
+
+        Args:
+            value: The data_send_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_send_point("value")
+        """
+        self.data_send_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_write(self, value):
+        """
+        Set data_write and return self for chaining.
+
+        Args:
+            value: The data_write to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_write("value")
+        """
+        self.data_write = value  # Use property setter (gets validation)
+        return self
+
+    def with_external(self, value):
+        """
+        Set external and return self for chaining.
+
+        Args:
+            value: The external to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_external("value")
+        """
+        self.external = value  # Use property setter (gets validation)
+        return self
+
+    def with_internal(self, value):
+        """
+        Set internal and return self for chaining.
+
+        Args:
+            value: The internal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_internal("value")
+        """
+        self.internal = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_access(self, value):
+        """
+        Set mode_access and return self for chaining.
+
+        Args:
+            value: The mode_access to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_access("value")
+        """
+        self.mode_access = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_switch(self, value):
+        """
+        Set mode_switch and return self for chaining.
+
+        Args:
+            value: The mode_switch to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_switch("value")
+        """
+        self.mode_switch = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter(self, value):
+        """
+        Set parameter and return self for chaining.
+
+        Args:
+            value: The parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter("value")
+        """
+        self.parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_read_local(self, value):
+        """
+        Set read_local and return self for chaining.
+
+        Args:
+            value: The read_local to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_read_local("value")
+        """
+        self.read_local = value  # Use property setter (gets validation)
+        return self
+
+    def with_server_call_point(self, value):
+        """
+        Set server_call_point and return self for chaining.
+
+        Args:
+            value: The server_call_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_server_call_point("value")
+        """
+        self.server_call_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_wait_point(self, value):
+        """
+        Set wait_point and return self for chaining.
+
+        Args:
+            value: The wait_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_wait_point("value")
+        """
+        self.wait_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_written_local(self, value):
+        """
+        Set written_local and return self for chaining.
+
+        Args:
+            value: The written_local to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_written_local("value")
+        """
+        self.written_local = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

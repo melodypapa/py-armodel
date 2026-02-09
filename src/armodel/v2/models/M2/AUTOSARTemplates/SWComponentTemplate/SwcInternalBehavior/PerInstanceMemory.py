@@ -4,16 +4,14 @@ AUTOSAR Package - PerInstanceMemory
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PerInstanceMemory
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class PerInstanceMemory(Identifiable):

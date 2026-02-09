@@ -4,8 +4,9 @@ AUTOSAR Package - ExecutionOrderConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -20,8 +21,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class ExecutionOrderConstraint(TimingConstraint):
@@ -208,6 +207,118 @@ class ExecutionOrderConstraint(TimingConstraint):
                 f"permitMultiple must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._permitMultiple = value
+
+    def with_ordered_element(self, value):
+        """
+        Set ordered_element and return self for chaining.
+
+        Args:
+            value: The ordered_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ordered_element("value")
+        """
+        self.ordered_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_direct_successor(self, value):
+        """
+        Set direct_successor and return self for chaining.
+
+        Args:
+            value: The direct_successor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_direct_successor("value")
+        """
+        self.direct_successor = value  # Use property setter (gets validation)
+        return self
+
+    def with_let_interval(self, value):
+        """
+        Set let_interval and return self for chaining.
+
+        Args:
+            value: The let_interval to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_let_interval("value")
+        """
+        self.let_interval = value  # Use property setter (gets validation)
+        return self
+
+    def with_nested_element(self, value):
+        """
+        Set nested_element and return self for chaining.
+
+        Args:
+            value: The nested_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nested_element("value")
+        """
+        self.nested_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_successor(self, value):
+        """
+        Set successor and return self for chaining.
+
+        Args:
+            value: The successor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_successor("value")
+        """
+        self.successor = value  # Use property setter (gets validation)
+        return self
+
+    def with_successor(self, value):
+        """
+        Set successor and return self for chaining.
+
+        Args:
+            value: The successor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_successor("value")
+        """
+        self.successor = value  # Use property setter (gets validation)
+        return self
+
+    def with_successor(self, value):
+        """
+        Set successor and return self for chaining.
+
+        Args:
+            value: The successor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_successor("value")
+        """
+        self.successor = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

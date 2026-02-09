@@ -4,16 +4,14 @@ AUTOSAR Package - DiagnosticIndicator
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticIndicator
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DiagnosticIndicator(DiagnosticCommonElement):

@@ -4,8 +4,8 @@ AUTOSAR Package - ECUResourceMapping
 Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,8 +15,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class ECUMapping(Identifiable):
@@ -117,6 +115,22 @@ class ECUMapping(Identifiable):
             TypeError: If value type is incorrect
         """
         self._hwPortMapping = value
+
+    def with_comm_controller(self, value):
+        """
+        Set comm_controller and return self for chaining.
+
+        Args:
+            value: The comm_controller to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_comm_controller("value")
+        """
+        self.comm_controller = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -445,6 +445,22 @@ class Map(ARObject):
             )
         self._title = value
 
+    def with_map_class(self, value):
+        """
+        Set map_class and return self for chaining.
+
+        Args:
+            value: The map_class to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_map_class("value")
+        """
+        self.map_class = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getArea(self) -> "Area":

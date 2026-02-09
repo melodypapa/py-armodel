@@ -4,22 +4,20 @@ AUTOSAR Package - LifeCycles
 Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class LifeCycleStateDefinitionGroup(ARElement):
@@ -45,6 +43,38 @@ class LifeCycleStateDefinitionGroup(ARElement):
     def lc_state(self) -> List["LifeCycleState"]:
         """Get lcState (Pythonic accessor)."""
         return self._lcState
+
+    def with_life_cycle_info(self, value):
+        """
+        Set life_cycle_info and return self for chaining.
+
+        Args:
+            value: The life_cycle_info to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_life_cycle_info("value")
+        """
+        self.life_cycle_info = value  # Use property setter (gets validation)
+        return self
+
+    def with_use_instead(self, value):
+        """
+        Set use_instead and return self for chaining.
+
+        Args:
+            value: The use_instead to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_use_instead("value")
+        """
+        self.use_instead = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

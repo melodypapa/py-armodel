@@ -42,6 +42,38 @@ class ComManagementMapping(Identifiable):
         """Get physical (Pythonic accessor)."""
         return self._physical
 
+    def with_com(self, value):
+        """
+        Set com and return self for chaining.
+
+        Args:
+            value: The com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_com("value")
+        """
+        self.com = value  # Use property setter (gets validation)
+        return self
+
+    def with_physical(self, value):
+        """
+        Set physical and return self for chaining.
+
+        Args:
+            value: The physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_physical("value")
+        """
+        self.physical = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCom(self) -> List[RefType]:

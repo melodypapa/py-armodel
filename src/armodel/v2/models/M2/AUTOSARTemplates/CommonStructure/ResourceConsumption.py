@@ -4,8 +4,8 @@ AUTOSAR Package - ResourceConsumption
 Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
     String,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class ResourceConsumption(Identifiable):
@@ -86,6 +84,102 @@ class ResourceConsumption(Identifiable):
     def stack_usage(self) -> List["StackUsage"]:
         """Get stackUsage (Pythonic accessor)."""
         return self._stackUsage
+
+    def with_access_count(self, value):
+        """
+        Set access_count and return self for chaining.
+
+        Args:
+            value: The access_count to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_access_count("value")
+        """
+        self.access_count = value  # Use property setter (gets validation)
+        return self
+
+    def with_execution_time(self, value):
+        """
+        Set execution_time and return self for chaining.
+
+        Args:
+            value: The execution_time to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_execution_time("value")
+        """
+        self.execution_time = value  # Use property setter (gets validation)
+        return self
+
+    def with_heap_usage(self, value):
+        """
+        Set heap_usage and return self for chaining.
+
+        Args:
+            value: The heap_usage to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_heap_usage("value")
+        """
+        self.heap_usage = value  # Use property setter (gets validation)
+        return self
+
+    def with_memory_section(self, value):
+        """
+        Set memory_section and return self for chaining.
+
+        Args:
+            value: The memory_section to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_memory_section("value")
+        """
+        self.memory_section = value  # Use property setter (gets validation)
+        return self
+
+    def with_section_name(self, value):
+        """
+        Set section_name and return self for chaining.
+
+        Args:
+            value: The section_name to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_section_name("value")
+        """
+        self.section_name = value  # Use property setter (gets validation)
+        return self
+
+    def with_stack_usage(self, value):
+        """
+        Set stack_usage and return self for chaining.
+
+        Args:
+            value: The stack_usage to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_stack_usage("value")
+        """
+        self.stack_usage = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

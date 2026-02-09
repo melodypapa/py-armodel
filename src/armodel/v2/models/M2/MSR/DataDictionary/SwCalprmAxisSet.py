@@ -28,6 +28,22 @@ class SwCalprmAxisSet(ARObject):
         """Get swCalprmAxis (Pythonic accessor)."""
         return self._swCalprmAxis
 
+    def with_sw_calprm_axis(self, value):
+        """
+        Set sw_calprm_axis and return self for chaining.
+
+        Args:
+            value: The sw_calprm_axis to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_calprm_axis("value")
+        """
+        self.sw_calprm_axis = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getSwCalprmAxis(self) -> List["SwCalprmAxis"]:

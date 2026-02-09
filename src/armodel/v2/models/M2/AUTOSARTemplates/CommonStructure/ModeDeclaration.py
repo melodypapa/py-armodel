@@ -4,17 +4,17 @@ AUTOSAR Package - ModeDeclaration
 Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -22,8 +22,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class ModeDeclarationGroupPrototype(Identifiable):
@@ -100,6 +98,22 @@ class ModeDeclarationGroupPrototype(Identifiable):
             return
 
         self._type = value
+
+    def with_mode_transition(self, value):
+        """
+        Set mode_transition and return self for chaining.
+
+        Args:
+            value: The mode_transition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_transition("value")
+        """
+        self.mode_transition = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

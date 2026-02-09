@@ -41,6 +41,38 @@ class RunnableEntityGroup(Identifiable):
         """Get runnableEntityGroupInCompositionInstanceRef (Pythonic accessor)."""
         return self._runnableEntityGroupInCompositionInstanceRef
 
+    def with_runnable_entity(self, value):
+        """
+        Set runnable_entity and return self for chaining.
+
+        Args:
+            value: The runnable_entity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_runnable_entity("value")
+        """
+        self.runnable_entity = value  # Use property setter (gets validation)
+        return self
+
+    def with_runnable_entity_group_in_composition_instance_ref(self, value):
+        """
+        Set runnable_entity_group_in_composition_instance_ref and return self for chaining.
+
+        Args:
+            value: The runnable_entity_group_in_composition_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_runnable_entity_group_in_composition_instance_ref("value")
+        """
+        self.runnable_entity_group_in_composition_instance_ref = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getRunnableEntity(self) -> List["RunnableEntity"]:

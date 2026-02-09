@@ -4,8 +4,9 @@ AUTOSAR Package - PortAPIOptions
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class PortDefinedArgumentValue(ARObject):
@@ -95,6 +94,38 @@ class PortDefinedArgumentValue(ARObject):
                 f"valueType must be ImplementationData or None, got {type(value).__name__}"
             )
         self._valueType = value
+
+    def with_port_arg_value(self, value):
+        """
+        Set port_arg_value and return self for chaining.
+
+        Args:
+            value: The port_arg_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_arg_value("value")
+        """
+        self.port_arg_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_supported(self, value):
+        """
+        Set supported and return self for chaining.
+
+        Args:
+            value: The supported to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_supported("value")
+        """
+        self.supported = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

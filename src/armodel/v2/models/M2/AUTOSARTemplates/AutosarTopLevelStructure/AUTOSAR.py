@@ -25,7 +25,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARPackage,
 )
-from armodel.v2.models.M2.MSR.AsamHdo.AdminData import AdminData
+from armodel.v2.models.M2.MSR.AsamHdo.AdminData import (
+    AdminData,
+)
 from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
     DocumentationBlock,
 )
@@ -234,6 +236,22 @@ class AUTOSAR(ARObject):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
+
+    def with_ar_package(self, value):
+        """
+        Set ar_package and return self for chaining.
+
+        Args:
+            value: The ar_package to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ar_package("value")
+        """
+        self.ar_package = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (CODING_RULE_V2_00017) =====
 

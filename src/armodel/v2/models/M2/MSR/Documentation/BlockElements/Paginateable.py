@@ -85,6 +85,22 @@ class Paginateable(DocumentViewSelectable, ABC):
             )
         self._keepWith = value
 
+    def with_chapter_break(self, value):
+        """
+        Set chapter_break and return self for chaining.
+
+        Args:
+            value: The chapter_break to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_chapter_break("value")
+        """
+        self.chapter_break = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBreak(self) -> "ChapterEnumBreak":

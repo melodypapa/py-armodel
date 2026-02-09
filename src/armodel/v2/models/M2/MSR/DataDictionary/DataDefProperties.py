@@ -4,8 +4,8 @@ AUTOSAR Package - DataDefProperties
 Package: M2::MSR::DataDictionary::DataDefProperties
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Float,
@@ -19,8 +19,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class SwPointerTargetProps(ARObject):
@@ -137,6 +135,54 @@ class SwPointerTargetProps(ARObject):
                 f"targetCategory must be Identifier or str or None, got {type(value).__name__}"
             )
         self._targetCategory = value
+
+    def with_annotation(self, value):
+        """
+        Set annotation and return self for chaining.
+
+        Args:
+            value: The annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_annotation("value")
+        """
+        self.annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_comparison(self, value):
+        """
+        Set sw_comparison and return self for chaining.
+
+        Args:
+            value: The sw_comparison to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_comparison("value")
+        """
+        self.sw_comparison = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_value_block(self, value):
+        """
+        Set sw_value_block and return self for chaining.
+
+        Args:
+            value: The sw_value_block to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_value_block("value")
+        """
+        self.sw_value_block = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

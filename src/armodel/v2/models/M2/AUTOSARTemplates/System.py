@@ -3,9 +3,10 @@ from typing import (
     Optional,
 )
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-
     RefType,
 )
 
@@ -278,6 +279,118 @@ class System(ARElement):
                 f"systemVersion must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._systemVersion = value
+
+    def with_client_id(self, value):
+        """
+        Set client_id and return self for chaining.
+
+        Args:
+            value: The client_id to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_client_id("value")
+        """
+        self.client_id = value  # Use property setter (gets validation)
+        return self
+
+    def with_fibex_element(self, value):
+        """
+        Set fibex_element and return self for chaining.
+
+        Args:
+            value: The fibex_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_fibex_element("value")
+        """
+        self.fibex_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_interpolation(self, value):
+        """
+        Set interpolation and return self for chaining.
+
+        Args:
+            value: The interpolation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_interpolation("value")
+        """
+        self.interpolation = value  # Use property setter (gets validation)
+        return self
+
+    def with_j1939_shared(self, value):
+        """
+        Set j1939_shared and return self for chaining.
+
+        Args:
+            value: The j1939_shared to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_j1939_shared("value")
+        """
+        self.j1939_shared = value  # Use property setter (gets validation)
+        return self
+
+    def with_mapping(self, value):
+        """
+        Set mapping and return self for chaining.
+
+        Args:
+            value: The mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapping("value")
+        """
+        self.mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_cluster(self, value):
+        """
+        Set sw_cluster and return self for chaining.
+
+        Args:
+            value: The sw_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_cluster("value")
+        """
+        self.sw_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_system(self, value):
+        """
+        Set system and return self for chaining.
+
+        Args:
+            value: The system to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_system("value")
+        """
+        self.system = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

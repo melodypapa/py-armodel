@@ -6,11 +6,10 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     PackageableElement,
 )
-
-
 
 
 class FibexElement(PackageableElement, ABC):
@@ -34,3 +33,8 @@ class FibexElement(PackageableElement, ABC):
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+__all__ = [
+    "FibexElement",
+]

@@ -4,16 +4,15 @@ AUTOSAR Package - TimingExtensions
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-
-
 
 
 class TimingExtension(ARElement, ABC):
@@ -91,6 +90,70 @@ class TimingExtension(ARElement, ABC):
                 f"timingResource must be TimingExtension or None, got {type(value).__name__}"
             )
         self._timingResource = value
+
+    def with_timing_clock(self, value):
+        """
+        Set timing_clock and return self for chaining.
+
+        Args:
+            value: The timing_clock to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_timing_clock("value")
+        """
+        self.timing_clock = value  # Use property setter (gets validation)
+        return self
+
+    def with_timing_condition(self, value):
+        """
+        Set timing_condition and return self for chaining.
+
+        Args:
+            value: The timing_condition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_timing_condition("value")
+        """
+        self.timing_condition = value  # Use property setter (gets validation)
+        return self
+
+    def with_timing(self, value):
+        """
+        Set timing and return self for chaining.
+
+        Args:
+            value: The timing to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_timing("value")
+        """
+        self.timing = value  # Use property setter (gets validation)
+        return self
+
+    def with_implementation(self, value):
+        """
+        Set implementation and return self for chaining.
+
+        Args:
+            value: The implementation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_implementation("value")
+        """
+        self.implementation = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

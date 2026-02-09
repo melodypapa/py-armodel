@@ -4,19 +4,17 @@ AUTOSAR Package - Firewall
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class StateDependentFirewall(ARElement):
@@ -77,6 +75,86 @@ class StateDependentFirewall(ARElement):
     def firewall_state(self) -> List["ModeDeclaration"]:
         """Get firewallState (Pythonic accessor)."""
         return self._firewallState
+
+    def with_firewall_rule(self, value):
+        """
+        Set firewall_rule and return self for chaining.
+
+        Args:
+            value: The firewall_rule to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_firewall_rule("value")
+        """
+        self.firewall_rule = value  # Use property setter (gets validation)
+        return self
+
+    def with_firewall_state(self, value):
+        """
+        Set firewall_state and return self for chaining.
+
+        Args:
+            value: The firewall_state to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_firewall_state("value")
+        """
+        self.firewall_state = value  # Use property setter (gets validation)
+        return self
+
+    def with_matching_egress(self, value):
+        """
+        Set matching_egress and return self for chaining.
+
+        Args:
+            value: The matching_egress to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_matching_egress("value")
+        """
+        self.matching_egress = value  # Use property setter (gets validation)
+        return self
+
+    def with_matching(self, value):
+        """
+        Set matching and return self for chaining.
+
+        Args:
+            value: The matching to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_matching("value")
+        """
+        self.matching = value  # Use property setter (gets validation)
+        return self
+
+    def with_payload_byte(self, value):
+        """
+        Set payload_byte and return self for chaining.
+
+        Args:
+            value: The payload_byte to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_payload_byte("value")
+        """
+        self.payload_byte = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

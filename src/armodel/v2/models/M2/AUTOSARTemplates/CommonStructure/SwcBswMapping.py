@@ -4,19 +4,17 @@ AUTOSAR Package - SwcBswMapping
 Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class SwcBswMapping(ARElement):
@@ -111,6 +109,38 @@ class SwcBswMapping(ARElement):
     def synchronized(self) -> List["SwcBswSynchronized"]:
         """Get synchronized (Pythonic accessor)."""
         return self._synchronized
+
+    def with_runnable(self, value):
+        """
+        Set runnable and return self for chaining.
+
+        Args:
+            value: The runnable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_runnable("value")
+        """
+        self.runnable = value  # Use property setter (gets validation)
+        return self
+
+    def with_synchronized(self, value):
+        """
+        Set synchronized and return self for chaining.
+
+        Args:
+            value: The synchronized to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_synchronized("value")
+        """
+        self.synchronized = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

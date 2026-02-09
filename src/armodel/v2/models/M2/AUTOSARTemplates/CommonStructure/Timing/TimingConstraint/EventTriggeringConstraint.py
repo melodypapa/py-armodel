@@ -4,8 +4,9 @@ AUTOSAR Package - EventTriggeringConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
     PositiveInteger,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstrai
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class EventTriggeringConstraint(TimingConstraint, ABC):
@@ -67,6 +66,70 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
                 f"event must be TimingDescriptionEvent or None, got {type(value).__name__}"
             )
         self._event = value
+
+    def with_offset(self, value):
+        """
+        Set offset and return self for chaining.
+
+        Args:
+            value: The offset to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_offset("value")
+        """
+        self.offset = value  # Use property setter (gets validation)
+        return self
+
+    def with_confidence(self, value):
+        """
+        Set confidence and return self for chaining.
+
+        Args:
+            value: The confidence to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_confidence("value")
+        """
+        self.confidence = value  # Use property setter (gets validation)
+        return self
+
+    def with_maximum(self, value):
+        """
+        Set maximum and return self for chaining.
+
+        Args:
+            value: The maximum to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_maximum("value")
+        """
+        self.maximum = value  # Use property setter (gets validation)
+        return self
+
+    def with_minimum(self, value):
+        """
+        Set minimum and return self for chaining.
+
+        Args:
+            value: The minimum to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_minimum("value")
+        """
+        self.minimum = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

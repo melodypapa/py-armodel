@@ -4,9 +4,10 @@ from typing import (
     Optional,
 )
 
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucIndexableValue,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucIndexableValue
-
     RefType,
 )
 
@@ -95,6 +96,22 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
                 f"isAutoValue must be Boolean or None, got {type(value).__name__}"
             )
         self._isAutoValue = value
+
+    def with_annotation(self, value):
+        """
+        Set annotation and return self for chaining.
+
+        Args:
+            value: The annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_annotation("value")
+        """
+        self.annotation = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

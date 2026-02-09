@@ -1,8 +1,11 @@
-from abc import ABC
+from abc import (
+    ABC,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
+
 
 class BaseType(ARElement, ABC):
     """

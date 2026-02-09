@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -14,14 +15,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.__init__ import (
-    IEEE1722TpConnection,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.__init__ import (
     TpConfig,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.__init__ import (
+    IEEE1722TpConnection,
+)
 
 
 class IEEE1722TpConfig(TpConfig):
@@ -45,6 +44,54 @@ class IEEE1722TpConfig(TpConfig):
     def tp_connection(self) -> List["IEEE1722TpConnection"]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
+
+    def with_tp_connection(self, value):
+        """
+        Set tp_connection and return self for chaining.
+
+        Args:
+            value: The tp_connection to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_connection("value")
+        """
+        self.tp_connection = value  # Use property setter (gets validation)
+        return self
+
+    def with_sdu(self, value):
+        """
+        Set sdu and return self for chaining.
+
+        Args:
+            value: The sdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdu("value")
+        """
+        self.sdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_acf_transported(self, value):
+        """
+        Set acf_transported and return self for chaining.
+
+        Args:
+            value: The acf_transported to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acf_transported("value")
+        """
+        self.acf_transported = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -814,3 +861,11 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         """
         self.mixed_bus_type = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "IEEE1722TpConfig",
+    "IEEE1722TpConnection",
+    "IEEE1722TpAvConnection",
+    "IEEE1722TpAcfConnection",
+]

@@ -4,8 +4,8 @@ AUTOSAR Package - ModeDeclarationGroup
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
     AbstractAccessPoint,
 )
-
-
 
 
 class ModeAccessPoint(ARObject):
@@ -95,6 +93,22 @@ class ModeAccessPoint(ARObject):
             return
 
         self._modeGroupInstanceRef = value
+
+    def with_mode(self, value):
+        """
+        Set mode and return self for chaining.
+
+        Args:
+            value: The mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode("value")
+        """
+        self.mode = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

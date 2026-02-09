@@ -4,16 +4,14 @@ AUTOSAR Package - TimingCpSoftwareCluster
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class TDCpSoftwareClusterMappingSet(ARElement):
@@ -37,6 +35,38 @@ class TDCpSoftwareClusterMappingSet(ARElement):
     def td_cp_software(self) -> List["TDCpSoftwareCluster"]:
         """Get tdCpSoftware (Pythonic accessor)."""
         return self._tdCpSoftware
+
+    def with_td_cp_software(self, value):
+        """
+        Set td_cp_software and return self for chaining.
+
+        Args:
+            value: The td_cp_software to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_td_cp_software("value")
+        """
+        self.td_cp_software = value  # Use property setter (gets validation)
+        return self
+
+    def with_requestor(self, value):
+        """
+        Set requestor and return self for chaining.
+
+        Args:
+            value: The requestor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_requestor("value")
+        """
+        self.requestor = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

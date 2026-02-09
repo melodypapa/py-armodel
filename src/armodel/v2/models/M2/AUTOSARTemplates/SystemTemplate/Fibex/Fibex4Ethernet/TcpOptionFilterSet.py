@@ -4,8 +4,8 @@ AUTOSAR Package - TcpOptionFilterSet
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class TcpOptionFilterSet(ARElement):
@@ -40,6 +38,38 @@ class TcpOptionFilterSet(ARElement):
     def tcp_option_filter(self) -> List["RefType"]:
         """Get tcpOptionFilter (Pythonic accessor)."""
         return self._tcpOptionFilter
+
+    def with_tcp_option_filter(self, value):
+        """
+        Set tcp_option_filter and return self for chaining.
+
+        Args:
+            value: The tcp_option_filter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tcp_option_filter("value")
+        """
+        self.tcp_option_filter = value  # Use property setter (gets validation)
+        return self
+
+    def with_allowed_tcp_option(self, value):
+        """
+        Set allowed_tcp_option and return self for chaining.
+
+        Args:
+            value: The allowed_tcp_option to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_allowed_tcp_option("value")
+        """
+        self.allowed_tcp_option = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -68,6 +68,38 @@ class RptComponent(Identifiable):
         """Get rptExecutable (Pythonic accessor)."""
         return self._rptExecutable
 
+    def with_mc_data(self, value):
+        """
+        Set mc_data and return self for chaining.
+
+        Args:
+            value: The mc_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data("value")
+        """
+        self.mc_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_executable(self, value):
+        """
+        Set rpt_executable and return self for chaining.
+
+        Args:
+            value: The rpt_executable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_executable("value")
+        """
+        self.rpt_executable = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getMcData(self) -> List["RoleBasedMcData"]:

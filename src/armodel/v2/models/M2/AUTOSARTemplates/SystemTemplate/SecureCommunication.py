@@ -4,18 +4,19 @@ AUTOSAR Package - SecureCommunication
 Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -23,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class CryptoServiceCertificate(ARElement):
@@ -189,6 +188,182 @@ class CryptoServiceCertificate(ARElement):
                 f"serverName must be String or str or None, got {type(value).__name__}"
             )
         self._serverName = value
+
+    def with_mka_participant(self, value):
+        """
+        Set mka_participant and return self for chaining.
+
+        Args:
+            value: The mka_participant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mka_participant("value")
+        """
+        self.mka_participant = value  # Use property setter (gets validation)
+        return self
+
+    def with_mka_participant(self, value):
+        """
+        Set mka_participant and return self for chaining.
+
+        Args:
+            value: The mka_participant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mka_participant("value")
+        """
+        self.mka_participant = value  # Use property setter (gets validation)
+        return self
+
+    def with_elliptic_curve(self, value):
+        """
+        Set elliptic_curve and return self for chaining.
+
+        Args:
+            value: The elliptic_curve to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_elliptic_curve("value")
+        """
+        self.elliptic_curve = value  # Use property setter (gets validation)
+        return self
+
+    def with_key_exchange(self, value):
+        """
+        Set key_exchange and return self for chaining.
+
+        Args:
+            value: The key_exchange to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_key_exchange("value")
+        """
+        self.key_exchange = value  # Use property setter (gets validation)
+        return self
+
+    def with_ip_sec_rule(self, value):
+        """
+        Set ip_sec_rule and return self for chaining.
+
+        Args:
+            value: The ip_sec_rule to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ip_sec_rule("value")
+        """
+        self.ip_sec_rule = value  # Use property setter (gets validation)
+        return self
+
+    def with_local_certificate(self, value):
+        """
+        Set local_certificate and return self for chaining.
+
+        Args:
+            value: The local_certificate to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_local_certificate("value")
+        """
+        self.local_certificate = value  # Use property setter (gets validation)
+        return self
+
+    def with_remote_ip(self, value):
+        """
+        Set remote_ip and return self for chaining.
+
+        Args:
+            value: The remote_ip to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_remote_ip("value")
+        """
+        self.remote_ip = value  # Use property setter (gets validation)
+        return self
+
+    def with_ah_cipher_suite(self, value):
+        """
+        Set ah_cipher_suite and return self for chaining.
+
+        Args:
+            value: The ah_cipher_suite to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ah_cipher_suite("value")
+        """
+        self.ah_cipher_suite = value  # Use property setter (gets validation)
+        return self
+
+    def with_esp_cipher_suite(self, value):
+        """
+        Set esp_cipher_suite and return self for chaining.
+
+        Args:
+            value: The esp_cipher_suite to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_esp_cipher_suite("value")
+        """
+        self.esp_cipher_suite = value  # Use property setter (gets validation)
+        return self
+
+    def with_key_exchange(self, value):
+        """
+        Set key_exchange and return self for chaining.
+
+        Args:
+            value: The key_exchange to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_key_exchange("value")
+        """
+        self.key_exchange = value  # Use property setter (gets validation)
+        return self
+
+    def with_tls_cipher_suite(self, value):
+        """
+        Set tls_cipher_suite and return self for chaining.
+
+        Args:
+            value: The tls_cipher_suite to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tls_cipher_suite("value")
+        """
+        self.tls_cipher_suite = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

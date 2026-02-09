@@ -4,8 +4,9 @@ AUTOSAR Package - ExecutionTime
 Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
     String,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class ExecutionTime(Identifiable, ABC):
@@ -198,6 +197,38 @@ class ExecutionTime(Identifiable, ABC):
                 f"softwareContext must be SoftwareContext or None, got {type(value).__name__}"
             )
         self._softwareContext = value
+
+    def with_included_library(self, value):
+        """
+        Set included_library and return self for chaining.
+
+        Args:
+            value: The included_library to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_included_library("value")
+        """
+        self.included_library = value  # Use property setter (gets validation)
+        return self
+
+    def with_memory_section(self, value):
+        """
+        Set memory_section and return self for chaining.
+
+        Args:
+            value: The memory_section to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_memory_section("value")
+        """
+        self.memory_section = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

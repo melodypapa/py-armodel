@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -30,8 +31,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.__init__ import (
     TpConfig,
 )
-
-
 
 
 class DoIpLogicAddress(Identifiable):
@@ -103,6 +102,294 @@ class DoIpLogicAddress(Identifiable):
                 f"doIpLogic must be AbstractDoIpLogic or None, got {type(value).__name__}"
             )
         self._doIpLogic = value
+
+    def with_receiver(self, value):
+        """
+        Set receiver and return self for chaining.
+
+        Args:
+            value: The receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_receiver("value")
+        """
+        self.receiver = value  # Use property setter (gets validation)
+        return self
+
+    def with_n_pdu(self, value):
+        """
+        Set n_pdu and return self for chaining.
+
+        Args:
+            value: The n_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_n_pdu("value")
+        """
+        self.n_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_n_pdu(self, value):
+        """
+        Set n_pdu and return self for chaining.
+
+        Args:
+            value: The n_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_n_pdu("value")
+        """
+        self.n_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_target(self, value):
+        """
+        Set target and return self for chaining.
+
+        Args:
+            value: The target to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_target("value")
+        """
+        self.target = value  # Use property setter (gets validation)
+        return self
+
+    def with_receiver(self, value):
+        """
+        Set receiver and return self for chaining.
+
+        Args:
+            value: The receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_receiver("value")
+        """
+        self.receiver = value  # Use property setter (gets validation)
+        return self
+
+    def with_receiver(self, value):
+        """
+        Set receiver and return self for chaining.
+
+        Args:
+            value: The receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_receiver("value")
+        """
+        self.receiver = value  # Use property setter (gets validation)
+        return self
+
+    def with_receiver(self, value):
+        """
+        Set receiver and return self for chaining.
+
+        Args:
+            value: The receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_receiver("value")
+        """
+        self.receiver = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_pg(self, value):
+        """
+        Set tp_pg and return self for chaining.
+
+        Args:
+            value: The tp_pg to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_pg("value")
+        """
+        self.tp_pg = value  # Use property setter (gets validation)
+        return self
+
+    def with_sdu(self, value):
+        """
+        Set sdu and return self for chaining.
+
+        Args:
+            value: The sdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdu("value")
+        """
+        self.sdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_do_ip_logic_address(self, value):
+        """
+        Set do_ip_logic_address and return self for chaining.
+
+        Args:
+            value: The do_ip_logic_address to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_do_ip_logic_address("value")
+        """
+        self.do_ip_logic_address = value  # Use property setter (gets validation)
+        return self
+
+    def with_pdu_pool(self, value):
+        """
+        Set pdu_pool and return self for chaining.
+
+        Args:
+            value: The pdu_pool to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu_pool("value")
+        """
+        self.pdu_pool = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_ecu(self, value):
+        """
+        Set tp_ecu and return self for chaining.
+
+        Args:
+            value: The tp_ecu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_ecu("value")
+        """
+        self.tp_ecu = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_node(self, value):
+        """
+        Set tp_node and return self for chaining.
+
+        Args:
+            value: The tp_node to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_node("value")
+        """
+        self.tp_node = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_node(self, value):
+        """
+        Set tp_node and return self for chaining.
+
+        Args:
+            value: The tp_node to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_node("value")
+        """
+        self.tp_node = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_ecu(self, value):
+        """
+        Set tp_ecu and return self for chaining.
+
+        Args:
+            value: The tp_ecu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_ecu("value")
+        """
+        self.tp_ecu = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_node(self, value):
+        """
+        Set tp_node and return self for chaining.
+
+        Args:
+            value: The tp_node to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_node("value")
+        """
+        self.tp_node = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_node(self, value):
+        """
+        Set tp_node and return self for chaining.
+
+        Args:
+            value: The tp_node to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_node("value")
+        """
+        self.tp_node = value  # Use property setter (gets validation)
+        return self
+
+    def with_tp_node(self, value):
+        """
+        Set tp_node and return self for chaining.
+
+        Args:
+            value: The tp_node to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tp_node("value")
+        """
+        self.tp_node = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -9769,3 +10056,43 @@ Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     # Physical request type
     physical = "2"
+
+
+__all__ = [
+    "DoIpLogicAddress",
+    "TpConfig",
+    "TpAddress",
+    "FlexrayTpConnectionControl",
+    "FlexrayTpConnection",
+    "FlexrayTpPduPool",
+    "FlexrayTpNode",
+    "FlexrayTpEcu",
+    "FlexrayArTpChannel",
+    "FlexrayArTpNode",
+    "FlexrayArTpConnection",
+    "CanTpChannel",
+    "CanTpConnection",
+    "CanTpAddress",
+    "CanTpEcu",
+    "CanTpNode",
+    "LinTpNode",
+    "LinTpConnection",
+    "EthTpConnection",
+    "SomeipTpConnection",
+    "SomeipTpChannel",
+    "J1939TpConnection",
+    "J1939TpPg",
+    "J1939TpNode",
+    "DoIpTpConfig",
+    "FlexrayTpConfig",
+    "FlexrayArTpConfig",
+    "CanTpConfig",
+    "LinTpConfig",
+    "EthTpConfig",
+    "SomeipTpConfig",
+    "J1939TpConfig",
+    "FrArTpAckType",
+    "MaximumMessageLengthType",
+    "CanTpAddressingFormatType",
+    "NetworkTargetAddressType",
+]

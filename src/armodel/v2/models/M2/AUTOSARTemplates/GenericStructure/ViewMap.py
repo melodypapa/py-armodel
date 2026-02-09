@@ -73,6 +73,38 @@ class ViewMap(Identifiable):
         """Get secondElement (Pythonic accessor)."""
         return self._secondElement
 
+    def with_first_element(self, value):
+        """
+        Set first_element and return self for chaining.
+
+        Args:
+            value: The first_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_first_element("value")
+        """
+        self.first_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_second_element(self, value):
+        """
+        Set second_element and return self for chaining.
+
+        Args:
+            value: The second_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_second_element("value")
+        """
+        self.second_element = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getFirstElement(self) -> List["AtpFeature"]:

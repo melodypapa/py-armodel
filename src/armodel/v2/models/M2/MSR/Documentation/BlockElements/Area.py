@@ -677,6 +677,22 @@ class Area(ARObject):
             )
         self._title = value
 
+    def with_area_class(self, value):
+        """
+        Set area_class and return self for chaining.
+
+        Args:
+            value: The area_class to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_area_class("value")
+        """
+        self.area_class = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAccesskey(self) -> "String":

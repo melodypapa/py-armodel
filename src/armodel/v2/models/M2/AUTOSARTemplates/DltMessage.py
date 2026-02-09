@@ -172,6 +172,22 @@ class DltMessage(Identifiable):
             )
         self._privacyLevel = value
 
+    def with_dlt_argument(self, value):
+        """
+        Set dlt_argument and return self for chaining.
+
+        Args:
+            value: The dlt_argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dlt_argument("value")
+        """
+        self.dlt_argument = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDltArgument(self) -> List["DltArgument"]:

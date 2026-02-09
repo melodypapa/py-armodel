@@ -30,6 +30,22 @@ class AclOperation(ARElement):
         """Get implied (Pythonic accessor)."""
         return self._implied
 
+    def with_implied(self, value):
+        """
+        Set implied and return self for chaining.
+
+        Args:
+            value: The implied to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_implied("value")
+        """
+        self.implied = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getImplied(self) -> List["AclOperation"]:

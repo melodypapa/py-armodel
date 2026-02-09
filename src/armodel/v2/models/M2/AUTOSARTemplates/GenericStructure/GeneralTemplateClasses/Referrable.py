@@ -50,6 +50,22 @@ class Referrable(ARObject, ABC):
         """Get shortName (Pythonic accessor)."""
         return self._shortName
 
+    def with_short_name(self, value):
+        """
+        Set short_name and return self for chaining.
+
+        Args:
+            value: The short_name to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_short_name("value")
+        """
+        self.short_name = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getShortName(self) -> List["ShortNameFragment"]:

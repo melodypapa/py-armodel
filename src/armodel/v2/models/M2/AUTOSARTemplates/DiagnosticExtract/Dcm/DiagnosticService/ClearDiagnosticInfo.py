@@ -4,14 +4,12 @@ AUTOSAR Package - ClearDiagnosticInfo
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ClearDiagnosticInfo
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
-
-
 
 
 class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):

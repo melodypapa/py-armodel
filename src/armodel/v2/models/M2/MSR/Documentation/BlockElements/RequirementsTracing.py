@@ -4,8 +4,9 @@ AUTOSAR Package - RequirementsTracing
 Package: M2::MSR::Documentation::BlockElements::RequirementsTracing
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
@@ -15,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
-
-
 
 
 class StructuredReq(Paginateable):
@@ -351,6 +350,54 @@ class StructuredReq(Paginateable):
                 f"useCase must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._useCase = value
+
+    def with_applies_to(self, value):
+        """
+        Set applies_to and return self for chaining.
+
+        Args:
+            value: The applies_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_applies_to("value")
+        """
+        self.applies_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_tested_item(self, value):
+        """
+        Set tested_item and return self for chaining.
+
+        Args:
+            value: The tested_item to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tested_item("value")
+        """
+        self.tested_item = value  # Use property setter (gets validation)
+        return self
+
+    def with_trace(self, value):
+        """
+        Set trace and return self for chaining.
+
+        Args:
+            value: The trace to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trace("value")
+        """
+        self.trace = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

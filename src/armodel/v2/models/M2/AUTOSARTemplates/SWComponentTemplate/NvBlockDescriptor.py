@@ -236,6 +236,118 @@ class NvBlockDescriptor(Identifiable):
         """Get writingStrategy (Pythonic accessor)."""
         return self._writingStrategy
 
+    def with_client_server_port(self, value):
+        """
+        Set client_server_port and return self for chaining.
+
+        Args:
+            value: The client_server_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_client_server_port("value")
+        """
+        self.client_server_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_constant_value(self, value):
+        """
+        Set constant_value and return self for chaining.
+
+        Args:
+            value: The constant_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_constant_value("value")
+        """
+        self.constant_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_type(self, value):
+        """
+        Set data_type and return self for chaining.
+
+        Args:
+            value: The data_type to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type("value")
+        """
+        self.data_type = value  # Use property setter (gets validation)
+        return self
+
+    def with_instantiation(self, value):
+        """
+        Set instantiation and return self for chaining.
+
+        Args:
+            value: The instantiation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_instantiation("value")
+        """
+        self.instantiation = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_switch(self, value):
+        """
+        Set mode_switch and return self for chaining.
+
+        Args:
+            value: The mode_switch to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_switch("value")
+        """
+        self.mode_switch = value  # Use property setter (gets validation)
+        return self
+
+    def with_nv_block_data(self, value):
+        """
+        Set nv_block_data and return self for chaining.
+
+        Args:
+            value: The nv_block_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_block_data("value")
+        """
+        self.nv_block_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_writing_strategy(self, value):
+        """
+        Set writing_strategy and return self for chaining.
+
+        Args:
+            value: The writing_strategy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_writing_strategy("value")
+        """
+        self.writing_strategy = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getClientServerPort(self) -> List["RoleBasedPort"]:

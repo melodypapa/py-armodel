@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterfaceMapping
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    PortInterfaceMapping,
+)
 
     RefType,
 )
@@ -33,6 +35,22 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     def data_mapping(self) -> List[RefType]:
         """Get dataMapping (Pythonic accessor)."""
         return self._dataMapping
+
+    def with_data_mapping(self, value):
+        """
+        Set data_mapping and return self for chaining.
+
+        Args:
+            value: The data_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_mapping("value")
+        """
+        self.data_mapping = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

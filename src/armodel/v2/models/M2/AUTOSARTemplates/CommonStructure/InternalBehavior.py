@@ -4,8 +4,9 @@ AUTOSAR Package - InternalBehavior
 Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
@@ -20,8 +21,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class InternalBehavior(Identifiable, ABC):
@@ -104,6 +103,150 @@ class InternalBehavior(Identifiable, ABC):
     def static_memory(self) -> List["RefType"]:
         """Get staticMemory (Pythonic accessor)."""
         return self._staticMemory
+
+    def with_constant(self, value):
+        """
+        Set constant and return self for chaining.
+
+        Args:
+            value: The constant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_constant("value")
+        """
+        self.constant = value  # Use property setter (gets validation)
+        return self
+
+    def with_constant_value(self, value):
+        """
+        Set constant_value and return self for chaining.
+
+        Args:
+            value: The constant_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_constant_value("value")
+        """
+        self.constant_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_type(self, value):
+        """
+        Set data_type and return self for chaining.
+
+        Args:
+            value: The data_type to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type("value")
+        """
+        self.data_type = value  # Use property setter (gets validation)
+        return self
+
+    def with_exclusive_area(self, value):
+        """
+        Set exclusive_area and return self for chaining.
+
+        Args:
+            value: The exclusive_area to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_exclusive_area("value")
+        """
+        self.exclusive_area = value  # Use property setter (gets validation)
+        return self
+
+    def with_static_memory(self, value):
+        """
+        Set static_memory and return self for chaining.
+
+        Args:
+            value: The static_memory to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_static_memory("value")
+        """
+        self.static_memory = value  # Use property setter (gets validation)
+        return self
+
+    def with_can_enter(self, value):
+        """
+        Set can_enter and return self for chaining.
+
+        Args:
+            value: The can_enter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_can_enter("value")
+        """
+        self.can_enter = value  # Use property setter (gets validation)
+        return self
+
+    def with_exclusive_area(self, value):
+        """
+        Set exclusive_area and return self for chaining.
+
+        Args:
+            value: The exclusive_area to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_exclusive_area("value")
+        """
+        self.exclusive_area = value  # Use property setter (gets validation)
+        return self
+
+    def with_runs_inside(self, value):
+        """
+        Set runs_inside and return self for chaining.
+
+        Args:
+            value: The runs_inside to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_runs_inside("value")
+        """
+        self.runs_inside = value  # Use property setter (gets validation)
+        return self
+
+    def with_exclusive_area(self, value):
+        """
+        Set exclusive_area and return self for chaining.
+
+        Args:
+            value: The exclusive_area to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_exclusive_area("value")
+        """
+        self.exclusive_area = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
@@ -13,8 +14,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping._
     DiagnosticMapping,
     DiagnosticSwMapping,
 )
-
-
 
 
 class DiagnosticMapping(DiagnosticCommonElement, ABC):
@@ -91,6 +90,38 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
                 f"requester must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._requester = value
+
+    def with_crypto_service(self, value):
+        """
+        Set crypto_service and return self for chaining.
+
+        Args:
+            value: The crypto_service to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_crypto_service("value")
+        """
+        self.crypto_service = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_identifier(self, value):
+        """
+        Set data_identifier and return self for chaining.
+
+        Args:
+            value: The data_identifier to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_identifier("value")
+        """
+        self.data_identifier = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -2971,3 +3002,24 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
         """
         self.swc_service = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "DiagnosticMapping",
+    "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
+    "DiagnosticSwMapping",
+    "DiagnosticAuthTransmitCertificateMapping",
+    "DiagnosticEventToTroubleCodeUdsMapping",
+    "DiagnosticEventToOperationCycleMapping",
+    "DiagnosticEventToDebounceAlgorithmMapping",
+    "DiagnosticEventToEnableConditionGroupMapping",
+    "DiagnosticEventToStorageConditionGroupMapping",
+    "DiagnosticMasterToSlaveEventMapping",
+    "DiagnosticEventToSecurityEventMapping",
+    "DiagnosticIumprToFunctionIdentifierMapping",
+    "DiagnosticSecureCodingMapping",
+    "DiagnosticEventPortMapping",
+    "DiagnosticOperationCyclePortMapping",
+    "DiagnosticEnableConditionPortMapping",
+    "DiagnosticStorageConditionPortMapping",
+]

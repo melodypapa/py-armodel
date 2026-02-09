@@ -4,18 +4,19 @@ AUTOSAR Package - SWmapping
 Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -23,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class SwcToEcuMapping(Identifiable):
@@ -143,6 +142,38 @@ class SwcToEcuMapping(Identifiable):
                 f"processingUnit must be HwElement or None, got {type(value).__name__}"
             )
         self._processingUnit = value
+
+    def with_sw_comp_to_ecu(self, value):
+        """
+        Set sw_comp_to_ecu and return self for chaining.
+
+        Args:
+            value: The sw_comp_to_ecu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_comp_to_ecu("value")
+        """
+        self.sw_comp_to_ecu = value  # Use property setter (gets validation)
+        return self
+
+    def with_clustered_instance_ref(self, value):
+        """
+        Set clustered_instance_ref and return self for chaining.
+
+        Args:
+            value: The clustered_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_clustered_instance_ref("value")
+        """
+        self.clustered_instance_ref = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

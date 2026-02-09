@@ -189,6 +189,38 @@ class PortAPIOption(ARObject):
             )
         self._transformer = value
 
+    def with_port_arg_value(self, value):
+        """
+        Set port_arg_value and return self for chaining.
+
+        Args:
+            value: The port_arg_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_arg_value("value")
+        """
+        self.port_arg_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_supported(self, value):
+        """
+        Set supported and return self for chaining.
+
+        Args:
+            value: The supported to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_supported("value")
+        """
+        self.supported = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getEnableTake(self) -> "Boolean":

@@ -4,8 +4,8 @@ AUTOSAR Package - MsrQuery
 Package: M2::MSR::Documentation::MsrQuery
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     String,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
-
-
 
 
 class MsrQueryP1(Paginateable):
@@ -89,6 +87,38 @@ class MsrQueryP1(Paginateable):
                 f"msrQueryResult must be TopicContent or None, got {type(value).__name__}"
             )
         self._msrQueryResult = value
+
+    def with_msr_query_arg(self, value):
+        """
+        Set msr_query_arg and return self for chaining.
+
+        Args:
+            value: The msr_query_arg to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_msr_query_arg("value")
+        """
+        self.msr_query_arg = value  # Use property setter (gets validation)
+        return self
+
+    def with_chapter(self, value):
+        """
+        Set chapter and return self for chaining.
+
+        Args:
+            value: The chapter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_chapter("value")
+        """
+        self.chapter = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

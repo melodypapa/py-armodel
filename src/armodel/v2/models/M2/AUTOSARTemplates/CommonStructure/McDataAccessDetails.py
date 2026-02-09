@@ -36,6 +36,38 @@ class McDataAccessDetails(ARObject):
         """Get variableAccessInstanceRef (Pythonic accessor)."""
         return self._variableAccessInstanceRef
 
+    def with_rte_event_ref(self, value):
+        """
+        Set rte_event_ref and return self for chaining.
+
+        Args:
+            value: The rte_event_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rte_event_ref("value")
+        """
+        self.rte_event_ref = value  # Use property setter (gets validation)
+        return self
+
+    def with_variable_access_instance_ref(self, value):
+        """
+        Set variable_access_instance_ref and return self for chaining.
+
+        Args:
+            value: The variable_access_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_variable_access_instance_ref("value")
+        """
+        self.variable_access_instance_ref = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getRteEventRef(self) -> List["RTEEvent"]:

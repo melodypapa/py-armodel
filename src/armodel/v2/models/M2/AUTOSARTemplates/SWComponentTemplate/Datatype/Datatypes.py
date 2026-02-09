@@ -4,22 +4,21 @@ AUTOSAR Package - Datatypes
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class AutosarDataType(ARElement, ABC):
@@ -74,6 +73,38 @@ class AutosarDataType(ARElement, ABC):
                 f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._swDataDef = value
+
+    def with_data_type_map(self, value):
+        """
+        Set data_type_map and return self for chaining.
+
+        Args:
+            value: The data_type_map to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type_map("value")
+        """
+        self.data_type_map = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_request(self, value):
+        """
+        Set mode_request and return self for chaining.
+
+        Args:
+            value: The mode_request to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_request("value")
+        """
+        self.mode_request = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

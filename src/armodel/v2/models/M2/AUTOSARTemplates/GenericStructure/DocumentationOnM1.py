@@ -4,8 +4,8 @@ AUTOSAR Package - DocumentationOnM1
 Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
@@ -15,8 +15,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class Documentation(ARElement):
@@ -74,6 +72,22 @@ class Documentation(ARElement):
                 f"documentation must be PredefinedChapter or None, got {type(value).__name__}"
             )
         self._documentation = value
+
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

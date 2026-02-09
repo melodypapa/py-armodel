@@ -4,8 +4,9 @@ AUTOSAR Package - ModelRestrictionTypes
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class AbstractValueRestriction(ARObject, ABC):
@@ -178,6 +177,22 @@ class AbstractValueRestriction(ARObject, ABC):
                 f"pattern must be RegularExpression or None, got {type(value).__name__}"
             )
         self._pattern = value
+
+    def with_valid_binding(self, value):
+        """
+        Set valid_binding and return self for chaining.
+
+        Args:
+            value: The valid_binding to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_valid_binding("value")
+        """
+        self.valid_binding = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

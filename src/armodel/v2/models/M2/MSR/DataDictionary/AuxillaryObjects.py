@@ -4,8 +4,8 @@ AUTOSAR Package - AuxillaryObjects
 Package: M2::MSR::DataDictionary::AuxillaryObjects
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
 )
@@ -15,8 +15,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class SwAddrMethod(ARElement):
@@ -140,6 +138,22 @@ class SwAddrMethod(ARElement):
                 f"sectionType must be MemorySectionType or None, got {type(value).__name__}"
             )
         self._sectionType = value
+
+    def with_option(self, value):
+        """
+        Set option and return self for chaining.
+
+        Args:
+            value: The option to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_option("value")
+        """
+        self.option = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

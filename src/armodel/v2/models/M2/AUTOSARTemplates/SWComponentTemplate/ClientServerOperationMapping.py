@@ -120,6 +120,22 @@ class ClientServerOperationMapping(ARObject):
             )
         self._second = value
 
+    def with_argument(self, value):
+        """
+        Set argument and return self for chaining.
+
+        Args:
+            value: The argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_argument("value")
+        """
+        self.argument = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getArgument(self) -> List[RefType]:

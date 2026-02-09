@@ -4,8 +4,9 @@ AUTOSAR Package - AccessCount
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     PositiveInteger,
@@ -19,8 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class AccessCountSet(ARObject):
@@ -75,6 +74,22 @@ class AccessCountSet(ARObject):
                 f"countProfile must be NameToken or str or None, got {type(value).__name__}"
             )
         self._countProfile = value
+
+    def with_access_count(self, value):
+        """
+        Set access_count and return self for chaining.
+
+        Args:
+            value: The access_count to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_access_count("value")
+        """
+        self.access_count = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

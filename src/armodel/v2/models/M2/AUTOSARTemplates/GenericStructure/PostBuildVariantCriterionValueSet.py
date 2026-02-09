@@ -33,6 +33,22 @@ class PostBuildVariantCriterionValueSet(ARElement):
         """Get postBuildVariant (Pythonic accessor)."""
         return self._postBuildVariant
 
+    def with_post_build_variant(self, value):
+        """
+        Set post_build_variant and return self for chaining.
+
+        Args:
+            value: The post_build_variant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_post_build_variant("value")
+        """
+        self.post_build_variant = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getPostBuildVariant(self) -> List["PostBuildVariant"]:

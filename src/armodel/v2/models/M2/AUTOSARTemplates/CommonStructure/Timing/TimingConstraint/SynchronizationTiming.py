@@ -4,16 +4,14 @@ AUTOSAR Package - SynchronizationTiming
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (
     TimingConstraint,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class SynchronizationTimingConstraint(TimingConstraint):
@@ -153,6 +151,38 @@ class SynchronizationTimingConstraint(TimingConstraint):
                 f"tolerance must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._tolerance = value
+
+    def with_scope(self, value):
+        """
+        Set scope and return self for chaining.
+
+        Args:
+            value: The scope to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_scope("value")
+        """
+        self.scope = value  # Use property setter (gets validation)
+        return self
+
+    def with_scope_event(self, value):
+        """
+        Set scope_event and return self for chaining.
+
+        Args:
+            value: The scope_event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_scope_event("value")
+        """
+        self.scope_event = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

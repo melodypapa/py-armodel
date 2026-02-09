@@ -4,22 +4,20 @@ AUTOSAR Package - DataExchangePoint
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DataExchangePoint(ARElement):
@@ -150,6 +148,54 @@ class DataExchangePoint(ARElement):
                 f"specification must be SpecificationScope or None, got {type(value).__name__}"
             )
         self._specification = value
+
+    def with_custom_sdg_def(self, value):
+        """
+        Set custom_sdg_def and return self for chaining.
+
+        Args:
+            value: The custom_sdg_def to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_custom_sdg_def("value")
+        """
+        self.custom_sdg_def = value  # Use property setter (gets validation)
+        return self
+
+    def with_custom(self, value):
+        """
+        Set custom and return self for chaining.
+
+        Args:
+            value: The custom to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_custom("value")
+        """
+        self.custom = value  # Use property setter (gets validation)
+        return self
+
+    def with_standard(self, value):
+        """
+        Set standard and return self for chaining.
+
+        Args:
+            value: The standard to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_standard("value")
+        """
+        self.standard = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

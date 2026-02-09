@@ -108,6 +108,86 @@ class SwComponentType(ARElement, ABC):
         """Get unitGroup (Pythonic accessor)."""
         return self._unitGroup
 
+    def with_consistency(self, value):
+        """
+        Set consistency and return self for chaining.
+
+        Args:
+            value: The consistency to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consistency("value")
+        """
+        self.consistency = value  # Use property setter (gets validation)
+        return self
+
+    def with_port(self, value):
+        """
+        Set port and return self for chaining.
+
+        Args:
+            value: The port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port("value")
+        """
+        self.port = value  # Use property setter (gets validation)
+        return self
+
+    def with_port_group(self, value):
+        """
+        Set port_group and return self for chaining.
+
+        Args:
+            value: The port_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_group("value")
+        """
+        self.port_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_swc_mapping(self, value):
+        """
+        Set swc_mapping and return self for chaining.
+
+        Args:
+            value: The swc_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_swc_mapping("value")
+        """
+        self.swc_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_unit_group(self, value):
+        """
+        Set unit_group and return self for chaining.
+
+        Args:
+            value: The unit_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_unit_group("value")
+        """
+        self.unit_group = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getConsistency(self) -> List["ConsistencyNeeds"]:

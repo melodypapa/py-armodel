@@ -4,8 +4,9 @@ AUTOSAR Package - DoIP
 Package: M2::AUTOSARTemplates::SystemTemplate::DoIP
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class DoIpConfig(ARObject):
@@ -72,6 +71,102 @@ class DoIpConfig(ARObject):
                 f"logicAddress must be DoIpLogicAddress or None, got {type(value).__name__}"
             )
         self._logicAddress = value
+
+    def with_doip_interface(self, value):
+        """
+        Set doip_interface and return self for chaining.
+
+        Args:
+            value: The doip_interface to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_doip_interface("value")
+        """
+        self.doip_interface = value  # Use property setter (gets validation)
+        return self
+
+    def with_doip_connection(self, value):
+        """
+        Set doip_connection and return self for chaining.
+
+        Args:
+            value: The doip_connection to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_doip_connection("value")
+        """
+        self.doip_connection = value  # Use property setter (gets validation)
+        return self
+
+    def with_do_ip_routing(self, value):
+        """
+        Set do_ip_routing and return self for chaining.
+
+        Args:
+            value: The do_ip_routing to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_do_ip_routing("value")
+        """
+        self.do_ip_routing = value  # Use property setter (gets validation)
+        return self
+
+    def with_socket(self, value):
+        """
+        Set socket and return self for chaining.
+
+        Args:
+            value: The socket to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_socket("value")
+        """
+        self.socket = value  # Use property setter (gets validation)
+        return self
+
+    def with_do_ip_target(self, value):
+        """
+        Set do_ip_target and return self for chaining.
+
+        Args:
+            value: The do_ip_target to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_do_ip_target("value")
+        """
+        self.do_ip_target = value  # Use property setter (gets validation)
+        return self
+
+    def with_do_ip_tester(self, value):
+        """
+        Set do_ip_tester and return self for chaining.
+
+        Args:
+            value: The do_ip_tester to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_do_ip_tester("value")
+        """
+        self.do_ip_tester = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -4,16 +4,14 @@ AUTOSAR Package - InstanceRefs
 Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class DataPrototypeInSystemInstanceRef(ARObject):
@@ -176,6 +174,38 @@ class DataPrototypeInSystemInstanceRef(ARObject):
             return
 
         self._targetData = value
+
+    def with_context_data(self, value):
+        """
+        Set context_data and return self for chaining.
+
+        Args:
+            value: The context_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_data("value")
+        """
+        self.context_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_context_sw(self, value):
+        """
+        Set context_sw and return self for chaining.
+
+        Args:
+            value: The context_sw to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_sw("value")
+        """
+        self.context_sw = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

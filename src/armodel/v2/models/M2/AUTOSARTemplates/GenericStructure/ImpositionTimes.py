@@ -4,13 +4,9 @@ AUTOSAR Package - ImpositionTimes
 Package: M2::AUTOSARTemplates::GenericStructure::ImpositionTimes
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class ImpositionTime(Identifiable):

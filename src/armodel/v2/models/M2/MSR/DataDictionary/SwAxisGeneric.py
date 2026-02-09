@@ -62,6 +62,22 @@ class SwAxisGeneric(ARObject):
         """Get swGenericAxis (Pythonic accessor)."""
         return self._swGenericAxis
 
+    def with_sw_generic_axis(self, value):
+        """
+        Set sw_generic_axis and return self for chaining.
+
+        Args:
+            value: The sw_generic_axis to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_generic_axis("value")
+        """
+        self.sw_generic_axis = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getSwAxisType(self) -> "SwAxisType":

@@ -91,6 +91,22 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
 
         self._targetData = value
 
+    def with_context_sw(self, value):
+        """
+        Set context_sw and return self for chaining.
+
+        Args:
+            value: The context_sw to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_sw("value")
+        """
+        self.context_sw = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBase(self) -> "CompositionSw":

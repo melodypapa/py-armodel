@@ -4,8 +4,8 @@ AUTOSAR Package - Mode_0x02_RequestPowertrainFreeze
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
@@ -13,8 +13,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
-
-
 
 
 class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
@@ -91,6 +89,22 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
                 f"request must be DiagnosticRequest or None, got {type(value).__name__}"
             )
         self._request = value
+
+    def with_pid(self, value):
+        """
+        Set pid and return self for chaining.
+
+        Args:
+            value: The pid to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pid("value")
+        """
+        self.pid = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -244,6 +244,22 @@ class IdsmInstance(IdsCommonElement):
             )
         self._trafficLimitation = value
 
+    def with_block_state(self, value):
+        """
+        Set block_state and return self for chaining.
+
+        Args:
+            value: The block_state to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_block_state("value")
+        """
+        self.block_state = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBlockState(self) -> List["BlockState"]:

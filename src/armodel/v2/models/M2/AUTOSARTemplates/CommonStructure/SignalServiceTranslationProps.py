@@ -88,6 +88,70 @@ class SignalServiceTranslationProps(Identifiable):
         """Get signalServiceEventProps (Pythonic accessor)."""
         return self._signalServiceEventProps
 
+    def with_control(self, value):
+        """
+        Set control and return self for chaining.
+
+        Args:
+            value: The control to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_control("value")
+        """
+        self.control = value  # Use property setter (gets validation)
+        return self
+
+    def with_control_pnc(self, value):
+        """
+        Set control_pnc and return self for chaining.
+
+        Args:
+            value: The control_pnc to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_control_pnc("value")
+        """
+        self.control_pnc = value  # Use property setter (gets validation)
+        return self
+
+    def with_control_provided(self, value):
+        """
+        Set control_provided and return self for chaining.
+
+        Args:
+            value: The control_provided to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_control_provided("value")
+        """
+        self.control_provided = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal_service_event_props(self, value):
+        """
+        Set signal_service_event_props and return self for chaining.
+
+        Args:
+            value: The signal_service_event_props to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal_service_event_props("value")
+        """
+        self.signal_service_event_props = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getControl(self) -> List[RefType]:

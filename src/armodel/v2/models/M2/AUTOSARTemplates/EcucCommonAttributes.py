@@ -130,6 +130,38 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
         """Get valueConfig (Pythonic accessor)."""
         return self._valueConfig
 
+    def with_multiplicity(self, value):
+        """
+        Set multiplicity and return self for chaining.
+
+        Args:
+            value: The multiplicity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_multiplicity("value")
+        """
+        self.multiplicity = value  # Use property setter (gets validation)
+        return self
+
+    def with_value_config(self, value):
+        """
+        Set value_config and return self for chaining.
+
+        Args:
+            value: The value_config to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value_config("value")
+        """
+        self.value_config = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getMultiplicity(self) -> List["EcucMultiplicity"]:

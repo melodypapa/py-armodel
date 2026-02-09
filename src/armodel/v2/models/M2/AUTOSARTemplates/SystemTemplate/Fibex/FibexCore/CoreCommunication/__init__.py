@@ -365,6 +365,214 @@ class ISignal(FibexElement):
         """Get transformation (Pythonic accessor)."""
         return self._transformation
 
+    def with_transformation(self, value):
+        """
+        Set transformation and return self for chaining.
+
+        Args:
+            value: The transformation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_transformation("value")
+        """
+        self.transformation = value  # Use property setter (gets validation)
+        return self
+
+    def with_contained(self, value):
+        """
+        Set contained and return self for chaining.
+
+        Args:
+            value: The contained to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_contained("value")
+        """
+        self.contained = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_signal_i_pdu(self, value):
+        """
+        Set i_signal_i_pdu and return self for chaining.
+
+        Args:
+            value: The i_signal_i_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_signal_i_pdu("value")
+        """
+        self.i_signal_i_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_nm_pdu(self, value):
+        """
+        Set nm_pdu and return self for chaining.
+
+        Args:
+            value: The nm_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nm_pdu("value")
+        """
+        self.nm_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_pdu_to_frame(self, value):
+        """
+        Set pdu_to_frame and return self for chaining.
+
+        Args:
+            value: The pdu_to_frame to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu_to_frame("value")
+        """
+        self.pdu_to_frame = value  # Use property setter (gets validation)
+        return self
+
+    def with_frame_port(self, value):
+        """
+        Set frame_port and return self for chaining.
+
+        Args:
+            value: The frame_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_frame_port("value")
+        """
+        self.frame_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_pdu_triggering(self, value):
+        """
+        Set pdu_triggering and return self for chaining.
+
+        Args:
+            value: The pdu_triggering to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu_triggering("value")
+        """
+        self.pdu_triggering = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_pdu_port(self, value):
+        """
+        Set i_pdu_port and return self for chaining.
+
+        Args:
+            value: The i_pdu_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_pdu_port("value")
+        """
+        self.i_pdu_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_trigger_i_pdu_send(self, value):
+        """
+        Set trigger_i_pdu_send and return self for chaining.
+
+        Args:
+            value: The trigger_i_pdu_send to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trigger_i_pdu_send("value")
+        """
+        self.trigger_i_pdu_send = value  # Use property setter (gets validation)
+        return self
+
+    def with_transformation(self, value):
+        """
+        Set transformation and return self for chaining.
+
+        Args:
+            value: The transformation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_transformation("value")
+        """
+        self.transformation = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_signal_port(self, value):
+        """
+        Set i_signal_port and return self for chaining.
+
+        Args:
+            value: The i_signal_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_signal_port("value")
+        """
+        self.i_signal_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_signal_to_i_pdu(self, value):
+        """
+        Set i_signal_to_i_pdu and return self for chaining.
+
+        Args:
+            value: The i_signal_to_i_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_signal_to_i_pdu("value")
+        """
+        self.i_signal_to_i_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_signal_to_pdu(self, value):
+        """
+        Set i_signal_to_pdu and return self for chaining.
+
+        Args:
+            value: The i_signal_to_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_signal_to_pdu("value")
+        """
+        self.i_signal_to_pdu = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getData(self) -> "DataTransformation":
@@ -9434,3 +9642,59 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunicati
 
     # IPduM sends a transmission request to the PduR if a static part is received.
     staticPartTrigger = "3"
+
+
+__all__ = [
+    "ISignal",
+    "ISignalIPduGroup",
+    "SystemSignal",
+    "Frame",
+    "FrameTriggering",
+    "Pdu",
+    "PduTriggering",
+    "ISignalGroup",
+    "FramePort",
+    "IPduPort",
+    "ISignalPort",
+    "ISignalProps",
+    "SystemSignalGroup",
+    "ISignalToIPduMapping",
+    "ISignalTriggering",
+    "PduToFrameMapping",
+    "IPduTiming",
+    "PdurIPduGroup",
+    "ContainedIPduProps",
+    "SecureCommunicationProps",
+    "SecureCommunicationPropsSet",
+    "SecureCommunicationFreshnessProps",
+    "SecureCommunicationAuthenticationProps",
+    "DynamicPartAlternative",
+    "MultiplexedPart",
+    "SegmentPosition",
+    "NmPdu",
+    "UserDefinedPdu",
+    "IPdu",
+    "GeneralPurposePdu",
+    "StaticPart",
+    "DynamicPart",
+    "J1939DcmIPdu",
+    "NPdu",
+    "ISignalIPdu",
+    "DcmIPdu",
+    "GeneralPurposeIPdu",
+    "UserDefinedIPdu",
+    "ContainerIPdu",
+    "SecuredIPdu",
+    "MultiplexedIPdu",
+    "IPduSignalProcessingEnum",
+    "ISignalTypeEnum",
+    "TransferPropertyEnum",
+    "DiagPduType",
+    "CommunicationDirectionType",
+    "ContainerIPduTriggerEnum",
+    "ContainerIPduHeaderTypeEnum",
+    "RxAcceptContainedIPduEnum",
+    "ContainedIPduCollectionSemanticsEnum",
+    "SecuredPduHeaderEnum",
+    "TriggerMode",
+]

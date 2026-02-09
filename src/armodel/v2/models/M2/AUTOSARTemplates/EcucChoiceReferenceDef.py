@@ -28,6 +28,22 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
         """Get destination (Pythonic accessor)."""
         return self._destination
 
+    def with_destination(self, value):
+        """
+        Set destination and return self for chaining.
+
+        Args:
+            value: The destination to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_destination("value")
+        """
+        self.destination = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDestination(self) -> List["EcucContainerDef"]:

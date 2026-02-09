@@ -4,8 +4,8 @@ AUTOSAR Package - SignalServiceTranslation
 Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
@@ -19,8 +19,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class SignalServiceTranslationProps(Identifiable):
@@ -99,6 +97,102 @@ class SignalServiceTranslationProps(Identifiable):
     def signal_service_event_props(self) -> List["SignalService"]:
         """Get signalServiceEventProps (Pythonic accessor)."""
         return self._signalServiceEventProps
+
+    def with_control(self, value):
+        """
+        Set control and return self for chaining.
+
+        Args:
+            value: The control to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_control("value")
+        """
+        self.control = value  # Use property setter (gets validation)
+        return self
+
+    def with_control_pnc(self, value):
+        """
+        Set control_pnc and return self for chaining.
+
+        Args:
+            value: The control_pnc to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_control_pnc("value")
+        """
+        self.control_pnc = value  # Use property setter (gets validation)
+        return self
+
+    def with_control_provided(self, value):
+        """
+        Set control_provided and return self for chaining.
+
+        Args:
+            value: The control_provided to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_control_provided("value")
+        """
+        self.control_provided = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal_service_event_props(self, value):
+        """
+        Set signal_service_event_props and return self for chaining.
+
+        Args:
+            value: The signal_service_event_props to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal_service_event_props("value")
+        """
+        self.signal_service_event_props = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal_service_props(self, value):
+        """
+        Set signal_service_props and return self for chaining.
+
+        Args:
+            value: The signal_service_props to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal_service_props("value")
+        """
+        self.signal_service_props = value  # Use property setter (gets validation)
+        return self
+
+    def with_element_props(self, value):
+        """
+        Set element_props and return self for chaining.
+
+        Args:
+            value: The element_props to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element_props("value")
+        """
+        self.element_props = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

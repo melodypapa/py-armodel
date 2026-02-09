@@ -287,6 +287,22 @@ class FirewallRule(ARElement):
             )
         self._transportLayer = value
 
+    def with_payload_byte(self, value):
+        """
+        Set payload_byte and return self for chaining.
+
+        Args:
+            value: The payload_byte to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_payload_byte("value")
+        """
+        self.payload_byte = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBucketSize(self) -> "PositiveInteger":

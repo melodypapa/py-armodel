@@ -4,8 +4,8 @@ AUTOSAR Package - Dlt
 Package: M2::AUTOSARTemplates::SystemTemplate::Dlt
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
@@ -20,8 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DltConfig(ARObject):
@@ -129,6 +127,54 @@ class DltConfig(ARObject):
                 f"timestamp must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._timestamp = value
+
+    def with_dlt_log_channel(self, value):
+        """
+        Set dlt_log_channel and return self for chaining.
+
+        Args:
+            value: The dlt_log_channel to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dlt_log_channel("value")
+        """
+        self.dlt_log_channel = value  # Use property setter (gets validation)
+        return self
+
+    def with_application(self, value):
+        """
+        Set application and return self for chaining.
+
+        Args:
+            value: The application to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_application("value")
+        """
+        self.application = value  # Use property setter (gets validation)
+        return self
+
+    def with_dlt_message(self, value):
+        """
+        Set dlt_message and return self for chaining.
+
+        Args:
+            value: The dlt_message to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dlt_message("value")
+        """
+        self.dlt_message = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

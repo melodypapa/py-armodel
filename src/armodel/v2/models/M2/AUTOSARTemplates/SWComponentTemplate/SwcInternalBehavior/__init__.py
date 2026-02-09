@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
@@ -17,8 +18,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior impo
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class RunnableEntity(ExecutableEntity):
@@ -266,6 +265,454 @@ class RunnableEntity(ExecutableEntity):
     def written_local(self) -> List["VariableAccess"]:
         """Get writtenLocal (Pythonic accessor)."""
         return self._writtenLocal
+
+    def with_argument(self, value):
+        """
+        Set argument and return self for chaining.
+
+        Args:
+            value: The argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_argument("value")
+        """
+        self.argument = value  # Use property setter (gets validation)
+        return self
+
+    def with_asynchronous(self, value):
+        """
+        Set asynchronous and return self for chaining.
+
+        Args:
+            value: The asynchronous to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_asynchronous("value")
+        """
+        self.asynchronous = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_read(self, value):
+        """
+        Set data_read and return self for chaining.
+
+        Args:
+            value: The data_read to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_read("value")
+        """
+        self.data_read = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_receive(self, value):
+        """
+        Set data_receive and return self for chaining.
+
+        Args:
+            value: The data_receive to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_receive("value")
+        """
+        self.data_receive = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_send_point(self, value):
+        """
+        Set data_send_point and return self for chaining.
+
+        Args:
+            value: The data_send_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_send_point("value")
+        """
+        self.data_send_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_write(self, value):
+        """
+        Set data_write and return self for chaining.
+
+        Args:
+            value: The data_write to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_write("value")
+        """
+        self.data_write = value  # Use property setter (gets validation)
+        return self
+
+    def with_external(self, value):
+        """
+        Set external and return self for chaining.
+
+        Args:
+            value: The external to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_external("value")
+        """
+        self.external = value  # Use property setter (gets validation)
+        return self
+
+    def with_internal(self, value):
+        """
+        Set internal and return self for chaining.
+
+        Args:
+            value: The internal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_internal("value")
+        """
+        self.internal = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_access(self, value):
+        """
+        Set mode_access and return self for chaining.
+
+        Args:
+            value: The mode_access to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_access("value")
+        """
+        self.mode_access = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_switch(self, value):
+        """
+        Set mode_switch and return self for chaining.
+
+        Args:
+            value: The mode_switch to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_switch("value")
+        """
+        self.mode_switch = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter(self, value):
+        """
+        Set parameter and return self for chaining.
+
+        Args:
+            value: The parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter("value")
+        """
+        self.parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_read_local(self, value):
+        """
+        Set read_local and return self for chaining.
+
+        Args:
+            value: The read_local to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_read_local("value")
+        """
+        self.read_local = value  # Use property setter (gets validation)
+        return self
+
+    def with_server_call_point(self, value):
+        """
+        Set server_call_point and return self for chaining.
+
+        Args:
+            value: The server_call_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_server_call_point("value")
+        """
+        self.server_call_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_wait_point(self, value):
+        """
+        Set wait_point and return self for chaining.
+
+        Args:
+            value: The wait_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_wait_point("value")
+        """
+        self.wait_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_written_local(self, value):
+        """
+        Set written_local and return self for chaining.
+
+        Args:
+            value: The written_local to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_written_local("value")
+        """
+        self.written_local = value  # Use property setter (gets validation)
+        return self
+
+    def with_ar_typed_per(self, value):
+        """
+        Set ar_typed_per and return self for chaining.
+
+        Args:
+            value: The ar_typed_per to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ar_typed_per("value")
+        """
+        self.ar_typed_per = value  # Use property setter (gets validation)
+        return self
+
+    def with_event(self, value):
+        """
+        Set event and return self for chaining.
+
+        Args:
+            value: The event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_event("value")
+        """
+        self.event = value  # Use property setter (gets validation)
+        return self
+
+    def with_explicit_inter(self, value):
+        """
+        Set explicit_inter and return self for chaining.
+
+        Args:
+            value: The explicit_inter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_explicit_inter("value")
+        """
+        self.explicit_inter = value  # Use property setter (gets validation)
+        return self
+
+    def with_implicit_inter(self, value):
+        """
+        Set implicit_inter and return self for chaining.
+
+        Args:
+            value: The implicit_inter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_implicit_inter("value")
+        """
+        self.implicit_inter = value  # Use property setter (gets validation)
+        return self
+
+    def with_included_data(self, value):
+        """
+        Set included_data and return self for chaining.
+
+        Args:
+            value: The included_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_included_data("value")
+        """
+        self.included_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_included_mode(self, value):
+        """
+        Set included_mode and return self for chaining.
+
+        Args:
+            value: The included_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_included_mode("value")
+        """
+        self.included_mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_instantiation(self, value):
+        """
+        Set instantiation and return self for chaining.
+
+        Args:
+            value: The instantiation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_instantiation("value")
+        """
+        self.instantiation = value  # Use property setter (gets validation)
+        return self
+
+    def with_per_instance(self, value):
+        """
+        Set per_instance and return self for chaining.
+
+        Args:
+            value: The per_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_per_instance("value")
+        """
+        self.per_instance = value  # Use property setter (gets validation)
+        return self
+
+    def with_port_api_option(self, value):
+        """
+        Set port_api_option and return self for chaining.
+
+        Args:
+            value: The port_api_option to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_api_option("value")
+        """
+        self.port_api_option = value  # Use property setter (gets validation)
+        return self
+
+    def with_runnable(self, value):
+        """
+        Set runnable and return self for chaining.
+
+        Args:
+            value: The runnable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_runnable("value")
+        """
+        self.runnable = value  # Use property setter (gets validation)
+        return self
+
+    def with_service(self, value):
+        """
+        Set service and return self for chaining.
+
+        Args:
+            value: The service to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_service("value")
+        """
+        self.service = value  # Use property setter (gets validation)
+        return self
+
+    def with_shared(self, value):
+        """
+        Set shared and return self for chaining.
+
+        Args:
+            value: The shared to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_shared("value")
+        """
+        self.shared = value  # Use property setter (gets validation)
+        return self
+
+    def with_variation_point(self, value):
+        """
+        Set variation_point and return self for chaining.
+
+        Args:
+            value: The variation_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_variation_point("value")
+        """
+        self.variation_point = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -1133,3 +1580,10 @@ class SwcExclusiveAreaPolicy(ARObject):
         """
         self.exclusive_area = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "RunnableEntity",
+    "SwcInternalBehavior",
+    "SwcExclusiveAreaPolicy",
+]

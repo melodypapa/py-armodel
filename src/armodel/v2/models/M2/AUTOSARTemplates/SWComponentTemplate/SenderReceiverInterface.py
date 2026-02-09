@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataInterface
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    DataInterface,
+)
 
     RefType,
 )
@@ -51,6 +53,54 @@ class SenderReceiverInterface(DataInterface):
     def meta_data_item(self) -> List[RefType]:
         """Get metaDataItem (Pythonic accessor)."""
         return self._metaDataItem
+
+    def with_data_element(self, value):
+        """
+        Set data_element and return self for chaining.
+
+        Args:
+            value: The data_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_element("value")
+        """
+        self.data_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_invalidation_policy(self, value):
+        """
+        Set invalidation_policy and return self for chaining.
+
+        Args:
+            value: The invalidation_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_invalidation_policy("value")
+        """
+        self.invalidation_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_meta_data_item(self, value):
+        """
+        Set meta_data_item and return self for chaining.
+
+        Args:
+            value: The meta_data_item to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_meta_data_item("value")
+        """
+        self.meta_data_item = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

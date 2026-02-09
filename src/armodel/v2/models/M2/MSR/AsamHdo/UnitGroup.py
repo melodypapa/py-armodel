@@ -25,6 +25,22 @@ class UnitGroup(ARElement):
         """Get unit (Pythonic accessor)."""
         return self._unit
 
+    def with_unit(self, value):
+        """
+        Set unit and return self for chaining.
+
+        Args:
+            value: The unit to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_unit("value")
+        """
+        self.unit = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getUnit(self) -> List["Unit"]:

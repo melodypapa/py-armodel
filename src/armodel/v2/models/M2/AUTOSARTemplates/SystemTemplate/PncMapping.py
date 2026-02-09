@@ -4,8 +4,8 @@ AUTOSAR Package - PncMapping
 Package: M2::AUTOSARTemplates::SystemTemplate::PncMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Describable,
     Referrable,
 )
-
-
 
 
 class PncMapping(Describable):
@@ -222,6 +220,134 @@ class PncMapping(Describable):
     def wakeup_frame(self) -> List["RefType"]:
         """Get wakeupFrame (Pythonic accessor)."""
         return self._wakeupFrame
+
+    def with_dynamic_pnc(self, value):
+        """
+        Set dynamic_pnc and return self for chaining.
+
+        Args:
+            value: The dynamic_pnc to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dynamic_pnc("value")
+        """
+        self.dynamic_pnc = value  # Use property setter (gets validation)
+        return self
+
+    def with_physical(self, value):
+        """
+        Set physical and return self for chaining.
+
+        Args:
+            value: The physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_physical("value")
+        """
+        self.physical = value  # Use property setter (gets validation)
+        return self
+
+    def with_pnc_consumed(self, value):
+        """
+        Set pnc_consumed and return self for chaining.
+
+        Args:
+            value: The pnc_consumed to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pnc_consumed("value")
+        """
+        self.pnc_consumed = value  # Use property setter (gets validation)
+        return self
+
+    def with_pnc_group(self, value):
+        """
+        Set pnc_group and return self for chaining.
+
+        Args:
+            value: The pnc_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pnc_group("value")
+        """
+        self.pnc_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_pnc_pdur_group(self, value):
+        """
+        Set pnc_pdur_group and return self for chaining.
+
+        Args:
+            value: The pnc_pdur_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pnc_pdur_group("value")
+        """
+        self.pnc_pdur_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_relevant_for(self, value):
+        """
+        Set relevant_for and return self for chaining.
+
+        Args:
+            value: The relevant_for to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_relevant_for("value")
+        """
+        self.relevant_for = value  # Use property setter (gets validation)
+        return self
+
+    def with_vfc(self, value):
+        """
+        Set vfc and return self for chaining.
+
+        Args:
+            value: The vfc to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_vfc("value")
+        """
+        self.vfc = value  # Use property setter (gets validation)
+        return self
+
+    def with_wakeup_frame(self, value):
+        """
+        Set wakeup_frame and return self for chaining.
+
+        Args:
+            value: The wakeup_frame to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_wakeup_frame("value")
+        """
+        self.wakeup_frame = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

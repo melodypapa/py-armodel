@@ -251,6 +251,22 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
             )
         self._unit = value
 
+    def with_sw_variable_ref(self, value):
+        """
+        Set sw_variable_ref and return self for chaining.
+
+        Args:
+            value: The sw_variable_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_variable_ref("value")
+        """
+        self.sw_variable_ref = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCompuMethod(self) -> "CompuMethod":

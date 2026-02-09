@@ -96,6 +96,22 @@ class SecurityEventContextMapping(IdsMapping, ABC):
         """Get mappedSecurity (Pythonic accessor)."""
         return self._mappedSecurity
 
+    def with_mapped_security(self, value):
+        """
+        Set mapped_security and return self for chaining.
+
+        Args:
+            value: The mapped_security to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapped_security("value")
+        """
+        self.mapped_security = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getFilterChain(self) -> "SecurityEventFilter":

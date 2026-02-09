@@ -4,8 +4,6 @@ AUTOSAR Package - CddSupport
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -13,8 +11,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTo
     CommunicationConnector,
     PhysicalChannel,
 )
-
-
 
 
 class UserDefinedCluster(ARObject):

@@ -4,23 +4,22 @@ AUTOSAR Package - SpecialDataDef
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     NameToken,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class SdgDef(ARElement):
@@ -45,6 +44,54 @@ class SdgDef(ARElement):
     def sdg_class(self) -> List["SdgClass"]:
         """Get sdgClass (Pythonic accessor)."""
         return self._sdgClass
+
+    def with_sdg_class(self, value):
+        """
+        Set sdg_class and return self for chaining.
+
+        Args:
+            value: The sdg_class to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg_class("value")
+        """
+        self.sdg_class = value  # Use property setter (gets validation)
+        return self
+
+    def with_attribute(self, value):
+        """
+        Set attribute and return self for chaining.
+
+        Args:
+            value: The attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_attribute("value")
+        """
+        self.attribute = value  # Use property setter (gets validation)
+        return self
+
+    def with_sdg_constraint(self, value):
+        """
+        Set sdg_constraint and return self for chaining.
+
+        Args:
+            value: The sdg_constraint to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg_constraint("value")
+        """
+        self.sdg_constraint = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

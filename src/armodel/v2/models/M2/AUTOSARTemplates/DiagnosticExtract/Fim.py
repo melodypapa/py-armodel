@@ -4,8 +4,8 @@ AUTOSAR Package - Fim
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
@@ -18,8 +18,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
@@ -40,6 +38,38 @@ class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_inhibit_source(self, value):
+        """
+        Set inhibit_source and return self for chaining.
+
+        Args:
+            value: The inhibit_source to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_inhibit_source("value")
+        """
+        self.inhibit_source = value  # Use property setter (gets validation)
+        return self
+
+    def with_grouped_alias(self, value):
+        """
+        Set grouped_alias and return self for chaining.
+
+        Args:
+            value: The grouped_alias to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_grouped_alias("value")
+        """
+        self.grouped_alias = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

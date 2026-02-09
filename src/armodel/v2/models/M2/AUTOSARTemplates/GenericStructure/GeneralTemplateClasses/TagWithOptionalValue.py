@@ -4,8 +4,8 @@ AUTOSAR Package - TagWithOptionalValue
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::TagWithOptionalValue
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     String,
@@ -13,8 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class TagWithOptionalValue(ARObject):

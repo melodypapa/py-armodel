@@ -27,6 +27,22 @@ class J1939SharedAddressCluster(Identifiable):
         """Get participating (Pythonic accessor)."""
         return self._participating
 
+    def with_participating(self, value):
+        """
+        Set participating and return self for chaining.
+
+        Args:
+            value: The participating to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_participating("value")
+        """
+        self.participating = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getParticipating(self) -> List["J1939Cluster"]:

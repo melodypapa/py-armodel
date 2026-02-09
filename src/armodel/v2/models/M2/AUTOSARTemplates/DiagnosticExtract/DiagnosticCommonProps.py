@@ -4,8 +4,8 @@ AUTOSAR Package - DiagnosticCommonProps
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DiagnosticCommonProps(ARObject):
@@ -346,6 +344,22 @@ class DiagnosticCommonProps(ARObject):
                 f"typeOfEvent must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._typeOfEvent = value
+
+    def with_debounce(self, value):
+        """
+        Set debounce and return self for chaining.
+
+        Args:
+            value: The debounce to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_debounce("value")
+        """
+        self.debounce = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

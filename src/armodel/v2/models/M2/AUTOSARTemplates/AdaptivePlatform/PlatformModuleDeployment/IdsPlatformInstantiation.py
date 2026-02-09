@@ -64,6 +64,22 @@ class IdsPlatformInstantiation(Identifiable, ABC):
             )
         self._timeBase = value
 
+    def with_network(self, value):
+        """
+        Set network and return self for chaining.
+
+        Args:
+            value: The network to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_network("value")
+        """
+        self.network = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getNetwork(self) -> List["PlatformModule"]:

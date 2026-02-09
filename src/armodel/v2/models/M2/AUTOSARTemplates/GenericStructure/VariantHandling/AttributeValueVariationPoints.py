@@ -4,8 +4,9 @@ AUTOSAR Package - AttributeValueVariationPoints
 Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     NameToken,
@@ -13,14 +14,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    PackageableElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    PackageableElement,
+)
 
 
 class NumericalValueVariationPoint(ARObject):
@@ -38,6 +37,22 @@ class NumericalValueVariationPoint(ARObject):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_entry(self, value):
+        """
+        Set entry and return self for chaining.
+
+        Args:
+            value: The entry to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_entry("value")
+        """
+        self.entry = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -4,8 +4,9 @@ AUTOSAR Package - DiagnosticEvent
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     NameToken,
@@ -27,8 +28,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DiagnosticEvent(DiagnosticCommonElement):
@@ -301,6 +300,54 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"recoverableIn must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._recoverableIn = value
+
+    def with_connected(self, value):
+        """
+        Set connected and return self for chaining.
+
+        Args:
+            value: The connected to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_connected("value")
+        """
+        self.connected = value  # Use property setter (gets validation)
+        return self
+
+    def with_iumpr(self, value):
+        """
+        Set iumpr and return self for chaining.
+
+        Args:
+            value: The iumpr to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_iumpr("value")
+        """
+        self.iumpr = value  # Use property setter (gets validation)
+        return self
+
+    def with_iumpr(self, value):
+        """
+        Set iumpr and return self for chaining.
+
+        Args:
+            value: The iumpr to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_iumpr("value")
+        """
+        self.iumpr = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

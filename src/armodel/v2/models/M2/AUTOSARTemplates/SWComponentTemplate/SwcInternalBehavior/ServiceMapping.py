@@ -4,8 +4,8 @@ AUTOSAR Package - ServiceMapping
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class RoleBasedDataTypeAssignment(ARObject):
@@ -96,6 +94,38 @@ class RoleBasedDataTypeAssignment(ARObject):
                 f"used must be ImplementationData or None, got {type(value).__name__}"
             )
         self._used = value
+
+    def with_assigned_data(self, value):
+        """
+        Set assigned_data and return self for chaining.
+
+        Args:
+            value: The assigned_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_assigned_data("value")
+        """
+        self.assigned_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_assigned_port(self, value):
+        """
+        Set assigned_port and return self for chaining.
+
+        Args:
+            value: The assigned_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_assigned_port("value")
+        """
+        self.assigned_port = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -203,6 +203,22 @@ class PhysConstrs(ARObject):
             )
         self._upperLimit = value
 
+    def with_scale_constr(self, value):
+        """
+        Set scale_constr and return self for chaining.
+
+        Args:
+            value: The scale_constr to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_scale_constr("value")
+        """
+        self.scale_constr = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getLowerLimit(self) -> "Limit":

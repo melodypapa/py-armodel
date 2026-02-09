@@ -4,13 +4,11 @@ AUTOSAR Package - AgeConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (
     TimingConstraint,
 )
-
-
 
 
 class AgeConstraint(TimingConstraint):

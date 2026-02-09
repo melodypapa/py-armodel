@@ -4,19 +4,17 @@ AUTOSAR Package - McGroups
 Package: M2::AUTOSARTemplates::CommonStructure::McGroups
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class McGroup(ARElement):
@@ -101,6 +99,70 @@ class McGroup(ARElement):
     def sub_group(self) -> List["RefType"]:
         """Get subGroup (Pythonic accessor)."""
         return self._subGroup
+
+    def with_mc_function(self, value):
+        """
+        Set mc_function and return self for chaining.
+
+        Args:
+            value: The mc_function to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_function("value")
+        """
+        self.mc_function = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_group(self, value):
+        """
+        Set sub_group and return self for chaining.
+
+        Args:
+            value: The sub_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_group("value")
+        """
+        self.sub_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_flat_map_entry(self, value):
+        """
+        Set flat_map_entry and return self for chaining.
+
+        Args:
+            value: The flat_map_entry to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_flat_map_entry("value")
+        """
+        self.flat_map_entry = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_data_instance(self, value):
+        """
+        Set mc_data_instance and return self for chaining.
+
+        Args:
+            value: The mc_data_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data_instance("value")
+        """
+        self.mc_data_instance = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

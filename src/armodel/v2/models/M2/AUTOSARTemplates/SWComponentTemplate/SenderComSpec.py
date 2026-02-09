@@ -5,7 +5,9 @@ from typing import (
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import PPortComSpec
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    PPortComSpec,
+)
 
     RefType,
 )
@@ -179,6 +181,22 @@ class SenderComSpec(PPortComSpec, ABC):
                 f"usesEndToEnd must be Boolean or None, got {type(value).__name__}"
             )
         self._usesEndToEnd = value
+
+    def with_composite(self, value):
+        """
+        Set composite and return self for chaining.
+
+        Args:
+            value: The composite to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_composite("value")
+        """
+        self.composite = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

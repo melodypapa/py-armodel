@@ -4,16 +4,14 @@ AUTOSAR Package - ClientServerInterfaceToBsw
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ClientServerOperationBlueprintMapping(ARObject):
@@ -108,6 +106,22 @@ class ClientServerOperationBlueprintMapping(ARObject):
                 f"clientServer must be ClientServerOperation, got {type(value).__name__}"
             )
         self._clientServer = value
+
+    def with_port_defined(self, value):
+        """
+        Set port_defined and return self for chaining.
+
+        Args:
+            value: The port_defined to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_defined("value")
+        """
+        self.port_defined = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

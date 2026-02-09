@@ -4,8 +4,9 @@ AUTOSAR Package - Data
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
@@ -30,8 +31,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 
 
-
-
 class ValueRestrictionWithSeverity(RestrictionWithSeverity):
     """
     Specifies valid values of primitive data types. A value is valid if all
@@ -46,6 +45,102 @@ class ValueRestrictionWithSeverity(RestrictionWithSeverity):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_class_content(self, value):
+        """
+        Set class_content and return self for chaining.
+
+        Args:
+            value: The class_content to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_class_content("value")
+        """
+        self.class_content = value  # Use property setter (gets validation)
+        return self
+
+    def with_sdg_tailoring(self, value):
+        """
+        Set sdg_tailoring and return self for chaining.
+
+        Args:
+            value: The sdg_tailoring to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg_tailoring("value")
+        """
+        self.sdg_tailoring = value  # Use property setter (gets validation)
+        return self
+
+    def with_class_tailoring(self, value):
+        """
+        Set class_tailoring and return self for chaining.
+
+        Args:
+            value: The class_tailoring to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_class_tailoring("value")
+        """
+        self.class_tailoring = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_attribute(self, value):
+        """
+        Set sub_attribute and return self for chaining.
+
+        Args:
+            value: The sub_attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_attribute("value")
+        """
+        self.sub_attribute = value  # Use property setter (gets validation)
+        return self
+
+    def with_type_tailoring(self, value):
+        """
+        Set type_tailoring and return self for chaining.
+
+        Args:
+            value: The type_tailoring to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_type_tailoring("value")
+        """
+        self.type_tailoring = value  # Use property setter (gets validation)
+        return self
+
+    def with_type_tailoring(self, value):
+        """
+        Set type_tailoring and return self for chaining.
+
+        Args:
+            value: The type_tailoring to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_type_tailoring("value")
+        """
+        self.type_tailoring = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -4,19 +4,17 @@ AUTOSAR Package - Units
 Package: M2::MSR::AsamHdo::Units
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class Unit(ARElement):
@@ -164,6 +162,22 @@ class Unit(ARElement):
                 f"physical must be PhysicalDimension or None, got {type(value).__name__}"
             )
         self._physical = value
+
+    def with_unit(self, value):
+        """
+        Set unit and return self for chaining.
+
+        Args:
+            value: The unit to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_unit("value")
+        """
+        self.unit = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

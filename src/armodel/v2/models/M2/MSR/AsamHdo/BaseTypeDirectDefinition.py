@@ -1,8 +1,7 @@
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
+from typing import (
+    Optional,
 )
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ByteOrderEnum,
     PositiveInteger,
@@ -13,7 +12,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.AsamHdo.BaseTypeDefinition import (
     BaseTypeDefinition,
 )
-
 
 # Type aliases for compatibility
 # Use String as fallback for types that don't exist in V2 yet or have circular import issues

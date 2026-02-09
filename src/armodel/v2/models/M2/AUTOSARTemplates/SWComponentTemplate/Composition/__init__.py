@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
@@ -23,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.__ini
     InstantiationRTEEventProps,
     SwConnector,
 )
-
-
 
 
 class CompositionSwComponentType(SwComponentType):
@@ -143,6 +142,86 @@ class CompositionSwComponentType(SwComponentType):
                 f"physical must be PhysicalDimension or None, got {type(value).__name__}"
             )
         self._physical = value
+
+    def with_component(self, value):
+        """
+        Set component and return self for chaining.
+
+        Args:
+            value: The component to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_component("value")
+        """
+        self.component = value  # Use property setter (gets validation)
+        return self
+
+    def with_connector(self, value):
+        """
+        Set connector and return self for chaining.
+
+        Args:
+            value: The connector to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_connector("value")
+        """
+        self.connector = value  # Use property setter (gets validation)
+        return self
+
+    def with_constant_value(self, value):
+        """
+        Set constant_value and return self for chaining.
+
+        Args:
+            value: The constant_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_constant_value("value")
+        """
+        self.constant_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_type(self, value):
+        """
+        Set data_type and return self for chaining.
+
+        Args:
+            value: The data_type to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type("value")
+        """
+        self.data_type = value  # Use property setter (gets validation)
+        return self
+
+    def with_instantiation(self, value):
+        """
+        Set instantiation and return self for chaining.
+
+        Args:
+            value: The instantiation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_instantiation("value")
+        """
+        self.instantiation = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -1216,3 +1295,15 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
         """
         self.period = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "CompositionSwComponentType",
+    "SwComponentPrototype",
+    "SwConnector",
+    "InstantiationRTEEventProps",
+    "AssemblySwConnector",
+    "DelegationSwConnector",
+    "PassThroughSwConnector",
+    "InstantiationTimingEventProps",
+]

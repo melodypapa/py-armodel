@@ -3,9 +3,10 @@ from typing import (
     Optional,
 )
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-
     RefType,
 )
 
@@ -155,6 +156,22 @@ class McFunction(ARElement):
     def sub_function(self) -> List["McFunction"]:
         """Get subFunction (Pythonic accessor)."""
         return self._subFunction
+
+    def with_sub_function(self, value):
+        """
+        Set sub_function and return self for chaining.
+
+        Args:
+            value: The sub_function to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_function("value")
+        """
+        self.sub_function = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

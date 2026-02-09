@@ -30,6 +30,22 @@ class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
         """Get comm (Pythonic accessor)."""
         return self._comm
 
+    def with_comm(self, value):
+        """
+        Set comm and return self for chaining.
+
+        Args:
+            value: The comm to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_comm("value")
+        """
+        self.comm = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getComm(self) -> List["Communication"]:

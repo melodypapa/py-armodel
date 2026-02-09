@@ -4,8 +4,8 @@ AUTOSAR Package - RptSupport
 Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
@@ -18,8 +18,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class McFunctionDataRefSet(ARObject):
@@ -64,6 +62,182 @@ class McFunctionDataRefSet(ARObject):
     def mc_data_instance(self) -> List["McDataInstance"]:
         """Get mcDataInstance (Pythonic accessor)."""
         return self._mcDataInstance
+
+    def with_flat_map_entry(self, value):
+        """
+        Set flat_map_entry and return self for chaining.
+
+        Args:
+            value: The flat_map_entry to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_flat_map_entry("value")
+        """
+        self.flat_map_entry = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_data_instance(self, value):
+        """
+        Set mc_data_instance and return self for chaining.
+
+        Args:
+            value: The mc_data_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data_instance("value")
+        """
+        self.mc_data_instance = value  # Use property setter (gets validation)
+        return self
+
+    def with_execution(self, value):
+        """
+        Set execution and return self for chaining.
+
+        Args:
+            value: The execution to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_execution("value")
+        """
+        self.execution = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_component(self, value):
+        """
+        Set rpt_component and return self for chaining.
+
+        Args:
+            value: The rpt_component to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_component("value")
+        """
+        self.rpt_component = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_service_point(self, value):
+        """
+        Set rpt_service_point and return self for chaining.
+
+        Args:
+            value: The rpt_service_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_service_point("value")
+        """
+        self.rpt_service_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_data(self, value):
+        """
+        Set mc_data and return self for chaining.
+
+        Args:
+            value: The mc_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data("value")
+        """
+        self.mc_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_read(self, value):
+        """
+        Set rpt_read and return self for chaining.
+
+        Args:
+            value: The rpt_read to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_read("value")
+        """
+        self.rpt_read = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_write(self, value):
+        """
+        Set rpt_write and return self for chaining.
+
+        Args:
+            value: The rpt_write to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_write("value")
+        """
+        self.rpt_write = value  # Use property setter (gets validation)
+        return self
+
+    def with_execution(self, value):
+        """
+        Set execution and return self for chaining.
+
+        Args:
+            value: The execution to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_execution("value")
+        """
+        self.execution = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_data(self, value):
+        """
+        Set mc_data and return self for chaining.
+
+        Args:
+            value: The mc_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data("value")
+        """
+        self.mc_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_service_point(self, value):
+        """
+        Set rpt_service_point and return self for chaining.
+
+        Args:
+            value: The rpt_service_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_service_point("value")
+        """
+        self.rpt_service_point = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

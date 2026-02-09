@@ -4,8 +4,8 @@ AUTOSAR Package - Fibex4Multiplatform
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     PositiveInteger,
@@ -17,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-
-
 
 
 class Gateway(FibexElement):
@@ -94,6 +92,54 @@ class Gateway(FibexElement):
     def signal_mapping(self) -> List["RefType"]:
         """Get signalMapping (Pythonic accessor)."""
         return self._signalMapping
+
+    def with_frame_mapping(self, value):
+        """
+        Set frame_mapping and return self for chaining.
+
+        Args:
+            value: The frame_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_frame_mapping("value")
+        """
+        self.frame_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_pdu_mapping(self, value):
+        """
+        Set i_pdu_mapping and return self for chaining.
+
+        Args:
+            value: The i_pdu_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_pdu_mapping("value")
+        """
+        self.i_pdu_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal_mapping(self, value):
+        """
+        Set signal_mapping and return self for chaining.
+
+        Args:
+            value: The signal_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal_mapping("value")
+        """
+        self.signal_mapping = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

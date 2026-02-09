@@ -4,8 +4,8 @@ AUTOSAR Package - DynamicallyDefineDataIdentifier
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DynamicallyDefineDataIdentifier
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -14,8 +14,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
-
-
 
 
 class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
@@ -121,6 +119,22 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
                 f"maxSource must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSource = value
+
+    def with_subfunction(self, value):
+        """
+        Set subfunction and return self for chaining.
+
+        Args:
+            value: The subfunction to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_subfunction("value")
+        """
+        self.subfunction = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

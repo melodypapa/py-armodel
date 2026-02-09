@@ -94,6 +94,22 @@ class AtpInstanceRef(ARObject, ABC):
             )
         self._atpTarget = value
 
+    def with_atp_context(self, value):
+        """
+        Set atp_context and return self for chaining.
+
+        Args:
+            value: The atp_context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_context("value")
+        """
+        self.atp_context = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAtpBase(self) -> "AtpClassifier":

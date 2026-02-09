@@ -4,8 +4,9 @@ AUTOSAR Package - RTEEvents
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior impo
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class RTEEvent(AbstractEvent, ABC):
@@ -74,6 +73,22 @@ class RTEEvent(AbstractEvent, ABC):
                 f"startOnEvent must be RunnableEntity or None, got {type(value).__name__}"
             )
         self._startOnEvent = value
+
+    def with_disabled_mode_instance_ref(self, value):
+        """
+        Set disabled_mode_instance_ref and return self for chaining.
+
+        Args:
+            value: The disabled_mode_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_disabled_mode_instance_ref("value")
+        """
+        self.disabled_mode_instance_ref = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

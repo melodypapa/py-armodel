@@ -4,8 +4,8 @@ AUTOSAR Package - CryptoDeployment
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -14,8 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class CryptoKeySlot(Identifiable):
@@ -225,6 +223,22 @@ class CryptoKeySlot(Identifiable):
                 f"slotType must be CryptoKeySlotType or None, got {type(value).__name__}"
             )
         self._slotType = value
+
+    def with_key_slot_content(self, value):
+        """
+        Set key_slot_content and return self for chaining.
+
+        Args:
+            value: The key_slot_content to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_key_slot_content("value")
+        """
+        self.key_slot_content = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

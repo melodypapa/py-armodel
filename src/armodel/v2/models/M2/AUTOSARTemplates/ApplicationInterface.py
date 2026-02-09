@@ -1,9 +1,12 @@
-from typing import List
+from typing import (
+    List,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface
-
     RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    PortInterface,
 )
 
 
@@ -49,6 +52,54 @@ class ApplicationInterface(PortInterface):
     def indication(self) -> List[RefType]:
         """Get indication (Pythonic accessor)."""
         return self._indication
+
+    def with_attribute(self, value):
+        """
+        Set attribute and return self for chaining.
+
+        Args:
+            value: The attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_attribute("value")
+        """
+        self.attribute = value  # Use property setter (gets validation)
+        return self
+
+    def with_command(self, value):
+        """
+        Set command and return self for chaining.
+
+        Args:
+            value: The command to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_command("value")
+        """
+        self.command = value  # Use property setter (gets validation)
+        return self
+
+    def with_indication(self, value):
+        """
+        Set indication and return self for chaining.
+
+        Args:
+            value: The indication to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_indication("value")
+        """
+        self.indication = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

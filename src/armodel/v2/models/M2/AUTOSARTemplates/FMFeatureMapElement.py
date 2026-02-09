@@ -51,6 +51,70 @@ class FMFeatureMapElement(Identifiable):
         """Get swValueSet (Pythonic accessor)."""
         return self._swValueSet
 
+    def with_assertion(self, value):
+        """
+        Set assertion and return self for chaining.
+
+        Args:
+            value: The assertion to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_assertion("value")
+        """
+        self.assertion = value  # Use property setter (gets validation)
+        return self
+
+    def with_condition(self, value):
+        """
+        Set condition and return self for chaining.
+
+        Args:
+            value: The condition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_condition("value")
+        """
+        self.condition = value  # Use property setter (gets validation)
+        return self
+
+    def with_post_build_variant(self, value):
+        """
+        Set post_build_variant and return self for chaining.
+
+        Args:
+            value: The post_build_variant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_post_build_variant("value")
+        """
+        self.post_build_variant = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_value_set(self, value):
+        """
+        Set sw_value_set and return self for chaining.
+
+        Args:
+            value: The sw_value_set to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_value_set("value")
+        """
+        self.sw_value_set = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAssertion(self) -> List["FMFeatureMap"]:

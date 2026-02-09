@@ -117,6 +117,70 @@ class FMFeature(ARElement):
         """Get restriction (Pythonic accessor)."""
         return self._restriction
 
+    def with_attribute_def(self, value):
+        """
+        Set attribute_def and return self for chaining.
+
+        Args:
+            value: The attribute_def to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_attribute_def("value")
+        """
+        self.attribute_def = value  # Use property setter (gets validation)
+        return self
+
+    def with_decomposition_decomposition(self, value):
+        """
+        Set decomposition_decomposition and return self for chaining.
+
+        Args:
+            value: The decomposition_decomposition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_decomposition_decomposition("value")
+        """
+        self.decomposition_decomposition = value  # Use property setter (gets validation)
+        return self
+
+    def with_relation(self, value):
+        """
+        Set relation and return self for chaining.
+
+        Args:
+            value: The relation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_relation("value")
+        """
+        self.relation = value  # Use property setter (gets validation)
+        return self
+
+    def with_restriction(self, value):
+        """
+        Set restriction and return self for chaining.
+
+        Args:
+            value: The restriction to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_restriction("value")
+        """
+        self.restriction = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAttributeDef(self) -> List["FMAttributeDef"]:

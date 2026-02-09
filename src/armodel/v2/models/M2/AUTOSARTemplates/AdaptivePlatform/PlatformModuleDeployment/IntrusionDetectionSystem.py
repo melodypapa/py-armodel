@@ -4,13 +4,12 @@ AUTOSAR Package - IntrusionDetectionSystem
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class IdsPlatformInstantiation(Identifiable, ABC):
@@ -67,6 +66,22 @@ class IdsPlatformInstantiation(Identifiable, ABC):
                 f"timeBase must be TimeBaseResource or None, got {type(value).__name__}"
             )
         self._timeBase = value
+
+    def with_network(self, value):
+        """
+        Set network and return self for chaining.
+
+        Args:
+            value: The network to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_network("value")
+        """
+        self.network = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

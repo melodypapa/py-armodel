@@ -4,8 +4,9 @@ AUTOSAR Package - Communication
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -20,8 +21,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class PPortComSpec(ARObject, ABC):
@@ -43,6 +42,86 @@ class PPortComSpec(ARObject, ABC):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_composite(self, value):
+        """
+        Set composite and return self for chaining.
+
+        Args:
+            value: The composite to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_composite("value")
+        """
+        self.composite = value  # Use property setter (gets validation)
+        return self
+
+    def with_transformation(self, value):
+        """
+        Set transformation and return self for chaining.
+
+        Args:
+            value: The transformation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_transformation("value")
+        """
+        self.transformation = value  # Use property setter (gets validation)
+        return self
+
+    def with_composite(self, value):
+        """
+        Set composite and return self for chaining.
+
+        Args:
+            value: The composite to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_composite("value")
+        """
+        self.composite = value  # Use property setter (gets validation)
+        return self
+
+    def with_transformation(self, value):
+        """
+        Set transformation and return self for chaining.
+
+        Args:
+            value: The transformation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_transformation("value")
+        """
+        self.transformation = value  # Use property setter (gets validation)
+        return self
+
+    def with_transformation(self, value):
+        """
+        Set transformation and return self for chaining.
+
+        Args:
+            value: The transformation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_transformation("value")
+        """
+        self.transformation = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

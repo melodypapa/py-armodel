@@ -42,6 +42,38 @@ class DataTypeMappingSet(ARElement):
         """Get modeRequest (Pythonic accessor)."""
         return self._modeRequest
 
+    def with_data_type_map(self, value):
+        """
+        Set data_type_map and return self for chaining.
+
+        Args:
+            value: The data_type_map to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type_map("value")
+        """
+        self.data_type_map = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_request(self, value):
+        """
+        Set mode_request and return self for chaining.
+
+        Args:
+            value: The mode_request to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_request("value")
+        """
+        self.mode_request = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDataTypeMap(self) -> List["DataTypeMap"]:

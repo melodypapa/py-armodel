@@ -1,7 +1,9 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import VariableInAtomicSwcInstanceRef
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    VariableInAtomicSwcInstanceRef,
+)
 
     RefType,
 )

@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
@@ -13,8 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-
-
 
 
 class BswModuleDescription(ARElement):
@@ -214,6 +213,182 @@ class BswModuleDescription(ARElement):
     def required_trigger(self) -> List["RefType"]:
         """Get requiredTrigger (Pythonic accessor)."""
         return self._requiredTrigger
+
+    def with_expected_entry(self, value):
+        """
+        Set expected_entry and return self for chaining.
+
+        Args:
+            value: The expected_entry to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_expected_entry("value")
+        """
+        self.expected_entry = value  # Use property setter (gets validation)
+        return self
+
+    def with_implemented(self, value):
+        """
+        Set implemented and return self for chaining.
+
+        Args:
+            value: The implemented to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_implemented("value")
+        """
+        self.implemented = value  # Use property setter (gets validation)
+        return self
+
+    def with_internal_behavior(self, value):
+        """
+        Set internal_behavior and return self for chaining.
+
+        Args:
+            value: The internal_behavior to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_internal_behavior("value")
+        """
+        self.internal_behavior = value  # Use property setter (gets validation)
+        return self
+
+    def with_provided_client(self, value):
+        """
+        Set provided_client and return self for chaining.
+
+        Args:
+            value: The provided_client to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_client("value")
+        """
+        self.provided_client = value  # Use property setter (gets validation)
+        return self
+
+    def with_provided_data(self, value):
+        """
+        Set provided_data and return self for chaining.
+
+        Args:
+            value: The provided_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_data("value")
+        """
+        self.provided_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_provided_mode(self, value):
+        """
+        Set provided_mode and return self for chaining.
+
+        Args:
+            value: The provided_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_mode("value")
+        """
+        self.provided_mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_released_trigger(self, value):
+        """
+        Set released_trigger and return self for chaining.
+
+        Args:
+            value: The released_trigger to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_released_trigger("value")
+        """
+        self.released_trigger = value  # Use property setter (gets validation)
+        return self
+
+    def with_required_client(self, value):
+        """
+        Set required_client and return self for chaining.
+
+        Args:
+            value: The required_client to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_client("value")
+        """
+        self.required_client = value  # Use property setter (gets validation)
+        return self
+
+    def with_required_data(self, value):
+        """
+        Set required_data and return self for chaining.
+
+        Args:
+            value: The required_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_data("value")
+        """
+        self.required_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_required_mode(self, value):
+        """
+        Set required_mode and return self for chaining.
+
+        Args:
+            value: The required_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_mode("value")
+        """
+        self.required_mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_required_trigger(self, value):
+        """
+        Set required_trigger and return self for chaining.
+
+        Args:
+            value: The required_trigger to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_trigger("value")
+        """
+        self.required_trigger = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -438,3 +613,8 @@ class BswModuleDescription(ARElement):
         """
         self.module_id = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "BswModuleDescription",
+]

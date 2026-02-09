@@ -47,6 +47,38 @@ class FormulaExpression(ARObject, ABC):
         """Get atpString (Pythonic accessor)."""
         return self._atpString
 
+    def with_atp_reference(self, value):
+        """
+        Set atp_reference and return self for chaining.
+
+        Args:
+            value: The atp_reference to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_reference("value")
+        """
+        self.atp_reference = value  # Use property setter (gets validation)
+        return self
+
+    def with_atp_string(self, value):
+        """
+        Set atp_string and return self for chaining.
+
+        Args:
+            value: The atp_string to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_string("value")
+        """
+        self.atp_string = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAtpReference(self) -> List[RefType]:

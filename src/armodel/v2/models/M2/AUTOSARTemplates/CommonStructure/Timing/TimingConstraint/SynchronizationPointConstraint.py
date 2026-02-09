@@ -4,13 +4,11 @@ AUTOSAR Package - SynchronizationPointConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationPointConstraint
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (
     TimingConstraint,
 )
-
-
 
 
 class SynchronizationPointConstraint(TimingConstraint):
@@ -60,6 +58,70 @@ class SynchronizationPointConstraint(TimingConstraint):
     def target_event(self) -> List["AbstractEvent"]:
         """Get targetEvent (Pythonic accessor)."""
         return self._targetEvent
+
+    def with_source_eec(self, value):
+        """
+        Set source_eec and return self for chaining.
+
+        Args:
+            value: The source_eec to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_source_eec("value")
+        """
+        self.source_eec = value  # Use property setter (gets validation)
+        return self
+
+    def with_source_event(self, value):
+        """
+        Set source_event and return self for chaining.
+
+        Args:
+            value: The source_event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_source_event("value")
+        """
+        self.source_event = value  # Use property setter (gets validation)
+        return self
+
+    def with_target_eec(self, value):
+        """
+        Set target_eec and return self for chaining.
+
+        Args:
+            value: The target_eec to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_target_eec("value")
+        """
+        self.target_eec = value  # Use property setter (gets validation)
+        return self
+
+    def with_target_event(self, value):
+        """
+        Set target_event and return self for chaining.
+
+        Args:
+            value: The target_event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_target_event("value")
+        """
+        self.target_event = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

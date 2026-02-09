@@ -4,8 +4,9 @@ AUTOSAR Package - EthernetFrame
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
@@ -13,8 +14,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
     Frame,
     FrameTriggering,
 )
-
-
 
 
 class AbstractEthernetFrame(Frame, ABC):

@@ -4,8 +4,8 @@ AUTOSAR Package - OasisExchangeTable
 Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     NameToken,
@@ -17,13 +17,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARLiteral,
-    ARNumerical,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
-
-
 
 
 class Table(Paginateable):
@@ -297,6 +294,22 @@ class Table(Paginateable):
                 f"tabstyle must be NameToken or str or None, got {type(value).__name__}"
             )
         self._tabstyle = value
+
+    def with_colspec(self, value):
+        """
+        Set colspec and return self for chaining.
+
+        Args:
+            value: The colspec to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_colspec("value")
+        """
+        self.colspec = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

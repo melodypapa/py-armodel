@@ -361,6 +361,38 @@ class BswModuleEntry(ARElement):
             )
         self._swServiceImpl = value
 
+    def with_argument(self, value):
+        """
+        Set argument and return self for chaining.
+
+        Args:
+            value: The argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_argument("value")
+        """
+        self.argument = value  # Use property setter (gets validation)
+        return self
+
+    def with_bsw_entry_relationship(self, value):
+        """
+        Set bsw_entry_relationship and return self for chaining.
+
+        Args:
+            value: The bsw_entry_relationship to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_bsw_entry_relationship("value")
+        """
+        self.bsw_entry_relationship = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getArgument(self) -> List["SwServiceArg"]:

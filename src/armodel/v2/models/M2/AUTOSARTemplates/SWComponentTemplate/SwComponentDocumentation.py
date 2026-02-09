@@ -241,6 +241,22 @@ class SwComponentDocumentation(ARObject):
             )
         self._swTestDesc = value
 
+    def with_chapter(self, value):
+        """
+        Set chapter and return self for chaining.
+
+        Args:
+            value: The chapter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_chapter("value")
+        """
+        self.chapter = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getChapter(self) -> List["Chapter"]:

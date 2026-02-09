@@ -69,6 +69,38 @@ class FirewallRuleProps(ARObject):
         """Get matching (Pythonic accessor)."""
         return self._matching
 
+    def with_matching_egress(self, value):
+        """
+        Set matching_egress and return self for chaining.
+
+        Args:
+            value: The matching_egress to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_matching_egress("value")
+        """
+        self.matching_egress = value  # Use property setter (gets validation)
+        return self
+
+    def with_matching(self, value):
+        """
+        Set matching and return self for chaining.
+
+        Args:
+            value: The matching to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_matching("value")
+        """
+        self.matching = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAction(self) -> "FirewallActionEnum":

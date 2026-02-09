@@ -88,6 +88,22 @@ class InstanceEventInCompositionInstanceRef(ARObject):
             )
         self._targetEvent = value
 
+    def with_context_prototype(self, value):
+        """
+        Set context_prototype and return self for chaining.
+
+        Args:
+            value: The context_prototype to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_prototype("value")
+        """
+        self.context_prototype = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBase(self) -> "CompositionSw":

@@ -199,6 +199,22 @@ class DocRevision(ARObject):
             )
         self._state = value
 
+    def with_modification(self, value):
+        """
+        Set modification and return self for chaining.
+
+        Args:
+            value: The modification to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_modification("value")
+        """
+        self.modification = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDate(self) -> "DateTime":

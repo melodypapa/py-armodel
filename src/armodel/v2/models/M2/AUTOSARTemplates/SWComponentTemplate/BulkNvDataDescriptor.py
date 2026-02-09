@@ -64,6 +64,22 @@ class BulkNvDataDescriptor(Identifiable):
         """Get nvBlockData (Pythonic accessor)."""
         return self._nvBlockData
 
+    def with_nv_block_data(self, value):
+        """
+        Set nv_block_data and return self for chaining.
+
+        Args:
+            value: The nv_block_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_block_data("value")
+        """
+        self.nv_block_data = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBulkNvBlock(self) -> RefType:

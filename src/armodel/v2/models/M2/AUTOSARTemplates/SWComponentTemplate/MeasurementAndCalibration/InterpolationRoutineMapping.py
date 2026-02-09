@@ -65,6 +65,22 @@ class InterpolationRoutineMapping(ARObject):
             )
         self._swRecord = value
 
+    def with_interpolation(self, value):
+        """
+        Set interpolation and return self for chaining.
+
+        Args:
+            value: The interpolation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_interpolation("value")
+        """
+        self.interpolation = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getInterpolation(self) -> List["InterpolationRoutine"]:

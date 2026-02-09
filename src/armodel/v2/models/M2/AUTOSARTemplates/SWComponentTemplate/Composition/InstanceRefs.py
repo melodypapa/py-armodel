@@ -4,16 +4,15 @@ AUTOSAR Package - InstanceRefs
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class ComponentInCompositionInstanceRef(ARObject):
@@ -99,6 +98,22 @@ class ComponentInCompositionInstanceRef(ARObject):
                 f"target must be SwComponent or None, got {type(value).__name__}"
             )
         self._target = value
+
+    def with_context_prototype(self, value):
+        """
+        Set context_prototype and return self for chaining.
+
+        Args:
+            value: The context_prototype to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_prototype("value")
+        """
+        self.context_prototype = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -4,8 +4,8 @@ AUTOSAR Package - DiagnosticExtendedDataRecord
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticExtendedDataRecord
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -14,8 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
-
-
 
 
 class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
@@ -154,6 +152,22 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
                 f"update must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._update = value
+
+    def with_record_element(self, value):
+        """
+        Set record_element and return self for chaining.
+
+        Args:
+            value: The record_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_record_element("value")
+        """
+        self.record_element = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -63,6 +63,22 @@ class BuildActionEntity(Identifiable, ABC):
             )
         self._invocation = value
 
+    def with_delivery_artifact(self, value):
+        """
+        Set delivery_artifact and return self for chaining.
+
+        Args:
+            value: The delivery_artifact to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_delivery_artifact("value")
+        """
+        self.delivery_artifact = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDeliveryArtifact(self) -> List["AutosarEngineering"]:

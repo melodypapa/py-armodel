@@ -28,6 +28,22 @@ class SdgDef(ARElement):
         """Get sdgClass (Pythonic accessor)."""
         return self._sdgClass
 
+    def with_sdg_class(self, value):
+        """
+        Set sdg_class and return self for chaining.
+
+        Args:
+            value: The sdg_class to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg_class("value")
+        """
+        self.sdg_class = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getSdgClass(self) -> List["SdgClass"]:

@@ -37,6 +37,22 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
         """Get hardware (Pythonic accessor)."""
         return self._hardware
 
+    def with_hardware(self, value):
+        """
+        Set hardware and return self for chaining.
+
+        Args:
+            value: The hardware to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hardware("value")
+        """
+        self.hardware = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getHardware(self) -> List["HwDescriptionEntity"]:

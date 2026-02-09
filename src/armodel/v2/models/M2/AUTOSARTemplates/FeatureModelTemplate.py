@@ -4,17 +4,18 @@ AUTOSAR Package - FeatureModelTemplate
 Package: M2::AUTOSARTemplates::FeatureModelTemplate
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -22,8 +23,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class FMFeatureModel(ARElement):
@@ -81,6 +80,198 @@ class FMFeatureModel(ARElement):
                 f"root must be FMFeature or None, got {type(value).__name__}"
             )
         self._root = value
+
+    def with_attribute_def(self, value):
+        """
+        Set attribute_def and return self for chaining.
+
+        Args:
+            value: The attribute_def to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_attribute_def("value")
+        """
+        self.attribute_def = value  # Use property setter (gets validation)
+        return self
+
+    def with_decomposition_decomposition(self, value):
+        """
+        Set decomposition_decomposition and return self for chaining.
+
+        Args:
+            value: The decomposition_decomposition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_decomposition_decomposition("value")
+        """
+        self.decomposition_decomposition = value  # Use property setter (gets validation)
+        return self
+
+    def with_relation(self, value):
+        """
+        Set relation and return self for chaining.
+
+        Args:
+            value: The relation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_relation("value")
+        """
+        self.relation = value  # Use property setter (gets validation)
+        return self
+
+    def with_attribute_value(self, value):
+        """
+        Set attribute_value and return self for chaining.
+
+        Args:
+            value: The attribute_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_attribute_value("value")
+        """
+        self.attribute_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_feature_model(self, value):
+        """
+        Set feature_model and return self for chaining.
+
+        Args:
+            value: The feature_model to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_feature_model("value")
+        """
+        self.feature_model = value  # Use property setter (gets validation)
+        return self
+
+    def with_include(self, value):
+        """
+        Set include and return self for chaining.
+
+        Args:
+            value: The include to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_include("value")
+        """
+        self.include = value  # Use property setter (gets validation)
+        return self
+
+    def with_selection(self, value):
+        """
+        Set selection and return self for chaining.
+
+        Args:
+            value: The selection to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_selection("value")
+        """
+        self.selection = value  # Use property setter (gets validation)
+        return self
+
+    def with_mapping(self, value):
+        """
+        Set mapping and return self for chaining.
+
+        Args:
+            value: The mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapping("value")
+        """
+        self.mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_assertion(self, value):
+        """
+        Set assertion and return self for chaining.
+
+        Args:
+            value: The assertion to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_assertion("value")
+        """
+        self.assertion = value  # Use property setter (gets validation)
+        return self
+
+    def with_condition(self, value):
+        """
+        Set condition and return self for chaining.
+
+        Args:
+            value: The condition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_condition("value")
+        """
+        self.condition = value  # Use property setter (gets validation)
+        return self
+
+    def with_post_build_variant(self, value):
+        """
+        Set post_build_variant and return self for chaining.
+
+        Args:
+            value: The post_build_variant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_post_build_variant("value")
+        """
+        self.post_build_variant = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_value_set(self, value):
+        """
+        Set sw_value_set and return self for chaining.
+
+        Args:
+            value: The sw_value_set to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_value_set("value")
+        """
+        self.sw_value_set = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

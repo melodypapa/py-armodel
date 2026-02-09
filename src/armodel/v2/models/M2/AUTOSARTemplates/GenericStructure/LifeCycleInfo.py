@@ -177,6 +177,22 @@ class LifeCycleInfo(ARObject):
         """Get useInstead (Pythonic accessor)."""
         return self._useInstead
 
+    def with_use_instead(self, value):
+        """
+        Set use_instead and return self for chaining.
+
+        Args:
+            value: The use_instead to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_use_instead("value")
+        """
+        self.use_instead = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getLcObject(self) -> RefType:

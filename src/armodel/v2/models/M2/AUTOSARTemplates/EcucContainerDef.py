@@ -135,6 +135,38 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             )
         self._requiresIndex = value
 
+    def with_destination_uri(self, value):
+        """
+        Set destination_uri and return self for chaining.
+
+        Args:
+            value: The destination_uri to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_destination_uri("value")
+        """
+        self.destination_uri = value  # Use property setter (gets validation)
+        return self
+
+    def with_multiplicity(self, value):
+        """
+        Set multiplicity and return self for chaining.
+
+        Args:
+            value: The multiplicity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_multiplicity("value")
+        """
+        self.multiplicity = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDestinationUri(self) -> List["EcucDestinationUriDef"]:

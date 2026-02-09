@@ -4,24 +4,22 @@ AUTOSAR Package - MeasurementCalibrationSupport
 Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class McSupportData(ARObject):
@@ -106,6 +104,198 @@ class McSupportData(ARObject):
                 f"rptSupportData must be RptSupportData or None, got {type(value).__name__}"
             )
         self._rptSupportData = value
+
+    def with_emulation(self, value):
+        """
+        Set emulation and return self for chaining.
+
+        Args:
+            value: The emulation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_emulation("value")
+        """
+        self.emulation = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_parameter(self, value):
+        """
+        Set mc_parameter and return self for chaining.
+
+        Args:
+            value: The mc_parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_parameter("value")
+        """
+        self.mc_parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_variable(self, value):
+        """
+        Set mc_variable and return self for chaining.
+
+        Args:
+            value: The mc_variable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_variable("value")
+        """
+        self.mc_variable = value  # Use property setter (gets validation)
+        return self
+
+    def with_measurable(self, value):
+        """
+        Set measurable and return self for chaining.
+
+        Args:
+            value: The measurable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_measurable("value")
+        """
+        self.measurable = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_data(self, value):
+        """
+        Set mc_data and return self for chaining.
+
+        Args:
+            value: The mc_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data("value")
+        """
+        self.mc_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_element(self, value):
+        """
+        Set sub_element and return self for chaining.
+
+        Args:
+            value: The sub_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_element("value")
+        """
+        self.sub_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_element_group(self, value):
+        """
+        Set element_group and return self for chaining.
+
+        Args:
+            value: The element_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element_group("value")
+        """
+        self.element_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_function(self, value):
+        """
+        Set sub_function and return self for chaining.
+
+        Args:
+            value: The sub_function to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_function("value")
+        """
+        self.sub_function = value  # Use property setter (gets validation)
+        return self
+
+    def with_rte_event_ref(self, value):
+        """
+        Set rte_event_ref and return self for chaining.
+
+        Args:
+            value: The rte_event_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rte_event_ref("value")
+        """
+        self.rte_event_ref = value  # Use property setter (gets validation)
+        return self
+
+    def with_variable_access_instance_ref(self, value):
+        """
+        Set variable_access_instance_ref and return self for chaining.
+
+        Args:
+            value: The variable_access_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_variable_access_instance_ref("value")
+        """
+        self.variable_access_instance_ref = value  # Use property setter (gets validation)
+        return self
+
+    def with_execution(self, value):
+        """
+        Set execution and return self for chaining.
+
+        Args:
+            value: The execution to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_execution("value")
+        """
+        self.execution = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_data_instance(self, value):
+        """
+        Set mc_data_instance and return self for chaining.
+
+        Args:
+            value: The mc_data_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data_instance("value")
+        """
+        self.mc_data_instance = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

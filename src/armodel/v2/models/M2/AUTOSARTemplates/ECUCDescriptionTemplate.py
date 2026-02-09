@@ -4,24 +4,23 @@ AUTOSAR Package - ECUCDescriptionTemplate
 Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class EcucModuleConfigurationValues(ARElement):
@@ -212,6 +211,118 @@ class EcucModuleConfigurationValues(ARElement):
                 f"postBuildVariant must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._postBuildVariant = value
+
+    def with_container(self, value):
+        """
+        Set container and return self for chaining.
+
+        Args:
+            value: The container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_container("value")
+        """
+        self.container = value  # Use property setter (gets validation)
+        return self
+
+    def with_ecuc_value(self, value):
+        """
+        Set ecuc_value and return self for chaining.
+
+        Args:
+            value: The ecuc_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecuc_value("value")
+        """
+        self.ecuc_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter_value(self, value):
+        """
+        Set parameter_value and return self for chaining.
+
+        Args:
+            value: The parameter_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter_value("value")
+        """
+        self.parameter_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_reference_value(self, value):
+        """
+        Set reference_value and return self for chaining.
+
+        Args:
+            value: The reference_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reference_value("value")
+        """
+        self.reference_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_container(self, value):
+        """
+        Set sub_container and return self for chaining.
+
+        Args:
+            value: The sub_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_container("value")
+        """
+        self.sub_container = value  # Use property setter (gets validation)
+        return self
+
+    def with_annotation(self, value):
+        """
+        Set annotation and return self for chaining.
+
+        Args:
+            value: The annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_annotation("value")
+        """
+        self.annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_annotation(self, value):
+        """
+        Set annotation and return self for chaining.
+
+        Args:
+            value: The annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_annotation("value")
+        """
+        self.annotation = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

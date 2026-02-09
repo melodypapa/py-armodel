@@ -4,20 +4,18 @@ AUTOSAR Package - GlobalConstraints
 Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     Integer,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class DataConstr(ARElement):
@@ -46,6 +44,54 @@ class DataConstr(ARElement):
     def data_constr_rule(self) -> List["DataConstrRule"]:
         """Get dataConstrRule (Pythonic accessor)."""
         return self._dataConstrRule
+
+    def with_data_constr_rule(self, value):
+        """
+        Set data_constr_rule and return self for chaining.
+
+        Args:
+            value: The data_constr_rule to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_constr_rule("value")
+        """
+        self.data_constr_rule = value  # Use property setter (gets validation)
+        return self
+
+    def with_scale_constr(self, value):
+        """
+        Set scale_constr and return self for chaining.
+
+        Args:
+            value: The scale_constr to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_scale_constr("value")
+        """
+        self.scale_constr = value  # Use property setter (gets validation)
+        return self
+
+    def with_scale_constr(self, value):
+        """
+        Set scale_constr and return self for chaining.
+
+        Args:
+            value: The scale_constr to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_scale_constr("value")
+        """
+        self.scale_constr = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

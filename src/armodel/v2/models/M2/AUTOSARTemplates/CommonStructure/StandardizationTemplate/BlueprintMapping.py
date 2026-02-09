@@ -4,16 +4,14 @@ AUTOSAR Package - BlueprintMapping
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-
-
 
 
 class BlueprintMappingSet(ARElement):
@@ -38,6 +36,22 @@ class BlueprintMappingSet(ARElement):
     def blueprint_map(self) -> List["RefType"]:
         """Get blueprintMap (Pythonic accessor)."""
         return self._blueprintMap
+
+    def with_blueprint_map(self, value):
+        """
+        Set blueprint_map and return self for chaining.
+
+        Args:
+            value: The blueprint_map to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_blueprint_map("value")
+        """
+        self.blueprint_map = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

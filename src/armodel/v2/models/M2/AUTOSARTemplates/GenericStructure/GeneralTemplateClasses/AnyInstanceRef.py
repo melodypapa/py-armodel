@@ -4,13 +4,11 @@ AUTOSAR Package - AnyInstanceRef
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class AnyInstanceRef(ARObject):
@@ -88,6 +86,22 @@ class AnyInstanceRef(ARObject):
                 f"target must be AtpFeature, got {type(value).__name__}"
             )
         self._target = value
+
+    def with_context_element(self, value):
+        """
+        Set context_element and return self for chaining.
+
+        Args:
+            value: The context_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_element("value")
+        """
+        self.context_element = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

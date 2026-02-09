@@ -4,8 +4,8 @@ AUTOSAR Package - DiagnosticContribution
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     NameToken,
@@ -20,8 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DiagnosticContributionSet(ARElement):
@@ -88,6 +86,70 @@ class DiagnosticContributionSet(ARElement):
     def service_table(self) -> List["DiagnosticServiceTable"]:
         """Get serviceTable (Pythonic accessor)."""
         return self._serviceTable
+
+    def with_element(self, value):
+        """
+        Set element and return self for chaining.
+
+        Args:
+            value: The element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element("value")
+        """
+        self.element = value  # Use property setter (gets validation)
+        return self
+
+    def with_diagnostic(self, value):
+        """
+        Set diagnostic and return self for chaining.
+
+        Args:
+            value: The diagnostic to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_diagnostic("value")
+        """
+        self.diagnostic = value  # Use property setter (gets validation)
+        return self
+
+    def with_diagnostic(self, value):
+        """
+        Set diagnostic and return self for chaining.
+
+        Args:
+            value: The diagnostic to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_diagnostic("value")
+        """
+        self.diagnostic = value  # Use property setter (gets validation)
+        return self
+
+    def with_service_instance(self, value):
+        """
+        Set service_instance and return self for chaining.
+
+        Args:
+            value: The service_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_service_instance("value")
+        """
+        self.service_instance = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -4,8 +4,8 @@ AUTOSAR Package - ViewMapSet
 Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
 )
@@ -15,8 +15,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class ViewMap(Identifiable):
@@ -83,6 +81,54 @@ class ViewMap(Identifiable):
     def second_element(self) -> List["AtpFeature"]:
         """Get secondElement (Pythonic accessor)."""
         return self._secondElement
+
+    def with_first_element(self, value):
+        """
+        Set first_element and return self for chaining.
+
+        Args:
+            value: The first_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_first_element("value")
+        """
+        self.first_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_second_element(self, value):
+        """
+        Set second_element and return self for chaining.
+
+        Args:
+            value: The second_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_second_element("value")
+        """
+        self.second_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_view_map(self, value):
+        """
+        Set view_map and return self for chaining.
+
+        Args:
+            value: The view_map to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_view_map("value")
+        """
+        self.view_map = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

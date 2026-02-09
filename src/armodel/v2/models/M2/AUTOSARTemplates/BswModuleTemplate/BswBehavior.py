@@ -4,8 +4,9 @@ AUTOSAR Package - BswBehavior
 Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
@@ -34,8 +35,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class BswInternalBehavior(InternalBehavior):
@@ -244,6 +243,502 @@ class BswInternalBehavior(InternalBehavior):
     def variation_point(self) -> List["VariationPointProxy"]:
         """Get variationPoint (Pythonic accessor)."""
         return self._variationPoint
+
+    def with_ar_typed_per(self, value):
+        """
+        Set ar_typed_per and return self for chaining.
+
+        Args:
+            value: The ar_typed_per to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ar_typed_per("value")
+        """
+        self.ar_typed_per = value  # Use property setter (gets validation)
+        return self
+
+    def with_bsw_per_instance(self, value):
+        """
+        Set bsw_per_instance and return self for chaining.
+
+        Args:
+            value: The bsw_per_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_bsw_per_instance("value")
+        """
+        self.bsw_per_instance = value  # Use property setter (gets validation)
+        return self
+
+    def with_client_policy(self, value):
+        """
+        Set client_policy and return self for chaining.
+
+        Args:
+            value: The client_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_client_policy("value")
+        """
+        self.client_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_distinguished(self, value):
+        """
+        Set distinguished and return self for chaining.
+
+        Args:
+            value: The distinguished to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_distinguished("value")
+        """
+        self.distinguished = value  # Use property setter (gets validation)
+        return self
+
+    def with_entity(self, value):
+        """
+        Set entity and return self for chaining.
+
+        Args:
+            value: The entity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_entity("value")
+        """
+        self.entity = value  # Use property setter (gets validation)
+        return self
+
+    def with_event(self, value):
+        """
+        Set event and return self for chaining.
+
+        Args:
+            value: The event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_event("value")
+        """
+        self.event = value  # Use property setter (gets validation)
+        return self
+
+    def with_included_data(self, value):
+        """
+        Set included_data and return self for chaining.
+
+        Args:
+            value: The included_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_included_data("value")
+        """
+        self.included_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_included_mode(self, value):
+        """
+        Set included_mode and return self for chaining.
+
+        Args:
+            value: The included_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_included_mode("value")
+        """
+        self.included_mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_internal(self, value):
+        """
+        Set internal and return self for chaining.
+
+        Args:
+            value: The internal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_internal("value")
+        """
+        self.internal = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_receiver(self, value):
+        """
+        Set mode_receiver and return self for chaining.
+
+        Args:
+            value: The mode_receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_receiver("value")
+        """
+        self.mode_receiver = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_sender(self, value):
+        """
+        Set mode_sender and return self for chaining.
+
+        Args:
+            value: The mode_sender to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_sender("value")
+        """
+        self.mode_sender = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter_policy(self, value):
+        """
+        Set parameter_policy and return self for chaining.
+
+        Args:
+            value: The parameter_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter_policy("value")
+        """
+        self.parameter_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_per_instance(self, value):
+        """
+        Set per_instance and return self for chaining.
+
+        Args:
+            value: The per_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_per_instance("value")
+        """
+        self.per_instance = value  # Use property setter (gets validation)
+        return self
+
+    def with_reception_policy(self, value):
+        """
+        Set reception_policy and return self for chaining.
+
+        Args:
+            value: The reception_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reception_policy("value")
+        """
+        self.reception_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_released_trigger(self, value):
+        """
+        Set released_trigger and return self for chaining.
+
+        Args:
+            value: The released_trigger to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_released_trigger("value")
+        """
+        self.released_trigger = value  # Use property setter (gets validation)
+        return self
+
+    def with_send_policy(self, value):
+        """
+        Set send_policy and return self for chaining.
+
+        Args:
+            value: The send_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_send_policy("value")
+        """
+        self.send_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_service(self, value):
+        """
+        Set service and return self for chaining.
+
+        Args:
+            value: The service to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_service("value")
+        """
+        self.service = value  # Use property setter (gets validation)
+        return self
+
+    def with_trigger_direct(self, value):
+        """
+        Set trigger_direct and return self for chaining.
+
+        Args:
+            value: The trigger_direct to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trigger_direct("value")
+        """
+        self.trigger_direct = value  # Use property setter (gets validation)
+        return self
+
+    def with_variation_point(self, value):
+        """
+        Set variation_point and return self for chaining.
+
+        Args:
+            value: The variation_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_variation_point("value")
+        """
+        self.variation_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_accessed_mode(self, value):
+        """
+        Set accessed_mode and return self for chaining.
+
+        Args:
+            value: The accessed_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_accessed_mode("value")
+        """
+        self.accessed_mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_activation_point(self, value):
+        """
+        Set activation_point and return self for chaining.
+
+        Args:
+            value: The activation_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_activation_point("value")
+        """
+        self.activation_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_call_point(self, value):
+        """
+        Set call_point and return self for chaining.
+
+        Args:
+            value: The call_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_call_point("value")
+        """
+        self.call_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_receive(self, value):
+        """
+        Set data_receive and return self for chaining.
+
+        Args:
+            value: The data_receive to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_receive("value")
+        """
+        self.data_receive = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_send_point(self, value):
+        """
+        Set data_send_point and return self for chaining.
+
+        Args:
+            value: The data_send_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_send_point("value")
+        """
+        self.data_send_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_issued_trigger(self, value):
+        """
+        Set issued_trigger and return self for chaining.
+
+        Args:
+            value: The issued_trigger to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_issued_trigger("value")
+        """
+        self.issued_trigger = value  # Use property setter (gets validation)
+        return self
+
+    def with_managed_mode(self, value):
+        """
+        Set managed_mode and return self for chaining.
+
+        Args:
+            value: The managed_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_managed_mode("value")
+        """
+        self.managed_mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
+
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
+
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
+
+    def with_disabled_in_mode_description_instance_ref(self, value):
+        """
+        Set disabled_in_mode_description_instance_ref and return self for chaining.
+
+        Args:
+            value: The disabled_in_mode_description_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_disabled_in_mode_description_instance_ref("value")
+        """
+        self.disabled_in_mode_description_instance_ref = value  # Use property setter (gets validation)
+        return self
+
+    def with_assigned_data(self, value):
+        """
+        Set assigned_data and return self for chaining.
+
+        Args:
+            value: The assigned_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_assigned_data("value")
+        """
+        self.assigned_data = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

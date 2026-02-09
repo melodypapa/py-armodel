@@ -4,17 +4,18 @@ AUTOSAR Package - CommonDiagnostics
 Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -22,8 +23,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     IdentCaption,
 )
-
-
 
 
 class DiagnosticCommonElement(ARElement, ABC):
@@ -44,6 +43,134 @@ class DiagnosticCommonElement(ARElement, ABC):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_sub_element(self, value):
+        """
+        Set sub_element and return self for chaining.
+
+        Args:
+            value: The sub_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_element("value")
+        """
+        self.sub_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_element(self, value):
+        """
+        Set sub_element and return self for chaining.
+
+        Args:
+            value: The sub_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_element("value")
+        """
+        self.sub_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_request(self, value):
+        """
+        Set request and return self for chaining.
+
+        Args:
+            value: The request to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_request("value")
+        """
+        self.request = value  # Use property setter (gets validation)
+        return self
+
+    def with_response(self, value):
+        """
+        Set response and return self for chaining.
+
+        Args:
+            value: The response to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_response("value")
+        """
+        self.response = value  # Use property setter (gets validation)
+        return self
+
+    def with_request(self, value):
+        """
+        Set request and return self for chaining.
+
+        Args:
+            value: The request to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_request("value")
+        """
+        self.request = value  # Use property setter (gets validation)
+        return self
+
+    def with_response(self, value):
+        """
+        Set response and return self for chaining.
+
+        Args:
+            value: The response to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_response("value")
+        """
+        self.response = value  # Use property setter (gets validation)
+        return self
+
+    def with_request(self, value):
+        """
+        Set request and return self for chaining.
+
+        Args:
+            value: The request to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_request("value")
+        """
+        self.request = value  # Use property setter (gets validation)
+        return self
+
+    def with_response(self, value):
+        """
+        Set response and return self for chaining.
+
+        Args:
+            value: The response to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_response("value")
+        """
+        self.response = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

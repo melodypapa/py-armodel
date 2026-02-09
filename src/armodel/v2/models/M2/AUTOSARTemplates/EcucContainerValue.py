@@ -80,6 +80,54 @@ class EcucContainerValue(Identifiable):
         """Get subContainer (Pythonic accessor)."""
         return self._subContainer
 
+    def with_parameter_value(self, value):
+        """
+        Set parameter_value and return self for chaining.
+
+        Args:
+            value: The parameter_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter_value("value")
+        """
+        self.parameter_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_reference_value(self, value):
+        """
+        Set reference_value and return self for chaining.
+
+        Args:
+            value: The reference_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reference_value("value")
+        """
+        self.reference_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_container(self, value):
+        """
+        Set sub_container and return self for chaining.
+
+        Args:
+            value: The sub_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_container("value")
+        """
+        self.sub_container = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDefinition(self) -> "EcucContainerDef":

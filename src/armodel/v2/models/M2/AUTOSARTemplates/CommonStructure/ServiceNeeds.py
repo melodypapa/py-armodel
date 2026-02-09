@@ -4,8 +4,9 @@ AUTOSAR Package - ServiceNeeds
 Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
@@ -27,8 +28,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class ServiceDependency(ARObject, ABC):
@@ -144,6 +143,102 @@ class ServiceDependency(ARObject, ABC):
                 f"symbolicName must be SymbolicNameProps or None, got {type(value).__name__}"
             )
         self._symbolicName = value
+
+    def with_checkpoints(self, value):
+        """
+        Set checkpoints and return self for chaining.
+
+        Args:
+            value: The checkpoints to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_checkpoints("value")
+        """
+        self.checkpoints = value  # Use property setter (gets validation)
+        return self
+
+    def with_audience(self, value):
+        """
+        Set audience and return self for chaining.
+
+        Args:
+            value: The audience to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_audience("value")
+        """
+        self.audience = value  # Use property setter (gets validation)
+        return self
+
+    def with_traced_failure(self, value):
+        """
+        Set traced_failure and return self for chaining.
+
+        Args:
+            value: The traced_failure to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_traced_failure("value")
+        """
+        self.traced_failure = value  # Use property setter (gets validation)
+        return self
+
+    def with_possible_error(self, value):
+        """
+        Set possible_error and return self for chaining.
+
+        Args:
+            value: The possible_error to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_possible_error("value")
+        """
+        self.possible_error = value  # Use property setter (gets validation)
+        return self
+
+    def with_deferring_fid(self, value):
+        """
+        Set deferring_fid and return self for chaining.
+
+        Args:
+            value: The deferring_fid to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_deferring_fid("value")
+        """
+        self.deferring_fid = value  # Use property setter (gets validation)
+        return self
+
+    def with_inhibiting(self, value):
+        """
+        Set inhibiting and return self for chaining.
+
+        Args:
+            value: The inhibiting to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_inhibiting("value")
+        """
+        self.inhibiting = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

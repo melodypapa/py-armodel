@@ -119,6 +119,22 @@ class LifeCycleInfoSet(ARElement):
             )
         self._usedLifeCycle = value
 
+    def with_life_cycle_info(self, value):
+        """
+        Set life_cycle_info and return self for chaining.
+
+        Args:
+            value: The life_cycle_info to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_life_cycle_info("value")
+        """
+        self.life_cycle_info = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDefaultLcState(self) -> "LifeCycleState":

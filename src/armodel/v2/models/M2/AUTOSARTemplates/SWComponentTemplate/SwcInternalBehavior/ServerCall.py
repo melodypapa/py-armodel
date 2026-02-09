@@ -4,13 +4,12 @@ AUTOSAR Package - ServerCall
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
     AbstractAccessPoint,
 )
-
-
 
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint):

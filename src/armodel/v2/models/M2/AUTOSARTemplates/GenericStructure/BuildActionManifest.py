@@ -4,18 +4,19 @@ AUTOSAR Package - BuildActionManifest
 Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     NameToken,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
     EngineeringObject,
@@ -23,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class BuildActionManifest(ARElement):
@@ -77,6 +76,198 @@ class BuildActionManifest(ARElement):
     def tear_down_action(self) -> List["BuildAction"]:
         """Get tearDownAction (Pythonic accessor)."""
         return self._tearDownAction
+
+    def with_build_action(self, value):
+        """
+        Set build_action and return self for chaining.
+
+        Args:
+            value: The build_action to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_build_action("value")
+        """
+        self.build_action = value  # Use property setter (gets validation)
+        return self
+
+    def with_dynamic_action(self, value):
+        """
+        Set dynamic_action and return self for chaining.
+
+        Args:
+            value: The dynamic_action to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dynamic_action("value")
+        """
+        self.dynamic_action = value  # Use property setter (gets validation)
+        return self
+
+    def with_start_action(self, value):
+        """
+        Set start_action and return self for chaining.
+
+        Args:
+            value: The start_action to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_start_action("value")
+        """
+        self.start_action = value  # Use property setter (gets validation)
+        return self
+
+    def with_tear_down_action(self, value):
+        """
+        Set tear_down_action and return self for chaining.
+
+        Args:
+            value: The tear_down_action to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tear_down_action("value")
+        """
+        self.tear_down_action = value  # Use property setter (gets validation)
+        return self
+
+    def with_sdg(self, value):
+        """
+        Set sdg and return self for chaining.
+
+        Args:
+            value: The sdg to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg("value")
+        """
+        self.sdg = value  # Use property setter (gets validation)
+        return self
+
+    def with_sdg(self, value):
+        """
+        Set sdg and return self for chaining.
+
+        Args:
+            value: The sdg to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg("value")
+        """
+        self.sdg = value  # Use property setter (gets validation)
+        return self
+
+    def with_delivery_artifact(self, value):
+        """
+        Set delivery_artifact and return self for chaining.
+
+        Args:
+            value: The delivery_artifact to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_delivery_artifact("value")
+        """
+        self.delivery_artifact = value  # Use property setter (gets validation)
+        return self
+
+    def with_created_data(self, value):
+        """
+        Set created_data and return self for chaining.
+
+        Args:
+            value: The created_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_created_data("value")
+        """
+        self.created_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_follow_up_action(self, value):
+        """
+        Set follow_up_action and return self for chaining.
+
+        Args:
+            value: The follow_up_action to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_follow_up_action("value")
+        """
+        self.follow_up_action = value  # Use property setter (gets validation)
+        return self
+
+    def with_input_data(self, value):
+        """
+        Set input_data and return self for chaining.
+
+        Args:
+            value: The input_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_input_data("value")
+        """
+        self.input_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_modified_data(self, value):
+        """
+        Set modified_data and return self for chaining.
+
+        Args:
+            value: The modified_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_modified_data("value")
+        """
+        self.modified_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_predecessor(self, value):
+        """
+        Set predecessor and return self for chaining.
+
+        Args:
+            value: The predecessor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_predecessor("value")
+        """
+        self.predecessor = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

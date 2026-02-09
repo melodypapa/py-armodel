@@ -4,8 +4,8 @@ AUTOSAR Package - Timing
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
 )
-
-
 
 
 class TransmissionModeDeclaration(ARObject):
@@ -81,6 +79,54 @@ class TransmissionModeDeclaration(ARObject):
                 f"transmission must be TransmissionMode or None, got {type(value).__name__}"
             )
         self._transmission = value
+
+    def with_mode_driven(self, value):
+        """
+        Set mode_driven and return self for chaining.
+
+        Args:
+            value: The mode_driven to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_driven("value")
+        """
+        self.mode_driven = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode(self, value):
+        """
+        Set mode and return self for chaining.
+
+        Args:
+            value: The mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode("value")
+        """
+        self.mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode(self, value):
+        """
+        Set mode and return self for chaining.
+
+        Args:
+            value: The mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode("value")
+        """
+        self.mode = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

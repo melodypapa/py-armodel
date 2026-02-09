@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    SwComponentType,
+)
 
     RefType,
 )
@@ -50,6 +52,54 @@ class ParameterSwComponentType(SwComponentType):
     def instantiation(self) -> List["InstantiationDataDef"]:
         """Get instantiation (Pythonic accessor)."""
         return self._instantiation
+
+    def with_constant(self, value):
+        """
+        Set constant and return self for chaining.
+
+        Args:
+            value: The constant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_constant("value")
+        """
+        self.constant = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_type(self, value):
+        """
+        Set data_type and return self for chaining.
+
+        Args:
+            value: The data_type to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type("value")
+        """
+        self.data_type = value  # Use property setter (gets validation)
+        return self
+
+    def with_instantiation(self, value):
+        """
+        Set instantiation and return self for chaining.
+
+        Args:
+            value: The instantiation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_instantiation("value")
+        """
+        self.instantiation = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
