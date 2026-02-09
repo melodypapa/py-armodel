@@ -12,6 +12,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
     CollectableElement,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Identifier,
+)
 
 
 # Manually maintained: ARPackage needs multiple inheritance support
@@ -251,36 +255,44 @@ class ReferenceBase(ARObject):
     This meta-class establishes a basis for relative references. Reference bases
     are identified by the short Label which shall be unique in the current
     package.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ReferenceBase
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 72, Foundation R23-11)
     """
     def __init__(self):
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Attribute initialization (CODING_RULE_V2_00016) =====
         # This attribute represents a meta-class for which the global is supported via
         # this reference base.
         self._globalElement: List["RefType"] = []
+        # This represents the ability to express that global elements in various
+        # packages which do not have a common Packages mentioned by Reference used in
+        # addition to the one in.
+        self._globalIn: List["ARPackage"] = []
+        # This attribute denotes if the current ReferenceBase is the that there can
+        # only be one default reference a package.
+        self._isDefault: "Boolean" = None
+        # This association specifies the basis of all relative the base equals
+        # shortLabel.
+        self._package: Optional["ARPackage"] = None
+        # This attribute represents the short label which shall be unique in the
+        # current package.
+        self._shortLabel: Optional["Identifier"] = None
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
     @property
     def global_element(self) -> List["RefType"]:
         """Get globalElement (Pythonic accessor)."""
         return self._globalElement
-        # This represents the ability to express that global elements in various
-        # packages which do not have a common Packages mentioned by Reference used in
-        # addition to the one in.
-        self._globalIn: List["ARPackage"] = []
 
     @property
     def global_in(self) -> List["ARPackage"]:
         """Get globalIn (Pythonic accessor)."""
         return self._globalIn
-        # This attribute denotes if the current ReferenceBase is the that there can
-        # only be one default reference a package.
-        self._isDefault: "Boolean" = None
 
     @property
     def is_default(self) -> "Boolean":
@@ -291,21 +303,22 @@ class ReferenceBase(ARObject):
     def is_default(self, value: "Boolean") -> None:
         """
         Set isDefault with validation.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._isDefault = None
+            return
+
         if not isinstance(value, Boolean):
             raise TypeError(
                 f"isDefault must be Boolean, got {type(value).__name__}"
             )
         self._isDefault = value
-        # This association specifies the basis of all relative the base equals
-        # shortLabel.
-        self._package: Optional["ARPackage"] = None
 
     @property
     def package(self) -> Optional["ARPackage"]:
@@ -316,10 +329,10 @@ class ReferenceBase(ARObject):
     def package(self, value: Optional["ARPackage"]) -> None:
         """
         Set package with validation.
-        
+
         Args:
             value: The package to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -332,9 +345,6 @@ class ReferenceBase(ARObject):
                 f"package must be ARPackage or None, got {type(value).__name__}"
             )
         self._package = value
-        # This is the name of the reference base.
-        # By this name, can denote the applicable base.
-        self._shortLabel: "Identifier" = None
 
     @property
     def short_label(self) -> "Identifier":
@@ -345,18 +355,26 @@ class ReferenceBase(ARObject):
     def short_label(self, value: "Identifier") -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
-        if not isinstance(value, Identifier):
+        if value is None:
+            self._shortLabel = None
+            return
+
+        # Accept both Identifier and str
+        if isinstance(value, str):
+            self._shortLabel = Identifier().setValue(value)
+        elif isinstance(value, Identifier):
+            self._shortLabel = value
+        else:
             raise TypeError(
-                f"shortLabel must be Identifier, got {type(value).__name__}"
+                f"shortLabel must be Identifier or str, got {type(value).__name__}"
             )
-        self._shortLabel = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
