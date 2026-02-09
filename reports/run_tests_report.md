@@ -6,13 +6,13 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-72.8%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-75.3%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 24288 | 33352 | **72.82%** |
+| **Lines** | 25435 | 33759 | **75.34%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
@@ -24,9 +24,9 @@
 | **lib** | 4 | 100.0% |
 | **transformer** | 3 | 100.0% |
 | **models** | 232 | 92.5% |
+| **v2** | 42 | 57.3% |
 | **parser** | 6 | 54.6% |
 | **writer** | 3 | 50.8% |
-| **v2** | 38 | 30.0% |
 | **cli** | 11 | 6.0% |
 | **report** | 3 | 0.0% |
 

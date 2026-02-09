@@ -6,12 +6,12 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identif
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Identifier,
-    String,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+    String,
 )
 
 
@@ -41,9 +41,22 @@ class Describable(ARObject, ABC):
             raise TypeError("Describable is an abstract class.")
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the administrative data for the.
         self._adminData: Optional["AdminData"] = None
+        # The category is a keyword that specializes the semantics Describable.
+        # It affects the expected existence of the applicability of constraints.
+        self._category: Optional["CategoryString"] = None
+        # This represents a general but brief (one paragraph) what the object in
+                # question is about.
+        # It is only Desc is intended to be collected into This property helps a human
+                # reader to object in question.
+        # documentation, (in particular how the built or used) should go to
+                # "introduction".
+        self._desc: Optional["MultiLanguageOverview"] = None
+        # This represents more information about how the object in built or is used.
+        # Therefore it is a.
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
     def admin_data(self) -> Optional["AdminData"]:
@@ -54,10 +67,10 @@ class Describable(ARObject, ABC):
     def admin_data(self, value: Optional["AdminData"]) -> None:
         """
         Set adminData with validation.
-        
+
         Args:
             value: The adminData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,9 +83,6 @@ class Describable(ARObject, ABC):
                 f"adminData must be AdminData or None, got {type(value).__name__}"
             )
         self._adminData = value
-        # The category is a keyword that specializes the semantics Describable.
-        # It affects the expected existence of the applicability of constraints.
-        self._category: Optional["CategoryString"] = None
 
     @property
     def category(self) -> Optional["CategoryString"]:
@@ -83,10 +93,10 @@ class Describable(ARObject, ABC):
     def category(self, value: Optional["CategoryString"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,13 +109,6 @@ class Describable(ARObject, ABC):
                 f"category must be CategoryString or None, got {type(value).__name__}"
             )
         self._category = value
-        # This represents a general but brief (one paragraph) what the object in
-                # question is about.
-        # It is only Desc is intended to be collected into This property helps a human
-                # reader to object in question.
-        # documentation, (in particular how the built or used) should go to
-                # "introduction".
-        self._desc: Optional["MultiLanguageOverview"] = None
 
     @property
     def desc(self) -> Optional["MultiLanguageOverview"]:
@@ -116,10 +119,10 @@ class Describable(ARObject, ABC):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -132,9 +135,6 @@ class Describable(ARObject, ABC):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This represents more information about how the object in built or is used.
-        # Therefore it is a.
-        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
     def introduction(self) -> Optional["DocumentationBlock"]:
@@ -145,10 +145,10 @@ class Describable(ARObject, ABC):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -378,11 +378,14 @@ class Referrable(ARObject, ABC):
             raise TypeError("Referrable is an abstract class.")
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies an identifying shortName for the object.
         # It needs to be unique within its context and is intended for humans but even
-                # more for technical reference.
+        # more for technical reference.
         self._shortName: "Identifier" = None
+        # This specifies how the Referrable.
+        # shortName is of several shortNameFragments.
+        self._shortNameFragment: List["ShortNameFragment"] = []
 
     @property
     def short_name(self) -> "Identifier":
@@ -393,10 +396,10 @@ class Referrable(ARObject, ABC):
     def short_name(self, value: "Identifier") -> None:
         """
         Set shortName with validation.
-        
+
         Args:
             value: The shortName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -404,10 +407,13 @@ class Referrable(ARObject, ABC):
             raise TypeError(
                 f"shortName must be Identifier or str, got {type(value).__name__}"
             )
-        self._shortName = value
-        # This specifies how the Referrable.
-        # shortName is of several shortNameFragments.
-        self._shortNameFragment: List["ShortNameFragment"] = []
+        # Always store as Identifier instance
+        if isinstance(value, str):
+            identifier = Identifier()
+            identifier.value = value
+            self._shortName = identifier
+        else:
+            self._shortName = value
 
     @property
     def short_name_fragment(self) -> List["ShortNameFragment"]:
@@ -489,9 +495,13 @@ class ShortNameFragment(ARObject):
     def __init__(self):
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies a single shortName (fragment) which is the composed shortName.
         self._fragment: "Identifier" = None
+        # This specifies the role of fragment to define e.
+        # g.
+        # the order fragments.
+        self._role: "String" = None
 
     @property
     def fragment(self) -> "Identifier":
@@ -502,10 +512,10 @@ class ShortNameFragment(ARObject):
     def fragment(self, value: "Identifier") -> None:
         """
         Set fragment with validation.
-        
+
         Args:
             value: The fragment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -514,10 +524,6 @@ class ShortNameFragment(ARObject):
                 f"fragment must be Identifier or str, got {type(value).__name__}"
             )
         self._fragment = value
-        # This specifies the role of fragment to define e.
-        # g.
-        # the order fragments.
-        self._role: "String" = None
 
     @property
     def role(self) -> "String":
@@ -528,10 +534,10 @@ class ShortNameFragment(ARObject):
     def role(self, value: "String") -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -662,7 +668,7 @@ class MultilanguageReferrable(Referrable, ABC):
             raise TypeError("MultilanguageReferrable is an abstract class.")
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies the long name of the object.
         # Long name is to human readers and acts like a headline.
         self._longName: Optional["MultilanguageLong"] = None
@@ -676,10 +682,10 @@ class MultilanguageReferrable(Referrable, ABC):
     def long_name(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set longName with validation.
-        
+
         Args:
             value: The longName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -878,11 +884,45 @@ class Identifiable(MultilanguageReferrable, ABC):
             raise TypeError("Identifiable is an abstract class.")
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the administrative data for the identifiable 381 Document ID
         # 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
         # R23-11.
         self._adminData: Optional["AdminData"] = None
+        # Possibility to provide additional notes while defining a (e.
+        # g.
+        # the ECU Configuration Parameter are not intended as documentation but design
+        # notes.
+        self._annotation: List["Annotation"] = []
+        # The category is a keyword that specializes the semantics Identifiable.
+        # It affects the expected existence of the applicability of constraints.
+        self._category: Optional["CategoryString"] = None
+        # This represents a general but brief (one paragraph) what the object in
+        # question is about.
+        # It is only Desc is intended to be collected into This property helps a human
+        # reader to object in question.
+        # documentation, (in particular how the built or used) should go to
+        # "introduction".
+        self._desc: Optional["MultiLanguageOverview"] = None
+        # This represents more information about how the object in built or is used.
+        # Therefore it is a.
+        self._introduction: Optional["DocumentationBlock"] = None
+        # The purpose of this attribute is to provide a globally for an instance of a
+        # meta-class.
+        # The this attribute should be globally unique strings the type of identifier.
+        # For example, to include a as defined by The Open Group, the UUID preceded by
+        # "DCE:".
+        # The values of this attribute used to support merging of different AUTOSAR
+        # form of the UUID (Universally Unique taken from a standard defined by the
+        # Open Open Software Foundation).
+        # This standard is including by Microsoft for COM (GUIDs) and companies for
+        # DCE, which is based on CORBA.
+        # for generating these 128-bit IDs is published standard and the effectiveness
+        # and uniqueness of is not in practice disputed.
+        # If the id namespace is is assumed.
+        # An example is has no semantic meaning for an AUTOSAR there is no requirement
+        # for AUTOSAR tools to timestamp.
+        self._uuid: Optional["String"] = None
 
     @property
     def admin_data(self) -> Optional["AdminData"]:

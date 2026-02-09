@@ -729,9 +729,11 @@ def generate_class_code(
 
     # Generate attribute initialization and properties
     if use_property_api:
-        attr_code = _generate_property_based_attributes(class_name, parent, attributes)
+        init_code_attrs, property_code = _generate_property_based_attributes(class_name, parent, attributes)
     else:
         attr_code = _generate_attribute_initialization(class_name, attributes)
+        init_code_attrs = []
+        property_code = []
 
     # Generate methods
     if use_property_api:
@@ -739,8 +741,31 @@ def generate_class_code(
     else:
         methods_code = _generate_methods(class_name, parent, attributes)
 
+    # Insert attribute initialization into __init__ method
+    if init_code_attrs:
+        # Find the position to insert init_code_attrs (before the closing of __init__)
+        # We need to insert it after the super().__init__() call
+        init_lines = init_code.split('\n')
+        insert_position = -1  # Before the last line (closing of __init__)
+        
+        # Insert attribute initialization code
+        if use_property_api and init_code_attrs:
+            # Insert before the closing """ or return statement
+            for i in range(len(init_lines) - 1, -1, -1):
+                if init_lines[i].strip().startswith('super().__init__()'):
+                    # Insert after super().__init__() line
+                    init_lines.insert(i + 1, '')
+                    init_lines.insert(i + 2, '        # ===== Attribute initialization (CODING_RULE_V2_00016) =====')
+                    for attr_line in init_code_attrs:
+                        init_lines.insert(i + 3, attr_line)
+                    break
+            init_code = '\n'.join(init_lines)
+
     # Combine all parts
-    code_parts = imports + [''] + [class_decl, init_code, ''] + attr_code + [''] + methods_code
+    if use_property_api:
+        code_parts = imports + [''] + [class_decl, init_code, ''] + property_code + [''] + methods_code
+    else:
+        code_parts = imports + [''] + [class_decl, init_code, ''] + attr_code + [''] + methods_code
 
     return '\n'.join(code_parts)
 
@@ -755,7 +780,7 @@ def _generate_property_based_attributes(
     attributes: Dict[str, Any],
     use_string_annotations: bool = False,
     types_needing_string_annotations: set = frozenset()
-) -> List[str]:
+) -> tuple[List[str], List[str]]:
     """Generate property-based attributes with private storage and @property decorators.
 
     This implements the V2 redesign pattern:
@@ -771,10 +796,13 @@ def _generate_property_based_attributes(
         types_needing_string_annotations: Set of type names that need string annotations (unused, kept for compatibility)
 
     Returns:
-        List of code lines for properties
+        Tuple of (init_code_lines, property_code_lines)
+        - init_code_lines: Attribute initialization code to be placed inside __init__
+        - property_code_lines: @property decorators and methods to be placed after __init__
     """
-    attr_code = []
-    attr_code.append("    # ===== Pythonic properties (CODING_RULE_V2_00016) =====")
+    init_code = []
+    property_code = []
+    property_code.append("    # ===== Pythonic properties (CODING_RULE_V2_00016) =====")
 
     for attr_name, attr_info in attributes.items():
         attr_type = attr_info.get('type', 'Any')
@@ -828,88 +856,88 @@ def _generate_property_based_attributes(
                 else:
                     py_type = attr_type
 
-        # Add comment if present
+        # Add comment if present (for init code)
         if attr_note:
-            attr_code.append(f'        {_format_attr_comment(attr_note)}')
+            init_code.append(f'        {_format_attr_comment(attr_note)}')
 
-        # Initialize private attribute
+        # Initialize private attribute (for init code)
         if multiplicity == '*':
-            attr_code.append(f'        self.{private_attr}: {py_type} = []')
+            init_code.append(f'        self.{private_attr}: {py_type} = []')
         elif multiplicity == '0..1':
-            attr_code.append(f'        self.{private_attr}: {py_type} = None')
+            init_code.append(f'        self.{private_attr}: {py_type} = None')
         else:
-            attr_code.append(f'        self.{private_attr}: {py_type} = None')
+            init_code.append(f'        self.{private_attr}: {py_type} = None')
 
-        # Generate @property getter
-        attr_code.append('')
-        attr_code.append('    @property')
-        attr_code.append(f'    def {py_prop_name}(self) -> {py_type}:')
-        attr_code.append(f'        """Get {attr_name} (Pythonic accessor)."""')
-        attr_code.append(f'        return self.{private_attr}')
+        # Generate @property getter (for property code)
+        property_code.append('')
+        property_code.append('    @property')
+        property_code.append(f'    def {py_prop_name}(self) -> {py_type}:')
+        property_code.append(f'        """Get {attr_name} (Pythonic accessor)."""')
+        property_code.append(f'        return self.{private_attr}')
 
         # Generate @property setter (not for lists)
         if multiplicity != '*':
-            attr_code.append('')
-            attr_code.append(f'    @{py_prop_name}.setter')
-            attr_code.append(f'    def {py_prop_name}(self, value: {py_type}) -> None:')
-            attr_code.append('        """')
-            attr_code.append(f'        Set {attr_name} with validation.')
-            attr_code.append('        ')
-            attr_code.append('        Args:')
-            attr_code.append(f'            value: The {attr_name} to set')
-            attr_code.append('        ')
-            attr_code.append('        Raises:')
-            attr_code.append('            TypeError: If value type is incorrect')
-            attr_code.append('        """')
+            property_code.append('')
+            property_code.append(f'    @{py_prop_name}.setter')
+            property_code.append(f'    def {py_prop_name}(self, value: {py_type}) -> None:')
+            property_code.append('        """')
+            property_code.append(f'        Set {attr_name} with validation.')
+            property_code.append('        ')
+            property_code.append('        Args:')
+            property_code.append(f'            value: The {attr_name} to set')
+            property_code.append('        ')
+            property_code.append('        Raises:')
+            property_code.append('            TypeError: If value type is incorrect')
+            property_code.append('        """')
 
             # Add type validation
             if multiplicity == '0..1':
                 # Optional attribute
-                attr_code.append('        if value is None:')
-                attr_code.append(f'            self.{private_attr} = None')
-                attr_code.append('            return')
-                attr_code.append('')
+                property_code.append('        if value is None:')
+                property_code.append(f'            self.{private_attr} = None')
+                property_code.append('            return')
+                property_code.append('')
                 if is_ref or attr_type == 'Any':
                     # RefType or Any - minimal validation
-                    attr_code.append(f'        self.{private_attr} = value')
+                    property_code.append(f'        self.{private_attr} = value')
                 else:
                     # Check if it's an AUTOSAR primitive type
                     is_autosar_prim, python_equivalent = _get_python_equivalent_type(attr_type)
                     if is_autosar_prim:
                         # Accept both AUTOSAR primitive type and Python equivalent
-                        attr_code.append(f'        if not isinstance(value, ({attr_type}, {python_equivalent})):')
-                        attr_code.append('            raise TypeError(')
-                        attr_code.append(f'                f"{attr_name} must be {attr_type} or {python_equivalent} or None, got {{type(value).__name__}}"')
-                        attr_code.append('            )')
+                        property_code.append(f'        if not isinstance(value, ({attr_type}, {python_equivalent})):')
+                        property_code.append('            raise TypeError(')
+                        property_code.append(f'                f"{attr_name} must be {attr_type} or {python_equivalent} or None, got {{type(value).__name__}}"')
+                        property_code.append('            )')
                     else:
                         # Normal type validation
-                        attr_code.append(f'        if not isinstance(value, {attr_type}):')
-                        attr_code.append('            raise TypeError(')
-                        attr_code.append(f'                f"{attr_name} must be {attr_type} or None, got {{type(value).__name__}}"')
-                        attr_code.append('            )')
-                    attr_code.append(f'        self.{private_attr} = value')
+                        property_code.append(f'        if not isinstance(value, {attr_type}):')
+                        property_code.append('            raise TypeError(')
+                        property_code.append(f'                f"{attr_name} must be {attr_type} or None, got {{type(value).__name__}}"')
+                        property_code.append('            )')
+                    property_code.append(f'        self.{private_attr} = value')
             else:
                 # Required attribute
                 if is_ref or attr_type == 'Any':
-                    attr_code.append(f'        self.{private_attr} = value')
+                    property_code.append(f'        self.{private_attr} = value')
                 else:
                     # Check if it's an AUTOSAR primitive type
                     is_autosar_prim, python_equivalent = _get_python_equivalent_type(attr_type)
                     if is_autosar_prim:
                         # Accept both AUTOSAR primitive type and Python equivalent
-                        attr_code.append(f'        if not isinstance(value, ({attr_type}, {python_equivalent})):')
-                        attr_code.append('            raise TypeError(')
-                        attr_code.append(f'                f"{attr_name} must be {attr_type} or {python_equivalent}, got {{type(value).__name__}}"')
-                        attr_code.append('            )')
+                        property_code.append(f'        if not isinstance(value, ({attr_type}, {python_equivalent})):')
+                        property_code.append('            raise TypeError(')
+                        property_code.append(f'                f"{attr_name} must be {attr_type} or {python_equivalent}, got {{type(value).__name__}}"')
+                        property_code.append('            )')
                     else:
                         # Normal type validation
-                        attr_code.append(f'        if not isinstance(value, {attr_type}):')
-                        attr_code.append('            raise TypeError(')
-                        attr_code.append(f'                f"{attr_name} must be {attr_type}, got {{type(value).__name__}}"')
-                        attr_code.append('            )')
-                    attr_code.append(f'        self.{private_attr} = value')
+                        property_code.append(f'        if not isinstance(value, {attr_type}):')
+                        property_code.append('            raise TypeError(')
+                        property_code.append(f'                f"{attr_name} must be {attr_type}, got {{type(value).__name__}}"')
+                        property_code.append('            )')
+                    property_code.append(f'        self.{private_attr} = value')
 
-    return attr_code
+    return (init_code, property_code)
 
 
 def _generate_property_based_methods(

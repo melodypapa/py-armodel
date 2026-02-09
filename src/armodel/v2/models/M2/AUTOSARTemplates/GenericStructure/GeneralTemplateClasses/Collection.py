@@ -1,10 +1,24 @@
 from typing import (
     List,
     Optional,
+    Union,
 )
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AtpFeature import (
+    AtpFeature,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
     ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    AutoCollectEnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+    NameToken,
 )
 
 
@@ -29,60 +43,86 @@ class Collection(ARElement):
     def __init__(self):
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute reflects how far the referenced objects are the collection.
-        self._autoCollect: Optional["AutoCollectEnum"] = None
+        self._autoCollect: Optional[AutoCollectEnum] = None
+        # is part of the collection.
+        # by: AnyInstanceRef.
+        self._collected: List["AtpFeature"] = []
+        # Provides the ability to express the semantics of a depending on the intended
+        # use case.
+        # The specified as a NameToken which agreed by all stakeholders.
+        self._collection: Optional["NameToken"] = None
+        # This is an element in the collection.
+        # Note that Collection collectable.
+        # Therefore collections can be nested.
+        # of category="RELATION" this represents the of the relation.
+        self._element: List["Identifiable"] = []
+        # This attribute allows to denote a particular role of the that the applicable
+        # semantics shall be between the two parties.
+        # it denotes the role of element in the context.
+        self._elementRole: Optional["Identifier"] = None
+        # Only if Category = "RELATION".
+        # This represents the a relation.
+        self._sourceElement: List["Identifiable"] = []
+        # of a relation.
+        # by: AnyInstanceRef.
+        self._sourceInstance: List["AtpFeature"] = []
 
     @property
-    def auto_collect(self) -> Optional["AutoCollectEnum"]:
+    def auto_collect(self) -> Optional[AutoCollectEnum]:
         """Get autoCollect (Pythonic accessor)."""
         return self._autoCollect
 
     @auto_collect.setter
-    def auto_collect(self, value: Optional["AutoCollectEnum"]) -> None:
+    def auto_collect(self, value: Optional[Union["AutoCollectEnum", str]]) -> None:
         """
         Set autoCollect with validation.
 
         Args:
-            value: The autoCollect to set
+            value: The autoCollect to set (AutoCollectEnum instance or string)
 
         Raises:
-            TypeError: If value type is incorrect
+            TypeError: If value type is incorrect or string value is not a valid enum value
         """
         if value is None:
             self._autoCollect = None
             return
 
-        if not isinstance(value, AutoCollectEnum):
+        # Accept both AutoCollectEnum instances and string values
+        if isinstance(value, AutoCollectEnum):
+            self._autoCollect = value
+        elif isinstance(value, str):
+            # Validate that the string is a valid enum value
+            enum_instance = AutoCollectEnum()
+            if not enum_instance.validateEnumValue(value):
+                raise TypeError(
+                    f"autoCollect must be AutoCollectEnum or None, got invalid string value '{value}'"
+                )
+            enum_instance.value = value
+            self._autoCollect = enum_instance
+        else:
             raise TypeError(
-                f"autoCollect must be AutoCollectEnum or None, got {type(value).__name__}"
+                f"autoCollect must be AutoCollectEnum or str or None, got {type(value).__name__}"
             )
-        self._autoCollect = value
-        # is part of the collection.
-        # by: AnyInstanceRef.
-        self._collected: List["AtpFeature"] = []
 
     @property
     def collected(self) -> List["AtpFeature"]:
         """Get collected (Pythonic accessor)."""
         return self._collected
-        # Provides the ability to express the semantics of a depending on the intended
-                # use case.
-        # The specified as a NameToken which agreed by all stakeholders.
-        self._collection: Optional["NameToken"] = None
 
     @property
-    def collection(self) -> Optional["NameToken"]:
+    def collection(self) -> Optional[NameToken]:
         """Get collection (Pythonic accessor)."""
         return self._collection
 
     @collection.setter
-    def collection(self, value: Optional["NameToken"]) -> None:
+    def collection(self, value: Optional[Union[NameToken, str]]) -> None:
         """
         Set collection with validation.
 
         Args:
-            value: The collection to set
+            value: The collection to set (NameToken instance or string)
 
         Raises:
             TypeError: If value type is incorrect
@@ -91,38 +131,36 @@ class Collection(ARElement):
             self._collection = None
             return
 
-        if not isinstance(value, NameToken):
+        # Accept both NameToken instances and string values
+        if isinstance(value, NameToken):
+            self._collection = value
+        elif isinstance(value, str):
+            # Create a NameToken instance with the string value
+            name_token = NameToken()
+            name_token.value = value
+            self._collection = name_token
+        else:
             raise TypeError(
-                f"collection must be NameToken or None, got {type(value).__name__}"
+                f"collection must be NameToken or str or None, got {type(value).__name__}"
             )
-        self._collection = value
-        # This is an element in the collection.
-        # Note that Collection collectable.
-        # Therefore collections can be nested.
-        # of category="RELATION" this represents the of the relation.
-        self._element: List["Identifiable"] = []
 
     @property
     def element(self) -> List["Identifiable"]:
         """Get element (Pythonic accessor)."""
         return self._element
-        # This attribute allows to denote a particular role of the that the applicable
-                # semantics shall be between the two parties.
-        # it denotes the role of element in the context.
-        self._elementRole: Optional["Identifier"] = None
 
     @property
-    def element_role(self) -> Optional["Identifier"]:
+    def element_role(self) -> Optional[Identifier]:
         """Get elementRole (Pythonic accessor)."""
         return self._elementRole
 
     @element_role.setter
-    def element_role(self, value: Optional["Identifier"]) -> None:
+    def element_role(self, value: Optional[Union[Identifier, str]]) -> None:
         """
         Set elementRole with validation.
 
         Args:
-            value: The elementRole to set
+            value: The elementRole to set (Identifier instance or string)
 
         Raises:
             TypeError: If value type is incorrect
@@ -131,22 +169,23 @@ class Collection(ARElement):
             self._elementRole = None
             return
 
-        if not isinstance(value, Identifier):
+        # Accept both Identifier instances and string values
+        if isinstance(value, Identifier):
+            self._elementRole = value
+        elif isinstance(value, str):
+            # Create an Identifier instance with the string value
+            identifier = Identifier()
+            identifier.value = value
+            self._elementRole = identifier
+        else:
             raise TypeError(
-                f"elementRole must be Identifier or None, got {type(value).__name__}"
+                f"elementRole must be Identifier or str or None, got {type(value).__name__}"
             )
-        self._elementRole = value
-        # Only if Category = "RELATION".
-        # This represents the a relation.
-        self._sourceElement: List["Identifiable"] = []
 
     @property
     def source_element(self) -> List["Identifiable"]:
         """Get sourceElement (Pythonic accessor)."""
         return self._sourceElement
-        # of a relation.
-        # by: AnyInstanceRef.
-        self._sourceInstance: List["AtpFeature"] = []
 
     @property
     def source_instance(self) -> List["AtpFeature"]:
@@ -155,7 +194,7 @@ class Collection(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAutoCollect(self) -> "AutoCollectEnum":
+    def getAutoCollect(self) -> Optional[AutoCollectEnum]:
         """
         AUTOSAR-compliant getter for autoCollect.
 
@@ -167,7 +206,7 @@ class Collection(ARElement):
         """
         return self.auto_collect  # Delegates to property
 
-    def setAutoCollect(self, value: "AutoCollectEnum") -> "Collection":
+    def setAutoCollect(self, value: Union[AutoCollectEnum, str]) -> "Collection":
         """
         AUTOSAR-compliant setter for autoCollect with method chaining.
 
@@ -195,7 +234,7 @@ class Collection(ARElement):
         """
         return self.collected  # Delegates to property
 
-    def getCollection(self) -> "NameToken":
+    def getCollection(self) -> Optional[NameToken]:
         """
         AUTOSAR-compliant getter for collection.
 
@@ -207,7 +246,7 @@ class Collection(ARElement):
         """
         return self.collection  # Delegates to property
 
-    def setCollection(self, value: "NameToken") -> "Collection":
+    def setCollection(self, value: Union[NameToken, str]) -> "Collection":
         """
         AUTOSAR-compliant setter for collection with method chaining.
 
@@ -235,7 +274,7 @@ class Collection(ARElement):
         """
         return self.element  # Delegates to property
 
-    def getElementRole(self) -> "Identifier":
+    def getElementRole(self) -> Optional[Identifier]:
         """
         AUTOSAR-compliant getter for elementRole.
 
@@ -247,7 +286,7 @@ class Collection(ARElement):
         """
         return self.element_role  # Delegates to property
 
-    def setElementRole(self, value: "Identifier") -> "Collection":
+    def setElementRole(self, value: Union[Identifier, str]) -> "Collection":
         """
         AUTOSAR-compliant setter for elementRole with method chaining.
 
@@ -289,7 +328,7 @@ class Collection(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_auto_collect(self, value: Optional["AutoCollectEnum"]) -> "Collection":
+    def with_auto_collect(self, value: Optional[Union[AutoCollectEnum, str]]) -> "Collection":
         """
         Set autoCollect and return self for chaining.
 
@@ -305,7 +344,7 @@ class Collection(ARElement):
         self.auto_collect = value  # Use property setter (gets validation)
         return self
 
-    def with_collection(self, value: Optional["NameToken"]) -> "Collection":
+    def with_collection(self, value: Optional[Union[NameToken, str]]) -> "Collection":
         """
         Set collection and return self for chaining.
 
@@ -321,7 +360,7 @@ class Collection(ARElement):
         self.collection = value  # Use property setter (gets validation)
         return self
 
-    def with_element_role(self, value: Optional["Identifier"]) -> "Collection":
+    def with_element_role(self, value: Optional[Union[Identifier, str]]) -> "Collection":
         """
         Set elementRole and return self for chaining.
 
