@@ -47,7 +47,6 @@ class GenericModelReference(ARObject):
                 f"base must be NameToken, got {type(value).__name__}"
             )
         self._base = value
-        # This attribute represents the class of the referenced It is a String, since
                 # the model element in any model.
         # Therefore we cannot have any.
         self._dest: "NameToken" = None
@@ -73,7 +72,6 @@ class GenericModelReference(ARObject):
                 f"dest must be NameToken, got {type(value).__name__}"
             )
         self._dest = value
-        # This is the full qualified name of the model element.
         self._ref: RefType = None
 
     @property

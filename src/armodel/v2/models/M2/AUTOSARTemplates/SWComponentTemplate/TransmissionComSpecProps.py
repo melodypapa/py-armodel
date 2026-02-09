@@ -52,7 +52,6 @@ class TransmissionComSpecProps(ARObject):
                 f"dataUpdate must be TimeValue or None, got {type(value).__name__}"
             )
         self._dataUpdate = value
-        # This attribute defines the minimum interval between two transmissions of the
         # respective data the assumed to ensure.
         self._minimumSend: Optional["TimeValue"] = None
 
@@ -81,7 +80,6 @@ class TransmissionComSpecProps(ARObject):
                 f"minimumSend must be TimeValue or None, got {type(value).__name__}"
             )
         self._minimumSend = value
-        # The attribute defines the mode in which the application is assumed to
         # transmit the respective data.
         self._transmission: Optional["TransmissionMode"] = None
 

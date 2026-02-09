@@ -50,7 +50,6 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
                 f"arraySize must be ArraySizeSemantics or None, got {type(value).__name__}"
             )
         self._arraySize = value
-        # This reference can be taken to assign a CompuMethod of TEXTTABLE to the
                 # array.
         # The texttable entries textual value to an index number such that with that
                 # index number is represented by a.
@@ -81,7 +80,6 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
                 f"indexDataType must be ApplicationPrimitive or None, got {type(value).__name__}"
             )
         self._indexDataType = value
-        # The maximum number of elements that the array can.
         self._maxNumberOf: Optional["PositiveInteger"] = None
 
     @property

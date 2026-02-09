@@ -53,7 +53,6 @@ class RptHook(ARObject):
                 f"codeLabel must be CIdentifier or None, got {type(value).__name__}"
             )
         self._codeLabel = value
-        # This attribute provides an identifier which shall be used in System to
         # display the Rpt Hook.
         self._mcdIdentifier: Optional["NameToken"] = None
 
@@ -82,7 +81,6 @@ class RptHook(ARObject):
                 f"mcdIdentifier must be NameToken or None, got {type(value).__name__}"
             )
         self._mcdIdentifier = value
-        # by: AnyInstanceRef.
         self._rptArHook: Optional["AtpFeature"] = None
 
     @property
@@ -110,7 +108,6 @@ class RptHook(ARObject):
                 f"rptArHook must be AtpFeature or None, got {type(value).__name__}"
             )
         self._rptArHook = value
-        # This property allows to keep special data which is not the standard model.
         # It can be utilized to tool specific data.
         self._sdg: List["Sdg"] = []
 

@@ -47,7 +47,6 @@ class BlueprintMapping(ARObject):
                 f"blueprint must be AtpBlueprint, got {type(value).__name__}"
             )
         self._blueprint = value
-        # This represents the object which was derived from the.
         self._derivedObject: "AtpBlueprintable" = None
 
     @property

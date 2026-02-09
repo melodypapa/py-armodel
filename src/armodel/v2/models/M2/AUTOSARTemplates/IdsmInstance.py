@@ -59,7 +59,6 @@ class IdsmInstance(IdsCommonElement):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # This attribute is used to provide a source identification in of reporting
         # security events.
         self._idsmInstanceId: Optional["PositiveInteger"] = None
 
@@ -88,7 +87,6 @@ class IdsmInstance(IdsCommonElement):
                 f"idsmInstanceId must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._idsmInstanceId = value
-        # This reference identifies the meta-class that defines the attributes for the
         # IdsM configuration on a specific.
         self._idsmModule: Optional["IdsmModule"] = None
 
@@ -117,7 +115,6 @@ class IdsmInstance(IdsCommonElement):
                 f"idsmModule must be IdsmModule or None, got {type(value).__name__}"
             )
         self._idsmModule = value
-        # This reference identifies the applicable rate limitation filter all security
                 # events on the related EcuInstance.
         # atpVariation.
         self._rateLimitation: Optional["IdsmRateLimitation"] = None
@@ -147,7 +144,6 @@ class IdsmInstance(IdsCommonElement):
                 f"rateLimitation must be IdsmRateLimitation or None, got {type(value).__name__}"
             )
         self._rateLimitation = value
-        # The existence of this aggregation specifies that the IdsM shall add a
                 # signature to the QSEv messages it sends network.
         # The cryptographic algorithm and key to for this signature is further
                 # specified by the specifically for the Classic.
@@ -178,7 +174,6 @@ class IdsmInstance(IdsCommonElement):
                 f"signature must be IdsmSignatureSupport or None, got {type(value).__name__}"
             )
         self._signature = value
-        # The existence of this attribute specifies that the IdsM shall a timestamp to
                 # the QSEv messages it sends onto the if this attribute does not exist, no
                 # timestamp added to the QSEv messages.
         # of this attribute further specifies the as follows: - "AUTOSAR" defines
@@ -213,7 +208,6 @@ class IdsmInstance(IdsCommonElement):
                 f"timestamp must be String or None, got {type(value).__name__}"
             )
         self._timestamp = value
-        # This reference identifies the applicable traffic limitation for all security
                 # events on the related EcuInstance.
         # atpVariation.
         self._trafficLimitation: Optional["IdsmTrafficLimitation"] = None

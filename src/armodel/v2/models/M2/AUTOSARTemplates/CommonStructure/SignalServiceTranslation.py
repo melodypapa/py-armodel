@@ -90,7 +90,6 @@ class SignalServiceTranslationProps(Identifiable):
                 f"serviceControl must be SignalService or None, got {type(value).__name__}"
             )
         self._serviceControl = value
-        # Defines properties for a single translated event.
         self._signalServiceEventProps: List["SignalService"] = []
 
     @property
@@ -380,7 +379,6 @@ class SignalServiceTranslationEventProps(Identifiable):
                 f"safeTranslation must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._safeTranslation = value
-        # Defined whether the translation shall happen in a secure.
         self._secure: Optional["Boolean"] = None
 
     @property
@@ -408,7 +406,6 @@ class SignalServiceTranslationEventProps(Identifiable):
                 f"secure must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._secure = value
-        # of signal/service translation.
         # by: VariableDataPrototypeIn.
         self._translation: Optional["RefType"] = None
 
@@ -621,7 +618,6 @@ class SignalServiceTranslationElementProps(Identifiable):
             return
 
         self._element = value
-        # Defines an optional filter to be applied during translation.
         self._filter: Optional["DataFilter"] = None
 
     @property
@@ -649,7 +645,6 @@ class SignalServiceTranslationElementProps(Identifiable):
                 f"filter must be DataFilter or None, got {type(value).__name__}"
             )
         self._filter = value
-        # Defines whether the source element (which is mapped to referenced element)
         # triggers the sending of the.
         self._transmission: Optional["Boolean"] = None
 

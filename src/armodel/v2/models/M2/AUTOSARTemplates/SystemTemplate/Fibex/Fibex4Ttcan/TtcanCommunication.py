@@ -63,7 +63,6 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
                 f"communicationCycle must be CommunicationCycle or None, got {type(value).__name__}"
             )
         self._communicationCycle = value
-        # Where FlexRay counts the slots in the static segment, explicit Tx and Rx time
         # marks.
         self._timeMark: Optional["Integer"] = None
 
@@ -92,7 +91,6 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
                 f"timeMark must be Integer or int or None, got {type(value).__name__}"
             )
         self._timeMark = value
-        # Trigger type for this time window.
         self._trigger: Optional["RefType"] = None
 
     @property

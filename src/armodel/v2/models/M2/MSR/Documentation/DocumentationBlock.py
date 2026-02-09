@@ -52,7 +52,6 @@ class DocumentationBlock(ARObject):
             return
 
         self._defList = value
-        # This represents a figure in the documentation block.
         # atpVariation.
         self._figure: Optional["MlFigure"] = None
 
@@ -81,7 +80,6 @@ class DocumentationBlock(ARObject):
                 f"figure must be MlFigure or None, got {type(value).__name__}"
             )
         self._figure = value
-        # This is a formula in the definition block.
         # atpVariation.
         self._formula: Optional["MlFormula"] = None
 
@@ -110,7 +108,6 @@ class DocumentationBlock(ARObject):
                 f"formula must be MlFormula or None, got {type(value).__name__}"
             )
         self._formula = value
-        # This represents a labeled list.
         # atpVariation.
         self._labeledListLabel: RefType = None
 
@@ -135,7 +132,6 @@ class DocumentationBlock(ARObject):
             return
 
         self._labeledListLabel = value
-        # This represents numbered or unnumbered list.
         # atpVariation.
         self._list: RefType = None
 
@@ -160,7 +156,6 @@ class DocumentationBlock(ARObject):
             return
 
         self._list = value
-        # This represents automatically contributed contents an msrquery in the context
         # of Documentation 719 Document ID 673:
         # AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11.
         self._msrQueryP2: Optional["MsrQueryP2"] = None
@@ -219,7 +214,6 @@ class DocumentationBlock(ARObject):
                 f"note must be Note or None, got {type(value).__name__}"
             )
         self._note = value
-        # This is one particular paragraph.
         # atpSplitable; atpVariation.
         self._p: Optional["MultiLanguage"] = None
 
@@ -248,7 +242,6 @@ class DocumentationBlock(ARObject):
                 f"p must be MultiLanguage or None, got {type(value).__name__}"
             )
         self._p = value
-        # This aggregation supports structured requirements a documentation block.
         # atpVariation.
         self._structuredReq: Optional["StructuredReq"] = None
 
@@ -277,7 +270,6 @@ class DocumentationBlock(ARObject):
                 f"structuredReq must be StructuredReq or None, got {type(value).__name__}"
             )
         self._structuredReq = value
-        # This represents traceable text in the documentation block.
         # to specify requirements/constraints in any of the trace is specified in the
                 # category.
         # atpVariation.
@@ -308,7 +300,6 @@ class DocumentationBlock(ARObject):
                 f"trace must be TraceableText or None, got {type(value).__name__}"
             )
         self._trace = value
-        # This represents one particular verbatim text.
         # atpVariation.
         self._verbatim: Optional["MultiLanguageVerbatim"] = None
 

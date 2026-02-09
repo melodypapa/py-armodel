@@ -75,7 +75,6 @@ class SwPointerTargetProps(ARObject):
                 f"functionPointer must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._functionPointer = value
-        # The properties of the target data type.
         # atpSplitable.
         self._swDataDef: Optional["SwDataDefProps"] = None
 
@@ -104,7 +103,6 @@ class SwPointerTargetProps(ARObject):
                 f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._swDataDef = value
-        # This specifies the category of the target: case of a data pointer, it shall
                 # specify the category of data.
         # case of a function pointer, it could be used to denote of the referenced
                 # BswModuleEntry.
@@ -395,7 +393,6 @@ class SwDataDefProps(ARObject):
                 f"additionalNative must be NativeDeclarationString or None, got {type(value).__name__}"
             )
         self._additionalNative = value
-        # This aggregation allows to add annotations (yellow pads to the current data
         # object.
         self._annotation: List["Annotation"] = []
 
@@ -431,7 +428,6 @@ class SwDataDefProps(ARObject):
                 f"baseType must be SwBaseType or None, got {type(value).__name__}"
             )
         self._baseType = value
-        # Computation method associated with the semantics of object.
         self._compuMethod: Optional["CompuMethod"] = None
 
     @property
@@ -459,7 +455,6 @@ class SwDataDefProps(ARObject):
                 f"compuMethod must be CompuMethod or None, got {type(value).__name__}"
             )
         self._compuMethod = value
-        # Data constraint for this data object.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
         self._dataConstr: Optional["DataConstr"] = None
@@ -489,7 +484,6 @@ class SwDataDefProps(ARObject):
                 f"dataConstr must be DataConstr or None, got {type(value).__name__}"
             )
         self._dataConstr = value
-        # This property describes how a number is to be rendered documents or in a
         # measurement and calibration.
         self._displayFormat: Optional["DisplayFormatString"] = None
 
@@ -518,7 +512,6 @@ class SwDataDefProps(ARObject):
                 f"displayFormat must be DisplayFormatString or None, got {type(value).__name__}"
             )
         self._displayFormat = value
-        # This attribute controls the presentation of the related data for measurement
         # and calibration tools.
         self._display: Optional["DisplayPresentation"] = None
 
@@ -547,7 +540,6 @@ class SwDataDefProps(ARObject):
                 f"display must be DisplayPresentation or None, got {type(value).__name__}"
             )
         self._display = value
-        # This association denotes the ImplementationDataType of a data declaration via
                 # its aggregated SwDataDefProps.
         # It whenever a data declaration is not directly a base type.
         # Especially of an ImplementationDataType via a another ImplementationDatatype
@@ -582,7 +574,6 @@ class SwDataDefProps(ARObject):
                 f"implementation must be AbstractImplementation or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # Optional value to express invalidity of the actual data.
         self._invalidValue: Optional["ValueSpecification"] = None
 
     @property
@@ -610,7 +601,6 @@ class SwDataDefProps(ARObject):
                 f"invalidValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._invalidValue = value
-        # This attribute can be used to define a value which is or subtracted from the
         # value of a DataPrototype up/down keys while calibrating.
         self._stepSize: Optional["Float"] = None
 
@@ -639,7 +629,6 @@ class SwDataDefProps(ARObject):
                 f"stepSize must be Float or float or None, got {type(value).__name__}"
             )
         self._stepSize = value
-        # Addressing method related to this data object.
         # Via an the same SwAddrMethod it can be several DataPrototypes shall be
                 # located in memory without already specifying the memory.
         self._swAddrMethod: Optional["SwAddrMethod"] = None
@@ -669,7 +658,6 @@ class SwDataDefProps(ARObject):
                 f"swAddrMethod must be SwAddrMethod or None, got {type(value).__name__}"
             )
         self._swAddrMethod = value
-        # The attribute describes the intended typical alignment of If the attribute is
         # not defined the determined by the swBaseType size and the the referenced Sw.
         self._swAlignment: Optional["AlignmentType"] = None
 
@@ -698,7 +686,6 @@ class SwDataDefProps(ARObject):
                 f"swAlignment must be AlignmentType or None, got {type(value).__name__}"
             )
         self._swAlignment = value
-        # Description of the binary representation in case of a bit.
         self._swBit: Optional["SwBitRepresentation"] = None
 
     @property
@@ -726,7 +713,6 @@ class SwDataDefProps(ARObject):
                 f"swBit must be SwBitRepresentation or None, got {type(value).__name__}"
             )
         self._swBit = value
-        # Specifies the read or write access by MCD tools for this data object.
         self._swCalibration: Optional["SwCalibrationAccess"] = None
 
     @property
@@ -754,7 +740,6 @@ class SwDataDefProps(ARObject):
                 f"swCalibration must be SwCalibrationAccess or None, got {type(value).__name__}"
             )
         self._swCalibration = value
-        # This specifies the properties of the axes in case of a or map etc.
         # This is mainly applicable to calibration.
         self._swCalprmAxis: Optional["RefType"] = None
 
@@ -779,7 +764,6 @@ class SwDataDefProps(ARObject):
             return
 
         self._swCalprmAxis = value
-        # Variables used for comparison in an MCD process.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
         self._swComparison: List["RefType"] = []
@@ -813,7 +797,6 @@ class SwDataDefProps(ARObject):
             return
 
         self._swData = value
-        # Contains a reference to a variable which serves as a a bit variable.
         # Only applicable to bit.
         self._swHostVariable: Optional["RefType"] = None
 
@@ -838,7 +821,6 @@ class SwDataDefProps(ARObject):
             return
 
         self._swHostVariable = value
-        # Implementation policy for this data object.
         self._swImplPolicy: Optional["SwImplPolicyEnum"] = None
 
     @property
@@ -866,7 +848,6 @@ class SwDataDefProps(ARObject):
                 f"swImplPolicy must be SwImplPolicyEnum or None, got {type(value).__name__}"
             )
         self._swImplPolicy = value
-        # The purpose of this element is to describe the requested of data objects
                 # early on in the design ultimately occurs via the conversion (compuMethod),
                 # which specifies the the physical world to the standardized vice-versa) (here,
                 # "the slope per bit" is present the conversion formula).
@@ -899,7 +880,6 @@ class SwDataDefProps(ARObject):
                 f"swIntended must be Numerical or None, got {type(value).__name__}"
             )
         self._swIntended = value
-        # This is a keyword identifying the mathematical method to applied for
                 # interpolation.
         # The keyword needs to be the interpolation routine which needs to be.
         self._swInterpolation: Optional["Identifier"] = None
@@ -929,7 +909,6 @@ class SwDataDefProps(ARObject):
                 f"swInterpolation must be Identifier or str or None, got {type(value).__name__}"
             )
         self._swInterpolation = value
-        # This element distinguishes virtual objects.
         # Virtual objects appear in the memory, their derivation is much on other
                 # objects and hence they shall swDataDependency.
         self._swIsVirtual: Optional["Boolean"] = None
@@ -959,7 +938,6 @@ class SwDataDefProps(ARObject):
                 f"swIsVirtual must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._swIsVirtual = value
-        # Specifies that the containing data object is a pointer to data object.
         # atpSplitable property has no atp.
         # Splitkey due (PropertySetPattern).
         self._swPointerTarget: Optional["SwPointerTargetProps"] = None
@@ -989,7 +967,6 @@ class SwDataDefProps(ARObject):
                 f"swPointerTarget must be SwPointerTargetProps or None, got {type(value).__name__}"
             )
         self._swPointerTarget = value
-        # Record layout for this data object.
         # xml.
         # sequenceOffset=290 381 Document ID 89:
                 # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
@@ -1021,7 +998,6 @@ class SwDataDefProps(ARObject):
                 f"swRecord must be SwRecordLayout or None, got {type(value).__name__}"
             )
         self._swRecord = value
-        # This element specifies the frequency in which the object shall be or is
                 # called or calculated.
         # This timing collected from the task in which write access the variable run.
         # But this cannot be done by system.
@@ -1054,7 +1030,6 @@ class SwDataDefProps(ARObject):
                 f"swRefresh must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._swRefresh = value
-        # the specific properties if the data object is a text object.
         self._swTextProps: Optional["SwTextProps"] = None
 
     @property
@@ -1082,7 +1057,6 @@ class SwDataDefProps(ARObject):
                 f"swTextProps must be SwTextProps or None, got {type(value).__name__}"
             )
         self._swTextProps = value
-        # This attribute is used to specify the dimensions of a value (VAL_BLK) for the
                 # case that that value block has than one dimension.
         # given in this attribute are ordered such first entry represents the first
                 # dimension, the represents the second dimension, and so value blocks the
@@ -1123,7 +1097,6 @@ class SwDataDefProps(ARObject):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
-        # The referenced ApplicationPrimitiveDataType represents the primitive data
                 # type of the value axis within a (e.
         # g.
         # curve, map).
@@ -2393,7 +2366,6 @@ class SwTextProps(ARObject):
                 f"arraySize must be ArraySizeSemantics or None, got {type(value).__name__}"
             )
         self._arraySize = value
-        # This is the base type of one character in the string.
         # In baseType denotes the intended encoding of in the string on level of
                 # ApplicationData.
         self._baseType: Optional["SwBaseType"] = None
@@ -2423,7 +2395,6 @@ class SwTextProps(ARObject):
                 f"baseType must be SwBaseType or None, got {type(value).__name__}"
             )
         self._baseType = value
-        # Filler character for text parameter to pad up to the swMaxTextSize.
         # will be interpreted according to the encoding the associated base type of the
                 # data object, (hex) represents the ASCII character zero as and 0 (dec)
                 # represents an end of string as of the fill character depends on the
@@ -2455,7 +2426,6 @@ class SwTextProps(ARObject):
                 f"swFillCharacter must be Integer or int or None, got {type(value).__name__}"
             )
         self._swFillCharacter = value
-        # Specifies the maximum text size in characters.
         # Note the bytes depends on the encoding in the.
         self._swMaxTextSize: Optional["Integer"] = None
 
@@ -2812,7 +2782,6 @@ class SwBitRepresentation(ARObject):
                 f"bitPosition must be Integer or int or None, got {type(value).__name__}"
             )
         self._bitPosition = value
-        # Number of bits allocated by a "bit data object" within its object.
         self._numberOfBits: Optional["Integer"] = None
 
     @property
@@ -3072,7 +3041,6 @@ class SwDataDependencyArgs(ARObject):
             return
 
         self._swCalprmRef = value
-        # Specifies a variable as an input argument to the.
         self._swVariable: Optional["RefType"] = None
 
     @property

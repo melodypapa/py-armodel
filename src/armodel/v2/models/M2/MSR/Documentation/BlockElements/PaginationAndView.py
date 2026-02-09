@@ -61,7 +61,6 @@ class DocumentViewSelectable(ARObject, ABC):
                 f"si must be NameTokens, got {type(value).__name__}"
             )
         self._si = value
-        # This attribute lists the document views in which the object If it is missing,
         # the object appears in all.
         self._view: Optional["ViewTokens"] = None
 
@@ -230,7 +229,6 @@ class Paginateable(DocumentViewSelectable, ABC):
                 f"break must be ChapterEnumBreak or None, got {type(value).__name__}"
             )
         self._break = value
-        # This attribute denotes the pagination policy.
         # In particular it if the containing text block shall be kept together previous
                 # block.
         self._keepWith: Optional["KeepWithPreviousEnum"] = None

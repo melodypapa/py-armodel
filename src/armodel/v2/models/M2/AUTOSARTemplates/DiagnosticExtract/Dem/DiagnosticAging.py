@@ -57,7 +57,6 @@ class DiagnosticAging(DiagnosticCommonElement):
                 f"agingCycle must be DiagnosticOperation or None, got {type(value).__name__}"
             )
         self._agingCycle = value
-        # Number of aging cycles needed to unlearn/delete the.
         self._threshold: Optional["PositiveInteger"] = None
 
     @property

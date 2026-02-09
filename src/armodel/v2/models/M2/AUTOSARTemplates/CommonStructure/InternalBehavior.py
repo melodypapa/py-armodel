@@ -391,7 +391,6 @@ class ExecutableEntity(Identifiable, ABC):
                 f"minimumStart must be TimeValue or None, got {type(value).__name__}"
             )
         self._minimumStart = value
-        # The reentrancy level of this ExecutableEntity.
         # See the the enumeration type ReentrancyLevel details.
         # that nonReentrant interfaces can have also multicoreReentrant
                 # implementations, and can also have multicoreReentrant.
@@ -422,7 +421,6 @@ class ExecutableEntity(Identifiable, ABC):
                 f"reentrancyLevel must be ReentrancyLevelEnum or None, got {type(value).__name__}"
             )
         self._reentrancyLevel = value
-        # The executable entity runs completely inside the area.
         # atpVariation.
         self._runsInside: List["ExclusiveArea"] = []
 

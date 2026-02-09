@@ -55,7 +55,6 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
                 f"enhancedMode must be Boolean or None, got {type(value).__name__}"
             )
         self._enhancedMode = value
-        # ModeDeclarationGroupPrototype (of the same Port to which these communication
         # attributes apply.
         self._modeGroup: RefType = None
 
@@ -80,7 +79,6 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
             return
 
         self._modeGroup = value
-        # This attribute controls the behavior of the corresponding with respect to the
                 # question whether it deal with asynchronous mode switch requests, i.
         # e.
         # if true, the RPortPrototype is able to deal with an switch request.

@@ -50,7 +50,6 @@ class EcucConditionSpecification(ARObject):
                 f"condition must be EcucConditionFormula or None, got {type(value).__name__}"
             )
         self._condition = value
-        # Query to the ECU Configuration Description.
         self._ecucQuery: List["EcucQuery"] = []
 
     @property

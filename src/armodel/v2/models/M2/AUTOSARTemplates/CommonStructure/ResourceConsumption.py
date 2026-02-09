@@ -302,7 +302,6 @@ class HardwareConfiguration(ARObject):
                 f"additional must be String or str or None, got {type(value).__name__}"
             )
         self._additional = value
-        # Specifies in which mode the processor is operating.
         self._processorMode: Optional["String"] = None
 
     @property
@@ -330,7 +329,6 @@ class HardwareConfiguration(ARObject):
                 f"processorMode must be String or str or None, got {type(value).__name__}"
             )
         self._processorMode = value
-        # Specifies the speed the processor is operating.
         self._processorSpeed: Optional["String"] = None
 
     @property
@@ -539,7 +537,6 @@ class SoftwareContext(ARObject):
                 f"input must be String or str or None, got {type(value).__name__}"
             )
         self._input = value
-        # Specifies the state the software is in when the Execution provided.
         self._state: Optional["String"] = None
 
     @property

@@ -319,7 +319,6 @@ class Implementation(ARElement, ABC):
                 f"buildAction must be BuildActionManifest or None, got {type(value).__name__}"
             )
         self._buildAction = value
-        # Specifies the provided implementation code.
         self._codeDescriptor: List["Code"] = []
 
     @property
@@ -392,7 +391,6 @@ class Implementation(ARElement, ABC):
                 f"mcSupport must be McSupportData or None, got {type(value).__name__}"
             )
         self._mcSupport = value
-        # Programming language the implementation was created in.
         self._programming: Optional["Programminglanguage"] = None
 
     @property
@@ -420,7 +418,6 @@ class Implementation(ARElement, ABC):
                 f"programming must be Programminglanguage or None, got {type(value).__name__}"
             )
         self._programming = value
-        # Specifies that this Implementation depends on the another artifact (e.
         # g.
         # a library).
         # This DependencyOnArtifact is subject to the purpose to support variability in
@@ -472,7 +469,6 @@ class Implementation(ARElement, ABC):
                 f"resource must be ResourceConsumption or None, got {type(value).__name__}"
             )
         self._resource = value
-        # This allows a mapping between an SWC and a BSW to be attached to an
         # implementation description Service, ECU Abstraction and Complex It is up to
         # the methodology to define reference has to be set for the Swc- or Bsw for
         # both.
@@ -499,7 +495,6 @@ class Implementation(ARElement, ABC):
             return
 
         self._swcBsw = value
-        # Software version of this implementation.
         # The numbering levels (like major, minor, patch), its values specific.
         self._swVersion: Optional["RevisionLabelString"] = None
 
@@ -528,7 +523,6 @@ class Implementation(ARElement, ABC):
                 f"swVersion must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._swVersion = value
-        # Optional: code generator used.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
         self._usedCodeGenerator: Optional["String"] = None
@@ -558,7 +552,6 @@ class Implementation(ARElement, ABC):
                 f"usedCodeGenerator must be String or str or None, got {type(value).__name__}"
             )
         self._usedCodeGenerator = value
-        # Vendor ID of this Implementation according to the list.
         self._vendorId: Optional["PositiveInteger"] = None
 
     @property
@@ -1138,7 +1131,6 @@ class DependencyOnArtifact(Identifiable):
                 f"artifact must be AutosarEngineering or None, got {type(value).__name__}"
             )
         self._artifact = value
-        # Specification for which process step(s) this dependency is.
         self._usage: List["RefType"] = []
 
     @property
@@ -1256,7 +1248,6 @@ class Compiler(Identifiable):
                 f"name must be String or str or None, got {type(value).__name__}"
             )
         self._name = value
-        # Specifies the compiler options.
         self._options: Optional["String"] = None
 
     @property
@@ -1284,7 +1275,6 @@ class Compiler(Identifiable):
                 f"options must be String or str or None, got {type(value).__name__}"
             )
         self._options = value
-        # Vendor of compiler.
         self._vendor: Optional["String"] = None
 
     @property
@@ -1312,7 +1302,6 @@ class Compiler(Identifiable):
                 f"vendor must be String or str or None, got {type(value).__name__}"
             )
         self._vendor = value
-        # Exact version of compiler executable.
         self._version: Optional["String"] = None
 
     @property
@@ -1568,7 +1557,6 @@ class Linker(Identifiable):
                 f"name must be String or str or None, got {type(value).__name__}"
             )
         self._name = value
-        # Specifies the linker options.
         self._options: Optional["String"] = None
 
     @property
@@ -1596,7 +1584,6 @@ class Linker(Identifiable):
                 f"options must be String or str or None, got {type(value).__name__}"
             )
         self._options = value
-        # Vendor of linker.
         self._vendor: Optional["String"] = None
 
     @property
@@ -1624,7 +1611,6 @@ class Linker(Identifiable):
                 f"vendor must be String or str or None, got {type(value).__name__}"
             )
         self._vendor = value
-        # Exact version of linker executable.
         self._version: Optional["String"] = None
 
     @property

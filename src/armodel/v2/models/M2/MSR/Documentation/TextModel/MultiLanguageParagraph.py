@@ -45,7 +45,6 @@ class MultiLanguageParagraph(Paginateable):
                 f"helpEntry must be String or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        self._l1: "LParagraph" = None
 
     @property
     def l1(self) -> "LParagraph":

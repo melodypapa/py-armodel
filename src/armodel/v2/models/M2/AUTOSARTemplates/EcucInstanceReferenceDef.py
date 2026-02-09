@@ -47,7 +47,6 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
                 f"destination must be String or None, got {type(value).__name__}"
             )
         self._destination = value
-        # The type in the AUTOSAR Metamodel to which’ instance is allowed to point to.
         self._destinationType: Optional["String"] = None
 
     @property

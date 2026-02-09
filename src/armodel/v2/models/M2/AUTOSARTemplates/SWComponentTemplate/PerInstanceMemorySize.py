@@ -50,7 +50,6 @@ class PerInstanceMemorySize(ARObject):
                 f"alignment must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._alignment = value
-        # This represents the referenced PerInstanceMemory.
         self._perInstanceMemory: Optional["PerInstanceMemory"] = None
 
     @property
@@ -78,7 +77,6 @@ class PerInstanceMemorySize(ARObject):
                 f"perInstanceMemory must be PerInstanceMemory or None, got {type(value).__name__}"
             )
         self._perInstanceMemory = value
-        # Size (in bytes) of the reference perInstanceMemory.
         # The PerInstanceMemorySize is subject to the purpose to support variability in
                 # the implementations.
         # Different the implementation might require a different.

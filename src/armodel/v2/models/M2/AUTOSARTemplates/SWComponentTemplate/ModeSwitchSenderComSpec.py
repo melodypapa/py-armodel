@@ -55,7 +55,6 @@ class ModeSwitchSenderComSpec(PPortComSpec):
                 f"enhancedMode must be Boolean or None, got {type(value).__name__}"
             )
         self._enhancedMode = value
-        # ModeDeclarationGroupPrototype (of the same Port to which these communication
         # attributes apply.
         self._modeGroup: RefType = None
 
@@ -80,7 +79,6 @@ class ModeSwitchSenderComSpec(PPortComSpec):
             return
 
         self._modeGroup = value
-        # If this aggregation exists an acknowledgement for the successful processing
         # of the mode switch request is.
         self._modeSwitched: Optional["ModeSwitchedAck"] = None
 
@@ -109,7 +107,6 @@ class ModeSwitchSenderComSpec(PPortComSpec):
                 f"modeSwitched must be ModeSwitchedAck or None, got {type(value).__name__}"
             )
         self._modeSwitched = value
-        # Length of call queue on the mode user side.
         # The queue is the RTE.
         # The value shall be greater or 1.
         # Setting the value of queueLength to 1 implies requests are rejected while

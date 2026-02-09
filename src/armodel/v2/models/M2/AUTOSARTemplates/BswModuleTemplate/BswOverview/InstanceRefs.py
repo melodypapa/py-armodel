@@ -55,7 +55,6 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
                 f"base must be BswModuleDescription or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._contextModeGroup: Optional["RefType"] = None
 
@@ -80,7 +79,6 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
             return
 
         self._contextModeGroup = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetMode: Optional["ModeDeclaration"] = None
 

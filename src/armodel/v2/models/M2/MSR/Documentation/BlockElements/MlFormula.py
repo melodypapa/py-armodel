@@ -50,7 +50,6 @@ class MlFormula(Paginateable):
                 f"formulaCaption must be Caption or None, got {type(value).__name__}"
             )
         self._formulaCaption = value
-        # this rpresents the semantic and mathematical are processed by a
         # math-processor.
         self._genericMath: Optional["MultiLanguagePlainText"] = None
 
@@ -79,7 +78,6 @@ class MlFormula(Paginateable):
                 f"genericMath must be MultiLanguagePlainText or None, got {type(value).__name__}"
             )
         self._genericMath = value
-        # This represents a formula as an embedded figure.
         self._lGraphic: List["LGraphic"] = []
 
     @property
@@ -115,7 +113,6 @@ class MlFormula(Paginateable):
                 f"texMath must be MultiLanguagePlainText or None, got {type(value).__name__}"
             )
         self._texMath = value
-        # this represents a formula using only text and white-space.
         # be used to denote the formula in a kind of pseudo whatever appears
                 # approprate.
         self._verbatim: Optional["MultiLanguageVerbatim"] = None

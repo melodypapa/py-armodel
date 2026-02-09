@@ -162,7 +162,6 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
                 f"operationInstanceRef must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operationInstanceRef = value
-        # Time in seconds before the server call times out and an error message.
         # It depends on the call type asynchronous) how this is reported.
         self._timeout: Optional["TimeValue"] = None
 

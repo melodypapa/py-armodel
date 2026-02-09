@@ -53,7 +53,6 @@ class VariableAccess(AbstractAccessPoint):
             return
 
         self._accessedVariable = value
-        # This attribute allows for constraining the scope of the communication.
         # For example, it possible to the communication is intended to cross of an ECU
                 # or whether it is intended not to boundary of a single partition.
         self._scope: Optional["VariableAccessScope"] = None

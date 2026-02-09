@@ -63,7 +63,6 @@ class EcucDestinationUriPolicy(ARObject):
                 f"destinationUri must be EcucDestinationUri or None, got {type(value).__name__}"
             )
         self._destinationUri = value
-        # Description of parameters that are contained in the target.
         self._parameter: List["EcucParameterDef"] = []
 
     @property

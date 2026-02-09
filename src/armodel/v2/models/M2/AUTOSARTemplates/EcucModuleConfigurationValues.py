@@ -69,7 +69,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"definition must be EcucModuleDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # This is the version info of the ModuleDef ECUC to which this values conform
         # to / are Definition of ModuleDef ECUC Parameters the be used to express the
         # semantic compatibility rules between the definition revision labels is up to
         # the module’s vendor.
@@ -100,7 +99,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"ecucDefEdition must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._ecucDefEdition = value
-        # Specifies the kind of deliverable this EcucModule ConfigurationValues element
                 # provides.
         # If this element is in a particular role (e.
         # g.
@@ -133,7 +131,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"implementation must be EcucConfiguration or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # Referencing the BSW module description, which this element is configuring.
         # optional because the EcucModuleConfiguration is also used to configure the
                 # ECU map) or Application SW-Cs.
         # case the EcucModuleConfigurationValues are configure the module, the
@@ -165,7 +162,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"module must be BswImplementation or None, got {type(value).__name__}"
             )
         self._module = value
-        # Indicates whether a module implementation has or plans have (i.
         # e.
         # , introduced at link or post-build time) new points.
         # TRUE means yes, FALSE If the attribute is not defined, FALSE be assumed.

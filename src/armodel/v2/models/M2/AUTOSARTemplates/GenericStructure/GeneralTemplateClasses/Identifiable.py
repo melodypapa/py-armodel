@@ -986,7 +986,6 @@ class Identifiable(MultilanguageReferrable, ABC):
                 f"adminData must be AdminData or None, got {type(value).__name__}"
             )
         self._adminData = value
-        # Possibility to provide additional notes while defining a (e.
         # g.
         # the ECU Configuration Parameter are not intended as documentation but design
                 # notes.
@@ -1025,7 +1024,6 @@ class Identifiable(MultilanguageReferrable, ABC):
                 f"category must be CategoryString or None, got {type(value).__name__}"
             )
         self._category = value
-        # This represents a general but brief (one paragraph) what the object in
                 # question is about.
         # It is only Desc is intended to be collected into This property helps a human
                 # reader to object in question.
@@ -1058,7 +1056,6 @@ class Identifiable(MultilanguageReferrable, ABC):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This represents more information about how the object in built or is used.
         # Therefore it is a.
         self._introduction: Optional["DocumentationBlock"] = None
 
@@ -1087,7 +1084,6 @@ class Identifiable(MultilanguageReferrable, ABC):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
-        # The purpose of this attribute is to provide a globally for an instance of a
                 # meta-class.
         # The this attribute should be globally unique strings the type of identifier.
         # For example, to include a as defined by The Open Group, the UUID preceded by

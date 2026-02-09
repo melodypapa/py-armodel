@@ -49,7 +49,6 @@ class EmphasisText(ARObject):
                 f"color must be String or None, got {type(value).__name__}"
             )
         self._color = value
-        # This specifies the font style in which the emphasized text rendered.
         self._font: Optional["EEnumFont"] = None
 
     @property
@@ -77,7 +76,6 @@ class EmphasisText(ARObject):
                 f"font must be EEnumFont or None, got {type(value).__name__}"
             )
         self._font = value
-        # this is subscript text.
         self._sub: "Superscript" = None
 
     @property
@@ -101,7 +99,6 @@ class EmphasisText(ARObject):
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        # This is superscript text.
         self._sup: "Superscript" = None
 
     @property
@@ -125,7 +122,6 @@ class EmphasisText(ARObject):
                 f"sup must be Superscript, got {type(value).__name__}"
             )
         self._sup = value
-        # This is a technical term.
         self._tt: Optional["Tt"] = None
 
     @property
@@ -153,7 +149,6 @@ class EmphasisText(ARObject):
                 f"tt must be Tt or None, got {type(value).__name__}"
             )
         self._tt = value
-        # Indicates how the text may be emphasized.
         # Note that this a proposal which can be overridden or ignored by engines.
         # Default is BOLD.
         self._type: Optional["EEnum"] = None

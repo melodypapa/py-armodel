@@ -73,7 +73,6 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
             return
 
         self._rootData = value
-        # This is a target ImplementationDataTypeElement in case that the
                 # rootDataPrototype is composite and the target is subElement of the
                 # rootDataPrototype.
         # xml.
@@ -322,7 +321,6 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
                 f"abstractBase must be PortInterface or None, got {type(value).__name__}"
             )
         self._abstractBase = value
-        # Stereotypes: atpAbstract Tags: xml.
         # sequenceOffset=20.
         self._contextData: List["ApplicationComposite"] = []
 
@@ -355,7 +353,6 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
             return
 
         self._rootData = value
-        # Stereotypes: atpAbstract xml.
         # sequenceOffset=30.
         self._targetData: "RefType" = None
 
@@ -567,7 +564,6 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
                 f"baseInterface must be SenderReceiver or None, got {type(value).__name__}"
             )
         self._baseInterface = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._contextData: List["ApplicationComposite"] = []
 
@@ -600,7 +596,6 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
             return
 
         self._rootDataPrototypeInSr = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetDataPrototypeInSr: Optional["RefType"] = None
 
@@ -816,7 +811,6 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
                 f"base must be ClientServerInterface or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._contextData: List["ApplicationComposite"] = []
 
@@ -849,7 +843,6 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
             return
 
         self._rootDataPrototypeInCs = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetDataPrototypeInCs: Optional["RefType"] = None
 

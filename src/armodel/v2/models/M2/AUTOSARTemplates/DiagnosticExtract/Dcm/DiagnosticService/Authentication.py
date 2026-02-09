@@ -200,7 +200,6 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
                 f"evaluationId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._evaluationId = value
-        # This attribute represents the description of the actual the corresponding
         # evaluation ID.
         self._function: Optional["String"] = None
 

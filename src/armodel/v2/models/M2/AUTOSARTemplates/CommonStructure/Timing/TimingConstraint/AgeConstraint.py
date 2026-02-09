@@ -52,7 +52,6 @@ class AgeConstraint(TimingConstraint):
                 f"maximum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # The received event referenced by scope should not lower bound.
         self._minimum: Optional["MultidimensionalTime"] = None
 
     @property
@@ -80,7 +79,6 @@ class AgeConstraint(TimingConstraint):
                 f"minimum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimum = value
-        # TimingDescriptionEvent to be constrained.
         self._scope: Optional["TimingDescriptionEvent"] = None
 
     @property

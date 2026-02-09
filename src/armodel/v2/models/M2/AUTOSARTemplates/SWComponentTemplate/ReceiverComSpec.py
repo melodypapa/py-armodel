@@ -87,7 +87,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
             return
 
         self._dataElement = value
-        # Control the way how return values are created in case of an out-of-range
         # situation.
         self._handleOutOf: Optional["HandleOutOfRange"] = None
 
@@ -116,7 +115,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
                 f"handleOutOf must be HandleOutOfRange or None, got {type(value).__name__}"
             )
         self._handleOutOf = value
-        # Initial maximum allowed gap between two counter values two consecutively
                 # received valid Data, i.
         # e.
         # how many data is accepted.
@@ -149,7 +147,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
                 f"maxDelta must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._maxDelta = value
-        # Number of Data required for validating the consistency of that shall be
                 # received with a valid counter (i.
         # e.
         # the allowed lock-in range) after the an unexpected behavior of a received E2E
@@ -183,7 +180,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
                 f"syncCounterInit must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._syncCounterInit = value
-        # This references the TransformationComSpecProps which define port-specific
         # configuration for data transformation.
         self._transformation: List["TransformationCom"] = []
 

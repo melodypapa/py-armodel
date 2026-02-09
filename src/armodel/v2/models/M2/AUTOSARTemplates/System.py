@@ -76,7 +76,6 @@ class System(ARElement):
                 f"containerIPdu must be ByteOrderEnum or None, got {type(value).__name__}"
             )
         self._containerIPdu = value
-        # Version number of the Ecu Extract.
         self._ecuExtractVersion: Optional["RevisionLabelString"] = None
 
     @property
@@ -104,7 +103,6 @@ class System(ARElement):
                 f"ecuExtractVersion must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._ecuExtractVersion = value
-        # Reference to ASAM FIBEX elements specifying Topology.
         # Elements used within a System Description shall from the System Element.
         # order to describe a product-line, all Fibex be optional.
         # atpVariation.
@@ -174,7 +172,6 @@ class System(ARElement):
                 f"pncVector must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._pncVector = value
-        # Absolute offset (with respect to the NM-PDU) of the request release
         # information vector that in bytes as an index starting with 0.
         self._pncVectorOffset: Optional["PositiveInteger"] = None
 
@@ -203,7 +200,6 @@ class System(ARElement):
                 f"pncVectorOffset must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._pncVectorOffset = value
-        # Aggregation of the root software composition, containing all software
                 # components in the System in a hierarchical element is not required when the
                 # System used for a network-only use-case.
         # RootSwCompositionPrototype can vary.
@@ -235,7 +231,6 @@ class System(ARElement):
                 f"rootSoftware must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._rootSoftware = value
-        # CP Software Clusters of this System atpVariation.
         self._swCluster: List["CpSoftwareCluster"] = []
 
     @property

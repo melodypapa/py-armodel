@@ -48,7 +48,6 @@ class MixedContentForUnitNames(ARObject, ABC):
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        # This is superscript text.
         self._sup: "Superscript" = None
 
     @property

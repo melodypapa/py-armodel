@@ -161,7 +161,6 @@ class DataConstrRule(ARObject):
                 f"constrLevel must be Integer or int or None, got {type(value).__name__}"
             )
         self._constrLevel = value
-        # Describes the limitations applicable on the internal opposed to the physical
         # domain).
         self._internalConstrs: Optional["InternalConstrs"] = None
 
@@ -190,7 +189,6 @@ class DataConstrRule(ARObject):
                 f"internalConstrs must be InternalConstrs or None, got {type(value).__name__}"
             )
         self._internalConstrs = value
-        # Describes the limitations applicable on the physical opposed to the internal
         # domain).
         self._physConstrs: Optional["PhysConstrs"] = None
 
@@ -402,7 +400,6 @@ class PhysConstrs(ARObject):
                 f"lowerLimit must be Limit or None, got {type(value).__name__}"
             )
         self._lowerLimit = value
-        # Maximum difference that is permitted between two if the constraint is applied
         # to an axis.
         self._maxDiff: Optional["Numerical"] = None
 
@@ -431,7 +428,6 @@ class PhysConstrs(ARObject):
                 f"maxDiff must be Numerical or None, got {type(value).__name__}"
             )
         self._maxDiff = value
-        # This element specifies the maximum slope that may be curves and maps.
         self._maxGradient: Optional["Numerical"] = None
 
     @property
@@ -459,7 +455,6 @@ class PhysConstrs(ARObject):
                 f"maxGradient must be Numerical or None, got {type(value).__name__}"
             )
         self._maxGradient = value
-        # This specifies the monotony constraints on the data that this applies only to
         # curves and maps.
         self._monotony: Optional["MonotonyEnum"] = None
 
@@ -488,7 +483,6 @@ class PhysConstrs(ARObject):
                 f"monotony must be MonotonyEnum or None, got {type(value).__name__}"
             )
         self._monotony = value
-        # This is one particular scale which contributes to the data.
         self._scaleConstr: List["ScaleConstr"] = []
 
     @property
@@ -524,7 +518,6 @@ class PhysConstrs(ARObject):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
-        # This specifies the upper limit of the constraint.
         self._upperLimit: Optional["Limit"] = None
 
     @property
@@ -877,7 +870,6 @@ class InternalConstrs(ARObject):
                 f"lowerLimit must be Limit or None, got {type(value).__name__}"
             )
         self._lowerLimit = value
-        # Maximum difference that is permitted between two if the constraint is applied
         # to an axis.
         self._maxDiff: Optional["Numerical"] = None
 
@@ -906,7 +898,6 @@ class InternalConstrs(ARObject):
                 f"maxDiff must be Numerical or None, got {type(value).__name__}"
             )
         self._maxDiff = value
-        # This element specifies the maximum slope that may be maps and curves.
         self._maxGradient: Optional["Numerical"] = None
 
     @property
@@ -934,7 +925,6 @@ class InternalConstrs(ARObject):
                 f"maxGradient must be Numerical or None, got {type(value).__name__}"
             )
         self._maxGradient = value
-        # This element specifies the monotony characteristics of internal or physical
                 # limits.
         # The following table monotony characteristics which are to be filled
                 # corresponding values.
@@ -966,7 +956,6 @@ class InternalConstrs(ARObject):
                 f"monotony must be MonotonyEnum or None, got {type(value).__name__}"
             )
         self._monotony = value
-        # This is one particular scale which contributes to the data.
         self._scaleConstr: List["ScaleConstr"] = []
 
     @property
@@ -1283,7 +1272,6 @@ class ScaleConstr(ARObject):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This specifies the lower limit of the scale.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
         self._lowerLimit: Optional["Limit"] = None
@@ -1313,7 +1301,6 @@ class ScaleConstr(ARObject):
                 f"lowerLimit must be Limit or None, got {type(value).__name__}"
             )
         self._lowerLimit = value
-        # This element specifies a short name for the scaleConstr.
         # for example be used to create more specific a constraint checker.
         # The constraints cannot in the meta-model, therefore shortLabel is substitute
                 # for shortName.
@@ -1344,7 +1331,6 @@ class ScaleConstr(ARObject):
                 f"shortLabel must be Identifier or str or None, got {type(value).__name__}"
             )
         self._shortLabel = value
-        # This specifies the upper limit of a the scale.
         self._upperLimit: Optional["Limit"] = None
 
     @property
@@ -1372,7 +1358,6 @@ class ScaleConstr(ARObject):
                 f"upperLimit must be Limit or None, got {type(value).__name__}"
             )
         self._upperLimit = value
-        # Specifies if the values defined by the scales are to be valid.
         # If the attribute is missing then the is "VALID".
         self._validity: Optional["ScaleConstrValidity"] = None
 

@@ -66,7 +66,6 @@ class RoleBasedDataTypeAssignment(ARObject):
                 f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
-        # This represents the associated ImplementationDataType.
         self._used: Optional["ImplementationData"] = None
 
     @property
@@ -270,7 +269,6 @@ class RoleBasedPortAssignment(ARObject):
             return
 
         self._portPrototype = value
-        # This is the role of the assigned Port in the given context.
         # shall be a shortName of the Blueprint of a Port standardized in the Software
                 # Specification of AUTOSAR Service.
         self._role: Optional["Identifier"] = None
@@ -458,7 +456,6 @@ class SwcServiceDependency(ServiceDependency):
             return
 
         self._representedPort = value
-        # The associated ServiceNeeds.
         self._serviceNeeds: Optional["ServiceNeeds"] = None
 
     @property

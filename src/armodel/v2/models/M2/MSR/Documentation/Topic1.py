@@ -48,7 +48,6 @@ class Topic1(Paginateable):
                 f"helpEntry must be String or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # This is the content of the topic.
         self._topicContent: Optional["TopicContentOrMsr"] = None
 
     @property

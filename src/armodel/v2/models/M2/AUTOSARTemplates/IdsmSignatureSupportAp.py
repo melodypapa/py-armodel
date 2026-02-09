@@ -46,7 +46,6 @@ class IdsmSignatureSupportAp(ARObject):
                 f"cryptoPrimitive must be String, got {type(value).__name__}"
             )
         self._cryptoPrimitive = value
-        # This reference denotes the cryptographic key to be used cryptographic
         # algorithm for providing in QSEv messages.
         self._keySlot: Optional["CryptoKeySlot"] = None
 

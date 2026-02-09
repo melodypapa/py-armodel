@@ -49,7 +49,6 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
                 f"intervalLength must be TimeValue or None, got {type(value).__name__}"
             )
         self._intervalLength = value
-        # This attribute configures the threshold number, i.
         # e.
         # how security events in the configured time frame are subsequent events start
                 # to pass the filter.

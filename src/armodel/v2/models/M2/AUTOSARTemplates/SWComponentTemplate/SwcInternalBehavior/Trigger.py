@@ -62,7 +62,6 @@ class ExternalTriggeringPoint(ARObject):
             return
 
         self._ident = value
-        # by: PTriggerInAtomicSwc.
         self._triggerTypeInstanceRef: Optional["RefType"] = None
 
     @property

@@ -69,7 +69,6 @@ class DiagnosticContributionSet(ARElement):
                 f"common must be DiagnosticCommon or None, got {type(value).__name__}"
             )
         self._common = value
-        # This represents a DiagnosticCommonElement considered the context of the
         # DiagnosticContributionSet atpVariation 719 Document ID 673:
         # AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11.
         self._element: List["DiagnosticCommon"] = []
@@ -279,7 +278,6 @@ class DiagnosticProtocol(DiagnosticCommonElement):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # This identifies the applicable protocol.
         self._protocolKind: Optional["NameToken"] = None
 
     @property
@@ -307,7 +305,6 @@ class DiagnosticProtocol(DiagnosticCommonElement):
                 f"protocolKind must be NameToken or str or None, got {type(value).__name__}"
             )
         self._protocolKind = value
-        # The purpose of this attribute is to define whether or not ECU should send a
         # NRC 0x78 (response pending) to the bootloader (in this case the be set to
         # "true") or if the transition shall be sending NRC 0x78 (in this case the be
         # set to "false").
@@ -338,7 +335,6 @@ class DiagnosticProtocol(DiagnosticCommonElement):
                 f"sendRespPend must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._sendRespPend = value
-        # This represents the service table applicable for the given atpVariation.
         self._serviceTable: Optional["DiagnosticServiceTable"] = None
 
     @property
@@ -613,7 +609,6 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # This identifies the applicable protocol.
         self._protocolKind: Optional["NameToken"] = None
 
     @property
@@ -641,7 +636,6 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
                 f"protocolKind must be NameToken or str or None, got {type(value).__name__}"
             )
         self._protocolKind = value
-        # This represents the collection of DiagnosticService to be considered in the
         # scope of this Diagnostic.
         self._serviceInstance: List["DiagnosticService"] = []
 

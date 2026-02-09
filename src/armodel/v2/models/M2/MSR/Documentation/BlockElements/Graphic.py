@@ -45,7 +45,6 @@ class Graphic(EngineeringObject):
                 f"editfit must be GraphicFitEnum or None, got {type(value).__name__}"
             )
         self._editfit = value
-        # Specifies the height of the graphic when it is displayed in The unit can be
                 # added to the number in the units are: cm, mm, px, pt.
         # The default unit.
         self._editHeight: Optional["String"] = None
@@ -75,7 +74,6 @@ class Graphic(EngineeringObject):
                 f"editHeight must be String or None, got {type(value).__name__}"
             )
         self._editHeight = value
-        # Set the proportional scale when displayed in an editor.
         self._editscale: Optional["String"] = None
 
     @property
@@ -103,7 +101,6 @@ class Graphic(EngineeringObject):
                 f"editscale must be String or None, got {type(value).__name__}"
             )
         self._editscale = value
-        # Specifies the width of the graphic when it is displayed in The unit can be
                 # added to the number in the units are: cm, mm, px, pt.
         # The default unit.
         self._editWidth: Optional["String"] = None
@@ -133,7 +130,6 @@ class Graphic(EngineeringObject):
                 f"editWidth must be String or None, got {type(value).__name__}"
             )
         self._editWidth = value
-        # Name of the file that should be displayed.
         # This attribute is ASAM FSX and kept in AUTOSAR in order cut and paste.
         self._filename: Optional["String"] = None
 
@@ -162,7 +158,6 @@ class Graphic(EngineeringObject):
                 f"filename must be String or None, got {type(value).__name__}"
             )
         self._filename = value
-        # It determines the way in which the graphic should be attribute value "AS-IS"
                 # , to insert a graphic in its is adapted, if it is too big for the space for
                 # was intended.
         # Default is "AS-IS" 535 Document ID 202:
@@ -194,7 +189,6 @@ class Graphic(EngineeringObject):
                 f"fit must be GraphicFitEnum or None, got {type(value).__name__}"
             )
         self._fit = value
-        # This attribute specifies the generator which is used to image.
         # is that when editing a documentation, a figure delivered by the modeling
                 # tool) is inserted by the as reference (this is the role of graphic).
         # real figure maybe injected during document be able to recognize this
@@ -226,7 +220,6 @@ class Graphic(EngineeringObject):
                 f"generator must be NameToken or None, got {type(value).__name__}"
             )
         self._generator = value
-        # Define the displayed height of the figure.
         # The unit can be the number in the string.
         # Possible units are: cm, pt.
         # The default unit is px.
@@ -257,7 +250,6 @@ class Graphic(EngineeringObject):
                 f"height must be String or None, got {type(value).__name__}"
             )
         self._height = value
-        # How to fit the graphic in an online media.
         # Default is AS-IS.
         self._htmlFit: Optional["GraphicFitEnum"] = None
 
@@ -286,7 +278,6 @@ class Graphic(EngineeringObject):
                 f"htmlFit must be GraphicFitEnum or None, got {type(value).__name__}"
             )
         self._htmlFit = value
-        # Specifies the height of the graphic when it is displayed unit can be added to
                 # the number in the string.
         # are: cm, mm, px, pt.
         # The default unit is px.
@@ -317,7 +308,6 @@ class Graphic(EngineeringObject):
                 f"htmlHeight must be String or None, got {type(value).__name__}"
             )
         self._htmlHeight = value
-        # Set the proportional scale when displayed online.
         self._htmlScale: Optional["String"] = None
 
     @property
@@ -345,7 +335,6 @@ class Graphic(EngineeringObject):
                 f"htmlScale must be String or None, got {type(value).__name__}"
             )
         self._htmlScale = value
-        # Specifies the width of the graphic when it is displayed unit can be added to
                 # the number in the string.
         # are: cm, mm, px, pt.
         # The default unit is px.
@@ -376,7 +365,6 @@ class Graphic(EngineeringObject):
                 f"htmlWidth must be String or None, got {type(value).__name__}"
             )
         self._htmlWidth = value
-        # This attribute captures the format used to represent the.
         self._notation: Optional["GraphicNotationEnum"] = None
 
     @property
@@ -404,7 +392,6 @@ class Graphic(EngineeringObject):
                 f"notation must be GraphicNotationEnum or None, got {type(value).__name__}"
             )
         self._notation = value
-        # In this element the dimensions of the graphic can be.
         self._scale: Optional["String"] = None
 
     @property
@@ -432,7 +419,6 @@ class Graphic(EngineeringObject):
                 f"scale must be String or None, got {type(value).__name__}"
             )
         self._scale = value
-        # Define the displayed width of the figure.
         # The unit can be the number in the string.
         # Possible units are: cm, pt.
         # The default unit is px.

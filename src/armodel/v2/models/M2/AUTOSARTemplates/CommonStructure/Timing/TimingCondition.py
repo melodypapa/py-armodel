@@ -201,7 +201,6 @@ class TimingConditionFormula(ARObject):
                 f"timingArgumentArgumentInstance must be AutosarOperation or None, got {type(value).__name__}"
             )
         self._timingArgumentArgumentInstance = value
-        # This refers to a timing condition that is part of an the dependency on a
         # specific.
         self._timingCondition: Optional["TimingCondition"] = None
 
@@ -230,7 +229,6 @@ class TimingConditionFormula(ARObject):
                 f"timingCondition must be TimingCondition or None, got {type(value).__name__}"
             )
         self._timingCondition = value
-        # This refers to a timing event.
         self._timingEvent: Optional["TimingDescriptionEvent"] = None
 
     @property
@@ -258,7 +256,6 @@ class TimingConditionFormula(ARObject):
                 f"timingEvent must be TimingDescriptionEvent or None, got {type(value).__name__}"
             )
         self._timingEvent = value
-        # This refers to a mode declaration.
         self._timingMode: Optional["TimingModeInstance"] = None
 
     @property
@@ -286,7 +283,6 @@ class TimingConditionFormula(ARObject):
                 f"timingMode must be TimingModeInstance or None, got {type(value).__name__}"
             )
         self._timingMode = value
-        # This refers to a variable.
         self._timingVariableInstance: Optional["AutosarVariable"] = None
 
     @property
@@ -760,7 +756,6 @@ class ModeInBswInstanceRef(ARObject):
                 f"contextBsw must be BswImplementation or None, got {type(value).__name__}"
             )
         self._contextBsw = value
-        # Specifies the mode declaration group prototype that manifests the context.
         # xml.
         # sequenceOffset=20.
         self._contextMode: Optional["RefType"] = None
@@ -786,7 +781,6 @@ class ModeInBswInstanceRef(ARObject):
             return
 
         self._contextMode = value
-        # Specifies the specific mode declaration in the given.
         self._targetMode: Optional["ModeDeclaration"] = None
 
     @property
@@ -995,7 +989,6 @@ class ModeInSwcInstanceRef(ARObject):
                 f"base must be SwComponentType or None, got {type(value).__name__}"
             )
         self._base = value
-        # Specifies the SW component prototype representing the context.
         self._context: List["SwComponent"] = []
 
     @property
@@ -1028,7 +1021,6 @@ class ModeInSwcInstanceRef(ARObject):
             return
 
         self._contextMode = value
-        # Specifies the port prototype representing the context.
         # 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for
                 # Classic R23-11.
         self._contextPort: Optional["RefType"] = None
@@ -1054,7 +1046,6 @@ class ModeInSwcInstanceRef(ARObject):
             return
 
         self._contextPort = value
-        # Specifies the specific mode declaration in the given.
         self._targetMode: Optional["ModeDeclaration"] = None
 
     @property

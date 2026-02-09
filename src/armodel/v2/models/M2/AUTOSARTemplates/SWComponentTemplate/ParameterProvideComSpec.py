@@ -48,7 +48,6 @@ class ParameterProvideComSpec(PPortComSpec):
                 f"initValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # The ParameterDataPrototype to which the Parameter applies.
         self._parameter: Optional["ParameterData"] = None
 
     @property

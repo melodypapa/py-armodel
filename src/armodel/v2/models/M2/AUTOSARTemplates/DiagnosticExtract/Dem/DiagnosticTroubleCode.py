@@ -366,7 +366,6 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 f"aging must be DiagnosticAging or None, got {type(value).__name__}"
             )
         self._aging = value
-        # Reference to the applicable DiagnosticMemory Destination.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
         self._diagnostic: Optional["DiagnosticMemory"] = None
@@ -396,7 +395,6 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 f"diagnostic must be DiagnosticMemory or None, got {type(value).__name__}"
             )
         self._diagnostic = value
-        # Defines the links to an extended data class sampler.
         # Stereotypes: atpSplitable; atpVariation.
         self._extendedData: List["DiagnosticExtended"] = []
 
@@ -444,7 +442,6 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 f"immediateNv must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._immediateNv = value
-        # This reference identifies the layout of legislated freeze frames used for
                 # emission related diagnostics over the protocol such as OBDonUDS or WWH-OBD.
         # atpVariation.
         self._legislated: Optional["DiagnosticDataIdentifier"] = None
@@ -474,7 +471,6 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 f"legislated must be DiagnosticDataIdentifier or None, got {type(value).__name__}"
             )
         self._legislated = value
-        # This attribute defines the number of according freeze records, which can
         # maximal be stored for this Therefore all these freeze frame records have the
         # frame class.
         self._maxNumber: Optional["PositiveInteger"] = None
@@ -504,7 +500,6 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 f"maxNumber must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumber = value
-        # Priority of the event, in view of full event buffer.
         # A lower higher priority.
         self._priority: Optional["PositiveInteger"] = None
 
@@ -533,7 +528,6 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # Significance of the event, which indicates additional concerning fault
         # classification and resolution.
         self._significance: Optional["DiagnosticSignificance"] = None
 
@@ -562,7 +556,6 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 f"significance must be DiagnosticSignificance or None, got {type(value).__name__}"
             )
         self._significance = value
-        # This represents the freeze frame layout as a set of DIDs.
         # Stereotypes: atpSplitable; atpVariation.
         self._snapshot: Optional["DiagnosticDataIdentifier"] = None
 
@@ -1059,7 +1052,6 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"considerPto must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._considerPto = value
-        # Defined properties associated with the DemDTC.
         self._dtcPropsProps: Optional["DiagnosticTroubleCode"] = None
 
     @property
@@ -1087,7 +1079,6 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"dtcPropsProps must be DiagnosticTroubleCode or None, got {type(value).__name__}"
             )
         self._dtcPropsProps = value
-        # This attribute specifies the Event OBD Readiness group for PID $01 and PID
                 # $41 computation.
         # This attribute is for emission-related ECUs.
         # atpVariation 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate
@@ -1119,7 +1110,6 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"eventReadiness must be EventObdReadiness or None, got {type(value).__name__}"
             )
         self._eventReadiness = value
-        # This attribute specifies a 1-byte value which identifies the vehicle / system
                 # function which DTC.
         # This parameter is necessary for the severity information.
         self._functionalUnit: Optional["PositiveInteger"] = None
@@ -1149,7 +1139,6 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"functionalUnit must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._functionalUnit = value
-        # 3 Byte OBD DTC value based on the definition from SAE The existence of this
         # attribute is only required if and OBD DTC values are used for SAE this
         # attribute does not exist, then UDS DTC used with J1979-2.
         self._obdDtc: Optional["PositiveInteger"] = None
@@ -1179,7 +1168,6 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"obdDtc must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._obdDtc = value
-        # DTC severity according to ISO 14229-1.
         # atpVariation.
         self._severity: Optional["DiagnosticUdsSeverity"] = None
 
@@ -1208,7 +1196,6 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"severity must be DiagnosticUdsSeverity or None, got {type(value).__name__}"
             )
         self._severity = value
-        # Unique Diagnostic Trouble Code value for UDS.
         self._udsDtcValue: Optional["PositiveInteger"] = None
 
     @property
@@ -1236,7 +1223,6 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"udsDtcValue must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._udsDtcValue = value
-        # This attribute is used to identify (if applicable) the.
         self._wwhObdDtc: Optional["DiagnosticWwhObdDtc"] = None
 
     @property
@@ -1667,7 +1653,6 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
                 f"considerPto must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._considerPto = value
-        # Defined properties associated with the DemDTC.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
         self._dtcPropsProps: Optional["DiagnosticTroubleCode"] = None
@@ -1697,7 +1682,6 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
                 f"dtcPropsProps must be DiagnosticTroubleCode or None, got {type(value).__name__}"
             )
         self._dtcPropsProps = value
-        # This aggregation allows for the variant definition of the attribute
                 # eventObdReadinessGroup.
         # atpVariation.
         self._eventReadiness: Optional["EventObdReadiness"] = None
@@ -1727,7 +1711,6 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
                 f"eventReadiness must be EventObdReadiness or None, got {type(value).__name__}"
             )
         self._eventReadiness = value
-        # Unique Diagnostic Trouble Code value for OBD.
         self._obdDTCValue: Optional["PositiveInteger"] = None
 
     @property
@@ -1981,7 +1964,6 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
                 f"dtcPropsProps must be DiagnosticTroubleCode or None, got {type(value).__name__}"
             )
         self._dtcPropsProps = value
-        # This attribute represents the behavior of the Failure Mode 719 Document ID
         # 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11.
         self._fmi: Optional["PositiveInteger"] = None
 
@@ -2010,7 +1992,6 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
                 f"fmi must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._fmi = value
-        # This attribute further specifies the DTC in terms of its.
         self._kind: Optional["DiagnosticTroubleCode"] = None
 
     @property
@@ -2038,7 +2019,6 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
                 f"kind must be DiagnosticTroubleCode or None, got {type(value).__name__}"
             )
         self._kind = value
-        # This represents the related DiagnosticJ1939Node.
         self._node: Optional["DiagnosticJ1939Node"] = None
 
     @property
@@ -2066,7 +2046,6 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
                 f"node must be DiagnosticJ1939Node or None, got {type(value).__name__}"
             )
         self._node = value
-        # This represents the releated SPN.
         self._spn: Optional["DiagnosticJ1939Spn"] = None
 
     @property

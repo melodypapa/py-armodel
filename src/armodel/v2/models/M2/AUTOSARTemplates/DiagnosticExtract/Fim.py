@@ -141,7 +141,6 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
                 f"function must be DiagnosticFunction or None, got {type(value).__name__}"
             )
         self._function = value
-        # This represents the value of the inhibition mask behavior.
         self._inhibitionMask: Optional["DiagnosticInhibition"] = None
 
     @property
@@ -169,7 +168,6 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
                 f"inhibitionMask must be DiagnosticInhibition or None, got {type(value).__name__}"
             )
         self._inhibitionMask = value
-        # This represents a collection of DiagnosticFunctionInhibit that contribute to
         # the configuration of the.
         self._inhibitSource: List["DiagnosticFunction"] = []
 
@@ -327,7 +325,6 @@ class DiagnosticFunctionInhibitSource(Identifiable):
                 f"event must be DiagnosticFimAlias or None, got {type(value).__name__}"
             )
         self._event = value
-        # This represents the event group applicable for the inhibition source.
         self._eventGroup: Optional["DiagnosticFimAlias"] = None
 
     @property

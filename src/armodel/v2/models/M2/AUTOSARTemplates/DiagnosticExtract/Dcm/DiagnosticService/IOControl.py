@@ -69,7 +69,6 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
                 f"dataIdentifierIdentifier must be DiagnosticDataIdentifier or None, got {type(value).__name__}"
             )
         self._dataIdentifierIdentifier = value
-        # Setting this attribute to true represents the ability of the to execute a
         # freezeCurrentState.
         self._freezeCurrent: Optional["Boolean"] = None
 
@@ -98,7 +97,6 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
                 f"freezeCurrent must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._freezeCurrent = value
-        # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticIOControl in the.
         self._ioControlClass: Optional["DiagnosticIoControl"] = None
 
@@ -127,7 +125,6 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
                 f"ioControlClass must be DiagnosticIoControl or None, got {type(value).__name__}"
             )
         self._ioControlClass = value
-        # Setting this attribute to true represents the ability of the execute a
         # resetToDefault.
         self._resetToDefault: Optional["Boolean"] = None
 
@@ -156,7 +153,6 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
                 f"resetToDefault must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._resetToDefault = value
-        # Setting this attribute to true represents the ability of the to execute a
         # shortTermAdjustment.
         self._shortTerm: Optional["Boolean"] = None
 
@@ -523,7 +519,6 @@ class DiagnosticControlEnableMaskBit(ARObject):
                 f"bitNumber must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._bitNumber = value
-        # This reference represents the collection of Diagnostic that are controlled by
         # this bit of the control.
         self._controlledData: List["DiagnosticDataElement"] = []
 

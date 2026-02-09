@@ -60,7 +60,6 @@ class OffsetTimingConstraint(TimingConstraint):
                 f"maximum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # The mimum offset the target event occurs relatively after of the source
         # event.
         self._minimum: Optional["MultidimensionalTime"] = None
 
@@ -89,7 +88,6 @@ class OffsetTimingConstraint(TimingConstraint):
                 f"minimum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimum = value
-        # The timing event that the target event is to be.
         self._source: Optional["TimingDescriptionEvent"] = None
 
     @property
@@ -117,7 +115,6 @@ class OffsetTimingConstraint(TimingConstraint):
                 f"source must be TimingDescriptionEvent or None, got {type(value).__name__}"
             )
         self._source = value
-        # The timing event which is expected to occur timely after event.
         self._target: Optional["TimingDescriptionEvent"] = None
 
     @property

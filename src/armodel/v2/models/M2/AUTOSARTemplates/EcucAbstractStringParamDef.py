@@ -53,7 +53,6 @@ class EcucAbstractStringParamDef(ARObject, ABC):
                 f"defaultValue must be VerbatimString or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Max length allowed for this string.
         self._maxLength: Optional["PositiveInteger"] = None
 
     @property
@@ -81,7 +80,6 @@ class EcucAbstractStringParamDef(ARObject, ABC):
                 f"maxLength must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._maxLength = value
-        # Min length allowed for this string.
         self._minLength: Optional["PositiveInteger"] = None
 
     @property
@@ -109,7 +107,6 @@ class EcucAbstractStringParamDef(ARObject, ABC):
                 f"minLength must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._minLength = value
-        # This represents the regular expression which shall be to validate the string
         # parameter value.
         self._regular: Optional["RegularExpression"] = None
 

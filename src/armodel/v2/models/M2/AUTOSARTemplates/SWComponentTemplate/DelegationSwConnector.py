@@ -51,7 +51,6 @@ class DelegationSwConnector(SwConnector):
             return
 
         self._innerPortInstanceRef = value
-        # The port that is located on the outside of the Composition.
         self._outerPort: RefType = None
 
     @property

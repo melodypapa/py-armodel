@@ -65,7 +65,6 @@ class BswImplementation(Implementation):
                 f"arRelease must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._arRelease = value
-        # The behavior of this implementation.
         # is made as an association because follows the pattern of the SWCT ARElement
                 # cannot be splitted, but we want implementation later, the Bsw not aggregated
                 # in BswBehavior.
@@ -96,7 +95,6 @@ class BswImplementation(Implementation):
                 f"behavior must be BswInternalBehavior or None, got {type(value).__name__}"
             )
         self._behavior = value
-        # Reference to the set of preconfigured (i.
         # e.
         # fixed) configuration values for this BswImplementation.
         # BswImplementation represents a cluster of several than one
@@ -154,7 +152,6 @@ class BswImplementation(Implementation):
                 f"vendorApiInfix must be Identifier or str or None, got {type(value).__name__}"
             )
         self._vendorApiInfix = value
-        # Reference to the vendor specific EcucModuleDef used in this Bsw it represents
         # a single module EcucModuleDefs used in this Bsw it represents a cluster of
         # modules or no EcucModuleDefs used in this Bsw it represents a library.
         self._vendorSpecific: List["EcucModuleDef"] = []

@@ -68,7 +68,6 @@ class McDataInstance(Identifiable):
                 f"arraySize must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._arraySize = value
-        # An optional attribute to be used to set the ASAM ASAP2.
         self._displayIdentifier: Optional["McdIdentifier"] = None
 
     @property
@@ -96,7 +95,6 @@ class McDataInstance(Identifiable):
                 f"displayIdentifier must be McdIdentifier or None, got {type(value).__name__}"
             )
         self._displayIdentifier = value
-        # Reference to the corresponding entry in the ECU Flat allows to trace back to
                 # the original specification generated data instance.
         # This link shall be added RTE generator mainly for documentation purposes.
         # is optional because McDataInstance may represent an array or struct only the
@@ -130,7 +128,6 @@ class McDataInstance(Identifiable):
                 f"flatMapEntry must be FlatInstanceDescriptor or None, got {type(value).__name__}"
             )
         self._flatMapEntry = value
-        # Reference to the corresponding data instance in the description of
                 # calibration data structures published by the generator.
         # This is used to support emulation the ECU, it is not required for A2L.
         self._instanceIn: Optional["ImplementationElement"] = None
@@ -160,7 +157,6 @@ class McDataInstance(Identifiable):
                 f"instanceIn must be ImplementationElement or None, got {type(value).__name__}"
             )
         self._instanceIn = value
-        # Refers to "upstream" information on how the RTE uses data instance.
         # Use Case: Rapid Prototyping.
         self._mcDataAccess: Optional["McDataAccessDetails"] = None
 
@@ -189,7 +185,6 @@ class McDataInstance(Identifiable):
                 f"mcDataAccess must be McDataAccessDetails or None, got {type(value).__name__}"
             )
         self._mcDataAccess = value
-        # An assignment between McDataInstances.
         # This supports the indication of related McDataElement implementing "RP global
                 # buffer", "RP global measurement enabler flag".
         self._mcData: List["RoleBasedMcData"] = []
@@ -228,7 +223,6 @@ class McDataInstance(Identifiable):
                 f"resulting must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._resulting = value
-        # Describes the implemented accessibility of data and modes by the rapid
                 # prototyping tooling.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
@@ -259,7 +253,6 @@ class McDataInstance(Identifiable):
                 f"resultingRptSw must be RptSwPrototyping or None, got {type(value).__name__}"
             )
         self._resultingRptSw = value
-        # An optional attribute to be used for additional information role of this data
         # instance, for example in the rapid prototyping.
         self._role: Optional["Identifier"] = None
 
@@ -288,7 +281,6 @@ class McDataInstance(Identifiable):
                 f"role must be Identifier or None, got {type(value).__name__}"
             )
         self._role = value
-        # Describes the implemented code preparation for rapid data accesses for a hook
         # based bypassing.
         self._rptImplPolicy: Optional["RptImplPolicy"] = None
 
@@ -317,7 +309,6 @@ class McDataInstance(Identifiable):
                 f"rptImplPolicy must be RptImplPolicy or None, got {type(value).__name__}"
             )
         self._rptImplPolicy = value
-        # This relation indicates, that the target element is part of a which is given
                 # by the source element.
         # This be used by the final generator to set up addressing scheme.
         # atpVariation.

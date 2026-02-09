@@ -47,7 +47,6 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
                 f"contextPPortPrototype must be AbstractProvidedPort or None, got {type(value).__name__}"
             )
         self._contextPPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetProvidedOperation: Optional["ClientServerOperation"] = None
 

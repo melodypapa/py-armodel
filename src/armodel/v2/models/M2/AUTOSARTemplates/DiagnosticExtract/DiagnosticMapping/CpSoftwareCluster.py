@@ -58,7 +58,6 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
                 f"cpSoftware must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._cpSoftware = value
-        # This reference identifies the mapped DiagnosticEvent.
         self._diagnosticEvent: Optional["DiagnosticEvent"] = None
 
     @property
@@ -228,7 +227,6 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
                 f"cpSoftware must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._cpSoftware = value
-        # This reference represents the affected DiagnosticData.
         self._diagnosticData: Optional["DiagnosticDataElement"] = None
 
     @property
@@ -398,7 +396,6 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
                 f"cpSoftware must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._cpSoftware = value
-        # This reference identifies the mapped subfunction of a DiagnosticRoutine.
         self._routine: Optional["DiagnosticRoutine"] = None
 
     @property
@@ -569,7 +566,6 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
                 f"cpSoftware must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._cpSoftware = value
-        # This reference identifies the mapped DiagnosticFunction Identifier.
         self._function: Optional["DiagnosticFunction"] = None
 
     @property

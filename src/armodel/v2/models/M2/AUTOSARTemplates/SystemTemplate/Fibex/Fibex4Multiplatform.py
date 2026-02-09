@@ -61,7 +61,6 @@ class Gateway(FibexElement):
                 f"ecu must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecu = value
-        # Frame Gateway: The entire source frame is mapped as it the target frame (what
                 # in general is only possible a common platform).
         # In this case source and should be the identical object.
         # frames are variable in clusters, the mapping needs to be variable, too.
@@ -274,7 +273,6 @@ class FrameMapping(ARObject):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
-        # Source destination of the referencing mapping.
         self._sourceFrame: Optional["RefType"] = None
 
     @property
@@ -298,7 +296,6 @@ class FrameMapping(ARObject):
             return
 
         self._sourceFrame = value
-        # Target destination of the referencing mapping.
         self._targetFrame: Optional["RefType"] = None
 
     @property
@@ -503,7 +500,6 @@ class IPduMapping(ARObject):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
-        # Define the maximum length in bytes which limits the the Pdu during gateway
         # operation if the runtime the received Pdu exceeds this limit.
         self._pduMaxLength: Optional["PositiveInteger"] = None
 
@@ -532,7 +528,6 @@ class IPduMapping(ARObject):
                 f"pduMaxLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pduMaxLength = value
-        # Optionally defines the to be configured Pdu Router Tp for this routing
         # relation.
         self._pdurTpChunk: Optional["PositiveInteger"] = None
 
@@ -561,7 +556,6 @@ class IPduMapping(ARObject):
                 f"pdurTpChunk must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pdurTpChunk = value
-        # Source destination of the referencing mapping.
         self._sourceIPdu: Optional["RefType"] = None
 
     @property
@@ -585,7 +579,6 @@ class IPduMapping(ARObject):
             return
 
         self._sourceIPdu = value
-        # Target destination of the referencing mapping.
         self._targetIPdu: Optional["RefType"] = None
 
     @property
@@ -873,7 +866,6 @@ class TargetIPduRef(ARObject):
             return
 
         self._defaultValue = value
-        # IPdu Reference.
         self._targetIPdu: Optional["RefType"] = None
 
     @property
@@ -1075,7 +1067,6 @@ class DefaultValueElement(ARObject):
                 f"elementByteValue must be Integer or int or None, got {type(value).__name__}"
             )
         self._elementByteValue = value
-        # This attribute specifies the byte position of the element default value.
         self._elementPosition: Optional["Integer"] = None
 
     @property
@@ -1242,7 +1233,6 @@ class ISignalMapping(ARObject):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
-        # Source destination of the referencing mapping.
         self._sourceSignal: Optional["RefType"] = None
 
     @property
@@ -1266,7 +1256,6 @@ class ISignalMapping(ARObject):
             return
 
         self._sourceSignal = value
-        # Target destination of the referencing mapping.
         self._targetSignal: Optional["RefType"] = None
 
     @property

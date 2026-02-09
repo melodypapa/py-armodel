@@ -48,7 +48,6 @@ class RptProfile(Identifiable):
                 f"maxService must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._maxService = value
-        # Lowest service point id useable for RTE generated points.
         self._minServicePoint: Optional["PositiveInteger"] = None
 
     @property
@@ -76,7 +75,6 @@ class RptProfile(Identifiable):
                 f"minServicePoint must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._minServicePoint = value
-        # Complete symbol of the function implementing the pre point.
         # This symbol is used for post-build hooking 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
         self._servicePoint: Optional["CIdentifier"] = None
@@ -106,7 +104,6 @@ class RptProfile(Identifiable):
                 f"servicePoint must be CIdentifier or None, got {type(value).__name__}"
             )
         self._servicePoint = value
-        # Defines if the service points support the stimulation If RptProfile.
         # stimEnabler is "none" then no is passed to the service function.
         # stimulation enabler will be passed as a.
         self._stimEnabler: Optional["RptEnablerImplType"] = None

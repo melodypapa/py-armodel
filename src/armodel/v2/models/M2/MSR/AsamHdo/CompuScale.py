@@ -80,7 +80,6 @@ class CompuScale(ARObject):
                 f"compuInverse must be CompuConst or None, got {type(value).__name__}"
             )
         self._compuInverse = value
-        # This represents the computation details of the scale.
         self._compuScale: Optional["CompuScaleContents"] = None
 
     @property
@@ -108,7 +107,6 @@ class CompuScale(ARObject):
                 f"compuScale must be CompuScaleContents or None, got {type(value).__name__}"
             )
         self._compuScale = value
-        # <desc> represents a general but brief description of the in question.
         self._desc: Optional["MultiLanguageOverview"] = None
 
     @property
@@ -136,7 +134,6 @@ class CompuScale(ARObject):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This specifies the lower limit of the scale.
         self._lowerLimit: Optional["Limit"] = None
 
     @property
@@ -164,7 +161,6 @@ class CompuScale(ARObject):
                 f"lowerLimit must be Limit or None, got {type(value).__name__}"
             )
         self._lowerLimit = value
-        # In difference to all the other computational methods every be applied
                 # including the bit MASK.
         # is allowed for this type of COMPU-METHOD, overlap.
         # the string reverse to a value, the string has to and the according value for
@@ -198,7 +194,6 @@ class CompuScale(ARObject):
                 f"mask must be PositiveUnlimitedInteger or None, got {type(value).__name__}"
             )
         self._mask = value
-        # This element specifies a short name for the particular name can for example
         # be used to derive a identifier.
         self._shortLabel: Optional["Identifier"] = None
 
@@ -227,7 +222,6 @@ class CompuScale(ARObject):
                 f"shortLabel must be Identifier or None, got {type(value).__name__}"
             )
         self._shortLabel = value
-        # The symbol, if provided, is used by code generators to get identifier for the
                 # CompuScale.
         # The name will be used for the code generation, therefore it needs to be the
                 # generation context.
@@ -260,7 +254,6 @@ class CompuScale(ARObject):
                 f"symbol must be CIdentifier or None, got {type(value).__name__}"
             )
         self._symbol = value
-        # This specifies the upper limit of a of the scale.
         self._upperLimit: Optional["Limit"] = None
 
     @property

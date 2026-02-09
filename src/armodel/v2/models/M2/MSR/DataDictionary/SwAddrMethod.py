@@ -53,7 +53,6 @@ class SwAddrMethod(ARElement):
                 f"memory must be MemoryAllocation or None, got {type(value).__name__}"
             )
         self._memory = value
-        # This attribute introduces the ability to specify further of the MemorySection
                 # in with the shall be placed.
         # are handled as to be selected.
         # The are mentioned in the list.
@@ -97,7 +96,6 @@ class SwAddrMethod(ARElement):
                 f"section must be SectionInitialization or None, got {type(value).__name__}"
             )
         self._section = value
-        # Defines the type of memory sections which can be this addressing method.
         self._sectionType: Optional["MemorySectionType"] = None
 
     @property

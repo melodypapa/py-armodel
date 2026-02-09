@@ -140,7 +140,6 @@ class AliasNameAssignment(ARObject):
                 f"flatInstance must be FlatInstanceDescriptor or None, got {type(value).__name__}"
             )
         self._flatInstance = value
-        # Assignment of a unique name to an Identifiable.
         self._identifiable: Optional["Identifiable"] = None
 
     @property
@@ -168,7 +167,6 @@ class AliasNameAssignment(ARObject):
                 f"identifiable must be Identifiable or None, got {type(value).__name__}"
             )
         self._identifiable = value
-        # This represents an "Alias LongName".
         # xml.
         # sequenceOffset=20.
         self._label: Optional["MultilanguageLong"] = None
@@ -198,7 +196,6 @@ class AliasNameAssignment(ARObject):
                 f"label must be MultilanguageLong or None, got {type(value).__name__}"
             )
         self._label = value
-        # This attribute represents the alias name.
         # It is modeled as the alias name is used outside of therefore no naming
                 # conventions can be AUTOSAR.
         self._shortLabel: Optional["String"] = None
@@ -464,7 +461,6 @@ class FlatInstanceDescriptor(Identifiable):
                 f"ecuExtract must be AtpFeature or None, got {type(value).__name__}"
             )
         self._ecuExtract = value
-        # The role denotes the particular role of the downstream described by this
                 # FlatInstanceDescriptor.
         # to use case where one upstream object results downstream objects, e.
         # g.
@@ -497,7 +493,6 @@ class FlatInstanceDescriptor(Identifiable):
                 f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
-        # The properties of a communication graph with respect to of RTE Implementation
         # Plug-in.
         self._rtePluginProps: Optional["RtePluginProps"] = None
 
@@ -526,7 +521,6 @@ class FlatInstanceDescriptor(Identifiable):
                 f"rtePluginProps must be RtePluginProps or None, got {type(value).__name__}"
             )
         self._rtePluginProps = value
-        # The properties of this FlatInstanceDescriptor.
         # atpSplitable.
         self._swDataDef: Optional["SwDataDefProps"] = None
 
@@ -555,7 +549,6 @@ class FlatInstanceDescriptor(Identifiable):
                 f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._swDataDef = value
-        # which could be: the SYSTEM_ SYSTEM_EXTRACT, or ECU_ SW_CLUSTER_SYSTEM_ the
                 # basic software module description case only the target reference of the
                 # AnyInstance needed), or (if a flat map is used in preliminary description of
                 # an atomic component or is optional in case the flat map is used in The
@@ -920,7 +913,6 @@ class RtePluginProps(ARObject):
                 f"associated must be EcucContainerValue or None, got {type(value).__name__}"
             )
         self._associated = value
-        # This associates a communication graph to a specific RTE Plug-in handling
         # local Software Cluster communication in a non-cluster ECU.
         self._associatedRte: Optional["EcucContainerValue"] = None
 

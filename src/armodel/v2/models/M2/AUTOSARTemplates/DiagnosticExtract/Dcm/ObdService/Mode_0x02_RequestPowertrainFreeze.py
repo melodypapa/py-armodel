@@ -58,7 +58,6 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
                 f"freezeFrameFreezeFrame must be DiagnosticPowertrain or None, got {type(value).__name__}"
             )
         self._freezeFrameFreezeFrame = value
-        # This reference substantiates that abstract reference in the role serviceClass
                 # for this specific concrete class.
         # Thereby, the reference represents the ability to access Data shared
                 # attributes among all DiagnosticRequestPowertrain the given context.

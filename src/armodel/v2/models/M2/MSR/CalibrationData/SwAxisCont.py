@@ -55,7 +55,6 @@ class SwAxisCont(ARObject):
                 f"category must be CalprmAxisCategory or None, got {type(value).__name__}"
             )
         self._category = value
-        # For multidimensional compound primitivies (curve, map is necessary to know
                 # the dimensions.
         # They are swArraySize.
         self._swArraysize: RefType = None
@@ -81,7 +80,6 @@ class SwAxisCont(ARObject):
             return
 
         self._swArraysize = value
-        # This property allows to explicitly assign the axis contents particular axis.
         # It is specified by numbers where 1 the x-axis.
         # It is also possible to derive the from the sequence of the parent.
         self._swAxisIndex: Optional["AxisIndexType"] = None
@@ -111,7 +109,6 @@ class SwAxisCont(ARObject):
                 f"swAxisIndex must be AxisIndexType or None, got {type(value).__name__}"
             )
         self._swAxisIndex = value
-        # swValuesPhys represents the values in the physical.
         self._swValuesPhys: Optional["SwValues"] = None
 
     @property
@@ -139,7 +136,6 @@ class SwAxisCont(ARObject):
                 f"swValuesPhys must be SwValues or None, got {type(value).__name__}"
             )
         self._swValuesPhys = value
-        # This represents the physical unit of the provided values.
         self._unit: Optional["Unit"] = None
 
     @property
@@ -167,7 +163,6 @@ class SwAxisCont(ARObject):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
-        # This represents the display name which is used for the physical unit of the
         # axis.
         self._unitDisplay: Optional["SingleLanguageUnit"] = None
 

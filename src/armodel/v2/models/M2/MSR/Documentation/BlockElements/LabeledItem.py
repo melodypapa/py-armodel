@@ -45,7 +45,6 @@ class LabeledItem(Paginateable):
                 f"helpEntry must be String or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # This represents the actual content of the item.
         # It is a DocumentationBlock.
         # This way it is use simple paragraphs to nested lists, or notes.
         self._itemContents: Optional["DocumentationBlock"] = None
@@ -75,7 +74,6 @@ class LabeledItem(Paginateable):
                 f"itemContents must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._itemContents = value
-        # This is the label of the item.
         # xml.
         # sequenceOffset=20.
         self._itemLabel: "MultiLanguageOverview" = None

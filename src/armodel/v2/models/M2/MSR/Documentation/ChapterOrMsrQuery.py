@@ -43,7 +43,6 @@ class ChapterOrMsrQuery(ARObject):
                 f"chapter must be Chapter, got {type(value).__name__}"
             )
         self._chapter = value
-        # This represents automatically contributed chapters by an msrquery.
         self._msrQuery: "MsrQueryChapter" = None
 
     @property

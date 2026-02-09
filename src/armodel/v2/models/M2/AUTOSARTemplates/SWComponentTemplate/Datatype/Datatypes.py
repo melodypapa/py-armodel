@@ -267,7 +267,6 @@ class DataTypeMap(ARObject):
                 f"applicationDataType must be ApplicationDataType or None, got {type(value).__name__}"
             )
         self._applicationDataType = value
-        # This is the corresponding AbstractImplementationData Type.
         self._implementation: Optional["AbstractImplementation"] = None
 
     @property
@@ -526,7 +525,6 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
                 f"dynamicArray must be String or str or None, got {type(value).__name__}"
             )
         self._dynamicArray = value
-        # This association implements the concept of an array That is, in some cases it
                 # is necessary to be able single array elements, e.
         # g.
         # as input values for routine.

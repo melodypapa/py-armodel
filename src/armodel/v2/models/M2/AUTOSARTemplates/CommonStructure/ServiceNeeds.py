@@ -82,7 +82,6 @@ class ServiceDependency(ARObject, ABC):
                 f"assignedData must be RoleBasedDataType or None, got {type(value).__name__}"
             )
         self._assignedData = value
-        # If this attribute indicates a relevance for diagnostics then the integrator
                 # has a much easier time identifying the the configuration of the diagnostic
                 # stack.
         # of mode conditions (e.
@@ -115,7 +114,6 @@ class ServiceDependency(ARObject, ABC):
                 f"diagnostic must be ServiceDiagnostic or None, got {type(value).__name__}"
             )
         self._diagnostic = value
-        # This attribute can be taken to contribute to the creation of name values.
         self._symbolicName: Optional["SymbolicNameProps"] = None
 
     @property
@@ -435,7 +433,6 @@ class RoleBasedDataAssignment(ARObject):
                 f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
-        # The VariableDataPrototype used in this role, e.
         # g.
         # Permanent RAM Block of an NVRAM Block which shall the same
                 # SwcInternalBehavior or Bsw the role signalBasedDiagnostics it has to refer to
@@ -463,7 +460,6 @@ class RoleBasedDataAssignment(ARObject):
             return
 
         self._usedData = value
-        # The ParameterDataPrototype used in this role, e.
         # g.
         # ROM Block of an NVRAM Block.
         # It shall belong to the or BswInternalbehavior.
@@ -491,7 +487,6 @@ class RoleBasedDataAssignment(ARObject):
             return
 
         self._usedParameter = value
-        # The (untyped) PerInstanceMemory used in this role (e.
         # g.
         # Permanent RAM Block for an NVRAM Block).
         self._usedPim: Optional["PerInstanceMemory"] = None
@@ -933,7 +928,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"calcRamBlock must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._calcRamBlock = value
-        # Defines if the Static Block Id check shall be enabled.
         self._checkStatic: Optional["Boolean"] = None
 
     @property
@@ -961,7 +955,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"checkStatic must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._checkStatic = value
-        # This represents the period for cyclic writing of NvData to the associated RAM
         # Block.
         self._cyclicWriting: Optional["TimeValue"] = None
 
@@ -990,7 +983,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"cyclicWriting must be TimeValue or None, got {type(value).__name__}"
             )
         self._cyclicWriting = value
-        # Number of data sets to be provided by the NVRAM this block.
         # This is the total number of ROM RAM Blocks.
         self._nDataSets: Optional["PositiveInteger"] = None
 
@@ -1019,7 +1011,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"nDataSets must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nDataSets = value
-        # Number of ROM Blocks to be provided by the NVRAM this block.
         # Please note that these multiple are given in a contiguous area.
         self._nRomBlocks: Optional["PositiveInteger"] = None
 
@@ -1048,7 +1039,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"nRomBlocks must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nRomBlocks = value
-        # This attribute defines how the management of the RAM Block status is
         # controlled.
         self._ramBlockStatus: Optional["RamBlockStatusControl"] = None
 
@@ -1077,7 +1067,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"ramBlockStatus must be RamBlockStatusControl or None, got {type(value).__name__}"
             )
         self._ramBlockStatus = value
-        # true: data of this NVRAM Block are write protected for (but protection can be
         # disabled) restriction 381 Document ID 89:
         # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
         # R23-11.
@@ -1108,7 +1097,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"readonly must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._readonly = value
-        # Reliability against data loss on the non-volatile medium.
         self._reliability: Optional["NvBlockNeeds"] = None
 
     @property
@@ -1136,7 +1124,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"reliability must be NvBlockNeeds or None, got {type(value).__name__}"
             )
         self._reliability = value
-        # Defines whether an NVRAM Block shall be treated to configuration changes
                 # (true) or not (false).
         # For to handle initialization in the latter case, to the NVRAM specification.
         self._resistantTo: Optional["Boolean"] = None
@@ -1166,7 +1153,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"resistantTo must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._resistantTo = value
-        # Defines whether the associated RAM Block shall be during startup by the basic
         # software.
         self._restoreAtStart: Optional["Boolean"] = None
 
@@ -1195,7 +1181,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"restoreAtStart must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._restoreAtStart = value
-        # If this attribute is set to true the NvM shall process this in the
         # NvM_FirstInitAll() function.
         self._selectBlockFor: Optional["Boolean"] = None
 
@@ -1224,7 +1209,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"selectBlockFor must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._selectBlockFor = value
-        # Defines whether or not the associated RAM Block shall be stored during
         # shutdown by the basic software.
         self._storeAt: Optional["Boolean"] = None
 
@@ -1253,7 +1237,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"storeAt must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._storeAt = value
-        # Defines whether or not the associated RAM Block shall stored periodically by
         # the basic software.
         self._storeCyclic: Optional["Boolean"] = None
 
@@ -1282,7 +1265,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"storeCyclic must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._storeCyclic = value
-        # Defines whether or not the associated RAM Block shall implicitly stored in
                 # case of ECU failure (e.
         # g.
         # loss of the basic software.
@@ -1315,7 +1297,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"store must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._store = value
-        # Defines whether or not the associated RAM Block shall stored immediately
         # during or after execution according SW-C RunnableEntity by the basic.
         self._storeImmediate: Optional["Boolean"] = None
 
@@ -1344,7 +1325,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"storeImmediate must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._storeImmediate = value
-        # This attribute defines whether the associated RAM Block stored immediately if
         # the written value is different value stored in the associated RAM Block(s)
         # during execution of the according SW-C RunnableEntity.
         self._storeOnChange: Optional["Boolean"] = None
@@ -1374,7 +1354,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"storeOnChange must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._storeOnChange = value
-        # If set to true the RAM Block shall be auto validated during phase.
         self._useAuto: Optional["Boolean"] = None
 
     @property
@@ -1402,7 +1381,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"useAuto must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._useAuto = value
-        # If set to true the CRC of the RAM Block shall be during a write job with the
         # CRC which was the last successful read or write job in skip unnecessary NVRAM
         # writings.
         self._useCRCComp: Optional["Boolean"] = None
@@ -1432,7 +1410,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"useCRCComp must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._useCRCComp = value
-        # Defines write protection after first write: block is prevented from being
                 # changed/erased replaced with the default ROM data after first the
                 # software-component.
         # such restriction.
@@ -1463,7 +1440,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"writeOnlyOnce must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._writeOnlyOnce = value
-        # Defines if Write Verification shall be enabled for this.
         self._writeVerification: Optional["Boolean"] = None
 
     @property
@@ -1491,7 +1467,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"writeVerification must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._writeVerification = value
-        # Provides the amount of updates to this block from the point of view.
         # It has to be provided in "number access per year".
         self._writing: Optional["PositiveInteger"] = None
 
@@ -1520,7 +1495,6 @@ class NvBlockNeeds(ServiceNeeds):
                 f"writing must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._writing = value
-        # Requires the priority of writing this block in case of requests to write
         # other blocks.
         self._writingPriority: Optional["NvBlockNeedsWriting"] = None
 
@@ -2572,7 +2546,6 @@ class SupervisedEntityNeeds(ServiceNeeds):
                 f"activateAtStart must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._activateAtStart = value
-        # This reference indicates the checkpoints belonging to the Entity.
         # atpVariation.
         self._checkpoints: List["SupervisedEntity"] = []
 
@@ -2609,7 +2582,6 @@ class SupervisedEntityNeeds(ServiceNeeds):
                 f"enable must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._enable = value
-        # Expected cycle time of alive trigger of this Supervised (in seconds).
         self._expectedAlive: Optional["TimeValue"] = None
 
     @property
@@ -2637,7 +2609,6 @@ class SupervisedEntityNeeds(ServiceNeeds):
                 f"expectedAlive must be TimeValue or None, got {type(value).__name__}"
             )
         self._expectedAlive = value
-        # Maximum cycle time of alive trigger of this Supervised seconds).
         self._maxAliveCycle: Optional["TimeValue"] = None
 
     @property
@@ -2665,7 +2636,6 @@ class SupervisedEntityNeeds(ServiceNeeds):
                 f"maxAliveCycle must be TimeValue or None, got {type(value).__name__}"
             )
         self._maxAliveCycle = value
-        # Minimum cycle time of alive trigger of this Supervised seconds).
         self._minAliveCycle: Optional["TimeValue"] = None
 
     @property
@@ -2693,7 +2663,6 @@ class SupervisedEntityNeeds(ServiceNeeds):
                 f"minAliveCycle must be TimeValue or None, got {type(value).__name__}"
             )
         self._minAliveCycle = value
-        # Number of consecutive failed alive cycles for this which shall be tolerated
         # until the of the SupervisedEntity is set to SWS WdgM for more.
         self._toleratedFailed: Optional["PositiveInteger"] = None
 
@@ -3176,7 +3145,6 @@ class CryptoServiceNeeds(ServiceNeeds):
                 f"algorithmFamily must be String or str or None, got {type(value).__name__}"
             )
         self._algorithmFamily = value
-        # This meta-class has the ability to represent a crypto case.
         self._algorithmMode: Optional["String"] = None
 
     @property
@@ -3204,7 +3172,6 @@ class CryptoServiceNeeds(ServiceNeeds):
                 f"algorithmMode must be String or str or None, got {type(value).__name__}"
             )
         self._algorithmMode = value
-        # This attribute allows for a verbal description of the cryptographic key.
         # The goal is to pass a hint for about how to treat the corresponding case.
         self._cryptoKey: Optional["String"] = None
 
@@ -3233,7 +3200,6 @@ class CryptoServiceNeeds(ServiceNeeds):
                 f"cryptoKey must be String or str or None, got {type(value).__name__}"
             )
         self._cryptoKey = value
-        # The maximum length of a cryptographic key, that is used the
         # software-component or module for this bit.
         self._maximumKey: Optional["PositiveInteger"] = None
 
@@ -3559,7 +3525,6 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
                 f"diag must be DiagRequirementId or None, got {type(value).__name__}"
             )
         self._diag = value
-        # This attribute denotes the level of security which is by the diagnostic
                 # object.
         # The higher the level the for the security exists.
         # shall be mapped to the security level in the.
@@ -4543,7 +4508,6 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
                 f"counterBased must be Integer or int or None, got {type(value).__name__}"
             )
         self._counterBased = value
-        # This value shall be taken to increment the internal counter.
         # atpVariation.
         self._counter: Optional["Integer"] = None
 
@@ -4572,7 +4536,6 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
                 f"counter must be Integer or int or None, got {type(value).__name__}"
             )
         self._counter = value
-        # This value defines the event-specific limit that indicates "failed" counter
         # status.
         self._counterFailed: Optional["Integer"] = None
 
@@ -4601,7 +4564,6 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
                 f"counterFailed must be Integer or int or None, got {type(value).__name__}"
             )
         self._counterFailed = value
-        # This value represents the initial value of the internal counter if the
                 # counting direction changes from decrementing.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
@@ -4632,7 +4594,6 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
                 f"counterJump must be Integer or int or None, got {type(value).__name__}"
             )
         self._counterJump = value
-        # This value represents the initial value of the internal counter if the
         # counting direction changes from incrementing.
         self._counterJumpUp: Optional["Integer"] = None
 
@@ -4661,7 +4622,6 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
                 f"counterJumpUp must be Integer or int or None, got {type(value).__name__}"
             )
         self._counterJumpUp = value
-        # This value defines the event-specific limit that indicates "passed" counter
         # status.
         self._counterPassed: Optional["Integer"] = None
 
@@ -5011,7 +4971,6 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
                 f"timeBasedFdc must be TimeValue or None, got {type(value).__name__}"
             )
         self._timeBasedFdc = value
-        # This value represents the event-specific delay indicating "failed" status.
         self._timeFailed: Optional["TimeValue"] = None
 
     @property
@@ -5039,7 +4998,6 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
                 f"timeFailed must be TimeValue or None, got {type(value).__name__}"
             )
         self._timeFailed = value
-        # This value represents the event-specific delay indicating "passed" status.
         self._timePassed: Optional["TimeValue"] = None
 
     @property
@@ -5379,7 +5337,6 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
                 f"dataLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dataLength = value
-        # This attribute is applicable only if the DiagnosticValue Needs is aggregated
                 # within a BswModuleDependency.
         # controls whether the data can be read and whether it is to be handled
                 # read-only.
@@ -5410,7 +5367,6 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
                 f"diagnosticValue must be DiagnosticValueAccess or None, got {type(value).__name__}"
             )
         self._diagnosticValue = value
-        # This attribute is applicable only if the DiagnosticValue aggregated within a
                 # BswModuleDependency.
         # controls whether the data length of the data.
         self._fixedLength: Optional["Boolean"] = None
@@ -5440,7 +5396,6 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
                 f"fixedLength must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._fixedLength = value
-        # This attribute controls whether interaction requires the to react
         # synchronously on a request it processes the request in background but still
         # has to issue the call again to eventually obtain of the request.
         self._processingStyle: Optional["DiagnosticProcessing"] = None
@@ -5804,7 +5759,6 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
                 f"currentValue must be DiagnosticValueNeeds or None, got {type(value).__name__}"
             )
         self._currentValue = value
-        # This attribute determines, if the referenced port supports freezing of I/O
                 # value.
         # freeze is not supported if the enclosing aggregated by a Swc [constr_1364].
         self._freezeCurrent: Optional["Boolean"] = None
@@ -5834,7 +5788,6 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
                 f"freezeCurrent must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._freezeCurrent = value
-        # This represents a flag for the existence of the ResetTo operation in the
         # service interface.
         self._resetToDefault: Optional["Boolean"] = None
 
@@ -5863,7 +5816,6 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
                 f"resetToDefault must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._resetToDefault = value
-        # This attribute determines, if the referenced port supports setting of I/O
                 # value to a specific value by the diagnostic tester.
         # term adjustment is not supported if the is aggregated by a [constr_1364].
         self._shortTerm: Optional["Boolean"] = None
@@ -6283,7 +6235,6 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
                 f"diagEvent must be DiagEventDebounce or None, got {type(value).__name__}"
             )
         self._diagEvent = value
-        # This represents the primary Function Inhibition Identifier inhibition of the
                 # diagnostic monitor.
         # The FID inhibit the monitoring of a symptom or the detected faults.
         self._inhibitingFid: Optional["FunctionInhibitionNeeds"] = None
@@ -6313,7 +6264,6 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
                 f"inhibitingFid must be FunctionInhibitionNeeds or None, got {type(value).__name__}"
             )
         self._inhibitingFid = value
-        # This represents the secondary Function Inhibition used for inhibition of the
                 # diagnostic monitor.
         # Any FID inhibitions leads to an inhibition of the a symptom or the reporting
                 # of detected.
@@ -6355,7 +6305,6 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
                 f"prestored must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._prestored = value
-        # This attribute defines whether additional monitor data be added to the
         # reporting of events.
         self._usesMonitor: Optional["Boolean"] = None
 
@@ -6664,7 +6613,6 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
                 f"obdDtcNumber must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._obdDtcNumber = value
-        # This represents a reasonable Diagnostic Trouble Code.
         # to predefine the Diagnostic Trouble Code, e.
         # g.
         # function developer has received a particular the OEM or from a
@@ -6921,7 +6869,6 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
                 f"applicationData must be ApplicationDataType or None, got {type(value).__name__}"
             )
         self._applicationData = value
-        # This reference identifies the corresponding diagnostic.
         self._eventNeeds: Optional["DiagnosticEventNeeds"] = None
 
     @property
@@ -6949,7 +6896,6 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
                 f"eventNeeds must be DiagnosticEventNeeds or None, got {type(value).__name__}"
             )
         self._eventNeeds = value
-        # Unit and scaling ID according to ISO 15031-5.
         self._unitAndScalingId: Optional["PositiveInteger"] = None
 
     @property
@@ -6977,7 +6923,6 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
                 f"unitAndScalingId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._unitAndScalingId = value
-        # This attribute indicates the settings for the acceptance of to the Dem.
         self._updateKind: Optional["DiagnosticMonitor"] = None
 
     @property
@@ -7657,7 +7602,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
                 f"connectionType must be ObdRatioConnection or None, got {type(value).__name__}"
             )
         self._connectionType = value
-        # The rate based monitored Diagnostic Event.
         self._rateBasedMonitoredEvent: Optional["DiagnosticEventNeeds"] = None
 
     @property
@@ -7685,7 +7629,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
                 f"rateBasedMonitoredEvent must be DiagnosticEventNeeds or None, got {type(value).__name__}"
             )
         self._rateBasedMonitoredEvent = value
-        # This represents the primary Function Inhibition Identifier the rate based
                 # monitor.
         # This is an optional.
         self._usedFid: Optional["FunctionInhibitionNeeds"] = None
@@ -8119,7 +8062,6 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
                 f"dataLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dataLength = value
-        # Describes the ISO 13400-2:2012 "routing activation activation type" which is
                 # received via DoIP 0x00 is DEFAULT, 0x01 is WWH-OBD.
         # If the specified values (0x00 or 0x01) is needed shall contain RA_ + hex
                 # value representation of value shall be used (i.
@@ -8295,7 +8237,6 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
                 f"dataLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dataLength = value
-        # Describes the ISO 13400-2:2012 "routing activation activation type" which is
                 # received via DoIP 0x00 is DEFAULT, 0x01 is WWH-OBD.
         # If the specified values (0x00 or 0x01) is needed shall contain RA_ + hex
                 # value representation of value shall be used (i.

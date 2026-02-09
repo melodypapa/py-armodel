@@ -76,7 +76,6 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
                 f"origin must be String or None, got {type(value).__name__}"
             )
         self._origin = value
-        # Indicates if a container may have different number of in different post-build
                 # variants (previously post-build selectable configuration sets).
         # TRUE FALSE means no.
         self._postBuildVariant: Optional["Boolean"] = None
@@ -106,7 +105,6 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
                 f"postBuildVariant must be Boolean or None, got {type(value).__name__}"
             )
         self._postBuildVariant = value
-        # Used to define whether the value element for this be provided with an index.
         self._requiresIndex: Optional["Boolean"] = None
 
     @property

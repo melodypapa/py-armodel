@@ -52,7 +52,6 @@ class McFunction(ARElement):
             return
 
         self._defCalprmSet = value
-        # Refers to the set of measurable input data for this.
         self._inMeasurement: RefType = None
 
     @property
@@ -76,7 +75,6 @@ class McFunction(ARElement):
             return
 
         self._inMeasurement = value
-        # Refers to the set of measurable local data in this function.
         # atpSplitable Set Tags:.
         self._loc: RefType = None
 
@@ -101,7 +99,6 @@ class McFunction(ARElement):
             return
 
         self._loc = value
-        # Refers to the set of measurable output data from this atpSplitable.
         self._out: RefType = None
 
     @property
@@ -125,7 +122,6 @@ class McFunction(ARElement):
             return
 
         self._out = value
-        # Refers to the set of adjustable data (= calibration by this function.
         self._refCalprmSet: RefType = None
 
     @property
@@ -149,7 +145,6 @@ class McFunction(ARElement):
             return
 
         self._refCalprmSet = value
-        # A sub-function that is seen as part of the enclosing.
         self._subFunction: List["McFunction"] = []
 
     @property

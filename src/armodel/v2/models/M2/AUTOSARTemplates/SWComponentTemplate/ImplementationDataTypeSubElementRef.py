@@ -48,7 +48,6 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
                 f"implementation must be ArVariableIn or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # This represents the referenced ImplementationDataType Element.
         self._parameter: Optional["ArParameterIn"] = None
 
     @property

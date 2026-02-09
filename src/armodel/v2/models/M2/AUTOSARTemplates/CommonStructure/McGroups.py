@@ -68,7 +68,6 @@ class McGroup(ARElement):
             return
 
         self._refCalprmSet = value
-        # Refers to the set of measurable belonging to this Mc atpSplitable.
         self._ref: Optional["RefType"] = None
 
     @property
@@ -92,7 +91,6 @@ class McGroup(ARElement):
             return
 
         self._ref = value
-        # A sub-group that is seen as part of the enclosing group.
         self._subGroup: List["RefType"] = []
 
     @property

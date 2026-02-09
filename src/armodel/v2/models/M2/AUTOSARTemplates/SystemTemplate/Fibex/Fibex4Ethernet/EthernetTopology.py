@@ -90,7 +90,6 @@ class EthernetPhysicalChannel(PhysicalChannel):
                 f"soAdConfig must be SoAdConfig or None, got {type(value).__name__}"
             )
         self._soAdConfig = value
-        # VLAN Configuration.
         self._vlan: Optional["VlanConfig"] = None
 
     @property
@@ -639,7 +638,6 @@ class EthernetCluster(ARObject):
                 f"couplingPort must be TimeValue or None, got {type(value).__name__}"
             )
         self._couplingPort = value
-        # MacMulticastGroup that is defined for the Subnet.
         self._macMulticast: List["RefType"] = []
 
     @property
@@ -944,7 +942,6 @@ class CouplingElement(FibexElement):
                 f"communication must be EthernetCluster or None, got {type(value).__name__}"
             )
         self._communication = value
-        # Definition of details for this specific CouplingElement.
         # Stereotypes: atpSplitable; atpVariation 2090 Document ID 63:
                 # AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._coupling: Optional["CouplingElement"] = None
@@ -974,7 +971,6 @@ class CouplingElement(FibexElement):
                 f"coupling must be CouplingElement or None, got {type(value).__name__}"
             )
         self._coupling = value
-        # Hardware Port of the CouplingElement that is used to CouplingPort to
         # EcuInstances or other atpVariation.
         self._couplingPort: List["CouplingPort"] = []
 
@@ -1010,7 +1006,6 @@ class CouplingElement(FibexElement):
                 f"couplingType must be CouplingElementEnum or None, got {type(value).__name__}"
             )
         self._couplingType = value
-        # Optional reference to the ECU where the Coupling located.
         self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
@@ -1038,7 +1033,6 @@ class CouplingElement(FibexElement):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # Firewall rules defined in the context of a Coupling.
         self._firewallRule: List["StateDependentFirewall"] = []
 
     @property
@@ -1296,7 +1290,6 @@ class CouplingPort(Identifiable):
                 f"connection must be EthernetConnection or None, got {type(value).__name__}"
             )
         self._connection = value
-        # Defines the role this CouplingPort takes in the context of CouplingElement.
         self._couplingPort: Optional["CouplingPortRoleEnum"] = None
 
     @property
@@ -1324,7 +1317,6 @@ class CouplingPort(Identifiable):
                 f"couplingPort must be CouplingPortRoleEnum or None, got {type(value).__name__}"
             )
         self._couplingPort = value
-        # The vLanIdentifier of the referenced VLAN is the (port VLAN ID).
         # A Port VLAN ID is a default that is assigned to an access CouplingPort to
                 # VLAN segment to which this port is if a CouplingPort has not been any VLAN
                 # memberships, the virtual VLAN ID (pvid) becomes the default VLAN the ports
@@ -1359,7 +1351,6 @@ class CouplingPort(Identifiable):
                 f"defaultVlan must be EthernetPhysical or None, got {type(value).__name__}"
             )
         self._defaultVlan = value
-        # Specifies the mac layer type of the CouplingPort.
         self._macLayerTypeEnum: Optional["EthernetMacLayerType"] = None
 
     @property
@@ -1387,7 +1378,6 @@ class CouplingPort(Identifiable):
                 f"macLayerTypeEnum must be EthernetMacLayerType or None, got {type(value).__name__}"
             )
         self._macLayerTypeEnum = value
-        # Assigns a set of MAC-Multicast-Addresses which are via this CouplingPort.
         # This is a static further addresses may be learned.
         self._macMulticast: List["RefType"] = []
 
@@ -1431,7 +1421,6 @@ class CouplingPort(Identifiable):
                 f"physicalLayer must be EthernetPhysicalLayer or None, got {type(value).__name__}"
             )
         self._physicalLayer = value
-        # Optional properties for configuration of PLCA (Physical Avoidance) in case
         # 10-BASE-T1S used and PLCA is enabled on the Coupling.
         self._plcaProps: Optional["PlcaProps"] = None
 
@@ -1460,7 +1449,6 @@ class CouplingPort(Identifiable):
                 f"plcaProps must be PlcaProps or None, got {type(value).__name__}"
             )
         self._plcaProps = value
-        # Reference to the partial networks this CouplingPort.
         self._pncMapping: List["RefType"] = []
 
     @property
@@ -1495,7 +1483,6 @@ class CouplingPort(Identifiable):
                 f"receiveActivity must be EthernetSwitchVlan or None, got {type(value).__name__}"
             )
         self._receiveActivity = value
-        # Messages of VLANs that are defined here can be via the CouplingPort.
         self._vlan: List["VlanMembership"] = []
 
     @property
@@ -1535,7 +1522,6 @@ class CouplingPort(Identifiable):
                 f"vlanModifier must be EthernetPhysical or None, got {type(value).__name__}"
             )
         self._vlanModifier = value
-        # Optional reference to EthernetWakeupSleepOnDataline Config.
         self._wakeupSleep: Optional["EthernetWakeupSleep"] = None
 
     @property
@@ -2062,7 +2048,6 @@ class VlanMembership(ARObject):
                 f"defaultPriority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._defaultPriority = value
-        # Specifies the IP Address which will be assigned to a DHCP Client at this
                 # SwitchPort.
         # If no dhcpAddress provided all DHCP-Discover messages this Port will be
                 # discarded by the DHCP.
@@ -2093,7 +2078,6 @@ class VlanMembership(ARObject):
                 f"dhcpAddress must be DhcpServer or None, got {type(value).__name__}"
             )
         self._dhcpAddress = value
-        # Attribute denotes whether a VLAN tagged ethernet frame be with its VLAN tag
         # (sentTagged) without a VLAN tag (sentUntagged) be dropped at this port
         # (notSent or VLAN not this list).
         self._sendActivity: Optional["EthernetSwitchVlan"] = None
@@ -2123,7 +2107,6 @@ class VlanMembership(ARObject):
                 f"sendActivity must be EthernetSwitchVlan or None, got {type(value).__name__}"
             )
         self._sendActivity = value
-        # References a channel that represents a VLAN or an channel.
         self._vlan: Optional["EthernetPhysical"] = None
 
     @property
@@ -2377,7 +2360,6 @@ class CouplingPortConnection(ARObject):
                 f"firstPort must be CouplingPort or None, got {type(value).__name__}"
             )
         self._firstPort = value
-        # Reference to a number of CouplingPorts that are the CouplingPortConnection.
         # This be used to describe a 10BASE-T1S where several CouplingPorts of
                 # connected via atpVariation.
         self._nodePort: List["CouplingPort"] = []
@@ -2415,7 +2397,6 @@ class CouplingPortConnection(ARObject):
                 f"plcaLocalNode must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._plcaLocalNode = value
-        # Timer for the transmission in bit time to evaluate if a Opportunity is yield
         # or not.
         self._plcaTransmit: Optional["PositiveInteger"] = None
 
@@ -2444,7 +2425,6 @@ class CouplingPortConnection(ARObject):
                 f"plcaTransmit must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._plcaTransmit = value
-        # Reference to the second CouplingPort that is connected
         # CouplingPortConnection.
         self._secondPort: Optional["CouplingPort"] = None
 
@@ -2711,7 +2691,6 @@ class EthernetCommunicationController(ARObject):
                 f"canXlConfig must be AbstractCan or None, got {type(value).__name__}"
             )
         self._canXlConfig = value
-        # Optional CouplingPort that can be used to connect the a CouplingElement (e.
         # g.
         # a switch).
         self._couplingPort: List["CouplingPort"] = []
@@ -2748,7 +2727,6 @@ class EthernetCommunicationController(ARObject):
                 f"macLayerType must be EthernetMacLayerType or None, got {type(value).__name__}"
             )
         self._macLayerType = value
-        # Media Access Control address (MAC address) that identifies each
         # EthernetCommunication the network.
         self._macUnicast: Optional["MacAddressString"] = None
 
@@ -2777,7 +2755,6 @@ class EthernetCommunicationController(ARObject):
                 f"macUnicast must be MacAddressString or None, got {type(value).__name__}"
             )
         self._macUnicast = value
-        # Determines the maximum transmit buffer length (frame in bytes.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._maximum: Optional["Integer"] = None
 
@@ -2806,7 +2783,6 @@ class EthernetCommunicationController(ARObject):
                 f"maximum must be Integer or int or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # This attribute specifies if the EcuInstance is acting as a communication
                 # slave on the connected Physical This is used for EthernetCommunication that
                 # use Ethernet hardware which supports sleep on the network (e.
         # g.
@@ -2838,7 +2814,6 @@ class EthernetCommunicationController(ARObject):
                 f"slaveActAs must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._slaveActAs = value
-        # This attribute specifies time when an unexpected link is evaluated as link
         # down and indicated to the communication stack.
         self._slaveQualified: Optional["TimeValue"] = None
 
@@ -3191,7 +3166,6 @@ class EthernetCommunicationConnector(CommunicationConnector):
                 f"ethIpProps must be EthIpProps or None, got {type(value).__name__}"
             )
         self._ethIpProps = value
-        # This attribute specifies the maximum transmission unit in.
         self._maximum: Optional["PositiveInteger"] = None
 
     @property
@@ -3219,7 +3193,6 @@ class EthernetCommunicationConnector(CommunicationConnector):
                 f"maximum must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # This attribute specifies the size of neighbor cache or ARP in units of
         # entries.
         self._neighborCache: Optional["PositiveInteger"] = None
 
@@ -3248,7 +3221,6 @@ class EthernetCommunicationConnector(CommunicationConnector):
                 f"neighborCache must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._neighborCache = value
-        # If enabled the IPv4/IPv6 processes incoming ICMP Too Big" messages and stores
         # a MTU value for address.
         self._pathMtu: Optional["Boolean"] = None
 
@@ -3277,7 +3249,6 @@ class EthernetCommunicationConnector(CommunicationConnector):
                 f"pathMtu must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._pathMtu = value
-        # If this value is >0 the IPv4/IPv6 will reset the MTU value each destination
         # after n seconds.
         self._pathMtuTimeout: Optional["TimeValue"] = None
 
@@ -3579,7 +3550,6 @@ class CouplingPortDetails(ARObject):
                 f"ethernetPriority must be EthernetPriority, got {type(value).__name__}"
             )
         self._ethernetPriority = value
-        self._ethernetTraffic: "CouplingPortTraffic" = None
 
     @property
     def ethernet_traffic(self) -> "CouplingPortTraffic":
@@ -3602,7 +3572,6 @@ class CouplingPortDetails(ARObject):
                 f"ethernetTraffic must be CouplingPortTraffic, got {type(value).__name__}"
             )
         self._ethernetTraffic = value
-        # Specifies properties for the usage of the CouplingPort in the scope of Global
                 # Time Sync.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._globalTime: Optional["GlobalTimeCoupling"] = None
@@ -3632,7 +3601,6 @@ class CouplingPortDetails(ARObject):
                 f"globalTime must be GlobalTimeCoupling or None, got {type(value).__name__}"
             )
         self._globalTime = value
-        # Defines which CouplingPortScheduler is the last in the port structure.
         self._lastEgress: Optional["CouplingPortScheduler"] = None
 
     @property
@@ -3660,7 +3628,6 @@ class CouplingPortDetails(ARObject):
                 f"lastEgress must be CouplingPortScheduler or None, got {type(value).__name__}"
             )
         self._lastEgress = value
-        # Rate policies to be applied for this CouplingPort.
         self._ratePolicy: List["CouplingPortRatePolicy"] = []
 
     @property
@@ -3938,7 +3905,6 @@ class CouplingPortRatePolicy(ARObject):
                 f"dataLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dataLength = value
-        # Defines the action to be performed when this rate policy violated.
         self._policyAction: Optional["CouplingPortRatePolicy"] = None
 
     @property
@@ -3966,7 +3932,6 @@ class CouplingPortRatePolicy(ARObject):
                 f"policyAction must be CouplingPortRatePolicy or None, got {type(value).__name__}"
             )
         self._policyAction = value
-        # Defines the priority which this rate policy shall be limited no priority is
         # given this rate policy is not considering.
         self._priority: Optional["PositiveInteger"] = None
 
@@ -3995,7 +3960,6 @@ class CouplingPortRatePolicy(ARObject):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # Time interval used to define the base of the rate policy.
         self._timeInterval: Optional["TimeValue"] = None
 
     @property
@@ -4023,7 +3987,6 @@ class CouplingPortRatePolicy(ARObject):
                 f"timeInterval must be TimeValue or None, got {type(value).__name__}"
             )
         self._timeInterval = value
-        # Defines the VLANs this rate policy shall be limited on.
         # If VLAN is given this rate policy is not considering VLAN.
         self._vLan: List["EthernetPhysical"] = []
 
@@ -4271,7 +4234,6 @@ class EthernetPriorityRegeneration(Referrable):
                 f"ingressPriority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._ingressPriority = value
-        # Regenerated message priority.
         # 0-7.
         self._regenerated: Optional["PositiveInteger"] = None
 
@@ -4431,7 +4393,6 @@ class CouplingPortTrafficClassAssignment(Referrable):
                 f"priority must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._priority = value
-        # Defines the Traffic Class which is assigned.
         self._trafficClass: Optional["PositiveInteger"] = None
 
     @property
@@ -4766,7 +4727,6 @@ class Ipv4DhcpServerConfiguration(Describable):
                 f"addressRange must be Ip4AddressString or None, got {type(value).__name__}"
             )
         self._addressRange = value
-        # IP address of the default gateway.
         # Notation.
         self._defaultGateway: Optional["Ip4AddressString"] = None
 
@@ -4795,7 +4755,6 @@ class Ipv4DhcpServerConfiguration(Describable):
                 f"defaultGateway must be Ip4AddressString or None, got {type(value).__name__}"
             )
         self._defaultGateway = value
-        # Amount of time in seconds that a client may keep the IP.
         self._defaultLease: Optional["TimeValue"] = None
 
     @property
@@ -4823,7 +4782,6 @@ class Ipv4DhcpServerConfiguration(Describable):
                 f"defaultLease must be TimeValue or None, got {type(value).__name__}"
             )
         self._defaultLease = value
-        # IP addresses of preconfigured DNS servers.
         # Notation.
         self._dnsServer: List["Ip4AddressString"] = []
 
@@ -5098,7 +5056,6 @@ class Ipv6DhcpServerConfiguration(Describable):
                 f"addressRange must be Ip6AddressString or None, got {type(value).__name__}"
             )
         self._addressRange = value
-        # IP address of the default gateway.
         # Notation.
         self._defaultGateway: Optional["Ip6AddressString"] = None
 
@@ -5127,7 +5084,6 @@ class Ipv6DhcpServerConfiguration(Describable):
                 f"defaultGateway must be Ip6AddressString or None, got {type(value).__name__}"
             )
         self._defaultGateway = value
-        # Amount of time in seconds that a client may keep the IP.
         self._defaultLease: Optional["TimeValue"] = None
 
     @property
@@ -5155,7 +5111,6 @@ class Ipv6DhcpServerConfiguration(Describable):
                 f"defaultLease must be TimeValue or None, got {type(value).__name__}"
             )
         self._defaultLease = value
-        # IP addresses of preconfigured DNS servers.
         # Notation:.
         self._dnsServer: List["Ip6AddressString"] = []
 
@@ -5459,7 +5414,6 @@ class SwitchStreamIdentification(Identifiable):
                 f"filterActionBlock must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._filterActionBlock = value
-        # Defines the action to modify the destination port(s) determined by the frame
         # forwarding process for an Ethernet frame.
         self._filterActionDest: Optional["SwitchStreamFilter"] = None
 
@@ -5488,7 +5442,6 @@ class SwitchStreamIdentification(Identifiable):
                 f"filterActionDest must be SwitchStreamFilter or None, got {type(value).__name__}"
             )
         self._filterActionDest = value
-        # Enables Drop Frame action.
         # atp.
         # Status=candidate.
         self._filterActionDrop: Optional["Boolean"] = None
@@ -5518,7 +5471,6 @@ class SwitchStreamIdentification(Identifiable):
                 f"filterActionDrop must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._filterActionDrop = value
-        # Defines the action to modify the VLAN-ID within a VLAN of an Ethernet frame.
         self._filterActionVlan: Optional["PositiveInteger"] = None
 
     @property
@@ -5546,7 +5498,6 @@ class SwitchStreamIdentification(Identifiable):
                 f"filterActionVlan must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._filterActionVlan = value
-        # Reference to the CouplingPort to be taken into account as role for this
         # SwitchStreamIdentification.
         self._ingressPort: List["CouplingPort"] = []
 
@@ -5876,7 +5827,6 @@ class SwitchStreamFilterRule(Identifiable):
                 f"dataLinkLayer must be StreamFilterRuleData or None, got {type(value).__name__}"
             )
         self._dataLinkLayer = value
-        # Definition of a filter rule for IEEE1722Tp.
         # Tags: atp.
         # Status=candidate.
         self._ieee1722Tp: Optional["StreamFilterIEEE1722"] = None
@@ -6114,7 +6064,6 @@ class StreamFilterRuleDataLinkLayer(ARObject):
                 f"destinationMac must be StreamFilterMAC or None, got {type(value).__name__}"
             )
         self._destinationMac = value
-        # Filter to match packets based on the EtherType field in frame.
         self._etherType: Optional["PositiveInteger"] = None
 
     @property
@@ -6142,7 +6091,6 @@ class StreamFilterRuleDataLinkLayer(ARObject):
                 f"etherType must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._etherType = value
-        # Filter to match packets with the source MAC address/ mask.
         self._sourceMac: Optional["StreamFilterMAC"] = None
 
     @property
@@ -6170,7 +6118,6 @@ class StreamFilterRuleDataLinkLayer(ARObject):
                 f"sourceMac must be StreamFilterMAC or None, got {type(value).__name__}"
             )
         self._sourceMac = value
-        # Filter of packets with a VlanId.
         self._vlanId: Optional["PositiveInteger"] = None
 
     @property
@@ -6198,7 +6145,6 @@ class StreamFilterRuleDataLinkLayer(ARObject):
                 f"vlanId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._vlanId = value
-        # Filter of packets with a Vlan priority.
         self._vlanPriority: Optional["PositiveInteger"] = None
 
     @property
@@ -6588,7 +6534,6 @@ class StreamFilterRuleIpTp(ARObject):
                 f"destination must be StreamFilterIpv6 or None, got {type(value).__name__}"
             )
         self._destination = value
-        # Filter to match packets with the set of destination UDP/ ranges.
         self._destinationPort: List["StreamFilterPortRange"] = []
 
     @property
@@ -6623,7 +6568,6 @@ class StreamFilterRuleIpTp(ARObject):
                 f"source must be StreamFilterIpv6 or None, got {type(value).__name__}"
             )
         self._source = value
-        # Filter to match packets with the set of source UDP/TCP.
         self._sourcePort: List["StreamFilterPortRange"] = []
 
     @property
@@ -6978,7 +6922,6 @@ class StreamFilterPortRange(ARObject):
                 f"max must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._max = value
-        # Filter to match packets with the minimum UDP/TCP port.
         self._min: Optional["PositiveInteger"] = None
 
     @property
@@ -7353,7 +7296,6 @@ class SwitchStreamFilterEntry(Identifiable):
                 f"asynchronous must be CouplingPort or None, got {type(value).__name__}"
             )
         self._asynchronous = value
-        # Defines the Priority of this Stream Filter Entry.
         self._filterPriority: Optional["PositiveInteger"] = None
 
     @property
@@ -7381,7 +7323,6 @@ class SwitchStreamFilterEntry(Identifiable):
                 f"filterPriority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._filterPriority = value
-        # Reference to a Flow Metering Entry.
         # atp.
         # Status=candidate.
         self._flowMetering: Optional["SwitchFlowMetering"] = None
@@ -7411,7 +7352,6 @@ class SwitchStreamFilterEntry(Identifiable):
                 f"flowMetering must be SwitchFlowMetering or None, got {type(value).__name__}"
             )
         self._flowMetering = value
-        # Defines the maximum SDU size (size of an Ethernet is acceptable to be
         # processed by the.
         self._maxSduSize: Optional["PositiveInteger"] = None
 
@@ -7440,7 +7380,6 @@ class SwitchStreamFilterEntry(Identifiable):
                 f"maxSduSize must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSduSize = value
-        # Reference to a Stream Gate Entry.
         self._streamGate: Optional["SwitchStreamGateEntry"] = None
 
     @property
@@ -7468,7 +7407,6 @@ class SwitchStreamFilterEntry(Identifiable):
                 f"streamGate must be SwitchStreamGateEntry or None, got {type(value).__name__}"
             )
         self._streamGate = value
-        # Defines whether this Stream Filter Entry includes the for
                 # SwitchStreamIdentification.
         # atp.
         # Status=candidate.
@@ -7997,7 +7935,6 @@ class SwitchFlowMeteringEntry(Identifiable):
                 f"colorMode must be FlowMeteringColor or None, got {type(value).__name__}"
             )
         self._colorMode = value
-        # Committed Burst Size (CBS) (accepted burst size in token bucket).
         self._committedBurst: Optional["PositiveInteger"] = None
 
     @property
@@ -8025,7 +7962,6 @@ class SwitchFlowMeteringEntry(Identifiable):
                 f"committedBurst must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._committedBurst = value
-        # Committed Information Rate (CIR) (accepted rate in token bucket) in bits per
         # second.
         self._committed: Optional["PositiveInteger"] = None
 
@@ -8054,7 +7990,6 @@ class SwitchFlowMeteringEntry(Identifiable):
                 f"committed must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._committed = value
-        # Coupling Flag that defines if unused "green" tokens in the are transferred to
         # the second bucket as.
         self._couplingFlag: Optional["Boolean"] = None
 
@@ -8083,7 +8018,6 @@ class SwitchFlowMeteringEntry(Identifiable):
                 f"couplingFlag must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._couplingFlag = value
-        # Excess burst size (EBS) (accepted burst size in yellow bucket).
         self._excessBurst: Optional["PositiveInteger"] = None
 
     @property
@@ -8111,7 +8045,6 @@ class SwitchFlowMeteringEntry(Identifiable):
                 f"excessBurst must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._excessBurst = value
-        # Excess Information Rate (EIR) (accepted rate in yellow bucket) in bits per
         # second.
         self._excess: Optional["PositiveInteger"] = None
 
@@ -8616,7 +8549,6 @@ class Ipv4Props(ARObject):
                 f"arpProps must be Ipv4ArpProps or None, got {type(value).__name__}"
             )
         self._arpProps = value
-        # Configuration options for Auto-IP (automatic private IP.
         self._autoIpProps: Optional["Ipv4AutoIpProps"] = None
 
     @property
@@ -8644,7 +8576,6 @@ class Ipv4Props(ARObject):
                 f"autoIpProps must be Ipv4AutoIpProps or None, got {type(value).__name__}"
             )
         self._autoIpProps = value
-        # Configuration options for IPv4 packet fragmentation/ reassembly.
         self._fragmentation: Optional["Ipv4Fragmentation"] = None
 
     @property
@@ -8854,7 +8785,6 @@ class Ipv4ArpProps(ARObject):
                 f"tcpIpArpNum must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpArpNum = value
-        # This attribute enables (TRUE) or disables (FALSE) of the ARP Packet Queue
                 # according to IETF RFC 2.
         # 3.
         # 2.
@@ -8886,7 +8816,6 @@ class Ipv4ArpProps(ARObject):
                 f"tcpIpArpPacket must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpIpArpPacket = value
-        # This attribute specifies a timeout in seconds for the of ARP requests.
         # After the transmission of an request the TcpIp shall skip the transmission of
                 # any requests to the same destination within a tcpIpArpRequestTimeout seconds.
         # (IETF RFC 2.
@@ -8920,7 +8849,6 @@ class Ipv4ArpProps(ARObject):
                 f"tcpIpArp must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpIpArp = value
-        # This attribute specifies the timeout in seconds after which unused ARP entry
         # is removed.
         self._tcpIpArpTable: Optional["TimeValue"] = None
 
@@ -9270,7 +9198,6 @@ class Ipv4FragmentationProps(ARObject):
                 f"tcpIpIp must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpIpIp = value
-        # Specifies the maximum number of fragmented IP that can be reassembled in
         # parallel.
         self._tcpIpIpNum: Optional["PositiveInteger"] = None
 
@@ -9299,7 +9226,6 @@ class Ipv4FragmentationProps(ARObject):
                 f"tcpIpIpNum must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpIpNum = value
-        # Specifies the timeout in [s] after which an incomplete gets discarded.
         self._tcpIpIpReass: Optional["TimeValue"] = None
 
     @property
@@ -9507,7 +9433,6 @@ class Ipv6Props(ARObject):
                 f"dhcpProps must be Dhcpv6Props or None, got {type(value).__name__}"
             )
         self._dhcpProps = value
-        # Configuration properties for IPv6 packet fragmentation/ reassembly.
         self._fragmentation: Optional["Ipv6Fragmentation"] = None
 
     @property
@@ -9535,7 +9460,6 @@ class Ipv6Props(ARObject):
                 f"fragmentation must be Ipv6Fragmentation or None, got {type(value).__name__}"
             )
         self._fragmentation = value
-        # Configuration properties for the Neighbor Discovery IPv6.
         self._ndpProps: Optional["Ipv6NdpProps"] = None
 
     @property
@@ -9744,7 +9668,6 @@ class Ipv6FragmentationProps(ARObject):
                 f"tcpIpIp must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpIpIp = value
-        # Size of each fragment tx buffer in bytes.
         self._tcpIpIpReassemblyBufferSize: Optional["PositiveInteger"] = None
 
     @property
@@ -9772,7 +9695,6 @@ class Ipv6FragmentationProps(ARObject):
                 f"tcpIpIpReassemblyBufferSize must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpIpReassemblyBufferSize = value
-        # These buffers will be used if the IpV6 receives packets the upper layer that
                 # do not fit into the MTU and thus be fragmented.
         # of 0 disables tx fragmentation.
         self._tcpIpIpTx: Optional["PositiveInteger"] = None
@@ -9802,7 +9724,6 @@ class Ipv6FragmentationProps(ARObject):
                 f"tcpIpIpTx must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpIpTx = value
-        # Size of each fragment tx buffer in bytes.
         self._tcpIpIpTxFragmentBufferSize: Optional["PositiveInteger"] = None
 
     @property
@@ -10054,7 +9975,6 @@ class Dhcpv6Props(ARObject):
                 f"tcpIpDhcp must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpIpDhcp = value
-        # Minimum delay (s) before the first Information Request will be sent.
         self._tcpIpDhcpV6Inf: Optional["TimeValue"] = None
 
     @property
@@ -10295,7 +10215,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpDefault must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpIpNdpDefault = value
-        # Maximum number of default router entries.
         self._tcpIpNdpDefaultRouterListSize: Optional["PositiveInteger"] = None
 
     @property
@@ -10323,7 +10242,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpDefaultRouterListSize must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpNdpDefaultRouterListSize = value
-        # If enabled the value of ReachableTime will be multiplied a random value
         # between MIN_RANDOM_FACTOR MAX_RANDOM_FACTOR in order to prevent nodes from
         # transmitting at exactly the same time.
         self._tcpIpNdp: Optional["Boolean"] = None
@@ -10353,7 +10271,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdp must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpIpNdp = value
-        # Delay before sending the first NUD probe in (s).
         self._tcpIpNdpDelayFirstProbeTimeValue: Optional["TimeValue"] = None
 
     @property
@@ -10381,7 +10298,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpDelayFirstProbeTimeValue must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpIpNdpDelayFirstProbeTimeValue = value
-        # Maximum random factor used for randomization.
         self._tcpIpNdpMaxRandomFactor: Optional["PositiveInteger"] = None
 
     @property
@@ -10409,7 +10325,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpMaxRandomFactor must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpNdpMaxRandomFactor = value
-        # Maximum number of Router Solicitations that will be sent the first Router
         # Advertisement has been received.
         self._tcpIpNdpMaxRtr: Optional["PositiveInteger"] = None
 
@@ -10438,7 +10353,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpMaxRtr must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpNdpMaxRtr = value
-        # Minimum random factor used for randomization.
         self._tcpIpNdpMinRandomFactor: Optional["PositiveInteger"] = None
 
     @property
@@ -10466,7 +10380,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpMinRandomFactor must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpNdpMinRandomFactor = value
-        # Maximum number of unicast solicitations that will be sent performig Neighbor
         # Unreachability Detection.
         self._tcpIpNdpNum: Optional["PositiveInteger"] = None
 
@@ -10495,7 +10408,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpNum must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpNdpNum = value
-        # Enables (TRUE) or disables (FALSE) support of a NDP Queue according to IETF
         # RFC 4861, section.
         self._tcpIpNdpPacket: Optional["Boolean"] = None
 
@@ -10524,7 +10436,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpPacket must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpIpNdpPacket = value
-        # Maximum number of entries in the on-link prefix list.
         self._tcpIpNdpPrefix: Optional["PositiveInteger"] = None
 
     @property
@@ -10552,7 +10463,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpPrefix must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpIpNdpPrefix = value
-        # If enabled the first router solicitation will be delayed from [0.
         # MAX_RTR_SOLICITATION_DELAY].
         # the first router solicitation will be sent after milliseconds.
         self._tcpIpNdpRndRtr: Optional["Boolean"] = None
@@ -10582,7 +10492,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpRndRtr must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpIpNdpRndRtr = value
-        # Interval between consecutive Router Solicitations in (s).
         self._tcpIpNdpRtr: Optional["TimeValue"] = None
 
     @property
@@ -10610,7 +10519,6 @@ class Ipv6NdpProps(ARObject):
                 f"tcpIpNdpRtr must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpIpNdpRtr = value
-        # Enable Optimistic Duplicate Address Detection (DAD) to RFC4429.
         self._tcpIpNdpSlaac: Optional["Boolean"] = None
 
     @property
@@ -11259,7 +11167,6 @@ class EthTcpIpProps(ARElement):
                 f"tcpProps must be TcpProps or None, got {type(value).__name__}"
             )
         self._tcpProps = value
-        # UDP configuration properties.
         self._udpProps: Optional["UdpProps"] = None
 
     @property
@@ -11518,7 +11425,6 @@ class TcpProps(ARObject):
                 f"tcpCongestion must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpCongestion = value
-        # The maximal time an acknowledgement is delayed for in seconds.
         self._tcpDelayedAck: Optional["TimeValue"] = None
 
     @property
@@ -11546,7 +11452,6 @@ class TcpProps(ARObject):
                 f"tcpDelayedAck must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpDelayedAck = value
-        # Enables (TRUE) or disables (FALSE) support of TCP Fast according to IETF RFC
         # 5681.
         self._tcpFast: Optional["Boolean"] = None
 
@@ -11575,7 +11480,6 @@ class TcpProps(ARObject):
                 f"tcpFast must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpFast = value
-        # Timeout in [s] to receive a FIN from the remote node this node has initiated
                 # connection termination), i.
         # e.
         # waiting in FINWAIT-2 for a connection from the remote TCP.
@@ -11606,7 +11510,6 @@ class TcpProps(ARObject):
                 f"tcpFin must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpFin = value
-        # Specifies the time in [s] between the last data packet sent ACKs are not
         # considered data) and the first.
         self._tcpKeepAlive: Optional["TimeValue"] = None
 
@@ -11635,7 +11538,6 @@ class TcpProps(ARObject):
                 f"tcpKeepAlive must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpKeepAlive = value
-        # Maximum number of times that a TCP segment is the TCP connection is closed.
         # This only valid if tcpRetransmissionTimeout is This parameter also applies
                 # for FIN.
         self._tcpMaxRtx: Optional["PositiveInteger"] = None
@@ -11665,7 +11567,6 @@ class TcpProps(ARObject):
                 f"tcpMaxRtx must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpMaxRtx = value
-        # Maximum segment lifetime in [s].
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._tcpMsl: Optional["TimeValue"] = None
 
@@ -11694,7 +11595,6 @@ class TcpProps(ARObject):
                 f"tcpMsl must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpMsl = value
-        # Enables (TRUE) or disables (FALSE) support of Nagle’s according to IETF RFC
                 # 1122 (chapter 4.
         # 2.
         # 3.
@@ -11729,7 +11629,6 @@ class TcpProps(ARObject):
                 f"tcpNagle must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpNagle = value
-        # Default value of maximum receive window in bytes.
         self._tcpReceiveWindowMax: Optional["PositiveInteger"] = None
 
     @property
@@ -11757,7 +11656,6 @@ class TcpProps(ARObject):
                 f"tcpReceiveWindowMax must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpReceiveWindowMax = value
-        # Timeout in [s] before an unacknowledged TCP segment sent again.
         # If the timeout is disabled, no TCP segments be retransmitted.
         self._tcp: Optional["TimeValue"] = None
 
@@ -11786,7 +11684,6 @@ class TcpProps(ARObject):
                 f"tcp must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcp = value
-        # Enables (TRUE) or disables (FALSE) support of TCP start algorithm according
         # to IETF RFC 5681.
         self._tcpSlowStart: Optional["Boolean"] = None
 
@@ -11815,7 +11712,6 @@ class TcpProps(ARObject):
                 f"tcpSlowStart must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpSlowStart = value
-        # Maximum number of times that a TCP SYN is.
         self._tcpSynMaxRtx: Optional["PositiveInteger"] = None
 
     @property
@@ -11843,7 +11739,6 @@ class TcpProps(ARObject):
                 f"tcpSynMaxRtx must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._tcpSynMaxRtx = value
-        # Timeout in [s] to complete a remotely initiated TCP establishment, i.
         # e.
         # maximum time waiting in a confirming connection request having both received
                 # and sent a.
@@ -11874,7 +11769,6 @@ class TcpProps(ARObject):
                 f"tcpSynReceived must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpSynReceived = value
-        # Default Time-to-live value of outgoing TCP packets.
         self._tcpTtl: Optional["PositiveInteger"] = None
 
     @property
@@ -12733,7 +12627,6 @@ class TcpIpIcmpv4Props(ARObject):
                 f"tcpIpIcmp must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._tcpIpIcmp = value
-        # This attribute is only relevant in case that ICMP (Internet Protocol) is
                 # used.
         # It specifies the default of outgoing ICMP packets.
         self._tcpIpIcmpV4Ttl: Optional["PositiveInteger"] = None
@@ -13002,7 +12895,6 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
                 f"sleepMode must be TimeValue or None, got {type(value).__name__}"
             )
         self._sleepMode = value
-        # Delay in seconds for a repetition of a sleep request.
         # This used to retry a synchronized shutdown of the Ethernet hardware (PHY) of
                 # the link partner.
         self._sleepRepetition: Optional["TimeValue"] = None
@@ -13032,7 +12924,6 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
                 f"sleepRepetition must be TimeValue or None, got {type(value).__name__}"
             )
         self._sleepRepetition = value
-        # Count of repetitions for a sleep on dataline.
         # If a sleep is by the linked communication partner, the sleep is until the
                 # count of repetitions exceed.
         # If count of the Ethernet hardware (PHY) transit without acknowledgement of
@@ -13064,7 +12955,6 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
                 f"sleep must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sleep = value
-        # If enabled, then a local wake-up is forwarded to the dataline (e.
         # g.
         # 100BASE-T1).
         # If disabled, then a is not forwarded to the physical dataline.
@@ -13095,7 +12985,6 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
                 f"wakeupForward must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._wakeupForward = value
-        # If enabled, then a local wake-up received via a local (e.
         # g.
         # I/O pin) shall be detected by the Ethernet If disabled, Ethernet hardware is
                 # not a local wake-up.
@@ -13127,7 +13016,6 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
                 f"wakeupLocal must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._wakeupLocal = value
-        # If enabled, then a remote wake-up received via the dataline (e.
         # g.
         # 100BASE-T1) shall be detected by hardware (PHY).
         # If disabled, Ethernet not reaction on a remote wake-up.
@@ -13158,7 +13046,6 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
                 f"wakeupRemote must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._wakeupRemote = value
-        # Count of repetitions for a wake-up.
         # This is used to the reliability in the network, such that an ECU initiates
                 # the wake-up does repeat the wake-up and the probability that affected ECUs
                 # receive the.
@@ -13588,7 +13475,6 @@ class PlcaProps(ARObject):
                 f"plcaLocalNode must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._plcaLocalNode = value
-        # Limits the burst frames in bit time.
         # This configuration can different from one ECU to another within the PLCA For
                 # PLCA burst mode to work properly should be set greater than one IPG.
         self._plcaMaxBurst: Optional["PositiveInteger"] = None
@@ -13767,7 +13653,6 @@ class ApplicationEndpoint(Identifiable):
                 f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        # Reference to the network address.
         self._networkEndpoint: Optional["NetworkEndpoint"] = None
 
     @property
@@ -13795,7 +13680,6 @@ class ApplicationEndpoint(Identifiable):
                 f"networkEndpoint must be NetworkEndpoint or None, got {type(value).__name__}"
             )
         self._networkEndpoint = value
-        # Defines the frame priority where values from 0 (best 7 (highest) are allowed.
         self._priority: Optional["PositiveInteger"] = None
 
     @property
@@ -13823,7 +13707,6 @@ class ApplicationEndpoint(Identifiable):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # Provided service instances.
         # Tags: atp.
         # Status=obsolete.
         self._providedService: List["ProvidedService"] = []
@@ -13861,7 +13744,6 @@ class ApplicationEndpoint(Identifiable):
                 f"tlsCrypto must be TlsCryptoService or None, got {type(value).__name__}"
             )
         self._tlsCrypto = value
-        # Configuration of the used transport protocol.
         self._tpConfigurationConfiguration: Optional["TransportProtocol"] = None
 
     @property
@@ -14203,7 +14085,6 @@ class TpPort(ARObject):
                 f"dynamically must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._dynamically = value
-        # Port Number.
         self._portNumber: Optional["PositiveInteger"] = None
 
     @property
@@ -14369,7 +14250,6 @@ class NetworkEndpoint(Identifiable):
                 f"fullyQualified must be String or str or None, got {type(value).__name__}"
             )
         self._fullyQualified = value
-        # Defines the network infrastructure services provided or.
         self._infrastructure: Optional["InfrastructureServices"] = None
 
     @property
@@ -14397,7 +14277,6 @@ class NetworkEndpoint(Identifiable):
                 f"infrastructure must be InfrastructureServices or None, got {type(value).__name__}"
             )
         self._infrastructure = value
-        # Optional IPSec configuration that provides security IP packets.
         self._ipSecConfig: Optional["IPSecConfig"] = None
 
     @property
@@ -14425,7 +14304,6 @@ class NetworkEndpoint(Identifiable):
                 f"ipSecConfig must be IPSecConfig or None, got {type(value).__name__}"
             )
         self._ipSecConfig = value
-        # Definition of a Network Address.
         # Tags: xml.
         # name Address Plural=NETWORK-ENDPOINT-ADDRESSES.
         self._network: List["NetworkEndpoint"] = []
@@ -14721,7 +14599,6 @@ class InfrastructureServices(ARObject):
                 f"doIpEntity must be DoIpEntity or None, got {type(value).__name__}"
             )
         self._doIpEntity = value
-        # Defines the servers / clients in a time synchronised.
         self._time: Optional["TimeSynchronization"] = None
 
     @property
@@ -14885,7 +14762,6 @@ class TimeSynchronization(ARObject):
                 f"timeSyncClientConfiguration must be TimeSyncClient or None, got {type(value).__name__}"
             )
         self._timeSyncClientConfiguration = value
-        # Configuration of the time synchronisation server.
         self._timeSyncServerConfiguration: Optional["TimeSyncServer"] = None
 
     @property
@@ -15162,7 +15038,6 @@ class TimeSyncServerConfiguration(Referrable):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # Synchronisation interval used by the time synchronisation seconds).
         self._syncInterval: Optional["TimeValue"] = None
 
     @property
@@ -15190,7 +15065,6 @@ class TimeSyncServerConfiguration(Referrable):
                 f"syncInterval must be TimeValue or None, got {type(value).__name__}"
             )
         self._syncInterval = value
-        # Identifier of the TimeSyncServer.
         self._timeSyncServerIdentifier: Optional["String"] = None
 
     @property
@@ -15218,7 +15092,6 @@ class TimeSyncServerConfiguration(Referrable):
                 f"timeSyncServerIdentifier must be String or str or None, got {type(value).__name__}"
             )
         self._timeSyncServerIdentifier = value
-        # Defines the time synchronisation technology used.
         # Possible values are: NTP_RFC958, PTP_ AVB_ others.
         self._timeSync: Optional["TimeSyncTechnology"] = None
 
@@ -15473,7 +15346,6 @@ class OrderedMaster(ARObject):
                 f"index must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._index = value
-        # Reference to a master (Time Sync Server).
         self._timeSyncServerConfiguration: Optional["TimeSyncServer"] = None
 
     @property
@@ -15828,7 +15700,6 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
                 f"committedBurst must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._committedBurst = value
-        # Defines the rate at which the token bucket is refilled with in bit per
         # second.
         self._committed: Optional["PositiveInteger"] = None
 
@@ -15857,7 +15728,6 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
                 f"committed must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._committed = value
-        # Reference to the Traffic Shaper Group this Asynchronous Traffic Shaper is
                 # part of.
         # atp.
         # Status=candidate.
@@ -16068,7 +15938,6 @@ class CouplingPortCreditBasedShaper(Identifiable):
                 f"idleSlope must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._idleSlope = value
-        # Defines the lower boundary of credit for the CBS shaper.
         self._lowerBoundary: Optional["PositiveInteger"] = None
 
     @property
@@ -16096,7 +15965,6 @@ class CouplingPortCreditBasedShaper(Identifiable):
                 f"lowerBoundary must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._lowerBoundary = value
-        # Defines the upper boundary of credit for the CBS shaper.
         self._upperBoundary: Optional["PositiveInteger"] = None
 
     @property
@@ -16304,7 +16172,6 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
                 f"portSchedulerSchedulerEnum must be EthernetCouplingPort or None, got {type(value).__name__}"
             )
         self._portSchedulerSchedulerEnum = value
-        # Ordered List of predecessor inputs.
         # The first element has the highest priority.
         # The following elements have.
         self._predecessor: List["CouplingPortStructural"] = []
@@ -16417,7 +16284,6 @@ class CouplingPortShaper(CouplingPortStructuralElement):
                 f"idleSlope must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._idleSlope = value
-        # Defines the CouplingPortFifo which provides the input to.
         self._predecessorFifo: "CouplingPortFifo" = None
 
     @property
@@ -16572,7 +16438,6 @@ class CouplingPortFifo(CouplingPortStructuralElement):
                 f"assignedTraffic must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._assignedTraffic = value
-        # FIFO minimum length in Byte.
         # An actual configuration/ may use a bigger value.
         self._minimumFifo: Optional["PositiveInteger"] = None
 
@@ -16601,7 +16466,6 @@ class CouplingPortFifo(CouplingPortStructuralElement):
                 f"minimumFifo must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minimumFifo = value
-        # Definition of the shaper to be used for the processing of FIFO.
         self._shaper: Optional["CouplingPortAbstract"] = None
 
     @property
@@ -16933,7 +16797,6 @@ class GenericTp(TransportProtocolConfiguration):
                 f"tpAddress must be String or str or None, got {type(value).__name__}"
             )
         self._tpAddress = value
-        # Name of the used Transport Protocol.
         self._tpTechnology: Optional["String"] = None
 
     @property
@@ -17120,7 +16983,6 @@ class RtpTp(TransportProtocolConfiguration):
                 f"ssrc must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._ssrc = value
-        # Tcp or Udp Configuration.
         self._tcpUdpConfig: Optional["TcpUdpConfig"] = None
 
     @property
@@ -17286,7 +17148,6 @@ class Ieee1722Tp(TransportProtocolConfiguration):
                 f"relative must be TimeValue or None, got {type(value).__name__}"
             )
         self._relative = value
-        # IEEE 1722 stream identifier.
         self._streamIdentifier: Optional["PositiveInteger"] = None
 
     @property
@@ -17314,7 +17175,6 @@ class Ieee1722Tp(TransportProtocolConfiguration):
                 f"streamIdentifier must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._streamIdentifier = value
-        # Protocol type.
         self._subType: Optional["PositiveInteger"] = None
 
     @property
@@ -17342,7 +17202,6 @@ class Ieee1722Tp(TransportProtocolConfiguration):
                 f"subType must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._subType = value
-        # Revision of Ieee1722 standard.
         self._version: Optional["PositiveInteger"] = None
 
     @property
@@ -17594,7 +17453,6 @@ class HttpTp(TransportProtocolConfiguration):
                 f"contentType must be String or str or None, got {type(value).__name__}"
             )
         self._contentType = value
-        # HTTP Protocol version (e.
         # g.
         # 1.
         # 1).
@@ -17625,7 +17483,6 @@ class HttpTp(TransportProtocolConfiguration):
                 f"protocolVersion must be String or str or None, got {type(value).__name__}"
             )
         self._protocolVersion = value
-        # HTTP request method to be used.
         self._requestMethod: Optional["RequestMethodEnum"] = None
 
     @property
@@ -17653,7 +17510,6 @@ class HttpTp(TransportProtocolConfiguration):
                 f"requestMethod must be RequestMethodEnum or None, got {type(value).__name__}"
             )
         self._requestMethod = value
-        # TcpTp Configuration.
         self._tcpTpConfig: Optional["TcpTp"] = None
 
     @property
@@ -17681,7 +17537,6 @@ class HttpTp(TransportProtocolConfiguration):
                 f"tcpTpConfig must be TcpTp or None, got {type(value).__name__}"
             )
         self._tcpTpConfig = value
-        # URI to be called.
         self._uri: Optional["UriString"] = None
 
     @property
@@ -17979,7 +17834,6 @@ class Ipv4Configuration(NetworkEndpointAddress):
                 f"assignment must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._assignment = value
-        # IP address of the default gateway.
         self._defaultGateway: Optional["Ip4AddressString"] = None
 
     @property
@@ -18007,7 +17861,6 @@ class Ipv4Configuration(NetworkEndpointAddress):
                 f"defaultGateway must be Ip4AddressString or None, got {type(value).__name__}"
             )
         self._defaultGateway = value
-        # IP addresses of preconfigured DNS servers.
         # xml.
         # namePlural=DNS-SERVER-ADDRESSES.
         self._dnsServer: List["Ip4AddressString"] = []
@@ -18044,7 +17897,6 @@ class Ipv4Configuration(NetworkEndpointAddress):
                 f"ipAddressKeep must be IpAddressKeepEnum or None, got {type(value).__name__}"
             )
         self._ipAddressKeep = value
-        # Defines how the node obtains its IP address.
         self._ipv4Address: Optional["Ipv4AddressSource"] = None
 
     @property
@@ -18104,7 +17956,6 @@ class Ipv4Configuration(NetworkEndpointAddress):
                 f"networkMask must be Ip4AddressString or None, got {type(value).__name__}"
             )
         self._networkMask = value
-        # Lifespan of data (0.
         # 255).
         # The purpose of the TimeToLive to avoid a situation in which an undeliverable
                 # circulating on a system.
@@ -18461,7 +18312,6 @@ class Ipv6Configuration(NetworkEndpointAddress):
                 f"assignment must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._assignment = value
-        # IP address of the default router.
         self._defaultRouter: Optional["Ip6AddressString"] = None
 
     @property
@@ -18489,7 +18339,6 @@ class Ipv6Configuration(NetworkEndpointAddress):
                 f"defaultRouter must be Ip6AddressString or None, got {type(value).__name__}"
             )
         self._defaultRouter = value
-        # IP addresses of pre configured DNS servers.
         # xml.
         # namePlural=DNS-SERVER-ADDRESSES.
         self._dnsServer: List["Ip6AddressString"] = []
@@ -18528,7 +18377,6 @@ class Ipv6Configuration(NetworkEndpointAddress):
                 f"enableAnycast must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._enableAnycast = value
-        # The distance between two hosts.
         # The hop count n means gateways separate the source host from the (Range 0.
         # 255).
         self._hopCount: Optional["PositiveInteger"] = None
@@ -18558,7 +18406,6 @@ class Ipv6Configuration(NetworkEndpointAddress):
                 f"hopCount must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._hopCount = value
-        # Defines the lifetime of a dynamically fetched IP address.
         self._ipAddressKeep: Optional["IpAddressKeepEnum"] = None
 
     @property
@@ -18586,7 +18433,6 @@ class Ipv6Configuration(NetworkEndpointAddress):
                 f"ipAddressKeep must be IpAddressKeepEnum or None, got {type(value).__name__}"
             )
         self._ipAddressKeep = value
-        # IPv6 prefix length defines the part of the IPv6 address is the network
         # prefix.
         self._ipAddressPrefix: Optional["PositiveInteger"] = None
 
@@ -18615,7 +18461,6 @@ class Ipv6Configuration(NetworkEndpointAddress):
                 f"ipAddressPrefix must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._ipAddressPrefix = value
-        # Defines how the node obtains its IP address.
         self._ipv6Address: Optional["Ipv6AddressSource"] = None
 
     @property
@@ -19192,7 +19037,6 @@ class TcpTp(TcpUdpConfig):
                 f"keepAlive must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._keepAlive = value
-        # Indicates if Keep-Alive messages are sent.
         self._keepAlives: Optional["Boolean"] = None
 
     @property
@@ -19220,7 +19064,6 @@ class TcpTp(TcpUdpConfig):
                 f"keepAlives must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._keepAlives = value
-        # Specifies the time in seconds between the last data and the first keepalive
         # probe.
         self._keepAliveTime: Optional["TimeValue"] = None
 
@@ -19249,7 +19092,6 @@ class TcpTp(TcpUdpConfig):
                 f"keepAliveTime must be TimeValue or None, got {type(value).__name__}"
             )
         self._keepAliveTime = value
-        # Indicates if Nagle’s Algorithm is used.
         self._naglesAlgorithm: Optional["Boolean"] = None
 
     @property
@@ -19277,7 +19119,6 @@ class TcpTp(TcpUdpConfig):
                 f"naglesAlgorithm must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._naglesAlgorithm = value
-        # Minimum size of the TCP receive window in bytes.
         self._receiveWindowMin: Optional["PositiveInteger"] = None
 
     @property
@@ -19305,7 +19146,6 @@ class TcpTp(TcpUdpConfig):
                 f"receiveWindowMin must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._receiveWindowMin = value
-        # Defines the timeout in seconds before an TCP segment is sent again.
         # If the tcp is not defined or set to "INF", no shall be re-transmitted.
         self._tcp: Optional["TimeValue"] = None
 
@@ -19334,7 +19174,6 @@ class TcpTp(TcpUdpConfig):
                 f"tcp must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcp = value
-        # TCP Port configuration.
         self._tcpTpPort: Optional["TpPort"] = None
 
     @property

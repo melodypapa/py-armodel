@@ -282,7 +282,6 @@ class SdgClass(SdgElementWithGid):
                 f"caption must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._caption = value
-        # The AUTOSAR Meta-Class that may be extended by this.
         self._extendsMeta: Optional["MetaClassName"] = None
 
     @property
@@ -310,7 +309,6 @@ class SdgClass(SdgElementWithGid):
                 f"extendsMeta must be MetaClassName or None, got {type(value).__name__}"
             )
         self._extendsMeta = value
-        # Semantic constraints that restrict the structure of the group.
         self._sdgConstraint: List["TraceableText"] = []
 
     @property

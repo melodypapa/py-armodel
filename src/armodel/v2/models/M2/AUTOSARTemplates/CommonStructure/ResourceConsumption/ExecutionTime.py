@@ -65,7 +65,6 @@ class ExecutionTime(Identifiable, ABC):
                 f"exclusiveArea must be ExclusiveArea or None, got {type(value).__name__}"
             )
         self._exclusiveArea = value
-        # The executable entity for which this execution time is.
         self._executableEntity: Optional["ExecutableEntity"] = None
 
     @property
@@ -93,7 +92,6 @@ class ExecutionTime(Identifiable, ABC):
                 f"executableEntity must be ExecutableEntity or None, got {type(value).__name__}"
             )
         self._executableEntity = value
-        # Provides information on the HardwareConfiguration used specify this
         # ExecutionTime.
         self._hardware: Optional["HardwareConfiguration"] = None
 
@@ -122,7 +120,6 @@ class ExecutionTime(Identifiable, ABC):
                 f"hardware must be HardwareConfiguration or None, got {type(value).__name__}"
             )
         self._hardware = value
-        # The hardware element (e.
         # g.
         # type of ECU) for which the is specified.
         self._hwElement: Optional["HwElement"] = None
@@ -152,7 +149,6 @@ class ExecutionTime(Identifiable, ABC):
                 f"hwElement must be HwElement or None, got {type(value).__name__}"
             )
         self._hwElement = value
-        # If this dependency is specified, the execution time of the is included in the
         # execution time data for the.
         self._includedLibrary: List["RefType"] = []
 
@@ -523,7 +519,6 @@ class MemorySectionLocation(ARObject):
                 f"providedMemory must be HwElement or None, got {type(value).__name__}"
             )
         self._providedMemory = value
-        # Reference to the MemorySection which is mapped on a hardware memory segment.
         self._software: Optional["MemorySection"] = None
 
     @property
@@ -690,7 +685,6 @@ class AnalyzedExecutionTime(ExecutionTime):
                 f"bestCase must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._bestCase = value
-        # The worst case execution time (WCET) defines the amount of time the related
         # executable entity its execution.
         self._worstCase: Optional["MultidimensionalTime"] = None
 
@@ -856,7 +850,6 @@ class MeasuredExecutionTime(ExecutionTime):
                 f"maximumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximumExecutionTime = value
-        # The minimum measured execution time.
         self._minimumExecutionTime: Optional["MultidimensionalTime"] = None
 
     @property
@@ -884,7 +877,6 @@ class MeasuredExecutionTime(ExecutionTime):
                 f"minimumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumExecutionTime = value
-        # The nominal measured execution time.
         self._nominalExecutionTime: Optional["MultidimensionalTime"] = None
 
     @property
@@ -1093,7 +1085,6 @@ class SimulatedExecutionTime(ExecutionTime):
                 f"maximumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximumExecutionTime = value
-        # The minimum simulated execution time.
         self._minimumExecutionTime: Optional["MultidimensionalTime"] = None
 
     @property
@@ -1121,7 +1112,6 @@ class SimulatedExecutionTime(ExecutionTime):
                 f"minimumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumExecutionTime = value
-        # The nominal simulated execution time.
         self._nominalExecutionTime: Optional["MultidimensionalTime"] = None
 
     @property
@@ -1330,7 +1320,6 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
                 f"additional must be String or str or None, got {type(value).__name__}"
             )
         self._additional = value
-        # The estimated execution time.
         self._estimatedExecutionTime: Optional["MultidimensionalTime"] = None
 
     @property

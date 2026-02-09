@@ -58,7 +58,6 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
                 f"requestSeedId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._requestSeedId = value
-        # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticSecurityAccess in
         # context.
         self._securityAccess: Optional["DiagnosticSecurity"] = None
@@ -88,7 +87,6 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
                 f"securityAccess must be DiagnosticSecurity or None, got {type(value).__name__}"
             )
         self._securityAccess = value
-        # Start delay timer on power on in seconds.
         # This delay the time after ECU boot power-on where no request is accepted.
         self._securityDelay: Optional["TimeValue"] = None
 
@@ -117,7 +115,6 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
                 f"securityDelay must be TimeValue or None, got {type(value).__name__}"
             )
         self._securityDelay = value
-        # This reference identifies the applicable security level for access.
         self._securityLevel: Optional["DiagnosticSecurityLevel"] = None
 
     @property

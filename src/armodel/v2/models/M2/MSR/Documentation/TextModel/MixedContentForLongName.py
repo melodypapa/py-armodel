@@ -48,7 +48,6 @@ class MixedContentForLongName(ARObject, ABC):
                 f"e must be EmphasisText, got {type(value).__name__}"
             )
         self._e = value
-        # This is an index entry.
         self._ie: "IndexEntry" = None
 
     @property
@@ -72,7 +71,6 @@ class MixedContentForLongName(ARObject, ABC):
                 f"ie must be IndexEntry, got {type(value).__name__}"
             )
         self._ie = value
-        # This is subscript text.
         self._sub: "Superscript" = None
 
     @property
@@ -96,7 +94,6 @@ class MixedContentForLongName(ARObject, ABC):
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        # This is superscript text.
         self._sup: "Superscript" = None
 
     @property
@@ -120,7 +117,6 @@ class MixedContentForLongName(ARObject, ABC):
                 f"sup must be Superscript, got {type(value).__name__}"
             )
         self._sup = value
-        # This is a technical term.
         self._tt: "Tt" = None
 
     @property

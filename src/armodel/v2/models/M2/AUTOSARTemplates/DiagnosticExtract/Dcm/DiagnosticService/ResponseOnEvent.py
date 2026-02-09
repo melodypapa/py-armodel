@@ -181,7 +181,6 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
                 f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        # The maximum number of events that can be configured with sub function on.
         self._maxNum: Optional["PositiveInteger"] = None
 
     @property
@@ -209,7 +208,6 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
                 f"maxNum must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNum = value
-        # The maximum number of measurable data bytes allowed each DID that is used for
         # comparison or data change.
         self._maxSupported: Optional["PositiveInteger"] = None
 
@@ -238,7 +236,6 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
                 f"maxSupported must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSupported = value
-        # The call rate of the periodic scheduler to compare the of the DataIdentifier
         # (DID) or to detect DTC status.
         self._responseOn: Optional["TimeValue"] = None
 
@@ -267,7 +264,6 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
                 f"responseOn must be TimeValue or None, got {type(value).__name__}"
             )
         self._responseOn = value
-        # Specifies if the storeEvent functionality of the Response diagnostic service
                 # shall be supported or not.
         # If true, the storeEvent functionality is available.
         # If set the storeEvent functionality is not available.

@@ -60,7 +60,6 @@ class McSwEmulationMethodSupport(ARObject):
             return
 
         self._baseReference = value
-        # Identifies the actual method.
         # The possible names shall the symbols of the ECU configuration the calibration
                 # method of the RTE, and can specific methods.
         self._category: Optional["Identifier"] = None
@@ -90,7 +89,6 @@ class McSwEmulationMethodSupport(ARObject):
                 f"category must be Identifier or None, got {type(value).__name__}"
             )
         self._category = value
-        # Denotes the grouping of calibration parameters in the RTE code.
         # Depending on the category, this required to set up the emulation code.
         self._elementGroup: List["McParameterElement"] = []
 
@@ -122,7 +120,6 @@ class McSwEmulationMethodSupport(ARObject):
             return
 
         self._referenceTable = value
-        # Assigns a name to this element.
         self._shortLabel: Optional["Identifier"] = None
 
     @property

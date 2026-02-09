@@ -65,7 +65,6 @@ class DataPrototypeMapping(ARObject):
             return
 
         self._firstData = value
-        # This reference defines the need to execute the Data <Mip>_<transformerId>
                 # functions of the chain when communicating from the Data the Data also
                 # specifies the reverse Data functions of chain (i.
         # e.
@@ -99,7 +98,6 @@ class DataPrototypeMapping(ARObject):
                 f"firstToSecond must be DataTransformation or None, got {type(value).__name__}"
             )
         self._firstToSecond = value
-        # Second to be mapped DataPrototype in context of a NvDataInterface, Parameter
         # Operation.
         self._secondData: RefType = None
 
@@ -124,7 +122,6 @@ class DataPrototypeMapping(ARObject):
             return
 
         self._secondData = value
-        # This defines the need to execute the reverse Data <Mip>_Inv_<transformerId>
         # functions of transformation chain when communicating from the the Data.
         self._secondToFirst: Optional["DataTransformation"] = None
 
@@ -153,7 +150,6 @@ class DataPrototypeMapping(ARObject):
                 f"secondToFirst must be DataTransformation or None, got {type(value).__name__}"
             )
         self._secondToFirst = value
-        # This represents the owned SubelementMapping.
         # atpSplitable.
         self._subElement: List[RefType] = []
 

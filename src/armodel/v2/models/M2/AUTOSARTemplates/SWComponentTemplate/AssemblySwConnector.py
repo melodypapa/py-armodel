@@ -52,7 +52,6 @@ class AssemblySwConnector(SwConnector):
                 f"providerInstanceRef must be AbstractProvidedPort or None, got {type(value).__name__}"
             )
         self._providerInstanceRef = value
-        # implemented by: RPortInComposition.
         self._requesterInstanceRef: Optional["AbstractRequiredPort"] = None
 
     @property

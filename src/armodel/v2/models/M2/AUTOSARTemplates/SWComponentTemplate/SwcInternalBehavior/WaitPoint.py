@@ -48,7 +48,6 @@ class WaitPoint(Identifiable):
                 f"timeout must be TimeValue or None, got {type(value).__name__}"
             )
         self._timeout = value
-        # This is the RTEEvent this WaitPoint is waiting for.
         self._trigger: Optional["RTEEvent"] = None
 
     @property

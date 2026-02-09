@@ -62,7 +62,6 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
                 f"origin must be String or None, got {type(value).__name__}"
             )
         self._origin = value
-        # Indicates if a parameter or a reference may have different in different
                 # post-build variants (previously known as configuration sets).
         # TRUE means means no.
         self._postBuildVariant: Optional["Boolean"] = None
@@ -92,7 +91,6 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
                 f"postBuildVariant must be Boolean or None, got {type(value).__name__}"
             )
         self._postBuildVariant = value
-        # Used to define whether the value element for this be provided with an index.
         # 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11.
         self._requiresIndex: Optional["Boolean"] = None
 
@@ -121,7 +119,6 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
                 f"requiresIndex must be Boolean or None, got {type(value).__name__}"
             )
         self._requiresIndex = value
-        # Specifies in which ValueConfigurationClass this aggregation is optional if
         # the has the Category the of the EcucModuleDef is set to this mandatory.
         self._valueConfig: List["EcucValueConfiguration"] = []
 

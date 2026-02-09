@@ -49,7 +49,6 @@ class DocumentViewSelectable(ARObject, ABC):
                 f"si must be NameTokens, got {type(value).__name__}"
             )
         self._si = value
-        # This attribute lists the document views in which the object If it is missing,
         # the object appears in all.
         self._view: Optional["ViewTokens"] = None
 

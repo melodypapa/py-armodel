@@ -55,7 +55,6 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # This represents a reference to a context PortPrototype.
         # xml.
         # sequenceOffset=30.
         self._contextPort: RefType = None
@@ -81,7 +80,6 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
             return
 
         self._contextPort = value
-        # This represents the nested structure of SwComponent Prototypes.
         # xml.
         # sequenceOffset=20 (ordered).
         self._contextSw: List["SwComponent"] = []

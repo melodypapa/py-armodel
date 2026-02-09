@@ -44,7 +44,6 @@ class TopicContent(ARObject):
                 f"blockLevel must be DocumentationBlock, got {type(value).__name__}"
             )
         self._blockLevel = value
-        # This represents a table within a topic.
         # atpVariation.
         self._table: Optional["Table"] = None
 
@@ -73,7 +72,6 @@ class TopicContent(ARObject):
                 f"table must be Table or None, got {type(value).__name__}"
             )
         self._table = value
-        # This represents a traceable table within a topic.
         self._traceableTable: "TraceableTable" = None
 
     @property

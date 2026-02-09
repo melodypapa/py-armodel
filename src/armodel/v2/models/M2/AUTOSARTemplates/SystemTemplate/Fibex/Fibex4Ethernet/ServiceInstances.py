@@ -77,7 +77,6 @@ class ConsumedEventGroup(Identifiable):
                 f"application must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._application = value
-        # Defines that this ConsumedEventGroup shall be as soon as the corresponding
                 # requested.
         # This could be at if ConsumedServiceInstance.
         # autoRequire is TRUE or as soon as the ConsumedServiceInstance by the
@@ -109,7 +108,6 @@ class ConsumedEventGroup(Identifiable):
                 f"autoRequire must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._autoRequire = value
-        # EventGroup ID.
         # Shall be unique within one system to service discovery.
         self._eventGroup: Optional["PositiveInteger"] = None
 
@@ -138,7 +136,6 @@ class ConsumedEventGroup(Identifiable):
                 f"eventGroup must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._eventGroup = value
-        # This reference defines the multicast address or a address resource where the
                 # events of the event received.
         # multicast address is determined via configuration at runtime via service
                 # discovery this reference the multicast address over which the events will
@@ -194,7 +191,6 @@ class ConsumedEventGroup(Identifiable):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # The ServiceDiscovery module is able to activate and PDU routing for receiving
         # events.
         self._routingGroup: List["RefType"] = []
 
@@ -233,7 +229,6 @@ class ConsumedEventGroup(Identifiable):
                 f"sdClientConfig must be SdClientConfig or None, got {type(value).__name__}"
             )
         self._sdClientConfig = value
-        # Client Timing configuration settings that are EventGroup specific.
         # atpVariation.
         self._sdClientTimer: Optional["SomeipSdClientEvent"] = None
 
@@ -1030,7 +1025,6 @@ class SocketAddress(Identifiable):
             return
 
         self._allowedTcp = value
-        # Application addressing.
         self._applicationEndpoint: Optional["ApplicationEndpoint"] = None
 
     @property
@@ -1058,7 +1052,6 @@ class SocketAddress(Identifiable):
                 f"applicationEndpoint must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._applicationEndpoint = value
-        # Association to a CommunicationConnector in the description.
         # This reference shall be used if the an IP unicast address for an is part of
                 # the model.
         self._connector: Optional["EthernetCommunication"] = None
@@ -1088,7 +1081,6 @@ class SocketAddress(Identifiable):
                 f"connector must be EthernetCommunication or None, got {type(value).__name__}"
             )
         self._connector = value
-        # The 6-bit Differentiated Service Field in the IP headers be used for
                 # classifying network traffic.
         # If not set a zero is used to indicate packets that have not.
         self._differentiated: Optional["PositiveInteger"] = None
@@ -1118,7 +1110,6 @@ class SocketAddress(Identifiable):
                 f"differentiated must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._differentiated = value
-        # The 20-bit Flow Label field in the IPv6 header may be a source to label
                 # sequences of packets for which special handling by the IPv6 routers, such as
                 # of service.
         # If not set a Flow Label of used to indicate packets that have not been 2090
@@ -1150,7 +1141,6 @@ class SocketAddress(Identifiable):
                 f"flowLabel must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._flowLabel = value
-        # Association to a CommunicationConnector in the topology description.
         # This reference shall be used if the an IP multicast address, i.
         # e.
         # if ApplicationEndpoint references a describes an IP Address in the IP Such a
@@ -1191,7 +1181,6 @@ class SocketAddress(Identifiable):
                 f"pathMtu must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._pathMtu = value
-        # Defines the time in seconds which shall pass before a with Pdu collection
         # enabled shall be transmitted to layer after the first Pdu has been put into
         # the.
         self._pduCollection: Optional["TimeValue"] = None
@@ -1221,7 +1210,6 @@ class SocketAddress(Identifiable):
                 f"pduCollection must be TimeValue or None, got {type(value).__name__}"
             )
         self._pduCollection = value
-        # Definition of a static SocketConnection.
         # atpSplitable; atpVariation.
         self._staticSocket: List["StaticSocketConnection"] = []
 
@@ -1778,7 +1766,6 @@ class AbstractServiceInstance(Identifiable, ABC):
                 f"majorVersion must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._majorVersion = value
-        # The ServiceDiscovery module is able to activate and deactivate the PDU
                 # routing for ClientServerOperations methods).
         # atpVariation.
         self._method: Optional["PduActivationRouting"] = None
@@ -1808,7 +1795,6 @@ class AbstractServiceInstance(Identifiable, ABC):
                 f"method must be PduActivationRouting or None, got {type(value).__name__}"
             )
         self._method = value
-        # The ServiceDiscovery module is able to activate and PDU routing from and to
         # TCP/IP-sockets.
         self._routingGroup: List["RefType"] = []
 
@@ -1979,7 +1965,6 @@ class PduActivationRoutingGroup(Identifiable):
             return
 
         self._eventGroup = value
-        # PduIdentifiers assigned for transmission over Udp in case the referencing
         # PduActivationRoutingGroup is.
         self._iPduIdentifier: List["SoConIPduIdentifier"] = []
 
@@ -2095,7 +2080,6 @@ class SoConIPduIdentifier(Referrable):
                 f"headerId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._headerId = value
-        # Defines whether the referenced Pdu contributes to the triggering of the
         # socket transmission if Pdu collection is this socket.
         self._pduCollection: Optional["RefType"] = None
 
@@ -2120,7 +2104,6 @@ class SoConIPduIdentifier(Referrable):
             return
 
         self._pduCollection = value
-        # Reference to a Pdu that is transmitted over a socket.
         self._pduTriggering: Optional["RefType"] = None
 
     @property
@@ -2375,7 +2358,6 @@ class EventHandler(Identifiable):
                 f"eventGroup must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._eventGroup = value
-        # Multicast Address that is used for event communication in IP-Multicast case.
         # It is the destination address to server sends the multicast event messages if
                 # is exceeded.
         # is transmitted in the SD-SubscribeEvent to client (answer to SD-Subscribe
@@ -2407,7 +2389,6 @@ class EventHandler(Identifiable):
                 f"eventMulticast must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._eventMulticast = value
-        # Specifies the number of subscribed clients that trigger the to change the
                 # transmission of events to multicast.
         # to 0 only unicast will be used.
         # If configured the first client will be already served by multicast.
@@ -2441,7 +2422,6 @@ class EventHandler(Identifiable):
                 f"multicast must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._multicast = value
-        # The ServiceDiscovery module is able to activate and deactivate the PDU
         # routing for events.
         self._pduActivation: List["PduActivationRouting"] = []
 
@@ -2484,7 +2464,6 @@ class EventHandler(Identifiable):
                 f"sdServerConfig must be SdServerConfig or None, got {type(value).__name__}"
             )
         self._sdServerConfig = value
-        # Server Timing configuration settings that are EventGroup specific.
         # atpVariation.
         self._sdServerEg: Optional["SomeipSdServerEvent"] = None
 
@@ -2818,7 +2797,6 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
                 f"initialOfferBehavior must be InitialSdDelayConfig or None, got {type(value).__name__}"
             )
         self._initialOfferBehavior = value
-        # Optional attribute to define cyclic offers.
         # Cyclic offer is the delay is set (in seconds) and greater then 0.
         self._offerCyclicDelay: Optional["TimeValue"] = None
 
@@ -2847,7 +2825,6 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
                 f"offerCyclicDelay must be TimeValue or None, got {type(value).__name__}"
             )
         self._offerCyclicDelay = value
-        # This attribute defines the VLAN frame priority for Service that result from
                 # ProvidedSomeip are referencing the SomeipSd StopOffer Values from 0 (best 7
                 # (highest) are allowed.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
@@ -2878,7 +2855,6 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # Maximum/Minimum allowable response delay to entries by multicast in seconds.
         # The Service Discovery answers to entries that were transported in a message
                 # (e.
         # g.
@@ -2910,7 +2886,6 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
                 f"request must be RequestResponseDelay or None, got {type(value).__name__}"
             )
         self._request = value
-        # Defines the time in seconds the service offer is valid.
         self._serviceOffer: Optional["PositiveInteger"] = None
 
     @property
@@ -3208,7 +3183,6 @@ class InitialSdDelayConfig(ARObject):
                 f"initialDelayMax must be TimeValue or None, got {type(value).__name__}"
             )
         self._initialDelayMax = value
-        # Min Value in seconds to delay randomly the first offer or transmission of a
         # find message (if aggregated by Sd.
         self._initialDelayMin: Optional["TimeValue"] = None
 
@@ -3237,7 +3211,6 @@ class InitialSdDelayConfig(ARObject):
                 f"initialDelayMin must be TimeValue or None, got {type(value).__name__}"
             )
         self._initialDelayMin = value
-        # Describes the maximum amount of offer repetitions (if by SdServerConfig) or
         # the maximum amount repetitions (if aggregated by SdClientConfig).
         self._initial: Optional["PositiveInteger"] = None
 
@@ -3446,7 +3419,6 @@ class RequestResponseDelay(ARObject):
                 f"maxValue must be TimeValue or None, got {type(value).__name__}"
             )
         self._maxValue = value
-        # Minimum allowable response delay to entries received by seconds.
         self._minValue: Optional["TimeValue"] = None
 
     @property
@@ -3709,7 +3681,6 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
                 f"request must be RequestResponseDelay or None, got {type(value).__name__}"
             )
         self._request = value
-        # This attribute define the maximum counts of retries to to an Eventgroup.
         # If the value is set to 0 no shall be done.
         # If the value is set to 255 the retry done as along as the Eventgroup is
                 # requested SubscribeEventGroupAck was received.
@@ -3740,7 +3711,6 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
                 f"subscribe must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._subscribe = value
-        # Defines the time in seconds the subscription of this event by the client.
         # this value is sent from the client server in the SD-subscribeEvent message.
         self._timeToLive: Optional["PositiveInteger"] = None
 
@@ -4022,7 +3992,6 @@ class StaticSocketConnection(Identifiable):
                 f"remoteAddress must be SocketAddress or None, got {type(value).__name__}"
             )
         self._remoteAddress = value
-        # Specifies the time in seconds how long TCP connect are repeated to reach
                 # SOAD_SOCON_ONLINE.
         # is restricted to socket connection groups initiating a TCP connection and are
                 # under SoAd.
@@ -4053,7 +4022,6 @@ class StaticSocketConnection(Identifiable):
                 f"tcpConnect must be TimeValue or None, got {type(value).__name__}"
             )
         self._tcpConnect = value
-        # Defines whether the local Address (that is aggregating does a listen or a
         # connect.
         self._tcpRole: Optional["TcpRoleEnum"] = None
 
@@ -4275,7 +4243,6 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
                 f"initialFindBehavior must be InitialSdDelayConfig or None, got {type(value).__name__}"
             )
         self._initialFindBehavior = value
-        # This attribute defines the VLAN frame priority for Service that result from
         # RequiredSomeip are referncing this SomeipSdClient SubscribeEventGroup, Stop
         # from 0 (best effort) to 7 allowed.
         self._priority: Optional["PositiveInteger"] = None
@@ -4305,7 +4272,6 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # This attribute represents the ability to define the time in the service find
                 # is valid.
         # Note! The TTL value for is not used and shall be ignored by service.
         # This configuration is only kept for Default value if not specified shall.
@@ -4517,7 +4483,6 @@ class SomeipServiceVersion(ARObject):
                 f"majorVersion must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._majorVersion = value
-        # Minor Version of the ServiceInterface.
         self._minorVersion: Optional["PositiveInteger"] = None
 
     @property
@@ -4695,7 +4660,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"autoRequire must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._autoRequire = value
-        # Collection of blocklisted versions atp.
         # Status=draft.
         self._blocklisted: List["SomeipServiceVersion"] = []
 
@@ -4740,7 +4704,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"eventMulticast must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._eventMulticast = value
-        # This attribute represents the ability to describe the service instance ID.
         self._instance: Optional["AnyServiceInstanceId"] = None
 
     @property
@@ -4768,7 +4731,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"instance must be AnyServiceInstanceId or None, got {type(value).__name__}"
             )
         self._instance = value
-        # or both).
         # atpVariation.
         self._localUnicast: "ApplicationEndpoint" = None
 
@@ -4793,7 +4755,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"localUnicast must be ApplicationEndpoint, got {type(value).__name__}"
             )
         self._localUnicast = value
-        # Minor Version of the ServiceInterface.
         # Value can be set to that represents the Minor Version of the or to ANY.
         self._minorVersion: Optional["AnyVersionString"] = None
 
@@ -4822,7 +4783,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"minorVersion must be AnyVersionString or None, got {type(value).__name__}"
             )
         self._minorVersion = value
-        # Reference to a providedServiceInstance to get the instanceIdentifier
         # information from the ProvidedService 1228 Document ID 62:
         # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
         self._providedService: Optional["ProvidedService"] = None
@@ -4852,7 +4812,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"providedService must be ProvidedService or None, got {type(value).__name__}"
             )
         self._providedService = value
-        # provider is located.
         # This reference shall ONLY be the remote address is determined from the not at
                 # runtime from the Service atpVariation.
         self._remoteUnicast: "ApplicationEndpoint" = None
@@ -4878,7 +4837,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"remoteUnicast must be ApplicationEndpoint, got {type(value).__name__}"
             )
         self._remoteUnicast = value
-        # Service Discovery Client configuration.
         self._sdClientConfig: Optional["SdClientConfig"] = None
 
     @property
@@ -4906,7 +4864,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"sdClientConfig must be SdClientConfig or None, got {type(value).__name__}"
             )
         self._sdClientConfig = value
-        # Client specific configuration settings relevant for the SOME/IP service
                 # discovery.
         # atpVariation.
         self._sdClientTimer: Optional["SomeipSdClientService"] = None
@@ -4936,7 +4893,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"sdClientTimer must be SomeipSdClientService or None, got {type(value).__name__}"
             )
         self._sdClientTimer = value
-        # This attribute represents the ability to describe the SOME/ ID that is
         # searched.
         self._serviceIdentifier: Optional["PositiveInteger"] = None
 
@@ -4965,7 +4921,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"serviceIdentifier must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._serviceIdentifier = value
-        # Defines the service discovery find behavior.
         # Tags: atp.
         # Status=draft.
         self._versionDriven: Optional["ServiceVersion"] = None
@@ -5577,7 +5532,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"autoAvailable must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._autoAvailable = value
-        # Collection of event groups provided by the Provided atpVariation.
         self._eventHandler: List["EventHandler"] = []
 
     @property
@@ -5615,7 +5569,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"instance must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._instance = value
-        # Defines the value to be used for load balancing weight in service offer.
         # Higher value means higher probability to.
         self._loadBalancing: Optional["PositiveInteger"] = None
 
@@ -5644,7 +5597,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"loadBalancing must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._loadBalancing = value
-        # or both).
         # atpVariation.
         self._localUnicast: "ApplicationEndpoint" = None
 
@@ -5669,7 +5621,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"localUnicast must be ApplicationEndpoint, got {type(value).__name__}"
             )
         self._localUnicast = value
-        # Minor Version of the Service that is provided by this.
         self._minorVersion: Optional["PositiveInteger"] = None
 
     @property
@@ -5697,7 +5648,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"minorVersion must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minorVersion = value
-        # Defines the frame priority where values from 0 (best 7 (highest) are allowed.
         self._priority: Optional["PositiveInteger"] = None
 
     @property
@@ -5725,7 +5675,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # This reference defines the remote multicast subscribed of service consumers.
         # This reference shall be used if the remote address of the clients is the
                 # configuration and not at runtime.
         # atpVariation.
@@ -5773,7 +5722,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"sdServerConfig must be SdServerConfig or None, got {type(value).__name__}"
             )
         self._sdServerConfig = value
-        # Server specific configuration settings relevant for the SOME/IP service
                 # discovery.
         # atpVariation.
         self._sdServerTimer: Optional["SomeipSdServer"] = None
@@ -5803,7 +5751,6 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"sdServerTimer must be SomeipSdServer or None, got {type(value).__name__}"
             )
         self._sdServerTimer = value
-        # This attribute represents the ability to describe the SOME/ ID that is
         # offered.
         self._serviceIdentifier: Optional["PositiveInteger"] = None
 

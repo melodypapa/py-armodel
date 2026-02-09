@@ -52,7 +52,6 @@ class PortDefinedArgumentValue(ARObject):
                 f"value must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._value = value
-        # be composite type or a pointer.
         self._valueType: Optional["ImplementationData"] = None
 
     @property

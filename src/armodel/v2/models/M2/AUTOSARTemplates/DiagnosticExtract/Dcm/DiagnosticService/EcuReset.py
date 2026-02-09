@@ -61,7 +61,6 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
                 f"customSub must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._customSub = value
-        # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticEcuReset in the.
         self._ecuResetClass: Optional["DiagnosticEcuReset"] = None
 

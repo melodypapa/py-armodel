@@ -195,7 +195,6 @@ class AccessCount(ARObject):
                 f"accessPoint must be AbstractAccessPoint or None, got {type(value).__name__}"
             )
         self._accessPoint = value
-        # This attribute represents the number of determined.
         self._value: Optional["PositiveInteger"] = None
 
     @property

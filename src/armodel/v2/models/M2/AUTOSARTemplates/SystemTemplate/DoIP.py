@@ -275,7 +275,6 @@ class DoIpInterface(Identifiable):
                 f"aliveCheck must be TimeValue or None, got {type(value).__name__}"
             )
         self._aliveCheck = value
-        # Configuration of DoIPChannels available in an DoIp Each DoIPChannel describes
         # a connection doIpSourceAddress and a doIpTargetAddress exchange of DcmIPdus
         # between the PduR and DoIP channel is constituted by the set of all DoIp via
         # which the configured Ecu or receives SDUs that are sharing the diagnosis
@@ -307,7 +306,6 @@ class DoIpInterface(Identifiable):
                 f"doipChannel must be DoIpTpConfig or None, got {type(value).__name__}"
             )
         self._doipChannel = value
-        # DoIP Connections in the DoIpInterface that define the Do Pdus that are sent
         # and received via SoAd over TCP or.
         self._doipConnection: List["SocketConnection"] = []
 
@@ -352,7 +350,6 @@ class DoIpInterface(Identifiable):
                 f"generalInactivity must be TimeValue or None, got {type(value).__name__}"
             )
         self._generalInactivity = value
-        # This attribute defines the timeout in seconds used for inactivity of a
                 # connected TCP socket connection socket connection.
         # Represents parameter ISO 13400-2:2012.
         self._initialInactivity: Optional["TimeValue"] = None
@@ -382,7 +379,6 @@ class DoIpInterface(Identifiable):
                 f"initialInactivity must be TimeValue or None, got {type(value).__name__}"
             )
         self._initialInactivity = value
-        # This attribute defines the waiting time in seconds for first vehicle
                 # announcement message after IP assignment.
         # Represents parameter A_DoIP_ ISO 13400-2:2012.
         self._initialVehicle: Optional["TimeValue"] = None
@@ -412,7 +408,6 @@ class DoIpInterface(Identifiable):
                 f"initialVehicle must be TimeValue or None, got {type(value).__name__}"
             )
         self._initialVehicle = value
-        # This attribute defines whether the network interface is started "on-demand"
         # when an activation line is always available.
         self._isActivationLine: Optional["Boolean"] = None
 
@@ -441,7 +436,6 @@ class DoIpInterface(Identifiable):
                 f"isActivationLine must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isActivationLine = value
-        # Maximum amount of tester connections that shall be at one time before alive
         # check is performed.
         self._maxTester: Optional["PositiveInteger"] = None
 
@@ -470,7 +464,6 @@ class DoIpInterface(Identifiable):
                 f"maxTester must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxTester = value
-        # DoIP Connections in the DoIpInterface that define the Do Pdus that are sent
         # and received via SoAd over TCP or.
         self._socket: List["StaticSocketConnection"] = []
 
@@ -509,7 +502,6 @@ class DoIpInterface(Identifiable):
                 f"useMacAddress must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._useMacAddress = value
-        # This attribute defines if the optional VIN/GID status is used additionally in
         # the vehicle.
         self._useVehicle: Optional["Boolean"] = None
 
@@ -538,7 +530,6 @@ class DoIpInterface(Identifiable):
                 f"useVehicle must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._useVehicle = value
-        # This attribute defines the waiting time in seconds for subsequent vehicle
                 # announcement messages.
         # parameter A_DoIP_Announce_Interval of.
         self._vehicle: Optional["TimeValue"] = None

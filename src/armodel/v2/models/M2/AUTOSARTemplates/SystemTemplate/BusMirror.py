@@ -68,7 +68,6 @@ class BusMirrorChannelMapping(FibexElement, ABC):
                 f"mirroring must be MirroringProtocolEnum or None, got {type(value).__name__}"
             )
         self._mirroring = value
-        # Defines the sourceChannel from which frames are.
         self._sourceChannel: Optional["BusMirrorChannel"] = None
 
     @property
@@ -96,7 +95,6 @@ class BusMirrorChannelMapping(FibexElement, ABC):
                 f"sourceChannel must be BusMirrorChannel or None, got {type(value).__name__}"
             )
         self._sourceChannel = value
-        # Defines the targetChannel to which frames are forwarded.
         self._targetChannel: Optional["BusMirrorChannel"] = None
 
     @property
@@ -124,7 +122,6 @@ class BusMirrorChannelMapping(FibexElement, ABC):
                 f"targetChannel must be BusMirrorChannel or None, got {type(value).__name__}"
             )
         self._targetChannel = value
-        # Reference to the PduTriggering that is used for of the mirrored frames on the
                 # targetChannel.
         # that on FlexRay several targetPduTriggerings used.
         # For all other communication channels only targetPduTriggering is supported.
@@ -391,7 +388,6 @@ class BusMirrorChannel(ARObject):
                 f"busMirror must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._busMirror = value
-        # Reference to PhysicalChannel that is used in the bus sourceChannel or
                 # targetChannel.
         # atpVariation.
         self._channel: Optional["PhysicalChannel"] = None
@@ -558,7 +554,6 @@ class BusMirrorCanIdRangeMapping(ARObject):
                 f"destinationBase must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._destinationBase = value
-        # Value to match masked original CAN IDs.
         self._sourceCanIdCode: Optional["PositiveInteger"] = None
 
     @property
@@ -586,7 +581,6 @@ class BusMirrorCanIdRangeMapping(ARObject):
                 f"sourceCanIdCode must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sourceCanIdCode = value
-        # Mask applied to original CAN IDs before comparison.
         self._sourceCanId: Optional["PositiveInteger"] = None
 
     @property
@@ -794,7 +788,6 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
                 f"remappedCanId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._remappedCanId = value
-        # This reference points to the sourceFrame with sourceCan the sourceChannel.
         self._souceCanId: Optional["RefType"] = None
 
     @property
@@ -954,7 +947,6 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
                 f"remappedCanId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._remappedCanId = value
-        # This reference points to the sourceFrame with sourceCan the sourceChannel.
         self._sourceLinPid: Optional["RefType"] = None
 
     @property
@@ -1139,7 +1131,6 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
                 f"mirrorSourceLin must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._mirrorSourceLin = value
-        # CAN ID of the CAN status frame.
         # configured, a status frame will be sent on the CAN that contains the state of
                 # all active source.
         self._mirrorStatus: Optional["PositiveInteger"] = None

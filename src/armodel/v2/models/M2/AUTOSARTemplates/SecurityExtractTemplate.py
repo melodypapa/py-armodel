@@ -74,7 +74,6 @@ class SecurityEventContextProps(Identifiable):
                 f"contextData must be SecurityEventContext or None, got {type(value).__name__}"
             )
         self._contextData = value
-        # This attribute defines the default reporting mode for the referenced security
         # event.
         self._default: Optional["SecurityEventReporting"] = None
 
@@ -103,7 +102,6 @@ class SecurityEventContextProps(Identifiable):
                 f"default must be SecurityEventReporting or None, got {type(value).__name__}"
             )
         self._default = value
-        # This attribute controls whether qualified reportings of the security event
         # shall be stored persistently by IdsmInstance or not.
         self._persistent: Optional["Boolean"] = None
 
@@ -132,7 +130,6 @@ class SecurityEventContextProps(Identifiable):
                 f"persistent must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._persistent = value
-        # This reference defines the security event that is mapped by
                 # SecurityEventMappingProps with properties.
         # atpVariation.
         self._securityEvent: Optional["SecurityEventDefinition"] = None
@@ -162,7 +159,6 @@ class SecurityEventContextProps(Identifiable):
                 f"securityEvent must be SecurityEventDefinition or None, got {type(value).__name__}"
             )
         self._securityEvent = value
-        # This attribute defines the ID of the security sensor that the referenced
                 # security event.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
@@ -193,7 +189,6 @@ class SecurityEventContextProps(Identifiable):
                 f"sensorInstance must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sensorInstance = value
-        # This attribute defines how critical/severe the referenced is.
         # Please note that currently, the severity of specific integer values is not
                 # specified but left to the party responsible for the IDS (e.
         # g.
@@ -682,7 +677,6 @@ class IdsmRateLimitation(Identifiable):
                 f"maxEventsIn must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._maxEventsIn = value
-        # This attribute configures the length of the time interval in dropping
         # security events if the number of all events exceeds the configurable the
         # respective time interval.
         self._timeInterval: "Float" = None
@@ -848,7 +842,6 @@ class IdsmTrafficLimitation(Identifiable):
                 f"maxBytesIn must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxBytesIn = value
-        # This attribute configures the length of the time interval in dropping
         # security events if the size of all events exceeds the configurable the
         # respective time interval.
         self._timeInterval: Optional["Float"] = None
@@ -1062,7 +1055,6 @@ class IdsmSignatureSupportAp(ARObject):
                 f"cryptoPrimitive must be String or str, got {type(value).__name__}"
             )
         self._cryptoPrimitive = value
-        # This reference denotes the cryptographic key to be used cryptographic
         # algorithm for providing in QSEv messages.
         self._keySlot: Optional["CryptoKeySlot"] = None
 
@@ -1230,7 +1222,6 @@ class IdsmSignatureSupportCp(ARObject):
                 f"authentication must be CryptoServicePrimitive or None, got {type(value).__name__}"
             )
         self._authentication = value
-        # This reference denotes the cryptographic key to be used the cryptographic
         # algorithm for providing in QSEv messages.
         self._cryptoService: Optional["CryptoServiceKey"] = None
 
@@ -1562,7 +1553,6 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
                 f"contextData must be SecurityEventContext or None, got {type(value).__name__}"
             )
         self._contextData = value
-        # This attribute represents the configuration of the minimum window in seconds
         # for the aggregation filter.
         self._minimum: Optional["TimeValue"] = None
 
@@ -1730,7 +1720,6 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
                 f"intervalLength must be TimeValue or None, got {type(value).__name__}"
             )
         self._intervalLength = value
-        # This attribute configures the threshold number, i.
         # e.
         # how security events in the configured time frame are subsequent events start
                 # to pass the filter.
@@ -1901,7 +1890,6 @@ class SecurityEventDefinition(IdsCommonElement):
                 f"eventSymbol must be SymbolProps or None, got {type(value).__name__}"
             )
         self._eventSymbol = value
-        # This attribute represents the numerical identification of security event.
         # The identification shall be the scope of the IDS.
         self._id: Optional["PositiveInteger"] = None
 
@@ -2069,7 +2057,6 @@ class SecurityEventFilterChain(IdsCommonElement):
                 f"aggregation must be SecurityEvent or None, got {type(value).__name__}"
             )
         self._aggregation = value
-        # This aggregation represents the sampling filter in the filter.
         self._oneEveryN: Optional["SecurityEventOneEvery"] = None
 
     @property
@@ -2097,7 +2084,6 @@ class SecurityEventFilterChain(IdsCommonElement):
                 f"oneEveryN must be SecurityEventOneEvery or None, got {type(value).__name__}"
             )
         self._oneEveryN = value
-        # This aggregation represents the state filter in the event 97 Document ID 980:
         # AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11.
         self._state: Optional["SecurityEventStateFilter"] = None
 
@@ -2126,7 +2112,6 @@ class SecurityEventFilterChain(IdsCommonElement):
                 f"state must be SecurityEventStateFilter or None, got {type(value).__name__}"
             )
         self._state = value
-        # This aggregation represents the threshold filter in the filter.
         self._threshold: Optional["SecurityEventThreshold"] = None
 
     @property
@@ -2388,7 +2373,6 @@ class IdsmInstance(IdsCommonElement):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # This attribute is used to provide a source identification in of reporting
         # security events.
         self._idsmInstanceId: Optional["PositiveInteger"] = None
 
@@ -2417,7 +2401,6 @@ class IdsmInstance(IdsCommonElement):
                 f"idsmInstanceId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._idsmInstanceId = value
-        # This reference identifies the meta-class that defines the attributes for the
         # IdsM configuration on a specific.
         self._idsmModule: Optional["IdsmModule"] = None
 
@@ -2446,7 +2429,6 @@ class IdsmInstance(IdsCommonElement):
                 f"idsmModule must be IdsmModule or None, got {type(value).__name__}"
             )
         self._idsmModule = value
-        # This reference identifies the applicable rate limitation filter all security
                 # events on the related EcuInstance.
         # atpVariation.
         self._rateLimitation: Optional["IdsmRateLimitation"] = None
@@ -2476,7 +2458,6 @@ class IdsmInstance(IdsCommonElement):
                 f"rateLimitation must be IdsmRateLimitation or None, got {type(value).__name__}"
             )
         self._rateLimitation = value
-        # The existence of this aggregation specifies that the IdsM shall add a
                 # signature to the QSEv messages it sends network.
         # The cryptographic algorithm and key to for this signature is further
                 # specified by the specifically for the Classic.
@@ -2507,7 +2488,6 @@ class IdsmInstance(IdsCommonElement):
                 f"signature must be IdsmSignatureSupport or None, got {type(value).__name__}"
             )
         self._signature = value
-        # The existence of this attribute specifies that the IdsM shall a timestamp to
                 # the QSEv messages it sends onto the if this attribute does not exist, no
                 # timestamp added to the QSEv messages.
         # of this attribute further specifies the as follows: - "AUTOSAR" defines
@@ -2542,7 +2522,6 @@ class IdsmInstance(IdsCommonElement):
                 f"timestamp must be String or str or None, got {type(value).__name__}"
             )
         self._timestamp = value
-        # This reference identifies the applicable traffic limitation for all security
                 # events on the related EcuInstance.
         # atpVariation.
         self._trafficLimitation: Optional["IdsmTrafficLimitation"] = None
@@ -3030,7 +3009,6 @@ class SecurityEventContextMapping(IdsMapping, ABC):
                 f"filterChain must be SecurityEventFilter or None, got {type(value).__name__}"
             )
         self._filterChain = value
-        # This reference defines the IdsmInstance onto which the are mapped.
         # atpVariation 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate
                 # Template R23-11.
         self._idsmInstance: Optional["IdsmInstance"] = None
@@ -3060,7 +3038,6 @@ class SecurityEventContextMapping(IdsMapping, ABC):
                 f"idsmInstance must be IdsmInstance or None, got {type(value).__name__}"
             )
         self._idsmInstance = value
-        # This aggregation represents (through further references) the
                 # SecurityEventDefinitions to be mapped to an Idsm additional mapping-dependent
                 # properties.
         # atpVariation.

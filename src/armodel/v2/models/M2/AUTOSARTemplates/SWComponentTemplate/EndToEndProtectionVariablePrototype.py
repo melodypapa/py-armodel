@@ -68,7 +68,6 @@ class EndToEndProtectionVariablePrototype(ARObject):
             return
 
         self._sender = value
-        # This serves as part of the split key in case of more than is aggregated bound
         # model.
         self._shortLabel: Optional["Identifier"] = None
 

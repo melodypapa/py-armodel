@@ -49,7 +49,6 @@ class StateDependentFirewall(ARElement):
                 f"defaultAction must be FirewallActionEnum or None, got {type(value).__name__}"
             )
         self._defaultAction = value
-        # Collection of firewall rules that apply in the vehicle mode Tags: atp.
         # Status=candidate.
         self._firewallRule: List["FirewallRuleProps"] = []
 

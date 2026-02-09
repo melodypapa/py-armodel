@@ -70,7 +70,6 @@ class RptImplPolicy(ARObject):
                 f"rptEnablerImpl must be RptEnablerImplType or None, got {type(value).__name__}"
             )
         self._rptEnablerImpl = value
-        # Mandates RP preparation level for access to VariableData within generated RTE
         # implementation.
         self._rptPreparation: Optional["RptPreparationEnum"] = None
 
@@ -337,7 +336,6 @@ class RptExecutableEntityProperties(ARObject):
                 f"maxRptEventId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxRptEventId = value
-        # Lowest RPT event id usable for RTE generated service attribute is relevant,
         # if dedicated id range applied to the ExecutableEntitys of a software specific
         # ExecutableEntitys.
         self._minRptEventId: Optional["PositiveInteger"] = None
@@ -367,7 +365,6 @@ class RptExecutableEntityProperties(ARObject):
                 f"minRptEventId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minRptEventId = value
-        # This attribute specifies the rapid prototyping control of the executable.
         self._rptExecution: Optional["RptExecutionControl"] = None
 
     @property
@@ -395,7 +392,6 @@ class RptExecutableEntityProperties(ARObject):
                 f"rptExecution must be RptExecutionControl or None, got {type(value).__name__}"
             )
         self._rptExecution = value
-        # Enables generation of service points by the RTE.
         self._rptServicePoint: Optional["RptServicePointEnum"] = None
 
     @property
@@ -652,7 +648,6 @@ class RapidPrototypingScenario(ARElement):
                 f"hostSystem must be System or None, got {type(value).__name__}"
             )
         self._hostSystem = value
-        # Top-level rptContainer definitions of this specific rapid atpVariation.
         self._rptContainer: List["RptContainer"] = []
 
     @property
@@ -919,7 +914,6 @@ class RptContainer(Identifiable):
                 f"rptExecutable must be RptExecutableEntity or None, got {type(value).__name__}"
             )
         self._rptExecutable = value
-        # The rptHook describes the link between a byPassPoint rapid prototyping
                 # algorithm.
         # atpVariation.
         self._rptHook: Optional["RptHook"] = None
@@ -949,7 +943,6 @@ class RptContainer(Identifiable):
                 f"rptHook must be RptHook or None, got {type(value).__name__}"
             )
         self._rptHook = value
-        # Describes the required code preparation for rapid data accesses.
         self._rptImplPolicy: Optional["RptImplPolicy"] = None
 
     @property
@@ -977,7 +970,6 @@ class RptContainer(Identifiable):
                 f"rptImplPolicy must be RptImplPolicy or None, got {type(value).__name__}"
             )
         self._rptImplPolicy = value
-        # Describes the required accessibility of data and modes by the rapid
         # prototyping tooling.
         self._rptSw: Optional["RptSwPrototyping"] = None
 
@@ -1270,7 +1262,6 @@ class RptHook(ARObject):
                 f"codeLabel must be CIdentifier or None, got {type(value).__name__}"
             )
         self._codeLabel = value
-        # This attribute provides an identifier which shall be used in System to
         # display the Rpt Hook.
         self._mcdIdentifier: Optional["NameToken"] = None
 
@@ -1299,7 +1290,6 @@ class RptHook(ARObject):
                 f"mcdIdentifier must be NameToken or str or None, got {type(value).__name__}"
             )
         self._mcdIdentifier = value
-        # by: AnyInstanceRef.
         self._rptArHook: Optional["AtpFeature"] = None
 
     @property
@@ -1327,7 +1317,6 @@ class RptHook(ARObject):
                 f"rptArHook must be AtpFeature or None, got {type(value).__name__}"
             )
         self._rptArHook = value
-        # This property allows to keep special data which is not the standard model.
         # It can be utilized to tool specific data.
         self._sdg: List["Sdg"] = []
 
@@ -1529,7 +1518,6 @@ class RptProfile(Identifiable):
                 f"maxService must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxService = value
-        # Lowest service point id useable for RTE generated points.
         self._minServicePoint: Optional["PositiveInteger"] = None
 
     @property
@@ -1557,7 +1545,6 @@ class RptProfile(Identifiable):
                 f"minServicePoint must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minServicePoint = value
-        # Complete symbol of the function implementing the pre point.
         # This symbol is used for post-build hooking 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
         self._servicePoint: Optional["CIdentifier"] = None
@@ -1587,7 +1574,6 @@ class RptProfile(Identifiable):
                 f"servicePoint must be CIdentifier or None, got {type(value).__name__}"
             )
         self._servicePoint = value
-        # Defines if the service points support the stimulation If RptProfile.
         # stimEnabler is "none" then no is passed to the service function.
         # stimulation enabler will be passed as a.
         self._stimEnabler: Optional["RptEnablerImplType"] = None

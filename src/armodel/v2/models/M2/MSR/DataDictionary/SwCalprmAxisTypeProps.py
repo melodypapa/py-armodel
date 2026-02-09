@@ -55,7 +55,6 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
                 f"maxGradient must be Float or None, got {type(value).__name__}"
             )
         self._maxGradient = value
-        # This attribute specifies the monotony constraint for an (curve, map or
         # cuboid) with respect to a This information can be used by MCD verify whether
         # the monotony constraint is to prevent from changes violating the.
         self._monotony: Optional["MonotonyEnum"] = None

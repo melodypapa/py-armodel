@@ -50,7 +50,6 @@ class IndentSample(ARObject):
                 f"itemLabelPos must be ItemLabelPosEnum or None, got {type(value).__name__}"
             )
         self._itemLabelPos = value
-        self._l2: "LOverviewParagraph" = None
 
     @property
     def l2(self) -> "LOverviewParagraph":

@@ -63,7 +63,6 @@ class DltConfig(ARObject):
                 f"dltEcu must be DltEcu or None, got {type(value).__name__}"
             )
         self._dltEcu = value
-        # Describes the DltLogChannels that are configured for the output.
         self._dltLogChannel: List["DltLogChannel"] = []
 
     @property
@@ -98,7 +97,6 @@ class DltConfig(ARObject):
                 f"sessionId must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._sessionId = value
-        # This attribute defines whether a timestamp shall be added the Dlt messages or
         # not.
         self._timestamp: Optional["Boolean"] = None
 
@@ -378,7 +376,6 @@ class DltLogChannel(Identifiable):
                 f"defaultTrace must be DltDefaultTraceState or None, got {type(value).__name__}"
             )
         self._defaultTrace = value
-        # Reference to DltMessages that can be transported over in the DltPdu.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._dltMessage: List["DltMessage"] = []
 
@@ -414,7 +411,6 @@ class DltLogChannel(Identifiable):
                 f"logChannelId must be String or str or None, got {type(value).__name__}"
             )
         self._logChannelId = value
-        # This attribute allows to set a log level Threshold for Log Level filtering.
         self._logTraceDefault: Optional["LogTraceDefaultLog"] = None
 
     @property
@@ -442,7 +438,6 @@ class DltLogChannel(Identifiable):
                 f"logTraceDefault must be LogTraceDefaultLog or None, got {type(value).__name__}"
             )
         self._logTraceDefault = value
-        # This attribute defines whether this channel supports Dlt messages.
         # If disabled only verbose shall be used.
         self._nonVerbose: Optional["Boolean"] = None
 
@@ -471,7 +466,6 @@ class DltLogChannel(Identifiable):
                 f"nonVerbose must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nonVerbose = value
-        # Reference to DltPdu that is received by the DltLog.
         self._rxPduTriggering: Optional["RefType"] = None
 
     @property
@@ -495,7 +489,6 @@ class DltLogChannel(Identifiable):
             return
 
         self._rxPduTriggering = value
-        # If enabled, segmentation will be used if a DLT message is than Pdu.
         # length referenced via DltLogChannel.
         # tx.
         self._segmentation: Optional["Boolean"] = None
@@ -525,7 +518,6 @@ class DltLogChannel(Identifiable):
                 f"segmentation must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._segmentation = value
-        # Reference to DltPdu that is transmitted by the DltLog.
         self._txPduTriggering: Optional["RefType"] = None
 
     @property

@@ -129,7 +129,6 @@ class NvBlockDescriptor(Identifiable):
                 f"nvBlockNeeds must be NvBlockNeeds or None, got {type(value).__name__}"
             )
         self._nvBlockNeeds = value
-        # Defines the RAM Block of the NVRAM Block provided by.
         self._ramBlock: Optional["RefType"] = None
 
     @property
@@ -153,7 +152,6 @@ class NvBlockDescriptor(Identifiable):
             return
 
         self._ramBlock = value
-        # Defines the ROM Block of the NVRAM Block provided by.
         self._romBlock: Optional["ParameterData"] = None
 
     @property
@@ -181,7 +179,6 @@ class NvBlockDescriptor(Identifiable):
                 f"romBlock must be ParameterData or None, got {type(value).__name__}"
             )
         self._romBlock = value
-        # Specifies whether calling of NvM functions for writing and/ status control of
         # potentially modified RAM Blocks to NV be controlled by the RTE.
         self._supportDirty: Optional["Boolean"] = None
 
@@ -210,7 +207,6 @@ class NvBlockDescriptor(Identifiable):
                 f"supportDirty must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._supportDirty = value
-        # this reference can be taken to identify the TimingEvent to by the RTE for
         # implementing a cyclic writing this block.
         self._timingEvent: Optional["TimingEvent"] = None
 
@@ -239,7 +235,6 @@ class NvBlockDescriptor(Identifiable):
                 f"timingEvent must be TimingEvent or None, got {type(value).__name__}"
             )
         self._timingEvent = value
-        # This attribute allows for assigning a specific writing for an incoming
         # AutosarDataPrototype.
         self._writingStrategy: List["RoleBasedData"] = []
 
@@ -729,7 +724,6 @@ class ModeSwitchEventTriggeredActivity(ARObject):
                 f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
-        # This reference identifies the SwcModeSwitchEvent that the activity.
         self._swcModeSwitch: Optional["SwcModeSwitchEvent"] = None
 
     @property
@@ -899,7 +893,6 @@ class NvBlockDataMapping(ARObject):
                 f"bitfieldTextTable must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._bitfieldTextTable = value
-        # Reference to a VariableDataPrototype of a RAM Block.
         self._nvRamBlock: Optional["RefType"] = None
 
     @property
@@ -923,7 +916,6 @@ class NvBlockDataMapping(ARObject):
             return
 
         self._nvRamBlock = value
-        # Reference to a VariableDataPrototype of a pPort of the read access to the RAM
         # is no PortPrototype providing read access reference can be omitted.
         self._readNvData: Optional["RefType"] = None
 
@@ -948,7 +940,6 @@ class NvBlockDataMapping(ARObject):
             return
 
         self._readNvData = value
-        # Reference to a VariableDataPrototype of a rPort of the Nv write access to the
         # RAM there is no port providing write access reference can be omitted.
         self._writtenNvData: Optional["RefType"] = None
 
@@ -973,7 +964,6 @@ class NvBlockDataMapping(ARObject):
             return
 
         self._writtenNvData = value
-        # Reference to a VariableDataPrototype of a PRPort of the
         # NvBlockSwComponentType providing read access to the RAM Block.
         self._writtenReadNv: Optional["RefType"] = None
 
@@ -1266,7 +1256,6 @@ class BulkNvDataDescriptor(Identifiable):
             return
 
         self._bulkNvBlock = value
-        # Defines the mapping between the VariableData in the NvBlockComponents ports
                 # and the the non-volatile memory.
         # of NvBlockDataMapping is subject to the purpose to support the conditional nv
                 # data ports.

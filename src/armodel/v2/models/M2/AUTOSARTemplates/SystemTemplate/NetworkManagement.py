@@ -240,7 +240,6 @@ class NmCluster(Identifiable, ABC):
                 f"communication must be CommunicationCluster or None, got {type(value).__name__}"
             )
         self._communication = value
-        # This parameter shall be set to indicate if the sleep of this can be
         # absolutely decided by the local node only no other nodes can oppose that
         # decision.
         self._nmChannel: Optional["Boolean"] = None
@@ -270,7 +269,6 @@ class NmCluster(Identifiable, ABC):
                 f"nmChannel must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmChannel = value
-        # Enables the Request Repeat Message Request support.
         # valid if nmNodeIdEnabled is set to true.
         self._nmNode: Optional["Boolean"] = None
 
@@ -299,7 +297,6 @@ class NmCluster(Identifiable, ABC):
                 f"nmNode must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmNode = value
-        # Enables the source node identifier.
         self._nmNodeIdEnabled: Optional["Boolean"] = None
 
     @property
@@ -327,7 +324,6 @@ class NmCluster(Identifiable, ABC):
                 f"nmNodeIdEnabled must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmNodeIdEnabled = value
-        # Defines whether this NmCluster contributes to the partial mechanism.
         self._nmPnc: Optional["Boolean"] = None
 
     @property
@@ -355,7 +351,6 @@ class NmCluster(Identifiable, ABC):
                 f"nmPnc must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmPnc = value
-        # Switch for enabling the Repeat Message Bit Indication.
         self._nmRepeatMsg: Optional["Boolean"] = None
 
     @property
@@ -383,7 +378,6 @@ class NmCluster(Identifiable, ABC):
                 f"nmRepeatMsg must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmRepeatMsg = value
-        # If this parameter is true, then this network is a network for the NM
                 # coordination cluster it belongs to.
         # The network is expected to call Nm_ regular intervals.
         self._nm: Optional["Boolean"] = None
@@ -413,7 +407,6 @@ class NmCluster(Identifiable, ABC):
                 f"nm must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nm = value
-        # Optionally defines the length of the PNC Vector per (and VLAN in case of
                 # UdpNm).
         # If then System.
         # pncVectorLength applies.
@@ -853,7 +846,6 @@ class NmEcu(Identifiable):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # Enables bus synchronization support.
         self._nmBusSynchronizationEnabled: Optional["Boolean"] = None
 
     @property
@@ -881,7 +873,6 @@ class NmEcu(Identifiable):
                 f"nmBusSynchronizationEnabled must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmBusSynchronizationEnabled = value
-        # Enables the Communication Control support.
         self._nmComControlEnabled: Optional["Boolean"] = None
 
     @property
@@ -909,7 +900,6 @@ class NmEcu(Identifiable):
                 f"nmComControlEnabled must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmComControlEnabled = value
-        # Nm ECU may coordinate different clusters.
         self._nmCoordinator: Optional["NmCoordinator"] = None
 
     @property
@@ -937,7 +927,6 @@ class NmEcu(Identifiable):
                 f"nmCoordinator must be NmCoordinator or None, got {type(value).__name__}"
             )
         self._nmCoordinator = value
-        # The period between successive calls to the Main Function the NM Interface in
         # seconds.
         self._nmCycletime: Optional["TimeValue"] = None
 
@@ -966,7 +955,6 @@ class NmEcu(Identifiable):
                 f"nmCycletime must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmCycletime = value
-        # Switch for enabling the PDU Rx Indication.
         self._nmPduRxIndicationEnabled: Optional["Boolean"] = None
 
     @property
@@ -994,7 +982,6 @@ class NmEcu(Identifiable):
                 f"nmPduRxIndicationEnabled must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmPduRxIndicationEnabled = value
-        # Switch for enabling remote sleep indication support.
         self._nmRemote: Optional["Boolean"] = None
 
     @property
@@ -1022,7 +1009,6 @@ class NmEcu(Identifiable):
                 f"nmRemote must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmRemote = value
-        # Enables the CAN Network Management state change.
         self._nmStateChange: Optional["Boolean"] = None
 
     @property
@@ -1050,7 +1036,6 @@ class NmEcu(Identifiable):
                 f"nmStateChange must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmStateChange = value
-        # Switch for enabling user data support.
         self._nmUserDataEnabled: Optional["Boolean"] = None
 
     @property
@@ -1559,7 +1544,6 @@ class NmCoordinator(ARObject):
                 f"index must be Integer or int or None, got {type(value).__name__}"
             )
         self._index = value
-        # Switch for enabling NmCoordinatorSync (coordination of busses) support.
         self._nmCoordSync: Optional["Boolean"] = None
 
     @property
@@ -1587,7 +1571,6 @@ class NmCoordinator(ARObject):
                 f"nmCoordSync must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmCoordSync = value
-        # This attribute defines the maximum shutdown time (in of a connected and
         # coordinated NM-Cluster.
         self._nmGlobal: Optional["TimeValue"] = None
 
@@ -1616,7 +1599,6 @@ class NmCoordinator(ARObject):
                 f"nmGlobal must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmGlobal = value
-        # reference to busses (via NmNodes) that are coordinated NmCoordinator.
         self._nmNode: List["NmNode"] = []
 
     @property
@@ -1817,7 +1799,6 @@ class NmNode(Identifiable, ABC):
                 f"controller must be Communication or None, got {type(value).__name__}"
             )
         self._controller = value
-        # NmCoordinationCluster identification number.
         self._nmCoordCluster: Optional["PositiveInteger"] = None
 
     @property
@@ -1845,7 +1826,6 @@ class NmNode(Identifiable, ABC):
                 f"nmCoordCluster must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nmCoordCluster = value
-        # This attribute indicates the role the NM Coordinator will have on this
                 # channel.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._nmCoordinator: Optional["NmCoordinatorRole"] = None
@@ -1875,7 +1855,6 @@ class NmNode(Identifiable, ABC):
                 f"nmCoordinator must be NmCoordinatorRole or None, got {type(value).__name__}"
             )
         self._nmCoordinator = value
-        # Reference to the NmEcu that contains this NmNode.
         # is referenced by the Nm be contained in the EcuInstance that is the NmEcu).
         self._nmIfEcu: Optional["NmEcu"] = None
 
@@ -1904,7 +1883,6 @@ class NmNode(Identifiable, ABC):
                 f"nmIfEcu must be NmEcu or None, got {type(value).__name__}"
             )
         self._nmIfEcu = value
-        # Node identifier of local NmNode.
         # Shall be unique in the.
         self._nmNodeId: Optional["Integer"] = None
 
@@ -1933,7 +1911,6 @@ class NmNode(Identifiable, ABC):
                 f"nmNodeId must be Integer or int or None, got {type(value).__name__}"
             )
         self._nmNodeId = value
-        # Enables support of the Passive Mode.
         # The passive mode configurable per channel.
         self._nmPassive: Optional["Boolean"] = None
 
@@ -1962,7 +1939,6 @@ class NmNode(Identifiable, ABC):
                 f"nmPassive must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmPassive = value
-        # receive NM Pdu.
         self._rxNmPdu: List["NmPdu"] = []
 
     @property
@@ -2334,7 +2310,6 @@ class J1939NodeName(ARObject):
                 f"arbitrary must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._arbitrary = value
-        # ECU Instance field of the NAME of this node.
         self._ecuInstance: Optional["Integer"] = None
 
     @property
@@ -2362,7 +2337,6 @@ class J1939NodeName(ARObject):
                 f"ecuInstance must be Integer or int or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # Function field of the NAME of this node.
         self._function: Optional["Integer"] = None
 
     @property
@@ -2390,7 +2364,6 @@ class J1939NodeName(ARObject):
                 f"function must be Integer or int or None, got {type(value).__name__}"
             )
         self._function = value
-        # Function Instance field of the NAME of this node.
         self._functionInstance: Optional["Integer"] = None
 
     @property
@@ -2418,7 +2391,6 @@ class J1939NodeName(ARObject):
                 f"functionInstance must be Integer or int or None, got {type(value).__name__}"
             )
         self._functionInstance = value
-        # Identity Number field of the NAME of this node.
         self._identitiyNumber: Optional["Integer"] = None
 
     @property
@@ -2446,7 +2418,6 @@ class J1939NodeName(ARObject):
                 f"identitiyNumber must be Integer or int or None, got {type(value).__name__}"
             )
         self._identitiyNumber = value
-        # Industry Group field of the NAME of this node.
         self._industryGroup: Optional["Integer"] = None
 
     @property
@@ -2474,7 +2445,6 @@ class J1939NodeName(ARObject):
                 f"industryGroup must be Integer or int or None, got {type(value).__name__}"
             )
         self._industryGroup = value
-        # Manufacturer Code field of the NAME of this node.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._manufacturerCode: Optional["Integer"] = None
 
@@ -2503,7 +2473,6 @@ class J1939NodeName(ARObject):
                 f"manufacturerCode must be Integer or int or None, got {type(value).__name__}"
             )
         self._manufacturerCode = value
-        # Vehicle System Instance field of the NAME of this node.
         self._vehicleSystem: Optional["Integer"] = None
 
     @property
@@ -2932,7 +2901,6 @@ class FlexrayNmCluster(NmCluster):
                 f"nmCarWakeUp must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmCarWakeUp = value
-        # Number of FlexRay Communication Cycles needed to Nm Data PDUs of all FlexRay
         # Nm Ecus of.
         self._nmDataCycle: Optional["Integer"] = None
 
@@ -2961,7 +2929,6 @@ class FlexrayNmCluster(NmCluster):
                 f"nmDataCycle must be Integer or int or None, got {type(value).__name__}"
             )
         self._nmDataCycle = value
-        # Defines the processing cycle of the main function of FrNm.
         self._nmMain: Optional["TimeValue"] = None
 
     @property
@@ -2989,7 +2956,6 @@ class FlexrayNmCluster(NmCluster):
                 f"nmMain must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmMain = value
-        # Timeout for Remote Sleep Indication in seconds.
         # It the time how long it shall take to recognize that all nodes are ready to
                 # sleep.
         self._nmRemote: Optional["TimeValue"] = None
@@ -3019,7 +2985,6 @@ class FlexrayNmCluster(NmCluster):
                 f"nmRemote must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmRemote = value
-        # Timeout for Repeat Message State in seconds.
         # Defines time how long the NM shall stay in the Repeat.
         self._nmRepeat: Optional["TimeValue"] = None
 
@@ -3048,7 +3013,6 @@ class FlexrayNmCluster(NmCluster):
                 f"nmRepeat must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmRepeat = value
-        # Number of FlexRay Communication Cycles used to the transmission of the Nm
                 # vote Pdus of all Flex of this FlexRayNmCluster.
         # This value shall integral multiple of nmVotingCycle.
         self._nmRepetition: Optional["Integer"] = None
@@ -3078,7 +3042,6 @@ class FlexrayNmCluster(NmCluster):
                 f"nmRepetition must be Integer or int or None, got {type(value).__name__}"
             )
         self._nmRepetition = value
-        # Number of FlexRay CommunicationCycles needed to Nm vote of Pdus of all
         # FlexRay NmEcus of.
         self._nmVotingCycle: Optional["Integer"] = None
 
@@ -3464,7 +3427,6 @@ class CanNmCluster(NmCluster):
                 f"nmBusload must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmBusload = value
-        # Specifies the bit position of the CarWakeUp within the Nm.
         self._nmCarWakeUp: Optional["PositiveInteger"] = None
 
     @property
@@ -3492,7 +3454,6 @@ class CanNmCluster(NmCluster):
                 f"nmCarWakeUp must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nmCarWakeUp = value
-        # Source node identifier for CarWakeUp filtering.
         self._nmCarWakeUpFilterNodeId: Optional["PositiveInteger"] = None
 
     @property
@@ -3520,7 +3481,6 @@ class CanNmCluster(NmCluster):
                 f"nmCarWakeUpFilterNodeId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nmCarWakeUpFilterNodeId = value
-        # Defines the position of the control bit vector within the Nm position).
         # If this attribute is not configured, the Vector is not used.
         self._nmCbvPosition: Optional["Integer"] = None
 
@@ -3549,7 +3509,6 @@ class CanNmCluster(NmCluster):
                 f"nmCbvPosition must be Integer or int or None, got {type(value).__name__}"
             )
         self._nmCbvPosition = value
-        # Defines the number of immediate NmPdus which shall be If the value is zero no
                 # immediate NmPdus transmitted.
         # The cycle time of immediate NmPdus is nmImmediateNmCycleTime.
         self._nmImmediate: Optional["PositiveInteger"] = None
@@ -3579,7 +3538,6 @@ class CanNmCluster(NmCluster):
                 f"nmImmediate must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nmImmediate = value
-        # Timeout of an NmPdu in seconds.
         # It determines how long NM shall wait with notification of transmission
                 # failure errors occur on the bus.
         self._nmMessage: Optional["TimeValue"] = None
@@ -3609,7 +3567,6 @@ class CanNmCluster(NmCluster):
                 f"nmMessage must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmMessage = value
-        # Period of a NmPdu in seconds.
         # It determines the periodic in the periodic transmission mode with bus load is
                 # the basis for transmit scheduling in the mode without bus load reduction.
         self._nmMsgCycle: Optional["TimeValue"] = None
@@ -3639,7 +3596,6 @@ class CanNmCluster(NmCluster):
                 f"nmMsgCycle must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmMsgCycle = value
-        # Network Timeout for NmPdus in seconds It denotes the how long the CanNm shall
         # stay in the Network Mode into Prepare Bus-Sleep Mode shall take.
         self._nmNetwork: Optional["TimeValue"] = None
 
@@ -3668,7 +3624,6 @@ class CanNmCluster(NmCluster):
                 f"nmNetwork must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmNetwork = value
-        # Defines the byte position of the source node identifier NmPdu.
         # If this attribute is not configured, the is not used.
         self._nmNidPosition: Optional["Integer"] = None
 
@@ -3697,7 +3652,6 @@ class CanNmCluster(NmCluster):
                 f"nmNidPosition must be Integer or int or None, got {type(value).__name__}"
             )
         self._nmNidPosition = value
-        # Timeout for Remote Sleep Indication in seconds.
         # It the time how long it shall take to recognize that all nodes are ready to
                 # sleep.
         self._nmRemote: Optional["TimeValue"] = None
@@ -3727,7 +3681,6 @@ class CanNmCluster(NmCluster):
                 f"nmRemote must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmRemote = value
-        # Timeout for Repeat Message State in seconds.
         # Defines time how long the NM shall stay in the Repeat.
         self._nmRepeat: Optional["TimeValue"] = None
 
@@ -3756,7 +3709,6 @@ class CanNmCluster(NmCluster):
                 f"nmRepeat must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmRepeat = value
-        # Timeout for bus calm down phase in seconds.
         # It denotes time how long the CanNm shall stay in the Prepare before
                 # transition into Bus-Sleep Mode place.
         self._nmWaitBus: Optional["TimeValue"] = None
@@ -4363,7 +4315,6 @@ class UdpNmCluster(NmCluster):
                 f"nmCbvPosition must be Integer or int or None, got {type(value).__name__}"
             )
         self._nmCbvPosition = value
-        # Defines the number of immediate NmPdus which shall be If the value is zero no
                 # immediate NmPdus transmitted.
         # The cycle time of immediate NmPdus is nmImmediateNmCycleTime.
         self._nmImmediate: Optional["PositiveInteger"] = None
@@ -4393,7 +4344,6 @@ class UdpNmCluster(NmCluster):
                 f"nmImmediate must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nmImmediate = value
-        # Timeout of a NmPdu in seconds.
         # It determines how long NM shall wait with notification of transmission
                 # failure errors occur on the bus.
         self._nmMessage: Optional["TimeValue"] = None
@@ -4423,7 +4373,6 @@ class UdpNmCluster(NmCluster):
                 f"nmMessage must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmMessage = value
-        # Period of a NmPdu in seconds.
         # It determines the periodic in the periodic transmission mode with bus load is
                 # the basis for transmit scheduling in the mode without bus load reduction.
         self._nmMsgCycle: Optional["TimeValue"] = None
@@ -4453,7 +4402,6 @@ class UdpNmCluster(NmCluster):
                 f"nmMsgCycle must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmMsgCycle = value
-        # Network Timeout for NmPdus in seconds.
         # It denotes the how long the UdpNm shall stay in the Network Mode into Prepare
                 # Bus-Sleep Mode shall take.
         self._nmNetwork: Optional["TimeValue"] = None
@@ -4483,7 +4431,6 @@ class UdpNmCluster(NmCluster):
                 f"nmNetwork must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmNetwork = value
-        # Defines the byte position of the source node identifier NmPdu.
         # If this attribute is not configured, the is not used.
         self._nmNidPosition: Optional["Integer"] = None
 
@@ -4512,7 +4459,6 @@ class UdpNmCluster(NmCluster):
                 f"nmNidPosition must be Integer or int or None, got {type(value).__name__}"
             )
         self._nmNidPosition = value
-        # Timeout for Remote Sleep Indication in seconds.
         # It the time how long it shall take to recognize that all nodes are ready to
                 # sleep.
         self._nmRemote: Optional["TimeValue"] = None
@@ -4542,7 +4488,6 @@ class UdpNmCluster(NmCluster):
                 f"nmRemote must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmRemote = value
-        # Timeout for Repeat Message State in seconds.
         # Defines time how long the NM shall stay in the Repeat.
         self._nmRepeat: Optional["TimeValue"] = None
 
@@ -4571,7 +4516,6 @@ class UdpNmCluster(NmCluster):
                 f"nmRepeat must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmRepeat = value
-        # Timeout for bus calm down phase in seconds.
         # It denotes time how long the CanNm shall stay in the Prepare before
                 # transition into Bus-Sleep Mode place.
         self._nmWaitBus: Optional["TimeValue"] = None
@@ -4601,7 +4545,6 @@ class UdpNmCluster(NmCluster):
                 f"nmWaitBus must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmWaitBus = value
-        # Reference to the vlan (represented by the Ethernet this UdpNmCluster shall
         # apply to.
         self._vlan: Optional["EthernetPhysical"] = None
 
@@ -5121,7 +5064,6 @@ class J1939NmCluster(NmCluster):
                 f"addressClaim must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._addressClaim = value
-        # Defines whether fully dynamic address resolution to SAE J1939-81 shall be
                 # supported on this The dynamically allocated addresses on the bus at runtime
                 # to the configured addresses.
         # The addresses on the bus resemble the.
@@ -5288,7 +5230,6 @@ class FlexrayNmEcu(BusspecificNmEcu):
                 f"nmHwVote must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmHwVote = value
-        # Parameter describing if the execution of the FrNm_Main crosses theFlexRay
         # cycle boundary or not.
         self._nmMain: Optional["Boolean"] = None
 
@@ -5516,7 +5457,6 @@ class J1939NmNode(NmNode):
                 f"address must be J1939NmAddress or None, got {type(value).__name__}"
             )
         self._address = value
-        # NodeName configuration.
         self._nodeName: Optional["J1939NodeName"] = None
 
     @property
@@ -5703,7 +5643,6 @@ class CanNmNode(NmNode):
                 f"allNmMessages must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._allNmMessages = value
-        # If set to true this attribute enables the support of CarWake bit evaluation
         # in received NmPdus.
         self._nmCarWakeUp: Optional["Boolean"] = None
 
@@ -5732,7 +5671,6 @@ class CanNmNode(NmNode):
                 f"nmCarWakeUp must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmCarWakeUp = value
-        # Node specific time offset in the periodic transmission It determines the
                 # start delay of the transmission.
         # seconds.
         self._nmMsgCycle: Optional["TimeValue"] = None
@@ -5762,7 +5700,6 @@ class CanNmNode(NmNode):
                 f"nmMsgCycle must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmMsgCycle = value
-        # Node specific bus cycle time in the periodic transmission with bus load
                 # reduction.
         # Specified in seconds.
         self._nmMsg: Optional["TimeValue"] = None
@@ -6019,7 +5956,6 @@ class UdpNmNode(NmNode):
                 f"allNmMessages must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._allNmMessages = value
-        # Node specific time offset in the periodic transmission It determines the
                 # start delay of the transmission.
         # seconds.
         self._nmMsgCycle: Optional["TimeValue"] = None
@@ -6305,7 +6241,6 @@ class CanNmClusterCoupling(NmClusterCoupling):
                 f"nmBusloadReductionEnabled must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmBusloadReductionEnabled = value
-        # Enables the asynchronous transmission of a CanNm upon bus-communication
         # request in.
         self._nmImmediate: Optional["Boolean"] = None
 

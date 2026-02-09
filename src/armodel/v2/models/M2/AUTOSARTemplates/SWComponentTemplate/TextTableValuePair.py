@@ -49,7 +49,6 @@ class TextTableValuePair(ARObject):
                 f"firstValue must be Numerical or None, got {type(value).__name__}"
             )
         self._firstValue = value
-        # Value of second DataPrototype provided similar to a which is intended to be a
                 # Primitive data element.
         # Note that the is a variant, it can be computed by a.
         self._secondValue: Optional["Numerical"] = None

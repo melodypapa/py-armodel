@@ -48,7 +48,6 @@ class EvaluatedVariantSet(ARElement):
                 f"approvalStatus must be NameToken, got {type(value).__name__}"
             )
         self._approvalStatus = value
-        # This metaclass represents one particular variant which evaluated.
         # LowerMultiplicity is set to 0 to support a.
         self._evaluated: List["PredefinedVariant"] = []
 

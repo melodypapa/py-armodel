@@ -99,7 +99,6 @@ class SwComponentType(ARElement, ABC):
                 f"swComponent must be SwComponent or None, got {type(value).__name__}"
             )
         self._swComponent = value
-        # This allows for the specification of which UnitGroups are the context of
         # referencing SwComponentType.
         self._unitGroup: List[RefType] = []
 

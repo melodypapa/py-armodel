@@ -263,7 +263,6 @@ class NumericalOrText(ARObject):
                 f"vf must be Numerical or None, got {type(value).__name__}"
             )
         self._vf = value
-        # This attribute represents the ability to provide a textual.
         self._vt: Optional["String"] = None
 
     @property
@@ -430,7 +429,6 @@ class RuleArguments(ARObject):
                 f"v must be Numerical or None, got {type(value).__name__}"
             )
         self._v = value
-        # This represents a numerical value for the RuleBased may subject to
                 # variability.
         # The time of the VariationPoint shall be pre.
         self._vf: Optional["Numerical"] = None
@@ -460,7 +458,6 @@ class RuleArguments(ARObject):
                 f"vf must be Numerical or None, got {type(value).__name__}"
             )
         self._vf = value
-        # This represents a textual value for the RuleBasedValue.
         self._vt: Optional["VerbatimString"] = None
 
     @property
@@ -488,7 +485,6 @@ class RuleArguments(ARObject):
                 f"vt must be VerbatimString or None, got {type(value).__name__}"
             )
         self._vt = value
-        # This aggregation represents the ability to provide a value either numerical
         # or text which existence is subject atpVariation.
         self._vtf: Optional["NumericalOrText"] = None
 
@@ -746,7 +742,6 @@ class RuleBasedValueCont(ARObject):
                 f"ruleBased must be RuleBasedValue or None, got {type(value).__name__}"
             )
         self._ruleBased = value
-        # This attribute defines the size of each dimension for CURVE, MAP, CUBOID,
                 # CUBE_4, RES_AXIS, VAL_BLK.
         # dimension one value has to be defined, e.
         # g.
@@ -774,7 +769,6 @@ class RuleBasedValueCont(ARObject):
             return
 
         self._swArraysize = value
-        # This represents the physical unit of the provided values.
         self._unit: Optional["Unit"] = None
 
     @property
@@ -988,7 +982,6 @@ class RuleBasedValueSpecification(ARObject):
                 f"arguments must be RuleArguments or None, got {type(value).__name__}"
             )
         self._arguments = value
-        # If a rule is chosen which does not fill until the end, this which size the
         # rule shall fill the values.
         self._maxSizeToFill: Optional["Integer"] = None
 
@@ -1017,7 +1010,6 @@ class RuleBasedValueSpecification(ARObject):
                 f"maxSizeToFill must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxSizeToFill = value
-        # This denotes the name of the rule of the RuleBasedValue rule determines the
         # calculation which the arguments are used to values.
         self._rule: Optional["Identifier"] = None
 
@@ -1333,7 +1325,6 @@ class ConstantSpecificationMapping(ARObject):
                 f"applConstant must be ConstantSpecification or None, got {type(value).__name__}"
             )
         self._applConstant = value
-        # A ConstantSpecification defined in the implementation.
         self._implConstant: Optional["ConstantSpecification"] = None
 
     @property
@@ -1546,7 +1537,6 @@ class RuleBasedAxisCont(ARObject):
                 f"category must be CalprmAxisCategory or None, got {type(value).__name__}"
             )
         self._category = value
-        # This represents the rule based value specification for the axis of a compound
         # primitive (curve, map).
         self._ruleBased: Optional["RuleBasedValue"] = None
 
@@ -1575,7 +1565,6 @@ class RuleBasedAxisCont(ARObject):
                 f"ruleBased must be RuleBasedValue or None, got {type(value).__name__}"
             )
         self._ruleBased = value
-        # For multidimensional compound primitives (curve, map.
         # ) necessary to know the dimensions.
         # They are specified.
         self._swArraysize: Optional["RefType"] = None
@@ -1601,7 +1590,6 @@ class RuleBasedAxisCont(ARObject):
             return
 
         self._swArraysize = value
-        # This property allows to explicitly assign the axis contents particular axis.
         # It is specified by numbers where 1 the x-axis.
         # It is also possible to derive the from the sequence of the parent.
         self._swAxisIndex: Optional["AxisIndexType"] = None
@@ -1631,7 +1619,6 @@ class RuleBasedAxisCont(ARObject):
                 f"swAxisIndex must be AxisIndexType or None, got {type(value).__name__}"
             )
         self._swAxisIndex = value
-        # This represents the physical unit of the provided values.
         self._unit: Optional["Unit"] = None
 
     @property
@@ -2059,7 +2046,6 @@ class ApplicationValueSpecification(ValueSpecification):
                 f"category must be Identifier or str or None, got {type(value).__name__}"
             )
         self._category = value
-        # This represents the axis values of a Compound Primitive Type (curve or map).
         # swAxisCont describes the x-axis, the second sw the y-axis, the third
                 # swAxisCont z-axis.
         # In addition to this, the axis can be swAxisIndex.
@@ -2680,7 +2666,6 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
                 f"category must be Identifier or str or None, got {type(value).__name__}"
             )
         self._category = value
-        # This represents the axis values of a Compound Primitive Type (curve or map).
         # swAxisCont describes the x-axis, the second sw the y-axis, the third
                 # swAxisCont z-axis.
         # In addition to this, the axis can be swAxisIndex.
@@ -3121,7 +3106,6 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
                 f"maxSizeToFill must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSizeToFill = value
-        # This denotes the name of the rule of the RuleBasedValue rule determines the
         # calculation which the arguments are used to values.
         self._rule: Optional["Identifier"] = None
 

@@ -51,7 +51,6 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
                 f"contextRPortPrototype must be AbstractRequiredPort or None, got {type(value).__name__}"
             )
         self._contextRPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetMode: RefType = None
 

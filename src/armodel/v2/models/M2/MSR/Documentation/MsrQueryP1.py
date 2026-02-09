@@ -40,7 +40,6 @@ class MsrQueryP1(Paginateable):
                 f"msrQueryProps must be MsrQueryProps, got {type(value).__name__}"
             )
         self._msrQueryProps = value
-        # This represents the result of the query.
         # xml.
         # sequenceOffset=30.
         self._msrQueryResult: Optional["TopicContent"] = None

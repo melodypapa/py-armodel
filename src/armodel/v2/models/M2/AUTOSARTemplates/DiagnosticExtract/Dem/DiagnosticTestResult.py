@@ -66,7 +66,6 @@ class DiagnosticTestResult(DiagnosticCommonElement):
                 f"diagnosticEvent must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._diagnosticEvent = value
-        # This attribute represents the related diagnostic monitored identifier.
         self._monitored: Optional["Diagnostic"] = None
 
     @property
@@ -94,7 +93,6 @@ class DiagnosticTestResult(DiagnosticCommonElement):
                 f"monitored must be Diagnostic or None, got {type(value).__name__}"
             )
         self._monitored = value
-        # This attribute represents the applicable test identifier.
         self._testIdentifier: Optional["DiagnosticTestIdentifier"] = None
 
     @property
@@ -122,7 +120,6 @@ class DiagnosticTestResult(DiagnosticCommonElement):
                 f"testIdentifier must be DiagnosticTestIdentifier or None, got {type(value).__name__}"
             )
         self._testIdentifier = value
-        # This attribute controls the update behavior of the DiagnosticTestResult.
         self._updateKind: Optional["DiagnosticTestResult"] = None
 
     @property
@@ -376,7 +373,6 @@ class DiagnosticTestIdentifier(ARObject):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        # This represents the unit and scaling Id of the diagnostic.
         self._uasId: Optional["PositiveInteger"] = None
 
     @property

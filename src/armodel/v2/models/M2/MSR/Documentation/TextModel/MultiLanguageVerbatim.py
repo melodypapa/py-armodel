@@ -45,7 +45,6 @@ class MultiLanguageVerbatim(Paginateable):
                 f"allowBreak must be NameToken or None, got {type(value).__name__}"
             )
         self._allowBreak = value
-        # Indicate whether it is allowed to break the element.
         # The are allowed:.
         self._float: Optional["FloatEnum"] = None
 
@@ -74,7 +73,6 @@ class MultiLanguageVerbatim(Paginateable):
                 f"float must be FloatEnum or None, got {type(value).__name__}"
             )
         self._float = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
         self._helpEntry: Optional["String"] = None
@@ -104,7 +102,6 @@ class MultiLanguageVerbatim(Paginateable):
                 f"helpEntry must be String or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        self._l5: "LVerbatim" = None
 
     @property
     def l5(self) -> "LVerbatim":

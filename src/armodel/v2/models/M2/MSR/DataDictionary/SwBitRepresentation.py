@@ -52,7 +52,6 @@ class SwBitRepresentation(ARObject):
                 f"bitPosition must be Integer or None, got {type(value).__name__}"
             )
         self._bitPosition = value
-        # Number of bits allocated by a "bit data object" within its object.
         self._numberOfBits: Optional["Integer"] = None
 
     @property

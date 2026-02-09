@@ -54,7 +54,6 @@ class Paginateable(DocumentViewSelectable, ABC):
                 f"chapterBreak must be ChapterEnumBreak or None, got {type(value).__name__}"
             )
         self._chapterBreak = value
-        # This attribute denotes the pagination policy.
         # In particular it if the containing text block shall be kept together previous
                 # block.
         self._keepWith: Optional["KeepWithPreviousEnum"] = None

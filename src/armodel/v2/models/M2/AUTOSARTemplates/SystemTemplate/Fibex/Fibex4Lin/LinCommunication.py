@@ -266,7 +266,6 @@ class LinFrameTriggering(FrameTriggering):
                 f"identifier must be Integer or int or None, got {type(value).__name__}"
             )
         self._identifier = value
-        # Type of checksum that the frame is using.
         # This attribute is in case of sporadic frames it should not.
         self._linChecksum: Optional["LinChecksumType"] = None
 
@@ -435,7 +434,6 @@ class LinScheduleTable(Identifiable):
                 f"resumePosition must be ResumePosition or None, got {type(value).__name__}"
             )
         self._resumePosition = value
-        # The schedule table can be executed in two different.
         self._runMode: Optional["RunMode"] = None
 
     @property
@@ -463,7 +461,6 @@ class LinScheduleTable(Identifiable):
                 f"runMode must be RunMode or None, got {type(value).__name__}"
             )
         self._runMode = value
-        # The scheduling table consists of table entries, which slots.
         self._tableEntry: List["ScheduleTableEntry"] = []
 
     @property
@@ -622,7 +619,6 @@ class ScheduleTableEntry(ARObject, ABC):
                 f"delay must be TimeValue or None, got {type(value).__name__}"
             )
         self._delay = value
-        # This represents introductory documentation about the entry.
         self._introduction: Optional["DocumentationBlock"] = None
 
     @property
@@ -650,7 +646,6 @@ class ScheduleTableEntry(ARObject, ABC):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
-        # Relative position in the schedule table.
         # The first entry the schedule table is 0.
         self._positionInTable: Optional["Integer"] = None
 
@@ -862,7 +857,6 @@ class FramePid(ARObject):
                 f"index must be Integer or int or None, got {type(value).__name__}"
             )
         self._index = value
-        # Frame_PID value.
         self._pid: Optional["PositiveInteger"] = None
 
     @property
@@ -1101,7 +1095,6 @@ class LinEventTriggeredFrame(LinFrame):
                 f"collisionSchedule must be LinScheduleTable or None, got {type(value).__name__}"
             )
         self._collisionSchedule = value
-        # A list of slaves can respond to the master request if at one of the signals
                 # carried in its unconditional frame For each response a LinFrameTriggering and
                 # shall be defined.
         # Within a LIN Frame shall be referenced by only one allows a derivation of the
@@ -1342,7 +1335,6 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
                 f"assigned must be LinSlave or None, got {type(value).__name__}"
             )
         self._assigned = value
-        # The LIN slave that is target of this assignment.
         # note that this reference is redundant to the Ecu Extract of the LinMaster the
                 # LinSlave Ecus shall available.
         # that is described here is necessary in the for the configuration of the
@@ -1725,7 +1717,6 @@ class AssignFrameIdRange(LinConfigurationEntry):
                 f"framePid must be FramePid, got {type(value).__name__}"
             )
         self._framePid = value
-        # The startIndex sets the index to the first frame to assign a.
         self._startIndex: Optional["Integer"] = None
 
     @property
@@ -1983,7 +1974,6 @@ class ConditionalChangeNad(LinConfigurationEntry):
                 f"byte must be Integer or int or None, got {type(value).__name__}"
             )
         self._byte = value
-        # Byte Position of Id.
         self._id: Optional["PositiveInteger"] = None
 
     @property
@@ -2011,7 +2001,6 @@ class ConditionalChangeNad(LinConfigurationEntry):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        # Byte Position of Invert.
         self._invert: Optional["Integer"] = None
 
     @property
@@ -2039,7 +2028,6 @@ class ConditionalChangeNad(LinConfigurationEntry):
                 f"invert must be Integer or int or None, got {type(value).__name__}"
             )
         self._invert = value
-        # Byte Position of Mask.
         self._mask: Optional["Integer"] = None
 
     @property
@@ -2067,7 +2055,6 @@ class ConditionalChangeNad(LinConfigurationEntry):
                 f"mask must be Integer or int or None, got {type(value).__name__}"
             )
         self._mask = value
-        # The newly assigned NAD value (Byte Position).
         self._newNad: Optional["Integer"] = None
 
     @property

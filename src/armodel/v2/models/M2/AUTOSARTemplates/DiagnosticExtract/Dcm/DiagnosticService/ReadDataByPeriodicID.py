@@ -164,7 +164,6 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
                 f"maxPeriodicDid must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxPeriodicDid = value
-        # This represents the description of a collection of periodic which the service
         # can be executed.
         self._periodicRate: List["DiagnosticPeriodicRate"] = []
 
@@ -351,7 +350,6 @@ class DiagnosticPeriodicRate(ARObject):
                 f"period must be TimeValue or None, got {type(value).__name__}"
             )
         self._period = value
-        # This attribute represents the category of the periodic rate.
         self._periodicRate: Optional["DiagnosticPeriodicRate"] = None
 
     @property

@@ -53,7 +53,6 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
                 f"lowerMultiplicity must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._lowerMultiplicity = value
-        # This explicitly specifies, that the upper multiplicity is NOT Note: The use
         # of ’upperMultiplicityInfinite’ and mutual exclusive.
         self._upperMultiplicity: Optional["Boolean"] = None
 

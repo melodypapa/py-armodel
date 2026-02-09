@@ -50,7 +50,6 @@ class List(Paginateable):
                 f"item must be Item, got {type(value).__name__}"
             )
         self._item = value
-        # The type of the list.
         # Default is "UNNUMBER".
         self._type: RefType = None
 

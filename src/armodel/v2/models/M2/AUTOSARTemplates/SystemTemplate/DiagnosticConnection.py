@@ -81,7 +81,6 @@ class DiagnosticConnection(ARElement):
                 f"physicalRequest must be TpConnectionIdent or None, got {type(value).__name__}"
             )
         self._physicalRequest = value
-        # In the vast majority of cases a response is required.
         # are also cases where providing the not possible and/or not allowed.
         self._response: Optional["TpConnectionIdent"] = None
 
@@ -110,7 +109,6 @@ class DiagnosticConnection(ARElement):
                 f"response must be TpConnectionIdent or None, got {type(value).__name__}"
             )
         self._response = value
-        # Reference to a ROE message.
         # atp.
         # Status=obsolete.
         self._responseOn: Optional["TpConnectionIdent"] = None
@@ -494,7 +492,6 @@ class DoIpTpConnection(TpConnection):
                 f"doIpSource must be DoIpLogicAddress or None, got {type(value).__name__}"
             )
         self._doIpSource = value
-        # Reference to the address of the receiver of the tpSdu.
         self._doIpTarget: Optional["DoIpLogicAddress"] = None
 
     @property
@@ -522,7 +519,6 @@ class DoIpTpConnection(TpConnection):
                 f"doIpTarget must be DoIpLogicAddress or None, got {type(value).__name__}"
             )
         self._doIpTarget = value
-        # This reference is used to describe the data exchange and the PduR.
         self._tpSdu: Optional["RefType"] = None
 
     @property

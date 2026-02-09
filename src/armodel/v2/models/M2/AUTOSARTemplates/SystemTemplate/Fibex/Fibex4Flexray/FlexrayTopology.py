@@ -65,7 +65,6 @@ class FlexrayCluster(ARObject):
                 f"actionPointOffset must be Integer or int or None, got {type(value).__name__}"
             )
         self._actionPointOffset = value
-        # Nominal bit time (= 1 / fx:SPEED).
         # gdBit = cSamplesPer gdSampleClockPeriod.
         # Unit: seconds (gdBit).
         self._bit: Optional["TimeValue"] = None
@@ -95,7 +94,6 @@ class FlexrayCluster(ARObject):
                 f"bit must be TimeValue or None, got {type(value).__name__}"
             )
         self._bit = value
-        # Upper limit of the Collision Avoidance Symbol (CAS) Unit:bitDuration.
         self._casRxLowMax: Optional["Integer"] = None
 
     @property
@@ -123,7 +121,6 @@ class FlexrayCluster(ARObject):
                 f"casRxLowMax must be Integer or int or None, got {type(value).__name__}"
             )
         self._casRxLowMax = value
-        # The maximum number of times that a node in this cluster permitted to attempt
         # to start the cluster by initiating.
         self._coldStart: Optional["Integer"] = None
 
@@ -152,7 +149,6 @@ class FlexrayCluster(ARObject):
                 f"coldStart must be Integer or int or None, got {type(value).__name__}"
             )
         self._coldStart = value
-        # Length of the cycle.
         # Unit: seconds.
         self._cycle: Optional["TimeValue"] = None
 
@@ -181,7 +177,6 @@ class FlexrayCluster(ARObject):
                 f"cycle must be TimeValue or None, got {type(value).__name__}"
             )
         self._cycle = value
-        # Maximum cycle counter value in a given cluster.
         # Remark: 63 for FlexRay Protocol 2.
         # 1 Rev.
         # A compliance.
@@ -212,7 +207,6 @@ class FlexrayCluster(ARObject):
                 f"cycleCountMax must be Integer or int or None, got {type(value).__name__}"
             )
         self._cycleCountMax = value
-        # Indicates whether NIT error status of each cluster shall be not.
         self._detectNitError: Optional["Boolean"] = None
 
     @property
@@ -240,7 +234,6 @@ class FlexrayCluster(ARObject):
                 f"detectNitError must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._detectNitError = value
-        # The duration of the dynamic slot idle phase in minislots.
         self._dynamicSlotIdle: Optional["Integer"] = None
 
     @property
@@ -268,7 +261,6 @@ class FlexrayCluster(ARObject):
                 f"dynamicSlotIdle must be Integer or int or None, got {type(value).__name__}"
             )
         self._dynamicSlotIdle = value
-        # Duration for which the bitstrobing is paused after.
         self._ignoreAfterTx: Optional["Integer"] = None
 
     @property
@@ -296,7 +288,6 @@ class FlexrayCluster(ARObject):
                 f"ignoreAfterTx must be Integer or int or None, got {type(value).__name__}"
             )
         self._ignoreAfterTx = value
-        # Upper limit for the start up and wake up listen timeout in of noise.
         # Expressed as a multiple of the pdListenTimeout.
         # Unit microticks.
         self._listenNoise: Optional["Integer"] = None
@@ -326,7 +317,6 @@ class FlexrayCluster(ARObject):
                 f"listenNoise must be Integer or int or None, got {type(value).__name__}"
             )
         self._listenNoise = value
-        # The number of macroticks in a communication cycle.
         self._macroPerCycle: Optional["Integer"] = None
 
     @property
@@ -354,7 +344,6 @@ class FlexrayCluster(ARObject):
                 f"macroPerCycle must be Integer or int or None, got {type(value).__name__}"
             )
         self._macroPerCycle = value
-        # Duration of the cluster wide nominal macrotick, expressed s.
         self._macrotick: Optional["TimeValue"] = None
 
     @property
@@ -382,7 +371,6 @@ class FlexrayCluster(ARObject):
                 f"macrotick must be TimeValue or None, got {type(value).__name__}"
             )
         self._macrotick = value
-        # Threshold concerning vClockCorrectionFailedCounter.
         # the number of consecutive even/odd Cycle pairs missing clock correction terms
                 # that will cause the transition from the POC:normal active state to passive
                 # state.
@@ -413,7 +401,6 @@ class FlexrayCluster(ARObject):
                 f"maxWithout must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxWithout = value
-        # The Offset of the action point within a minislot.
         # Unit:.
         self._minislotAction: Optional["Integer"] = None
 
@@ -442,7 +429,6 @@ class FlexrayCluster(ARObject):
                 f"minislotAction must be Integer or int or None, got {type(value).__name__}"
             )
         self._minislotAction = value
-        # The duration of a minislot (dynamic segment).
         # Unit:.
         self._minislotDuration: Optional["Integer"] = None
 
@@ -471,7 +457,6 @@ class FlexrayCluster(ARObject):
                 f"minislotDuration must be Integer or int or None, got {type(value).__name__}"
             )
         self._minislotDuration = value
-        # The duration of the network idle time in macroticks 2090 Document ID 63:
         # AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._networkIdle: Optional["Integer"] = None
 
@@ -500,7 +485,6 @@ class FlexrayCluster(ARObject):
                 f"networkIdle must be Integer or int or None, got {type(value).__name__}"
             )
         self._networkIdle = value
-        # Length of the Network Management vector in a cluster.
         self._network: Optional["Integer"] = None
 
     @property
@@ -528,7 +512,6 @@ class FlexrayCluster(ARObject):
                 f"network must be Integer or int or None, got {type(value).__name__}"
             )
         self._network = value
-        # Number of Minislots in the dynamic segment.
         self._numberOfMinislots: Optional["Integer"] = None
 
     @property
@@ -556,7 +539,6 @@ class FlexrayCluster(ARObject):
                 f"numberOfMinislots must be Integer or int or None, got {type(value).__name__}"
             )
         self._numberOfMinislots = value
-        # The number of static slots in the static segment.
         self._numberOfStaticSlots: Optional["Integer"] = None
 
     @property
@@ -584,7 +566,6 @@ class FlexrayCluster(ARObject):
                 f"numberOfStaticSlots must be Integer or int or None, got {type(value).__name__}"
             )
         self._numberOfStaticSlots = value
-        # Start of the offset correction phase within the Network Time (NIT), expressed
                 # as the number of macroticks start of cycle.
         # Unit: macroticks.
         self._offsetCorrection: Optional["Integer"] = None
@@ -614,7 +595,6 @@ class FlexrayCluster(ARObject):
                 f"offsetCorrection must be Integer or int or None, got {type(value).__name__}"
             )
         self._offsetCorrection = value
-        # Globally configured payload length of a static frame.
         # Unit: WORDS.
         self._payloadLength: Optional["Integer"] = None
 
@@ -643,7 +623,6 @@ class FlexrayCluster(ARObject):
                 f"payloadLength must be Integer or int or None, got {type(value).__name__}"
             )
         self._payloadLength = value
-        # Additional timespan in macroticks which takes jitter into be able to set the
         # JobListPointer to the next which can be executed in case the FlexRay
         # Execution Function has be resynchronized.
         self._safetyMargin: Optional["Integer"] = None
@@ -673,7 +652,6 @@ class FlexrayCluster(ARObject):
                 f"safetyMargin must be Integer or int or None, got {type(value).__name__}"
             )
         self._safetyMargin = value
-        # Sample clock period.
         # Unit: seconds.
         self._sampleClockPeriod: Optional["TimeValue"] = None
 
@@ -702,7 +680,6 @@ class FlexrayCluster(ARObject):
                 f"sampleClockPeriod must be TimeValue or None, got {type(value).__name__}"
             )
         self._sampleClockPeriod = value
-        # The duration of a slot in the static segment.
         # Unit:.
         self._staticSlot: Optional["Integer"] = None
 
@@ -731,7 +708,6 @@ class FlexrayCluster(ARObject):
                 f"staticSlot must be Integer or int or None, got {type(value).__name__}"
             )
         self._staticSlot = value
-        # Number of macroticks the action point offset is from the of the symbol window
         # [Macroticks].
         self._symbolWindow: Optional["Integer"] = None
 
@@ -760,7 +736,6 @@ class FlexrayCluster(ARObject):
                 f"symbolWindow must be Integer or int or None, got {type(value).__name__}"
             )
         self._symbolWindow = value
-        # Maximum number of distinct syncframe identifiers present a given cluster.
         # This parameter maps to FlexRay Rev.
         # A parameter gSyncNodeMax.
         self._syncFrameId: Optional["Integer"] = None
@@ -790,7 +765,6 @@ class FlexrayCluster(ARObject):
                 f"syncFrameId must be Integer or int or None, got {type(value).__name__}"
             )
         self._syncFrameId = value
-        # The duration of timer t_TrcvStdbyDelay in seconds.
         # The of this parameter shall be restricted to full Flex (cycle).
         # The transceiver status setting to be delayed by this value.
         # a value or a value of 0 shall imply that the not used.
@@ -821,7 +795,6 @@ class FlexrayCluster(ARObject):
                 f"tranceiver must be Float or float or None, got {type(value).__name__}"
             )
         self._tranceiver = value
-        # Number of bits in the Transmission Start Sequence [gd.
         self._transmission: Optional["Integer"] = None
 
     @property
@@ -849,7 +822,6 @@ class FlexrayCluster(ARObject):
                 f"transmission must be Integer or int or None, got {type(value).__name__}"
             )
         self._transmission = value
-        # Number of bits used by the node to test the duration of or HIGH phase of a
                 # received wakeup.
         # Unit:bit parameter maps to FlexRay Protocol 2.
         # 1 parameter gdWakeupSymbolRxIdle.
@@ -880,7 +852,6 @@ class FlexrayCluster(ARObject):
                 f"wakeupRxIdle must be Integer or int or None, got {type(value).__name__}"
             )
         self._wakeupRxIdle = value
-        # Number of bits used by the node to test the duration of phase of a received
                 # wakeup.
         # Unit:bitDuration parameter maps to FlexRay Protocol 2.
         # 1 parameter gdWakeupSymbolRxLow.
@@ -911,7 +882,6 @@ class FlexrayCluster(ARObject):
                 f"wakeupRxLow must be Integer or int or None, got {type(value).__name__}"
             )
         self._wakeupRxLow = value
-        # The size of the window used to detect wakeups [gdBit].
         # This parameter maps to FlexRay Protocol 2.
         # 1 parameter gdWakeupSymbolRxWindow.
         self._wakeupRx: Optional["Integer"] = None
@@ -941,7 +911,6 @@ class FlexrayCluster(ARObject):
                 f"wakeupRx must be Integer or int or None, got {type(value).__name__}"
             )
         self._wakeupRx = value
-        # Number of bits used by the node to transmit the LOW awakeup symbol and the
                 # HIGH and LOW a WUDOP.
         # Unit:bitDuration.
         self._wakeupTxActive: Optional["Integer"] = None
@@ -971,7 +940,6 @@ class FlexrayCluster(ARObject):
                 f"wakeupTxActive must be Integer or int or None, got {type(value).__name__}"
             )
         self._wakeupTxActive = value
-        # Number of bits used by the node to transmit the ’idle’ part wakeup symbol.
         # Unit: gDbit.
         self._wakeupTxIdle: Optional["Integer"] = None
 
@@ -2536,7 +2504,6 @@ class FlexrayCommunicationController(ARObject):
                 f"accepted must be Integer or int or None, got {type(value).__name__}"
             )
         self._accepted = value
-        # Boolean flag that controls the transition to the POC:halt due to a clock
                 # synchronization errors.
         # If set to true, Controller is allowed to transition to set to false, the
                 # Communication Controller transition to the POC:halt state but will enter or
@@ -2568,7 +2535,6 @@ class FlexrayCommunicationController(ARObject):
                 f"allowHaltDueTo must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._allowHaltDueTo = value
-        # Number of consecutive even/odd cycle pairs that shall valid clock correction
         # terms before the will be allowed to transition POC:normal passive state to
         # POC:normal active set to 0, the Communication Controller is not transition
         # from POC:norm.
@@ -2599,7 +2565,6 @@ class FlexrayCommunicationController(ARObject):
                 f"allowPassiveTo must be Integer or int or None, got {type(value).__name__}"
             )
         self._allowPassiveTo = value
-        # The cluster drift damping factor used in clock rate correction in microticks.
         self._clusterDrift: Optional["Integer"] = None
 
     @property
@@ -2627,7 +2592,6 @@ class FlexrayCommunicationController(ARObject):
                 f"clusterDrift must be Integer or int or None, got {type(value).__name__}"
             )
         self._clusterDrift = value
-        # Value used by the receiver to calculate the difference primary time reference
         # point and secondary time Unit: Microticks (pDecodingCorrection).
         self._decoding: Optional["Integer"] = None
 
@@ -2656,7 +2620,6 @@ class FlexrayCommunicationController(ARObject):
                 f"decoding must be Integer or int or None, got {type(value).__name__}"
             )
         self._decoding = value
-        # Value used to compensate for reception delays on B.
         # Unit: Microticks.
         # This optional parameter shall filled out if channel B is used.
         self._delay: Optional["Integer"] = None
@@ -2686,7 +2649,6 @@ class FlexrayCommunicationController(ARObject):
                 f"delay must be Integer or int or None, got {type(value).__name__}"
             )
         self._delay = value
-        # Flag indicating whether the node is externally as Time Gateway Sink in an
         # Triggered External Sync cluster) or locally.
         self._externalSync: Optional["Boolean"] = None
 
@@ -2715,7 +2677,6 @@ class FlexrayCommunicationController(ARObject):
                 f"externalSync must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._externalSync = value
-        # Fixed amount added or subtracted to the calculated offset term to facilitate
         # external offset correction, node-local microticks.
         self._externOffset: Optional["Integer"] = None
 
@@ -2744,7 +2705,6 @@ class FlexrayCommunicationController(ARObject):
                 f"externOffset must be Integer or int or None, got {type(value).__name__}"
             )
         self._externOffset = value
-        # Fixed amount added or subtracted to the calculated rate term to facilitate
         # external rate correction, node-local microticks.
         self._externRate: Optional["Integer"] = None
 
@@ -2773,7 +2733,6 @@ class FlexrayCommunicationController(ARObject):
                 f"externRate must be Integer or int or None, got {type(value).__name__}"
             )
         self._externRate = value
-        # Flag indicating whether a Time Gateway Sink node will local clock operation
         # when synchronization with Gateway Source node is lost (pFallBackInternal or
         # will instead go to POC:ready (pFallBackInternal.
         self._fallBackInternal: Optional["Boolean"] = None
@@ -2803,7 +2762,6 @@ class FlexrayCommunicationController(ARObject):
                 f"fallBackInternal must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._fallBackInternal = value
-        # One First In First Out (FIFO) queued receive structure, the admittance
         # criteria to the FIFO.
         self._flexrayFifo: List["FlexrayFifo"] = []
 
@@ -2841,7 +2799,6 @@ class FlexrayCommunicationController(ARObject):
                 f"keySlotID must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._keySlotID = value
-        # Flag indicating whether or not the node shall enter key only mode following
         # startup.
         self._keySlotOnly: Optional["Boolean"] = None
 
@@ -2870,7 +2827,6 @@ class FlexrayCommunicationController(ARObject):
                 f"keySlotOnly must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._keySlotOnly = value
-        # Flag indicating whether the Key Slot is used to transmit a frame.
         self._keySlotUsedFor: Optional["Boolean"] = None
 
     @property
@@ -2898,7 +2854,6 @@ class FlexrayCommunicationController(ARObject):
                 f"keySlotUsedFor must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._keySlotUsedFor = value
-        # The number of the last minislot in which a transmission in the dynamic
         # segment for the respective node.
         self._latestTX: Optional["Integer"] = None
 
@@ -2927,7 +2882,6 @@ class FlexrayCommunicationController(ARObject):
                 f"latestTX must be Integer or int or None, got {type(value).__name__}"
             )
         self._latestTX = value
-        # Value for the startup listen timeout and wakeup listen this is a node local
                 # parameter, the real of this value should be the same for all the cluster.
         # Unit: Microticks.
         self._listenTimeout: Optional["Integer"] = None
@@ -2957,7 +2911,6 @@ class FlexrayCommunicationController(ARObject):
                 f"listenTimeout must be Integer or int or None, got {type(value).__name__}"
             )
         self._listenTimeout = value
-        # Integer number of macroticks between the static slot and the closest
                 # macrotick boundary of the reference point based on the nominal
                 # (pMacroInitialOffset).
         # This optional only be filled out if channel B is used.
@@ -2988,7 +2941,6 @@ class FlexrayCommunicationController(ARObject):
                 f"macroInitial must be Integer or int or None, got {type(value).__name__}"
             )
         self._macroInitial = value
-        # Maximum payload length for the dynamic channel of a in 16 bit WORDS.
         self._maximum: Optional["Integer"] = None
 
     @property
@@ -3016,7 +2968,6 @@ class FlexrayCommunicationController(ARObject):
                 f"maximum must be Integer or int or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # Number of microticks between the closest macrotick described by
                 # gMacroInitialOffset and the reference point.
         # The parameter depends and therefore it has to be set each channel.
         # This optional parameter be filled out if channel B is used.
@@ -3047,7 +2998,6 @@ class FlexrayCommunicationController(ARObject):
                 f"microInitial must be Integer or int or None, got {type(value).__name__}"
             )
         self._microInitial = value
-        # The nominal number of microticks in a communication.
         self._microPerCycle: Optional["Integer"] = None
 
     @property
@@ -3075,7 +3025,6 @@ class FlexrayCommunicationController(ARObject):
                 f"microPerCycle must be Integer or int or None, got {type(value).__name__}"
             )
         self._microPerCycle = value
-        # Duration of a microtick.
         # This attribute can be derived from and gdSampleClockPeriod.
         # Unit:.
         self._microtick: Optional["TimeValue"] = None
@@ -3105,7 +3054,6 @@ class FlexrayCommunicationController(ARObject):
                 f"microtick must be TimeValue or None, got {type(value).__name__}"
             )
         self._microtick = value
-        # Flag indicating when the update of the Network Vector in the CHI shall take
                 # place.
         # If set to update shall take place after the NIT.
         # If set to update shall take place after the end of the static.
@@ -3136,7 +3084,6 @@ class FlexrayCommunicationController(ARObject):
                 f"nmVectorEarly must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmVectorEarly = value
-        # Magnitude of the maximum permissible offset correction Unit:microtick
         # (pOffsetCorrectionOut).
         self._offsetCorrection: Optional["Integer"] = None
 
@@ -3165,7 +3112,6 @@ class FlexrayCommunicationController(ARObject):
                 f"offsetCorrection must be Integer or int or None, got {type(value).__name__}"
             )
         self._offsetCorrection = value
-        # Magnitude of the maximum permissible rate correction and the maximum drift
                 # offset between two nodes unsynchronized clocks for one Unit:Microticks
                 # (pRateCorrection parameter maps to FlexRay Protocol 2.
         # 1 parameter pdMaxDrift.
@@ -3196,7 +3142,6 @@ class FlexrayCommunicationController(ARObject):
                 f"rateCorrection must be Integer or int or None, got {type(value).__name__}"
             )
         self._rateCorrection = value
-        # Number of samples per microtick.
         self._samplesPerMicrotick: Optional["Integer"] = None
 
     @property
@@ -3224,7 +3169,6 @@ class FlexrayCommunicationController(ARObject):
                 f"samplesPerMicrotick must be Integer or int or None, got {type(value).__name__}"
             )
         self._samplesPerMicrotick = value
-        # ID of the second Key slot, in which a second startup shall be sent in TT-L
                 # Time Triggered Local Master TT-E Time Triggered External Sync mode.
         # If this set to zero the node does not have a second.
         self._secondKeySlot: Optional["PositiveInteger"] = None
@@ -3254,7 +3198,6 @@ class FlexrayCommunicationController(ARObject):
                 f"secondKeySlot must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._secondKeySlot = value
-        # Flag indicating whether node operates as a startup node a TT-E Time Triggered
         # External Sync or TT-L Time Master Sync cluster.
         self._twoKeySlot: Optional["Boolean"] = None
 
@@ -3283,7 +3226,6 @@ class FlexrayCommunicationController(ARObject):
                 f"twoKeySlot must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._twoKeySlot = value
-        # Number of repetitions of the Tx-wakeup symbol to be sent CC_WakeupSend state
         # of this Node in the.
         self._wakeUpPattern: Optional["Integer"] = None
 
@@ -4563,7 +4505,6 @@ class FlexrayFifoConfiguration(ARObject):
                 f"admitWithout must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._admitWithout = value
-        # FIFO cycle counter acceptance criteria.
         self._baseCycle: Optional["Integer"] = None
 
     @property
@@ -4591,7 +4532,6 @@ class FlexrayFifoConfiguration(ARObject):
                 f"baseCycle must be Integer or int or None, got {type(value).__name__}"
             )
         self._baseCycle = value
-        # Fifo channel admittance criteria.
         self._channel: Optional["FlexrayPhysicalChannel"] = None
 
     @property
@@ -4619,7 +4559,6 @@ class FlexrayFifoConfiguration(ARObject):
                 f"channel must be FlexrayPhysicalChannel or None, got {type(value).__name__}"
             )
         self._channel = value
-        # FIFO cycle counter acceptance criteria.
         self._cycleRepetition: Optional["Integer"] = None
 
     @property
@@ -4647,7 +4586,6 @@ class FlexrayFifoConfiguration(ARObject):
                 f"cycleRepetition must be Integer or int or None, got {type(value).__name__}"
             )
         self._cycleRepetition = value
-        # FrFifoDepth configures the maximum number of can be contained in the FIFO.
         self._fifoDepth: Optional["Integer"] = None
 
     @property
@@ -4675,7 +4613,6 @@ class FlexrayFifoConfiguration(ARObject):
                 f"fifoDepth must be Integer or int or None, got {type(value).__name__}"
             )
         self._fifoDepth = value
-        # FIFO Frame Id range acceptance criteria.
         self._fifoRange: List["FlexrayFifoRange"] = []
 
     @property
@@ -4710,7 +4647,6 @@ class FlexrayFifoConfiguration(ARObject):
                 f"msgIdMask must be Integer or int or None, got {type(value).__name__}"
             )
         self._msgIdMask = value
-        # FIFO message identifier acceptance criteria (Match filter).
         self._msgIdMatch: Optional["Integer"] = None
 
     @property
@@ -5106,7 +5042,6 @@ class FlexrayFifoRange(ARObject):
                 f"rangeMax must be Integer or int or None, got {type(value).__name__}"
             )
         self._rangeMax = value
-        # Min Range.
         self._rangeMin: Optional["Integer"] = None
 
     @property
@@ -5272,7 +5207,6 @@ class FlexrayCommunicationConnector(CommunicationConnector):
                 f"nmReadySleep must be Float or float or None, got {type(value).__name__}"
             )
         self._nmReadySleep = value
-        # Referenced channel used by the node to send a wakeup (pWakeupChannel).
         self._wakeUp: Optional["Boolean"] = None
 
     @property

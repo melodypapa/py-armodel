@@ -61,7 +61,6 @@ class TagWithOptionalValue(ARObject):
                 f"key must be String or str or None, got {type(value).__name__}"
             )
         self._key = value
-        # The sequenceOffset attribute supports the use case is aggregated as
                 # splitable.
         # If define the same value of attribute the order in which the value collection
                 # is merged significant.
@@ -96,7 +95,6 @@ class TagWithOptionalValue(ARObject):
                 f"sequenceOffset must be Integer or int or None, got {type(value).__name__}"
             )
         self._sequenceOffset = value
-        # Defines the corresponding value.
         self._value: Optional["String"] = None
 
     @property

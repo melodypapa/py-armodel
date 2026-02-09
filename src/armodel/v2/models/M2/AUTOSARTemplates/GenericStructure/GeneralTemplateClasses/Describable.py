@@ -59,7 +59,6 @@ class Describable(ARObject, ABC):
                 f"adminData must be AdminData or None, got {type(value).__name__}"
             )
         self._adminData = value
-        # The category is a keyword that specializes the semantics Describable.
         # It affects the expected existence of the applicability of constraints.
         self._category: Optional["CategoryString"] = None
 
@@ -88,7 +87,6 @@ class Describable(ARObject, ABC):
                 f"category must be CategoryString or None, got {type(value).__name__}"
             )
         self._category = value
-        # This represents a general but brief (one paragraph) what the object in
                 # question is about.
         # It is only Desc is intended to be collected into This property helps a human
                 # reader to object in question.
@@ -121,7 +119,6 @@ class Describable(ARObject, ABC):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This represents more information about how the object in built or is used.
         # Therefore it is a.
         self._introduction: Optional["DocumentationBlock"] = None
 

@@ -50,7 +50,6 @@ class HwPinGroupContent(ARObject):
                 f"hwPin must be HwPin or None, got {type(value).__name__}"
             )
         self._hwPin = value
-        # This aggregation represents a nested hardware pin group.
         # atpVariation.
         self._hwPinGroup: RefType = None
 

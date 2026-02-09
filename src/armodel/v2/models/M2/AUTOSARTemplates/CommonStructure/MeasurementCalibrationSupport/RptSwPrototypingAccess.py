@@ -51,7 +51,6 @@ class RptSwPrototypingAccess(ARObject):
                 f"rptHookAccess must be RptAccessEnum or None, got {type(value).__name__}"
             )
         self._rptHookAccess = value
-        # The related data element can be used as input for bypass RP tool.
         # If rptImplPolicy is not specified generation shall ensure at least suitable
                 # MC are created.
         self._rptReadAccess: Optional["RptAccessEnum"] = None
@@ -81,7 +80,6 @@ class RptSwPrototypingAccess(ARObject):
                 f"rptReadAccess must be RptAccessEnum or None, got {type(value).__name__}"
             )
         self._rptReadAccess = value
-        # The related data element can be used as output for by RP tool.
         # The data element shall to rptLevel2 and related write service points.
         self._rptWriteAccess: Optional["RptAccessEnum"] = None
 

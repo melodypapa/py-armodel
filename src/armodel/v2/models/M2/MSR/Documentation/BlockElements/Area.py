@@ -55,7 +55,6 @@ class Area(ARObject):
                 f"accesskey must be String or None, got {type(value).__name__}"
             )
         self._accesskey = value
-        # This attribute specifies the text to be inserted as an illustrations, shapes
         # or applets, where these displayed by user agents.
         self._alt: Optional["String"] = None
 
@@ -84,7 +83,6 @@ class Area(ARObject):
                 f"alt must be String or None, got {type(value).__name__}"
             )
         self._alt = value
-        # Blank separated list of CSS classes for styling and identification.
         # Used to apply styles and for JavaScript DOM manipulation.
         # Origin: HTML/AUTOSAR specification attribute 'class'
         # Reason: Renamed to 'areaClass' to avoid Python reserved keyword 'class'
@@ -119,7 +117,6 @@ class Area(ARObject):
                 f"areaClass must be String or None, got {type(value).__name__}"
             )
         self._areaClass = value
-        # This attribute specifies the position and shape on the number of values and
         # their order depend on figure defined.
         self._coords: Optional["String"] = None
 
@@ -148,7 +145,6 @@ class Area(ARObject):
                 f"coords must be String or None, got {type(value).__name__}"
             )
         self._coords = value
-        # This attribute specifies the memory location of a web is therefore able to
                 # specify a link between the and the target element.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._href: Optional["String"] = None
@@ -178,7 +174,6 @@ class Area(ARObject):
                 f"href must be String or None, got {type(value).__name__}"
             )
         self._href = value
-        # If this attribute is set, the Area has no associated link.
         self._nohref: Optional["AreaEnumNohref"] = None
 
     @property
@@ -206,7 +201,6 @@ class Area(ARObject):
                 f"nohref must be AreaEnumNohref or None, got {type(value).__name__}"
             )
         self._nohref = value
-        # The ONBLUR-Event occurs, when focus is switched away element.
         # can be stored in this attribute to be performed in.
         self._onblur: Optional["String"] = None
 
@@ -235,7 +229,6 @@ class Area(ARObject):
                 f"onblur must be String or None, got {type(value).__name__}"
             )
         self._onblur = value
-        # The ONCLICK-Event occurs, if the current element is can be stored in this
         # attribute to be performed in.
         self._onclick: Optional["String"] = None
 
@@ -264,7 +257,6 @@ class Area(ARObject):
                 f"onclick must be String or None, got {type(value).__name__}"
             )
         self._onclick = value
-        # The ONCLICK-Event occurs, if the current element is can be stored in this
         # attribute to be performed in.
         self._ondblclick: Optional["String"] = None
 
@@ -293,7 +285,6 @@ class Area(ARObject):
                 f"ondblclick must be String or None, got {type(value).__name__}"
             )
         self._ondblclick = value
-        # The ONFOCUS-Event occurs, if an element comes into through navigation using
                 # the tab button).
         # can be stored in this attribute to be performed in.
         self._onfocus: Optional["String"] = None
@@ -323,7 +314,6 @@ class Area(ARObject):
                 f"onfocus must be String or None, got {type(value).__name__}"
             )
         self._onfocus = value
-        # The ONKEYDOWN-Event occurs, if a button on the is pressed down.
         # can be stored in this attribute to be performed in.
         self._onkeydown: Optional["String"] = None
 
@@ -352,7 +342,6 @@ class Area(ARObject):
                 f"onkeydown must be String or None, got {type(value).__name__}"
             )
         self._onkeydown = value
-        # The ONKEYPRESS-Event occurs, if a button on the is pressed down and released.
         # can be stored in this attribute to be performed in.
         self._onkeypress: Optional["String"] = None
 
@@ -381,7 +370,6 @@ class Area(ARObject):
                 f"onkeypress must be String or None, got {type(value).__name__}"
             )
         self._onkeypress = value
-        # The ONKEYUP-Event occurs, if a button on the current released.
         # can be stored in this attribute to be performed in.
         self._onkeyup: Optional["String"] = None
 
@@ -410,7 +398,6 @@ class Area(ARObject):
                 f"onkeyup must be String or None, got {type(value).__name__}"
             )
         self._onkeyup = value
-        # The ONMOUSEDOWN-Event occurs, if the mouse button clicking is held down on
                 # the current element.
         # can be stored in this attribute to be performed in.
         self._onmousedown: Optional["String"] = None
@@ -440,7 +427,6 @@ class Area(ARObject):
                 f"onmousedown must be String or None, got {type(value).__name__}"
             )
         self._onmousedown = value
-        # The ONMOUSEMOVE-Event occurs, if the mouse pointer on the current element (i.
         # e.
         # it is located on the can be stored in this attribute to be performed in 535
                 # Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
@@ -471,7 +457,6 @@ class Area(ARObject):
                 f"onmousemove must be String or None, got {type(value).__name__}"
             )
         self._onmousemove = value
-        # The ONMOUSEOUT-Event occurs, if the mouse pointer is the current element.
         # can be stored in this attribute to be performed in.
         self._onmouseout: Optional["String"] = None
 
@@ -500,7 +485,6 @@ class Area(ARObject):
                 f"onmouseout must be String or None, got {type(value).__name__}"
             )
         self._onmouseout = value
-        # The ONMOUSEOVER-Event occurs, if the mouse pointer to the current element
         # from another location can be stored in this attribute to be performed in.
         self._onmouseover: Optional["String"] = None
 
@@ -529,7 +513,6 @@ class Area(ARObject):
                 f"onmouseover must be String or None, got {type(value).__name__}"
             )
         self._onmouseover = value
-        # The ONMOUSEUP-Event occurs if the mouse button clicking is released on the
                 # current element.
         # can be stored in this attribute to be performed in.
         self._onmouseup: Optional["String"] = None
@@ -559,7 +542,6 @@ class Area(ARObject):
                 f"onmouseup must be String or None, got {type(value).__name__}"
             )
         self._onmouseup = value
-        # The shape of the area.
         # Note that in HTML this is RECT.
         self._shape: Optional["AreaEnumShape"] = None
 
@@ -588,7 +570,6 @@ class Area(ARObject):
                 f"shape must be AreaEnumShape or None, got {type(value).__name__}"
             )
         self._shape = value
-        # Information on the associated style.
         self._style: Optional["String"] = None
 
     @property
@@ -616,7 +597,6 @@ class Area(ARObject):
                 f"style must be String or None, got {type(value).__name__}"
             )
         self._style = value
-        # This attribute specifies the position of the current element for the
                 # corresponding document.
         # shall lie between 0 and 32767.
         # The Tabbing the sequence in which elements are when the user navigates using
@@ -648,7 +628,6 @@ class Area(ARObject):
                 f"tabindex must be String or None, got {type(value).__name__}"
             )
         self._tabindex = value
-        # Title information of the Area element.
         self._title: Optional["String"] = None
 
     @property

@@ -46,7 +46,6 @@ class SwDataDependencyArgs(ARObject):
             return
 
         self._swCalprmRef = value
-        # Specifies a variable as an input argument to the.
         self._swVariable: RefType = None
 
     @property

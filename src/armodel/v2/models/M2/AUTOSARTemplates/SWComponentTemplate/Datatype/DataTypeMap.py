@@ -49,7 +49,6 @@ class DataTypeMap(ARObject):
                 f"applicationDataType must be ApplicationDataType or None, got {type(value).__name__}"
             )
         self._applicationDataType = value
-        # This is the corresponding AbstractImplementationData Type.
         self._implementation: Optional["AbstractImplementation"] = None
 
     @property

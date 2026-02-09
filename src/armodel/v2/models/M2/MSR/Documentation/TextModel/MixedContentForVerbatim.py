@@ -53,7 +53,6 @@ class MixedContentForVerbatim(ARObject, ABC):
                 f"br must be Br, got {type(value).__name__}"
             )
         self._br = value
-        # This is emphsized text.
         # Note that in verbatim, the attribute not be considered since verbatim is
                 # always monospace font.
         self._e: "EmphasisText" = None
@@ -79,7 +78,6 @@ class MixedContentForVerbatim(ARObject, ABC):
                 f"e must be EmphasisText, got {type(value).__name__}"
             )
         self._e = value
-        # This represents a technical term in verbatim.
         # Note that it’s of the user not to take a tt that would add to the text (such
                 # as SgmlElement).
         self._tt: "Tt" = None
@@ -105,7 +103,6 @@ class MixedContentForVerbatim(ARObject, ABC):
                 f"tt must be Tt, got {type(value).__name__}"
             )
         self._tt = value
-        # This is a crossreference within a verbatim text.
         # The disturb the arrangement of the text.
         # It is the author to keep this under control.
         self._xref: "Xref" = None

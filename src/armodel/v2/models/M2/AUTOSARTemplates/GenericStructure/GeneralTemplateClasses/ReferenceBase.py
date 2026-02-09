@@ -68,7 +68,6 @@ class ReferenceBase(ARObject):
                 f"isDefault must be Boolean, got {type(value).__name__}"
             )
         self._isDefault = value
-        # This association specifies the basis of all relative the base equals
         # shortLabel.
         self._package: Optional["ARPackage"] = None
 
@@ -97,7 +96,6 @@ class ReferenceBase(ARObject):
                 f"package must be ARPackage or None, got {type(value).__name__}"
             )
         self._package = value
-        # This is the name of the reference base.
         # By this name, can denote the applicable base.
         self._shortLabel: "Identifier" = None
 

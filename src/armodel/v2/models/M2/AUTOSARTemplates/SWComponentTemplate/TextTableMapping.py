@@ -58,7 +58,6 @@ class TextTableMapping(ARObject):
                 f"bitfieldTextTable must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._bitfieldTextTable = value
-        # If identicalMapping is set == true the values of the two DataPrototypes do
         # not need any conversion of.
         self._identical: Optional["Boolean"] = None
 
@@ -87,7 +86,6 @@ class TextTableMapping(ARObject):
                 f"identical must be Boolean or None, got {type(value).__name__}"
             )
         self._identical = value
-        # Specifies the conversion direction for which the TextTable is applicable.
         self._mapping: RefType = None
 
     @property
@@ -111,7 +109,6 @@ class TextTableMapping(ARObject):
             return
 
         self._mapping = value
-        # Defines a pair of values which are translated into each.
         self._valuePair: List["TextTableValuePair"] = []
 
     @property

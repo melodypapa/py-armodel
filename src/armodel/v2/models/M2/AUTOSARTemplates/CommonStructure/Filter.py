@@ -62,7 +62,6 @@ class DataFilter(ARObject):
                 f"dataFilterType must be DataFilterTypeEnum or None, got {type(value).__name__}"
             )
         self._dataFilterType = value
-        # Mask for old and new value.
         self._mask: Optional["UnlimitedInteger"] = None
 
     @property
@@ -90,7 +89,6 @@ class DataFilter(ARObject):
                 f"mask must be UnlimitedInteger or None, got {type(value).__name__}"
             )
         self._mask = value
-        # Value to specify the upper boundary.
         self._max: Optional["UnlimitedInteger"] = None
 
     @property
@@ -118,7 +116,6 @@ class DataFilter(ARObject):
                 f"max must be UnlimitedInteger or None, got {type(value).__name__}"
             )
         self._max = value
-        # Value to specify the lower boundary.
         self._min: Optional["UnlimitedInteger"] = None
 
     @property
@@ -146,7 +143,6 @@ class DataFilter(ARObject):
                 f"min must be UnlimitedInteger or None, got {type(value).__name__}"
             )
         self._min = value
-        # Specifies the initial number of messages to occur before message is passed.
         self._offset: Optional["PositiveInteger"] = None
 
     @property
@@ -174,7 +170,6 @@ class DataFilter(ARObject):
                 f"offset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._offset = value
-        # Specifies number of messages to occur before the passed again.
         self._period: Optional["PositiveInteger"] = None
 
     @property
@@ -202,7 +197,6 @@ class DataFilter(ARObject):
                 f"period must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._period = value
-        # Value to compare with.
         self._x: Optional["UnlimitedInteger"] = None
 
     @property

@@ -59,7 +59,6 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
                 f"crcSecured must be GlobalTimeCrcSupport or None, got {type(value).__name__}"
             )
         self._crcSecured = value
-        # This represents the value for the confirmation timeout.
         # seconds.
         self._sync: Optional["TimeValue"] = None
 
@@ -225,7 +224,6 @@ class GlobalTimeCanSlave(GlobalTimeSlave):
                 f"crcValidated must be GlobalTimeCrc or None, got {type(value).__name__}"
             )
         self._crcValidated = value
-        # Specifies the maximum allowed gap of the sequence between two SYNC resp.
         # two OFS messages.
         self._sequence: Optional["PositiveInteger"] = None
 
@@ -385,7 +383,6 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"fupDataIDList must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._fupDataIDList = value
-        self._ofnsDataIDList: "PositiveInteger" = None
 
     @property
     def ofns_data_id_list(self) -> "PositiveInteger":
@@ -408,7 +405,6 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"ofnsDataIDList must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._ofnsDataIDList = value
-        self._ofsDataIDList: "PositiveInteger" = None
 
     @property
     def ofs_data_id_list(self) -> "PositiveInteger":
@@ -431,7 +427,6 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"ofsDataIDList must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._ofsDataIDList = value
-        self._syncDataIDList: "PositiveInteger" = None
 
     @property
     def sync_data_id_list(self) -> "PositiveInteger":

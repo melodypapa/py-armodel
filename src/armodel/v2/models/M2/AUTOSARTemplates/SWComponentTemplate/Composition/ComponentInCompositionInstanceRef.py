@@ -53,7 +53,6 @@ class ComponentInCompositionInstanceRef(ARObject):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # The context for the scope of this timing event.
         # Tags: xml.
         # sequenceOffset=20 (ordered).
         self._context: List["SwComponent"] = []

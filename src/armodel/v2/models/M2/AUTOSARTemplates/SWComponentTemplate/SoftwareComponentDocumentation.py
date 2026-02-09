@@ -71,7 +71,6 @@ class SwComponentDocumentation(ARObject):
                 f"swCalibration must be Chapter or None, got {type(value).__name__}"
             )
         self._swCalibration = value
-        # This element records the documentation requested by.
         self._swCarbDoc: Optional["Chapter"] = None
 
     @property
@@ -99,7 +98,6 @@ class SwComponentDocumentation(ARObject):
                 f"swCarbDoc must be Chapter or None, got {type(value).__name__}"
             )
         self._swCarbDoc = value
-        # This element contains general information about issues within the component.
         self._swDiagnostics: Optional["Chapter"] = None
 
     @property
@@ -127,7 +125,6 @@ class SwComponentDocumentation(ARObject):
                 f"swDiagnostics must be Chapter or None, got {type(value).__name__}"
             )
         self._swDiagnostics = value
-        # This element contains the definition of the physical this software component.
         # This definition is less formal and is intended to be delivered from.
         self._swFeatureDef: Optional["Chapter"] = None
 
@@ -156,7 +153,6 @@ class SwComponentDocumentation(ARObject):
                 f"swFeatureDef must be Chapter or None, got {type(value).__name__}"
             )
         self._swFeatureDef = value
-        # This element contains the textual description of the of this software
                 # component.
         # Expert this description.
         self._swFeatureDesc: Optional["Chapter"] = None
@@ -186,7 +182,6 @@ class SwComponentDocumentation(ARObject):
                 f"swFeatureDesc must be Chapter or None, got {type(value).__name__}"
             )
         self._swFeatureDesc = value
-        # This element contains information regarding the software of the component.
         self._swMaintenance: Optional["Chapter"] = None
 
     @property
@@ -214,7 +209,6 @@ class SwComponentDocumentation(ARObject):
                 f"swMaintenance must be Chapter or None, got {type(value).__name__}"
             )
         self._swMaintenance = value
-        # This element contains suggestions and hints for the test software
         # functionality of this software component.
         self._swTestDesc: Optional["Chapter"] = None
 

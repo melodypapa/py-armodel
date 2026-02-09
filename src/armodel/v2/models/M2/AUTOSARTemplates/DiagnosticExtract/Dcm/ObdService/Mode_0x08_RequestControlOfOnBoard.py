@@ -64,7 +64,6 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
                 f"requestControl must be DiagnosticRequest or None, got {type(value).__name__}"
             )
         self._requestControl = value
-        # This represents the test Id for the mode 0x08.
         self._testIdIdentifier: Optional["DiagnosticTestRoutine"] = None
 
     @property
@@ -252,7 +251,6 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        # This represents the specified data size for the request Unit: byte.
         self._requestData: Optional["PositiveInteger"] = None
 
     @property
@@ -280,7 +278,6 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
                 f"requestData must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._requestData = value
-        # This represents the specified data size for the response Unit:byte.
         self._responseData: Optional["PositiveInteger"] = None
 
     @property

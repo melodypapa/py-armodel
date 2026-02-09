@@ -49,7 +49,6 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
             return
 
         self._abstractTarget = value
-        # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
         self._base: Optional["AtomicSwComponent"] = None
 
@@ -78,7 +77,6 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._contextPort: RefType = None
 
     @property

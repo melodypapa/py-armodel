@@ -53,7 +53,6 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # This is the context in a compositeDataType.
         # Tags: xml.
         # sequenceOffset=40 (ordered).
         self._contextData: List["ApplicationComposite"] = []
@@ -87,7 +86,6 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
             return
 
         self._portPrototype = value
-        # Tags: xml.
         # sequenceOffset=30 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
         self._rootVariableDataPrototype: RefType = None
@@ -113,7 +111,6 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
             return
 
         self._rootVariableDataPrototype = value
-        # This is the target of the instance ref.
         # Note that it shall be of ApplicationCompositeElementDataPrototype of.
         self._targetData: RefType = None
 

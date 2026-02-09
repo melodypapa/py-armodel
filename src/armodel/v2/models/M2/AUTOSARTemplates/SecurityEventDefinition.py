@@ -50,7 +50,6 @@ class SecurityEventDefinition(IdsCommonElement):
                 f"eventSymbol must be SymbolProps or None, got {type(value).__name__}"
             )
         self._eventSymbol = value
-        # This attribute represents the numerical identification of security event.
         # The identification shall be the scope of the IDS.
         self._id: Optional["PositiveInteger"] = None
 

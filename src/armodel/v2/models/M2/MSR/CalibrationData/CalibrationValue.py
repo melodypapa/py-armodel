@@ -56,7 +56,6 @@ class SwValueCont(ARObject):
             return
 
         self._swArraysize = value
-        # swValuesPhys represents the values in the physical.
         self._swValuesPhys: Optional["SwValues"] = None
 
     @property
@@ -84,7 +83,6 @@ class SwValueCont(ARObject):
                 f"swValuesPhys must be SwValues or None, got {type(value).__name__}"
             )
         self._swValuesPhys = value
-        # This represents the physical unit of the provided values.
         self._unit: Optional["Unit"] = None
 
     @property
@@ -112,7 +110,6 @@ class SwValueCont(ARObject):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
-        # This specifies how the physical units of the current value set shall be
         # displayed in documents or in user interfaces.
         self._unitDisplay: Optional["SingleLanguageUnit"] = None
 
@@ -371,7 +368,6 @@ class SwAxisCont(ARObject):
                 f"category must be CalprmAxisCategory or None, got {type(value).__name__}"
             )
         self._category = value
-        # For multidimensional compound primitivies (curve, map is necessary to know
                 # the dimensions.
         # They are swArraySize.
         self._swArraysize: Optional["RefType"] = None
@@ -397,7 +393,6 @@ class SwAxisCont(ARObject):
             return
 
         self._swArraysize = value
-        # This property allows to explicitly assign the axis contents particular axis.
         # It is specified by numbers where 1 the x-axis.
         # It is also possible to derive the from the sequence of the parent.
         self._swAxisIndex: Optional["AxisIndexType"] = None
@@ -427,7 +422,6 @@ class SwAxisCont(ARObject):
                 f"swAxisIndex must be AxisIndexType or None, got {type(value).__name__}"
             )
         self._swAxisIndex = value
-        # swValuesPhys represents the values in the physical.
         self._swValuesPhys: Optional["SwValues"] = None
 
     @property
@@ -455,7 +449,6 @@ class SwAxisCont(ARObject):
                 f"swValuesPhys must be SwValues or None, got {type(value).__name__}"
             )
         self._swValuesPhys = value
-        # This represents the physical unit of the provided values.
         self._unit: Optional["Unit"] = None
 
     @property
@@ -483,7 +476,6 @@ class SwAxisCont(ARObject):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
-        # This represents the display name which is used for the physical unit of the
         # axis.
         self._unitDisplay: Optional["SingleLanguageUnit"] = None
 
@@ -826,7 +818,6 @@ class SwValues(ARObject):
                 f"v must be Numerical or None, got {type(value).__name__}"
             )
         self._v = value
-        # This allows to specify the value as VariationPoint.
         # It is non variant for sake of compatibility to 2.
         # 0.
         self._vf: Optional["Numerical"] = None
@@ -856,7 +847,6 @@ class SwValues(ARObject):
                 f"vf must be Numerical or None, got {type(value).__name__}"
             )
         self._vf = value
-        # This allows to have intersections in the values in order to rendering (eg.
         # using stylesheets).
         # For is important that the v values are always the same (flattened) order and
                 # the tool is interpret it without respecting vg.
@@ -883,7 +873,6 @@ class SwValues(ARObject):
             return
 
         self._vg = value
-        # This represents the values of textual data elements that vt uses the | to
         # separate the values for bitfield masks in case that the semantics of
         # DataPrototype is described by means of a the associated CompuMethod.
         self._vt: Optional["VerbatimString"] = None
@@ -913,7 +902,6 @@ class SwValues(ARObject):
                 f"vt must be VerbatimString or None, got {type(value).__name__}"
             )
         self._vt = value
-        # This aggregation represents the ability to provide a value either numerical
                 # or text which existence is subject formal point of view, the aggregation
                 # needs to multiplicity 1 because SwValues is modelled with Nevertheless, the
                 # existence of optional and subject to constraints.
@@ -1217,7 +1205,6 @@ class ValueGroup(ARObject):
                 f"label must be MultilanguageLong or None, got {type(value).__name__}"
             )
         self._label = value
-        # This represents the contents of the value group.
         self._vgContents: Optional["SwValues"] = None
 
     @property

@@ -180,7 +180,6 @@ class SocketConnection(Describable):
                 f"clientIpAddr must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._clientIpAddr = value
-        # Client Port for TCP/UDP connection in an abstract The client is the major
                 # requester communication.
         # Please note that the client may data.
         self._clientPort: Optional["SocketAddress"] = None
@@ -210,7 +209,6 @@ class SocketConnection(Describable):
                 f"clientPort must be SocketAddress or None, got {type(value).__name__}"
             )
         self._clientPort = value
-        # If set to true the Server "learns" the client Port on request.
         # This means that the statically Port of the related client shall be ignored.
         # If set the Server only accepts statically configured Port.
         # that the statically configured Port of the Client used.
@@ -241,7 +239,6 @@ class SocketConnection(Describable):
                 f"clientPortFrom must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._clientPortFrom = value
-        # PDUs handed over by the PDU Router (Transmission the Ethernet) or PDUs handed
                 # over by SoAd Ethernet).
         # Multiple IPdus can be one socket connection.
         self._pdu: List["SocketConnectionIpdu"] = []
@@ -280,7 +277,6 @@ class SocketConnection(Describable):
                 f"pduCollection must be TimeValue or None, got {type(value).__name__}"
             )
         self._pduCollection = value
-        # This attribute determines which protocol is used by the client to obtain the
                 # IP Address information.
         # If this attribute not set to none the value determines the service used
                 # client to obtain the IP Address information for the this attribute is set to
@@ -312,7 +308,6 @@ class SocketConnection(Describable):
                 f"runtimeIp must be RuntimeAddress or None, got {type(value).__name__}"
             )
         self._runtimeIp = value
-        # This attribute determines which protocol is used by the client to obtain the
                 # Port information.
         # If this attribute is not none the value determines the service used by the
                 # obtain the Port information for the Socket this attribute is set to none the
@@ -344,7 +339,6 @@ class SocketConnection(Describable):
                 f"runtimePort must be RuntimeAddress or None, got {type(value).__name__}"
             )
         self._runtimePort = value
-        # This attribute specifies an identifying shortName for the shall be unique
         # within its context.
         self._shortLabel: Optional["Identifier"] = None
 

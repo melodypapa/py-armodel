@@ -52,7 +52,6 @@ class MsrQueryProps(ARObject):
                 f"comment must be String or None, got {type(value).__name__}"
             )
         self._comment = value
-        # This element specifies an argument within an MsrQuery.
         self._msrQueryArg: List["MsrQueryArg"] = []
 
     @property

@@ -286,7 +286,6 @@ class LinMaster(ARObject):
                 f"timeBase must be TimeValue or None, got {type(value).__name__}"
             )
         self._timeBase = value
-        # The attribute timeBaseJitter is a mandatory attribute for and not used for
                 # slaves.
         # Spec states: "The jitter value specifies the the maximum and minimum delay
                 # base start point to the frame header sending (falling edge of BREAK signal).
@@ -472,7 +471,6 @@ class LinSlaveConfig(ARObject):
                 f"configuredNad must be Integer or int or None, got {type(value).__name__}"
             )
         self._configuredNad = value
-        # LIN function ID.
         self._functionId: Optional["PositiveInteger"] = None
 
     @property
@@ -500,7 +498,6 @@ class LinSlaveConfig(ARObject):
                 f"functionId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._functionId = value
-        # This adds the ability to become referrable to LinSlave.
         self._ident: Optional["LinSlaveConfigIdent"] = None
 
     @property
@@ -528,7 +525,6 @@ class LinSlaveConfig(ARObject):
                 f"ident must be LinSlaveConfigIdent or None, got {type(value).__name__}"
             )
         self._ident = value
-        # Initial NAD of the LIN slave.
         self._initialNad: Optional["Integer"] = None
 
     @property
@@ -556,7 +552,6 @@ class LinSlaveConfig(ARObject):
                 f"initialNad must be Integer or int or None, got {type(value).__name__}"
             )
         self._initialNad = value
-        # List of all frames that are processed by the slave node 2090 Document ID 63:
         # AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._linConfigurable: List["LinConfigurableFrame"] = []
 
@@ -593,7 +588,6 @@ class LinSlaveConfig(ARObject):
                 f"linError must be LinErrorResponse or None, got {type(value).__name__}"
             )
         self._linError = value
-        # List of all frames (unconditional frames, event-triggered frames and sporadic
                 # frames) processed by the slave This element is necessary for the LIN 2.
         # 1.
         self._linOrdered: List["LinOrderedConfigurable"] = []
@@ -631,7 +625,6 @@ class LinSlaveConfig(ARObject):
                 f"protocolVersion must be String or str or None, got {type(value).__name__}"
             )
         self._protocolVersion = value
-        # LIN Supplier ID.
         self._supplierId: Optional["PositiveInteger"] = None
 
     @property
@@ -659,7 +652,6 @@ class LinSlaveConfig(ARObject):
                 f"supplierId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._supplierId = value
-        # Specifies the Variant ID.
         self._variantId: Optional["PositiveInteger"] = None
 
     @property
@@ -1133,7 +1125,6 @@ class LinSlave(ARObject):
                 f"assignNad must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._assignNad = value
-        # To distinguish LIN slaves that are used twice or more same cluster.
         self._configuredNad: Optional["Integer"] = None
 
     @property
@@ -1161,7 +1152,6 @@ class LinSlave(ARObject):
                 f"configuredNad must be Integer or int or None, got {type(value).__name__}"
             )
         self._configuredNad = value
-        # LIN function ID.
         self._functionId: Optional["PositiveInteger"] = None
 
     @property
@@ -1189,7 +1179,6 @@ class LinSlave(ARObject):
                 f"functionId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._functionId = value
-        # This attribute represents the initial NAD.
         self._initialNad: Optional["Integer"] = None
 
     @property
@@ -1217,7 +1206,6 @@ class LinSlave(ARObject):
                 f"initialNad must be Integer or int or None, got {type(value).__name__}"
             )
         self._initialNad = value
-        # Each slave node shall publish one response error in one its transmitted
         # unconditional frames.
         self._linError: Optional["LinErrorResponse"] = None
 
@@ -1246,7 +1234,6 @@ class LinSlave(ARObject):
                 f"linError must be LinErrorResponse or None, got {type(value).__name__}"
             )
         self._linError = value
-        # Value of the N_AS timeout.
         # Unit: seconds.
         self._nasTimeout: Optional["TimeValue"] = None
 
@@ -1275,7 +1262,6 @@ class LinSlave(ARObject):
                 f"nasTimeout must be TimeValue or None, got {type(value).__name__}"
             )
         self._nasTimeout = value
-        # LIN Supplier ID.
         self._supplierId: Optional["PositiveInteger"] = None
 
     @property
@@ -1303,7 +1289,6 @@ class LinSlave(ARObject):
                 f"supplierId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._supplierId = value
-        # Specifies the Variant ID.
         self._variantId: Optional["PositiveInteger"] = None
 
     @property
@@ -1731,7 +1716,6 @@ class LinCommunicationConnector(CommunicationConnector):
                 f"initialNad must be Integer or int or None, got {type(value).__name__}"
             )
         self._initialNad = value
-        # LinConfigurableFrames shall list all frames (unconditional event-triggered
                 # frames and sporadic frames) the slave node.
         # This element is necessary LIN 2.
         # 0 Assign-Frame command.
@@ -1945,7 +1929,6 @@ class LinConfigurableFrame(ARObject):
                 f"frame must be LinFrame or None, got {type(value).__name__}"
             )
         self._frame = value
-        # MessageId for the referenced frame.
         self._messageId: Optional["PositiveInteger"] = None
 
     @property
@@ -2111,7 +2094,6 @@ class LinOrderedConfigurableFrame(ARObject):
                 f"frame must be LinFrame or None, got {type(value).__name__}"
             )
         self._frame = value
-        # This attribute is used to order the elements and allows an Pids to
         # ConfigurableFrames that are the slave.
         self._index: Optional["Integer"] = None
 
@@ -2278,7 +2260,6 @@ class LinPhysicalChannel(PhysicalChannel):
                 f"busIdleTimeout must be TimeValue or None, got {type(value).__name__}"
             )
         self._busIdleTimeout = value
-        # Schedule tables organize the timings of the frames for the transmitted frames
                 # are variable, the shall be variable, too.
         # atpVariation.
         self._scheduleTable: List["LinScheduleTable"] = []

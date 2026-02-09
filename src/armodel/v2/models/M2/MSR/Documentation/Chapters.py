@@ -60,7 +60,6 @@ class Chapter(Paginateable):
                 f"chapterModel must be ChapterModel, got {type(value).__name__}"
             )
         self._chapterModel = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help is a
                 # concatenated Identifier, but as of now we as an arbitrary string.
@@ -233,7 +232,6 @@ class ChapterModel(ARObject):
                 f"chapter must be ChapterOrMsrQuery or None, got {type(value).__name__}"
             )
         self._chapter = value
-        # This is the chapter content which is not a topic or a is the content which is
         # directly in the.
         self._chapterContent: Optional["ChapterContent"] = None
 
@@ -262,7 +260,6 @@ class ChapterModel(ARObject):
                 f"chapterContent must be ChapterContent or None, got {type(value).__name__}"
             )
         self._chapterContent = value
-        # This is a topic within the chapter.
         self._topic1: Optional["TopicOrMsrQuery"] = None
 
     @property
@@ -469,7 +466,6 @@ class ChapterContent(ARObject):
                 f"prms must be Prms, got {type(value).__name__}"
             )
         self._prms = value
-        # This is that part of a chapter content which may appear in chapter as well as
         # in a topic.
         self._topicContent: Optional["TopicContentOrMsr"] = None
 
@@ -729,7 +725,6 @@ class Topic1(Paginateable):
                 f"helpEntry must be String or str or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # This is the content of the topic.
         self._topicContent: Optional["TopicContentOrMsr"] = None
 
     @property
@@ -1049,7 +1044,6 @@ class TopicOrMsrQuery(ARObject):
                 f"msrQuery must be MsrQueryTopic1, got {type(value).__name__}"
             )
         self._msrQuery = value
-        # This is used to create particular topics within a chapter.
         # A similar to a subchapter, but cannot be nested and appear in the table of
                 # contents of the document.
         # atpVariation.
@@ -1211,7 +1205,6 @@ class ChapterOrMsrQuery(ARObject):
                 f"chapter must be Chapter, got {type(value).__name__}"
             )
         self._chapter = value
-        # This represents automatically contributed chapters by an msrquery.
         self._msrQuery: "MsrQueryChapter" = None
 
     @property
@@ -1369,7 +1362,6 @@ class TopicContent(ARObject):
                 f"blockLevel must be DocumentationBlock, got {type(value).__name__}"
             )
         self._blockLevel = value
-        # This represents a table within a topic.
         # atpVariation.
         self._table: Optional["Table"] = None
 
@@ -1398,7 +1390,6 @@ class TopicContent(ARObject):
                 f"table must be Table or None, got {type(value).__name__}"
             )
         self._table = value
-        # This represents a traceable table within a topic.
         self._traceableTable: "TraceableTable" = None
 
     @property

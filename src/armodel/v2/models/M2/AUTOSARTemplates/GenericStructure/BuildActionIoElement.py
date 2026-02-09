@@ -57,7 +57,6 @@ class BuildActionIoElement(ARObject):
                 f"category must be NameToken, got {type(value).__name__}"
             )
         self._category = value
-        # This association denotes an ECUC parameter definition.
         # referenced parameters are subject of the build.
         self._ecucDefinition: Optional["EcucDefinitionElement"] = None
 
@@ -86,7 +85,6 @@ class BuildActionIoElement(ARObject):
                 f"ecucDefinition must be EcucDefinitionElement or None, got {type(value).__name__}"
             )
         self._ecucDefinition = value
-        # This attribute allows to denote a particular role of the that the applicable
         # semantics shall be between the two parties.
         self._role: Optional["Identifier"] = None
 
@@ -115,7 +113,6 @@ class BuildActionIoElement(ARObject):
                 f"role must be Identifier or None, got {type(value).__name__}"
             )
         self._role = value
-        # This special data group allows to denote specific data.
         # is subject of mutual agreement.
         self._sdg: List["Sdg"] = []
 

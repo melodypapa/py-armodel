@@ -64,7 +64,6 @@ class SenderComSpec(PPortComSpec, ABC):
             return
 
         self._dataElement = value
-        # This attribute controls how out-of-range values shall be dealt with.
         self._handleOutOf: Optional["HandleOutOfRange"] = None
 
     @property
@@ -92,7 +91,6 @@ class SenderComSpec(PPortComSpec, ABC):
                 f"handleOutOf must be HandleOutOfRange or None, got {type(value).__name__}"
             )
         self._handleOutOf = value
-        # A networkRepresentation is used to define how the data is mapped to a
         # communication bus.
         self._network: Optional["SwDataDefProps"] = None
 
@@ -121,7 +119,6 @@ class SenderComSpec(PPortComSpec, ABC):
                 f"network must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._network = value
-        # This aggregation represents the definition transmission props in the context
                 # of the enclosing SenderComSpec.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
@@ -152,7 +149,6 @@ class SenderComSpec(PPortComSpec, ABC):
                 f"transmission must be TransmissionComSpec or None, got {type(value).__name__}"
             )
         self._transmission = value
-        # This indicates whether the corresponding dataElement be transmitted using
         # end-to-end protection.
         self._usesEndToEnd: Optional["Boolean"] = None
 

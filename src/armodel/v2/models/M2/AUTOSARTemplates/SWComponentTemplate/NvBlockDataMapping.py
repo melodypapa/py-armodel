@@ -55,7 +55,6 @@ class NvBlockDataMapping(ARObject):
                 f"bitfieldTextTable must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._bitfieldTextTable = value
-        # Reference to a VariableDataPrototype of a RAM Block.
         self._nvRamBlock: RefType = None
 
     @property
@@ -79,7 +78,6 @@ class NvBlockDataMapping(ARObject):
             return
 
         self._nvRamBlock = value
-        # Reference to a VariableDataPrototype of a pPort of the read access to the RAM
         # is no PortPrototype providing read access reference can be omitted.
         self._readNvData: RefType = None
 
@@ -104,7 +102,6 @@ class NvBlockDataMapping(ARObject):
             return
 
         self._readNvData = value
-        # Reference to a VariableDataPrototype of a rPort of the Nv write access to the
         # RAM there is no port providing write access reference can be omitted.
         self._writtenNvData: RefType = None
 
@@ -129,7 +126,6 @@ class NvBlockDataMapping(ARObject):
             return
 
         self._writtenNvData = value
-        # Reference to a VariableDataPrototype of a PRPort of the
         # NvBlockSwComponentType providing read access to the RAM Block.
         self._writtenReadNv: RefType = None
 

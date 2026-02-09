@@ -57,7 +57,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"ecucCond must be EcucCondition or None, got {type(value).__name__}"
             )
         self._ecucCond = value
-        # Collection of validation conditions which all need to evaluate to true in
         # order to indicate a valid validation the EcucDefinitionElement.
         self._ecucValidation: List["EcucValidation"] = []
 
@@ -95,7 +94,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"lowerMultiplicity must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._lowerMultiplicity = value
-        # This contains a sloppy reference to the Autosar identifier of the element
         # (EcucId).
         self._relatedTrace: Optional["Traceable"] = None
 
@@ -124,7 +122,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"relatedTrace must be Traceable or None, got {type(value).__name__}"
             )
         self._relatedTrace = value
-        # Specifies the scope of this configuration element.
         self._scope: Optional["EcucScopeEnum"] = None
 
     @property
@@ -152,7 +149,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"scope must be EcucScopeEnum or None, got {type(value).__name__}"
             )
         self._scope = value
-        # To express an infinite number of occurrences of this this attribute has to be
                 # set to true.
         # is set than upperMultiplicity shall used.
         self._upperMultiplicity: Optional["Boolean"] = None

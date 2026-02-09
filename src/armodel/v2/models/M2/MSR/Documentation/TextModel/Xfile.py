@@ -44,7 +44,6 @@ class Xfile(SingleLanguageReferrable):
                 f"tool must be String or None, got {type(value).__name__}"
             )
         self._tool = value
-        # This element describes the tool version which was used the corresponding
                 # xfile.
         # Kept as a string, specific syntax can be specified.
         self._toolVersion: Optional["String"] = None
@@ -74,7 +73,6 @@ class Xfile(SingleLanguageReferrable):
                 f"toolVersion must be String or None, got {type(value).__name__}"
             )
         self._toolVersion = value
-        # This represents the URL of the external file.
         self._url: Optional["Url"] = None
 
     @property

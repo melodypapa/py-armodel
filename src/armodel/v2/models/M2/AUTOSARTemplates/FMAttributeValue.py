@@ -48,7 +48,6 @@ class FMAttributeValue(ARObject):
                 f"definition must be FMAttributeDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # This represents the value of this attribute.
         self._value: Optional["Numerical"] = None
 
     @property

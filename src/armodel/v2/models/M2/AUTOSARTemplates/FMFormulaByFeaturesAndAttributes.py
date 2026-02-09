@@ -53,7 +53,6 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
                 f"attribute must be FMAttributeDef or None, got {type(value).__name__}"
             )
         self._attribute = value
-        # An expression of type FMFormulaByFeaturesAnd refer to FMFeatures.
         self._feature: Optional["FMFeature"] = None
 
     @property

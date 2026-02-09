@@ -51,7 +51,6 @@ class EcucEnumerationParamDef(EcucParameterDef):
                 f"defaultValue must be Identifier or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Aggregation on the literals used to define this parameter.
         # This aggregation is optional if the has the category the of the EcucModuleDef
                 # is set to this mandatory.
         self._literal: List["EcucEnumerationLiteral"] = []

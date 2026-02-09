@@ -56,7 +56,6 @@ class ArgumentDataPrototype(AutosarDataPrototype):
                 f"direction must be ArgumentDirection or None, got {type(value).__name__}"
             )
         self._direction = value
-        # This defines how the argument type of the servers RunnableEntity is
                 # implemented.
         # attribute is not defined this has the same semantics the attribute is set to
                 # the value useArgumentType for and structures.

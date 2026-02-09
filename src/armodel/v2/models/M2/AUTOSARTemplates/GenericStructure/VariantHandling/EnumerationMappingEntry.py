@@ -43,7 +43,6 @@ class EnumerationMappingEntry(ARObject):
                 f"enumerator must be NameToken, got {type(value).__name__}"
             )
         self._enumerator = value
-        # This attribute specifies the numerical value (e.
         # g.
         # 0, 1) of entry.
         # The numericalValue marks an M2 level.

@@ -331,7 +331,6 @@ class EndToEndDescription(ARObject):
                 f"category must be NameToken or str or None, got {type(value).__name__}"
             )
         self._category = value
-        # Bit offset of Counter from the beginning of the Array the Signal
                 # Group/VariableDataPrototype bit numbering: bit 0 is the least important).
         # shall be a multiplicity of 4 and it should be 8 For example, offset 8 means
                 # that the take the low nibble of the byte 1, i.
@@ -365,7 +364,6 @@ class EndToEndDescription(ARObject):
                 f"counterOffset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._counterOffset = value
-        # Bit offset of CRC from the beginning of the Array the Signal
                 # Group/VariableDataPrototype bit numbering: bit 0 is the least important).
         # shall be a multiplicity of 8 and it should be 0 For example, offset 8 means
                 # that the take the byte 1, i.
@@ -406,7 +404,6 @@ class EndToEndDescription(ARObject):
                 f"crcOffset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._crcOffset = value
-        # There are three inclusion modes how the implicit two-byte is included in the
                 # one-byte CRC: = 0: Two bytes are included in the CRC configuration) This is
                 # used in variant 1A.
         # = 1: One of the two bytes byte is included, and low byte, depending on parity
@@ -447,7 +444,6 @@ class EndToEndDescription(ARObject):
                 f"dataIdMode must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dataIdMode = value
-        # Bit offset of the low nibble of the high byte of Data ID.
         # The of this attribute is controlled by [constr_1261].
         self._dataIdNibble: Optional["PositiveInteger"] = None
 
@@ -476,7 +472,6 @@ class EndToEndDescription(ARObject):
                 f"dataIdNibble must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dataIdNibble = value
-        # This attribute represents the length of the Array the Signal
         # Group/VariableDataPrototype and Counter in bits.
         self._dataLength: Optional["PositiveInteger"] = None
 
@@ -505,7 +500,6 @@ class EndToEndDescription(ARObject):
                 f"dataLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dataLength = value
-        # Initial maximum allowed gap between two counter values two consecutively
                 # received valid Data, i.
         # e.
         # how many data is accepted.
@@ -1051,7 +1045,6 @@ class EndToEndProtectionVariablePrototype(ARObject):
             return
 
         self._sender = value
-        # This serves as part of the split key in case of more than is aggregated bound
         # model.
         self._shortLabel: Optional["Identifier"] = None
 

@@ -62,7 +62,6 @@ class Note(Paginateable):
                 f"label must be MultilanguageLong or None, got {type(value).__name__}"
             )
         self._label = value
-        # This is the text content of the note.
         self._noteText: "DocumentationBlock" = None
 
     @property
@@ -86,7 +85,6 @@ class Note(Paginateable):
                 f"noteText must be DocumentationBlock, got {type(value).__name__}"
             )
         self._noteText = value
-        # Type of the Note.
         # Default is "HINT".
         self._noteType: Optional["NoteTypeEnum"] = None
 

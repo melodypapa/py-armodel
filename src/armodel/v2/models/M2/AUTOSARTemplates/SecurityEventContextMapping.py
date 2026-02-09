@@ -55,7 +55,6 @@ class SecurityEventContextMapping(IdsMapping, ABC):
                 f"filterChain must be SecurityEventFilter or None, got {type(value).__name__}"
             )
         self._filterChain = value
-        # This reference defines the IdsmInstance onto which the are mapped.
         # atpVariation 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate
                 # Template R23-11.
         self._idsmInstance: Optional["IdsmInstance"] = None
@@ -85,7 +84,6 @@ class SecurityEventContextMapping(IdsMapping, ABC):
                 f"idsmInstance must be IdsmInstance or None, got {type(value).__name__}"
             )
         self._idsmInstance = value
-        # This aggregation represents (through further references) the
                 # SecurityEventDefinitions to be mapped to an Idsm additional mapping-dependent
                 # properties.
         # atpVariation.

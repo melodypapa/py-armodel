@@ -47,7 +47,6 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
                 f"context must be SwComponent or None, got {type(value).__name__}"
             )
         self._context = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetPPortPrototype: Optional["AbstractProvidedPort"] = None
 

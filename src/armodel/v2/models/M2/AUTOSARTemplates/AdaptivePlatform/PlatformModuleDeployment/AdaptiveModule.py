@@ -54,7 +54,6 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
                 f"communication must be EthernetCommunication or None, got {type(value).__name__}"
             )
         self._communication = value
-        # Multicast IPv4 Address to which the message will be.
         self._ipv4MulticastIp: Optional["Ip4AddressString"] = None
 
     @property

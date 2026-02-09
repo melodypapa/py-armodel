@@ -65,7 +65,6 @@ class List(Paginateable):
                 f"item must be Item, got {type(value).__name__}"
             )
         self._item = value
-        # The type of the list.
         # Default is "UNNUMBER".
         self._type: Optional["RefType"] = None
 
@@ -325,7 +324,6 @@ class LabeledList(Paginateable):
                 f"indentSample must be IndentSample or None, got {type(value).__name__}"
             )
         self._indentSample = value
-        # atpVariation.
         self._labeledItemLabel: "LabeledItem" = None
 
     @property
@@ -488,7 +486,6 @@ class LabeledItem(Paginateable):
                 f"helpEntry must be String or str or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # This represents the actual content of the item.
         # It is a DocumentationBlock.
         # This way it is use simple paragraphs to nested lists, or notes.
         self._itemContents: Optional["DocumentationBlock"] = None
@@ -518,7 +515,6 @@ class LabeledItem(Paginateable):
                 f"itemContents must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._itemContents = value
-        # This is the label of the item.
         # xml.
         # sequenceOffset=20.
         self._itemLabel: "MultiLanguageOverview" = None
@@ -728,7 +724,6 @@ class IndentSample(ARObject):
                 f"itemLabelPos must be ItemLabelPosEnum or None, got {type(value).__name__}"
             )
         self._itemLabelPos = value
-        self._l2: "LOverviewParagraph" = None
 
     @property
     def l2(self) -> "LOverviewParagraph":

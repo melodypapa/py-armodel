@@ -58,7 +58,6 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
                 f"customTrigger must be String or str or None, got {type(value).__name__}"
             )
         self._customTrigger = value
-        # Defined DataElements in the extended record element.
         # record.
         self._recordElement: List["DiagnosticParameter"] = []
 
@@ -94,7 +93,6 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
                 f"recordNumber must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._recordNumber = value
-        # This attribute specifies the primary trigger to allocate an memory entry.
         self._trigger: Optional["DiagnosticRecord"] = None
 
     @property
@@ -122,7 +120,6 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
                 f"trigger must be DiagnosticRecord or None, got {type(value).__name__}"
             )
         self._trigger = value
-        # This attribute defines when an extended data record is extended data record
                 # is captured every time.
         # extended data record is only captured for new entries.
         self._update: Optional["Boolean"] = None

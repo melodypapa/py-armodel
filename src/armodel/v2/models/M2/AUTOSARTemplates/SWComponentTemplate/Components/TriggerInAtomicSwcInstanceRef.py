@@ -53,7 +53,6 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._contextPort: RefType = None
 
     @property
@@ -77,7 +76,6 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
             return
 
         self._contextPort = value
-        # Stereotypes: atpAbstract.
         self._target: RefType = None
 
     @property

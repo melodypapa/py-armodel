@@ -47,7 +47,6 @@ class BlueprintFormula(ARObject):
                 f"ecuc must be EcucDefinitionElement, got {type(value).__name__}"
             )
         self._ecuc = value
-        # This represents an informal term in the expression as Note that the result of
         # this is same as "undefined".
         self._verbatim: "MultiLanguageVerbatim" = None
 

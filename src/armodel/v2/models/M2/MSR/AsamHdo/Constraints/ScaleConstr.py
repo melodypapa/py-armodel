@@ -48,7 +48,6 @@ class ScaleConstr(ARObject):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This specifies the lower limit of the scale.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
         self._lowerLimit: Optional["Limit"] = None
@@ -78,7 +77,6 @@ class ScaleConstr(ARObject):
                 f"lowerLimit must be Limit or None, got {type(value).__name__}"
             )
         self._lowerLimit = value
-        # This element specifies a short name for the scaleConstr.
         # for example be used to create more specific a constraint checker.
         # The constraints cannot in the meta-model, therefore shortLabel is substitute
                 # for shortName.
@@ -109,7 +107,6 @@ class ScaleConstr(ARObject):
                 f"shortLabel must be Identifier or None, got {type(value).__name__}"
             )
         self._shortLabel = value
-        # This specifies the upper limit of a the scale.
         self._upperLimit: Optional["Limit"] = None
 
     @property
@@ -137,7 +134,6 @@ class ScaleConstr(ARObject):
                 f"upperLimit must be Limit or None, got {type(value).__name__}"
             )
         self._upperLimit = value
-        # Specifies if the values defined by the scales are to be valid.
         # If the attribute is missing then the is "VALID".
         self._validity: Optional["ScaleConstrValidity"] = None
 

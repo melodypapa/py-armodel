@@ -59,7 +59,6 @@ class RptComponent(Identifiable):
                 f"rpImplPolicy must be RptImplPolicy or None, got {type(value).__name__}"
             )
         self._rpImplPolicy = value
-        # ExecutableEntity instance which can be bypassed.
         # atpSplitable; atpVariation.
         self._rptExecutable: List["RptExecutableEntity"] = []
 

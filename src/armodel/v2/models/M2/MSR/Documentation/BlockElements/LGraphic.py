@@ -40,7 +40,6 @@ class LGraphic(LanguageSpecific):
                 f"graphic must be Graphic, got {type(value).__name__}"
             )
         self._graphic = value
-        # Image maps enable authors to specify regions of an object and assign a
         # specific action to each.
         self._map: Optional["Map"] = None
 

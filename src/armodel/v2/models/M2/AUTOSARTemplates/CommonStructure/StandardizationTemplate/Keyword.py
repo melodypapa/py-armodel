@@ -64,7 +64,6 @@ class Keyword(Identifiable):
                 f"abbrName must be NameToken or str, got {type(value).__name__}"
             )
         self._abbrName = value
-        # This attribute allows to attach classification to the as MEAN, ACTION,
         # CONDITION, INDEX,.
         self._classification: List["NameToken"] = []
 

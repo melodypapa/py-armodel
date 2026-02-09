@@ -117,7 +117,6 @@ class NvBlockDescriptor(Identifiable):
                 f"nvBlockNeeds must be NvBlockNeeds or None, got {type(value).__name__}"
             )
         self._nvBlockNeeds = value
-        # Defines the RAM Block of the NVRAM Block provided by.
         self._ramBlock: RefType = None
 
     @property
@@ -141,7 +140,6 @@ class NvBlockDescriptor(Identifiable):
             return
 
         self._ramBlock = value
-        # Defines the ROM Block of the NVRAM Block provided by.
         self._romBlock: Optional["ParameterData"] = None
 
     @property
@@ -169,7 +167,6 @@ class NvBlockDescriptor(Identifiable):
                 f"romBlock must be ParameterData or None, got {type(value).__name__}"
             )
         self._romBlock = value
-        # Specifies whether calling of NvM functions for writing and/ status control of
         # potentially modified RAM Blocks to NV be controlled by the RTE.
         self._supportDirty: Optional["Boolean"] = None
 
@@ -198,7 +195,6 @@ class NvBlockDescriptor(Identifiable):
                 f"supportDirty must be Boolean or None, got {type(value).__name__}"
             )
         self._supportDirty = value
-        # this reference can be taken to identify the TimingEvent to by the RTE for
         # implementing a cyclic writing this block.
         self._timingEvent: Optional["TimingEvent"] = None
 
@@ -227,7 +223,6 @@ class NvBlockDescriptor(Identifiable):
                 f"timingEvent must be TimingEvent or None, got {type(value).__name__}"
             )
         self._timingEvent = value
-        # This attribute allows for assigning a specific writing for an incoming
         # AutosarDataPrototype.
         self._writingStrategy: List["RoleBasedData"] = []
 

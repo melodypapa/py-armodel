@@ -65,7 +65,6 @@ class SwcBswMapping(ARElement):
                 f"bswBehavior must be BswInternalBehavior or None, got {type(value).__name__}"
             )
         self._bswBehavior = value
-        # A mapping between a pair of SWC and BSW runnables.
         # Stereotypes: atpSplitable; atpVariation.
         self._runnable: List["SwcBswRunnable"] = []
 
@@ -101,7 +100,6 @@ class SwcBswMapping(ARElement):
                 f"swcBehavior must be SwcInternalBehavior or None, got {type(value).__name__}"
             )
         self._swcBehavior = value
-        # A pair of SWC and BSW Triggers to be synchronized by the scheduler.
         # atpVariation.
         self._synchronized: List["SwcBswSynchronized"] = []
 
@@ -306,7 +304,6 @@ class SwcBswRunnableMapping(ARObject):
                 f"bswEntity must be BswModuleEntity or None, got {type(value).__name__}"
             )
         self._bswEntity = value
-        # The mapped SWC runnable.
         self._swcRunnable: Optional["RunnableEntity"] = None
 
     @property
@@ -468,7 +465,6 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
             return
 
         self._bswModeGroupPrototype = value
-        # by: PModeGroupInAtomic.
         self._swcModeGroupSwcInstanceRef: Optional["RefType"] = None
 
     @property
@@ -626,7 +622,6 @@ class SwcBswSynchronizedTrigger(ARObject):
             return
 
         self._bswTrigger = value
-        # by: PTriggerInAtomicSwc.
         self._swcTriggerTypeInstanceRef: Optional["RefType"] = None
 
     @property

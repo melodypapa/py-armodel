@@ -304,7 +304,6 @@ class SwcToSwcOperationArguments(ARObject):
                 f"direction must be SwcToSwcOperation or None, got {type(value).__name__}"
             )
         self._direction = value
-        # arguments are described by SwcToSwc two ports referenced shall be a connector
         # in the software component by: OperationInSystem.
         self._operation: List["ClientServerOperation"] = []
 

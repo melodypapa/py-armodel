@@ -48,7 +48,6 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
                 f"sharedAxisType must be ApplicationPrimitive or None, got {type(value).__name__}"
             )
         self._sharedAxisType = value
-        # Describes which axis of the referenced calibration the values for the group
                 # axis.
         # The the following convention: = value axis.
         # in this case, the interpolation result of parameter is used as a base point
@@ -82,7 +81,6 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
                 f"swAxisIndex must be AxisIndexType or None, got {type(value).__name__}"
             )
         self._swAxisIndex = value
-        # This property specifies the calibration parameter which the input axis.
         # In AUTOSAR, the type of the parameter shall be compatible to specified by
                 # sharedAxisType.
         # that the multiplicity of this aggregation cannot to 0.

@@ -55,7 +55,6 @@ class DataPrototypeInSystemInstanceRef(ARObject):
                 f"base must be System or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._context: List["SwComponent"] = []
 
@@ -95,7 +94,6 @@ class DataPrototypeInSystemInstanceRef(ARObject):
             return
 
         self._contextPort = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._contextRoot: Optional["RootSwComposition"] = None
 
@@ -124,7 +122,6 @@ class DataPrototypeInSystemInstanceRef(ARObject):
                 f"contextRoot must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._contextRoot = value
-        # Tags: xml.
         # sequenceOffset=45.
         self._rootDataPrototype: Optional["RefType"] = None
 
@@ -149,7 +146,6 @@ class DataPrototypeInSystemInstanceRef(ARObject):
             return
 
         self._rootDataPrototype = value
-        # This represents the target of the InstanceRef xml.
         # sequenceOffset=60.
         self._targetData: Optional["RefType"] = None
 
@@ -497,7 +493,6 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
                 f"contextRootSw must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._contextRootSw = value
-        # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
         # R23-11.
         self._contextSw: List["SwComponent"] = []
 
@@ -680,7 +675,6 @@ class PModeInSystemInstanceRef(ARObject):
                 f"base must be System or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._context: Optional["RootSwComposition"] = None
 
@@ -709,7 +703,6 @@ class PModeInSystemInstanceRef(ARObject):
                 f"context must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._context = value
-        # Tags: xml.
         # sequenceOffset=50.
         self._contextModeGroup: Optional["RefType"] = None
 
@@ -734,7 +727,6 @@ class PModeInSystemInstanceRef(ARObject):
             return
 
         self._contextModeGroup = value
-        # Tags: xml.
         # sequenceOffset=40.
         self._contextPPortPrototype: Optional["AbstractProvidedPort"] = None
 
@@ -763,7 +755,6 @@ class PModeInSystemInstanceRef(ARObject):
                 f"contextPPortPrototype must be AbstractProvidedPort or None, got {type(value).__name__}"
             )
         self._contextPPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=60.
         self._targetMode: Optional["ModeDeclaration"] = None
 

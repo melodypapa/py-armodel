@@ -61,7 +61,6 @@ class StackUsage(Identifiable, ABC):
                 f"executableEntity must be ExecutableEntity or None, got {type(value).__name__}"
             )
         self._executableEntity = value
-        # Contains information about the hardware context this usage is describing.
         self._hardware: Optional["HardwareConfiguration"] = None
 
     @property
@@ -89,7 +88,6 @@ class StackUsage(Identifiable, ABC):
                 f"hardware must be HardwareConfiguration or None, got {type(value).__name__}"
             )
         self._hardware = value
-        # Specifies for which hardware element (e.
         # g.
         # ECU) this is given.
         self._hwElement: Optional["HwElement"] = None
@@ -119,7 +117,6 @@ class StackUsage(Identifiable, ABC):
                 f"hwElement must be HwElement or None, got {type(value).__name__}"
             )
         self._hwElement = value
-        # Contains details about the software context this stack provided for.
         self._softwareContext: Optional["SoftwareContext"] = None
 
     @property
@@ -467,7 +464,6 @@ class MeasuredStackUsage(StackUsage):
                 f"averageMemoryConsumption must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._averageMemoryConsumption = value
-        # The maximum stack usage measured.
         # Unit: byte.
         self._maximumMemoryConsumption: Optional["PositiveInteger"] = None
 
@@ -496,7 +492,6 @@ class MeasuredStackUsage(StackUsage):
                 f"maximumMemoryConsumption must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maximumMemoryConsumption = value
-        # The minimum stack usage measured.
         # Unit: byte.
         self._minimumMemoryConsumption: Optional["PositiveInteger"] = None
 
@@ -525,7 +520,6 @@ class MeasuredStackUsage(StackUsage):
                 f"minimumMemoryConsumption must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minimumMemoryConsumption = value
-        # Description of the test pattern used to acquire the.
         self._testPattern: Optional["String"] = None
 
     @property

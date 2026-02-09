@@ -230,7 +230,6 @@ class SenderRecRecordElementMapping(ARObject):
                 f"application must be ApplicationRecord or None, got {type(value).__name__}"
             )
         self._application = value
-        # This aggregation will be used if the element is composite.
         self._complexType: Optional["SenderRecComposite"] = None
 
     @property
@@ -258,7 +257,6 @@ class SenderRecRecordElementMapping(ARObject):
                 f"complexType must be SenderRecComposite or None, got {type(value).__name__}"
             )
         self._complexType = value
-        # Reference to an ImplementationRecordElement in the context of the dataElement
         # or in the context of a.
         self._implementation: Optional["ImplementationData"] = None
 
@@ -287,7 +285,6 @@ class SenderRecRecordElementMapping(ARObject):
                 f"implementation must be ImplementationData or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # This mapping allows for the text-table translation between sending
         # DataPrototype that is defined in the Port and the physicalProps defined for
         # the System.
         self._senderToSignal: Optional["RefType"] = None
@@ -313,7 +310,6 @@ class SenderRecRecordElementMapping(ARObject):
             return
 
         self._senderToSignal = value
-        # This mapping allows for the text-table translation between physicalProps
         # defined for the SystemSignal and a DataPrototype that is defined in the Port.
         self._signalTo: Optional["RefType"] = None
 
@@ -338,7 +334,6 @@ class SenderRecRecordElementMapping(ARObject):
             return
 
         self._signalTo = value
-        # Reference to the system signal used to carry the primitive.
         self._systemSignal: Optional["SystemSignal"] = None
 
     @property
@@ -689,7 +684,6 @@ class SenderRecArrayElementMapping(ARObject):
                 f"complexType must be SenderRecComposite or None, got {type(value).__name__}"
             )
         self._complexType = value
-        # Reference to an indexed array element in the context of dataElement or in the
         # context of a composite element.
         self._indexedArray: Optional["IndexedArrayElement"] = None
 
@@ -718,7 +712,6 @@ class SenderRecArrayElementMapping(ARObject):
                 f"indexedArray must be IndexedArrayElement or None, got {type(value).__name__}"
             )
         self._indexedArray = value
-        # Reference to the system signal used to carry the primitive.
         self._systemSignal: Optional["SystemSignal"] = None
 
     @property
@@ -928,7 +921,6 @@ class IndexedArrayElement(ARObject):
                 f"applicationArray must be ApplicationArray or None, got {type(value).__name__}"
             )
         self._applicationArray = value
-        # Reference to an ImplementationDataTypeElement in an array.
         self._implementation: Optional["ImplementationData"] = None
 
     @property
@@ -956,7 +948,6 @@ class IndexedArrayElement(ARObject):
                 f"implementation must be ImplementationData or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # Position of an element in an array.
         # Starting position is 0.
         self._index: Optional["Integer"] = None
 
@@ -1163,7 +1154,6 @@ class SenderReceiverToSignalMapping(DataMapping):
             return
 
         self._dataElementSystemInstanceRef = value
-        # This mapping allows for the text-table translation between sending
         # DataPrototype that is defined in the Port and the physicalProps defined for
         # the System.
         self._senderToSignal: Optional["RefType"] = None
@@ -1189,7 +1179,6 @@ class SenderReceiverToSignalMapping(DataMapping):
             return
 
         self._senderToSignal = value
-        # This mapping allows for the text-table translation between physicalProps
         # defined for the SystemSignal and a DataPrototype that is defined in the Port.
         self._signalTo: Optional["RefType"] = None
 
@@ -1214,7 +1203,6 @@ class SenderReceiverToSignalMapping(DataMapping):
             return
 
         self._signalTo = value
-        # Reference to the system signal used to carry the data.
         self._systemSignal: Optional["SystemSignal"] = None
 
     @property
@@ -1464,7 +1452,6 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
             return
 
         self._dataElement = value
-        # Reference to the signal group, which contain all primitive the composite
         # type.
         self._signalGroup: Optional["RefType"] = None
 
@@ -1489,7 +1476,6 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
             return
 
         self._signalGroup = value
-        # The CompositeTypeMapping maps the ApplicationArray and
         # ApplicationRecordElements to Signals of.
         self._typeMapping: Optional["SenderRecComposite"] = None
 
@@ -1699,7 +1685,6 @@ class ClientServerToSignalMapping(DataMapping):
                 f"callSignal must be SystemSignal or None, got {type(value).__name__}"
             )
         self._callSignal = value
-        # a call SystemSignal and a return SystemSignal.
         # by: OperationInSystem.
         self._clientServer: Optional["ClientServerOperation"] = None
 
@@ -1728,7 +1713,6 @@ class ClientServerToSignalMapping(DataMapping):
                 f"clientServer must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._clientServer = value
-        # Reference to the returnSignal to which the OUT and are mapped.
         self._returnSignal: Optional["SystemSignal"] = None
 
     @property
@@ -1935,7 +1919,6 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
             return
 
         self._dataElement = value
-        # Reference to the SystemSignal to which one primitive of type is mapped.
         self._systemSignal: Optional["SystemSignal"] = None
 
     @property
@@ -1963,7 +1946,6 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
                 f"systemSignal must be SystemSignal or None, got {type(value).__name__}"
             )
         self._systemSignal = value
-        # The CompositeTypeMapping maps one VariableData of the composite data type to
         # a SystemSignal.
         self._typeMapping: Optional["SenderRecComposite"] = None
 
@@ -2174,7 +2156,6 @@ class TriggerToSignalMapping(DataMapping):
                 f"systemSignal must be SystemSignal or None, got {type(value).__name__}"
             )
         self._systemSignal = value
-        # to a remote ECU.
         # by: TriggerInSystemInstance.
         self._triggerRef: Optional["RefType"] = None
 
@@ -2341,7 +2322,6 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
             return
 
         self._senderToSignal = value
-        # This mapping allows for the text-table translation between physicalProps
         # defined for the SystemSignal and a DataPrototype that is defined in the Port.
         self._signalTo: Optional["RefType"] = None
 

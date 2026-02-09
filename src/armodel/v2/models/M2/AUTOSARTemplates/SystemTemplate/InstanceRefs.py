@@ -54,7 +54,6 @@ class ComponentInSystemInstanceRef(ARObject):
                 f"base must be System or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._context: Optional["RootSwComposition"] = None
 
@@ -83,7 +82,6 @@ class ComponentInSystemInstanceRef(ARObject):
                 f"context must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._context = value
-        # Tags: xml.
         # sequenceOffset=40.
         self._target: "SwComponent" = None
 
@@ -287,7 +285,6 @@ class OperationInSystemInstanceRef(ARObject):
                 f"base must be System or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._context: Optional["RootSwComposition"] = None
 
@@ -316,7 +313,6 @@ class OperationInSystemInstanceRef(ARObject):
                 f"context must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._context = value
-        # Tags: xml.
         # sequenceOffset=40.
         self._contextPort: "RefType" = None
 
@@ -337,7 +333,6 @@ class OperationInSystemInstanceRef(ARObject):
             TypeError: If value type is incorrect
         """
         self._contextPort = value
-        # Tags: xml.
         # sequenceOffset=50.
         self._targetOperation: Optional["ClientServerOperation"] = None
 
@@ -589,7 +584,6 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
                 f"base must be System or None, got {type(value).__name__}"
             )
         self._base = value
-        self._context: Optional["RootSwComposition"] = None
 
     @property
     def context(self) -> Optional["RootSwComposition"]:
@@ -616,7 +610,6 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
                 f"context must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._context = value
-        self._contextPort: "RefType" = None
 
     @property
     def context_port(self) -> "RefType":
@@ -635,7 +628,6 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
             TypeError: If value type is incorrect
         """
         self._contextPort = value
-        self._targetData: Optional["RefType"] = None
 
     @property
     def target_data(self) -> Optional["RefType"]:
@@ -881,7 +873,6 @@ class TriggerInSystemInstanceRef(ARObject):
                 f"base must be System or None, got {type(value).__name__}"
             )
         self._base = value
-        # This represents the reference to the RootSw Compositiontype representing a
         # context of the Instance.
         self._context: Optional["RootSwComposition"] = None
 
@@ -910,7 +901,6 @@ class TriggerInSystemInstanceRef(ARObject):
                 f"context must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._context = value
-        # This represents the PortPrototype in which the target located.
         self._contextPort: "RefType" = None
 
     @property
@@ -930,7 +920,6 @@ class TriggerInSystemInstanceRef(ARObject):
             TypeError: If value type is incorrect
         """
         self._contextPort = value
-        # This represents the target Trigger.
         self._targetTrigger: Optional["RefType"] = None
 
     @property
@@ -1177,7 +1166,6 @@ class PortGroupInSystemInstanceRef(ARObject):
                 f"base must be System or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._context: Optional["RootSwComposition"] = None
 
@@ -1206,7 +1194,6 @@ class PortGroupInSystemInstanceRef(ARObject):
                 f"context must be RootSwComposition or None, got {type(value).__name__}"
             )
         self._context = value
-        # Link to a PortGroup that is defined in a component which of this
         # CompositionSwComponentType.
         self._target: "RefType" = None
 

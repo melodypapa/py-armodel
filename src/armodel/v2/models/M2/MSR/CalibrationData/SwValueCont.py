@@ -50,7 +50,6 @@ class SwValueCont(ARObject):
             return
 
         self._swArraysize = value
-        # swValuesPhys represents the values in the physical.
         self._swValuesPhys: Optional["SwValues"] = None
 
     @property
@@ -78,7 +77,6 @@ class SwValueCont(ARObject):
                 f"swValuesPhys must be SwValues or None, got {type(value).__name__}"
             )
         self._swValuesPhys = value
-        # This represents the physical unit of the provided values.
         self._unit: Optional["Unit"] = None
 
     @property
@@ -106,7 +104,6 @@ class SwValueCont(ARObject):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
-        # This specifies how the physical units of the current value set shall be
         # displayed in documents or in user interfaces.
         self._unitDisplay: Optional["SingleLanguageUnit"] = None
 

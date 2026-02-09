@@ -61,7 +61,6 @@ class HeapUsage(Identifiable, ABC):
                 f"hardware must be HardwareConfiguration or None, got {type(value).__name__}"
             )
         self._hardware = value
-        # Specifies for which hardware element (e.
         # g.
         # ECU) this usage is given.
         self._hwElement: Optional["HwElement"] = None
@@ -91,7 +90,6 @@ class HeapUsage(Identifiable, ABC):
                 f"hwElement must be HwElement or None, got {type(value).__name__}"
             )
         self._hwElement = value
-        # Contains details about the software context this heap provided for.
         self._softwareContext: Optional["SoftwareContext"] = None
 
     @property
@@ -395,7 +393,6 @@ class MeasuredHeapUsage(HeapUsage):
                 f"averageMemoryConsumption must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._averageMemoryConsumption = value
-        # The maximum heap usage measured.
         # Unit: byte.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
@@ -426,7 +423,6 @@ class MeasuredHeapUsage(HeapUsage):
                 f"maximumMemoryConsumption must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maximumMemoryConsumption = value
-        # The minimum heap usage measured.
         # Unit: byte.
         self._minimumMemoryConsumption: Optional["PositiveInteger"] = None
 
@@ -455,7 +451,6 @@ class MeasuredHeapUsage(HeapUsage):
                 f"minimumMemoryConsumption must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minimumMemoryConsumption = value
-        # Description of the test pattern used to acquire the.
         self._testPattern: Optional["String"] = None
 
     @property

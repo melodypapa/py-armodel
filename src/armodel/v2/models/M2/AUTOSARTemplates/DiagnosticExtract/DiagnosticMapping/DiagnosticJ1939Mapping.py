@@ -68,7 +68,6 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
                 f"spn must be DiagnosticJ1939Spn or None, got {type(value).__name__}"
             )
         self._spn = value
-        # This reference goes to the SystemSignal that shall be an SPN.
         self._systemSignal: Optional["SystemSignal"] = None
 
     @property
@@ -263,7 +262,6 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
                 f"node must be DiagnosticJ1939Node or None, got {type(value).__name__}"
             )
         self._node = value
-        # InstanceRef implemented by: ComponentIn.
         self._swComponentCompositionInstanceRef: Optional["SwComponent"] = None
 
     @property
@@ -429,7 +427,6 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
                 f"diagnosticEvent must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._diagnosticEvent = value
-        # Reference to a J1939 Diagnostic Trouble Code to which a DiagnosticEvent is
         # assigned.
         self._troubleCode: Optional["DiagnosticTroubleCode"] = None
 

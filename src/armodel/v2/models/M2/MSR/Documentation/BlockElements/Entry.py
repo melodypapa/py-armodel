@@ -47,7 +47,6 @@ class Entry(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        # This allows to recommend a background color of the is specified bases on 6
                 # digits RGB hex-code.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._bgcolor: "String" = None
@@ -73,7 +72,6 @@ class Entry(ARObject):
                 f"bgcolor must be String, got {type(value).__name__}"
             )
         self._bgcolor = value
-        # Indicate the name of the column, where the entry should.
         self._colname: Optional["String"] = None
 
     @property
@@ -101,7 +99,6 @@ class Entry(ARObject):
                 f"colname must be String or None, got {type(value).__name__}"
             )
         self._colname = value
-        # Indicates whether a line should be displayed end of this.
         self._colsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -129,7 +126,6 @@ class Entry(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # This is the content of the TableEntry.
         self._entryContents: "DocumentationBlock" = None
 
     @property
@@ -153,7 +149,6 @@ class Entry(ARObject):
                 f"entryContents must be DocumentationBlock, got {type(value).__name__}"
             )
         self._entryContents = value
-        # Number of additional rows.
         # Default is "0".
         self._morerows: Optional["String"] = None
 
@@ -182,7 +177,6 @@ class Entry(ARObject):
                 f"morerows must be String or None, got {type(value).__name__}"
             )
         self._morerows = value
-        # When an entry spans multiple column this is the name of column.
         self._nameend: Optional["String"] = None
 
     @property
@@ -210,7 +204,6 @@ class Entry(ARObject):
                 f"nameend must be String or None, got {type(value).__name__}"
             )
         self._nameend = value
-        # When an entry spans multiple column this is the name of column.
         self._namest: Optional["String"] = None
 
     @property
@@ -238,7 +231,6 @@ class Entry(ARObject):
                 f"namest must be String or None, got {type(value).__name__}"
             )
         self._namest = value
-        # Indicates if the cellcontent shall be rotated.
         # Default is 0; 1 the contents 90 degree counterclockwise.
         # is defined by OASIS.
         self._rotate: Optional["String"] = None
@@ -268,7 +260,6 @@ class Entry(ARObject):
                 f"rotate must be String or None, got {type(value).__name__}"
             )
         self._rotate = value
-        # Indicates whether a line should be displayed at the of the cell.
         self._rowsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -296,7 +287,6 @@ class Entry(ARObject):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # Capture the name of entry merging multiple columns.
         self._spanname: Optional["String"] = None
 
     @property
@@ -324,7 +314,6 @@ class Entry(ARObject):
                 f"spanname must be String or None, got {type(value).__name__}"
             )
         self._spanname = value
-        # Indicates how the content of the cell shall be aligned.
         # inherited from row or tbody, otherwise "TOP".
         self._valign: Optional["ValignEnum"] = None
 

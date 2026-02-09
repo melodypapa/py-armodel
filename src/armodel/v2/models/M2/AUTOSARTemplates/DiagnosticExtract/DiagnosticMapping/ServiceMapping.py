@@ -70,7 +70,6 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
                 f"diagnosticData must be DiagnosticDataElement or None, got {type(value).__name__}"
             )
         self._diagnosticData = value
-        # This represents the applicable payload that corresponds to the referenced
         # DataPrototype in the role mappedData.
         self._diagnostic: Optional["DiagnosticParameter"] = None
 
@@ -99,7 +98,6 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
                 f"diagnostic must be DiagnosticParameter or None, got {type(value).__name__}"
             )
         self._diagnostic = value
-        # that is accessed for diagnostic purpose.
         # This applicable on the classic platform.
         # by: DataPrototypeInSystem.
         self._mappedData: Optional["RefType"] = None
@@ -125,7 +123,6 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
             return
 
         self._mappedData = value
-        # This aggregation represents the single point of access to the reference to
         # one specific DiagnosticParameter.
         self._parameter: Optional["DiagnosticParameter"] = None
 
@@ -533,7 +530,6 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
             return
 
         self._accessedData = value
-        # This represents a DiagnosticDataElement required to the respective diagnostic
         # service in the context of service mapping,.
         self._diagnosticData: Optional["DiagnosticDataElement"] = None
 
@@ -562,7 +558,6 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
                 f"diagnosticData must be DiagnosticDataElement or None, got {type(value).__name__}"
             )
         self._diagnosticData = value
-        # This represents the applicable payload that corresponds to the referenced
         # DataPrototype in the role mappedData.
         self._diagnostic: Optional["DiagnosticParameter"] = None
 
@@ -591,7 +586,6 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
                 f"diagnostic must be DiagnosticParameter or None, got {type(value).__name__}"
             )
         self._diagnostic = value
-        # This is supposed to represent a reference to a Bsw ServiceDependency.
         # the latter is not derived from and therefore this detour needs to be still
                 # let BswServiceDependency become of a reference.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
@@ -623,7 +617,6 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
                 f"mappedBsw must be BswService or None, got {type(value).__name__}"
             )
         self._mappedBsw = value
-        # This represents the ability to refer to an AtomicSw ComponentType that is
         # available without the definition of it will be embedded into the component
         # hierarchy.
         self._mappedFlatSwc: Optional["SwcService"] = None
@@ -653,7 +646,6 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
                 f"mappedFlatSwc must be SwcService or None, got {type(value).__name__}"
             )
         self._mappedFlatSwc = value
-        # hierarchy (under possible consideration of the root implemented by:
         # SwcServiceDependency.
         self._mappedSwc: Optional["SwcService"] = None
 
@@ -682,7 +674,6 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
                 f"mappedSwc must be SwcService or None, got {type(value).__name__}"
             )
         self._mappedSwc = value
-        # This aggregation represents the single point of access to the reference to
         # one specific DiagnosticParameter.
         self._parameter: Optional["DiagnosticParameter"] = None
 
@@ -711,7 +702,6 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
                 f"parameter must be DiagnosticParameter or None, got {type(value).__name__}"
             )
         self._parameter = value
-        # This represents the service instance that needs to be in this diagnostics
         # service mapping.
         self._serviceInstance: Optional["DiagnosticService"] = None
 
@@ -1170,7 +1160,6 @@ class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
                 f"dataElement must be DiagnosticDataElement or None, got {type(value).__name__}"
             )
         self._dataElement = value
-        # This reference identifies the mapped security event.
         # atp.
         # Status=candidate.
         self._securityEvent: Optional["SecurityEventContext"] = None
@@ -1339,7 +1328,6 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
                 f"dataElement must be DiagnosticDataElement or None, got {type(value).__name__}"
             )
         self._dataElement = value
-        # This represents the ability to further specify the access Dem.
         self._dataProvider: Optional["NameToken"] = None
 
     @property
@@ -1508,7 +1496,6 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
                 f"mappedBsw must be BswService or None, got {type(value).__name__}"
             )
         self._mappedBsw = value
-        # This represents the ability to refer to an AtomicSw ComponentType that is
         # available without the definition of it will be embedded into the component
         # hierarchy.
         self._mappedFlatSwc: Optional["SwcService"] = None
@@ -1538,7 +1525,6 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
                 f"mappedFlatSwc must be SwcService or None, got {type(value).__name__}"
             )
         self._mappedFlatSwc = value
-        # This represents the mapped FID.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
         self._mapped: Optional["DiagnosticFunction"] = None
@@ -1568,7 +1554,6 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
                 f"mapped must be DiagnosticFunction or None, got {type(value).__name__}"
             )
         self._mapped = value
-        # hierarchy (under possible consideration of the root by: SwcServiceDependency.
         self._mappedSwc: Optional["SwcService"] = None
 
     @property

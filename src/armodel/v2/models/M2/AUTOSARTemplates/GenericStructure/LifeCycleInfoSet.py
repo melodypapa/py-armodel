@@ -55,7 +55,6 @@ class LifeCycleInfoSet(ARElement):
                 f"defaultLcState must be LifeCycleState, got {type(value).__name__}"
             )
         self._defaultLcState = value
-        # Default expiry date, i.
         # e.
         # default end point of period for all specified lifeCycleInfo apply.
         # Note that the can be overridden for each lifeCycleInfo.
@@ -86,7 +85,6 @@ class LifeCycleInfoSet(ARElement):
                 f"defaultPeriod must be LifeCyclePeriod or None, got {type(value).__name__}"
             )
         self._defaultPeriod = value
-        # This represents one particular life cycle information.
         self._lifeCycleInfo: List["LifeCycleInfo"] = []
 
     @property

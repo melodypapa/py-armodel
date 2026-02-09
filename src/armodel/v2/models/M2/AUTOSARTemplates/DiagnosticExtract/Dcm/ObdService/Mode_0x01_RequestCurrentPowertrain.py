@@ -56,7 +56,6 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
                 f"pid must be DiagnosticParameter or None, got {type(value).__name__}"
             )
         self._pid = value
-        # This reference substantiates that abstract reference in the role serviceClass
                 # for this specific concrete class.
         # Thereby, the reference represents the ability to access Class shared
                 # attributes among all DiagnosticRequestCurrent the given context.

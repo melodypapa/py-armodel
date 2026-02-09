@@ -58,7 +58,6 @@ class LatencyTimingConstraint(TimingConstraint):
                 f"latency must be LatencyConstraintType or None, got {type(value).__name__}"
             )
         self._latency = value
-        # The maximum latency between the occurrence of the the occurrence of the
         # corresponding the associated event chain.
         self._maximum: Optional["MultidimensionalTime"] = None
 
@@ -87,7 +86,6 @@ class LatencyTimingConstraint(TimingConstraint):
                 f"maximum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # The minimum latency between the occurrence of the the occurrence of the
         # corresponding the associated event chain.
         self._minimum: Optional["MultidimensionalTime"] = None
 
@@ -116,7 +114,6 @@ class LatencyTimingConstraint(TimingConstraint):
                 f"minimum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimum = value
-        # The nominal latency between the occurrence of the the occurrence of the
         # corresponding the associated event chain.
         self._nominal: Optional["MultidimensionalTime"] = None
 
@@ -145,7 +142,6 @@ class LatencyTimingConstraint(TimingConstraint):
                 f"nominal must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._nominal = value
-        # The event chain that defines the scope of the constraint.
         self._scope: Optional["TimingDescriptionEvent"] = None
 
     @property

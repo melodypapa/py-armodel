@@ -59,7 +59,6 @@ class PerInstanceMemory(Identifiable):
                 f"initValue must be String or str or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # This represents the ability to to allocate RAM at specific sections, for
         # example, to support the RAM Block by mapping to uninitialized RAM.
         self._swDataDef: Optional["SwDataDefProps"] = None
 
@@ -88,7 +87,6 @@ class PerInstanceMemory(Identifiable):
                 f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._swDataDef = value
-        # The name of the "C"-type.
         self._type: Optional["CIdentifier"] = None
 
     @property
@@ -116,7 +114,6 @@ class PerInstanceMemory(Identifiable):
                 f"type must be CIdentifier or None, got {type(value).__name__}"
             )
         self._type = value
-        # A definition of the type with the syntax of a ’C’ typedef.
         self._typeDefinition: Optional["String"] = None
 
     @property

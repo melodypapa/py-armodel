@@ -53,7 +53,6 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 f"age must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._age = value
-        # Reference to the corresponding ArgumentDataPrototype.
         self._argument: RefType = None
 
     @property
@@ -77,7 +76,6 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
             return
 
         self._argument = value
-        # This value is determined by an appropriate combination range, the unit as
         # well as the data-elements type, (2ˆdatatypelength - 1).
         self._bswResolution: Optional["Float"] = None
 
@@ -106,7 +104,6 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 f"bswResolution must be Float or None, got {type(value).__name__}"
             )
         self._bswResolution = value
-        # Reference to the corresponding VariableDataPrototype.
         self._dataElement: RefType = None
 
     @property
@@ -130,7 +127,6 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
             return
 
         self._dataElement = value
-        # This is only applicable in SET operations.
         # If it is enabled, IoHwAbstraction layer will monitor the result of the issue
                 # an diagnostic signal.
         # This means an additional client-server port has to be can use this
@@ -163,7 +159,6 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
             return
 
         self._failure = value
-        # This attribute is used to indicate what kind of filtering/ has been put to
         # the signal in the IoHw that no modification of the signal has This is the
         # default value debounceData the signal is a mean value waitTimeData the signal
         # is delivered by a GET operation certain amount of time.
@@ -194,7 +189,6 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 f"filtering must be FilterDebouncingEnum or None, got {type(value).__name__}"
             )
         self._filtering = value
-        # This attribute indicates to the connected SensorActuator the
         # VariableDataPrototype used to generate pulse test sequences using the.
         self._pulseTest: Optional["PulseTestEnum"] = None
 
@@ -223,7 +217,6 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 f"pulseTest must be PulseTestEnum or None, got {type(value).__name__}"
             )
         self._pulseTest = value
-        # Reference to the corresponding Trigger.
         self._trigger: RefType = None
 
     @property

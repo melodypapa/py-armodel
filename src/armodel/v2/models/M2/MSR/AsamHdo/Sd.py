@@ -44,7 +44,6 @@ class Sd(ARObject):
                 f"gid must be NameToken, got {type(value).__name__}"
             )
         self._gid = value
-        # This is the value of the special data.
         self._value: "VerbatimStringPlain" = None
 
     @property
@@ -68,7 +67,6 @@ class Sd(ARObject):
                 f"value must be VerbatimStringPlain, got {type(value).__name__}"
             )
         self._value = value
-        # This attribute is used to signal an intention that in that space should be
         # preserved by is defined according to xml:space as W3C.
         self._xmlSpace: Optional["XmlSpaceEnum"] = None
 

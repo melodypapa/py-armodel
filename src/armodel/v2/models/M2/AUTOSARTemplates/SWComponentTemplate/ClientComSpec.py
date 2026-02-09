@@ -53,7 +53,6 @@ class ClientComSpec(RPortComSpec):
                 f"endToEndCall must be TimeValue or None, got {type(value).__name__}"
             )
         self._endToEndCall = value
-        # This represents the corresponding ClientServerOperation.
         self._operation: Optional["ClientServerOperation"] = None
 
     @property
@@ -81,7 +80,6 @@ class ClientComSpec(RPortComSpec):
                 f"operation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operation = value
-        # This references the TransformationComSpecProps which define port-specific
         # configuration for data transformation.
         self._transformation: List["TransformationCom"] = []
 

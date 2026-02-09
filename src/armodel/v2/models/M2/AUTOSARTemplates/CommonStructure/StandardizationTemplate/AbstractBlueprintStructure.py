@@ -149,7 +149,6 @@ class AtpBlueprintMapping(ARObject, ABC):
                 f"atpBlueprint must be AtpBlueprint, got {type(value).__name__}"
             )
         self._atpBlueprint = value
-        # This represents the bluprinted elements which shall be to the blueprint.
         self._atpBlueprinted: "AtpBlueprintable" = None
 
     @property
@@ -402,7 +401,6 @@ class BlueprintPolicyList(BlueprintPolicy):
                 f"maxNumberOf must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        # Minimum number of elements in the list.
         # If the minimum is not constraint it shall be set to "undefined".
         self._minNumberOf: "PositiveInteger" = None
 

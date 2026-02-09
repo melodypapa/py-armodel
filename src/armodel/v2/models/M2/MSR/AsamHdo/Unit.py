@@ -60,7 +60,6 @@ class Unit(ARElement):
                 f"displayName must be SingleLanguageUnit or None, got {type(value).__name__}"
             )
         self._displayName = value
-        # This is the factor for the conversion from SI Units to units.
         # is used for conversion from units to SI Units.
         self._factorSiToUnit: Optional["Float"] = None
 
@@ -89,7 +88,6 @@ class Unit(ARElement):
                 f"factorSiToUnit must be Float or None, got {type(value).__name__}"
             )
         self._factorSiToUnit = value
-        # This is the offset for the conversion from and to siUnits.
         self._offsetSiToUnit: Optional["Float"] = None
 
     @property
@@ -117,7 +115,6 @@ class Unit(ARElement):
                 f"offsetSiToUnit must be Float or None, got {type(value).__name__}"
             )
         self._offsetSiToUnit = value
-        # This association represents the physical dimension to the unit belongs to.
         # Note that only values with units same physical dimensions might be converted.
         self._physical: Optional["PhysicalDimension"] = None
 

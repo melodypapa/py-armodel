@@ -54,7 +54,6 @@ class DiagnosticSessionControl(DiagnosticServiceInstance):
                 f"diagnosticSession must be DiagnosticSession or None, got {type(value).__name__}"
             )
         self._diagnosticSession = value
-        # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticSessionControl in
         # context.
         self._sessionControl: Optional["DiagnosticSession"] = None

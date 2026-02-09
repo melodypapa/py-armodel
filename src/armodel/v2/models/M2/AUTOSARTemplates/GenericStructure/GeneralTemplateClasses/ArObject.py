@@ -89,7 +89,6 @@ class ARObject(ABC):
                 f"checksum must be String or None, got {type(value).__name__}"
             )
         self._checksum = value
-        # Timestamp calculated by the user’s tool environment for May be used in an own
                 # tool environment to last change of an ArObject.
         # The timestamp semantic meaning for an AUTOSAR model and no requirement for
                 # AUTOSAR tools to manage.

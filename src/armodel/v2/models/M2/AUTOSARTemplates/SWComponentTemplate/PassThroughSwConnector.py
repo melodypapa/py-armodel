@@ -50,7 +50,6 @@ class PassThroughSwConnector(SwConnector):
                 f"providedOuter must be AbstractProvidedPort or None, got {type(value).__name__}"
             )
         self._providedOuter = value
-        # This represents the required outer delegation Port Prototype of the
         # PassThroughSwConnector.
         self._requiredOuter: Optional["AbstractRequiredPort"] = None
 

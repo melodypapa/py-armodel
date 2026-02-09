@@ -66,7 +66,6 @@ class HwAttributeValue(ARObject):
                 f"annotation must be Annotation or None, got {type(value).__name__}"
             )
         self._annotation = value
-        # This association represents the definition of the particular value.
         self._hwAttributeDef: Optional["HwAttributeDef"] = None
 
     @property
@@ -94,7 +93,6 @@ class HwAttributeValue(ARObject):
                 f"hwAttributeDef must be HwAttributeDef or None, got {type(value).__name__}"
             )
         self._hwAttributeDef = value
-        # This represents a numerical hardware attribute value.
         self._v: Optional["Numerical"] = None
 
     @property
@@ -122,7 +120,6 @@ class HwAttributeValue(ARObject):
                 f"v must be Numerical or None, got {type(value).__name__}"
             )
         self._v = value
-        # This represents a textual hardware attribute value.
         self._vt: Optional["VerbatimString"] = None
 
     @property
@@ -469,7 +466,6 @@ class HwAttributeDef(Identifiable):
                 f"isRequired must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isRequired = value
-        # This association specifies the physical unit of the defined This is optional
         # due to the fact that textual attributes.
         self._unit: Optional["Unit"] = None
 

@@ -196,7 +196,6 @@ class DocumentationContext(MultilanguageReferrable):
                 f"feature must be AtpFeature or None, got {type(value).__name__}"
             )
         self._feature = value
-        # This is an identifiable object which is part of the context of.
         self._identifiable: Optional["Identifiable"] = None
 
     @property

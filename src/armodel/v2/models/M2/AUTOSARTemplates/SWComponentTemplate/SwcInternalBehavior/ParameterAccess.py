@@ -50,7 +50,6 @@ class ParameterAccess(AbstractAccessPoint):
             return
 
         self._accessedParameter = value
-        # This allows denote instance and access specific mainly input values and
         # common axis.
         self._swDataDef: Optional["SwDataDefProps"] = None
 

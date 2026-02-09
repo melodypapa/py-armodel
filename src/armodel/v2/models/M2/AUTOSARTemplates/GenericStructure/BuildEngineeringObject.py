@@ -109,7 +109,6 @@ class BuildEngineeringObject(EngineeringObject):
                 f"fileType must be NameToken, got {type(value).__name__}"
             )
         self._fileType = value
-        # This attribute allows to define a set of engineering objects based search
         # applied to the filetype of the objects.
         self._fileTypePattern: "RegularExpression" = None
 
@@ -134,7 +133,6 @@ class BuildEngineeringObject(EngineeringObject):
                 f"fileTypePattern must be RegularExpression, got {type(value).__name__}"
             )
         self._fileTypePattern = value
-        # This attribute represents the name of the file if it is newly.
         # Note that engineering object resolves ShortLabel indicate mainly to refer to
                 # an If the file is created newly, the filename can determined by built in
                 # policy or predefined here.

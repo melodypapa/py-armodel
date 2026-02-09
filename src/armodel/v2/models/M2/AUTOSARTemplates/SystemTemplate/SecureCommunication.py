@@ -70,7 +70,6 @@ class CryptoServiceCertificate(ARElement):
                 f"algorithmFamily must be CryptoCertificate or None, got {type(value).__name__}"
             )
         self._algorithmFamily = value
-        # This attribute can be used to provide information about format used to create
         # the certificate.
         self._format: Optional["CryptoCertificateFormat"] = None
 
@@ -99,7 +98,6 @@ class CryptoServiceCertificate(ARElement):
                 f"format must be CryptoCertificateFormat or None, got {type(value).__name__}"
             )
         self._format = value
-        # This attribute represents the ability to define the length of the certificate
         # in bytes.
         self._maximum: Optional["PositiveInteger"] = None
 
@@ -128,7 +126,6 @@ class CryptoServiceCertificate(ARElement):
                 f"maximum must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # The reference identifies the next higher certificate in the certificate
         # chain.
         self._nextHigher: Optional["CryptoService"] = None
 
@@ -157,7 +154,6 @@ class CryptoServiceCertificate(ARElement):
                 f"nextHigher must be CryptoService or None, got {type(value).__name__}"
             )
         self._nextHigher = value
-        # Server Name Indication (SNI) is needed if the IP address multiple servers (on
                 # the same port), each of them different certificate.
         # client sends the SNI to the Server in the client hello, looks the SNI up in
                 # its certificate list and uses identified by the SNI.
@@ -634,7 +630,6 @@ class MacSecProps(ARObject):
                 f"autoStart must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._autoStart = value
-        # Properties to configure the MKA instance (KaY) for a CouplingPort (PaE).
         self._macSecKay: Optional["MacSecLocalKayProps"] = None
 
     @property
@@ -662,7 +657,6 @@ class MacSecProps(ARObject):
                 f"macSecKay must be MacSecLocalKayProps or None, got {type(value).__name__}"
             )
         self._macSecKay = value
-        # Timeout in seconds to enable the controlled port in case is set to Timeout.
         # atp.
         # Status=candidate.
         self._onFail: Optional["TimeValue"] = None
@@ -692,7 +686,6 @@ class MacSecProps(ARObject):
                 f"onFail must be TimeValue or None, got {type(value).__name__}"
             )
         self._onFail = value
-        # Time in seconds to trigger the rekey of an in use SAK Secure Association
                 # key).
         # If set to 0, the rekey will triggered after a time span.
         self._sakRekeyTime: Optional["TimeValue"] = None
@@ -947,7 +940,6 @@ class MacSecLocalKayProps(ARObject):
                 f"destinationMac must be MacAddressString or None, got {type(value).__name__}"
             )
         self._destinationMac = value
-        # Reference to properties that are shared between MAC Key Agreement Entities.
         self._globalKayProps: Optional["MacSecGlobalKay"] = None
 
     @property
@@ -975,7 +967,6 @@ class MacSecLocalKayProps(ARObject):
                 f"globalKayProps must be MacSecGlobalKay or None, got {type(value).__name__}"
             )
         self._globalKayProps = value
-        # This attribute defines the key-server priority.
         # atp.
         # Status=candidate.
         self._keyServer: Optional["PositiveInteger"] = None
@@ -1005,7 +996,6 @@ class MacSecLocalKayProps(ARObject):
                 f"keyServer must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._keyServer = value
-        # Reference to MKA participant settings supported on the 2090 Document ID 63:
         # AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._mkaParticipant: List["MacSecKayParticipant"] = []
 
@@ -1041,7 +1031,6 @@ class MacSecLocalKayProps(ARObject):
                 f"role must be MacSecRoleEnum or None, got {type(value).__name__}"
             )
         self._role = value
-        # This attribute defines the source MAC Address that is to calculate the ICV
         # (Integrity Check Value).
         self._sourceMac: Optional["MacAddressString"] = None
 
@@ -1348,7 +1337,6 @@ class MacSecGlobalKayProps(ARElement):
                 f"bypassEther must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._bypassEther = value
-        # MACsec.
         # The provided VLAN-IDs will not be (VLAN-ID 0 is interpreted as Bypass
                 # untagged traffic).
         self._bypassVlan: "PositiveInteger" = None
@@ -1510,7 +1498,6 @@ class MacSecParticipantSet(ARElement):
                 f"ethernetCluster must be EthernetCluster or None, got {type(value).__name__}"
             )
         self._ethernetCluster = value
-        # Configuration of a MKA Participant.
         self._mkaParticipant: List["MacSecKayParticipant"] = []
 
     @property
@@ -1621,7 +1608,6 @@ class MacSecKayParticipant(Identifiable):
                 f"ckn must be CryptoServiceKey or None, got {type(value).__name__}"
             )
         self._ckn = value
-        # Cryptography that is used by the MKA Participant.
         # Tags: atp.
         # Status=candidate.
         self._cryptoAlgo: Optional["MacSecCryptoAlgo"] = None
@@ -1651,7 +1637,6 @@ class MacSecKayParticipant(Identifiable):
                 f"cryptoAlgo must be MacSecCryptoAlgo or None, got {type(value).__name__}"
             )
         self._cryptoAlgo = value
-        # Reference to the key where SAK shall be stored.
         self._sak: Optional["CryptoServiceKey"] = None
 
     @property
@@ -1859,7 +1844,6 @@ class MacSecCryptoAlgoConfig(ARObject):
                 f"capability must be MacSecCapabilityEnum or None, got {type(value).__name__}"
             )
         self._capability = value
-        # Tags: atp.
         # Status=candidate.
         self._cipherSuite: "MacSecCipherSuite" = None
 
@@ -1884,7 +1868,6 @@ class MacSecCryptoAlgoConfig(ARObject):
                 f"cipherSuite must be MacSecCipherSuite, got {type(value).__name__}"
             )
         self._cipherSuite = value
-        # The MACsec confidentiality offset specifies the number of bytes starting from
                 # the frame header.
         # MACsec encrypts bytes after the offset in a frame.
         self._confidentiality: Optional["MacSecConfidentiality"] = None
@@ -1914,7 +1897,6 @@ class MacSecCryptoAlgoConfig(ARObject):
                 f"confidentiality must be MacSecConfidentiality or None, got {type(value).__name__}"
             )
         self._confidentiality = value
-        # In case replay protection is active, this attribute defines replay protection
         # window.
         self._replayProtection: Optional["PositiveInteger"] = None
 
@@ -2290,7 +2272,6 @@ class CryptoServicePrimitive(ARElement):
                 f"algorithmFamily must be String or str or None, got {type(value).__name__}"
             )
         self._algorithmFamily = value
-        # This attribute represents a description of the mode of the implemented by the
         # crypto primitive.
         self._algorithmMode: Optional["String"] = None
 
@@ -2319,7 +2300,6 @@ class CryptoServicePrimitive(ARElement):
                 f"algorithmMode must be String or str or None, got {type(value).__name__}"
             )
         self._algorithmMode = value
-        # This attribute represents a further description of the family of crypto
                 # algorithm implemented by the primitive.
         # family is needed for the specification of algorithm for a signature check, e.
         # g.
@@ -2532,7 +2512,6 @@ class CryptoServiceKey(ARElement):
                 f"algorithmFamily must be String or str or None, got {type(value).__name__}"
             )
         self._algorithmFamily = value
-        # This aggregation represents the ability to assign a value to the crypto key
         # as part of the system value can then be taken for the the respective ECU.
         self._development: Optional["ValueSpecification"] = None
 
@@ -2561,7 +2540,6 @@ class CryptoServiceKey(ARElement):
                 f"development must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._development = value
-        # This attribute describes how a the specific cryptographic is created.
         self._keyGeneration: Optional["CryptoServiceKey"] = None
 
     @property
@@ -2589,7 +2567,6 @@ class CryptoServiceKey(ARElement):
                 f"keyGeneration must be CryptoServiceKey or None, got {type(value).__name__}"
             )
         self._keyGeneration = value
-        # This attribute describes where the enclosing shall be stored.
         # AUTOSAR reserves for this attributes but it is possible to insert as well.
         self._keyStorageType: Optional["String"] = None
 
@@ -2618,7 +2595,6 @@ class CryptoServiceKey(ARElement):
                 f"keyStorageType must be String or str or None, got {type(value).__name__}"
             )
         self._keyStorageType = value
-        # This attribute describes the length of the cryptographic bits.
         self._length: Optional["PositiveInteger"] = None
 
     @property
@@ -3009,7 +2985,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"authentication must be CryptoServicePrimitive or None, got {type(value).__name__}"
             )
         self._authentication = value
-        # This reference identifies the applicable local certificate.
         self._certificate: Optional["CryptoService"] = None
 
     @property
@@ -3037,7 +3012,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"certificate must be CryptoService or None, got {type(value).__name__}"
             )
         self._certificate = value
-        # Identification of the CipherSuite according to the IANA.
         self._cipherSuiteId: Optional["PositiveInteger"] = None
 
     @property
@@ -3065,7 +3039,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"cipherSuiteId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._cipherSuiteId = value
-        # Name of the CipherSuite according to the IANA list.
         self._cipherSuite: Optional["String"] = None
 
     @property
@@ -3093,7 +3066,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"cipherSuite must be String or str or None, got {type(value).__name__}"
             )
         self._cipherSuite = value
-        # This references point to the properties of elliptic curves.
         self._ellipticCurve: List["CryptoEllipticCurve"] = []
 
     @property
@@ -3128,7 +3100,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"encryption must be CryptoServicePrimitive or None, got {type(value).__name__}"
             )
         self._encryption = value
-        # This reference identifies the crypto service primitives for generation and
         # verification of signatures during the algorithm.
         self._keyExchange: List["CryptoServicePrimitive"] = []
 
@@ -3165,7 +3136,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # The aggregated TlsCryptoCipherSuiteProps provide for the TLS Cipher Suite.
         self._props: Optional["TlsCryptoCipherSuite"] = None
 
     @property
@@ -3193,7 +3163,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"props must be TlsCryptoCipherSuite or None, got {type(value).__name__}"
             )
         self._props = value
-        # Pre-shared key identity shared during the handshake communication parties, to
         # establish a TLS the handshake is based on the existence of key.
         self._pskIdentity: Optional["TlsPskIdentity"] = None
 
@@ -3222,7 +3191,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"pskIdentity must be TlsPskIdentity or None, got {type(value).__name__}"
             )
         self._pskIdentity = value
-        # This reference identifies the applicable remote certificate.
         self._remote: Optional["CryptoService"] = None
 
     @property
@@ -3250,7 +3218,6 @@ class TlsCryptoCipherSuite(Identifiable):
                 f"remote must be CryptoService or None, got {type(value).__name__}"
             )
         self._remote = value
-        # This reference points to the properties of a TLS Signature Scheme.
         self._signature: List["CryptoSignature"] = []
 
     @property
@@ -3811,7 +3778,6 @@ class TlsPskIdentity(ARObject):
                 f"preSharedKey must be CryptoServiceKey or None, got {type(value).__name__}"
             )
         self._preSharedKey = value
-        # This attribute provides the key identification.
         self._pskIdentity: Optional["String"] = None
 
     @property
@@ -3839,7 +3805,6 @@ class TlsPskIdentity(ARObject):
                 f"pskIdentity must be String or str or None, got {type(value).__name__}"
             )
         self._pskIdentity = value
-        # This attribute provides the identity hint for a pre-shared.
         self._pskIdentityHint: Optional["String"] = None
 
     @property
@@ -4327,7 +4292,6 @@ class IPSecConfig(ARObject):
                 f"ipSecConfig must be IPSecConfigProps or None, got {type(value).__name__}"
             )
         self._ipSecConfig = value
-        # IPSec rules and filters that are defined in the IPSecConfig specific
         # NetworkEndpoint.
         self._ipSecRule: List["IPSecRule"] = []
 
@@ -4441,7 +4405,6 @@ class IPSecRule(Identifiable):
                 f"direction must be Communication or None, got {type(value).__name__}"
             )
         self._direction = value
-        # Header type specifying the IPsec security mechanism.
         self._headerType: Optional["IPsecHeaderTypeEnum"] = None
 
     @property
@@ -4469,7 +4432,6 @@ class IPSecRule(Identifiable):
                 f"headerType must be IPsecHeaderTypeEnum or None, got {type(value).__name__}"
             )
         self._headerType = value
-        # This attribute defines the relevant IP protocol used in the Database (SPD)
         # entry.
         self._ipProtocol: Optional["IPsecIpProtocolEnum"] = None
 
@@ -4498,7 +4460,6 @@ class IPSecRule(Identifiable):
                 f"ipProtocol must be IPsecIpProtocolEnum or None, got {type(value).__name__}"
             )
         self._ipProtocol = value
-        # This reference identifies the applicable certificate used for local
         # authentication.
         self._localCertificate: List["CryptoService"] = []
 
@@ -4534,7 +4495,6 @@ class IPSecRule(Identifiable):
                 f"localId must be String or str or None, got {type(value).__name__}"
             )
         self._localId = value
-        # This attribute restricts the traffic monitoring and defines a value for the
                 # local port range.
         # attribute is not set then this rule shall be effective local ports.
         # that port ranges are currently not supported AUTOSAR AP’s operating system
@@ -4567,7 +4527,6 @@ class IPSecRule(Identifiable):
                 f"localPortRange must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._localPortRange = value
-        # This attribute defines the type of the connection.
         self._mode: Optional["IPsecModeEnum"] = None
 
     @property
@@ -4595,7 +4554,6 @@ class IPSecRule(Identifiable):
                 f"mode must be IPsecModeEnum or None, got {type(value).__name__}"
             )
         self._mode = value
-        # An IPsec policy defines the rules that determine which IP traffic needs to be
         # secured using IPsec and traffic is secured.
         self._policy: Optional["IPsecPolicyEnum"] = None
 
@@ -4624,7 +4582,6 @@ class IPSecRule(Identifiable):
                 f"policy must be IPsecPolicyEnum or None, got {type(value).__name__}"
             )
         self._policy = value
-        # This reference identifies the applicable cryptograhic key authentication.
         self._preSharedKey: Optional["CryptoServiceKey"] = None
 
     @property
@@ -4652,7 +4609,6 @@ class IPSecRule(Identifiable):
                 f"preSharedKey must be CryptoServiceKey or None, got {type(value).__name__}"
             )
         self._preSharedKey = value
-        # This attribute defines the priority of the IPSecRule (SPD processing of
         # entries is based on priority, the highest priority "0".
         self._priority: Optional["PositiveInteger"] = None
 
@@ -4681,7 +4637,6 @@ class IPSecRule(Identifiable):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        # This reference identifies the applicable certificate used for a remote
         # authentication.
         self._remote: List["CryptoService"] = []
 
@@ -4717,7 +4672,6 @@ class IPSecRule(Identifiable):
                 f"remoteId must be String or str or None, got {type(value).__name__}"
             )
         self._remoteId = value
-        # Definition of the remote NetworkEndpoint.
         # With this the connection between the local Network the remote NetworkEndpoint
                 # is described the traffic is monitored.
         self._remoteIp: List["NetworkEndpoint"] = []
@@ -5338,7 +5292,6 @@ class IPSecConfigProps(ARElement):
                 f"dpdAction must be IPsecDpdActionEnum or None, got {type(value).__name__}"
             )
         self._dpdAction = value
-        # This attribute describes the interval to check the liveness peer actively
                 # using IKEv2 INFORMATIONAL DPD checking is only enforced if no ESP/AH packet
                 # has been received for the delay.
         # configured the value "5 minutes" shall be assumed.
@@ -5369,7 +5322,6 @@ class IPSecConfigProps(ARElement):
                 f"dpdDelay must be TimeValue or None, got {type(value).__name__}"
             )
         self._dpdDelay = value
-        # ESP (Encapsulating Security Payload) algorithm that encryption and optional
         # authentication for the AES-128+SHA2-256.
         self._espCipherSuite: List["String"] = []
 
@@ -5405,7 +5357,6 @@ class IPSecConfigProps(ARElement):
                 f"ikeCipherSuite must be String or str or None, got {type(value).__name__}"
             )
         self._ikeCipherSuite = value
-        # This attribute describes the hard deadline when an SA in percentage.
         # of max(ikeReauthTime, ikeRekey %.
         self._ikeOverTime: Optional["TimeValue"] = None
 
@@ -5434,7 +5385,6 @@ class IPSecConfigProps(ARElement):
                 f"ikeOverTime must be TimeValue or None, got {type(value).__name__}"
             )
         self._ikeOverTime = value
-        # This attribute defines in percentage by how long before of ikeReauthTime and
         # ikeRekeyTime will be.
         self._ikeRandTime: Optional["PositiveInteger"] = None
 
@@ -5463,7 +5413,6 @@ class IPSecConfigProps(ARElement):
                 f"ikeRandTime must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._ikeRandTime = value
-        # This attribute defines the absolute time after which an IKE be
                 # reauthenticated.
         # reauthentication is disabled.
         self._ikeReauthTime: Optional["TimeValue"] = None
@@ -5493,7 +5442,6 @@ class IPSecConfigProps(ARElement):
                 f"ikeReauthTime must be TimeValue or None, got {type(value).__name__}"
             )
         self._ikeReauthTime = value
-        # This attribute defines the absolute time after which an IKE be rekeyed.
         # rekey is disabled.
         self._ikeRekeyTime: Optional["TimeValue"] = None
 
@@ -5522,7 +5470,6 @@ class IPSecConfigProps(ARElement):
                 f"ikeRekeyTime must be TimeValue or None, got {type(value).__name__}"
             )
         self._ikeRekeyTime = value
-        # This attribute describes the hard deadline when an IPsec invalid in
         # percentage.
         self._saOverTime: Optional["PositiveInteger"] = None
 
@@ -5551,7 +5498,6 @@ class IPSecConfigProps(ARElement):
                 f"saOverTime must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._saOverTime = value
-        # This attribute defines by how long before the expiration of be rekeyed.
         self._saRandTime: Optional["TimeValue"] = None
 
     @property
@@ -5579,7 +5525,6 @@ class IPSecConfigProps(ARElement):
                 f"saRandTime must be TimeValue or None, got {type(value).__name__}"
             )
         self._saRandTime = value
-        # This attribute defines the absolute time after which an will be rekeyed.
         # rekey is disabled.
         self._saRekeyTime: Optional["TimeValue"] = None
 
@@ -6121,7 +6066,6 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
                 f"authentication must be CryptoServicePrimitive or None, got {type(value).__name__}"
             )
         self._authentication = value
-        # This reference identifies the CryptoServiceQueue the of this
         # SecOcCryptoServiceMapping shall be.
         self._cryptoService: Optional["CryptoServiceQueue"] = None
 
@@ -6305,7 +6249,6 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
                 f"useClient must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._useClient = value
-        # Defines if the security extension for max_fragment_length be supported as
         # defined in IETF RFC 8449, chapter.
         self._useSecurity: Optional["Boolean"] = None
 

@@ -50,7 +50,6 @@ class IdsmTrafficLimitation(Identifiable):
                 f"maxBytesIn must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._maxBytesIn = value
-        # This attribute configures the length of the time interval in dropping
         # security events if the size of all events exceeds the configurable the
         # respective time interval.
         self._timeInterval: Optional["Float"] = None

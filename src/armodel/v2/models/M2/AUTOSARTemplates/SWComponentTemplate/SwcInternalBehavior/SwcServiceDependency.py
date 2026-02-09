@@ -75,7 +75,6 @@ class SwcServiceDependency(ServiceDependency):
             return
 
         self._representedPort = value
-        # The associated ServiceNeeds.
         self._serviceNeeds: Optional["ServiceNeeds"] = None
 
     @property

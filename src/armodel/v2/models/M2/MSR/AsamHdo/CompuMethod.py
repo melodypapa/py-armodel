@@ -54,7 +54,6 @@ class CompuMethod(ARElement):
                 f"compuInternal must be Compu or None, got {type(value).__name__}"
             )
         self._compuInternal = value
-        # This represents the computation from physical values to internal values.
         self._compuPhysTo: Optional["Compu"] = None
 
     @property
@@ -82,7 +81,6 @@ class CompuMethod(ARElement):
                 f"compuPhysTo must be Compu or None, got {type(value).__name__}"
             )
         self._compuPhysTo = value
-        # This property specifies, how the physical value shall be in documents or
         # measurement and.
         self._displayFormat: Optional["DisplayFormatString"] = None
 
@@ -111,7 +109,6 @@ class CompuMethod(ARElement):
                 f"displayFormat must be DisplayFormatString or None, got {type(value).__name__}"
             )
         self._displayFormat = value
-        # This is the physical unit of the Physical values for which applies.
         self._unit: Optional["Unit"] = None
 
     @property

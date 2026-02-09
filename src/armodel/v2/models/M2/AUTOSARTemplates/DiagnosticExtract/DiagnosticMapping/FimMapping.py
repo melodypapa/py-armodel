@@ -60,7 +60,6 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
                 f"diagnosticEvent must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._diagnosticEvent = value
-        # This represents the reference to the event group.
         self._eventGroupGroup: Optional["DiagnosticFimEvent"] = None
 
     @property
@@ -88,7 +87,6 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
                 f"eventGroupGroup must be DiagnosticFimEvent or None, got {type(value).__name__}"
             )
         self._eventGroupGroup = value
-        # This represents the reference to the inhibition source.
         self._inhibitionSource: Optional["DiagnosticFunction"] = None
 
     @property
@@ -299,7 +297,6 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
                 f"actualEvent must be DiagnosticFimEvent or None, got {type(value).__name__}"
             )
         self._actualEvent = value
-        # This represents the reference to the alias summary event.
         self._aliasEvent: Optional["DiagnosticFimAlias"] = None
 
     @property

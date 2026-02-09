@@ -195,7 +195,6 @@ class WaitPoint(Identifiable):
                 f"timeout must be TimeValue or None, got {type(value).__name__}"
             )
         self._timeout = value
-        # This is the RTEEvent this WaitPoint is waiting for.
         self._trigger: Optional["RTEEvent"] = None
 
     @property
@@ -461,7 +460,6 @@ class TimingEvent(RTEEvent):
                 f"offset must be TimeValue or None, got {type(value).__name__}"
             )
         self._offset = value
-        # Period of timing event in seconds.
         # The value of this be greater than zero.
         self._period: Optional["TimeValue"] = None
 
@@ -1511,7 +1509,6 @@ class TransformerHardErrorEvent(RTEEvent):
                 f"operation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operation = value
-        # TransformerHardErrorEvent.
         # by: RTriggerInAtomicSwc.
         self._requiredTrigger: Optional["RefType"] = None
 

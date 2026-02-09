@@ -84,7 +84,6 @@ class PortPrototype(Identifiable, ABC):
                 f"delegatedPort must be DelegatedPort or None, got {type(value).__name__}"
             )
         self._delegatedPort = value
-        # Annotations on this IO Hardware Abstraction port.
         self._ioHwAbstractionAnnotation: List["IoHwAbstractionServer"] = []
 
     @property

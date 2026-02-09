@@ -143,7 +143,6 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
                 f"relative must be TimeValue or None, got {type(value).__name__}"
             )
         self._relative = value
-        # IEEE 1722 stream identifier.
         self._streamIdentifier: Optional["PositiveInteger"] = None
 
     @property
@@ -171,7 +170,6 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
                 f"streamIdentifier must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._streamIdentifier = value
-        # Protocol type.
         self._subType: Optional["PositiveInteger"] = None
 
     @property
@@ -199,7 +197,6 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
                 f"subType must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._subType = value
-        # Revision of Ieee1722 standard.
         self._version: Optional["PositiveInteger"] = None
 
     @property

@@ -50,7 +50,6 @@ class ValueGroup(ARObject):
                 f"label must be MultilanguageLong or None, got {type(value).__name__}"
             )
         self._label = value
-        # This represents the contents of the value group.
         self._vgContents: Optional["SwValues"] = None
 
     @property

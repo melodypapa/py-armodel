@@ -53,7 +53,6 @@ class RPortPrototype(AbstractRequiredPortPrototype):
                 f"mayBe must be Boolean or None, got {type(value).__name__}"
             )
         self._mayBe = value
-        # isOfType.
         self._required: Optional["PortInterface"] = None
 
     @property

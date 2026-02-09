@@ -84,7 +84,6 @@ class RptContainer(Identifiable):
                 f"rptExecutable must be RptExecutableEntity or None, got {type(value).__name__}"
             )
         self._rptExecutable = value
-        # The rptHook describes the link between a byPassPoint rapid prototyping
                 # algorithm.
         # atpVariation.
         self._rptHook: Optional["RptHook"] = None
@@ -114,7 +113,6 @@ class RptContainer(Identifiable):
                 f"rptHook must be RptHook or None, got {type(value).__name__}"
             )
         self._rptHook = value
-        # Describes the required code preparation for rapid data accesses.
         self._rptImplPolicy: Optional["RptImplPolicy"] = None
 
     @property
@@ -142,7 +140,6 @@ class RptContainer(Identifiable):
                 f"rptImplPolicy must be RptImplPolicy or None, got {type(value).__name__}"
             )
         self._rptImplPolicy = value
-        # Describes the required accessibility of data and modes by the rapid
         # prototyping tooling.
         self._rptSw: Optional["RptSwPrototyping"] = None
 

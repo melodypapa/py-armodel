@@ -87,7 +87,6 @@ class RunnableEntity(ExecutableEntity):
                 f"canBeInvoked must be Boolean or None, got {type(value).__name__}"
             )
         self._canBeInvoked = value
-        # RunnableEntity has implicit read access to dataElement a sender-receiver
                 # PortPrototype or nv data of a nv data of dataReadAccess is subject to the
                 # purpose to support the conditional sender receiver ports or the variant
                 # existence in the implementation.
@@ -236,7 +235,6 @@ class RunnableEntity(ExecutableEntity):
                 f"symbol must be CIdentifier or None, got {type(value).__name__}"
             )
         self._symbol = value
-        # The WaitPoint associated with the RunnableEntity.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
         self._waitPoint: List["WaitPoint"] = []

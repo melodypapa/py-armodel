@@ -60,7 +60,6 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
             return
 
         self._portPrototype = value
-        # This refers to the ParameterDataPrototype typed by the implementationDataType
         # in which the target can be.
         self._rootParameter: Optional["ParameterData"] = None
 
@@ -89,7 +88,6 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
                 f"rootParameter must be ParameterData or None, got {type(value).__name__}"
             )
         self._rootParameter = value
-        # This reference points to the target ImplementationData TypeElement.
         self._targetData: Optional["AbstractImplementation"] = None
 
     @property

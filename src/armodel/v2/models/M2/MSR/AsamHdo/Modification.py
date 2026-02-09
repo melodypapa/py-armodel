@@ -44,7 +44,6 @@ class Modification(ARObject):
                 f"change must be MultiLanguageOverview, got {type(value).__name__}"
             )
         self._change = value
-        # This property represents the rationale for the particular.
         self._reason: Optional["MultiLanguageOverview"] = None
 
     @property

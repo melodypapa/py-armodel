@@ -54,7 +54,6 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
                 f"routine must be DiagnosticRoutine or None, got {type(value).__name__}"
             )
         self._routine = value
-        # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticRoutineControl in
         # context.
         self._routineControl: Optional["DiagnosticRoutine"] = None

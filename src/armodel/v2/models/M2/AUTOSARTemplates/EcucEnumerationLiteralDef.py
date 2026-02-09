@@ -47,7 +47,6 @@ class EcucEnumerationLiteralDef(Identifiable):
                 f"ecucCond must be EcucCondition or None, got {type(value).__name__}"
             )
         self._ecucCond = value
-        # String specifying if this literal is an AUTOSAR or if the literal is
         # vendor-specific.
         self._origin: Optional["String"] = None
 

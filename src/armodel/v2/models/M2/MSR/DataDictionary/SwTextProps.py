@@ -56,7 +56,6 @@ class SwTextProps(ARObject):
                 f"arraySize must be ArraySizeSemantics or None, got {type(value).__name__}"
             )
         self._arraySize = value
-        # This is the base type of one character in the string.
         # In baseType denotes the intended encoding of in the string on level of
                 # ApplicationData.
         self._baseType: Optional["SwBaseType"] = None
@@ -86,7 +85,6 @@ class SwTextProps(ARObject):
                 f"baseType must be SwBaseType or None, got {type(value).__name__}"
             )
         self._baseType = value
-        # Filler character for text parameter to pad up to the swMaxTextSize.
         # will be interpreted according to the encoding the associated base type of the
                 # data object, (hex) represents the ASCII character zero as and 0 (dec)
                 # represents an end of string as of the fill character depends on the
@@ -118,7 +116,6 @@ class SwTextProps(ARObject):
                 f"swFillCharacter must be Integer or None, got {type(value).__name__}"
             )
         self._swFillCharacter = value
-        # Specifies the maximum text size in characters.
         # Note the bytes depends on the encoding in the.
         self._swMaxTextSize: Optional["Integer"] = None
 

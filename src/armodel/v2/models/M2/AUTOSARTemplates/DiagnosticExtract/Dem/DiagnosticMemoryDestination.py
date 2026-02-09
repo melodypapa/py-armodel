@@ -69,7 +69,6 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"agingRequires must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._agingRequires = value
-        # Defines the scope of the DEM_ClearDTC Api.
         # On the classic platform, the value of this attribute has to for each
                 # DiagnosticMemoryDestination.
         self._clearDtc: Optional["DiagnosticClearDtc"] = None
@@ -99,7 +98,6 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"clearDtc must be DiagnosticClearDtc or None, got {type(value).__name__}"
             )
         self._clearDtc = value
-        # Mask for the supported DTC status bits by the Dem.
         self._dtcStatus: Optional["PositiveInteger"] = None
 
     @property
@@ -127,7 +125,6 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"dtcStatus must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._dtcStatus = value
-        # This attribute defines, whether support for event displacement is enabled or
         # not, and which displacement strategy is followed.
         self._event: Optional["DiagnosticEvent"] = None
 
@@ -156,7 +153,6 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"event must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._event = value
-        # This attribute fixes the maximum number of event entries the fault memory.
         self._maxNumberOf: Optional["PositiveInteger"] = None
 
     @property
@@ -184,7 +180,6 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        # Describes the trigger to allocate an event memory entry.
         self._memoryEntry: Optional["DiagnosticMemoryEntry"] = None
 
     @property
@@ -212,7 +207,6 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"memoryEntry must be DiagnosticMemoryEntry or None, got {type(value).__name__}"
             )
         self._memoryEntry = value
-        # This parameter is used to activate/deactivate the storage of the "TestFailed"
                 # status bits.
         # storage activated deactivated.
         self._statusBit: Optional["Boolean"] = None
@@ -242,7 +236,6 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"statusBit must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._statusBit = value
-        # This attribute defines the type of assigning freeze frame record numbers for
         # event-specific freeze frame records.
         self._typeOfFreeze: Optional["DiagnosticTypeOf"] = None
 

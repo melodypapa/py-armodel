@@ -74,7 +74,6 @@ class ModeDeclarationGroupPrototype(Identifiable):
                 f"swCalibration must be SwCalibrationAccess or None, got {type(value).__name__}"
             )
         self._swCalibration = value
-        # by a component.
         self._type: Optional["RefType"] = None
 
     @property
@@ -259,7 +258,6 @@ class ModeDeclarationGroup(ARElement):
                 f"initialMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._initialMode = value
-        # The ModeDeclarations collected in this ModeDeclaration atpVariation.
         self._mode: List["ModeDeclaration"] = []
 
     @property
@@ -297,7 +295,6 @@ class ModeDeclarationGroup(ARElement):
                 f"modeManager must be ModeErrorBehavior or None, got {type(value).__name__}"
             )
         self._modeManager = value
-        # This represents the avaliable ModeTransitions of the.
         self._modeTransition: List["ModeTransition"] = []
 
     @property
@@ -335,7 +332,6 @@ class ModeDeclarationGroup(ARElement):
                 f"modeUserError must be ModeErrorBehavior or None, got {type(value).__name__}"
             )
         self._modeUserError = value
-        # The value of this attribute shall be taken into account by RTE generator for
         # programmatically representing a for the transition between two statuses.
         self._onTransition: Optional["PositiveInteger"] = None
 
@@ -717,7 +713,6 @@ class ModeTransition(Identifiable):
                 f"enteredMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._enteredMode = value
-        # This represents the exited mode of the ModeTransition.
         self._exitedMode: Optional["ModeDeclaration"] = None
 
     @property
@@ -886,7 +881,6 @@ class ModeErrorBehavior(ARObject):
                 f"defaultMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._defaultMode = value
-        # This represents the ability to define the policy in terms of which default
         # model shall apply in case an error occurs.
         self._errorReaction: Optional["ModeErrorReaction"] = None
 
@@ -1057,7 +1051,6 @@ class ModeRequestTypeMap(ARObject):
                 f"implementation must be AbstractImplementation or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # This is the corresponding ModeDeclarationGroup.
         self._modeGroup: Optional["RefType"] = None
 
     @property
@@ -1217,7 +1210,6 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
             return
 
         self._firstModeGroupPrototype = value
-        # This represents the available mappings of Mode Declarations in the context ot
         # this ModeDeclarationGroup.
         self._mode: Optional["ModeDeclaration"] = None
 
@@ -1246,7 +1238,6 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
                 f"mode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._mode = value
-        # ModeDeclarationGroupPrototype to be mapped.
         self._secondMode: Optional["RefType"] = None
 
     @property

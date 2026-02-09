@@ -398,7 +398,6 @@ class RptSwPrototypingAccess(ARObject):
                 f"rptHookAccess must be RptAccessEnum or None, got {type(value).__name__}"
             )
         self._rptHookAccess = value
-        # The related data element can be used as input for bypass RP tool.
         # If rptImplPolicy is not specified generation shall ensure at least suitable
                 # MC are created.
         self._rptReadAccess: Optional["RptAccessEnum"] = None
@@ -428,7 +427,6 @@ class RptSwPrototypingAccess(ARObject):
                 f"rptReadAccess must be RptAccessEnum or None, got {type(value).__name__}"
             )
         self._rptReadAccess = value
-        # The related data element can be used as output for by RP tool.
         # The data element shall to rptLevel2 and related write service points.
         self._rptWriteAccess: Optional["RptAccessEnum"] = None
 
@@ -647,7 +645,6 @@ class RptComponent(Identifiable):
                 f"rpImplPolicy must be RptImplPolicy or None, got {type(value).__name__}"
             )
         self._rpImplPolicy = value
-        # ExecutableEntity instance which can be bypassed.
         # atpSplitable; atpVariation.
         self._rptExecutable: List["RptExecutableEntity"] = []
 
@@ -938,7 +935,6 @@ class RptExecutableEntityEvent(Identifiable):
                 f"rptEventId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._rptEventId = value
-        # Describes the implemented code preparation for rapid prototyping at
         # ExecutableEntity invocation.
         self._rptExecutable: Optional["RptExecutableEntity"] = None
 
@@ -967,7 +963,6 @@ class RptExecutableEntityEvent(Identifiable):
                 f"rptExecutable must be RptExecutableEntity or None, got {type(value).__name__}"
             )
         self._rptExecutable = value
-        # Describes the RptImplPolicy of a RptExecutableEvent for bypassing.
         self._rptImplPolicy: Optional["RptImplPolicy"] = None
 
     @property
@@ -995,7 +990,6 @@ class RptExecutableEntityEvent(Identifiable):
                 f"rptImplPolicy must be RptImplPolicy or None, got {type(value).__name__}"
             )
         self._rptImplPolicy = value
-        # This describes the applicable Pre Service Points for a / BswEvent of a
         # bypassed ExecutableEntity.
         self._rptServicePoint: List["RptServicePoint"] = []
 
@@ -1243,7 +1237,6 @@ class RptServicePoint(Identifiable):
                 f"serviceId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._serviceId = value
-        # Complete symbol of the function implementing the This symbol is used for
         # post-build hooking.
         self._symbol: Optional["CIdentifier"] = None
 

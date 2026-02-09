@@ -52,7 +52,6 @@ class SwcExclusiveAreaPolicy(ARObject):
                 f"apiPrinciple must be ApiPrincipleEnum or None, got {type(value).__name__}"
             )
         self._apiPrinciple = value
-        # This reference represents the ExclusiveArea for which the.
         self._exclusiveArea: Optional["ExclusiveArea"] = None
 
     @property

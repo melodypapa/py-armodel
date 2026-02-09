@@ -60,7 +60,6 @@ class ComponentInCompositionInstanceRef(ARObject):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # The context for the scope of this timing event.
         # Tags: xml.
         # sequenceOffset=20 (ordered).
         self._context: List["SwComponent"] = []
@@ -265,7 +264,6 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
                 f"abstractContext must be SwComponent or None, got {type(value).__name__}"
             )
         self._abstractContext = value
-        # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
         self._base: Optional["CompositionSw"] = None
 
@@ -294,7 +292,6 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._targetPort: Optional["RefType"] = None
 
     @property
@@ -499,7 +496,6 @@ class InstanceEventInCompositionInstanceRef(ARObject):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._contextPrototype: List["SwComponent"] = []
 
@@ -685,7 +681,6 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
                 f"context must be SwComponent or None, got {type(value).__name__}"
             )
         self._context = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetPPortPrototype: Optional["AbstractProvidedPort"] = None
 
@@ -853,7 +848,6 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
                 f"context must be SwComponent or None, got {type(value).__name__}"
             )
         self._context = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetRPortPrototype: Optional["AbstractRequiredPort"] = None
 

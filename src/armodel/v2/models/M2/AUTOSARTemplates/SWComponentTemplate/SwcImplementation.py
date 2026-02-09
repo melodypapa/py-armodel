@@ -66,7 +66,6 @@ class SwcImplementation(Implementation):
                 f"behavior must be SwcInternalBehavior or None, got {type(value).__name__}"
             )
         self._behavior = value
-        # Allows a definition of the size of the per-instance memory for this
                 # implementation.
         # The aggregation of PerInstance subject to variability with the purpose to in
                 # the software components different algorithms in the requiring different
@@ -279,7 +278,6 @@ class PerInstanceMemorySize(ARObject):
                 f"alignment must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._alignment = value
-        # This represents the referenced PerInstanceMemory.
         self._perInstanceMemory: Optional["PerInstanceMemory"] = None
 
     @property
@@ -307,7 +305,6 @@ class PerInstanceMemorySize(ARObject):
                 f"perInstanceMemory must be PerInstanceMemory or None, got {type(value).__name__}"
             )
         self._perInstanceMemory = value
-        # Size (in bytes) of the reference perInstanceMemory.
         # The PerInstanceMemorySize is subject to the purpose to support variability in
                 # the implementations.
         # Different the implementation might require a different.

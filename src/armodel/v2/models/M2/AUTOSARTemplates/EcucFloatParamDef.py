@@ -47,7 +47,6 @@ class EcucFloatParamDef(EcucParameterDef):
                 f"defaultValue must be Float or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Max value allowed for the parameter defined.
         # 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11.
         self._max: Optional["Limit"] = None
 
@@ -76,7 +75,6 @@ class EcucFloatParamDef(EcucParameterDef):
                 f"max must be Limit or None, got {type(value).__name__}"
             )
         self._max = value
-        # Min value allowed for the parameter defined.
         self._min: Optional["Limit"] = None
 
     @property

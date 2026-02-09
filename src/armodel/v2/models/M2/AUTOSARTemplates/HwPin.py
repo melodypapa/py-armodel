@@ -62,7 +62,6 @@ class HwPin(Identifiable):
                 f"packagingPin must be String or None, got {type(value).__name__}"
             )
         self._packagingPin = value
-        # This attribute contains the physical pin number.
         self._pinNumber: Optional["Integer"] = None
 
     @property

@@ -57,7 +57,6 @@ class DltMessage(Identifiable):
                 f"messageId must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._messageId = value
-        # This attribute describes the position in the source file in this log message
         # was called.
         self._messageLine: Optional["PositiveInteger"] = None
 
@@ -86,7 +85,6 @@ class DltMessage(Identifiable):
                 f"messageLine must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._messageLine = value
-        # This attribute describes the source file in which this log was called.
         self._messageSource: Optional["String"] = None
 
     @property
@@ -114,7 +112,6 @@ class DltMessage(Identifiable):
                 f"messageSource must be String or None, got {type(value).__name__}"
             )
         self._messageSource = value
-        # This attribute describes the message Type.
         self._messageTypeInfo: Optional["String"] = None
 
     @property
@@ -142,7 +139,6 @@ class DltMessage(Identifiable):
                 f"messageTypeInfo must be String or None, got {type(value).__name__}"
             )
         self._messageTypeInfo = value
-        # The Privacy Level helps to identify the Log and Trace the degree of privacy
         # to it.
         self._privacyLevel: Optional["PrivacyLevel"] = None
 

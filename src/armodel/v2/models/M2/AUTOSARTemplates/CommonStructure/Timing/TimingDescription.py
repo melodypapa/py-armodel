@@ -103,7 +103,6 @@ class TimingDescriptionEventChain(TimingDescription):
                 f"isPipelining must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isPipelining = value
-        # The response event representing the point in time where chain is terminated.
         self._response: Optional["TimingDescriptionEvent"] = None
 
     @property
@@ -131,7 +130,6 @@ class TimingDescriptionEventChain(TimingDescription):
                 f"response must be TimingDescriptionEvent or None, got {type(value).__name__}"
             )
         self._response = value
-        # A composed event chain consists of an arbitrary number sub-chains.
         self._segment: List["TimingDescriptionEvent"] = []
 
     @property
@@ -366,7 +364,6 @@ class TimingDescriptionEvent(TimingDescription, ABC):
                 f"clockReference must be TimingClock or None, got {type(value).__name__}"
             )
         self._clockReference = value
-        # The occurrence expression for this event.
         self._occurrence: Optional["TDEventOccurrence"] = None
 
     @property

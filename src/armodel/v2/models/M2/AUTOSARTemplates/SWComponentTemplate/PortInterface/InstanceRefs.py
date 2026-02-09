@@ -56,7 +56,6 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
                 f"base must be DataInterface or None, got {type(value).__name__}"
             )
         self._base = value
-        # This represents a context ApplicationCompositeData Prototype xml.
         # sequenceOffset=20 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
         self._contextData: List["ApplicationComposite"] = []
@@ -90,7 +89,6 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
             return
 
         self._rootData = value
-        # This represents the referenced ApplicationComposite DataPrototype.
         self._targetData: Optional["ApplicationComposite"] = None
 
     @property

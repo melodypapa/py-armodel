@@ -85,7 +85,6 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
                 f"access must be DiagnosticAccess or None, got {type(value).__name__}"
             )
         self._access = value
-        # This represents the corresponding "class", i.
         # e.
         # this properties that are shared among all applicable sub-classes of
                 # DiagnosticService that affected by this pattern implement the applicable

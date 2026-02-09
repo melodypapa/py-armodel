@@ -396,7 +396,6 @@ class FMFeature(ARElement):
                 f"maximum must be BindingTimeEnum or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # Defines a lower bound for the binding time of the variation that are
                 # associated with the FMFeature.
         # This is meant as a hint for the development process.
         self._minimum: Optional["BindingTimeEnum"] = None
@@ -426,7 +425,6 @@ class FMFeature(ARElement):
                 f"minimum must be BindingTimeEnum or None, got {type(value).__name__}"
             )
         self._minimum = value
-        # Defines relations for FMFeatures, for example other FMFeatures, or conflicts
         # with A FMFeature can only be part of a all its relations are fulfilled.
         self._relation: List["FMFeatureRelation"] = []
 
@@ -628,7 +626,6 @@ class FMAttributeDef(Identifiable):
                 f"defaultValue must be Numerical or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Maximum possible value for the value of this attribute.
         self._max: Optional["Limit"] = None
 
     @property
@@ -656,7 +653,6 @@ class FMAttributeDef(Identifiable):
                 f"max must be Limit or None, got {type(value).__name__}"
             )
         self._max = value
-        # Minimum possible value for the value of this attribute.
         self._min: Optional["Limit"] = None
 
     @property
@@ -869,7 +865,6 @@ class FMFeatureDecomposition(ARObject):
                 f"category must be CategoryString or None, got {type(value).__name__}"
             )
         self._category = value
-        # The features that are affected by the dependency defined
                 # FMFeatureDecomposition.
         # 92 Document ID 606: AUTOSAR_FO_TPS_FeatureModelExchangeFormat Model Exchange
                 # Format R23-11.
@@ -908,7 +903,6 @@ class FMFeatureDecomposition(ARObject):
                 f"max must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._max = value
-        # For a dependency of category MULTIPLEFEATURE, this minimum number of features
         # allowed.
         self._min: Optional["PositiveInteger"] = None
 
@@ -1403,7 +1397,6 @@ class FMAttributeValue(ARObject):
                 f"definition must be FMAttributeDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # This represents the value of this attribute.
         self._value: Optional["Numerical"] = None
 
     @property
@@ -1987,7 +1980,6 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
                 f"attribute must be FMAttributeDef or None, got {type(value).__name__}"
             )
         self._attribute = value
-        # An expression of type FMFormulaByFeaturesAnd refer to FMFeatures.
         self._feature: Optional["FMFeature"] = None
 
     @property
