@@ -47,7 +47,6 @@ class PhysicalDimensionMapping(ARObject):
                 f"firstPhysical must be PhysicalDimension or None, got {type(value).__name__}"
             )
         self._firstPhysical = value
-        # This represents the first PhysicalDimension of the PhysicalDimensionMapping.
         self._secondPhysical: Optional["PhysicalDimension"] = None
 
     @property

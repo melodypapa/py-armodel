@@ -70,7 +70,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"compuMethod must be CompuMethod or None, got {type(value).__name__}"
             )
         self._compuMethod = value
-        # Refers to constraints, e.
         # g.
         # for plausibility checks.
         self._dataConstr: Optional["DataConstr"] = None
@@ -100,7 +99,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"dataConstr must be DataConstr or None, got {type(value).__name__}"
             )
         self._dataConstr = value
-        # This is the datatype of the input value for the axis.
         # This allows to define e.
         # g.
         # a type of curve, where the input finalized at the access point.
@@ -131,7 +129,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"inputVariable must be ApplicationPrimitive or None, got {type(value).__name__}"
             )
         self._inputVariable = value
-        # this specifies the properties of a generic axis if applicable.
         self._swAxisGeneric: Optional["SwAxisGeneric"] = None
 
     @property
@@ -159,7 +156,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"swAxisGeneric must be SwAxisGeneric or None, got {type(value).__name__}"
             )
         self._swAxisGeneric = value
-        # Maximum number of base points contained in the axis of map or curve.
         self._swMaxAxis: Optional["Integer"] = None
 
     @property
@@ -187,7 +183,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"swMaxAxis must be Integer or int or None, got {type(value).__name__}"
             )
         self._swMaxAxis = value
-        # Minimum number of base points contained in the axis of a or curve.
         self._swMinAxis: Optional["Integer"] = None
 
     @property
@@ -215,7 +210,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"swMinAxis must be Integer or int or None, got {type(value).__name__}"
             )
         self._swMinAxis = value
-        # Refers to input variables of the axis.
         # It is possible to more than one variable.
         # Here the following is variable with the highest priority shall be given
                 # first.
@@ -655,7 +649,6 @@ class SwAxisGeneric(ARObject):
                 f"swAxisType must be SwAxisType or None, got {type(value).__name__}"
             )
         self._swAxisType = value
-        # Specific parameter of a generic axis.
         self._swGenericAxis: List["SwGenericAxisParam"] = []
 
     @property
@@ -1011,7 +1004,6 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
                 f"sharedAxisType must be ApplicationPrimitive or None, got {type(value).__name__}"
             )
         self._sharedAxisType = value
-        # Describes which axis of the referenced calibration the values for the group
                 # axis.
         # The the following convention: = value axis.
         # in this case, the interpolation result of parameter is used as a base point
@@ -1045,7 +1037,6 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
                 f"swAxisIndex must be AxisIndexType or None, got {type(value).__name__}"
             )
         self._swAxisIndex = value
-        # This property specifies the calibration parameter which the input axis.
         # In AUTOSAR, the type of the parameter shall be compatible to specified by
                 # sharedAxisType.
         # that the multiplicity of this aggregation cannot to 0.

@@ -119,7 +119,6 @@ class CalibrationParameterValue(ARObject):
                 f"applInitValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._applInitValue = value
-        # This is the initial value specification structured according
         # ImplementationDataType.
         self._implInitValue: Optional["ValueSpecification"] = None
 
@@ -148,7 +147,6 @@ class CalibrationParameterValue(ARObject):
                 f"implInitValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._implInitValue = value
-        # This represents the parameter that is initialized by the.
         self._initialized: Optional["FlatInstanceDescriptor"] = None
 
     @property

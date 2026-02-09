@@ -67,7 +67,6 @@ class ECUMapping(Identifiable):
                 f"ecu must be HwElement or None, got {type(value).__name__}"
             )
         self._ecu = value
-        # Reference to the EcuInstance in the System Template.
         self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
@@ -95,7 +94,6 @@ class ECUMapping(Identifiable):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # of the ECU.
         self._hwPortMapping: "RefType" = None
 
     @property
@@ -325,7 +323,6 @@ class CommunicationControllerMapping(ARObject):
                 f"communication must be Communication or None, got {type(value).__name__}"
             )
         self._communication = value
-        # Reference to a HwElement of category Communication in the ECU Resource
         # Template.
         self._hw: Optional["HwElement"] = None
 
@@ -492,7 +489,6 @@ class HwPortMapping(ARObject):
                 f"communication must be Communication or None, got {type(value).__name__}"
             )
         self._communication = value
-        # Reference to the HwPinPortGroup of category The connection to the Hw is
         # described in the Ecu.
         self._hw: Optional["RefType"] = None
 

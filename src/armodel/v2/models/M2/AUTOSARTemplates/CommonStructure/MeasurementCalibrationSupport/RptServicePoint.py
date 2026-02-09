@@ -48,7 +48,6 @@ class RptServicePoint(Identifiable):
                 f"serviceId must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._serviceId = value
-        # Complete symbol of the function implementing the This symbol is used for
         # post-build hooking.
         self._symbol: Optional["CIdentifier"] = None
 

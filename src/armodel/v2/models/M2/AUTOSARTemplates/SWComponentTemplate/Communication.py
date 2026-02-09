@@ -201,7 +201,6 @@ class ReceptionComSpecProps(ARObject):
                 f"dataUpdate must be TimeValue or None, got {type(value).__name__}"
             )
         self._dataUpdate = value
-        # This attribute defines the time interval after which the assume that the to
                 # be received data timed out, i.
         # e.
         # the respective data has not for that amount of time.
@@ -374,7 +373,6 @@ class TransmissionComSpecProps(ARObject):
                 f"dataUpdate must be TimeValue or None, got {type(value).__name__}"
             )
         self._dataUpdate = value
-        # This attribute defines the minimum interval between two transmissions of the
         # respective data the assumed to ensure.
         self._minimumSend: Optional["TimeValue"] = None
 
@@ -403,7 +401,6 @@ class TransmissionComSpecProps(ARObject):
                 f"minimumSend must be TimeValue or None, got {type(value).__name__}"
             )
         self._minimumSend = value
-        # The attribute defines the mode in which the application is assumed to
         # transmit the respective data.
         self._transmission: Optional["TransmissionMode"] = None
 
@@ -710,7 +707,6 @@ class CompositeNetworkRepresentation(ARObject):
                 f"leafElementElementInPortInterfaceInstanceRef must be ApplicationComposite or None, got {type(value).__name__}"
             )
         self._leafElementElementInPortInterfaceInstanceRef = value
-        # The SwDataDefProps owned by the CompositeNetwork are used to define the
         # network the leaf element of an Application.
         self._network: Optional["SwDataDefProps"] = None
 
@@ -1004,7 +1000,6 @@ class SenderComSpec(PPortComSpec, ABC):
             return
 
         self._dataElement = value
-        # This attribute controls how out-of-range values shall be dealt with.
         self._handleOutOf: Optional["HandleOutOfRange"] = None
 
     @property
@@ -1032,7 +1027,6 @@ class SenderComSpec(PPortComSpec, ABC):
                 f"handleOutOf must be HandleOutOfRange or None, got {type(value).__name__}"
             )
         self._handleOutOf = value
-        # A networkRepresentation is used to define how the data is mapped to a
         # communication bus.
         self._network: Optional["SwDataDefProps"] = None
 
@@ -1061,7 +1055,6 @@ class SenderComSpec(PPortComSpec, ABC):
                 f"network must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._network = value
-        # This aggregation represents the definition transmission props in the context
                 # of the enclosing SenderComSpec.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
@@ -1092,7 +1085,6 @@ class SenderComSpec(PPortComSpec, ABC):
                 f"transmission must be TransmissionComSpec or None, got {type(value).__name__}"
             )
         self._transmission = value
-        # This indicates whether the corresponding dataElement be transmitted using
         # end-to-end protection.
         self._usesEndToEnd: Optional["Boolean"] = None
 
@@ -1403,7 +1395,6 @@ class ServerComSpec(PPortComSpec):
                 f"operation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operation = value
-        # Length of call queue on the server side.
         # The queue is the RTE.
         # The value shall be greater or 1.
         # Setting the value of queueLength to 1 implies requests are rejected while
@@ -1435,7 +1426,6 @@ class ServerComSpec(PPortComSpec):
                 f"queueLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._queueLength = value
-        # This references the TransformationComSpecProps which define port-specific
         # configuration for data transformation.
         self._transformation: List["TransformationCom"] = []
 
@@ -1596,7 +1586,6 @@ class ModeSwitchSenderComSpec(PPortComSpec):
                 f"enhancedMode must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._enhancedMode = value
-        # ModeDeclarationGroupPrototype (of the same Port to which these communication
         # attributes apply.
         self._modeGroup: Optional["RefType"] = None
 
@@ -1621,7 +1610,6 @@ class ModeSwitchSenderComSpec(PPortComSpec):
             return
 
         self._modeGroup = value
-        # If this aggregation exists an acknowledgement for the successful processing
         # of the mode switch request is.
         self._modeSwitched: Optional["ModeSwitchedAck"] = None
 
@@ -1650,7 +1638,6 @@ class ModeSwitchSenderComSpec(PPortComSpec):
                 f"modeSwitched must be ModeSwitchedAck or None, got {type(value).__name__}"
             )
         self._modeSwitched = value
-        # Length of call queue on the mode user side.
         # The queue is the RTE.
         # The value shall be greater or 1.
         # Setting the value of queueLength to 1 implies requests are rejected while
@@ -1908,7 +1895,6 @@ class ParameterProvideComSpec(PPortComSpec):
                 f"initValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # The ParameterDataPrototype to which the Parameter applies.
         self._parameter: Optional["ParameterData"] = None
 
     @property
@@ -2075,7 +2061,6 @@ class NvProvideComSpec(PPortComSpec):
                 f"ramBlockInit must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._ramBlockInit = value
-        # This represents the initial value of the ROM block that to the referenced
         # variable.
         self._romBlockInit: Optional["ValueSpecification"] = None
 
@@ -2104,7 +2089,6 @@ class NvProvideComSpec(PPortComSpec):
                 f"romBlockInit must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._romBlockInit = value
-        # This represents the variable for which the ComSpec is.
         self._variable: Optional["RefType"] = None
 
     @property
@@ -2341,7 +2325,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
             return
 
         self._dataElement = value
-        # Control the way how return values are created in case of an out-of-range
         # situation.
         self._handleOutOf: Optional["HandleOutOfRange"] = None
 
@@ -2370,7 +2353,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
                 f"handleOutOf must be HandleOutOfRange or None, got {type(value).__name__}"
             )
         self._handleOutOf = value
-        # Initial maximum allowed gap between two counter values two consecutively
                 # received valid Data, i.
         # e.
         # how many data is accepted.
@@ -2403,7 +2385,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
                 f"maxDelta must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxDelta = value
-        # Number of Data required for validating the consistency of that shall be
                 # received with a valid counter (i.
         # e.
         # the allowed lock-in range) after the an unexpected behavior of a received E2E
@@ -2437,7 +2418,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
                 f"syncCounterInit must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._syncCounterInit = value
-        # This references the TransformationComSpecProps which define port-specific
         # configuration for data transformation.
         self._transformation: List["TransformationCom"] = []
 
@@ -2773,7 +2753,6 @@ class ClientComSpec(RPortComSpec):
                 f"endToEndCall must be TimeValue or None, got {type(value).__name__}"
             )
         self._endToEndCall = value
-        # This represents the corresponding ClientServerOperation.
         self._operation: Optional["ClientServerOperation"] = None
 
     @property
@@ -2801,7 +2780,6 @@ class ClientComSpec(RPortComSpec):
                 f"operation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operation = value
-        # This references the TransformationComSpecProps which define port-specific
         # configuration for data transformation.
         self._transformation: List["TransformationCom"] = []
 
@@ -2962,7 +2940,6 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
                 f"enhancedMode must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._enhancedMode = value
-        # ModeDeclarationGroupPrototype (of the same Port to which these communication
         # attributes apply.
         self._modeGroup: Optional["RefType"] = None
 
@@ -2987,7 +2964,6 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
             return
 
         self._modeGroup = value
-        # This attribute controls the behavior of the corresponding with respect to the
                 # question whether it deal with asynchronous mode switch requests, i.
         # e.
         # if true, the RPortPrototype is able to deal with an switch request.
@@ -3200,7 +3176,6 @@ class ParameterRequireComSpec(RPortComSpec):
                 f"initValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # The ParameterDataPrototype to which the Parameter applies.
         self._parameter: Optional["ParameterData"] = None
 
     @property
@@ -3366,7 +3341,6 @@ class NvRequireComSpec(RPortComSpec):
                 f"initValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # The VariableDataPrototype the ComSpec applies for.
         self._variable: Optional["RefType"] = None
 
     @property
@@ -3573,7 +3547,6 @@ class NonqueuedSenderComSpec(SenderComSpec):
                 f"dataFilter must be DataFilter or None, got {type(value).__name__}"
             )
         self._dataFilter = value
-        # Initial value to be sent if sender component is not yet fully receiver needs
         # data already.
         self._initValue: Optional["ValueSpecification"] = None
 
@@ -3744,7 +3717,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"aliveTimeout must be TimeValue or None, got {type(value).__name__}"
             )
         self._aliveTimeout = value
-        # This attribute controls whether application code is entitled whether the
         # value of the corresponding Variable been updated.
         self._enableUpdate: Optional["Boolean"] = None
 
@@ -3773,7 +3745,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"enableUpdate must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._enableUpdate = value
-        # The applicable filter algorithm for filtering the value of the.
         self._filter: Optional["DataFilter"] = None
 
     @property
@@ -3801,7 +3772,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"filter must be DataFilter or None, got {type(value).__name__}"
             )
         self._filter = value
-        # If this attribute is set to true, then the Rte_IStatus API exist.
         # If the attribute does not exist or is set to false, Rte_IStatus API may still
                 # exist in response to the further conditions.
         self._handleData: Optional["Boolean"] = None
@@ -3831,7 +3801,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"handleData must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._handleData = value
-        # This attribute specifies whether for the corresponding the "never received"
                 # flag is yes, the RTE is supposed to assume that VariableDataPrototype has not
                 # been received the first reception of the corresponding flag is cleared.
         # the value of this attribute is set to "true" the flag is set to "false", the
@@ -3863,7 +3832,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"handleNever must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._handleNever = value
-        # This attribute controls the behavior with respect to the of timeouts.
         self._handleTimeout: Optional["HandleTimeoutEnum"] = None
 
     @property
@@ -3891,7 +3859,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"handleTimeout must be HandleTimeoutEnum or None, got {type(value).__name__}"
             )
         self._handleTimeout = value
-        # Initial value to be used in case the sending component is initialized.
         # If the sender also specifies an initial the receiver’s value will be used.
         self._initValue: Optional["ValueSpecification"] = None
 
@@ -3920,7 +3887,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"initValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # This attribute represents the substitution value applicable the case of a
         # timeout.
         self._timeout: Optional["ValueSpecification"] = None
 

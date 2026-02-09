@@ -376,7 +376,6 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
                 f"baseFrequency must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._baseFrequency = value
-        # Defines whether the "fs" (frame sync) shall be enabled.
         self._frameSync: Optional["Boolean"] = None
 
     @property
@@ -404,7 +403,6 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
                 f"frameSync must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._frameSync = value
-        # CRF timestamp interval as multiple of the baseFrequency.
         self._timestamp: Optional["PositiveInteger"] = None
 
     @property
@@ -613,7 +611,6 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
                 f"canAddressing must be CanAddressingMode or None, got {type(value).__name__}"
             )
         self._canAddressing = value
-        # Defines whether the bit rate switch bit shall be set.
         self._canBitRate: Optional["Boolean"] = None
 
     @property
@@ -641,7 +638,6 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
                 f"canBitRate must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._canBitRate = value
-        # Defines which CAN protocol shall be used for frame transmission.
         self._canFrameTx: Optional["CanFrameTxBehavior"] = None
 
     @property
@@ -669,7 +665,6 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
                 f"canFrameTx must be CanFrameTxBehavior or None, got {type(value).__name__}"
             )
         self._canFrameTx = value
-        # Definition of the identifier range for IEEE1722Tp ACF Can.
         self._canIdentifier: Optional["RxIdentifierRange"] = None
 
     @property
@@ -697,7 +692,6 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
                 f"canIdentifier must be RxIdentifierRange or None, got {type(value).__name__}"
             )
         self._canIdentifier = value
-        # Reference to the Pdu transported in the IEEE1722Tp.
         self._sdu: Optional["RefType"] = None
 
     @property
@@ -989,7 +983,6 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
                 f"linIdentifier must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._linIdentifier = value
-        # Reference to the Pdu transported in the IEEE1722Tp.
         self._sdu: Optional["RefType"] = None
 
     @property

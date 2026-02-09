@@ -66,7 +66,6 @@ class SwServiceArg(Identifiable):
                 f"direction must be ArgumentDirection or None, got {type(value).__name__}"
             )
         self._direction = value
-        # This turns the argument of the service to an array.
         self._swArraysize: RefType = None
 
     @property
@@ -90,7 +89,6 @@ class SwServiceArg(Identifiable):
             return
 
         self._swArraysize = value
-        # Data properties of this SwServiceArg.
         # atpSplitable.
         self._swDataDef: Optional["SwDataDefProps"] = None
 

@@ -63,7 +63,6 @@ class AtomicSwComponentType(SwComponentType, ABC):
                 f"internalBehavior must be SwcInternalBehavior or None, got {type(value).__name__}"
             )
         self._internalBehavior = value
-        # This represents the SymbolProps for the AtomicSw.
         self._symbolProps: Optional["SymbolProps"] = None
 
     @property

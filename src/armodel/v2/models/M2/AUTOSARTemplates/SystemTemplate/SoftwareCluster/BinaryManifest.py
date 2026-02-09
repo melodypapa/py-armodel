@@ -71,7 +71,6 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
                 f"cpSoftware must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._cpSoftware = value
-        # This aggregation identifies the collection of meta-data in the enclosing
         # binary manifest.
         self._metaDataField: List["BinaryManifestMeta"] = []
 
@@ -418,7 +417,6 @@ class BinaryManifestResource(Identifiable, ABC):
                 f"globalResource must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._globalResource = value
-        # this reference identifies the definition of the Binary ManifestResource.
         # The definition provides configuration is shared among all BinaryManifest
                 # refer to the BinaryManifestResource.
         self._resource: Optional["BinaryManifest"] = None
@@ -448,7 +446,6 @@ class BinaryManifestResource(Identifiable, ABC):
                 f"resource must be BinaryManifest or None, got {type(value).__name__}"
             )
         self._resource = value
-        # This attribute specifies the guard value of the enclosing manifest resource.
         self._resourceGuard: Optional["String"] = None
 
     @property
@@ -707,7 +704,6 @@ class BinaryManifestItemDefinition(Identifiable):
                 f"isOptional must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isOptional = value
-        # This attribute provides the ability to specify the size of the.
         self._size: Optional["PositiveInteger"] = None
 
     @property
@@ -886,7 +882,6 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
                 f"address must be Address or None, got {type(value).__name__}"
             )
         self._address = value
-        # This attribute specifies the symbol of the addressable.
         self._symbol: Optional["SymbolString"] = None
 
     @property
@@ -1073,7 +1068,6 @@ class BinaryManifestProvideResource(BinaryManifestResource):
                 f"numberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._numberOf = value
-        # This attribute indicates whether the enclosing Binary supports multiple
         # notifiers sets.
         self._supports: Optional["Boolean"] = None
 
@@ -1341,7 +1335,6 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
                 f"defaultValue must be BinaryManifestItem or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # If true, the handle or auxiliary field in the context of binary relates to an
         # optional BinaryManifest is not used.
         self._isUnused: Optional["Boolean"] = None
 
@@ -1370,7 +1363,6 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
                 f"isUnused must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isUnused = value
-        # This aggregation represents the definition of a value for a manifest handle
                 # or an auxiliaryField.
         # shall be taken to establish a connection.
         self._value: Optional["BinaryManifestItem"] = None
@@ -1593,7 +1585,6 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
                 f"size must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._size = value
-        # This attribute specifies the value of the meta-data field.
         self._value: Optional["VerbatimString"] = None
 
     @property
@@ -1852,7 +1843,6 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
                 f"address must be Address or None, got {type(value).__name__}"
             )
         self._address = value
-        # This attribute represents the symbol associated with the handle.
         self._symbol: Optional["SymbolString"] = None
 
     @property

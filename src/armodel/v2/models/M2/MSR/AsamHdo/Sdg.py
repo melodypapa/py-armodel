@@ -56,7 +56,6 @@ class Sdg(ARObject):
                 f"gid must be NameToken, got {type(value).__name__}"
             )
         self._gid = value
-        # This aggregation allows to assign the properties of the sdg.
         # By this, a shortName etc.
         # can be the Sdg.
         self._sdgCaption: Optional["SdgCaption"] = None
@@ -86,7 +85,6 @@ class Sdg(ARObject):
                 f"sdgCaption must be SdgCaption or None, got {type(value).__name__}"
             )
         self._sdgCaption = value
-        # This is the content of the Sdg.
         self._sdgContents: Optional["SdgContents"] = None
 
     @property

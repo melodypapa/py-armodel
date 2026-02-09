@@ -47,7 +47,6 @@ class PrivacyLevel(ARObject):
                 f"compuMethod must be CompuMethod or None, got {type(value).__name__}"
             )
         self._compuMethod = value
-        # The value that represents the privacy level and is the Extension Header.
         self._privacyLevel: Optional["PositiveInteger"] = None
 
     @property

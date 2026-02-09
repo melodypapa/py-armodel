@@ -54,7 +54,6 @@ class FMFeatureDecomposition(ARObject):
                 f"category must be CategoryString or None, got {type(value).__name__}"
             )
         self._category = value
-        # The features that are affected by the dependency defined
                 # FMFeatureDecomposition.
         # 92 Document ID 606: AUTOSAR_FO_TPS_FeatureModelExchangeFormat Model Exchange
                 # Format R23-11.
@@ -93,7 +92,6 @@ class FMFeatureDecomposition(ARObject):
                 f"max must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._max = value
-        # For a dependency of category MULTIPLEFEATURE, this minimum number of features
         # allowed.
         self._min: Optional["PositiveInteger"] = None
 

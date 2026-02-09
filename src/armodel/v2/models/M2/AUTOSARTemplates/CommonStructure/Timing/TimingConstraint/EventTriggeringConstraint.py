@@ -224,7 +224,6 @@ class ConfidenceInterval(ARObject):
                 f"lowerBound must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._lowerBound = value
-        # The probability for the measured lower and upper bound confidence interval.
         self._propability: Optional["Float"] = None
 
     @property
@@ -252,7 +251,6 @@ class ConfidenceInterval(ARObject):
                 f"propability must be Float or float or None, got {type(value).__name__}"
             )
         self._propability = value
-        # The upper bound of the expected distance of two occurrences.
         self._upperBound: Optional["MultidimensionalTime"] = None
 
     @property
@@ -463,7 +461,6 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
                 f"jitter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._jitter = value
-        # The minimum time distance between subsequent occurrences of the associated
                 # event.
         # minimumInterArrivalTime is less than the the jitter, then the no effect on
                 # the the constraint.
@@ -494,7 +491,6 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
                 f"minimumInter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumInter = value
-        # The periodic distance between subsequent occurrences event.
         self._period: Optional["MultidimensionalTime"] = None
 
     @property
@@ -703,7 +699,6 @@ class SporadicEventTriggering(EventTriggeringConstraint):
                 f"jitter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._jitter = value
-        # The maximum time distance between two consecutive occurrences of the
         # associated event.
         self._maximumInter: Optional["MultidimensionalTime"] = None
 
@@ -732,7 +727,6 @@ class SporadicEventTriggering(EventTriggeringConstraint):
                 f"maximumInter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximumInter = value
-        # The minimum time distance between two consecutive occurrences of the
         # associated event.
         self._minimumInter: Optional["MultidimensionalTime"] = None
 
@@ -761,7 +755,6 @@ class SporadicEventTriggering(EventTriggeringConstraint):
                 f"minimumInter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumInter = value
-        # The periodic distance between subsequent occurrences event.
         self._period: Optional["MultidimensionalTime"] = None
 
     @property
@@ -1025,7 +1018,6 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
                 f"patternJitter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._patternJitter = value
-        # The duration of the time interval within which the event The event occurs at
         # concrete points in the given time interval.
         self._patternLength: Optional["MultidimensionalTime"] = None
 
@@ -1054,7 +1046,6 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
                 f"patternLength must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._patternLength = value
-        # The time distance between the beginnings of subsequent the given concrete
         # pattern.
         self._patternPeriod: Optional["MultidimensionalTime"] = None
 
@@ -1278,7 +1269,6 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
                 f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        # Specifies the minimum distance between subsequent of the event within the
         # given time interval.
         self._minimumInter: Optional["MultidimensionalTime"] = None
 
@@ -1307,7 +1297,6 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
                 f"minimumInter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumInter = value
-        # The minimum number of event occurrences within the time interval.
         self._minNumberOf: Optional["PositiveInteger"] = None
 
     @property
@@ -1335,7 +1324,6 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
                 f"minNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minNumberOf = value
-        # The maximum deviation of the time interval’s starting the beginning of the
                 # given period.
         # This only applicable in conjunction with the.
         self._patternJitter: Optional["MultidimensionalTime"] = None
@@ -1365,7 +1353,6 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
                 f"patternJitter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._patternJitter = value
-        # The duration of the time interval within which the event The event occurs at
         # arbitrary points in the given time interval.
         self._patternLength: Optional["MultidimensionalTime"] = None
 
@@ -1394,7 +1381,6 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
                 f"patternLength must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._patternLength = value
-        # The time distance between the beginnings of subsequent the given burst
         # pattern.
         self._patternPeriod: Optional["MultidimensionalTime"] = None
 

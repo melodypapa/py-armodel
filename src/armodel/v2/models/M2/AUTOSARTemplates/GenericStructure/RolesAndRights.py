@@ -370,7 +370,6 @@ class AclObjectSet(ARElement):
                 f"aclScope must be AclScopeEnum, got {type(value).__name__}"
             )
         self._aclScope = value
-        # This indicates that the relevant objects are specified via a.
         self._collection: Optional["RefType"] = None
 
     @property
@@ -394,7 +393,6 @@ class AclObjectSet(ARElement):
             return
 
         self._collection = value
-        # This association indicates that the considered objects are ones being derived
         # from the associated blueprint.
         self._derivedFrom: List["AtpBlueprint"] = []
 

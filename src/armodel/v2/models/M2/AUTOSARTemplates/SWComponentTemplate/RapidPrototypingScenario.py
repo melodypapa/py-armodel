@@ -54,7 +54,6 @@ class RapidPrototypingScenario(ARElement):
                 f"hostSystem must be System or None, got {type(value).__name__}"
             )
         self._hostSystem = value
-        # Top-level rptContainer definitions of this specific rapid atpVariation.
         self._rptContainer: List["RptContainer"] = []
 
     @property

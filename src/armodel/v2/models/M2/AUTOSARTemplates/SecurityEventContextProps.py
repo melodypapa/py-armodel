@@ -52,7 +52,6 @@ class SecurityEventContextProps(Identifiable):
                 f"contextData must be SecurityEventContext or None, got {type(value).__name__}"
             )
         self._contextData = value
-        # This attribute defines the default reporting mode for the referenced security
         # event.
         self._default: Optional["SecurityEventReporting"] = None
 
@@ -81,7 +80,6 @@ class SecurityEventContextProps(Identifiable):
                 f"default must be SecurityEventReporting or None, got {type(value).__name__}"
             )
         self._default = value
-        # This attribute controls whether qualified reportings of the security event
         # shall be stored persistently by IdsmInstance or not.
         self._persistent: Optional["Boolean"] = None
 
@@ -110,7 +108,6 @@ class SecurityEventContextProps(Identifiable):
                 f"persistent must be Boolean or None, got {type(value).__name__}"
             )
         self._persistent = value
-        # This reference defines the security event that is mapped by
                 # SecurityEventMappingProps with properties.
         # atpVariation.
         self._securityEvent: Optional["SecurityEventDefinition"] = None
@@ -140,7 +137,6 @@ class SecurityEventContextProps(Identifiable):
                 f"securityEvent must be SecurityEventDefinition or None, got {type(value).__name__}"
             )
         self._securityEvent = value
-        # This attribute defines the ID of the security sensor that the referenced
                 # security event.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
@@ -171,7 +167,6 @@ class SecurityEventContextProps(Identifiable):
                 f"sensorInstance must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._sensorInstance = value
-        # This attribute defines how critical/severe the referenced is.
         # Please note that currently, the severity of specific integer values is not
                 # specified but left to the party responsible for the IDS (e.
         # g.

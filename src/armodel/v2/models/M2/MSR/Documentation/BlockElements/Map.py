@@ -51,7 +51,6 @@ class Map(ARObject):
                 f"area must be Area, got {type(value).__name__}"
             )
         self._area = value
-        # This attribute assigns a class name or set of class names to the image map element.
         # Any number of elements may be assigned class name or set of class names.
         # Multiple class names shall be separated by white space and are typically used to apply
         # CSS styles to the image map element.
@@ -88,7 +87,6 @@ class Map(ARObject):
                 f"mapClass must be String or None, got {type(value).__name__}"
             )
         self._mapClass = value
-        # This attribute assigns a name to the image map in the This name can be used
                 # to be referenced in image through the attribute USEMAP.
         # Although not actually necessary in the MSR model, it was order to support the
                 # MAPs which were created.
@@ -119,7 +117,6 @@ class Map(ARObject):
                 f"name must be NameToken or None, got {type(value).__name__}"
             )
         self._name = value
-        # The ONCLICK-Event occurs, if the current element is A script can be stored in
         # this attribute to be the Event.
         self._onclick: Optional["String"] = None
 
@@ -148,7 +145,6 @@ class Map(ARObject):
                 f"onclick must be String or None, got {type(value).__name__}"
             )
         self._onclick = value
-        # The ONDBLCLICK-Event occurs, if the current Event is A script can be stored
                 # in this attribute performed in the Event.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._ondblclick: Optional["String"] = None
@@ -178,7 +174,6 @@ class Map(ARObject):
                 f"ondblclick must be String or None, got {type(value).__name__}"
             )
         self._ondblclick = value
-        # The ONKEYDOWN-Event occurs, if a button on the is pressed down.
         # can be stored in this attribute to be performed in.
         self._onkeydown: Optional["String"] = None
 
@@ -207,7 +202,6 @@ class Map(ARObject):
                 f"onkeydown must be String or None, got {type(value).__name__}"
             )
         self._onkeydown = value
-        # The ONKEYPRESS-Event occurs, if a button on the is pressed down and released.
         # can be stored in this attribute to be performed in.
         self._onkeypress: Optional["String"] = None
 
@@ -236,7 +230,6 @@ class Map(ARObject):
                 f"onkeypress must be String or None, got {type(value).__name__}"
             )
         self._onkeypress = value
-        # The ONKEYUP-Event occurs, if a button on the current released.
         # can be stored in this attribute to be performed in.
         self._onkeyup: Optional["String"] = None
 
@@ -265,7 +258,6 @@ class Map(ARObject):
                 f"onkeyup must be String or None, got {type(value).__name__}"
             )
         self._onkeyup = value
-        # The ONMOUSEDOWN-Event occurs, if the mouse button clicking is held down on
                 # the current element.
         # can be stored in this attribute to be performed in.
         self._onmousedown: Optional["String"] = None
@@ -295,7 +287,6 @@ class Map(ARObject):
                 f"onmousedown must be String or None, got {type(value).__name__}"
             )
         self._onmousedown = value
-        # The ONMOUSEMOVE-Event occurs, if the mouse pointer on the current element (i.
         # e.
         # it is located on the can be stored in this attribute to be performed in.
         self._onmousemove: Optional["String"] = None
@@ -325,7 +316,6 @@ class Map(ARObject):
                 f"onmousemove must be String or None, got {type(value).__name__}"
             )
         self._onmousemove = value
-        # The ONMOUSEOUT-Event occurs, if the mouse pointer is the current element.
         # can be stored in this attribute to be performed in.
         self._onmouseout: Optional["String"] = None
 
@@ -354,7 +344,6 @@ class Map(ARObject):
                 f"onmouseout must be String or None, got {type(value).__name__}"
             )
         self._onmouseout = value
-        # The ONMOUSEOVER-Event occurs, if the mouse pointer to the current element
         # from another location can be stored in this attribute to be performed in.
         self._onmouseover: Optional["String"] = None
 
@@ -383,7 +372,6 @@ class Map(ARObject):
                 f"onmouseover must be String or None, got {type(value).__name__}"
             )
         self._onmouseover = value
-        # The ONMOUSEUP-Event occurs if the mouse button clicking is released on the
                 # current element.
         # can be stored in this attribute to be performed in.
         self._onmouseup: Optional["String"] = None
@@ -413,7 +401,6 @@ class Map(ARObject):
                 f"onmouseup must be String or None, got {type(value).__name__}"
             )
         self._onmouseup = value
-        # This attribute offers advisory information.
         # Some Web display this information as tooltips.
         # may make this information available to additional information about the
                 # element.

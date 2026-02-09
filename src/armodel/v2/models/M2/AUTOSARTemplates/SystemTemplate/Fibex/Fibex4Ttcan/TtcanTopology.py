@@ -61,7 +61,6 @@ class TtcanCluster(ARObject):
                 f"basicCycleLength must be Integer or int or None, got {type(value).__name__}"
             )
         self._basicCycleLength = value
-        # Unit measuring all times and providing a constant of the For level 1, this is
         # always the CAN bit seconds.
         self._ntu: Optional["TimeValue"] = None
 
@@ -90,7 +89,6 @@ class TtcanCluster(ARObject):
                 f"ntu must be TimeValue or None, got {type(value).__name__}"
             )
         self._ntu = value
-        # Possible operation modes.
         self._operationMode: Optional["Boolean"] = None
 
     @property
@@ -299,7 +297,6 @@ class TtcanCommunicationController(ARObject):
                 f"applWatchdog must be Integer or int or None, got {type(value).__name__}"
             )
         self._applWatchdog = value
-        # The Expected_Tx_Trigger shall be an eight (8) bit value limits the number of
         # messages the FSE may try to one matrix cycle.
         self._expectedTx: Optional["Integer"] = None
 
@@ -328,7 +325,6 @@ class TtcanCommunicationController(ARObject):
                 f"expectedTx must be Integer or int or None, got {type(value).__name__}"
             )
         self._expectedTx = value
-        # One bit shall be used to configure whether or not external synchronisation
         # will be allowed during runtime (only.
         self._externalClock: Optional["Boolean"] = None
 
@@ -357,7 +353,6 @@ class TtcanCommunicationController(ARObject):
                 f"externalClock must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._externalClock = value
-        # The Initial_Ref_Offset shall be an eight (8) bit value for of
         # Ref_Trigger_Offset.
         self._initialRefOffset: Optional["Integer"] = None
 
@@ -386,7 +381,6 @@ class TtcanCommunicationController(ARObject):
                 f"initialRefOffset must be Integer or int or None, got {type(value).__name__}"
             )
         self._initialRefOffset = value
-        # One bit shall be used to distinguish between (potential) and time slaves.
         # This can be derived from triggers.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._master: Optional["Boolean"] = None
@@ -416,7 +410,6 @@ class TtcanCommunicationController(ARObject):
                 f"master must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._master = value
-        # The time master priority shall contain a three bit value for priority of the
                 # current time master (the last three bits identifier of the reference
                 # message).
         # This can be the frame-triggering’s triggers.
@@ -447,7 +440,6 @@ class TtcanCommunicationController(ARObject):
                 f"timeMaster must be Integer or int or None, got {type(value).__name__}"
             )
         self._timeMaster = value
-        # One bit shall be used to distinguish between Level 1 and 2.
         self._timeTriggered: Optional["Integer"] = None
 
     @property
@@ -475,7 +467,6 @@ class TtcanCommunicationController(ARObject):
                 f"timeTriggered must be Integer or int or None, got {type(value).__name__}"
             )
         self._timeTriggered = value
-        # The length of the Tx_Enable window shall be a four (4) bit specifying the
         # length of the time period (1-16 bit times) in which a transmission may be.
         self._txEnable: Optional["Integer"] = None
 

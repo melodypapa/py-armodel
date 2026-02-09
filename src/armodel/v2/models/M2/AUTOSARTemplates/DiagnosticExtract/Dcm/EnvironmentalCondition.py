@@ -70,7 +70,6 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
                 f"formula must be DiagnosticEnvCondition or None, got {type(value).__name__}"
             )
         self._formula = value
-        # This aggregation contains a representation of Mode in the context of a
         # DiagnosticEnvironmental.
         self._modeElement: List["DiagnosticEnvMode"] = []
 
@@ -247,7 +246,6 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
                 f"nrcValue must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._nrcValue = value
-        # This attribute represents the concrete operator operators: and, or) of the
                 # condition formula.
         # DiagnosticEnvCondition * aggr This aggregation represents the collection of
                 # formula that can be combined by logical operators.
@@ -703,7 +701,6 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
                 f"compareValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._compareValue = value
-        # This reference represents the related diagnostic data.
         self._dataElement: Optional["DiagnosticDataElement"] = None
 
     @property
@@ -871,7 +868,6 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
                 f"compareValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._compareValue = value
-        # by the application software on the platform.
         # by: DataPrototypeInSystem.
         self._dataPrototype: Optional["RefType"] = None
 
@@ -896,7 +892,6 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
             return
 
         self._dataPrototype = value
-        # Via this aggregation it is possible to describe the of the data that is
         # obtained from the application environmental condition.
         self._swDataDef: Optional["SwDataDefProps"] = None
 

@@ -53,7 +53,6 @@ class SwSystemconstValue(ARObject):
                 f"swSystemconst must be SwSystemconst, got {type(value).__name__}"
             )
         self._swSystemconst = value
-        # This is the particular value of a system constant.
         # It is Numerical.
         # Further restrictions may apply by of the system constant.
         # attribute defines the internal value of the Sw it is processed in the Formula

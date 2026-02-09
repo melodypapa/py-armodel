@@ -48,7 +48,6 @@ class MetaDataItem(ARObject):
                 f"length must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._length = value
-        # This aggregation contributes the specification of the meta-data item type.
         self._metaDataItem: Optional["TextValueSpecification"] = None
 
     @property

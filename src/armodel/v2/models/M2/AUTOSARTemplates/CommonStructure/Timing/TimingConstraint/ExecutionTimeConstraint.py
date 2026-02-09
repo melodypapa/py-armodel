@@ -64,7 +64,6 @@ class ExecutionTimeConstraint(TimingConstraint):
                 f"component must be SwComponent or None, got {type(value).__name__}"
             )
         self._component = value
-        # The referenced ExecutableEntity for the ExecutionTime.
         self._executable: Optional["ExecutableEntity"] = None
 
     @property
@@ -92,7 +91,6 @@ class ExecutionTimeConstraint(TimingConstraint):
                 f"executable must be ExecutableEntity or None, got {type(value).__name__}"
             )
         self._executable = value
-        # Specifies the type of the execution time constrained by
         # ExecutionTimeConstraint,.
         self._executionTime: Optional["ExecutionTimeType"] = None
 
@@ -121,7 +119,6 @@ class ExecutionTimeConstraint(TimingConstraint):
                 f"executionTime must be ExecutionTimeType or None, got {type(value).__name__}"
             )
         self._executionTime = value
-        # The maximum execution time.
         self._maximum: Optional["MultidimensionalTime"] = None
 
     @property
@@ -149,7 +146,6 @@ class ExecutionTimeConstraint(TimingConstraint):
                 f"maximum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # The minimum execution time.
         self._minimum: Optional["MultidimensionalTime"] = None
 
     @property

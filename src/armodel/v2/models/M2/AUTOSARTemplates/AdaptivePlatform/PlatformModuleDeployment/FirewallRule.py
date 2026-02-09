@@ -50,7 +50,6 @@ class FirewallRule(ARElement):
                 f"bucketSize must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._bucketSize = value
-        # Configuration of rules on the Data Link Layer atp.
         # Status=candidate.
         self._dataLinkLayer: Optional["DataLinkLayerRule"] = None
 
@@ -79,7 +78,6 @@ class FirewallRule(ARElement):
                 f"dataLinkLayer must be DataLinkLayerRule or None, got {type(value).__name__}"
             )
         self._dataLinkLayer = value
-        # Configuration of firewall rules for DDS.
         self._ddsRule: Optional["DdsRule"] = None
 
     @property
@@ -107,7 +105,6 @@ class FirewallRule(ARElement):
                 f"ddsRule must be DdsRule or None, got {type(value).__name__}"
             )
         self._ddsRule = value
-        # Configuration of firewall rules for DoIP messages.
         self._doIpRule: Optional["DoIpRule"] = None
 
     @property
@@ -135,7 +132,6 @@ class FirewallRule(ARElement):
                 f"doIpRule must be DoIpRule or None, got {type(value).__name__}"
             )
         self._doIpRule = value
-        # Configuration of rules on the Network Layer atp.
         # Status=candidate.
         self._networkLayer: Optional["NetworkLayerRule"] = None
 
@@ -164,7 +160,6 @@ class FirewallRule(ARElement):
                 f"networkLayer must be NetworkLayerRule or None, got {type(value).__name__}"
             )
         self._networkLayer = value
-        # Configuration of generic firewall rules Tags: atp.
         # Status=candidate.
         self._payloadByte: List["PayloadBytePattern"] = []
 
@@ -201,7 +196,6 @@ class FirewallRule(ARElement):
                 f"refillAmount must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._refillAmount = value
-        # Configuration of firewall rules for SOME/IP messages.
         self._someipRule: Optional["SomeipProtocolRule"] = None
 
     @property
@@ -229,7 +223,6 @@ class FirewallRule(ARElement):
                 f"someipRule must be SomeipProtocolRule or None, got {type(value).__name__}"
             )
         self._someipRule = value
-        # Configuration of firewall rules for SOME/IP Service.
         self._someipSdRule: Optional["SomeipSdRule"] = None
 
     @property
@@ -257,7 +250,6 @@ class FirewallRule(ARElement):
                 f"someipSdRule must be SomeipSdRule or None, got {type(value).__name__}"
             )
         self._someipSdRule = value
-        # Configuration of rules on the Transport Layer atp.
         # Status=candidate.
         self._transportLayer: Optional["TransportLayerRule"] = None
 

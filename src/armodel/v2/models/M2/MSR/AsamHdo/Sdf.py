@@ -45,7 +45,6 @@ class Sdf(ARObject):
                 f"gid must be NameToken, got {type(value).__name__}"
             )
         self._gid = value
-        # This is the value of the special data.
         self._value: Optional["Numerical"] = None
 
     @property

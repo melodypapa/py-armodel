@@ -50,7 +50,6 @@ class LifeCyclePeriod(ARObject):
                 f"arRelease must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._arRelease = value
-        # Date within period.
         self._date: Optional["DateTime"] = None
 
     @property
@@ -78,7 +77,6 @@ class LifeCyclePeriod(ARObject):
                 f"date must be DateTime or None, got {type(value).__name__}"
             )
         self._date = value
-        # Version of the product within the period.
         self._productRelease: Optional["RevisionLabelString"] = None
 
     @property

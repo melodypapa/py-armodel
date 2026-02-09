@@ -388,7 +388,6 @@ class TDHeaderIdRange(ARObject):
                 f"maxHeaderId must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxHeaderId = value
-        # Specifies the minimum PDU header identifier, in other lower bound of a range
         # of PDU header.
         self._minHeaderId: Optional["Integer"] = None
 
@@ -554,7 +553,6 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
                 f"bswModuleEntity must be BswModuleEntity or None, got {type(value).__name__}"
             )
         self._bswModuleEntity = value
-        # The specific type of this timing event.
         self._tdEventBswBehaviorType: Optional["TDEventBswInternal"] = None
 
     @property
@@ -755,7 +753,6 @@ class TDEventOccurrenceExpression(ARObject):
                 f"formula must be TDEventOccurrence or None, got {type(value).__name__}"
             )
         self._formula = value
-        # An occurrence expression can reference an arbitrary TimingModeInstances in
                 # its expression.
         # This instance references to Mode can be referenced in the expression.
         self._mode: List["TimingModeInstance"] = []
@@ -906,7 +903,6 @@ class TDEventOccurrenceExpressionFormula(ARObject):
                 f"argument must be AutosarOperation or None, got {type(value).__name__}"
             )
         self._argument = value
-        # This is one particular timing description event used in the.
         self._event: Optional["TimingDescriptionEvent"] = None
 
     @property
@@ -934,7 +930,6 @@ class TDEventOccurrenceExpressionFormula(ARObject):
                 f"event must be TimingDescriptionEvent or None, got {type(value).__name__}"
             )
         self._event = value
-        # This is one particular mode used in the expression.
         self._mode: Optional["TimingModeInstance"] = None
 
     @property
@@ -962,7 +957,6 @@ class TDEventOccurrenceExpressionFormula(ARObject):
                 f"mode must be TimingModeInstance or None, got {type(value).__name__}"
             )
         self._mode = value
-        # This is one particular variable value used in the formula.
         self._variable: Optional["AutosarVariable"] = None
 
     @property
@@ -1613,7 +1607,6 @@ class TDEventVfbPort(TDEventVfb, ABC):
                 f"isExternal must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isExternal = value
-        # port on which the TimingEvent shall apply.
         self._port: Optional["RefType"] = None
 
     @property
@@ -1637,7 +1630,6 @@ class TDEventVfbPort(TDEventVfb, ABC):
             return
 
         self._port = value
-        # port on which the TimingEvent shall apply (in the context an AUTOSAR
         # blueprint).
         self._portPrototype: Optional["RefType"] = None
 
@@ -1845,7 +1837,6 @@ class TDEventSwcInternalBehavior(TDEventSwc):
                 f"runnable must be RunnableEntity or None, got {type(value).__name__}"
             )
         self._runnable = value
-        # The specific type of this timing event.
         self._tdEventSwcBehaviorType: Optional["TDEventSwcInternal"] = None
 
     @property
@@ -1873,7 +1864,6 @@ class TDEventSwcInternalBehavior(TDEventSwc):
                 f"tdEventSwcBehaviorType must be TDEventSwcInternal or None, got {type(value).__name__}"
             )
         self._tdEventSwcBehaviorType = value
-        # The scope of this timing event.
         self._variableAccess: Optional["VariableAccess"] = None
 
     @property
@@ -2175,7 +2165,6 @@ class TDEventISignal(TDEventCom):
                 f"iSignal must be ISignal or None, got {type(value).__name__}"
             )
         self._iSignal = value
-        # The PhysicalChannel on which the ISignal is transmitted.
         self._physical: Optional["PhysicalChannel"] = None
 
     @property
@@ -2203,7 +2192,6 @@ class TDEventISignal(TDEventCom):
                 f"physical must be PhysicalChannel or None, got {type(value).__name__}"
             )
         self._physical = value
-        # The specific type of this timing event.
         self._tdEventTypeEnum: Optional["TDEventISignalType"] = None
 
     @property
@@ -2413,7 +2401,6 @@ class TDEventIPdu(TDEventCom):
                 f"iPdu must be IPdu or None, got {type(value).__name__}"
             )
         self._iPdu = value
-        # The PhysicalChannel on which the IPdu is transmitted.
         self._physical: Optional["PhysicalChannel"] = None
 
     @property
@@ -2441,7 +2428,6 @@ class TDEventIPdu(TDEventCom):
                 f"physical must be PhysicalChannel or None, got {type(value).__name__}"
             )
         self._physical = value
-        # The specific type of this timing event.
         self._tdEventType: Optional["TDEventIPduTypeEnum"] = None
 
     @property
@@ -2653,7 +2639,6 @@ class TDEventFrame(TDEventCom):
                 f"frame must be Frame or None, got {type(value).__name__}"
             )
         self._frame = value
-        # The PhysicalChannel on which the Frame is transmitted.
         self._physical: Optional["PhysicalChannel"] = None
 
     @property
@@ -2681,7 +2666,6 @@ class TDEventFrame(TDEventCom):
                 f"physical must be PhysicalChannel or None, got {type(value).__name__}"
             )
         self._physical = value
-        # The specific type of this timing event.
         self._tdEventTypeEnum: Optional["TDEventFrameType"] = None
 
     @property
@@ -2892,7 +2876,6 @@ class TDEventFrameEthernet(TDEventCom):
                 f"staticSocket must be StaticSocketConnection or None, got {type(value).__name__}"
             )
         self._staticSocket = value
-        # This is used to describe the specific event type of a.
         self._tdEventType: Optional["TDEventFrameEthernet"] = None
 
     @property
@@ -2920,7 +2903,6 @@ class TDEventFrameEthernet(TDEventCom):
                 f"tdEventType must be TDEventFrameEthernet or None, got {type(value).__name__}"
             )
         self._tdEventType = value
-        # Specifies the header identifier or a range of header if contained in the
         # Ethernet frame let the.
         self._tdHeaderIdFilter: List["TDHeaderIdRange"] = []
 
@@ -3193,7 +3175,6 @@ class TDEventBswModule(TDEventBsw):
                 f"bswModuleEntry must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._bswModuleEntry = value
-        # The specific type of this timing event.
         self._tdEventBsw: Optional["TDEventBswModule"] = None
 
     @property
@@ -3360,7 +3341,6 @@ class TDEventBswModeDeclaration(TDEventBsw):
                 f"entryMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._entryMode = value
-        # Optional parameter which refines the scope of the If the parameter is set,
         # the only if the mode declaration group prototype exit from the referenced
         # ModeDeclaration.
         self._exitMode: Optional["ModeDeclaration"] = None
@@ -3390,7 +3370,6 @@ class TDEventBswModeDeclaration(TDEventBsw):
                 f"exitMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._exitMode = value
-        # The scope of this timing event.
         # 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for
                 # Classic R23-11.
         self._mode: Optional["RefType"] = None
@@ -3416,7 +3395,6 @@ class TDEventBswModeDeclaration(TDEventBsw):
             return
 
         self._mode = value
-        # The specific type of this timing event.
         self._tdEventBswDeclarationType: Optional["TDEventBswMode"] = None
 
     @property
@@ -3753,7 +3731,6 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
             return
 
         self._dataElement = value
-        # The specific type of this timing event.
         self._tdEventVariableType: Optional["TDEventVariableData"] = None
 
     @property
@@ -3918,7 +3895,6 @@ class TDEventOperation(TDEventVfbPort):
                 f"operation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operation = value
-        # The specific type of this timing event.
         self._tdEvent: Optional["TDEventOperationType"] = None
 
     @property
@@ -4085,7 +4061,6 @@ class TDEventModeDeclaration(TDEventVfbPort):
                 f"entryMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._entryMode = value
-        # Optional parameter which refines the scope of the If the parameter is set,
         # the only if the mode declaration group prototype exit from the referenced
         # ModeDeclaration.
         self._exitMode: Optional["ModeDeclaration"] = None
@@ -4115,7 +4090,6 @@ class TDEventModeDeclaration(TDEventVfbPort):
                 f"exitMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._exitMode = value
-        # The referenced mode declaration group prototype.
         self._mode: Optional["RefType"] = None
 
     @property
@@ -4139,7 +4113,6 @@ class TDEventModeDeclaration(TDEventVfbPort):
             return
 
         self._mode = value
-        # The specific type of this timing event.
         self._tdEventMode: Optional["TDEventMode"] = None
 
     @property
@@ -4387,7 +4360,6 @@ class TDEventTrigger(TDEventVfbPort):
             return
 
         self._tdEventTrigger = value
-        # The trigger which is provided (released) or required the given context.
         self._trigger: Optional["RefType"] = None
 
     @property

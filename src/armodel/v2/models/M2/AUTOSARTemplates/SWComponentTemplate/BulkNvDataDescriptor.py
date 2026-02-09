@@ -52,7 +52,6 @@ class BulkNvDataDescriptor(Identifiable):
             return
 
         self._bulkNvBlock = value
-        # Defines the mapping between the VariableData in the NvBlockComponents ports
                 # and the the non-volatile memory.
         # of NvBlockDataMapping is subject to the purpose to support the conditional nv
                 # data ports.

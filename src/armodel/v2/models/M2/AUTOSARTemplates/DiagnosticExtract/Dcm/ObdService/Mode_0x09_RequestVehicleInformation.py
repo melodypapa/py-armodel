@@ -55,7 +55,6 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
                 f"infoType must be DiagnosticInfoType or None, got {type(value).__name__}"
             )
         self._infoType = value
-        # This reference substantiates that abstract reference in the role serviceClass
                 # for this specific concrete class.
         # among all DiagnosticRequesVehicleInfo given context.
         self._requestVehicle: Optional["DiagnosticRequest"] = None

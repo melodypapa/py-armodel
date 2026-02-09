@@ -50,7 +50,6 @@ class RptImplPolicy(ARObject):
                 f"rptEnablerImpl must be RptEnablerImplType or None, got {type(value).__name__}"
             )
         self._rptEnablerImpl = value
-        # Mandates RP preparation level for access to VariableData within generated RTE
         # implementation.
         self._rptPreparation: Optional["RptPreparationEnum"] = None
 

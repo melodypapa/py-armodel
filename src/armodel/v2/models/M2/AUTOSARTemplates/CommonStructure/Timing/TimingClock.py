@@ -147,7 +147,6 @@ class TimingClockSyncAccuracy(Identifiable):
                 f"accuracy must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._accuracy = value
-        # References a target clock.
         self._lower: Optional["TimingClock"] = None
 
     @property
@@ -175,7 +174,6 @@ class TimingClockSyncAccuracy(Identifiable):
                 f"lower must be TimingClock or None, got {type(value).__name__}"
             )
         self._lower = value
-        # References a source clock.
         self._upper: Optional["TimingClock"] = None
 
     @property
@@ -383,7 +381,6 @@ class TDLETZoneClock(TimingClock):
                 f"accuracyExt must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._accuracyExt = value
-        # Internal synchronization accuracy within the LET Zone/.
         self._accuracyInt: Optional["MultidimensionalTime"] = None
 
     @property

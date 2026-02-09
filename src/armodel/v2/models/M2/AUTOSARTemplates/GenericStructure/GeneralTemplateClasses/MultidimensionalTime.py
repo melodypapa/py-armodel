@@ -60,7 +60,6 @@ class MultidimensionalTime(ARObject):
                 f"cseCode must be CseCodeType or None, got {type(value).__name__}"
             )
         self._cseCode = value
-        # The scaling factor for the time value based on the code.
         self._cseCodeFactor: Optional["Integer"] = None
 
     @property

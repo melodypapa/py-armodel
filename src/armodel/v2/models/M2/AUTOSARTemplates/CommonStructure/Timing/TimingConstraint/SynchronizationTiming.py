@@ -76,7 +76,6 @@ class SynchronizationTimingConstraint(TimingConstraint):
                 f"event must be EventOccurrenceKind or None, got {type(value).__name__}"
             )
         self._event = value
-        # The event chains that are in the scope of the constraint.
         # exclusive to scopeEvent, see ([constr_4522]).
         self._scope: List["TimingDescriptionEvent"] = []
 
@@ -121,7 +120,6 @@ class SynchronizationTimingConstraint(TimingConstraint):
                 f"synchronization must be SynchronizationType or None, got {type(value).__name__}"
             )
         self._synchronization = value
-        # The maximum time interval, within which the shall occur.
         # The events may occur in within this time interval.
         # The time interval starts point-in-time when one of the referenced events.
         self._tolerance: Optional["MultidimensionalTime"] = None

@@ -69,7 +69,6 @@ class VariationPoint(ARObject):
                 f"blueprint must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._blueprint = value
-        # This condition acts as Binding Function for the Variation that the
                 # multiplicity is 0.
         # 1 in order to support variants.
         self._swSyscond: Optional["ConditionByFormula"] = None

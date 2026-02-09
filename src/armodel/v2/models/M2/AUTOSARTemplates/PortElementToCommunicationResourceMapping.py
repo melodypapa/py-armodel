@@ -51,7 +51,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
                 f"clientServerInstanceRef must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._clientServerInstanceRef = value
-        # Communication resource for which the mapping applies.
         self._communication: Optional["CpSoftwareCluster"] = None
 
     @property
@@ -79,7 +78,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
                 f"communication must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._communication = value
-        # communication resource implemented by: ModeDeclarationGroup.
         self._mode: RefType = None
 
     @property
@@ -103,7 +101,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
             return
 
         self._mode = value
-        # communication resource.
         # by: ParameterDataPrototype.
         self._parameterData: Optional["ParameterData"] = None
 
@@ -132,7 +129,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
                 f"parameterData must be ParameterData or None, got {type(value).__name__}"
             )
         self._parameterData = value
-        # by: TriggerInSystemInstance.
         self._triggerRef: RefType = None
 
     @property
@@ -156,7 +152,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
             return
 
         self._triggerRef = value
-        # resource by: VariableDataPrototypeIn.
         self._variableDataSystemInstanceRef: RefType = None
 
     @property

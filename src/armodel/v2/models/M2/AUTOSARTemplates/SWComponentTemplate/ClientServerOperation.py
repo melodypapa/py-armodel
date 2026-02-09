@@ -81,7 +81,6 @@ class ClientServerOperation(Identifiable):
                 f"diagArgIntegrity must be Boolean or None, got {type(value).__name__}"
             )
         self._diagArgIntegrity = value
-        # Possible errors that may by raised by the referring.
         self._possibleError: List["ApplicationError"] = []
 
     @property

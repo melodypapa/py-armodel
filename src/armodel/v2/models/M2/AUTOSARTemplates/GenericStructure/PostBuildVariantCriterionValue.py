@@ -56,7 +56,6 @@ class PostBuildVariantCriterionValue(ARObject):
                 f"value must be Integer, got {type(value).__name__}"
             )
         self._value = value
-        # This association selects the variant criterion whose value specified.
         self._variantCriterion: "PostBuildVariant" = None
 
     @property

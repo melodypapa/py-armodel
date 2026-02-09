@@ -53,7 +53,6 @@ class RoleBasedDataTypeAssignment(ARObject):
                 f"role must be Identifier or None, got {type(value).__name__}"
             )
         self._role = value
-        # This represents the associated ImplementationDataType.
         self._used: Optional["ImplementationData"] = None
 
     @property

@@ -161,7 +161,6 @@ class ImplementationDataType(AbstractImplementationDataType):
                 f"dynamicArray must be String or str or None, got {type(value).__name__}"
             )
         self._dynamicArray = value
-        # Specifies an element of an array, struct, or union data type.
         # of ImplementionDataTypeElement is variability with the purpose to support the
                 # of elements inside a Implementation a structure.
         # atpVariation.
@@ -199,7 +198,6 @@ class ImplementationDataType(AbstractImplementationDataType):
                 f"symbolProps must be SymbolProps or None, got {type(value).__name__}"
             )
         self._symbolProps = value
-        # This attribute is used to control which part of the is supposed to trigger
         # data type.
         self._typeEmitter: Optional["NameToken"] = None
 
@@ -436,7 +434,6 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
                 f"arrayImplPolicy must be ArrayImplPolicyEnum or None, got {type(value).__name__}"
             )
         self._arrayImplPolicy = value
-        # This attribute controls the meaning of the value of the array size.
         self._arraySize: Optional["ArraySizeSemantics"] = None
 
     @property
@@ -464,7 +461,6 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
                 f"arraySize must be ArraySizeSemantics or None, got {type(value).__name__}"
             )
         self._arraySize = value
-        # This attribute represents the ability to declare the as optional.
         # that, at runtime, the ImplementationDataType or may not have a valid value
                 # and shall ignored.
         # runtime software provides means to set as not valid at end of a communication
@@ -496,7 +492,6 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
                 f"isOptional must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isOptional = value
-        # Element of an array, struct, or union in case of a nested declaration (i.
         # e.
         # without using "typedefs").
         # of ImplementionDataTypeElement is variability with the purpose to support the

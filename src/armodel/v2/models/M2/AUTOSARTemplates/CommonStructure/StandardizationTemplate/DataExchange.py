@@ -145,7 +145,6 @@ class SpecificationDocumentScope(SpecElementReference):
                 f"customDocumentation must be Documentation or None, got {type(value).__name__}"
             )
         self._customDocumentation = value
-        # An element with a name or ID that is specified in the Specification Document.
         self._document: List["DocumentElement"] = []
 
     @property
@@ -264,7 +263,6 @@ class DocumentElementScope(SpecElementReference):
                 f"custom must be Traceable or None, got {type(value).__name__}"
             )
         self._custom = value
-        # Data Format Element that is implied by this element in the Used to share one
         # rationale for more.
         self._tailoring: List["DataFormatElement"] = []
 

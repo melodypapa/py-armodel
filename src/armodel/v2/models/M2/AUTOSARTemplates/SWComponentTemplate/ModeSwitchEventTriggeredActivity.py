@@ -48,7 +48,6 @@ class ModeSwitchEventTriggeredActivity(ARObject):
                 f"role must be Identifier or None, got {type(value).__name__}"
             )
         self._role = value
-        # This reference identifies the SwcModeSwitchEvent that the activity.
         self._swcModeSwitch: Optional["SwcModeSwitchEvent"] = None
 
     @property

@@ -52,7 +52,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"aliveTimeout must be TimeValue or None, got {type(value).__name__}"
             )
         self._aliveTimeout = value
-        # This attribute controls whether application code is entitled whether the
         # value of the corresponding Variable been updated.
         self._enableUpdate: Optional["Boolean"] = None
 
@@ -81,7 +80,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"enableUpdate must be Boolean or None, got {type(value).__name__}"
             )
         self._enableUpdate = value
-        # The applicable filter algorithm for filtering the value of the.
         self._filter: Optional["DataFilter"] = None
 
     @property
@@ -109,7 +107,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"filter must be DataFilter or None, got {type(value).__name__}"
             )
         self._filter = value
-        # If this attribute is set to true, then the Rte_IStatus API exist.
         # If the attribute does not exist or is set to false, Rte_IStatus API may still
                 # exist in response to the further conditions.
         self._handleData: Optional["Boolean"] = None
@@ -139,7 +136,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"handleData must be Boolean or None, got {type(value).__name__}"
             )
         self._handleData = value
-        # This attribute specifies whether for the corresponding the "never received"
                 # flag is yes, the RTE is supposed to assume that VariableDataPrototype has not
                 # been received the first reception of the corresponding flag is cleared.
         # the value of this attribute is set to "true" the flag is set to "false", the
@@ -171,7 +167,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"handleNever must be Boolean or None, got {type(value).__name__}"
             )
         self._handleNever = value
-        # This attribute controls the behavior with respect to the of timeouts.
         self._handleTimeout: Optional["HandleTimeoutEnum"] = None
 
     @property
@@ -199,7 +194,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"handleTimeout must be HandleTimeoutEnum or None, got {type(value).__name__}"
             )
         self._handleTimeout = value
-        # Initial value to be used in case the sending component is initialized.
         # If the sender also specifies an initial the receiver’s value will be used.
         self._initValue: Optional["ValueSpecification"] = None
 
@@ -228,7 +222,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
                 f"initValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # This attribute represents the substitution value applicable the case of a
         # timeout.
         self._timeout: Optional["ValueSpecification"] = None
 

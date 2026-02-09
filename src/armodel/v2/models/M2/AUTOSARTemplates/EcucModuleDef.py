@@ -56,7 +56,6 @@ class EcucModuleDef(EcucDefinitionElement):
                 f"apiServicePrefix must be CIdentifier or None, got {type(value).__name__}"
             )
         self._apiServicePrefix = value
-        # Aggregates the top-level container definitions of this definition.
         self._container: List["EcucContainerDef"] = []
 
     @property
@@ -92,7 +91,6 @@ class EcucModuleDef(EcucDefinitionElement):
                 f"postBuildVariant must be Boolean or None, got {type(value).__name__}"
             )
         self._postBuildVariant = value
-        # Optional reference from the Vendor Specific Module to the Standardized Module
                 # Definition it refines.
         # this EcucModuleDef has the category reference be provided.
         # In case this EcucModuleDef has VENDOR_SPECIFIC_MODULE_ reference is
@@ -124,7 +122,6 @@ class EcucModuleDef(EcucDefinitionElement):
                 f"refinedModule must be EcucModuleDef or None, got {type(value).__name__}"
             )
         self._refinedModule = value
-        # Specifies which ConfigurationVariants are supported by this software module.
         # This attribute is optional if the Ecuc the category STANDARDIZED_ the
                 # category attribute of the set to VENDOR_SPECIFIC_ this attribute is
                 # mandatory.

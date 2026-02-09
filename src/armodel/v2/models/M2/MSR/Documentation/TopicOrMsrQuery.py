@@ -42,7 +42,6 @@ class TopicOrMsrQuery(ARObject):
                 f"msrQuery must be MsrQueryTopic1, got {type(value).__name__}"
             )
         self._msrQuery = value
-        # This is used to create particular topics within a chapter.
         # A similar to a subchapter, but cannot be nested and appear in the table of
                 # contents of the document.
         # atpVariation.

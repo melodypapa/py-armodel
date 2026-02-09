@@ -85,7 +85,6 @@ class SwcToEcuMapping(Identifiable):
                 f"controlledHw must be HwElement or None, got {type(value).__name__}"
             )
         self._controlledHw = value
-        # Reference to a specific ECU Instance description.
         self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
@@ -113,7 +112,6 @@ class SwcToEcuMapping(Identifiable):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # Optional mapping of software components to individual residing in one ECU.
         # A is described in the ECU Resource the HwElement of HwCategory Processing.
         self._processingUnit: Optional["HwElement"] = None
 
@@ -463,7 +461,6 @@ class SwcToApplicationPartitionMapping(Identifiable):
                 f"application must be ApplicationPartition or None, got {type(value).__name__}"
             )
         self._application = value
-        # mapped to the referenced ApplicationPartition.
         # If the referenced is a composition, this all atomic software components
                 # within the mapped to the ApplicationPartition.
         # is additionally a mapping of some SwComponent the Composition to another
@@ -1133,7 +1130,6 @@ class J1939ControllerApplication(ARElement):
                 f"functionId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._functionId = value
-        # typically typed by a CompositionSwComponentType) that the
                 # J1939ControllerApplication.
         # by: ComponentInSystem.
         self._swComponent: Optional["SwComponent"] = None
@@ -1299,7 +1295,6 @@ class EcuResourceEstimation(ARObject):
                 f"bswResource must be ResourceConsumption or None, got {type(value).__name__}"
             )
         self._bswResource = value
-        # Reference to the ECU this estimation is done for.
         self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
@@ -1327,7 +1322,6 @@ class EcuResourceEstimation(ARObject):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        # This represents introductory documentation about the ecu.
         self._introduction: Optional["DocumentationBlock"] = None
 
     @property
@@ -1355,7 +1349,6 @@ class EcuResourceEstimation(ARObject):
                 f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._introduction = value
-        # Estimation for the resource consumption of the run time.
         self._rteResource: Optional["ResourceConsumption"] = None
 
     @property
@@ -1383,7 +1376,6 @@ class EcuResourceEstimation(ARObject):
                 f"rteResource must be ResourceConsumption or None, got {type(value).__name__}"
             )
         self._rteResource = value
-        # References to SwcToEcuMappings that have been taken account for the resource
                 # estimations.
         # This way it is define dfferent EcuResourceEstimations with e.
         # g.

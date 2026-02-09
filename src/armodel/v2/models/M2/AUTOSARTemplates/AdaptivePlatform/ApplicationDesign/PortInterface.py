@@ -58,7 +58,6 @@ class Field(AutosarDataPrototype):
                 f"hasGetter must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._hasGetter = value
-        # This attribute controls whether a notification semantics is this field.
         self._hasNotifier: Optional["Boolean"] = None
 
     @property
@@ -86,7 +85,6 @@ class Field(AutosarDataPrototype):
                 f"hasNotifier must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._hasNotifier = value
-        # This attribute controls whether write access is foreseen to.
         self._hasSetter: Optional["Boolean"] = None
 
     @property

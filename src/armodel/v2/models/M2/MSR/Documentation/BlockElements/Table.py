@@ -44,7 +44,6 @@ class Table(Paginateable):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # Indicate whether it is allowed to break the element.
         self._float: "FloatEnum" = None
 
     @property
@@ -68,7 +67,6 @@ class Table(Paginateable):
                 f"float must be FloatEnum, got {type(value).__name__}"
             )
         self._float = value
-        # Used to defined the frame line around a table.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._frame: Optional["FrameEnum"] = None
 
@@ -97,7 +95,6 @@ class Table(Paginateable):
                 f"frame must be FrameEnum or None, got {type(value).__name__}"
             )
         self._frame = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
         self._helpEntry: Optional["String"] = None
@@ -127,7 +124,6 @@ class Table(Paginateable):
                 f"helpEntry must be String or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # Indicate whether a table should be represented as portrait.
         # : landscape : portrait.
         self._orient: Optional["OrientEnum"] = None
 
@@ -156,7 +152,6 @@ class Table(Paginateable):
                 f"orient must be OrientEnum or None, got {type(value).__name__}"
             )
         self._orient = value
-        # Used to indicate whether the figure should take the width (value = "pgwide")
         # or not (value =.
         self._pgwide: Optional["NameToken"] = None
 
@@ -185,7 +180,6 @@ class Table(Paginateable):
                 f"pgwide must be NameToken or None, got {type(value).__name__}"
             )
         self._pgwide = value
-        # Indicates if by default a line should be drawn at the table rows.
         self._rowsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -213,7 +207,6 @@ class Table(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # This element specifies the table heading.
         self._tableCaption: Optional["Caption"] = None
 
     @property
@@ -241,7 +234,6 @@ class Table(Paginateable):
                 f"tableCaption must be Caption or None, got {type(value).__name__}"
             )
         self._tableCaption = value
-        # Indicates an external table style.
         # Tgroup 1.
         # * aggr A table can be built of individual segments.
         # Such a called tgroup.

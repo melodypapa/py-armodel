@@ -49,7 +49,6 @@ class CompositeNetworkRepresentation(ARObject):
                 f"leafElementElementInPortInterfaceInstanceRef must be ApplicationComposite or None, got {type(value).__name__}"
             )
         self._leafElementElementInPortInterfaceInstanceRef = value
-        # The SwDataDefProps owned by the CompositeNetwork are used to define the
         # network the leaf element of an Application.
         self._network: Optional["SwDataDefProps"] = None
 

@@ -226,7 +226,6 @@ class InterpolationRoutine(ARObject):
                 f"interpolation must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._interpolation = value
-        # This attribute specifies whether the enclosing considered the default in the
         # by the System Template) of a given that owns the 1228 Document ID 62:
         # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
         self._isDefault: Optional["Boolean"] = None
@@ -256,7 +255,6 @@ class InterpolationRoutine(ARObject):
                 f"isDefault must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isDefault = value
-        # This is the name of the interpolation method which is the referenced
                 # bswModuleEntry.
         # It swInterpolationMethod in SwDataDef.
         self._shortLabel: Optional["Identifier"] = None

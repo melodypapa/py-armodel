@@ -68,7 +68,6 @@ class EndToEndProtectionISignalIPdu(ARObject):
                 f"dataOffset must be Integer or int or None, got {type(value).__name__}"
             )
         self._dataOffset = value
-        # Reference to the ISignalGroup that is to be protected.
         self._iSignalGroup: Optional["RefType"] = None
 
     @property
@@ -92,7 +91,6 @@ class EndToEndProtectionISignalIPdu(ARObject):
             return
 
         self._iSignalGroup = value
-        # Reference to the ISignalIPdu that transmits the protected.
         self._iSignalIPdu: Optional["ISignalIPdu"] = None
 
     @property

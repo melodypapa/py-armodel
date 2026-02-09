@@ -44,7 +44,6 @@ class Chapter(Paginateable):
                 f"chapterModel must be ChapterModel, got {type(value).__name__}"
             )
         self._chapterModel = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help is a
                 # concatenated Identifier, but as of now we as an arbitrary string.

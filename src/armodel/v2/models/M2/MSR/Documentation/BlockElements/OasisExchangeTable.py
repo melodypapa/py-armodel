@@ -66,7 +66,6 @@ class Table(Paginateable):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # Indicate whether it is allowed to break the element.
         self._float: "FloatEnum" = None
 
     @property
@@ -90,7 +89,6 @@ class Table(Paginateable):
                 f"float must be FloatEnum, got {type(value).__name__}"
             )
         self._float = value
-        # Used to defined the frame line around a table.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._frame: Optional["FrameEnum"] = None
 
@@ -119,7 +117,6 @@ class Table(Paginateable):
                 f"frame must be FrameEnum or None, got {type(value).__name__}"
             )
         self._frame = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
         self._helpEntry: Optional["String"] = None
@@ -149,7 +146,6 @@ class Table(Paginateable):
                 f"helpEntry must be String or str or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # Indicate whether a table should be represented as portrait.
         # : landscape : portrait.
         self._orient: Optional["OrientEnum"] = None
 
@@ -178,7 +174,6 @@ class Table(Paginateable):
                 f"orient must be OrientEnum or None, got {type(value).__name__}"
             )
         self._orient = value
-        # Used to indicate whether the figure should take the width (value = "pgwide")
         # or not (value =.
         self._pgwide: Optional["NameToken"] = None
 
@@ -207,7 +202,6 @@ class Table(Paginateable):
                 f"pgwide must be NameToken or str or None, got {type(value).__name__}"
             )
         self._pgwide = value
-        # Indicates if by default a line should be drawn at the table rows.
         self._rowsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -235,7 +229,6 @@ class Table(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # This element specifies the table heading.
         self._tableCaption: Optional["Caption"] = None
 
     @property
@@ -263,7 +256,6 @@ class Table(Paginateable):
                 f"tableCaption must be Caption or None, got {type(value).__name__}"
             )
         self._tableCaption = value
-        # Indicates an external table style.
         # Tgroup 1.
         # * aggr A table can be built of individual segments.
         # Such a called tgroup.
@@ -757,7 +749,6 @@ class Tgroup(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        # This attribute represents the number of columns in the.
         self._cols: "Integer" = None
 
     @property
@@ -781,7 +772,6 @@ class Tgroup(ARObject):
                 f"cols must be Integer or int, got {type(value).__name__}"
             )
         self._cols = value
-        # Indicates if by default a line shall be drawn between the this table group.
         self._colsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -809,7 +799,6 @@ class Tgroup(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # This specifies one particular column specification in the There shall be one
         # entry for each column.
         self._colspec: List["Colspec"] = []
 
@@ -846,7 +835,6 @@ class Tgroup(ARObject):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # This is the main part of the table segment, called the table 535 Document ID
         # 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._tbody: "Tbody" = None
 
@@ -871,7 +859,6 @@ class Tgroup(ARObject):
                 f"tbody must be Tbody, got {type(value).__name__}"
             )
         self._tbody = value
-        # This represents the footer of the table segment.
         # This printed at the end of the table or before a.
         self._tfoot: Optional["Tbody"] = None
 
@@ -900,7 +887,6 @@ class Tgroup(ARObject):
                 f"tfoot must be Tbody or None, got {type(value).__name__}"
             )
         self._tfoot = value
-        # This represents the heading of the table section.
         # The usually repeated at the beginning of each new.
         self._thead: Optional["Tbody"] = None
 
@@ -1393,7 +1379,6 @@ class Row(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # Indicates how the cells in the rows shall be aligned.
         # inherited from tbody, otherwise it is "TOP".
         self._valign: Optional["ValignEnum"] = None
 
@@ -1559,7 +1544,6 @@ class Entry(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        # This allows to recommend a background color of the is specified bases on 6
                 # digits RGB hex-code.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._bgcolor: "String" = None
@@ -1585,7 +1569,6 @@ class Entry(ARObject):
                 f"bgcolor must be String or str, got {type(value).__name__}"
             )
         self._bgcolor = value
-        # Indicate the name of the column, where the entry should.
         self._colname: Optional["String"] = None
 
     @property
@@ -1613,7 +1596,6 @@ class Entry(ARObject):
                 f"colname must be String or str or None, got {type(value).__name__}"
             )
         self._colname = value
-        # Indicates whether a line should be displayed end of this.
         self._colsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -1641,7 +1623,6 @@ class Entry(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # This is the content of the TableEntry.
         self._entryContents: "DocumentationBlock" = None
 
     @property
@@ -1665,7 +1646,6 @@ class Entry(ARObject):
                 f"entryContents must be DocumentationBlock, got {type(value).__name__}"
             )
         self._entryContents = value
-        # Number of additional rows.
         # Default is "0".
         self._morerows: Optional["String"] = None
 
@@ -1694,7 +1674,6 @@ class Entry(ARObject):
                 f"morerows must be String or str or None, got {type(value).__name__}"
             )
         self._morerows = value
-        # When an entry spans multiple column this is the name of column.
         self._nameend: Optional["String"] = None
 
     @property
@@ -1722,7 +1701,6 @@ class Entry(ARObject):
                 f"nameend must be String or str or None, got {type(value).__name__}"
             )
         self._nameend = value
-        # When an entry spans multiple column this is the name of column.
         self._namest: Optional["String"] = None
 
     @property
@@ -1750,7 +1728,6 @@ class Entry(ARObject):
                 f"namest must be String or str or None, got {type(value).__name__}"
             )
         self._namest = value
-        # Indicates if the cellcontent shall be rotated.
         # Default is 0; 1 the contents 90 degree counterclockwise.
         # is defined by OASIS.
         self._rotate: Optional["String"] = None
@@ -1780,7 +1757,6 @@ class Entry(ARObject):
                 f"rotate must be String or str or None, got {type(value).__name__}"
             )
         self._rotate = value
-        # Indicates whether a line should be displayed at the of the cell.
         self._rowsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -1808,7 +1784,6 @@ class Entry(ARObject):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # Capture the name of entry merging multiple columns.
         self._spanname: Optional["String"] = None
 
     @property
@@ -1836,7 +1811,6 @@ class Entry(ARObject):
                 f"spanname must be String or str or None, got {type(value).__name__}"
             )
         self._spanname = value
-        # Indicates how the content of the cell shall be aligned.
         # inherited from row or tbody, otherwise "TOP".
         self._valign: Optional["ValignEnum"] = None
 
@@ -2445,7 +2419,6 @@ class Colspec(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        # Specifies the name of the column.
         self._colname: Optional["String"] = None
 
     @property
@@ -2473,7 +2446,6 @@ class Colspec(ARObject):
                 f"colname must be String or str or None, got {type(value).__name__}"
             )
         self._colname = value
-        # column number (allows to sort the columns).
         self._colnum: Optional["String"] = None
 
     @property
@@ -2501,7 +2473,6 @@ class Colspec(ARObject):
                 f"colnum must be String or str or None, got {type(value).__name__}"
             )
         self._colnum = value
-        # Indicates whether a line should be displayed right of this the column
                 # specification.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._colsep: Optional["TableSeparatorString"] = None
@@ -2531,7 +2502,6 @@ class Colspec(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # Width of the column.
         # You can enter absolute values such cm, or relative values marked with * (e.
         # g.
         # , 2* for double those of other columns with 1*).
@@ -2564,7 +2534,6 @@ class Colspec(ARObject):
                 f"colwidth must be String or str or None, got {type(value).__name__}"
             )
         self._colwidth = value
-        # Indicates whether a line should be displayed at the bottom the cells of the
         # column defined in the Colspec.
         self._rowsep: Optional["TableSeparatorString"] = None
 

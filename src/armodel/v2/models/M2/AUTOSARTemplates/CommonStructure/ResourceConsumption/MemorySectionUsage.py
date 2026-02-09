@@ -88,7 +88,6 @@ class MemorySection(Identifiable):
                 f"alignment must be AlignmentType or None, got {type(value).__name__}"
             )
         self._alignment = value
-        # Reference to the ExecutableEntitites located in this allows to locate
                 # different Executable different sections even if the associated Sw the same.
         # applicable to code sections only.
         self._executableEntity: List["ExecutableEntity"] = []
@@ -142,7 +141,6 @@ class MemorySection(Identifiable):
                 f"prefix must be SectionNamePrefix or None, got {type(value).__name__}"
             )
         self._prefix = value
-        # The size in bytes of the section.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
         self._size: Optional["PositiveInteger"] = None
@@ -172,7 +170,6 @@ class MemorySection(Identifiable):
                 f"size must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._size = value
-        # This association indicates that this module specific section is part of an
                 # overall SwAddr by the upstream declarations (e.
         # g.
         # data element prototypes, code share a common addressing strategy.
@@ -208,7 +205,6 @@ class MemorySection(Identifiable):
                 f"swAddrmethod must be SwAddrMethod or None, got {type(value).__name__}"
             )
         self._swAddrmethod = value
-        # Defines the section name as explained in the main using this attribute for
                 # code generation the shortName) it is possible to define several having the
                 # same name - e.
         # g.

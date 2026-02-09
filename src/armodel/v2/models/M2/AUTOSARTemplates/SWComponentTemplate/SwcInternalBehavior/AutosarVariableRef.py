@@ -65,7 +65,6 @@ class AutosarVariableRef(ARObject):
                 f"autosarVariable must be ArVariableIn or None, got {type(value).__name__}"
             )
         self._autosarVariable = value
-        # This reference is used if the variable is local to the current would also be
                 # possible to use the instance Such an instance ref would not have a the
                 # current instance is the context.
         # local instance is a special case which may provide Therefore an explicit

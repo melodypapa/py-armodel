@@ -73,7 +73,6 @@ class DltArgument(Identifiable):
                 f"length must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._length = value
-        # Definition of the networkRepresentation of the Dlt.
         self._network: Optional["SwDataDefProps"] = None
 
     @property
@@ -101,7 +100,6 @@ class DltArgument(Identifiable):
                 f"network must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._network = value
-        # This attribute defines whether the argument is optional or set to true, the
         # argument can be omitted from the a DLT message.
         self._optional: Optional["Boolean"] = None
 
@@ -130,7 +128,6 @@ class DltArgument(Identifiable):
                 f"optional must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._optional = value
-        # This attribute defines whether the DltArgument is a Data).
         self._predefinedText: Optional["Boolean"] = None
 
     @property
@@ -158,7 +155,6 @@ class DltArgument(Identifiable):
                 f"predefinedText must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._predefinedText = value
-        # This attribute defines whether the length of the Dlt variable (determined at
         # runtime) or not.
         self._variableLength: Optional["Boolean"] = None
 
@@ -534,7 +530,6 @@ class DltApplication(Identifiable):
                 f"application must be String or str or None, got {type(value).__name__}"
             )
         self._application = value
-        # This attribute identifies the SW-C/BSW module in the log message.
         self._applicationId: Optional["String"] = None
 
     @property
@@ -562,7 +557,6 @@ class DltApplication(Identifiable):
                 f"applicationId must be String or str or None, got {type(value).__name__}"
             )
         self._applicationId = value
-        # Definition of ContextIds for the Application.
         # atpVariation.
         self._context: List["DltContext"] = []
 
@@ -721,7 +715,6 @@ class DltContext(ARElement):
                 f"context must be String or str or None, got {type(value).__name__}"
             )
         self._context = value
-        # This attribute is used to group log and trace messages an application to
                 # distinguish functionality.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._contextId: Optional["String"] = None
@@ -751,7 +744,6 @@ class DltContext(ARElement):
                 f"contextId must be String or str or None, got {type(value).__name__}"
             )
         self._contextId = value
-        # Group of Log and Trace Messages assigned to the Dlt atpVariation.
         self._dltMessage: List["DltMessage"] = []
 
     @property
@@ -1028,7 +1020,6 @@ class DltMessage(Identifiable):
                 f"messageId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._messageId = value
-        # This attribute describes the position in the source file in this log message
         # was called.
         self._messageLine: Optional["PositiveInteger"] = None
 
@@ -1057,7 +1048,6 @@ class DltMessage(Identifiable):
                 f"messageLine must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._messageLine = value
-        # This attribute describes the source file in which this log was called.
         self._messageSource: Optional["String"] = None
 
     @property
@@ -1085,7 +1075,6 @@ class DltMessage(Identifiable):
                 f"messageSource must be String or str or None, got {type(value).__name__}"
             )
         self._messageSource = value
-        # This attribute describes the message Type.
         self._messageTypeInfo: Optional["String"] = None
 
     @property
@@ -1113,7 +1102,6 @@ class DltMessage(Identifiable):
                 f"messageTypeInfo must be String or str or None, got {type(value).__name__}"
             )
         self._messageTypeInfo = value
-        # The Privacy Level helps to identify the Log and Trace the degree of privacy
         # to it.
         self._privacyLevel: Optional["PrivacyLevel"] = None
 
@@ -1462,7 +1450,6 @@ class PrivacyLevel(ARObject):
                 f"compuMethod must be CompuMethod or None, got {type(value).__name__}"
             )
         self._compuMethod = value
-        # The value that represents the privacy level and is the Extension Header.
         self._privacyLevel: Optional["PositiveInteger"] = None
 
     @property

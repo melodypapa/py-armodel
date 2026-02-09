@@ -90,7 +90,6 @@ class BswModuleEntry(ARElement):
                 f"bswEntryKind must be BswEntryKindEnum or None, got {type(value).__name__}"
             )
         self._bswEntryKind = value
-        # The type of call associated with this service.
         self._callType: Optional["BswCallType"] = None
 
     @property
@@ -118,7 +117,6 @@ class BswModuleEntry(ARElement):
                 f"callType must be BswCallType or None, got {type(value).__name__}"
             )
         self._callType = value
-        # Specifies the execution context which is required (in case entries into this
         # module) or guaranteed (in case of from this module) for this service.
         self._execution: Optional["BswExecutionContext"] = None
 
@@ -147,7 +145,6 @@ class BswModuleEntry(ARElement):
                 f"execution must be BswExecutionContext or None, got {type(value).__name__}"
             )
         self._execution = value
-        # This attribute is used to control the generation of function If set to "RTE",
         # the RTE generates the prototypes in the Module Interlink Header File.
         self._function: Optional["NameToken"] = None
 
@@ -176,7 +173,6 @@ class BswModuleEntry(ARElement):
                 f"function must be NameToken or str or None, got {type(value).__name__}"
             )
         self._function = value
-        # Reentrancy from the viewpoint of function callers: Enables the service to be
                 # invoked again, before has finished.
         # It is prohibited to invoke the service again before finished.
         self._isReentrant: Optional["Boolean"] = None
@@ -206,7 +202,6 @@ class BswModuleEntry(ARElement):
                 f"isReentrant must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isReentrant = value
-        # Synchronicity from the viewpoint of function callers: This calls a
                 # synchronous service, i.
         # e.
         # the service when the call returns.
@@ -238,7 +233,6 @@ class BswModuleEntry(ARElement):
                 f"isSynchronous must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isSynchronous = value
-        # The return type belonging to this bswModuleEntry.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
         self._returnType: Optional["SwServiceArg"] = None
@@ -268,7 +262,6 @@ class BswModuleEntry(ARElement):
                 f"returnType must be SwServiceArg or None, got {type(value).__name__}"
             )
         self._returnType = value
-        # Specifies the role of the entry in the given context.
         # It shall to the standardized name of the service call, cases where no
                 # ServiceIdentifier is specified, callbacks.
         # Note that the ShortName is not always it maybe vendor specific (e.
@@ -301,7 +294,6 @@ class BswModuleEntry(ARElement):
                 f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
-        # Refers to the service identifier of the Standardized AUTOSAR basic software.
         # For it can optionally be used for.
         self._serviceId: Optional["PositiveInteger"] = None
 
@@ -330,7 +322,6 @@ class BswModuleEntry(ARElement):
                 f"serviceId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._serviceId = value
-        # Denotes the implementation policy as a standard function call, inline
                 # function or macro.
         # This has to be specified on because it determines the signature of the.
         self._swServiceImpl: Optional["SwServiceImplPolicy"] = None
@@ -897,7 +888,6 @@ class BswModuleDependency(Identifiable):
                 f"targetModuleId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._targetModuleId = value
-        # Reference to the target module.
         # It is an <<atpUriDef>> the reference shall be used to identify the target
                 # actually needing the description of that atpUriDef; atpVariation.
         self._targetModule: Optional["BswModuleDescription"] = None
@@ -1109,7 +1099,6 @@ class BswEntryRelationship(ARObject):
                 f"bswEntry must be BswEntryRelationship or None, got {type(value).__name__}"
             )
         self._bswEntry = value
-        # Type of relationship that refers to the abstract BswModule notice that in
         # this case the bswEntry be set to drivedFrom.
         self._from: Optional["BswModuleEntry"] = None
 
@@ -1138,7 +1127,6 @@ class BswEntryRelationship(ARObject):
                 f"from must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._from = value
-        # Type of relationship that refers to the concrete Bsw.
         self._to: Optional["BswModuleEntry"] = None
 
     @property
@@ -1353,7 +1341,6 @@ class BswModuleClientServerEntry(Referrable):
                 f"encapsulated must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._encapsulated = value
-        # Reentrancy from the viewpoint of clients invoking the the BSW Scheduler:
                 # Enables the service to be invoked again, before has finished.
         # It is prohibited to invoke the service again before finished.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
@@ -1385,7 +1372,6 @@ class BswModuleClientServerEntry(Referrable):
                 f"isReentrant must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isReentrant = value
-        # Synchronicity from the viewpoint of clients invoking the the BSW Scheduler:
                 # This calls a synchronous service, i.
         # e.
         # the service when the call returns.

@@ -54,7 +54,6 @@ class SwCalprmRefProxy(ARObject):
             return
 
         self._arParameter = value
-        # This reference is used in the McSupport file to express instance of group
                 # axis etc.
         # It is not allowed to use of an McDataInstance.
         # mcDataInstance shall be originated from.
@@ -219,7 +218,6 @@ class SwVariableRefProxy(ARObject):
             return
 
         self._autosarVariable = value
-        # This reference is used in the McSupport file to express final instance of
                 # input values etc.
         # It is not allowed to outside of an McDataInstance.
         # mcDataInstance shall be originated from.

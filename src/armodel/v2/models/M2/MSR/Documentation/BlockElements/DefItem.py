@@ -47,7 +47,6 @@ class DefItem(Paginateable):
                 f"definition must be DocumentationBlock, got {type(value).__name__}"
             )
         self._definition = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
         self._helpEntry: Optional["String"] = None

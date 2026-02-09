@@ -50,7 +50,6 @@ class RModeInAtomicSwcInstanceRef(ARObject):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._contextModeGroupPrototype: RefType = None
 
@@ -75,7 +74,6 @@ class RModeInAtomicSwcInstanceRef(ARObject):
             return
 
         self._contextModeGroupPrototype = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._contextPortPrototype: Optional["AbstractRequiredPort"] = None
 
@@ -104,7 +102,6 @@ class RModeInAtomicSwcInstanceRef(ARObject):
                 f"contextPortPrototype must be AbstractRequiredPort or None, got {type(value).__name__}"
             )
         self._contextPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=40.
         self._targetModeDeclaration: Optional["ModeDeclaration"] = None
 

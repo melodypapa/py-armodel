@@ -55,7 +55,6 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # This ist the context in a compositeDataType.
         # Tags: xml.
         # sequenceOffset=40 (ordered).
         self._contextData: List["ApplicationComposite"] = []
@@ -88,7 +87,6 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
             return
 
         self._portPrototype = value
-        # This represents the entry point for references into a.
         self._rootParameter: RefType = None
 
     @property
@@ -112,7 +110,6 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
             return
 
         self._rootParameter = value
-        # This is the target parameter element.
         # Note that this must nested in ParameterDataPrototype.
         # The target must of ParameterDataPrototype, Application.
         self._targetData: RefType = None

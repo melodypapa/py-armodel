@@ -44,7 +44,6 @@ class IdsmRateLimitation(Identifiable):
                 f"maxEventsIn must be PositiveInteger, got {type(value).__name__}"
             )
         self._maxEventsIn = value
-        # This attribute configures the length of the time interval in dropping
         # security events if the number of all events exceeds the configurable the
         # respective time interval.
         self._timeInterval: "Float" = None

@@ -52,7 +52,6 @@ class DltContext(ARElement):
                 f"context must be String or None, got {type(value).__name__}"
             )
         self._context = value
-        # This attribute is used to group log and trace messages an application to
                 # distinguish functionality.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._contextId: Optional["String"] = None
@@ -82,7 +81,6 @@ class DltContext(ARElement):
                 f"contextId must be String or None, got {type(value).__name__}"
             )
         self._contextId = value
-        # Group of Log and Trace Messages assigned to the Dlt atpVariation.
         self._dltMessage: List["DltMessage"] = []
 
     @property

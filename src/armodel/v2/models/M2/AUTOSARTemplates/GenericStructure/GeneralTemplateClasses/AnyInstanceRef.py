@@ -55,7 +55,6 @@ class AnyInstanceRef(ARObject):
                 f"base must be AtpClassifier, got {type(value).__name__}"
             )
         self._base = value
-        # This is one step in the navigation path specified by the ref.
         self._contextElement: List["AtpFeature"] = []
 
     @property

@@ -56,7 +56,6 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
                 f"computed must be Boolean or None, got {type(value).__name__}"
             )
         self._computed = value
-        # The instance of VariableDataPrototype annotated.
         self._dataElement: RefType = None
 
     @property
@@ -80,7 +79,6 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
             return
 
         self._dataElement = value
-        # This min or max has not to be mismatched with the min- for data-value in a
                 # compu-method.
         # For example, shows when the result of the calculation a RunnableEntity owned
                 # by one AtomicSw transmitted to another AtomicSw RunnableEntity will use this
@@ -116,7 +114,6 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
                 f"limitKind must be DataLimitKindEnum or None, got {type(value).__name__}"
             )
         self._limitKind = value
-        # This attribute controls how data is processed according to values of
         # ProcessingKindEnum.
         self._processingKind: Optional["ProcessingKindEnum"] = None
 

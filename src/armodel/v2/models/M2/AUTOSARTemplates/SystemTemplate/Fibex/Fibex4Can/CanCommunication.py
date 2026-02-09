@@ -115,7 +115,6 @@ class CanFrameTriggering(FrameTriggering):
                 f"canAddressing must be CanAddressingMode or None, got {type(value).__name__}"
             )
         self._canAddressing = value
-        # Defines which CAN protocol shall be expected for frame reception.
         self._canFrameRx: Optional["CanFrameRxBehavior"] = None
 
     @property
@@ -143,7 +142,6 @@ class CanFrameTriggering(FrameTriggering):
                 f"canFrameRx must be CanFrameRxBehavior or None, got {type(value).__name__}"
             )
         self._canFrameRx = value
-        # Defines which CAN protocol shall be used for frame transmission.
         self._canFrameTx: Optional["CanFrameTxBehavior"] = None
 
     @property
@@ -171,7 +169,6 @@ class CanFrameTriggering(FrameTriggering):
                 f"canFrameTx must be CanFrameTxBehavior or None, got {type(value).__name__}"
             )
         self._canFrameTx = value
-        # Definition of CAN XL specific attributes in case the frame is a CAN XL frame.
         self._canXlFrame: Optional["RefType"] = None
 
     @property
@@ -195,7 +192,6 @@ class CanFrameTriggering(FrameTriggering):
             return
 
         self._canXlFrame = value
-        # This attribute is used to define the identifier this frame on the CAN
         # network.
         self._identifier: Optional["Integer"] = None
 
@@ -224,7 +220,6 @@ class CanFrameTriggering(FrameTriggering):
                 f"identifier must be Integer or int or None, got {type(value).__name__}"
             )
         self._identifier = value
-        # Frame can be triggered by the J1939 request message.
         self._j1939requestable: Optional["Boolean"] = None
 
     @property
@@ -280,7 +275,6 @@ class CanFrameTriggering(FrameTriggering):
                 f"rxIdentifierRange must be RxIdentifierRange or None, got {type(value).__name__}"
             )
         self._rxIdentifierRange = value
-        # Identifier mask which denotes the relevant bits in the CAN with the
         # identifier, this parameter CAN identifier range.
         self._rxMask: Optional["PositiveInteger"] = None
 
@@ -309,7 +303,6 @@ class CanFrameTriggering(FrameTriggering):
                 f"rxMask must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._rxMask = value
-        # Identifier mask which denotes static bits in the CAN other bits can be set
         # dynamically.
         self._txMask: Optional["PositiveInteger"] = None
 
@@ -798,7 +791,6 @@ class RxIdentifierRange(ARObject):
                 f"lowerCanId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._lowerCanId = value
-        # This attribute can be used together with the lowerCanId define a range of
         # CanIds.
         self._upperCanId: Optional["PositiveInteger"] = None
 
@@ -964,7 +956,6 @@ class CanXlFrameTriggeringProps(ARObject):
                 f"acceptanceField must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._acceptanceField = value
-        # Priority ID of a CAN XL message.
         self._priorityId: Optional["PositiveInteger"] = None
 
     @property
@@ -992,7 +983,6 @@ class CanXlFrameTriggeringProps(ARObject):
                 f"priorityId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priorityId = value
-        # SDU type of a CAN XL message.
         self._sduType: Optional["PositiveInteger"] = None
 
     @property
@@ -1020,7 +1010,6 @@ class CanXlFrameTriggeringProps(ARObject):
                 f"sduType must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sduType = value
-        # Virtual CAN network ID of a CAN XL message.
         self._vcid: Optional["PositiveInteger"] = None
 
     @property

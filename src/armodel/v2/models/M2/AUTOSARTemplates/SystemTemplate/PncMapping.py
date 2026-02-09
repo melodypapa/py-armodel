@@ -66,7 +66,6 @@ class PncMapping(Describable):
             return
 
         self._ident = value
-        # This reference maps the partial network to a channel.
         self._physical: List["PhysicalChannel"] = []
 
     @property
@@ -122,7 +121,6 @@ class PncMapping(Describable):
                 f"pncIdentifier must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pncIdentifier = value
-        # This reference maps the Partial Network Cluster to a set.
         self._pncPdurGroup: List["RefType"] = []
 
     @property
@@ -160,7 +158,6 @@ class PncMapping(Describable):
                 f"pncWakeup must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._pncWakeup = value
-        # Reference to a PNC Gateway ECU for PNCs which do have a static channel
                 # mapping.
         # This is needed to dynamic PNCs that can be learned only at which have no
                 # relation to an ISignalIPdu.
@@ -200,7 +197,6 @@ class PncMapping(Describable):
                 f"shortLabel must be Identifier or str or None, got {type(value).__name__}"
             )
         self._shortLabel = value
-        # This reference is optional in case that Description doesn’t use a complete
                 # Software (VFB View).
         # This supports the legacy systems.
         # by: PortGroupInSystem.

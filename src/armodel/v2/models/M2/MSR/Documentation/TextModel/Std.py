@@ -43,7 +43,6 @@ class Std(SingleLanguageReferrable):
                 f"date must be DateTime or None, got {type(value).__name__}"
             )
         self._date = value
-        # This represents the reference to the relevant positions of Kept as a string.
         self._position: Optional["String"] = None
 
     @property
@@ -71,7 +70,6 @@ class Std(SingleLanguageReferrable):
                 f"position must be String or None, got {type(value).__name__}"
             )
         self._position = value
-        # This represents version and state of a standard.
         # Kept as.
         self._state: Optional["String"] = None
 
@@ -100,7 +98,6 @@ class Std(SingleLanguageReferrable):
                 f"state must be String or None, got {type(value).__name__}"
             )
         self._state = value
-        # This represents the subtitle of the standard.
         self._subtitle: Optional["String"] = None
 
     @property
@@ -128,7 +125,6 @@ class Std(SingleLanguageReferrable):
                 f"subtitle must be String or None, got {type(value).__name__}"
             )
         self._subtitle = value
-        # This represents the URL of the standard.
         self._url: Optional["Url"] = None
 
     @property

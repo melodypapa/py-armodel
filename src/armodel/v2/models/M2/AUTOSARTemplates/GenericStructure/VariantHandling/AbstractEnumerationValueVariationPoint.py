@@ -55,7 +55,6 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
                 f"base must be Identifier or None, got {type(value).__name__}"
             )
         self._base = value
-        # This represents the assigned enumeration table.
         self._enumTable: RefType = None
 
     @property

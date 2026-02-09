@@ -46,7 +46,6 @@ class TDLETZoneClock(TimingClock):
                 f"accuracyExt must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._accuracyExt = value
-        # Internal synchronization accuracy within the LET Zone/.
         self._accuracyInt: Optional["MultidimensionalTime"] = None
 
     @property

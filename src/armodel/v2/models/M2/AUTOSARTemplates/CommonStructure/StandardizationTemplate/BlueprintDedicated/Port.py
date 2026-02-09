@@ -72,7 +72,6 @@ class PortPrototypeBlueprint(ARElement):
                 f"interface must be PortInterface, got {type(value).__name__}"
             )
         self._interface = value
-        # Provided communication attributes per interface element element or
         # operation).
         self._providedCom: List["PPortComSpec"] = []
 
@@ -257,7 +256,6 @@ class PortPrototypeBlueprintInitValue(ARObject):
             TypeError: If value type is incorrect
         """
         self._dataPrototype = value
-        # This is the init value for the particular data prototype.
         self._value: "ValueSpecification" = None
 
     @property

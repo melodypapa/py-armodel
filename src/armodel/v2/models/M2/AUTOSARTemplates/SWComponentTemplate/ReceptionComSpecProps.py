@@ -51,7 +51,6 @@ class ReceptionComSpecProps(ARObject):
                 f"dataUpdate must be TimeValue or None, got {type(value).__name__}"
             )
         self._dataUpdate = value
-        # This attribute defines the time interval after which the assume that the to
                 # be received data timed out, i.
         # e.
         # the respective data has not for that amount of time.

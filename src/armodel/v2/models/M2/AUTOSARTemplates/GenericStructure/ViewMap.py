@@ -64,7 +64,6 @@ class ViewMap(Identifiable):
                 f"role must be Identifier or None, got {type(value).__name__}"
             )
         self._role = value
-        # xml.
         # sequenceOffset=60 by: AnyInstanceRef.
         self._secondElement: List["AtpFeature"] = []
 

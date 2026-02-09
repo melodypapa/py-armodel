@@ -47,7 +47,6 @@ class FMAttributeDef(Identifiable):
                 f"defaultValue must be Numerical or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Maximum possible value for the value of this attribute.
         self._max: Optional["Limit"] = None
 
     @property
@@ -75,7 +74,6 @@ class FMAttributeDef(Identifiable):
                 f"max must be Limit or None, got {type(value).__name__}"
             )
         self._max = value
-        # Minimum possible value for the value of this attribute.
         self._min: Optional["Limit"] = None
 
     @property

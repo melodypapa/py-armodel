@@ -84,7 +84,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"definition must be EcucModuleDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # This is the version info of the ModuleDef ECUC to which this values conform
         # to / are Definition of ModuleDef ECUC Parameters the be used to express the
         # semantic compatibility rules between the definition revision labels is up to
         # the module’s vendor.
@@ -115,7 +114,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"ecucDefEdition must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._ecucDefEdition = value
-        # Specifies the kind of deliverable this EcucModule ConfigurationValues element
                 # provides.
         # If this element is in a particular role (e.
         # g.
@@ -148,7 +146,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"implementation must be EcucConfiguration or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # Referencing the BSW module description, which this element is configuring.
         # optional because the EcucModuleConfiguration is also used to configure the
                 # ECU map) or Application SW-Cs.
         # case the EcucModuleConfigurationValues are configure the module, the
@@ -180,7 +177,6 @@ class EcucModuleConfigurationValues(ARElement):
                 f"module must be BswImplementation or None, got {type(value).__name__}"
             )
         self._module = value
-        # Indicates whether a module implementation has or plans have (i.
         # e.
         # , introduced at link or post-build time) new points.
         # TRUE means yes, FALSE If the attribute is not defined, FALSE be assumed.
@@ -817,7 +813,6 @@ class EcucContainerValue(Identifiable):
                 f"definition must be EcucContainerDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # Aggregates all ECU Configuration Values within this atpVariation.
         self._parameterValue: List["EcucParameterValue"] = []
 
     @property
@@ -984,7 +979,6 @@ class EcucParameterValue(EcucIndexableValue, ABC):
                 f"definition must be EcucParameterDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # If withAuto is set to "true" for this parameter definition the be set to
                 # "true".
         # If isAutoValue is set to actual value will not be considered during ECU will
                 # be (re-)calculated by the code stored in the value attribute afterwards.
@@ -1175,7 +1169,6 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
             return
 
         self._definition = value
-        # If withAuto is set to "true" for this parameter definition the be set to
                 # "true".
         # is set to "true" the actual value will not be ECU Configuration but will be
                 # the code generator and stored in the afterwards.

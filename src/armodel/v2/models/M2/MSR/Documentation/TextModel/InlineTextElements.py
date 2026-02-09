@@ -88,7 +88,6 @@ class EmphasisText(ARObject):
                 f"color must be String or str or None, got {type(value).__name__}"
             )
         self._color = value
-        # This specifies the font style in which the emphasized text rendered.
         self._font: Optional["EEnumFont"] = None
 
     @property
@@ -116,7 +115,6 @@ class EmphasisText(ARObject):
                 f"font must be EEnumFont or None, got {type(value).__name__}"
             )
         self._font = value
-        # this is subscript text.
         self._sub: "Superscript" = None
 
     @property
@@ -140,7 +138,6 @@ class EmphasisText(ARObject):
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        # This is superscript text.
         self._sup: "Superscript" = None
 
     @property
@@ -164,7 +161,6 @@ class EmphasisText(ARObject):
                 f"sup must be Superscript, got {type(value).__name__}"
             )
         self._sup = value
-        # This is a technical term.
         self._tt: Optional["Tt"] = None
 
     @property
@@ -192,7 +188,6 @@ class EmphasisText(ARObject):
                 f"tt must be Tt or None, got {type(value).__name__}"
             )
         self._tt = value
-        # Indicates how the text may be emphasized.
         # Note that this a proposal which can be overridden or ignored by engines.
         # Default is BOLD.
         self._type: Optional["EEnum"] = None
@@ -531,7 +526,6 @@ class IndexEntry(ARObject):
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        # This is superscript text.
         self._sup: "Superscript" = None
 
     @property
@@ -692,7 +686,6 @@ class Std(SingleLanguageReferrable):
                 f"date must be DateTime or None, got {type(value).__name__}"
             )
         self._date = value
-        # This represents the reference to the relevant positions of Kept as a string.
         self._position: Optional["String"] = None
 
     @property
@@ -720,7 +713,6 @@ class Std(SingleLanguageReferrable):
                 f"position must be String or str or None, got {type(value).__name__}"
             )
         self._position = value
-        # This represents version and state of a standard.
         # Kept as.
         self._state: Optional["String"] = None
 
@@ -749,7 +741,6 @@ class Std(SingleLanguageReferrable):
                 f"state must be String or str or None, got {type(value).__name__}"
             )
         self._state = value
-        # This represents the subtitle of the standard.
         self._subtitle: Optional["String"] = None
 
     @property
@@ -777,7 +768,6 @@ class Std(SingleLanguageReferrable):
                 f"subtitle must be String or str or None, got {type(value).__name__}"
             )
         self._subtitle = value
-        # This represents the URL of the standard.
         self._url: Optional["Url"] = None
 
     @property
@@ -1072,7 +1062,6 @@ class Tt(ARObject):
                 f"term must be String or str, got {type(value).__name__}"
             )
         self._term = value
-        # This attribute holds information how the content attribute "term") of the
                 # particular is rendered using LaTeX.
         # This allows to LaTeX commands such as \sep{}.
         # An to render "MyClass" as "My\sep{}Class".
@@ -1104,7 +1093,6 @@ class Tt(ARObject):
                 f"texRender must be String or str or None, got {type(value).__name__}"
             )
         self._texRender = value
-        # This attribute specifies the type of the technical term.
         # such as "VARIABLE" "CALPRM".
         # It is no enum in order to support process specific.
         self._type: "NameToken" = None
@@ -1312,7 +1300,6 @@ class Xdoc(SingleLanguageReferrable):
                 f"date must be DateTime or None, got {type(value).__name__}"
             )
         self._date = value
-        # This represents document number of an external is referenced.
         # Kept as a string.
         self._number: Optional["String"] = None
 
@@ -1341,7 +1328,6 @@ class Xdoc(SingleLanguageReferrable):
                 f"number must be String or str or None, got {type(value).__name__}"
             )
         self._number = value
-        # This represents the reference to the relevant positions of Kept as a string.
         self._position: Optional["String"] = None
 
     @property
@@ -1369,7 +1355,6 @@ class Xdoc(SingleLanguageReferrable):
                 f"position must be String or str or None, got {type(value).__name__}"
             )
         self._position = value
-        # This represents the publisher of an external document being referenced.
         # Kept as a string.
         self._publisher: Optional["String"] = None
 
@@ -1398,7 +1383,6 @@ class Xdoc(SingleLanguageReferrable):
                 f"publisher must be String or str or None, got {type(value).__name__}"
             )
         self._publisher = value
-        # This represents version and state of the external as a string.
         self._state: Optional["String"] = None
 
     @property
@@ -1426,7 +1410,6 @@ class Xdoc(SingleLanguageReferrable):
                 f"state must be String or str or None, got {type(value).__name__}"
             )
         self._state = value
-        # This specifies the URL of the external document.
         self._url: Optional["Url"] = None
 
     @property
@@ -1768,7 +1751,6 @@ class Xfile(SingleLanguageReferrable):
                 f"tool must be String or str or None, got {type(value).__name__}"
             )
         self._tool = value
-        # This element describes the tool version which was used the corresponding
                 # xfile.
         # Kept as a string, specific syntax can be specified.
         self._toolVersion: Optional["String"] = None
@@ -1798,7 +1780,6 @@ class Xfile(SingleLanguageReferrable):
                 f"toolVersion must be String or str or None, got {type(value).__name__}"
             )
         self._toolVersion = value
-        # This represents the URL of the external file.
         self._url: Optional["Url"] = None
 
     @property
@@ -2032,7 +2013,6 @@ class Xref(ARObject):
             return
 
         self._referrable = value
-        # Indicates if the content of the xref element follow a policy.
         # The default is "NO-SLOPPY".
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._resolutionPolicy: Optional["ResolutionPolicyEnum"] = None
@@ -2062,7 +2042,6 @@ class Xref(ARObject):
                 f"resolutionPolicy must be ResolutionPolicyEnum or None, got {type(value).__name__}"
             )
         self._resolutionPolicy = value
-        # Indicates if the content of the xref element shall be default is
         # "NO-SHOW-CONTENT".
         self._showContent: Optional["ShowContentEnum"] = None
 
@@ -2091,7 +2070,6 @@ class Xref(ARObject):
                 f"showContent must be ShowContentEnum or None, got {type(value).__name__}"
             )
         self._showContent = value
-        # Indicates if the type of the referenced Resource shall be shown.
         # Default is "SHOW-TYPE".
         self._showResource: Optional["ShowResourceType"] = None
 
@@ -2120,7 +2098,6 @@ class Xref(ARObject):
                 f"showResource must be ShowResourceType or None, got {type(value).__name__}"
             )
         self._showResource = value
-        # Indicates if the word "see " shall be shown before the is "NO-SHOW-SEE".
         # Note that this is compatibility reasons only.
         self._showSee: Optional["ShowSeeEnum"] = None
 

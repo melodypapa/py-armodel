@@ -51,7 +51,6 @@ class SdgContents(ARObject):
                 f"sd must be Sd or None, got {type(value).__name__}"
             )
         self._sd = value
-        # This is one particular special data element.
         self._sdf: Optional["Sdf"] = None
 
     @property
@@ -79,7 +78,6 @@ class SdgContents(ARObject):
                 f"sdf must be Sdf or None, got {type(value).__name__}"
             )
         self._sdf = value
-        # This aggregation allows to express nested special data this, any structure
         # can be represented in atpVariation.
         self._sdg: Optional["Sdg"] = None
 
@@ -108,7 +106,6 @@ class SdgContents(ARObject):
                 f"sdg must be Sdg or None, got {type(value).__name__}"
             )
         self._sdg = value
-        # Reference to any identifiable element.
         # This allows to use to establish arbitrary relationships.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._sdx: RefType = None
@@ -134,7 +131,6 @@ class SdgContents(ARObject):
             return
 
         self._sdx = value
-        # Additional reference with variant support.
         # atpVariation.
         self._sdxf: RefType = None
 

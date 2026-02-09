@@ -80,7 +80,6 @@ class SignalServiceTranslationProps(Identifiable):
                 f"serviceControl must be SignalService or None, got {type(value).__name__}"
             )
         self._serviceControl = value
-        # Defines properties for a single translated event.
         self._signalServiceEventProps: List["SignalService"] = []
 
     @property

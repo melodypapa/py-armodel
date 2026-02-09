@@ -60,7 +60,6 @@ class AtpInstanceRef(ARObject, ABC):
                 f"atpBase must be AtpClassifier, got {type(value).__name__}"
             )
         self._atpBase = value
-        # This is one particular step in the navigation path.
         # atpAbstract (ordered).
         self._atpContext: List[RefType] = []
 

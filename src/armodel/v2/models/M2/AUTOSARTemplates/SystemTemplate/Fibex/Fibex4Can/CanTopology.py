@@ -309,7 +309,6 @@ class AbstractCanCluster(ARObject, ABC):
                 f"busOffRecovery must be CanClusterBusOff or None, got {type(value).__name__}"
             )
         self._busOffRecovery = value
-        # Specifies the data segment baud rate of the controller in.
         self._canFdBaudrate: Optional["PositiveUnlimitedInteger"] = None
 
     @property
@@ -337,7 +336,6 @@ class AbstractCanCluster(ARObject, ABC):
                 f"canFdBaudrate must be PositiveUnlimitedInteger or None, got {type(value).__name__}"
             )
         self._canFdBaudrate = value
-        # Specifies the data segment baud rate of the CAN XL bits/s.
         self._canXlBaudrate: Optional["PositiveUnlimitedInteger"] = None
 
     @property
@@ -654,7 +652,6 @@ class CanClusterBusOffRecovery(ARObject):
                 f"borTimeTx must be TimeValue or None, got {type(value).__name__}"
             )
         self._borTimeTx = value
-        # This attribute defines the cycle time of the function Can in seconds.
         self._mainFunction: Optional["TimeValue"] = None
 
     @property
@@ -1074,7 +1071,6 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
                 f"canControllerFd must be CanControllerFd or None, got {type(value).__name__}"
             )
         self._canControllerFd = value
-        # Additional CanXL ranges of the bit timing related configuration of a CanXL
                 # controller.
         # If this element exists controller supports CanXL frames and the ECU take
                 # these ranges as requirements for the the CanXL controller.
@@ -1244,7 +1240,6 @@ class CanControllerFdConfiguration(ARObject):
                 f"paddingValue must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._paddingValue = value
-        # Specifies propagation delay in time quantas.
         self._propSeg: Optional["PositiveInteger"] = None
 
     @property
@@ -1272,7 +1267,6 @@ class CanControllerFdConfiguration(ARObject):
                 f"propSeg must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._propSeg = value
-        # Specifies the Transmitter Delay Compensation Offset in quanta.
         # Transmitter Delay Compensation used to adjust the position of the Secondary
                 # (SSP), relative to the beginning of the If this parameter is configured, the
                 # Compensation is done by the CAN controller.
@@ -1304,7 +1298,6 @@ class CanControllerFdConfiguration(ARObject):
                 f"sspOffset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sspOffset = value
-        # Specifies the synchronization jump width for the controller quantas.
         self._syncJumpWidth: Optional["PositiveInteger"] = None
 
     @property
@@ -1332,7 +1325,6 @@ class CanControllerFdConfiguration(ARObject):
                 f"syncJumpWidth must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._syncJumpWidth = value
-        # Specifies phase segment 1 in time quantas.
         self._timeSeg1: Optional["PositiveInteger"] = None
 
     @property
@@ -1775,7 +1767,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"maxNumberOfTimeQuantaPerBit must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxNumberOfTimeQuantaPerBit = value
-        # The max.
         # value of the sample point as a percentage of total bit time.
         self._maxSample: Optional["Float"] = None
 
@@ -1804,7 +1795,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"maxSample must be Float or float or None, got {type(value).__name__}"
             )
         self._maxSample = value
-        # The max.
         # Synchronization Jump Width value as a of the total bit time.
         # The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample
                 # Point inside the limits defined by Buffer Segments to compensate for edge.
@@ -1835,7 +1825,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"maxSyncJump must be Float or float or None, got {type(value).__name__}"
             )
         self._maxSyncJump = value
-        # Specifies the maximum Transceiver Delay Compensation in seconds.
         # If not specified Transceiver Delay is disabled.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._maxTrcvDelay: Optional["TimeValue"] = None
@@ -1865,7 +1854,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"maxTrcvDelay must be TimeValue or None, got {type(value).__name__}"
             )
         self._maxTrcvDelay = value
-        # Minimum number of time quanta in the bit time.
         self._minNumberOfTimeQuantaPerBit: Optional["Integer"] = None
 
     @property
@@ -1893,7 +1881,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"minNumberOfTimeQuantaPerBit must be Integer or int or None, got {type(value).__name__}"
             )
         self._minNumberOfTimeQuantaPerBit = value
-        # The min.
         # value of the sample point as a percentage of the time.
         self._minSamplePoint: Optional["Float"] = None
 
@@ -1922,7 +1909,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"minSamplePoint must be Float or float or None, got {type(value).__name__}"
             )
         self._minSamplePoint = value
-        # The min.
         # Synchronization Jump Width value as a of the total bit time.
         # The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample
                 # Point inside the limits defined by Buffer Segments to compensate for edge.
@@ -1953,7 +1939,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"minSyncJump must be Float or float or None, got {type(value).__name__}"
             )
         self._minSyncJump = value
-        # Specifies the minimum Transceiver Delay Compensation in seconds.
         # If not specified Transceiver Delay is disabled.
         self._minTrcvDelay: Optional["TimeValue"] = None
 
@@ -1982,7 +1967,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"minTrcvDelay must be TimeValue or None, got {type(value).__name__}"
             )
         self._minTrcvDelay = value
-        # Specifies the value which is used to pad unused data in frames which are
         # bigger than 8 byte if the length Pdu which was requested to be sent does not
         # match DLC values of CAN FD.
         self._paddingValue: Optional["PositiveInteger"] = None
@@ -2012,7 +1996,6 @@ class CanControllerFdConfigurationRequirements(ARObject):
                 f"paddingValue must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._paddingValue = value
-        # Specifies if the bit rate switching shall be used for FD frames shall be sent
         # with bit rate FD frames shall be sent without bit rate.
         self._txBitRateSwitch: Optional["Boolean"] = None
 
@@ -2532,7 +2515,6 @@ class CanControllerXlConfiguration(ARObject):
                 f"errorSignaling must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._errorSignaling = value
-        # Specifies propagation delay in time quantas.
         self._propSeg: Optional["PositiveInteger"] = None
 
     @property
@@ -2560,7 +2542,6 @@ class CanControllerXlConfiguration(ARObject):
                 f"propSeg must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._propSeg = value
-        # Specifies the PWM long phase length.
         self._pwmL: Optional["PositiveInteger"] = None
 
     @property
@@ -2588,7 +2569,6 @@ class CanControllerXlConfiguration(ARObject):
                 f"pwmL must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pwmL = value
-        # Specifies the PWM time offset.
         self._pwmO: Optional["PositiveInteger"] = None
 
     @property
@@ -2616,7 +2596,6 @@ class CanControllerXlConfiguration(ARObject):
                 f"pwmO must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pwmO = value
-        # Specifies the PWM short phase length.
         self._pwmS: Optional["PositiveInteger"] = None
 
     @property
@@ -2644,7 +2623,6 @@ class CanControllerXlConfiguration(ARObject):
                 f"pwmS must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pwmS = value
-        # Specifies the Transmitter Delay Compensation Offset in quanta.
         # Transmitter Delay Compensation used to adjust the position of the Secondary
                 # (SSP), relative to the beginning of the If this parameter is configured, the
                 # Compensation is done by the CAN controller.
@@ -2676,7 +2654,6 @@ class CanControllerXlConfiguration(ARObject):
                 f"sspOffset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sspOffset = value
-        # Specifies the synchronization jump width for the controller quantas.
         self._syncJumpWidth: Optional["PositiveInteger"] = None
 
     @property
@@ -2704,7 +2681,6 @@ class CanControllerXlConfiguration(ARObject):
                 f"syncJumpWidth must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._syncJumpWidth = value
-        # Specifies phase segment 1 in time quantas.
         self._timeSeg1: Optional["PositiveInteger"] = None
 
     @property
@@ -3283,7 +3259,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"errorSignaling must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._errorSignaling = value
-        # Maximum number of time quanta in the bit time.
         self._maxNumberOfTimeQuantaPerBit: Optional["Integer"] = None
 
     @property
@@ -3311,7 +3286,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"maxNumberOfTimeQuantaPerBit must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxNumberOfTimeQuantaPerBit = value
-        # Specifies the maximum PWM long phase length.
         self._maxPwmL: Optional["PositiveInteger"] = None
 
     @property
@@ -3339,7 +3313,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"maxPwmL must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxPwmL = value
-        # Specifies the minimum PWM time offset.
         self._maxPwmO: Optional["PositiveInteger"] = None
 
     @property
@@ -3367,7 +3340,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"maxPwmO must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxPwmO = value
-        # Specifies the maximum PWM short phase length.
         self._maxPwmS: Optional["PositiveInteger"] = None
 
     @property
@@ -3395,7 +3367,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"maxPwmS must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxPwmS = value
-        # The max.
         # value of the sample point as a percentage of total bit time.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._maxSample: Optional["Float"] = None
@@ -3425,7 +3396,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"maxSample must be Float or float or None, got {type(value).__name__}"
             )
         self._maxSample = value
-        # The max.
         # Synchronization Jump Width value as a of the total bit time.
         # The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample
                 # Point inside the limits defined by Buffer Segments to compensate for edge.
@@ -3456,7 +3426,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"maxSyncJump must be Float or float or None, got {type(value).__name__}"
             )
         self._maxSyncJump = value
-        # Specifies the maximum Transceiver Delay Compensation in seconds.
         # If not specified Transceiver Delay is disabled.
         self._maxTrcvDelay: Optional["TimeValue"] = None
 
@@ -3485,7 +3454,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"maxTrcvDelay must be TimeValue or None, got {type(value).__name__}"
             )
         self._maxTrcvDelay = value
-        # Minimum number of time quanta in the bit time.
         self._minNumberOfTimeQuantaPerBit: Optional["Integer"] = None
 
     @property
@@ -3513,7 +3481,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"minNumberOfTimeQuantaPerBit must be Integer or int or None, got {type(value).__name__}"
             )
         self._minNumberOfTimeQuantaPerBit = value
-        # Specifies the minimum PWM long phase length.
         self._minPwmL: Optional["PositiveInteger"] = None
 
     @property
@@ -3541,7 +3508,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"minPwmL must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minPwmL = value
-        # Specifies the maximum PWM time offset.
         self._minPwmO: Optional["PositiveInteger"] = None
 
     @property
@@ -3569,7 +3535,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"minPwmO must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minPwmO = value
-        # Specifies the minimum PWM short phase length.
         self._minPwmS: Optional["PositiveInteger"] = None
 
     @property
@@ -3597,7 +3562,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"minPwmS must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minPwmS = value
-        # The min.
         # value of the sample point as a percentage of the time.
         self._minSamplePoint: Optional["Float"] = None
 
@@ -3626,7 +3590,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"minSamplePoint must be Float or float or None, got {type(value).__name__}"
             )
         self._minSamplePoint = value
-        # The min.
         # Synchronization Jump Width value as a of the total bit time.
         # The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample
                 # Point inside the limits defined by Buffer Segments to compensate for edge.
@@ -3657,7 +3620,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"minSyncJump must be Float or float or None, got {type(value).__name__}"
             )
         self._minSyncJump = value
-        # Specifies the minimum Transceiver Delay Compensation in seconds.
         # If not specified Transceiver Delay is disabled.
         self._minTrcvDelay: Optional["TimeValue"] = None
 
@@ -3686,7 +3648,6 @@ class CanControllerXlConfigurationRequirements(ARObject):
                 f"minTrcvDelay must be TimeValue or None, got {type(value).__name__}"
             )
         self._minTrcvDelay = value
-        # Specifies if the transceiver shall be set to the PWM mode.
         # The transceiver shall be switched to PWM mode.
         # transceiver shall work in classic CAN mode.
         self._trcvPwmMode: Optional["Boolean"] = None
@@ -4515,7 +4476,6 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
                 f"propSeg must be Integer or int or None, got {type(value).__name__}"
             )
         self._propSeg = value
-        # The number of quanta in the Synchronization Jump The (Re-)Synchronization
         # Jump Width how far a resynchronization may move the inside the limits defined
         # by the Phase Buffer compensate for edge phase errors.
         self._syncJumpWidth: Optional["Integer"] = None
@@ -4545,7 +4505,6 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
                 f"syncJumpWidth must be Integer or int or None, got {type(value).__name__}"
             )
         self._syncJumpWidth = value
-        # Specifies phase segment 1 in time quantas.
         # Phase_Seg1.
         self._timeSeg1: Optional["Integer"] = None
 
@@ -4829,7 +4788,6 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
                 f"maxNumberOfTimeQuantaPerBit must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxNumberOfTimeQuantaPerBit = value
-        # The max.
         # value of the sample point as a percentage of total bit time.
         self._maxSample: Optional["Float"] = None
 
@@ -4858,7 +4816,6 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
                 f"maxSample must be Float or float or None, got {type(value).__name__}"
             )
         self._maxSample = value
-        # The max.
         # Synchronization Jump Width value as a of the total bit time.
         # The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample
                 # Point inside the limits defined by Buffer Segments to compensate for edge.
@@ -4889,7 +4846,6 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
                 f"maxSyncJump must be Float or float or None, got {type(value).__name__}"
             )
         self._maxSyncJump = value
-        # Minimum number of time quanta in the bit time.
         self._minNumberOfTimeQuantaPerBit: Optional["Integer"] = None
 
     @property
@@ -4917,7 +4873,6 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
                 f"minNumberOfTimeQuantaPerBit must be Integer or int or None, got {type(value).__name__}"
             )
         self._minNumberOfTimeQuantaPerBit = value
-        # The min.
         # value of the sample point as a percentage of the time.
         self._minSamplePoint: Optional["Float"] = None
 
@@ -4946,7 +4901,6 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
                 f"minSamplePoint must be Float or float or None, got {type(value).__name__}"
             )
         self._minSamplePoint = value
-        # The min.
         # Synchronization Jump Width value as a of the total bit time.
         # The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample
                 # Point inside the limits defined by Buffer Segments to compensate for edge.
@@ -5310,7 +5264,6 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
                 f"pncWakeupCan must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pncWakeupCan = value
-        # Bit mask for CAN Payload used to configure the CAN for partial network
         # wakeup.
         self._pncWakeup: Optional["PositiveUnlimitedInteger"] = None
 
@@ -5339,7 +5292,6 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
                 f"pncWakeup must be PositiveUnlimitedInteger or None, got {type(value).__name__}"
             )
         self._pncWakeup = value
-        # Data Length of the remote data frame used to configure Transceiver for
         # partial network wakeup in Bytes.
         self._pncWakeupDlc: Optional["PositiveInteger"] = None
 

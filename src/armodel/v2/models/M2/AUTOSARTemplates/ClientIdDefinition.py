@@ -52,7 +52,6 @@ class ClientIdDefinition(Identifiable):
                 f"clientId must be Numerical or None, got {type(value).__name__}"
             )
         self._clientId = value
-        # client.
         # by: OperationInSystem.
         self._clientServerInstanceRef: Optional["ClientServerOperation"] = None
 

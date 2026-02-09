@@ -48,7 +48,6 @@ class Compu(ARObject):
                 f"compuContent must be CompuContent or None, got {type(value).__name__}"
             )
         self._compuContent = value
-        # This property can be used to specify an output value for a formula, if the
                 # value to be converted lies plausibility limit.
         # Although this is possible for formulae, it is especially valid for variables
                 # conversion formulae.

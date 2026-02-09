@@ -61,7 +61,6 @@ class HwAttributeDef(Identifiable):
                 f"isRequired must be Boolean or None, got {type(value).__name__}"
             )
         self._isRequired = value
-        # This association specifies the physical unit of the defined This is optional
         # due to the fact that textual attributes.
         self._unit: Optional["Unit"] = None
 

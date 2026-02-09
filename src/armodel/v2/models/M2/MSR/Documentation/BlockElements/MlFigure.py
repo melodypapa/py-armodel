@@ -46,7 +46,6 @@ class MlFigure(Paginateable):
                 f"figureCaption must be Caption or None, got {type(value).__name__}"
             )
         self._figureCaption = value
-        # Used to defined the frame line around a figure.
         # It can following values: - Border at the top of the figure - Border at the
                 # bottom of the figure - Borders at the top and bottom of the figure - Borders
                 # all around the figure - Borders at the sides of the figure - No borders
@@ -78,7 +77,6 @@ class MlFigure(Paginateable):
                 f"frame must be FrameEnum or None, got {type(value).__name__}"
             )
         self._frame = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
         self._helpEntry: Optional["String"] = None
@@ -108,7 +106,6 @@ class MlFigure(Paginateable):
                 f"helpEntry must be String or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # Container of the graphic (or diagram) and optional map of in a given
         # language.
         self._lGraphic: List["LGraphic"] = []
 
@@ -145,7 +142,6 @@ class MlFigure(Paginateable):
                 f"pgwide must be PgwideEnum or None, got {type(value).__name__}"
             )
         self._pgwide = value
-        # <verbatim> is a paragraph in which white-space (in and line feeds) is obeyed.
         # This enables to be carried out, which can even be simple devices.
         # Behavior is the same as HTML.
         self._verbatim: Optional["MultiLanguageVerbatim"] = None

@@ -64,7 +64,6 @@ class Trigger(Identifiable):
                 f"swImplPolicy must be SwImplPolicyEnum or None, got {type(value).__name__}"
             )
         self._swImplPolicy = value
-        # Optional definition of a period in case of a periodically angle) driven
         # external trigger.
         self._triggerPeriod: Optional["MultidimensionalTime"] = None
 
@@ -227,7 +226,6 @@ class TriggerMapping(ARObject):
             return
 
         self._firstTrigger = value
-        # A Trigger to be mapped.
         self._secondTrigger: Optional["RefType"] = None
 
     @property

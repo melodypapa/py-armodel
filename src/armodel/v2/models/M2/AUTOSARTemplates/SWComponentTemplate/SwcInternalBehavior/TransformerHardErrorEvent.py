@@ -54,7 +54,6 @@ class TransformerHardErrorEvent(RTEEvent):
                 f"operation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operation = value
-        # TransformerHardErrorEvent.
         # by: RTriggerInAtomicSwc.
         self._requiredTrigger: RefType = None
 

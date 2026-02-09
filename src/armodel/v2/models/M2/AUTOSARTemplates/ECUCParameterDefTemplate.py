@@ -374,7 +374,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"ecucCond must be EcucCondition or None, got {type(value).__name__}"
             )
         self._ecucCond = value
-        # Collection of validation conditions which all need to evaluate to true in
         # order to indicate a valid validation the EcucDefinitionElement.
         self._ecucValidation: List["EcucValidation"] = []
 
@@ -412,7 +411,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"lowerMultiplicity must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._lowerMultiplicity = value
-        # This contains a sloppy reference to the Autosar identifier of the element
         # (EcucId).
         self._relatedTrace: Optional["Traceable"] = None
 
@@ -441,7 +439,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"relatedTrace must be Traceable or None, got {type(value).__name__}"
             )
         self._relatedTrace = value
-        # Specifies the scope of this configuration element.
         self._scope: Optional["EcucScopeEnum"] = None
 
     @property
@@ -469,7 +466,6 @@ class EcucDefinitionElement(Identifiable, ABC):
                 f"scope must be EcucScopeEnum or None, got {type(value).__name__}"
             )
         self._scope = value
-        # To express an infinite number of occurrences of this this attribute has to be
                 # set to true.
         # is set than upperMultiplicity shall used.
         self._upperMultiplicity: Optional["Boolean"] = None
@@ -783,7 +779,6 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
                 f"configClass must be EcucConfigurationClass or None, got {type(value).__name__}"
             )
         self._configClass = value
-        # Specifies the ConfigurationVariant the ConfigurationClass specified for.
         self._configVariant: Optional["EcucConfiguration"] = None
 
     @property
@@ -953,7 +948,6 @@ class EcucAbstractStringParamDef(ARObject, ABC):
                 f"defaultValue must be VerbatimString or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Max length allowed for this string.
         self._maxLength: Optional["PositiveInteger"] = None
 
     @property
@@ -981,7 +975,6 @@ class EcucAbstractStringParamDef(ARObject, ABC):
                 f"maxLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxLength = value
-        # Min length allowed for this string.
         self._minLength: Optional["PositiveInteger"] = None
 
     @property
@@ -1009,7 +1002,6 @@ class EcucAbstractStringParamDef(ARObject, ABC):
                 f"minLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minLength = value
-        # This represents the regular expression which shall be to validate the string
         # parameter value.
         self._regular: Optional["RegularExpression"] = None
 
@@ -1346,7 +1338,6 @@ class EcucEnumerationLiteralDef(Identifiable):
                 f"ecucCond must be EcucCondition or None, got {type(value).__name__}"
             )
         self._ecucCond = value
-        # String specifying if this literal is an AUTOSAR or if the literal is
         # vendor-specific.
         self._origin: Optional["String"] = None
 
@@ -1654,7 +1645,6 @@ class EcucDestinationUriPolicy(ARObject):
                 f"destinationUri must be EcucDestinationUri or None, got {type(value).__name__}"
             )
         self._destinationUri = value
-        # Description of parameters that are contained in the target.
         self._parameter: List["EcucParameterDef"] = []
 
     @property
@@ -1799,7 +1789,6 @@ class EcucDerivationSpecification(ARObject):
                 f"calculation must be EcucParameter or None, got {type(value).__name__}"
             )
         self._calculation = value
-        # Query to the ECU Configuration Description.
         self._ecucQuery: List["EcucQuery"] = []
 
     @property
@@ -2269,7 +2258,6 @@ class EcucConditionSpecification(ARObject):
                 f"condition must be EcucConditionFormula or None, got {type(value).__name__}"
             )
         self._condition = value
-        # Query to the ECU Configuration Description.
         self._ecucQuery: List["EcucQuery"] = []
 
     @property
@@ -2664,7 +2652,6 @@ class EcucModuleDef(EcucDefinitionElement):
                 f"apiServicePrefix must be CIdentifier or None, got {type(value).__name__}"
             )
         self._apiServicePrefix = value
-        # Aggregates the top-level container definitions of this definition.
         self._container: List["EcucContainerDef"] = []
 
     @property
@@ -2700,7 +2687,6 @@ class EcucModuleDef(EcucDefinitionElement):
                 f"postBuildVariant must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._postBuildVariant = value
-        # Optional reference from the Vendor Specific Module to the Standardized Module
                 # Definition it refines.
         # this EcucModuleDef has the category reference be provided.
         # In case this EcucModuleDef has VENDOR_SPECIFIC_MODULE_ reference is
@@ -2732,7 +2718,6 @@ class EcucModuleDef(EcucDefinitionElement):
                 f"refinedModule must be EcucModuleDef or None, got {type(value).__name__}"
             )
         self._refinedModule = value
-        # Specifies which ConfigurationVariants are supported by this software module.
         # This attribute is optional if the Ecuc the category STANDARDIZED_ the
                 # category attribute of the set to VENDOR_SPECIFIC_ this attribute is
                 # mandatory.
@@ -2972,7 +2957,6 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
                 f"origin must be String or str or None, got {type(value).__name__}"
             )
         self._origin = value
-        # Indicates if a container may have different number of in different post-build
                 # variants (previously post-build selectable configuration sets).
         # TRUE FALSE means no.
         self._postBuildVariant: Optional["Boolean"] = None
@@ -3002,7 +2986,6 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
                 f"postBuildVariant must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._postBuildVariant = value
-        # Used to define whether the value element for this be provided with an index.
         self._requiresIndex: Optional["Boolean"] = None
 
     @property
@@ -3246,7 +3229,6 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
                 f"origin must be String or str or None, got {type(value).__name__}"
             )
         self._origin = value
-        # Indicates if a parameter or a reference may have different in different
                 # post-build variants (previously known as configuration sets).
         # TRUE means means no.
         self._postBuildVariant: Optional["Boolean"] = None
@@ -3276,7 +3258,6 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
                 f"postBuildVariant must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._postBuildVariant = value
-        # Used to define whether the value element for this be provided with an index.
         # 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11.
         self._requiresIndex: Optional["Boolean"] = None
 
@@ -3305,7 +3286,6 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
                 f"requiresIndex must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._requiresIndex = value
-        # Specifies in which ValueConfigurationClass this aggregation is optional if
         # the has the Category the of the EcucModuleDef is set to this mandatory.
         self._valueConfig: List["EcucValueConfiguration"] = []
 
@@ -3684,7 +3664,6 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
                 f"derivation must be EcucDerivation or None, got {type(value).__name__}"
             )
         self._derivation = value
-        # Specifies that this parameter’s value is used, together the aggregating
         # container, to derive a symbolic name chapter "Representation of Symbolic Ecuc
         # specification for more details.
         self._symbolicName: Optional["Boolean"] = None
@@ -3714,7 +3693,6 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
                 f"symbolicName must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._symbolicName = value
-        # Specifies whether it shall be allowed on the value side to parameter value as
                 # "AUTO".
         # is "true" it shall be possible to set the "isAuto of the respective parameter
                 # to "true".
@@ -4128,7 +4106,6 @@ class EcucIntegerParamDef(EcucParameterDef):
                 f"defaultValue must be UnlimitedInteger or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Max value allowed for the parameter defined.
         self._max: Optional["UnlimitedInteger"] = None
 
     @property
@@ -4156,7 +4133,6 @@ class EcucIntegerParamDef(EcucParameterDef):
                 f"max must be UnlimitedInteger or None, got {type(value).__name__}"
             )
         self._max = value
-        # Min value allowed for the parameter defined.
         self._min: Optional["UnlimitedInteger"] = None
 
     @property
@@ -4365,7 +4341,6 @@ class EcucFloatParamDef(EcucParameterDef):
                 f"defaultValue must be Float or float or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Max value allowed for the parameter defined.
         # 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11.
         self._max: Optional["Limit"] = None
 
@@ -4394,7 +4369,6 @@ class EcucFloatParamDef(EcucParameterDef):
                 f"max must be Limit or None, got {type(value).__name__}"
             )
         self._max = value
-        # Min value allowed for the parameter defined.
         self._min: Optional["Limit"] = None
 
     @property
@@ -4604,7 +4578,6 @@ class EcucEnumerationParamDef(EcucParameterDef):
                 f"defaultValue must be Identifier or str or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Aggregation on the literals used to define this parameter.
         # This aggregation is optional if the has the category the of the EcucModuleDef
                 # is set to this mandatory.
         self._literal: List["EcucEnumerationLiteral"] = []
@@ -5188,7 +5161,6 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
                 f"destination must be String or str or None, got {type(value).__name__}"
             )
         self._destination = value
-        # The type in the AUTOSAR Metamodel to which’ instance is allowed to point to.
         self._destinationType: Optional["String"] = None
 
     @property

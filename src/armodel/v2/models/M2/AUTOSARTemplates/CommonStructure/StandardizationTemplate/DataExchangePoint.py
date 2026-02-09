@@ -68,7 +68,6 @@ class DataExchangePoint(ARElement):
                 f"dataFormat must be DataFormatTailoring or None, got {type(value).__name__}"
             )
         self._dataFormat = value
-        # Specifies the kind of this DataExchangePoint.
         # It provides if this DataExchangePoint represents output of a tool that
                 # produce data, input of a tool that consumes data or agreed profile.
         self._kind: "DataExchangePoint" = None
@@ -94,7 +93,6 @@ class DataExchangePoint(ARElement):
                 f"kind must be DataExchangePoint, got {type(value).__name__}"
             )
         self._kind = value
-        # The baseline of the AUTOSAR standard that is used as a within this Data
         # Exchange Point.
         self._referenced: "Baseline" = None
 
@@ -119,7 +117,6 @@ class DataExchangePoint(ARElement):
                 f"referenced must be Baseline, got {type(value).__name__}"
             )
         self._referenced = value
-        # The speficication of the relevant subset of Autosar and custom
         # specifications.
         self._specification: Optional["SpecificationScope"] = None
 

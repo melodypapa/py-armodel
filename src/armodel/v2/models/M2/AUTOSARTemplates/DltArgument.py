@@ -59,7 +59,6 @@ class DltArgument(Identifiable):
                 f"length must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._length = value
-        # Definition of the networkRepresentation of the Dlt.
         self._network: Optional["SwDataDefProps"] = None
 
     @property
@@ -87,7 +86,6 @@ class DltArgument(Identifiable):
                 f"network must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._network = value
-        # This attribute defines whether the argument is optional or set to true, the
         # argument can be omitted from the a DLT message.
         self._optional: Optional["Boolean"] = None
 
@@ -116,7 +114,6 @@ class DltArgument(Identifiable):
                 f"optional must be Boolean or None, got {type(value).__name__}"
             )
         self._optional = value
-        # This attribute defines whether the DltArgument is a Data).
         self._predefinedText: Optional["Boolean"] = None
 
     @property
@@ -144,7 +141,6 @@ class DltArgument(Identifiable):
                 f"predefinedText must be Boolean or None, got {type(value).__name__}"
             )
         self._predefinedText = value
-        # This attribute defines whether the length of the Dlt variable (determined at
         # runtime) or not.
         self._variableLength: Optional["Boolean"] = None
 

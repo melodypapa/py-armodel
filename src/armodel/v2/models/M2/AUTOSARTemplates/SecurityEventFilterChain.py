@@ -49,7 +49,6 @@ class SecurityEventFilterChain(IdsCommonElement):
                 f"aggregation must be SecurityEvent or None, got {type(value).__name__}"
             )
         self._aggregation = value
-        # This aggregation represents the sampling filter in the filter.
         self._oneEveryN: Optional["SecurityEventOneEvery"] = None
 
     @property
@@ -77,7 +76,6 @@ class SecurityEventFilterChain(IdsCommonElement):
                 f"oneEveryN must be SecurityEventOneEvery or None, got {type(value).__name__}"
             )
         self._oneEveryN = value
-        # This aggregation represents the state filter in the event 97 Document ID 980:
         # AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11.
         self._state: Optional["SecurityEventStateFilter"] = None
 
@@ -106,7 +104,6 @@ class SecurityEventFilterChain(IdsCommonElement):
                 f"state must be SecurityEventStateFilter or None, got {type(value).__name__}"
             )
         self._state = value
-        # This aggregation represents the threshold filter in the filter.
         self._threshold: Optional["SecurityEventThreshold"] = None
 
     @property

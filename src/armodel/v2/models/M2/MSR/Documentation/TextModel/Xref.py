@@ -75,7 +75,6 @@ class Xref(ARObject):
             return
 
         self._referrable = value
-        # Indicates if the content of the xref element follow a policy.
         # The default is "NO-SLOPPY".
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._resolutionPolicy: Optional["ResolutionPolicyEnum"] = None
@@ -105,7 +104,6 @@ class Xref(ARObject):
                 f"resolutionPolicy must be ResolutionPolicyEnum or None, got {type(value).__name__}"
             )
         self._resolutionPolicy = value
-        # Indicates if the content of the xref element shall be default is
         # "NO-SHOW-CONTENT".
         self._showContent: Optional["ShowContentEnum"] = None
 
@@ -134,7 +132,6 @@ class Xref(ARObject):
                 f"showContent must be ShowContentEnum or None, got {type(value).__name__}"
             )
         self._showContent = value
-        # Indicates if the type of the referenced Resource shall be shown.
         # Default is "SHOW-TYPE".
         self._showResource: Optional["ShowResourceType"] = None
 
@@ -163,7 +160,6 @@ class Xref(ARObject):
                 f"showResource must be ShowResourceType or None, got {type(value).__name__}"
             )
         self._showResource = value
-        # Indicates if the word "see " shall be shown before the is "NO-SHOW-SEE".
         # Note that this is compatibility reasons only.
         self._showSee: Optional["ShowSeeEnum"] = None
 

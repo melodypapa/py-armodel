@@ -49,7 +49,6 @@ class NonqueuedSenderComSpec(SenderComSpec):
                 f"dataFilter must be DataFilter or None, got {type(value).__name__}"
             )
         self._dataFilter = value
-        # Initial value to be sent if sender component is not yet fully receiver needs
         # data already.
         self._initValue: Optional["ValueSpecification"] = None
 

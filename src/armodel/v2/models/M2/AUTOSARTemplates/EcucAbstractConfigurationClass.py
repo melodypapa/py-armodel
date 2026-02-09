@@ -51,7 +51,6 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
                 f"configClass must be EcucConfigurationClass or None, got {type(value).__name__}"
             )
         self._configClass = value
-        # Specifies the ConfigurationVariant the ConfigurationClass specified for.
         self._configVariant: Optional["EcucConfiguration"] = None
 
     @property

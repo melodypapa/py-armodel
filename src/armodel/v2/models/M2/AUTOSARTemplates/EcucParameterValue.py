@@ -66,7 +66,6 @@ class EcucParameterValue(EcucIndexableValue, ABC):
                 f"definition must be EcucParameterDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # If withAuto is set to "true" for this parameter definition the be set to
                 # "true".
         # If isAutoValue is set to actual value will not be considered during ECU will
                 # be (re-)calculated by the code stored in the value attribute afterwards.

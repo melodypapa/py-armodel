@@ -52,7 +52,6 @@ class PhysConstrs(ARObject):
                 f"lowerLimit must be Limit or None, got {type(value).__name__}"
             )
         self._lowerLimit = value
-        # Maximum difference that is permitted between two if the constraint is applied
         # to an axis.
         self._maxDiff: Optional["Numerical"] = None
 
@@ -81,7 +80,6 @@ class PhysConstrs(ARObject):
                 f"maxDiff must be Numerical or None, got {type(value).__name__}"
             )
         self._maxDiff = value
-        # This element specifies the maximum slope that may be curves and maps.
         self._maxGradient: Optional["Numerical"] = None
 
     @property
@@ -109,7 +107,6 @@ class PhysConstrs(ARObject):
                 f"maxGradient must be Numerical or None, got {type(value).__name__}"
             )
         self._maxGradient = value
-        # This specifies the monotony constraints on the data that this applies only to
         # curves and maps.
         self._monotony: Optional["MonotonyEnum"] = None
 
@@ -138,7 +135,6 @@ class PhysConstrs(ARObject):
                 f"monotony must be MonotonyEnum or None, got {type(value).__name__}"
             )
         self._monotony = value
-        # This is one particular scale which contributes to the data.
         self._scaleConstr: List["ScaleConstr"] = []
 
     @property
@@ -174,7 +170,6 @@ class PhysConstrs(ARObject):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
-        # This specifies the upper limit of the constraint.
         self._upperLimit: Optional["Limit"] = None
 
     @property

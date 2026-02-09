@@ -57,7 +57,6 @@ class MsrQueryP1(Paginateable):
                 f"msrQueryProps must be MsrQueryProps, got {type(value).__name__}"
             )
         self._msrQueryProps = value
-        # This represents the result of the query.
         # xml.
         # sequenceOffset=30.
         self._msrQueryResult: Optional["TopicContent"] = None
@@ -253,7 +252,6 @@ class MsrQueryTopic1(Paginateable):
                 f"msrQueryProps must be MsrQueryProps, got {type(value).__name__}"
             )
         self._msrQueryProps = value
-        # This represents the result of the query.
         # xml.
         # sequenceOffset=30.
         self._msrQueryResult: Optional["MsrQueryResultTopic1"] = None
@@ -417,7 +415,6 @@ class MsrQueryChapter(Paginateable):
                 f"msrQueryProps must be MsrQueryProps, got {type(value).__name__}"
             )
         self._msrQueryProps = value
-        # This represents the result of the query.
         # Tags: xml.
         # sequenceOffset=30.
         self._msrQueryResult: Optional["MsrQueryResult"] = None
@@ -586,7 +583,6 @@ class MsrQueryProps(ARObject):
                 f"comment must be String or str or None, got {type(value).__name__}"
             )
         self._comment = value
-        # This element specifies an argument within an MsrQuery.
         self._msrQueryArg: List["MsrQueryArg"] = []
 
     @property
@@ -763,7 +759,6 @@ class MsrQueryArg(ARObject):
                 f"arg must be String or str, got {type(value).__name__}"
             )
         self._arg = value
-        # This denotes the name of the query argument (semantic.
         self._si: "NameToken" = None
 
     @property
@@ -984,7 +979,6 @@ class MsrQueryP2(ARObject):
                 f"msrQueryProps must be MsrQueryProps, got {type(value).__name__}"
             )
         self._msrQueryProps = value
-        # This represents the result of the query.
         # xml.
         # sequenceOffset=30.
         self._msrQueryResult: Optional["DocumentationBlock"] = None

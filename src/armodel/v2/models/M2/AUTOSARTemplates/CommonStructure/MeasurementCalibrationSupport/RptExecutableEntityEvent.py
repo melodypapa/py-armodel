@@ -65,7 +65,6 @@ class RptExecutableEntityEvent(Identifiable):
                 f"rptEventId must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._rptEventId = value
-        # Describes the implemented code preparation for rapid prototyping at
         # ExecutableEntity invocation.
         self._rptExecutable: Optional["RptExecutableEntity"] = None
 
@@ -94,7 +93,6 @@ class RptExecutableEntityEvent(Identifiable):
                 f"rptExecutable must be RptExecutableEntity or None, got {type(value).__name__}"
             )
         self._rptExecutable = value
-        # Describes the RptImplPolicy of a RptExecutableEvent for bypassing.
         self._rptImplPolicy: Optional["RptImplPolicy"] = None
 
     @property
@@ -122,7 +120,6 @@ class RptExecutableEntityEvent(Identifiable):
                 f"rptImplPolicy must be RptImplPolicy or None, got {type(value).__name__}"
             )
         self._rptImplPolicy = value
-        # This describes the applicable Pre Service Points for a / BswEvent of a
         # bypassed ExecutableEntity.
         self._rptServicePoint: List["RptServicePoint"] = []
 

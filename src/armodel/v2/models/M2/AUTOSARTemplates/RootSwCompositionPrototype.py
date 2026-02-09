@@ -77,7 +77,6 @@ class RootSwCompositionPrototype(Identifiable):
                 f"flatMap must be FlatMap or None, got {type(value).__name__}"
             )
         self._flatMap = value
-        # that includes all Component instances of the system.
         self._software: Optional["CompositionSw"] = None
 
     @property

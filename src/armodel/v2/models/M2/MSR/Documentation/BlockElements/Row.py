@@ -43,7 +43,6 @@ class Row(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # Indicates how the cells in the rows shall be aligned.
         # inherited from tbody, otherwise it is "TOP".
         self._valign: Optional["ValignEnum"] = None
 

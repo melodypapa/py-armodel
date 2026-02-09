@@ -57,7 +57,6 @@ class RoleBasedPortAssignment(ARObject):
             return
 
         self._portPrototype = value
-        # This is the role of the assigned Port in the given context.
         # shall be a shortName of the Blueprint of a Port standardized in the Software
                 # Specification of AUTOSAR Service.
         self._role: Optional["Identifier"] = None

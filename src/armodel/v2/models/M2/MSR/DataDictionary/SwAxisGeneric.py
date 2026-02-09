@@ -54,7 +54,6 @@ class SwAxisGeneric(ARObject):
                 f"swAxisType must be SwAxisType or None, got {type(value).__name__}"
             )
         self._swAxisType = value
-        # Specific parameter of a generic axis.
         self._swGenericAxis: List["SwGenericAxisParam"] = []
 
     @property

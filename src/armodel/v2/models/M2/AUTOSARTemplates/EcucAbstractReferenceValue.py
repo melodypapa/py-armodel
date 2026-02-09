@@ -63,7 +63,6 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
             return
 
         self._definition = value
-        # If withAuto is set to "true" for this parameter definition the be set to
                 # "true".
         # is set to "true" the actual value will not be ECU Configuration but will be
                 # the code generator and stored in the afterwards.

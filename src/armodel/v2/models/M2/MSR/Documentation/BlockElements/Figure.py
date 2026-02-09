@@ -79,7 +79,6 @@ class Area(ARObject):
                 f"accesskey must be String or str or None, got {type(value).__name__}"
             )
         self._accesskey = value
-        # This attribute specifies the text to be inserted as an illustrations, shapes
         # or applets, where these displayed by user agents.
         self._alt: Optional["String"] = None
 
@@ -108,7 +107,6 @@ class Area(ARObject):
                 f"alt must be String or str or None, got {type(value).__name__}"
             )
         self._alt = value
-        # Blank separated list of classes.
         self._class: Optional["String"] = None
 
     @property
@@ -136,7 +134,6 @@ class Area(ARObject):
                 f"class must be String or str or None, got {type(value).__name__}"
             )
         self._class = value
-        # This attribute specifies the position and shape on the number of values and
         # their order depend on figure defined.
         self._coords: Optional["String"] = None
 
@@ -165,7 +162,6 @@ class Area(ARObject):
                 f"coords must be String or str or None, got {type(value).__name__}"
             )
         self._coords = value
-        # This attribute specifies the memory location of a web is therefore able to
                 # specify a link between the and the target element.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._href: Optional["String"] = None
@@ -195,7 +191,6 @@ class Area(ARObject):
                 f"href must be String or str or None, got {type(value).__name__}"
             )
         self._href = value
-        # If this attribute is set, the Area has no associated link.
         self._nohref: Optional["AreaEnumNohref"] = None
 
     @property
@@ -223,7 +218,6 @@ class Area(ARObject):
                 f"nohref must be AreaEnumNohref or None, got {type(value).__name__}"
             )
         self._nohref = value
-        # The ONBLUR-Event occurs, when focus is switched away element.
         # can be stored in this attribute to be performed in.
         self._onblur: Optional["String"] = None
 
@@ -252,7 +246,6 @@ class Area(ARObject):
                 f"onblur must be String or str or None, got {type(value).__name__}"
             )
         self._onblur = value
-        # The ONCLICK-Event occurs, if the current element is can be stored in this
         # attribute to be performed in.
         self._onclick: Optional["String"] = None
 
@@ -281,7 +274,6 @@ class Area(ARObject):
                 f"onclick must be String or str or None, got {type(value).__name__}"
             )
         self._onclick = value
-        # The ONCLICK-Event occurs, if the current element is can be stored in this
         # attribute to be performed in.
         self._ondblclick: Optional["String"] = None
 
@@ -310,7 +302,6 @@ class Area(ARObject):
                 f"ondblclick must be String or str or None, got {type(value).__name__}"
             )
         self._ondblclick = value
-        # The ONFOCUS-Event occurs, if an element comes into through navigation using
                 # the tab button).
         # can be stored in this attribute to be performed in.
         self._onfocus: Optional["String"] = None
@@ -340,7 +331,6 @@ class Area(ARObject):
                 f"onfocus must be String or str or None, got {type(value).__name__}"
             )
         self._onfocus = value
-        # The ONKEYDOWN-Event occurs, if a button on the is pressed down.
         # can be stored in this attribute to be performed in.
         self._onkeydown: Optional["String"] = None
 
@@ -369,7 +359,6 @@ class Area(ARObject):
                 f"onkeydown must be String or str or None, got {type(value).__name__}"
             )
         self._onkeydown = value
-        # The ONKEYPRESS-Event occurs, if a button on the is pressed down and released.
         # can be stored in this attribute to be performed in.
         self._onkeypress: Optional["String"] = None
 
@@ -398,7 +387,6 @@ class Area(ARObject):
                 f"onkeypress must be String or str or None, got {type(value).__name__}"
             )
         self._onkeypress = value
-        # The ONKEYUP-Event occurs, if a button on the current released.
         # can be stored in this attribute to be performed in.
         self._onkeyup: Optional["String"] = None
 
@@ -427,7 +415,6 @@ class Area(ARObject):
                 f"onkeyup must be String or str or None, got {type(value).__name__}"
             )
         self._onkeyup = value
-        # The ONMOUSEDOWN-Event occurs, if the mouse button clicking is held down on
                 # the current element.
         # can be stored in this attribute to be performed in.
         self._onmousedown: Optional["String"] = None
@@ -457,7 +444,6 @@ class Area(ARObject):
                 f"onmousedown must be String or str or None, got {type(value).__name__}"
             )
         self._onmousedown = value
-        # The ONMOUSEMOVE-Event occurs, if the mouse pointer on the current element (i.
         # e.
         # it is located on the can be stored in this attribute to be performed in 535
                 # Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
@@ -488,7 +474,6 @@ class Area(ARObject):
                 f"onmousemove must be String or str or None, got {type(value).__name__}"
             )
         self._onmousemove = value
-        # The ONMOUSEOUT-Event occurs, if the mouse pointer is the current element.
         # can be stored in this attribute to be performed in.
         self._onmouseout: Optional["String"] = None
 
@@ -517,7 +502,6 @@ class Area(ARObject):
                 f"onmouseout must be String or str or None, got {type(value).__name__}"
             )
         self._onmouseout = value
-        # The ONMOUSEOVER-Event occurs, if the mouse pointer to the current element
         # from another location can be stored in this attribute to be performed in.
         self._onmouseover: Optional["String"] = None
 
@@ -546,7 +530,6 @@ class Area(ARObject):
                 f"onmouseover must be String or str or None, got {type(value).__name__}"
             )
         self._onmouseover = value
-        # The ONMOUSEUP-Event occurs if the mouse button clicking is released on the
                 # current element.
         # can be stored in this attribute to be performed in.
         self._onmouseup: Optional["String"] = None
@@ -576,7 +559,6 @@ class Area(ARObject):
                 f"onmouseup must be String or str or None, got {type(value).__name__}"
             )
         self._onmouseup = value
-        # The shape of the area.
         # Note that in HTML this is RECT.
         self._shape: Optional["AreaEnumShape"] = None
 
@@ -605,7 +587,6 @@ class Area(ARObject):
                 f"shape must be AreaEnumShape or None, got {type(value).__name__}"
             )
         self._shape = value
-        # Information on the associated style.
         self._style: Optional["String"] = None
 
     @property
@@ -633,7 +614,6 @@ class Area(ARObject):
                 f"style must be String or str or None, got {type(value).__name__}"
             )
         self._style = value
-        # This attribute specifies the position of the current element for the
                 # corresponding document.
         # shall lie between 0 and 32767.
         # The Tabbing the sequence in which elements are when the user navigates using
@@ -665,7 +645,6 @@ class Area(ARObject):
                 f"tabindex must be String or str or None, got {type(value).__name__}"
             )
         self._tabindex = value
-        # Title information of the Area element.
         self._title: Optional["String"] = None
 
     @property
@@ -1728,7 +1707,6 @@ class Graphic(EngineeringObject):
                 f"editfit must be GraphicFitEnum or None, got {type(value).__name__}"
             )
         self._editfit = value
-        # Specifies the height of the graphic when it is displayed in The unit can be
                 # added to the number in the units are: cm, mm, px, pt.
         # The default unit.
         self._editHeight: Optional["String"] = None
@@ -1758,7 +1736,6 @@ class Graphic(EngineeringObject):
                 f"editHeight must be String or str or None, got {type(value).__name__}"
             )
         self._editHeight = value
-        # Set the proportional scale when displayed in an editor.
         self._editscale: Optional["String"] = None
 
     @property
@@ -1786,7 +1763,6 @@ class Graphic(EngineeringObject):
                 f"editscale must be String or str or None, got {type(value).__name__}"
             )
         self._editscale = value
-        # Specifies the width of the graphic when it is displayed in The unit can be
                 # added to the number in the units are: cm, mm, px, pt.
         # The default unit.
         self._editWidth: Optional["String"] = None
@@ -1816,7 +1792,6 @@ class Graphic(EngineeringObject):
                 f"editWidth must be String or str or None, got {type(value).__name__}"
             )
         self._editWidth = value
-        # Name of the file that should be displayed.
         # This attribute is ASAM FSX and kept in AUTOSAR in order cut and paste.
         self._filename: Optional["String"] = None
 
@@ -1845,7 +1820,6 @@ class Graphic(EngineeringObject):
                 f"filename must be String or str or None, got {type(value).__name__}"
             )
         self._filename = value
-        # It determines the way in which the graphic should be attribute value "AS-IS"
                 # , to insert a graphic in its is adapted, if it is too big for the space for
                 # was intended.
         # Default is "AS-IS" 535 Document ID 202:
@@ -1877,7 +1851,6 @@ class Graphic(EngineeringObject):
                 f"fit must be GraphicFitEnum or None, got {type(value).__name__}"
             )
         self._fit = value
-        # This attribute specifies the generator which is used to image.
         # is that when editing a documentation, a figure delivered by the modeling
                 # tool) is inserted by the as reference (this is the role of graphic).
         # real figure maybe injected during document be able to recognize this
@@ -1909,7 +1882,6 @@ class Graphic(EngineeringObject):
                 f"generator must be NameToken or str or None, got {type(value).__name__}"
             )
         self._generator = value
-        # Define the displayed height of the figure.
         # The unit can be the number in the string.
         # Possible units are: cm, pt.
         # The default unit is px.
@@ -1940,7 +1912,6 @@ class Graphic(EngineeringObject):
                 f"height must be String or str or None, got {type(value).__name__}"
             )
         self._height = value
-        # How to fit the graphic in an online media.
         # Default is AS-IS.
         self._htmlFit: Optional["GraphicFitEnum"] = None
 
@@ -1969,7 +1940,6 @@ class Graphic(EngineeringObject):
                 f"htmlFit must be GraphicFitEnum or None, got {type(value).__name__}"
             )
         self._htmlFit = value
-        # Specifies the height of the graphic when it is displayed unit can be added to
                 # the number in the string.
         # are: cm, mm, px, pt.
         # The default unit is px.
@@ -2000,7 +1970,6 @@ class Graphic(EngineeringObject):
                 f"htmlHeight must be String or str or None, got {type(value).__name__}"
             )
         self._htmlHeight = value
-        # Set the proportional scale when displayed online.
         self._htmlScale: Optional["String"] = None
 
     @property
@@ -2028,7 +1997,6 @@ class Graphic(EngineeringObject):
                 f"htmlScale must be String or str or None, got {type(value).__name__}"
             )
         self._htmlScale = value
-        # Specifies the width of the graphic when it is displayed unit can be added to
                 # the number in the string.
         # are: cm, mm, px, pt.
         # The default unit is px.
@@ -2059,7 +2027,6 @@ class Graphic(EngineeringObject):
                 f"htmlWidth must be String or str or None, got {type(value).__name__}"
             )
         self._htmlWidth = value
-        # This attribute captures the format used to represent the.
         self._notation: Optional["GraphicNotationEnum"] = None
 
     @property
@@ -2087,7 +2054,6 @@ class Graphic(EngineeringObject):
                 f"notation must be GraphicNotationEnum or None, got {type(value).__name__}"
             )
         self._notation = value
-        # In this element the dimensions of the graphic can be.
         self._scale: Optional["String"] = None
 
     @property
@@ -2115,7 +2081,6 @@ class Graphic(EngineeringObject):
                 f"scale must be String or str or None, got {type(value).__name__}"
             )
         self._scale = value
-        # Define the displayed width of the figure.
         # The unit can be the number in the string.
         # Possible units are: cm, pt.
         # The default unit is px.
@@ -2859,7 +2824,6 @@ class Map(ARObject):
                 f"area must be Area, got {type(value).__name__}"
             )
         self._area = value
-        # This attribute assigns a class name or set of class names element.
         # Any number of elements may be assigned class name or set of class names.
         # Multiple shall be separated by white space names are typically used to apply
                 # CSS to an element.
@@ -2890,7 +2854,6 @@ class Map(ARObject):
                 f"class must be String or str or None, got {type(value).__name__}"
             )
         self._class = value
-        # This attribute assigns a name to the image map in the This name can be used
                 # to be referenced in image through the attribute USEMAP.
         # Although not actually necessary in the MSR model, it was order to support the
                 # MAPs which were created.
@@ -2921,7 +2884,6 @@ class Map(ARObject):
                 f"name must be NameToken or str or None, got {type(value).__name__}"
             )
         self._name = value
-        # The ONCLICK-Event occurs, if the current element is A script can be stored in
         # this attribute to be the Event.
         self._onclick: Optional["String"] = None
 
@@ -2950,7 +2912,6 @@ class Map(ARObject):
                 f"onclick must be String or str or None, got {type(value).__name__}"
             )
         self._onclick = value
-        # The ONDBLCLICK-Event occurs, if the current Event is A script can be stored
                 # in this attribute performed in the Event.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._ondblclick: Optional["String"] = None
@@ -2980,7 +2941,6 @@ class Map(ARObject):
                 f"ondblclick must be String or str or None, got {type(value).__name__}"
             )
         self._ondblclick = value
-        # The ONKEYDOWN-Event occurs, if a button on the is pressed down.
         # can be stored in this attribute to be performed in.
         self._onkeydown: Optional["String"] = None
 
@@ -3009,7 +2969,6 @@ class Map(ARObject):
                 f"onkeydown must be String or str or None, got {type(value).__name__}"
             )
         self._onkeydown = value
-        # The ONKEYPRESS-Event occurs, if a button on the is pressed down and released.
         # can be stored in this attribute to be performed in.
         self._onkeypress: Optional["String"] = None
 
@@ -3038,7 +2997,6 @@ class Map(ARObject):
                 f"onkeypress must be String or str or None, got {type(value).__name__}"
             )
         self._onkeypress = value
-        # The ONKEYUP-Event occurs, if a button on the current released.
         # can be stored in this attribute to be performed in.
         self._onkeyup: Optional["String"] = None
 
@@ -3067,7 +3025,6 @@ class Map(ARObject):
                 f"onkeyup must be String or str or None, got {type(value).__name__}"
             )
         self._onkeyup = value
-        # The ONMOUSEDOWN-Event occurs, if the mouse button clicking is held down on
                 # the current element.
         # can be stored in this attribute to be performed in.
         self._onmousedown: Optional["String"] = None
@@ -3097,7 +3054,6 @@ class Map(ARObject):
                 f"onmousedown must be String or str or None, got {type(value).__name__}"
             )
         self._onmousedown = value
-        # The ONMOUSEMOVE-Event occurs, if the mouse pointer on the current element (i.
         # e.
         # it is located on the can be stored in this attribute to be performed in.
         self._onmousemove: Optional["String"] = None
@@ -3127,7 +3083,6 @@ class Map(ARObject):
                 f"onmousemove must be String or str or None, got {type(value).__name__}"
             )
         self._onmousemove = value
-        # The ONMOUSEOUT-Event occurs, if the mouse pointer is the current element.
         # can be stored in this attribute to be performed in.
         self._onmouseout: Optional["String"] = None
 
@@ -3156,7 +3111,6 @@ class Map(ARObject):
                 f"onmouseout must be String or str or None, got {type(value).__name__}"
             )
         self._onmouseout = value
-        # The ONMOUSEOVER-Event occurs, if the mouse pointer to the current element
         # from another location can be stored in this attribute to be performed in.
         self._onmouseover: Optional["String"] = None
 
@@ -3185,7 +3139,6 @@ class Map(ARObject):
                 f"onmouseover must be String or str or None, got {type(value).__name__}"
             )
         self._onmouseover = value
-        # The ONMOUSEUP-Event occurs if the mouse button clicking is released on the
                 # current element.
         # can be stored in this attribute to be performed in.
         self._onmouseup: Optional["String"] = None
@@ -3215,7 +3168,6 @@ class Map(ARObject):
                 f"onmouseup must be String or str or None, got {type(value).__name__}"
             )
         self._onmouseup = value
-        # This attribute offers advisory information.
         # Some Web display this information as tooltips.
         # may make this information available to additional information about the
                 # element.
@@ -3911,7 +3863,6 @@ class MlFigure(Paginateable):
                 f"figureCaption must be Caption or None, got {type(value).__name__}"
             )
         self._figureCaption = value
-        # Used to defined the frame line around a figure.
         # It can following values: - Border at the top of the figure - Border at the
                 # bottom of the figure - Borders at the top and bottom of the figure - Borders
                 # all around the figure - Borders at the sides of the figure - No borders
@@ -3943,7 +3894,6 @@ class MlFigure(Paginateable):
                 f"frame must be FrameEnum or None, got {type(value).__name__}"
             )
         self._frame = value
-        # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
         self._helpEntry: Optional["String"] = None
@@ -3973,7 +3923,6 @@ class MlFigure(Paginateable):
                 f"helpEntry must be String or str or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        # Container of the graphic (or diagram) and optional map of in a given
         # language.
         self._lGraphic: List["LGraphic"] = []
 
@@ -4010,7 +3959,6 @@ class MlFigure(Paginateable):
                 f"pgwide must be PgwideEnum or None, got {type(value).__name__}"
             )
         self._pgwide = value
-        # <verbatim> is a paragraph in which white-space (in and line feeds) is obeyed.
         # This enables to be carried out, which can even be simple devices.
         # Behavior is the same as HTML.
         self._verbatim: Optional["MultiLanguageVerbatim"] = None
@@ -4318,7 +4266,6 @@ class LGraphic(LanguageSpecific):
                 f"graphic must be Graphic, got {type(value).__name__}"
             )
         self._graphic = value
-        # Image maps enable authors to specify regions of an object and assign a
         # specific action to each.
         self._map: Optional["Map"] = None
 

@@ -52,7 +52,6 @@ class NvRequireComSpec(RPortComSpec):
                 f"initValue must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._initValue = value
-        # The VariableDataPrototype the ComSpec applies for.
         self._variable: RefType = None
 
     @property

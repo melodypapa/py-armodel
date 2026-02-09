@@ -59,7 +59,6 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
                 f"dataIdentifier must be DiagnosticDynamicData or None, got {type(value).__name__}"
             )
         self._dataIdentifier = value
-        # This reference substantiates that abstract reference in the role serviceClass
                 # for this specific concrete class.
         # Thereby, the reference represents the ability to access among all
                 # DiagnosticDynamicallyDefine the given context.
@@ -90,7 +89,6 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
                 f"dynamically must be DiagnosticDynamically or None, got {type(value).__name__}"
             )
         self._dynamically = value
-        # This represents the maximum number of source elements the dynamically created
         # DID.
         self._maxSource: Optional["PositiveInteger"] = None
 
@@ -321,7 +319,6 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
                 f"checkPer must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._checkPer = value
-        # This configuration switch defines whether DDDID definition is handled as
         # non-volatile information or not.
         self._configuration: Optional["DiagnosticHandleDDDI"] = None
 
@@ -350,7 +347,6 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
                 f"configuration must be DiagnosticHandleDDDI or None, got {type(value).__name__}"
             )
         self._configuration = value
-        # This attribute contains a list of applicable subfunctions for
         # DiagnosticDynamicallyDefineDataIdentifier that the
         # DiagnosticDynamicallyDefineDataIdentifier.
         self._subfunction: List["DiagnosticDynamically"] = []

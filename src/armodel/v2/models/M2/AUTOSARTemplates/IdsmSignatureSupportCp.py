@@ -49,7 +49,6 @@ class IdsmSignatureSupportCp(ARObject):
                 f"authentication must be CryptoServicePrimitive or None, got {type(value).__name__}"
             )
         self._authentication = value
-        # This reference denotes the cryptographic key to be used the cryptographic
         # algorithm for providing in QSEv messages.
         self._cryptoService: Optional["CryptoServiceKey"] = None
 

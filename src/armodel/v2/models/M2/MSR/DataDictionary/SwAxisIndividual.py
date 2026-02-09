@@ -54,7 +54,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"compuMethod must be CompuMethod or None, got {type(value).__name__}"
             )
         self._compuMethod = value
-        # Refers to constraints, e.
         # g.
         # for plausibility checks.
         self._dataConstr: Optional["DataConstr"] = None
@@ -84,7 +83,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"dataConstr must be DataConstr or None, got {type(value).__name__}"
             )
         self._dataConstr = value
-        # This is the datatype of the input value for the axis.
         # This allows to define e.
         # g.
         # a type of curve, where the input finalized at the access point.
@@ -115,7 +113,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"inputVariable must be ApplicationPrimitive or None, got {type(value).__name__}"
             )
         self._inputVariable = value
-        # this specifies the properties of a generic axis if applicable.
         self._swAxisGeneric: Optional["SwAxisGeneric"] = None
 
     @property
@@ -143,7 +140,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"swAxisGeneric must be SwAxisGeneric or None, got {type(value).__name__}"
             )
         self._swAxisGeneric = value
-        # Maximum number of base points contained in the axis of map or curve.
         self._swMaxAxis: Optional["Integer"] = None
 
     @property
@@ -171,7 +167,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"swMaxAxis must be Integer or None, got {type(value).__name__}"
             )
         self._swMaxAxis = value
-        # Minimum number of base points contained in the axis of a or curve.
         self._swMinAxis: Optional["Integer"] = None
 
     @property
@@ -199,7 +194,6 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"swMinAxis must be Integer or None, got {type(value).__name__}"
             )
         self._swMinAxis = value
-        # Refers to input variables of the axis.
         # It is possible to more than one variable.
         # Here the following is variable with the highest priority shall be given
                 # first.

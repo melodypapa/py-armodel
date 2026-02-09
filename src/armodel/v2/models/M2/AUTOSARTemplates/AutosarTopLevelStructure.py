@@ -73,7 +73,6 @@ class AUTOSAR(ARObject):
                 f"adminData must be AdminData or None, got {type(value).__name__}"
             )
         self._adminData = value
-        # This is the top level package in an AUTOSAR model.
         # atpVariation.
         self._arPackage: List["ARPackage"] = []
 
@@ -111,7 +110,6 @@ class AUTOSAR(ARObject):
                 f"fileInfo must be FileInfoComment or None, got {type(value).__name__}"
             )
         self._fileInfo = value
-        # This represents an introduction on the Autosar file.
         # It is example to represent disclaimers and legal.
         self._introduction: Optional["DocumentationBlock"] = None
 

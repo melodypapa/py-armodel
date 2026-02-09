@@ -77,7 +77,6 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"associated must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._associated = value
-        # This attribute defines the resulting UDS status byte for the related event,
         # which shall not be cleared according to the callback.
         self._clearEvent: Optional["DiagnosticClearEvent"] = None
 
@@ -106,7 +105,6 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"clearEvent must be DiagnosticClearEvent or None, got {type(value).__name__}"
             )
         self._clearEvent = value
-        # This attribute defines the number of operation cycles with failed result
                 # before a confirmed DTC is set to 1.
         # The this attribute is a by "1" increased value the confirmation threshold of
                 # the "trip in ISO 14229-1 in figure D.
@@ -143,7 +141,6 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"confirmation must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._confirmation = value
-        # Event specific description of Indicators.
         # Stereotypes: atpSplitable; atpVariation.
         self._connected: List["DiagnosticConnected"] = []
 
@@ -180,7 +177,6 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"eventClear must be DiagnosticEventClear or None, got {type(value).__name__}"
             )
         self._eventClear = value
-        # This attribute is used to distinguish between SWC and events.
         self._eventKind: Optional["DiagnosticEventKind"] = None
 
     @property
@@ -208,7 +204,6 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"eventKind must be DiagnosticEventKind or None, got {type(value).__name__}"
             )
         self._eventKind = value
-        # This attribute describes whether the Prestorage of Freeze is supported by the
                 # assigned event or not.
         # of FreezeFrames is supported of FreezeFrames is not supported.
         self._prestorage: Optional["Boolean"] = None
@@ -238,7 +233,6 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"prestorage must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._prestorage = value
-        # If the Event uses a prestored freeze-frame (using the PrestoreFreezeFrame and
                 # ClearPrestored of the service interface DiagnosticMonitor) indicates if the
                 # Event requires the data to be non-volatile memory.
         # TRUE = Dem shall store data in non-volatile memory, FALSE = Data lost at
@@ -270,7 +264,6 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 f"prestored must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._prestored = value
-        # If the attribute is set to true then reporting PASSED will the indication of
         # a failed test in the current operation If the attribute is set to false then
         # reporting be ignored and not lead to a reset of the a failed test.
         self._recoverableIn: Optional["Boolean"] = None
@@ -761,7 +754,6 @@ class DiagnosticConnectedIndicator(Identifiable):
                 f"behaviorIndicatorBehaviorEnum must be DiagnosticConnected or None, got {type(value).__name__}"
             )
         self._behaviorIndicatorBehaviorEnum = value
-        # This attribute defines the number of healing cycles for the atpVariation.
         self._healingCycle: Optional["PositiveInteger"] = None
 
     @property
@@ -789,7 +781,6 @@ class DiagnosticConnectedIndicator(Identifiable):
                 f"healingCycle must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._healingCycle = value
-        # Reference to the used indicator.
         self._indicator: Optional["DiagnosticIndicator"] = None
 
     @property
@@ -817,7 +808,6 @@ class DiagnosticConnectedIndicator(Identifiable):
                 f"indicator must be DiagnosticIndicator or None, got {type(value).__name__}"
             )
         self._indicator = value
-        # This attribute defines the number of failure cycles for the Please note that
         # this is not relevant for the Adaptive Platform.
         self._indicatorFailure: Optional["PositiveInteger"] = None
 
@@ -1074,7 +1064,6 @@ class DiagnosticIumpr(DiagnosticCommonElement):
                 f"event must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._event = value
-        # This attribute controls the behavior of how the ratio is.
         self._ratioKind: Optional["DiagnosticIumprKind"] = None
 
     @property
@@ -1510,7 +1499,6 @@ class DiagnosticFimAliasEventMapping(DiagnosticMapping):
                 f"actualEvent must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._actualEvent = value
-        # This represents the reference to the alias event.
         self._aliasEventEvent: Optional["DiagnosticFimAlias"] = None
 
     @property

@@ -58,7 +58,6 @@ class AttributeValueVariationPoint(ARObject, ABC):
                 f"bindingTime must be BindingTimeEnum or None, got {type(value).__name__}"
             )
         self._bindingTime = value
-        # This represents a description that documents how the be defined when deriving
         # objects from the.
         self._blueprintValue: Optional["String"] = None
 
@@ -87,7 +86,6 @@ class AttributeValueVariationPoint(ARObject, ABC):
                 f"blueprintValue must be String or None, got {type(value).__name__}"
             )
         self._blueprintValue = value
-        # This special data is provided to allow synchronization of variation points
         # with variant management usage is subject of agreement between the.
         self._sd: Optional["String"] = None
 
@@ -116,7 +114,6 @@ class AttributeValueVariationPoint(ARObject, ABC):
                 f"sd must be String or None, got {type(value).__name__}"
             )
         self._sd = value
-        # This allows to identify the variation point.
         # It is also allow RTE support for CompileTime Variation.
         self._shortLabel: Optional["PrimitiveIdentifier"] = None
 

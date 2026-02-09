@@ -66,7 +66,6 @@ class InstantiationDataDefProps(ARObject):
             return
 
         self._parameter = value
-        # These are the particular data definition properties which be applied.
         self._swDataDef: Optional["SwDataDefProps"] = None
 
     @property
@@ -94,7 +93,6 @@ class InstantiationDataDefProps(ARObject):
                 f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._swDataDef = value
-        # This reference identifies the particular DataPrototype the context of a
         # composite VariableData which the swDataDefProps shall be.
         self._variableInstance: Optional["RefType"] = None
 

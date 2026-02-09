@@ -45,7 +45,6 @@ class Tt(ARObject):
                 f"term must be String, got {type(value).__name__}"
             )
         self._term = value
-        # This attribute holds information how the content attribute "term") of the
                 # particular is rendered using LaTeX.
         # This allows to LaTeX commands such as \sep{}.
         # An to render "MyClass" as "My\sep{}Class".
@@ -77,7 +76,6 @@ class Tt(ARObject):
                 f"texRender must be String or None, got {type(value).__name__}"
             )
         self._texRender = value
-        # This attribute specifies the type of the technical term.
         # such as "VARIABLE" "CALPRM".
         # It is no enum in order to support process specific.
         self._type: "NameToken" = None

@@ -64,7 +64,6 @@ class DiagnosticCommonProps(ARObject):
                 f"authentication must be TimeValue or None, got {type(value).__name__}"
             )
         self._authentication = value
-        # Defines the used debounce algorithms relevant in the context of the enclosing
                 # DiagnosticCommonProps.
         # is a variety of debouncing algorithms to account and therefore the
                 # multiplicity of this set to 0.
@@ -104,7 +103,6 @@ class DiagnosticCommonProps(ARObject):
                 f"default must be ByteOrderEnum or None, got {type(value).__name__}"
             )
         self._default = value
-        # In case of EventCombination on Retrieval, this attribute specifies if a
         # specific order of reporting is to be maintained.
         self._event: Optional["DiagnosticEvent"] = None
 
@@ -133,7 +131,6 @@ class DiagnosticCommonProps(ARObject):
                 f"event must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._event = value
-        # Maximum number of negative responses with response 0x78
                 # (requestCorrectlyReceived-ResponsePending) per request.
         # DCM will send a negative response response code 0x10 (generalReject), in case
                 # the limit gets reached.
@@ -165,7 +162,6 @@ class DiagnosticCommonProps(ARObject):
                 f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        # This attribute defines the consideration of the fault confirmation process
         # for the occurrence counter.
         self._occurrence: Optional["DiagnosticOccurrence"] = None
 
@@ -194,7 +190,6 @@ class DiagnosticCommonProps(ARObject):
                 f"occurrence must be DiagnosticOccurrence or None, got {type(value).__name__}"
             )
         self._occurrence = value
-        # This attribute defines, whether the confirmed bit is reset not while an event
         # memory entry will be displaced.
         self._resetConfirmed: Optional["Boolean"] = None
 
@@ -223,7 +218,6 @@ class DiagnosticCommonProps(ARObject):
                 f"resetConfirmed must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._resetConfirmed = value
-        # This attribute defines, whether the pending bit is reset or while an event
                 # memory entry will be displaced.
         # In be compliant to ISO 14229-1 [1], this parameter be set to "false".
         self._resetPendingBit: Optional["Boolean"] = None
@@ -253,7 +247,6 @@ class DiagnosticCommonProps(ARObject):
                 f"resetPendingBit must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._resetPendingBit = value
-        # If set to FALSE the DCM will not respond to diagnostic that contains a
         # service ID which is in the range to 0x7F or in the range from 0xC0 to 0xFF.
         self._responseOnAll: Optional["Boolean"] = None
 
@@ -282,7 +275,6 @@ class DiagnosticCommonProps(ARObject):
                 f"responseOnAll must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._responseOnAll = value
-        # Defines the reaction upon a second request (ClientB) that not be processed
                 # (e.
         # g.
         # due to priority assessment).
@@ -316,7 +308,6 @@ class DiagnosticCommonProps(ARObject):
                 f"responseOn must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._responseOn = value
-        # Select type of Event Combination support.
         self._typeOfEvent: Optional["DiagnosticEvent"] = None
 
     @property

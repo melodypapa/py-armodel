@@ -69,7 +69,6 @@ class FMFeature(ARElement):
                 f"maximum must be BindingTimeEnum or None, got {type(value).__name__}"
             )
         self._maximum = value
-        # Defines a lower bound for the binding time of the variation that are
                 # associated with the FMFeature.
         # This is meant as a hint for the development process.
         self._minimum: Optional["BindingTimeEnum"] = None
@@ -99,7 +98,6 @@ class FMFeature(ARElement):
                 f"minimum must be BindingTimeEnum or None, got {type(value).__name__}"
             )
         self._minimum = value
-        # Defines relations for FMFeatures, for example other FMFeatures, or conflicts
         # with A FMFeature can only be part of a all its relations are fulfilled.
         self._relation: List["FMFeatureRelation"] = []
 

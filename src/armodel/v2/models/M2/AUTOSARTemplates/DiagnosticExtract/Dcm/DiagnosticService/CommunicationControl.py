@@ -62,7 +62,6 @@ class DiagnosticComControl(DiagnosticServiceInstance):
                 f"comControl must be DiagnosticComControl or None, got {type(value).__name__}"
             )
         self._comControl = value
-        # This attribute shall be used to define a custom number if none of the
         # standardized values of shall be used.
         self._customSub: Optional["PositiveInteger"] = None
 
@@ -262,7 +261,6 @@ class DiagnosticComControlSpecificChannel(ARObject):
                 f"specificChannel must be CommunicationCluster or None, got {type(value).__name__}"
             )
         self._specificChannel = value
-        # This represents the affected specific EthernetPhysical Channel.
         self._specificPhysical: Optional["EthernetPhysical"] = None
 
     @property
@@ -290,7 +288,6 @@ class DiagnosticComControlSpecificChannel(ARObject):
                 f"specificPhysical must be EthernetPhysical or None, got {type(value).__name__}"
             )
         self._specificPhysical = value
-        # This represents the applicable subnet number (which is number ranging from 1.
         # 14).
         self._subnetNumber: Optional["PositiveInteger"] = None
 

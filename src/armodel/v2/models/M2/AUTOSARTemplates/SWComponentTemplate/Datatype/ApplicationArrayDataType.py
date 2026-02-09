@@ -51,7 +51,6 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
                 f"dynamicArray must be String or None, got {type(value).__name__}"
             )
         self._dynamicArray = value
-        # This association implements the concept of an array That is, in some cases it
                 # is necessary to be able single array elements, e.
         # g.
         # as input values for routine.

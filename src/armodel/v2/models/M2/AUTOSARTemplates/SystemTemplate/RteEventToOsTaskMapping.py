@@ -66,7 +66,6 @@ class OsTaskProxy(ARElement):
                 f"period must be TimeValue or None, got {type(value).__name__}"
             )
         self._period = value
-        # This attribute defines the preemptability of the task.
         self._preemptability: Optional["OsTaskPreemptability"] = None
 
     @property
@@ -94,7 +93,6 @@ class OsTaskProxy(ARElement):
                 f"preemptability must be OsTaskPreemptability or None, got {type(value).__name__}"
             )
         self._preemptability = value
-        # This attribute defines the priority of a task as a relative the values show
         # only the relative ordering of.
         self._priority: Optional["PositiveInteger"] = None
 
@@ -305,7 +303,6 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
                 f"appTaskProxy must be OsTaskProxy or None, got {type(value).__name__}"
             )
         self._appTaskProxy = value
-        # Reference to an OsTaskProxy that is created in the an EcuInstance.
         self._ecuTaskProxy: Optional["OsTaskProxy"] = None
 
     @property
@@ -333,7 +330,6 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
                 f"ecuTaskProxy must be OsTaskProxy or None, got {type(value).__name__}"
             )
         self._ecuTaskProxy = value
-        # This attribute is used to describe the position of the app an ecuTaskProxy as
                 # a relative value, i.
         # e.
         # the only the relative position of the appTask the ecuTaskProxy.
@@ -551,7 +547,6 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
                 f"offset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._offset = value
-        # Reference to OsTaskProxy to which the RteEvent is.
         self._osTaskProxy: Optional["OsTaskProxy"] = None
 
     @property
@@ -579,7 +574,6 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
                 f"osTaskProxy must be OsTaskProxy or None, got {type(value).__name__}"
             )
         self._osTaskProxy = value
-        # by: RteEventInComposition.
         self._rteEventInstanceRef: Optional["RTEEvent"] = None
 
     @property
@@ -836,7 +830,6 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
                 f"offset must be Integer or int or None, got {type(value).__name__}"
             )
         self._offset = value
-        # Reference to OsTaskProxy to which the RteEvent is 2090 Document ID 63:
         # AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._osTaskProxy: Optional["OsTaskProxy"] = None
 
@@ -865,7 +858,6 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
                 f"osTaskProxy must be OsTaskProxy or None, got {type(value).__name__}"
             )
         self._osTaskProxy = value
-        # by: RteEventInSystem.
         self._rteEventInstanceRef: Optional["RTEEvent"] = None
 
     @property

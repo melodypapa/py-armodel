@@ -152,7 +152,6 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
                 f"crcValidated must be GlobalTimeCrc or None, got {type(value).__name__}"
             )
         self._crcValidated = value
-        # Specifies the maximum allowed gap of the sequence between two SYNC resp.
         # two OFS messages.
         self._sequence: Optional["PositiveInteger"] = None
 
@@ -312,7 +311,6 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"ofsDataIDList must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._ofsDataIDList = value
-        self._syncDataIDList: "PositiveInteger" = None
 
     @property
     def sync_data_id_list(self) -> "PositiveInteger":

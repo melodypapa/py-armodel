@@ -41,7 +41,6 @@ class ShortNameFragment(ARObject):
                 f"fragment must be Identifier, got {type(value).__name__}"
             )
         self._fragment = value
-        # This specifies the role of fragment to define e.
         # g.
         # the order fragments.
         self._role: "String" = None

@@ -332,7 +332,6 @@ class ClassTailoring(ARObject, ABC):
                 f"multiplicity must be MultiplicityRestriction or None, got {type(value).__name__}"
             )
         self._multiplicity = value
-        # Specifies restrictions on the usage of variant handling.
         # Tags: xml.
         # sequenceOffset=20.
         self._variation: Optional["VariationRestrictionWith"] = None
@@ -518,7 +517,6 @@ class ClassContentConditional(Identifiable):
                 f"condition must be AbstractCondition or None, got {type(value).__name__}"
             )
         self._condition = value
-        # Specification of tailorings of Constraints of that are owned this Meta
         # Classes.
         self._constraint: List["ConstraintTailoring"] = []
 
@@ -1025,7 +1023,6 @@ class AttributeTailoring(DataFormatElementScope, ABC):
                 f"multiplicity must be MultiplicityRestriction or None, got {type(value).__name__}"
             )
         self._multiplicity = value
-        # Restrictions on the usage of variant handling.
         # Tags: xml.
         # sequenceOffset=20.
         self._variation: Optional["VariationRestrictionWith"] = None
@@ -1634,7 +1631,6 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
                 f"defaultValue must be DefaultValueApplication or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        # Tailors the attribute of a <<primitive>> data type.
         self._subAttribute: List["PrimitiveAttribute"] = []
 
     @property

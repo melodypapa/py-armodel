@@ -45,7 +45,6 @@ class ChapterContent(ARObject):
                 f"prms must be Prms, got {type(value).__name__}"
             )
         self._prms = value
-        # This is that part of a chapter content which may appear in chapter as well as
         # in a topic.
         self._topicContent: Optional["TopicContentOrMsr"] = None
 

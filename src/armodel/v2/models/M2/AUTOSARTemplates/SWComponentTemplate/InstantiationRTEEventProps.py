@@ -52,7 +52,6 @@ class InstantiationRTEEventProps(ARObject, ABC):
                 f"refinedEvent must be RTEEvent or None, got {type(value).__name__}"
             )
         self._refinedEvent = value
-        # The main purpose of the shortLabel is to contribute to the aggregations that
         # are <<atpSplitable>>.
         self._shortLabel: Optional["Identifier"] = None
 

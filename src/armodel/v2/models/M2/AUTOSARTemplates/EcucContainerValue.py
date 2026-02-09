@@ -56,7 +56,6 @@ class EcucContainerValue(Identifiable):
                 f"definition must be EcucContainerDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        # Aggregates all ECU Configuration Values within this atpVariation.
         self._parameterValue: List["EcucParameterValue"] = []
 
     @property

@@ -62,7 +62,6 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
                 f"customTrigger must be String or str or None, got {type(value).__name__}"
             )
         self._customTrigger = value
-        # This attribute defines a record number for a freeze frame.
         self._recordNumber: Optional["PositiveInteger"] = None
 
     @property
@@ -90,7 +89,6 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
                 f"recordNumber must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._recordNumber = value
-        # This attribute defines the primary trigger to allocate an memory entry.
         self._trigger: Optional["DiagnosticRecord"] = None
 
     @property
@@ -118,7 +116,6 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
                 f"trigger must be DiagnosticRecord or None, got {type(value).__name__}"
             )
         self._trigger = value
-        # This attribute defines the approach when the freeze frame stored/updated.
         # record is captured every time.
         # record is only captured for new event.
         self._update: Optional["Boolean"] = None

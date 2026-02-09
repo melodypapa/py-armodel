@@ -234,7 +234,6 @@ class TransmissionModeCondition(ARObject):
                 f"dataFilter must be DataFilter or None, got {type(value).__name__}"
             )
         self._dataFilter = value
-        # Reference to a signal to which a condition is attached.
         self._iSignalInIPdu: Optional["RefType"] = None
 
     @property
@@ -444,7 +443,6 @@ class TransmissionModeTiming(ARObject):
                 f"cyclicTiming must be CyclicTiming or None, got {type(value).__name__}"
             )
         self._cyclicTiming = value
-        # Direct Transmission Mode.
         self._eventControlledTiming: Optional["EventControlledTiming"] = None
 
     @property
@@ -610,7 +608,6 @@ class CyclicTiming(Describable):
                 f"timeOffset must be TimeRangeType or None, got {type(value).__name__}"
             )
         self._timeOffset = value
-        # Period of the repetition of cyclic transmissions.
         self._timePeriod: Optional["TimeRangeType"] = None
 
     @property
@@ -777,7 +774,6 @@ class EventControlledTiming(Describable):
                 f"numberOf must be Integer or int or None, got {type(value).__name__}"
             )
         self._numberOf = value
-        # The repetitionPeriod specifies the time in seconds that the pdu can be sent
                 # the next time gap between two pdus).
         # The repetition optional in case that no repetitions are.
         self._repetitionPeriod: Optional["TimeRangeType"] = None
@@ -944,7 +940,6 @@ class TimeRangeType(ARObject):
                 f"toleranceTolerance must be TimeRangeType or None, got {type(value).__name__}"
             )
         self._toleranceTolerance = value
-        # Average value of a date (in seconds).
         self._value: Optional["TimeValue"] = None
 
     @property

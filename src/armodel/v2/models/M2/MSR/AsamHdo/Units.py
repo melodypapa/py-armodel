@@ -76,7 +76,6 @@ class Unit(ARElement):
                 f"displayName must be SingleLanguageUnit or None, got {type(value).__name__}"
             )
         self._displayName = value
-        # This is the factor for the conversion from SI Units to units.
         # is used for conversion from units to SI Units.
         self._factorSiToUnit: Optional["Float"] = None
 
@@ -105,7 +104,6 @@ class Unit(ARElement):
                 f"factorSiToUnit must be Float or float or None, got {type(value).__name__}"
             )
         self._factorSiToUnit = value
-        # This is the offset for the conversion from and to siUnits.
         self._offsetSiToUnit: Optional["Float"] = None
 
     @property
@@ -133,7 +131,6 @@ class Unit(ARElement):
                 f"offsetSiToUnit must be Float or float or None, got {type(value).__name__}"
             )
         self._offsetSiToUnit = value
-        # This association represents the physical dimension to the unit belongs to.
         # Note that only values with units same physical dimensions might be converted.
         self._physical: Optional["PhysicalDimension"] = None
 
@@ -451,7 +448,6 @@ class PhysicalDimension(ARElement):
                 f"currentExp must be Numerical or None, got {type(value).__name__}"
             )
         self._currentExp = value
-        # The exponent of the physical dimension "length".
         self._lengthExp: Optional["Numerical"] = None
 
     @property
@@ -479,7 +475,6 @@ class PhysicalDimension(ARElement):
                 f"lengthExp must be Numerical or None, got {type(value).__name__}"
             )
         self._lengthExp = value
-        # The exponent of the physical dimension "luminous.
         self._luminous: Optional["Numerical"] = None
 
     @property
@@ -507,7 +502,6 @@ class PhysicalDimension(ARElement):
                 f"luminous must be Numerical or None, got {type(value).__name__}"
             )
         self._luminous = value
-        # The exponent of the physical dimension "mass".
         self._massExp: Optional["Numerical"] = None
 
     @property
@@ -535,7 +529,6 @@ class PhysicalDimension(ARElement):
                 f"massExp must be Numerical or None, got {type(value).__name__}"
             )
         self._massExp = value
-        # The exponent of the physical dimension "quantity of.
         self._molarAmount: Optional["Numerical"] = None
 
     @property
@@ -563,7 +556,6 @@ class PhysicalDimension(ARElement):
                 f"molarAmount must be Numerical or None, got {type(value).__name__}"
             )
         self._molarAmount = value
-        # The exponent of the physical dimension "temperature".
         self._temperatureExp: Optional["Numerical"] = None
 
     @property
@@ -591,7 +583,6 @@ class PhysicalDimension(ARElement):
                 f"temperatureExp must be Numerical or None, got {type(value).__name__}"
             )
         self._temperatureExp = value
-        # The exponent of the physical dimension "time".
         self._timeExp: Optional["Numerical"] = None
 
     @property
@@ -976,7 +967,6 @@ class PhysicalDimensionMapping(ARObject):
                 f"firstPhysical must be PhysicalDimension or None, got {type(value).__name__}"
             )
         self._firstPhysical = value
-        # This represents the first PhysicalDimension of the PhysicalDimensionMapping.
         self._secondPhysical: Optional["PhysicalDimension"] = None
 
     @property

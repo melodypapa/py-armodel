@@ -52,7 +52,6 @@ class TimingEvent(RTEEvent):
                 f"offset must be TimeValue or None, got {type(value).__name__}"
             )
         self._offset = value
-        # Period of timing event in seconds.
         # The value of this be greater than zero.
         self._period: Optional["TimeValue"] = None
 

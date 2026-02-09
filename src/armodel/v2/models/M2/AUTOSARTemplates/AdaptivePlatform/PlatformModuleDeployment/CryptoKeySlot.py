@@ -55,7 +55,6 @@ class CryptoKeySlot(Identifiable):
                 f"allocateShadow must be Boolean or None, got {type(value).__name__}"
             )
         self._allocateShadow = value
-        # This attribute defines a crypto algorithm restriction (kAlgId without
                 # restriction).
         # The algorithm can be family & length, mode, padding.
         # Providers can support some crypto are not well known/ standardized today,
@@ -92,7 +91,6 @@ class CryptoKeySlot(Identifiable):
                 f"cryptoAlgId must be String or None, got {type(value).__name__}"
             )
         self._cryptoAlgId = value
-        # Object type that can be stored in the slot.
         # If this field "Undefined" then mSlotCapacity must be larger then 0.
         self._cryptoObject: Optional["CryptoObjectTypeEnum"] = None
 
@@ -121,7 +119,6 @@ class CryptoKeySlot(Identifiable):
                 f"cryptoObject must be CryptoObjectTypeEnum or None, got {type(value).__name__}"
             )
         self._cryptoObject = value
-        # Restricts how this keySlot may be used Tags: atp.
         # Status=candidate.
         self._keySlotAllowed: Optional["CryptoKeySlotAllowed"] = None
 
@@ -150,7 +147,6 @@ class CryptoKeySlot(Identifiable):
                 f"keySlotAllowed must be CryptoKeySlotAllowed or None, got {type(value).__name__}"
             )
         self._keySlotAllowed = value
-        # Restriction of allowed usage of a key stored to the slot.
         # Tags: atp.
         # Status=candidate.
         self._keySlotContent: List["CryptoKeySlotContent"] = []
@@ -190,7 +186,6 @@ class CryptoKeySlot(Identifiable):
                 f"slotCapacity must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._slotCapacity = value
-        # This attribute defines whether the keySlot is exclusively by the Application;
         # or whether it is used by Stack managed by a Key Manager Application.
         self._slotType: Optional["CryptoKeySlotType"] = None
 

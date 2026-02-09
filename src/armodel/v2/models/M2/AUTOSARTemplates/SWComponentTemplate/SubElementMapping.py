@@ -48,7 +48,6 @@ class SubElementMapping(ARObject):
             return
 
         self._firstElement = value
-        # This represents the second element referenced in the the mapping.
         # atpVariation.
         self._secondElement: RefType = None
 
@@ -73,7 +72,6 @@ class SubElementMapping(ARObject):
             return
 
         self._secondElement = value
-        # of a composite data type.
         self._textTable: RefType = None
 
     @property

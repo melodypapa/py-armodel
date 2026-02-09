@@ -104,7 +104,6 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
                 f"access must be DiagnosticAccess or None, got {type(value).__name__}"
             )
         self._access = value
-        # This represents the identification of the memory segment.
         self._id: Optional["PositiveInteger"] = None
 
     @property
@@ -132,7 +131,6 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        # This represents a symbolic label for the upper bound for of the memory
         # segment.
         self._memoryHigh: Optional["String"] = None
 
@@ -161,7 +159,6 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
                 f"memoryHigh must be String or str or None, got {type(value).__name__}"
             )
         self._memoryHigh = value
-        # This represents a symbolic label for the lower bound for of the memory
         # segment.
         self._memoryLow: Optional["String"] = None
 

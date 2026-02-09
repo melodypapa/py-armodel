@@ -222,7 +222,6 @@ class DiagnosticParameterElement(Identifiable):
                 f"arraySize must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._arraySize = value
-        # This collection represents the sub-elements on the next level.
         self._subElement: List["DiagnosticParameter"] = []
 
     @property
@@ -381,7 +380,6 @@ class DiagnosticAbstractParameter(ARObject, ABC):
                 f"bitOffset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._bitOffset = value
-        # This represents the related dataElement of the Diagnostic atpVariation.
         self._dataElement: Optional["DiagnosticDataElement"] = None
 
     @property
@@ -409,7 +407,6 @@ class DiagnosticAbstractParameter(ARObject, ABC):
                 f"dataElement must be DiagnosticDataElement or None, got {type(value).__name__}"
             )
         self._dataElement = value
-        # This attribute allows for the specification of the parameter information is
                 # relevant if there is a gap between parameter and the following diagnostic the
                 # tail of the telegram).
         # The unit is bit and shall be multiples of 8.
@@ -624,7 +621,6 @@ class DiagnosticDataElement(Identifiable):
                 f"arraySize must be ArraySizeSemantics or None, got {type(value).__name__}"
             )
         self._arraySize = value
-        # The existence of this attribute turns the data instance into array of data.
         # The attribute determines the size of the terms of how many elements the array
                 # can take.
         self._maxNumberOf: Optional["PositiveInteger"] = None
@@ -654,7 +650,6 @@ class DiagnosticDataElement(Identifiable):
                 f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        # Size in bytes of scaling information for the DiagnosticData used with
         # DiagnosticReadScalingDataBy.
         self._scalingInfoSize: Optional["PositiveInteger"] = None
 
@@ -683,7 +678,6 @@ class DiagnosticDataElement(Identifiable):
                 f"scalingInfoSize must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._scalingInfoSize = value
-        # This property allows to specify data definition properties order to support
                 # the definition of e.
         # g.
         # computation data constraints.
@@ -1133,7 +1127,6 @@ class DiagnosticSupportInfoByte(ARObject):
                 f"position must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._position = value
-        # This represents the size of the supportInfo within the PID.
         self._size: Optional["PositiveInteger"] = None
 
     @property
@@ -1395,7 +1388,6 @@ class DiagnosticRoutine(DiagnosticCommonElement):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        # This represents the ability to request the result of a routine.
         self._requestResult: Optional["DiagnosticRequest"] = None
 
     @property
@@ -1423,7 +1415,6 @@ class DiagnosticRoutine(DiagnosticCommonElement):
                 f"requestResult must be DiagnosticRequest or None, got {type(value).__name__}"
             )
         self._requestResult = value
-        # This represents the routine info byte.
         # The info byte manufacturer-specific value (for the record identifiers) that
                 # is reported to the cases for this attribute are mentioned in ISO ISO 26021.
         self._routineInfo: Optional["PositiveInteger"] = None
@@ -1453,7 +1444,6 @@ class DiagnosticRoutine(DiagnosticCommonElement):
                 f"routineInfo must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._routineInfo = value
-        # This represents the ability to start a routine.
         self._start: Optional["DiagnosticStartRoutine"] = None
 
     @property
@@ -1481,7 +1471,6 @@ class DiagnosticRoutine(DiagnosticCommonElement):
                 f"start must be DiagnosticStartRoutine or None, got {type(value).__name__}"
             )
         self._start = value
-        # This represents the ability to stop a running routine.
         self._stop: Optional["DiagnosticStopRoutine"] = None
 
     @property
@@ -1787,7 +1776,6 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        # The size of the entire PID can be greater than the sum of elements because
         # padding might be applied.
         self._pidSize: Optional["PositiveInteger"] = None
 
@@ -1816,7 +1804,6 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
                 f"pidSize must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pidSize = value
-        # This represents the supported information associated the
         # DiagnosticParameterIdentifier.
         self._supportInfoByte: Optional["DiagnosticSupportInfo"] = None
 
@@ -2156,7 +2143,6 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
                 f"ident must be DiagnosticParameter or None, got {type(value).__name__}"
             )
         self._ident = value
-        # This attribute represents the ability to define which bit of support info
         # byte is representing this part of the PID.
         self._supportInfo: Optional["DiagnosticParameter"] = None
 
@@ -2510,7 +2496,6 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
                 f"didSize must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._didSize = value
-        # This attributes indicates whether the specific Diagnostic the vehicle
         # identification.
         self._representsVin: Optional["Boolean"] = None
 
@@ -2539,7 +2524,6 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
                 f"representsVin must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._representsVin = value
-        # This attribute represents the supported information with the
         # DiagnosticDataIdentifier.
         self._supportInfoByte: Optional["DiagnosticSupportInfo"] = None
 

@@ -50,7 +50,6 @@ class FirewallRuleProps(ARObject):
                 f"action must be FirewallActionEnum or None, got {type(value).__name__}"
             )
         self._action = value
-        # This element defines an egress rule expression against which the network
         # traffic is matched.
         self._matchingEgress: List["FirewallRule"] = []
 

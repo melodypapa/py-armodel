@@ -66,7 +66,6 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
                 f"crcSecured must be GlobalTimeCrcSupport or None, got {type(value).__name__}"
             )
         self._crcSecured = value
-        # This attribute defines the timeout for transmission of Sync messages on
         # Master ports in absence of Sync and Follow_Up messages on Slave.
         self._holdOverTime: Optional["TimeValue"] = None
 
@@ -95,7 +94,6 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
                 f"holdOverTime must be TimeValue or None, got {type(value).__name__}"
             )
         self._holdOverTime = value
-        # Defines the subTLV fields which shall be included in the message.
         self._subTlvConfig: Optional["EthTSynSubTlvConfig"] = None
 
     @property
@@ -319,7 +317,6 @@ class EthTSynSubTlvConfig(ARObject):
                 f"ofsSubTlv must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._ofsSubTlv = value
-        # Defines whether an AUTOSAR Follow_Up TLV Status used.
         self._statusSubTlv: Optional["Boolean"] = None
 
     @property
@@ -347,7 +344,6 @@ class EthTSynSubTlvConfig(ARObject):
                 f"statusSubTlv must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._statusSubTlv = value
-        # Defines whether an AUTOSAR Follow_Up TLV Time used.
         self._timeSubTlv: Optional["Boolean"] = None
 
     @property
@@ -375,7 +371,6 @@ class EthTSynSubTlvConfig(ARObject):
                 f"timeSubTlv must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._timeSubTlv = value
-        # Defines whether an AUTOSAR Follow_Up TLV UserData used.
         self._userDataSubTlv: Optional["Boolean"] = None
 
     @property
@@ -721,7 +716,6 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"crcFlags must be EthTSynCrcFlags or None, got {type(value).__name__}"
             )
         self._crcFlags = value
-        # Defines the MAC multicast address the Ethernet time messages are communicated
         # on.
         self._destination: Optional["MacAddressString"] = None
 
@@ -750,7 +744,6 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"destination must be MacAddressString or None, got {type(value).__name__}"
             )
         self._destination = value
-        self._fupDataIDList: "PositiveInteger" = None
 
     @property
     def fup_data_id_list(self) -> "PositiveInteger":
@@ -773,7 +766,6 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"fupDataIDList must be PositiveInteger or str, got {type(value).__name__}"
             )
         self._fupDataIDList = value
-        # Collection of CouplingPorts which are managed in the scope of this Ethernet
         # GlobalTimeDomain.
         self._managed: List["EthGlobalTime"] = []
 
@@ -810,7 +802,6 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
                 f"message must be EthGlobalTimeMessage or None, got {type(value).__name__}"
             )
         self._message = value
-        # Defines which VLAN priority shall be assigned to a time in case the message
         # is sent using a VLAN.
         self._vlanPriority: Optional["PositiveInteger"] = None
 
@@ -1121,7 +1112,6 @@ class EthTSynCrcFlags(ARObject):
                 f"crcCorrection must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._crcCorrection = value
-        # DomainNumber from the Follow_Up Message Header be included in CRC
         # calculation.
         self._crcDomain: Optional["Boolean"] = None
 
@@ -1150,7 +1140,6 @@ class EthTSynCrcFlags(ARObject):
                 f"crcDomain must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._crcDomain = value
-        # MessageLength from the Follow_Up Message Header be included in CRC
         # calculation.
         self._crcMessage: Optional["Boolean"] = None
 
@@ -1179,7 +1168,6 @@ class EthTSynCrcFlags(ARObject):
                 f"crcMessage must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._crcMessage = value
-        # PreciseOriginTimestamp from the Follow_Up Message shall be included in CRC
         # calculation.
         self._crcPrecise: Optional["Boolean"] = None
 
@@ -1208,7 +1196,6 @@ class EthTSynCrcFlags(ARObject):
                 f"crcPrecise must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._crcPrecise = value
-        # SequenceId from the Follow_Up Message Header shall in CRC calculation.
         self._crcSequenceId: Optional["Boolean"] = None
 
     @property
@@ -1236,7 +1223,6 @@ class EthTSynCrcFlags(ARObject):
                 f"crcSequenceId must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._crcSequenceId = value
-        # SourcePortIdentity from the Follow_Up Message Header be included in CRC
         # calculation.
         self._crcSourcePort: Optional["Boolean"] = None
 
@@ -1577,7 +1563,6 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"couplingPort must be CouplingPort or None, got {type(value).__name__}"
             )
         self._couplingPort = value
-        # This attribute defines the port behavior.
         self._globalTimePort: Optional["GlobalTimePortRole"] = None
 
     @property
@@ -1605,7 +1590,6 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"globalTimePort must be GlobalTimePortRole or None, got {type(value).__name__}"
             )
         self._globalTimePort = value
-        # This attribute defines the TX period in seconds 2090 Document ID 63:
         # AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._globalTimeTxPeriod: Optional["TimeValue"] = None
 
@@ -1634,7 +1618,6 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"globalTimeTxPeriod must be TimeValue or None, got {type(value).__name__}"
             )
         self._globalTimeTxPeriod = value
-        # Threshold for calculated Pdelay.
         # If a measured Pdelay pdelayLatencyThreshold, the measured Pdelay discarded.
         self._pdelayLatency: Optional["TimeValue"] = None
 
@@ -1663,7 +1646,6 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"pdelayLatency must be TimeValue or None, got {type(value).__name__}"
             )
         self._pdelayLatency = value
-        # Defines the period for the pdelay request messages.
         self._pdelayRequest: Optional["TimeValue"] = None
 
     @property
@@ -1691,7 +1673,6 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"pdelayRequest must be TimeValue or None, got {type(value).__name__}"
             )
         self._pdelayRequest = value
-        # Timeout value for Pdelay_Resp and Pdelay_Resp_ after a Pdelay_Req has been
                 # transmitted resp.
         # Pdelay_Resp has been received.
         # A value of 0 or not attribute deactivates this timeout observation.
@@ -1722,7 +1703,6 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"pdelayRespAnd must be TimeValue or None, got {type(value).__name__}"
             )
         self._pdelayRespAnd = value
-        # Defines whether PDELAY RESPONSE and PDELAY FOLLOW UP shall be sent on this
         # Coupling.
         self._pdelay: Optional["Boolean"] = None
 

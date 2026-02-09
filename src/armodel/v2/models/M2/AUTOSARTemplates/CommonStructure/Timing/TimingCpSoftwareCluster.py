@@ -129,7 +129,6 @@ class TDCpSoftwareClusterMapping(Identifiable):
                 f"provider must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._provider = value
-        # This is the software cluster that requests the temporal resource.
         self._requestor: List["CpSoftwareCluster"] = []
 
     @property
@@ -313,7 +312,6 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
                 f"resource must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._resource = value
-        # The timing description representing the temporal and resource.
         self._timing: Optional["TimingDescription"] = None
 
     @property

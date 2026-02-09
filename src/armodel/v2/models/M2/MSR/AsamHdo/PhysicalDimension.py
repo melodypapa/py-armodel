@@ -49,7 +49,6 @@ class PhysicalDimension(ARElement):
                 f"currentExp must be Numerical or None, got {type(value).__name__}"
             )
         self._currentExp = value
-        # The exponent of the physical dimension "length".
         self._lengthExp: Optional["Numerical"] = None
 
     @property
@@ -77,7 +76,6 @@ class PhysicalDimension(ARElement):
                 f"lengthExp must be Numerical or None, got {type(value).__name__}"
             )
         self._lengthExp = value
-        # The exponent of the physical dimension "luminous.
         self._luminous: Optional["Numerical"] = None
 
     @property
@@ -105,7 +103,6 @@ class PhysicalDimension(ARElement):
                 f"luminous must be Numerical or None, got {type(value).__name__}"
             )
         self._luminous = value
-        # The exponent of the physical dimension "mass".
         self._massExp: Optional["Numerical"] = None
 
     @property
@@ -133,7 +130,6 @@ class PhysicalDimension(ARElement):
                 f"massExp must be Numerical or None, got {type(value).__name__}"
             )
         self._massExp = value
-        # The exponent of the physical dimension "quantity of.
         self._molarAmount: Optional["Numerical"] = None
 
     @property
@@ -161,7 +157,6 @@ class PhysicalDimension(ARElement):
                 f"molarAmount must be Numerical or None, got {type(value).__name__}"
             )
         self._molarAmount = value
-        # The exponent of the physical dimension "temperature".
         self._temperatureExp: Optional["Numerical"] = None
 
     @property
@@ -189,7 +184,6 @@ class PhysicalDimension(ARElement):
                 f"temperatureExp must be Numerical or None, got {type(value).__name__}"
             )
         self._temperatureExp = value
-        # The exponent of the physical dimension "time".
         self._timeExp: Optional["Numerical"] = None
 
     @property

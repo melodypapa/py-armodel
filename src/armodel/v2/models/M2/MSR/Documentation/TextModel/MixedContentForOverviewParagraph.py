@@ -48,7 +48,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"br must be Br, got {type(value).__name__}"
             )
         self._br = value
-        # This is emphasis text.
         self._e: "EmphasisText" = None
 
     @property
@@ -72,7 +71,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"e must be EmphasisText, got {type(value).__name__}"
             )
         self._e = value
-        # This is a foot note within a paragraph.
         self._ft: "SlOverviewParagraph" = None
 
     @property
@@ -96,7 +94,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"ft must be SlOverviewParagraph, got {type(value).__name__}"
             )
         self._ft = value
-        # This is an index entry.
         self._ie: "IndexEntry" = None
 
     @property
@@ -120,7 +117,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"ie must be IndexEntry, got {type(value).__name__}"
             )
         self._ie = value
-        # This is superscript text.
         self._sub: "Superscript" = None
 
     @property
@@ -144,7 +140,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        # This is subscript text.
         self._sup: "Superscript" = None
 
     @property
@@ -168,7 +163,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"sup must be Superscript, got {type(value).__name__}"
             )
         self._sup = value
-        # This allows to place an arbitrary reference to a traceable documentation.
         self._trace: "Traceable" = None
 
     @property
@@ -192,7 +186,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"trace must be Traceable, got {type(value).__name__}"
             )
         self._trace = value
-        # This is a technical term.
         self._tt: "Tt" = None
 
     @property
@@ -216,7 +209,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"tt must be Tt, got {type(value).__name__}"
             )
         self._tt = value
-        # This is a cross reference.
         self._xref: "Xref" = None
 
     @property
@@ -240,7 +232,6 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
                 f"xref must be Xref, got {type(value).__name__}"
             )
         self._xref = value
-        # This element specifies a reference target which can be the text.
         self._xrefTarget: "XrefTarget" = None
 
     @property

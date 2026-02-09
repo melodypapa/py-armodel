@@ -59,7 +59,6 @@ class SwPointerTargetProps(ARObject):
                 f"functionPointer must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._functionPointer = value
-        # The properties of the target data type.
         # atpSplitable.
         self._swDataDef: Optional["SwDataDefProps"] = None
 
@@ -88,7 +87,6 @@ class SwPointerTargetProps(ARObject):
                 f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._swDataDef = value
-        # This specifies the category of the target: case of a data pointer, it shall
                 # specify the category of data.
         # case of a function pointer, it could be used to denote of the referenced
                 # BswModuleEntry.

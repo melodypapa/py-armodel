@@ -47,7 +47,6 @@ class LifeCycleInfo(ARObject):
             TypeError: If value type is incorrect
         """
         self._lcObject = value
-        # This denotes the particular state assigned to the object.
         # If is given then the default life cycle state of Life assumed.
         self._lcState: Optional["LifeCycleState"] = None
 
@@ -76,7 +75,6 @@ class LifeCycleInfo(ARObject):
                 f"lcState must be LifeCycleState or None, got {type(value).__name__}"
             )
         self._lcState = value
-        # Starting point of period in which the element has the cycle state lcState.
         # If no periodBegin is given default period begin of LifeCycleInfoSet is 535
                 # Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._periodBegin: Optional["LifeCyclePeriod"] = None
@@ -106,7 +104,6 @@ class LifeCycleInfo(ARObject):
                 f"periodBegin must be LifeCyclePeriod or None, got {type(value).__name__}"
             )
         self._periodBegin = value
-        # Expiry date, i.
         # e.
         # end point of period the element does not denoted life cycle state lcState any
                 # more.
@@ -138,7 +135,6 @@ class LifeCycleInfo(ARObject):
                 f"periodEnd must be LifeCyclePeriod or None, got {type(value).__name__}"
             )
         self._periodEnd = value
-        # Remark describing for example the element was given the specified life cycle
         # semantics of useInstead.
         self._remark: Optional["DocumentationBlock"] = None
 
@@ -167,7 +163,6 @@ class LifeCycleInfo(ARObject):
                 f"remark must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._remark = value
-        # Element(s) that should be used instead of the one referrable.
         # in case of life cycle states lcState unlike case there are multiple
                 # references the exact be individually described in the remark.
         self._useInstead: List[RefType] = []

@@ -57,7 +57,6 @@ class ClientServerOperationBlueprintMapping(ARObject):
                 f"blueprint must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._blueprint = value
-        # The referenced BswModuleEntry represents the Bsw the mapping is dedicated to.
         self._bswModule: "BswModuleEntry" = None
 
     @property
@@ -81,7 +80,6 @@ class ClientServerOperationBlueprintMapping(ARObject):
                 f"bswModule must be BswModuleEntry, got {type(value).__name__}"
             )
         self._bswModule = value
-        # The referenced ClientServerOperation represents the server operation the
         # mapping is dedicated to.
         self._clientServer: "ClientServerOperation" = None
 
@@ -305,7 +303,6 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
                 f"clientServer must be ClientServerInterface, got {type(value).__name__}"
             )
         self._clientServer = value
-        # between the ClientServerInterface and the BswModule atpVariation.
         self._operation: "ClientServerOperation" = None
 
     @property
@@ -329,7 +326,6 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
                 f"operation must be ClientServerOperation, got {type(value).__name__}"
             )
         self._operation = value
-        # This specifies the PortDefinedArguments used in the mapping between the
         # ClientServerInterface and the Bsw atpSplitable; atpVariation.
         self._portDefined: List["PortDefinedArgument"] = []
 

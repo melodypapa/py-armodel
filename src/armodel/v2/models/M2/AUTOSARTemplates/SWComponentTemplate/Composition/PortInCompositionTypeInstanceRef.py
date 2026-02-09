@@ -53,7 +53,6 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
                 f"abstractContext must be SwComponent or None, got {type(value).__name__}"
             )
         self._abstractContext = value
-        # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
         self._base: Optional["CompositionSw"] = None
 
@@ -82,7 +81,6 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._targetPort: RefType = None
 
     @property

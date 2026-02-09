@@ -51,7 +51,6 @@ class ServerComSpec(PPortComSpec):
                 f"operation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._operation = value
-        # Length of call queue on the server side.
         # The queue is the RTE.
         # The value shall be greater or 1.
         # Setting the value of queueLength to 1 implies requests are rejected while
@@ -83,7 +82,6 @@ class ServerComSpec(PPortComSpec):
                 f"queueLength must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._queueLength = value
-        # This references the TransformationComSpecProps which define port-specific
         # configuration for data transformation.
         self._transformation: List["TransformationCom"] = []
 

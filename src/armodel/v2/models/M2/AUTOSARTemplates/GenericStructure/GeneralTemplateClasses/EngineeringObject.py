@@ -65,7 +65,6 @@ class EngineeringObject(ARObject, ABC):
                 f"category must be NameToken or str, got {type(value).__name__}"
             )
         self._category = value
-        # This denotes the domain in which the engineering object This allows to
                 # indicate various segments in the the engineering objects.
         # The domain companies, as well as automotive need to be defined by the
                 # Methodology.
@@ -97,7 +96,6 @@ class EngineeringObject(ARObject, ABC):
                 f"domain must be NameToken or str or None, got {type(value).__name__}"
             )
         self._domain = value
-        # This is a revision label denoting a particular version of the.
         self._revisionLabel: List["RevisionLabelString"] = []
 
     @property

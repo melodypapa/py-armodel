@@ -71,7 +71,6 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
                 f"ddsTopic must be DdsCpTopic or None, got {type(value).__name__}"
             )
         self._ddsTopic = value
-        # Reference to the ISignal.
         self._iSignal: Optional["ISignal"] = None
 
     @property
@@ -302,7 +301,6 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
                 f"ddsFieldReply must be DdsCpTopic or None, got {type(value).__name__}"
             )
         self._ddsFieldReply = value
-        # Reference to the DdsTopic used as fragment for the topic of field getters.
         self._ddsField: Optional["DdsCpTopic"] = None
 
     @property
@@ -330,7 +328,6 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
                 f"ddsField must be DdsCpTopic or None, got {type(value).__name__}"
             )
         self._ddsField = value
-        # Reference to the DdsTopic used as fragment for the topic of method requests.
         self._ddsMethod: Optional["DdsCpTopic"] = None
 
     @property
@@ -358,7 +355,6 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
                 f"ddsMethod must be DdsCpTopic or None, got {type(value).__name__}"
             )
         self._ddsMethod = value
-        # Reference to the QOS Profile used for the service.
         # atp.
         # Status=candidate.
         self._ddsServiceQos: Optional["DdsCpQosProfile"] = None
@@ -388,7 +384,6 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
                 f"ddsServiceQos must be DdsCpQosProfile or None, got {type(value).__name__}"
             )
         self._ddsServiceQos = value
-        # Identification number that is used by DDS to identify associated with an
         # instance of the.
         self._serviceInstance: Optional["PositiveInteger"] = None
 
@@ -417,7 +412,6 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
                 f"serviceInstance must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._serviceInstance = value
-        # Unique Identifier that identifies the ServiceInterface in This Identifier is
         # encoded in the USER_DATA QoS DomainParticipant associated with the Service
         # its value is propagated by DDS Discovery.
         self._serviceInterface: Optional["String"] = None
@@ -756,7 +750,6 @@ class DdsCpServiceInstanceEvent(ARObject):
             return
 
         self._ddsEvent = value
-        # Reference to the QOS Profile used for this Event.
         # atp.
         # Status=candidate.
         self._ddsEventQos: Optional["DdsCpQosProfile"] = None
@@ -786,7 +779,6 @@ class DdsCpServiceInstanceEvent(ARObject):
                 f"ddsEventQos must be DdsCpQosProfile or None, got {type(value).__name__}"
             )
         self._ddsEventQos = value
-        # Reference to the DDS Topic used for this Event.
         self._ddsEventTopic: Optional["DdsCpTopic"] = None
 
     @property
@@ -1275,7 +1267,6 @@ class DdsCpTopic(Identifiable):
                 f"ddsPartition must be DdsCpPartition or None, got {type(value).__name__}"
             )
         self._ddsPartition = value
-        # Definition of the DDS Topic Name.
         self._topicName: Optional["String"] = None
 
     @property
@@ -1532,7 +1523,6 @@ class DdsCpQosProfile(Identifiable):
                 f"deadline must be DdsDeadline or None, got {type(value).__name__}"
             )
         self._deadline = value
-        # Defines the DDS DESTINATION_ORDER QoS policy.
         self._destinationOrder: Optional["DdsDestinationOrder"] = None
 
     @property
@@ -1560,7 +1550,6 @@ class DdsCpQosProfile(Identifiable):
                 f"destinationOrder must be DdsDestinationOrder or None, got {type(value).__name__}"
             )
         self._destinationOrder = value
-        # Defines the DDS DURABILITY_SERVICE QoS policy.
         # atp.
         # Status=candidate.
         self._durability: Optional["DdsDurabilityService"] = None
@@ -1590,7 +1579,6 @@ class DdsCpQosProfile(Identifiable):
                 f"durability must be DdsDurabilityService or None, got {type(value).__name__}"
             )
         self._durability = value
-        # Defines the DDS HISTORY QoS policy.
         self._history: Optional["DdsHistory"] = None
 
     @property
@@ -1618,7 +1606,6 @@ class DdsCpQosProfile(Identifiable):
                 f"history must be DdsHistory or None, got {type(value).__name__}"
             )
         self._history = value
-        # Defines the DDS LATENCY_BUDGET QoS policy.
         self._latencyBudget: Optional["DdsLatencyBudget"] = None
 
     @property
@@ -1646,7 +1633,6 @@ class DdsCpQosProfile(Identifiable):
                 f"latencyBudget must be DdsLatencyBudget or None, got {type(value).__name__}"
             )
         self._latencyBudget = value
-        # Defines the DDS LIFESPAN QoS policy.
         self._lifespan: Optional["DdsLifespan"] = None
 
     @property
@@ -1674,7 +1660,6 @@ class DdsCpQosProfile(Identifiable):
                 f"lifespan must be DdsLifespan or None, got {type(value).__name__}"
             )
         self._lifespan = value
-        # Defines the DDS LIVELINESS QoS policy.
         self._liveliness: Optional["DdsLiveliness"] = None
 
     @property
@@ -1702,7 +1687,6 @@ class DdsCpQosProfile(Identifiable):
                 f"liveliness must be DdsLiveliness or None, got {type(value).__name__}"
             )
         self._liveliness = value
-        # Defines the DDS OWNERSHIP_STRENGTH QoS policy.
         # atp.
         # Status=candidate.
         self._ownership: Optional["DdsOwnershipStrength"] = None
@@ -1732,7 +1716,6 @@ class DdsCpQosProfile(Identifiable):
                 f"ownership must be DdsOwnershipStrength or None, got {type(value).__name__}"
             )
         self._ownership = value
-        # Defines the DDS RELIABILITY QoS policy.
         self._reliability: Optional["DdsReliability"] = None
 
     @property
@@ -1760,7 +1743,6 @@ class DdsCpQosProfile(Identifiable):
                 f"reliability must be DdsReliability or None, got {type(value).__name__}"
             )
         self._reliability = value
-        # Defines the DDS RESOURCE_LIMITS QoS policy.
         self._resourceLimits: Optional["DdsResourceLimits"] = None
 
     @property
@@ -1788,7 +1770,6 @@ class DdsCpQosProfile(Identifiable):
                 f"resourceLimits must be DdsResourceLimits or None, got {type(value).__name__}"
             )
         self._resourceLimits = value
-        # Defines the DDS TOPIC_DATA QoS policy.
         self._topicData: Optional["DdsTopicData"] = None
 
     @property
@@ -1816,7 +1797,6 @@ class DdsCpQosProfile(Identifiable):
                 f"topicData must be DdsTopicData or None, got {type(value).__name__}"
             )
         self._topicData = value
-        # Defines the DDS TRANSPORT_PRIORITY QoS policy.
         self._transportPriority: Optional["DdsTransportPriority"] = None
 
     @property
@@ -3073,7 +3053,6 @@ class DdsLiveliness(ARObject):
                 f"livelinessLease must be Float or float or None, got {type(value).__name__}"
             )
         self._livelinessLease = value
-        # See "LIVELINESS" chapter of DDS.
         self._livenessKind: Optional["DdsLivenessKindEnum"] = None
 
     @property
@@ -3237,7 +3216,6 @@ class DdsReliability(ARObject):
                 f"reliabilityKind must be DdsReliabilityKindEnum or None, got {type(value).__name__}"
             )
         self._reliabilityKind = value
-        # See "RELIABILITY" chapter of DDS.
         # given in seconds.
         self._reliabilityMax: Optional["Float"] = None
 
@@ -3681,7 +3659,6 @@ class DdsHistory(ARObject):
                 f"historyKind must be DdsHistoryKindEnum or None, got {type(value).__name__}"
             )
         self._historyKind = value
-        # See "HISTORY" chapter of DDS.
         # atp.
         # Status=candidate.
         self._historyOrder: Optional["PositiveInteger"] = None
@@ -3848,7 +3825,6 @@ class DdsResourceLimits(ARObject):
                 f"maxInstances must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxInstances = value
-        # See "RESOURCE_LIMITS" chapter of DDS.
         self._maxSamples: Optional["PositiveInteger"] = None
 
     @property
@@ -3876,7 +3852,6 @@ class DdsResourceLimits(ARObject):
                 f"maxSamples must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSamples = value
-        # See "RESOURCE_LIMITS" chapter of DDS.
         self._maxSamplesPerInstance: Optional["PositiveInteger"] = None
 
     @property
@@ -4087,7 +4062,6 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
                 f"localUnicast must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._localUnicast = value
-        # Minor Version of the Service that is provided by this Dds.
         self._minorVersion: Optional["PositiveInteger"] = None
 
     @property
@@ -4115,7 +4089,6 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
                 f"minorVersion must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minorVersion = value
-        # Collection of provided events.
         # Stereotypes: atpSplitable; atpVariation Event Tags:.
         self._providedDds: List["DdsCpServiceInstance"] = []
 
@@ -4304,7 +4277,6 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
                 f"localUnicast must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._localUnicast = value
-        # Minor Version of the ServiceInterface.
         # Value can be set to that represents the Minor Version of the or to ANY.
         self._minorVersion: Optional["AnyVersionString"] = None
 
@@ -4333,7 +4305,6 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
                 f"minorVersion must be AnyVersionString or None, got {type(value).__name__}"
             )
         self._minorVersion = value
-        # This reference defines the remote unicast address of the provider.
         # shall ONLY be used if the remote unicast the server is determined from the
                 # not at runtime.
         # atpVariation.

@@ -67,7 +67,6 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
                 f"baseType must be BaseTypeEncoding or None, got {type(value).__name__}"
             )
         self._baseType = value
-        # Describes the length of the data type specified in the bits.
         self._baseTypeSize: Optional["PositiveInteger"] = None
 
     @property
@@ -95,7 +94,6 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
                 f"baseTypeSize must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._baseTypeSize = value
-        # This attribute specifies the byte order of the base type.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
         self._byteOrder: Optional["ByteOrderEnum"] = None
@@ -125,7 +123,6 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
                 f"byteOrder must be ByteOrderEnum or None, got {type(value).__name__}"
             )
         self._byteOrder = value
-        # This attribute describes the alignment of the memory bits.
         # E.
         # g.
         # "8" specifies, that the object in aligned to a byte while "32" specifies that
@@ -158,7 +155,6 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
                 f"memAlignment must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._memAlignment = value
-        # This attribute describes the declaration of such a base in the native
                 # programming language, primarily in the C.
         # This can then be used by a to include the necessary declarations into file.
         # For example shortName: "MyUnsignedInt" native short" short MyUnsignedInt;

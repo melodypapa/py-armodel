@@ -50,7 +50,6 @@ class LabeledList(Paginateable):
                 f"indentSample must be IndentSample or None, got {type(value).__name__}"
             )
         self._indentSample = value
-        # atpVariation.
         self._labeledItemLabel: "LabeledItem" = None
 
     @property

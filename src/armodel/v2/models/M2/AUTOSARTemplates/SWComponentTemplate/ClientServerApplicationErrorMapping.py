@@ -49,7 +49,6 @@ class ClientServerApplicationErrorMapping(ARObject):
                 f"firstApplication must be ApplicationError or None, got {type(value).__name__}"
             )
         self._firstApplication = value
-        # This represents the second ApplicationError in the of the
         # ClientServerApplicationErrorMapping.
         self._second: Optional["ApplicationError"] = None
 

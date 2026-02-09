@@ -56,7 +56,6 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # This represents the nested structure of SwComponent Prototypes.
         # xml.
         # sequenceOffset=20 (ordered).
         self._contextSw: List["SwComponent"] = []

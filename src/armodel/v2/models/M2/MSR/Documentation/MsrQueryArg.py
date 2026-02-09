@@ -42,7 +42,6 @@ class MsrQueryArg(ARObject):
                 f"arg must be String, got {type(value).__name__}"
             )
         self._arg = value
-        # This denotes the name of the query argument (semantic.
         self._si: "NameToken" = None
 
     @property

@@ -50,7 +50,6 @@ class PostBuildVariantCondition(ARObject):
                 f"matching must be PostBuildVariant, got {type(value).__name__}"
             )
         self._matching = value
-        # This is the particular value of the post-build variant.
         self._value: "Integer" = None
 
     @property

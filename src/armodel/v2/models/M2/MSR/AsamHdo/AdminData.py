@@ -218,7 +218,6 @@ class DocRevision(ARObject):
                 f"date must be DateTime, got {type(value).__name__}"
             )
         self._date = value
-        # This is the name of an individual or an organization who current revision of
         # the document or document.
         self._issuedBy: Optional["String"] = None
 
@@ -247,7 +246,6 @@ class DocRevision(ARObject):
                 f"issuedBy must be String or str or None, got {type(value).__name__}"
             )
         self._issuedBy = value
-        # This property represents one particular modification in its predecessor.
         self._modification: List["Modification"] = []
 
     @property
@@ -282,7 +280,6 @@ class DocRevision(ARObject):
                 f"revisionLabel must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._revisionLabel = value
-        # This attribute represents the version number of the first the object.
         self._revisionLabelP1: Optional["RevisionLabelString"] = None
 
     @property
@@ -691,7 +688,6 @@ class Modification(ARObject):
                 f"change must be MultiLanguageOverview, got {type(value).__name__}"
             )
         self._change = value
-        # This property represents the rationale for the particular.
         self._reason: Optional["MultiLanguageOverview"] = None
 
     @property

@@ -58,7 +58,6 @@ class PortAPIOption(ARObject):
                 f"enableTake must be Boolean or None, got {type(value).__name__}"
             )
         self._enableTake = value
-        # This specifies whether a RunnableEntity accessing a Port that is referenced
         # by this PortAPIOption shall transformer errors or not.
         self._errorHandling: Optional["DataTransformation"] = None
 
@@ -87,7 +86,6 @@ class PortAPIOption(ARObject):
                 f"errorHandling must be DataTransformation or None, got {type(value).__name__}"
             )
         self._errorHandling = value
-        # If set to true this attribute specifies an "indirect API" to be the
                 # associated port which means that the able to access the actions on a a
                 # pointer to an object representing a port.
         # This iterating over ports in a loop.
@@ -119,7 +117,6 @@ class PortAPIOption(ARObject):
                 f"indirectAPI must be Boolean or None, got {type(value).__name__}"
             )
         self._indirectAPI = value
-        # The option is valid for generated functions related to this port.
         self._port: RefType = None
 
     @property
@@ -143,7 +140,6 @@ class PortAPIOption(ARObject):
             return
 
         self._port = value
-        # An argument value defined by this port.
         self._portArgValue: List["PortDefinedArgument"] = []
 
     @property

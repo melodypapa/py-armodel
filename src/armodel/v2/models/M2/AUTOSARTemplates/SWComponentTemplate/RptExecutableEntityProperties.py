@@ -52,7 +52,6 @@ class RptExecutableEntityProperties(ARObject):
                 f"maxRptEventId must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._maxRptEventId = value
-        # Lowest RPT event id usable for RTE generated service attribute is relevant,
         # if dedicated id range applied to the ExecutableEntitys of a software specific
         # ExecutableEntitys.
         self._minRptEventId: Optional["PositiveInteger"] = None
@@ -82,7 +81,6 @@ class RptExecutableEntityProperties(ARObject):
                 f"minRptEventId must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._minRptEventId = value
-        # This attribute specifies the rapid prototyping control of the executable.
         self._rptExecution: Optional["RptExecutionControl"] = None
 
     @property
@@ -110,7 +108,6 @@ class RptExecutableEntityProperties(ARObject):
                 f"rptExecution must be RptExecutionControl or None, got {type(value).__name__}"
             )
         self._rptExecution = value
-        # Enables generation of service points by the RTE.
         self._rptServicePoint: Optional["RptServicePointEnum"] = None
 
     @property

@@ -372,7 +372,6 @@ class BuildActionIoElement(ARObject):
                 f"category must be NameToken or str, got {type(value).__name__}"
             )
         self._category = value
-        # This association denotes an ECUC parameter definition.
         # referenced parameters are subject of the build.
         self._ecucDefinition: Optional["EcucDefinitionElement"] = None
 
@@ -401,7 +400,6 @@ class BuildActionIoElement(ARObject):
                 f"ecucDefinition must be EcucDefinitionElement or None, got {type(value).__name__}"
             )
         self._ecucDefinition = value
-        # This attribute allows to denote a particular role of the that the applicable
         # semantics shall be between the two parties.
         self._role: Optional["Identifier"] = None
 
@@ -430,7 +428,6 @@ class BuildActionIoElement(ARObject):
                 f"role must be Identifier or str or None, got {type(value).__name__}"
             )
         self._role = value
-        # This special data group allows to denote specific data.
         # is subject of mutual agreement.
         self._sdg: List["Sdg"] = []
 
@@ -948,7 +945,6 @@ class BuildEngineeringObject(EngineeringObject):
                 f"fileType must be NameToken or str, got {type(value).__name__}"
             )
         self._fileType = value
-        # This attribute allows to define a set of engineering objects based search
         # applied to the filetype of the objects.
         self._fileTypePattern: "RegularExpression" = None
 
@@ -973,7 +969,6 @@ class BuildEngineeringObject(EngineeringObject):
                 f"fileTypePattern must be RegularExpression, got {type(value).__name__}"
             )
         self._fileTypePattern = value
-        # This attribute represents the name of the file if it is newly.
         # Note that engineering object resolves ShortLabel indicate mainly to refer to
                 # an If the file is created newly, the filename can determined by built in
                 # policy or predefined here.
@@ -1184,7 +1179,6 @@ class GenericModelReference(ARObject):
                 f"base must be NameToken or str, got {type(value).__name__}"
             )
         self._base = value
-        # This attribute represents the class of the referenced It is a String, since
                 # the model element in any model.
         # Therefore we cannot have any.
         self._dest: "NameToken" = None
@@ -1210,7 +1204,6 @@ class GenericModelReference(ARObject):
                 f"dest must be NameToken or str, got {type(value).__name__}"
             )
         self._dest = value
-        # This is the full qualified name of the model element.
         self._ref: "RefType" = None
 
     @property

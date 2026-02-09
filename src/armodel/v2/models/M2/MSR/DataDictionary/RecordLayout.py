@@ -164,7 +164,6 @@ class SwRecordLayoutV(ARObject):
                 f"baseType must be SwBaseType or None, got {type(value).__name__}"
             )
         self._baseType = value
-        # This aggregation allows for a brief description about the record layout value
         # which can help to identify In-depth documentation should be added to the the
         # surrounding record layout.
         self._desc: Optional["MultiLanguageOverview"] = None
@@ -194,7 +193,6 @@ class SwRecordLayoutV(ARObject):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This attribute specifies a name which can be used e.
         # g.
         # code is generated from the record layout.
         self._shortLabel: Optional["Identifier"] = None
@@ -224,7 +222,6 @@ class SwRecordLayoutV(ARObject):
                 f"shortLabel must be Identifier or str or None, got {type(value).__name__}"
             )
         self._shortLabel = value
-        # This association supports the case that a value from a generic axis
                 # definition shall be stored.
         # This value is a particular generic axis parameter type.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
@@ -256,7 +253,6 @@ class SwRecordLayoutV(ARObject):
                 f"swGenericAxis must be SwGenericAxisParam or None, got {type(value).__name__}"
             )
         self._swGenericAxis = value
-        # This attribute describes the kind of values to be stored.
         # details see below.
         # The standardized values this attribute are defined in.
         self._swRecord: Optional["NameToken"] = None
@@ -563,7 +559,6 @@ class SwRecordLayoutGroup(ARObject):
                 f"category must be AsamRecordLayout or None, got {type(value).__name__}"
             )
         self._category = value
-        # This aggregation allows a brief description about the record layout group
         # which can help to identify In-depth documentation should be added to the the
         # surrounding record layout.
         self._desc: Optional["MultiLanguageOverview"] = None
@@ -593,7 +588,6 @@ class SwRecordLayoutGroup(ARObject):
                 f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
             )
         self._desc = value
-        # This attribute specifies a name which can be used e.
         # g.
         # code is generated from the record layout.
         self._shortLabel: Optional["Identifier"] = None
@@ -623,7 +617,6 @@ class SwRecordLayoutGroup(ARObject):
                 f"shortLabel must be Identifier or str or None, got {type(value).__name__}"
             )
         self._shortLabel = value
-        # This association allows to specify record layout groups to iterate over
                 # generic axis parameters.
         # For example, if the parameter is an array, the record layout iterate over
                 # this array.
@@ -656,7 +649,6 @@ class SwRecordLayoutGroup(ARObject):
                 f"swGenericAxis must be SwGenericAxisParam or None, got {type(value).__name__}"
             )
         self._swGenericAxis = value
-        # This attribute specifies the end point for the iteration.
         # Negative values are also possible, i.
         # e.
         # the value -4 counts the fourth value from the end.

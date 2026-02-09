@@ -52,7 +52,6 @@ class EcucDerivationSpecification(ARObject):
                 f"calculation must be EcucParameter or None, got {type(value).__name__}"
             )
         self._calculation = value
-        # Query to the ECU Configuration Description.
         self._ecucQuery: List["EcucQuery"] = []
 
     @property

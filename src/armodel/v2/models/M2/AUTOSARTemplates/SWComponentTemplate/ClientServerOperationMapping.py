@@ -62,7 +62,6 @@ class ClientServerOperationMapping(ARObject):
                 f"firstOperation must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._firstOperation = value
-        # This reference indicates that a DataTransformation is in the context of the
         # ClientServerOperation.
         self._firstToSecond: Optional["DataTransformation"] = None
 
@@ -91,7 +90,6 @@ class ClientServerOperationMapping(ARObject):
                 f"firstToSecond must be DataTransformation or None, got {type(value).__name__}"
             )
         self._firstToSecond = value
-        # Second to-be-mapped ClientServerOperation of a Client.
         self._second: Optional["ClientServerOperation"] = None
 
     @property

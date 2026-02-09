@@ -65,7 +65,6 @@ class AbstractValueRestriction(ARObject, ABC):
                 f"max must be Limit or None, got {type(value).__name__}"
             )
         self._max = value
-        # Specifies the maximum number of characters of textual.
         self._maxLength: Optional["PositiveInteger"] = None
 
     @property
@@ -93,7 +92,6 @@ class AbstractValueRestriction(ARObject, ABC):
                 f"maxLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxLength = value
-        # Specifies the lower bounds for numeric values.
         self._min: Optional["Limit"] = None
 
     @property
@@ -121,7 +119,6 @@ class AbstractValueRestriction(ARObject, ABC):
                 f"min must be Limit or None, got {type(value).__name__}"
             )
         self._min = value
-        # Specifies the minimal number of characters of textual.
         self._minLength: Optional["PositiveInteger"] = None
 
     @property
@@ -149,7 +146,6 @@ class AbstractValueRestriction(ARObject, ABC):
                 f"minLength must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minLength = value
-        # Defines the exact sequence of characters that are.
         self._pattern: Optional["RegularExpression"] = None
 
     @property
@@ -585,7 +581,6 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
                 f"lowerMultiplicity must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._lowerMultiplicity = value
-        # This explicitly specifies, that the upper multiplicity is NOT Note: The use
         # of ’upperMultiplicityInfinite’ and mutual exclusive.
         self._upperMultiplicity: Optional["Boolean"] = None
 

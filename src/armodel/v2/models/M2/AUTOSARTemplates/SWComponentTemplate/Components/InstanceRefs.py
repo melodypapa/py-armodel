@@ -55,7 +55,6 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
             return
 
         self._abstractTarget = value
-        # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
         self._base: Optional["AtomicSwComponent"] = None
 
@@ -84,7 +83,6 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._contextPort: Optional["RefType"] = None
 
     @property
@@ -305,7 +303,6 @@ class RModeInAtomicSwcInstanceRef(ARObject):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._contextModeGroupPrototype: Optional["RefType"] = None
 
@@ -330,7 +327,6 @@ class RModeInAtomicSwcInstanceRef(ARObject):
             return
 
         self._contextModeGroupPrototype = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._contextPortPrototype: Optional["AbstractRequiredPort"] = None
 
@@ -359,7 +355,6 @@ class RModeInAtomicSwcInstanceRef(ARObject):
                 f"contextPortPrototype must be AbstractRequiredPort or None, got {type(value).__name__}"
             )
         self._contextPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=40.
         self._targetModeDeclaration: Optional["ModeDeclaration"] = None
 
@@ -613,7 +608,6 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._context: List["SwComponent"] = []
 
@@ -798,7 +792,6 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._contextPort: Optional["RefType"] = None
 
     @property
@@ -822,7 +815,6 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
             return
 
         self._contextPort = value
-        # Stereotypes: atpAbstract.
         self._target: Optional["RefType"] = None
 
     @property
@@ -1029,7 +1021,6 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._contextPort: Optional["RefType"] = None
 
     @property
@@ -1053,7 +1044,6 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
             return
 
         self._contextPort = value
-        # Stereotypes: atpAbstract.
         self._targetOperation: Optional["ClientServerOperation"] = None
 
     @property
@@ -1264,7 +1254,6 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
                 f"base must be AtomicSwComponent or None, got {type(value).__name__}"
             )
         self._base = value
-        # Stereotypes: atpAbstract.
         self._contextPort: Optional["RefType"] = None
 
     @property
@@ -1288,7 +1277,6 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
             return
 
         self._contextPort = value
-        # Stereotypes: atpAbstract xml.
         # sequenceOffset=30.
         self._target: Optional["RefType"] = None
 
@@ -1494,7 +1482,6 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
                 f"contextRPortPrototype must be AbstractRequiredPort or None, got {type(value).__name__}"
             )
         self._contextRPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetDataElement: Optional["RefType"] = None
 
@@ -1656,7 +1643,6 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
                 f"contextRPortPrototype must be AbstractRequiredPort or None, got {type(value).__name__}"
             )
         self._contextRPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetTrigger: Optional["RefType"] = None
 
@@ -1818,7 +1804,6 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
                 f"contextPPortPrototype must be AbstractProvidedPort or None, got {type(value).__name__}"
             )
         self._contextPPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetTrigger: Optional["RefType"] = None
 
@@ -1980,7 +1965,6 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
                 f"contextRPortPrototype must be AbstractRequiredPort or None, got {type(value).__name__}"
             )
         self._contextRPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetRequiredOperation: Optional["ClientServerOperation"] = None
 
@@ -2146,7 +2130,6 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
                 f"contextPPortPrototype must be AbstractProvidedPort or None, got {type(value).__name__}"
             )
         self._contextPPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetProvidedOperation: Optional["ClientServerOperation"] = None
 
@@ -2312,7 +2295,6 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
                 f"contextRPortPrototype must be AbstractRequiredPort or None, got {type(value).__name__}"
             )
         self._contextRPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetMode: Optional["RefType"] = None
 
@@ -2474,7 +2456,6 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
                 f"contextPPortPrototype must be AbstractProvidedPort or None, got {type(value).__name__}"
             )
         self._contextPPortPrototype = value
-        # Tags: xml.
         # sequenceOffset=30.
         self._targetMode: Optional["RefType"] = None
 

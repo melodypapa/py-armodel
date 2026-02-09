@@ -50,7 +50,6 @@ class Colspec(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        # Specifies the name of the column.
         self._colname: Optional["String"] = None
 
     @property
@@ -78,7 +77,6 @@ class Colspec(ARObject):
                 f"colname must be String or None, got {type(value).__name__}"
             )
         self._colname = value
-        # column number (allows to sort the columns).
         self._colnum: Optional["String"] = None
 
     @property
@@ -106,7 +104,6 @@ class Colspec(ARObject):
                 f"colnum must be String or None, got {type(value).__name__}"
             )
         self._colnum = value
-        # Indicates whether a line should be displayed right of this the column
                 # specification.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._colsep: Optional["TableSeparatorString"] = None
@@ -136,7 +133,6 @@ class Colspec(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # Width of the column.
         # You can enter absolute values such cm, or relative values marked with * (e.
         # g.
         # , 2* for double those of other columns with 1*).
@@ -169,7 +165,6 @@ class Colspec(ARObject):
                 f"colwidth must be String or None, got {type(value).__name__}"
             )
         self._colwidth = value
-        # Indicates whether a line should be displayed at the bottom the cells of the
         # column defined in the Colspec.
         self._rowsep: Optional["TableSeparatorString"] = None
 

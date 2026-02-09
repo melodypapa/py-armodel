@@ -52,7 +52,6 @@ class ChapterModel(ARObject):
                 f"chapter must be ChapterOrMsrQuery or None, got {type(value).__name__}"
             )
         self._chapter = value
-        # This is the chapter content which is not a topic or a is the content which is
         # directly in the.
         self._chapterContent: Optional["ChapterContent"] = None
 
@@ -81,7 +80,6 @@ class ChapterModel(ARObject):
                 f"chapterContent must be ChapterContent or None, got {type(value).__name__}"
             )
         self._chapterContent = value
-        # This is a topic within the chapter.
         self._topic1: Optional["TopicOrMsrQuery"] = None
 
     @property

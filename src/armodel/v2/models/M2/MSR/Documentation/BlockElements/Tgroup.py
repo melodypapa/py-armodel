@@ -52,7 +52,6 @@ class Tgroup(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        # This attribute represents the number of columns in the.
         self._cols: "Integer" = None
 
     @property
@@ -76,7 +75,6 @@ class Tgroup(ARObject):
                 f"cols must be Integer, got {type(value).__name__}"
             )
         self._cols = value
-        # Indicates if by default a line shall be drawn between the this table group.
         self._colsep: Optional["TableSeparatorString"] = None
 
     @property
@@ -104,7 +102,6 @@ class Tgroup(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        # This specifies one particular column specification in the There shall be one
         # entry for each column.
         self._colspec: List["Colspec"] = []
 
@@ -141,7 +138,6 @@ class Tgroup(ARObject):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        # This is the main part of the table segment, called the table 535 Document ID
         # 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._tbody: "Tbody" = None
 
@@ -166,7 +162,6 @@ class Tgroup(ARObject):
                 f"tbody must be Tbody, got {type(value).__name__}"
             )
         self._tbody = value
-        # This represents the footer of the table segment.
         # This printed at the end of the table or before a.
         self._tfoot: Optional["Tbody"] = None
 
@@ -195,7 +190,6 @@ class Tgroup(ARObject):
                 f"tfoot must be Tbody or None, got {type(value).__name__}"
             )
         self._tfoot = value
-        # This represents the heading of the table section.
         # The usually repeated at the beginning of each new.
         self._thead: Optional["Tbody"] = None
 

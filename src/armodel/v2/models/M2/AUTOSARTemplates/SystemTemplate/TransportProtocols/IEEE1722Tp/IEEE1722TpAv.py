@@ -59,7 +59,6 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
                 f"baseFrequency must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._baseFrequency = value
-        # Definition of the CRF stream pull value.
         self._crfPullEnum: Optional["IEEE1722TpCrfPull"] = None
 
     @property
@@ -87,7 +86,6 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
                 f"crfPullEnum must be IEEE1722TpCrfPull or None, got {type(value).__name__}"
             )
         self._crfPullEnum = value
-        # Definition of the CRF stream type.
         self._crfTypeEnum: Optional["IEEE1722TpCrfType"] = None
 
     @property
@@ -115,7 +113,6 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
                 f"crfTypeEnum must be IEEE1722TpCrfType or None, got {type(value).__name__}"
             )
         self._crfTypeEnum = value
-        # Defines whether the "fs" (frame sync) shall be enabled.
         # atp.
         # Status=candidate.
         self._frameSync: Optional["Boolean"] = None
@@ -145,7 +142,6 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
                 f"frameSync must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._frameSync = value
-        # CRF timestamp interval as multiple of the baseFrequency.
         # atp.
         # Status=candidate.
         self._timestamp: Optional["PositiveInteger"] = None
@@ -471,7 +467,6 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
                 f"aafFormatEnum must be IEEE1722TpAafFormat or None, got {type(value).__name__}"
             )
         self._aafFormatEnum = value
-        # Definition of the AAF stream nominal sample / frame rate.
         # an AAF PCM stream this is the nominal sample rate.
         # AAF AES3 stream this is the nominal frame rate.
         self._aafNominalRate: Optional["IEEE1722TpAaf"] = None
@@ -501,7 +496,6 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
                 f"aafNominalRate must be IEEE1722TpAaf or None, got {type(value).__name__}"
             )
         self._aafNominalRate = value
-        # Definition of the AAF AES3 aes3_data_type_h default.
         self._aes3DataTypeH: Optional["PositiveInteger"] = None
 
     @property
@@ -587,7 +581,6 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
                 f"channelsPer must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._channelsPer = value
-        # Definition of a value to be used for the 4-bit "evt" field.
         # atp.
         # Status=candidate 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._eventDefault: Optional["PositiveInteger"] = None
@@ -617,7 +610,6 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
                 f"eventDefault must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._eventDefault = value
-        # Definition of the AAF PCM stream bit_depth.
         # 24, 32.
         self._pcmBitDepth: Optional["PositiveInteger"] = None
 
@@ -646,7 +638,6 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
                 f"pcmBitDepth must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pcmBitDepth = value
-        # Defines whether the "sp" (sparse timestamp) shall be Normal operation,
         # timestamp in every AAF mode, timestamp in every eighth AAF.
         self._sparse: Optional["Boolean"] = None
 
@@ -675,7 +666,6 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
                 f"sparse must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._sparse = value
-        # AAF AES3 stream streams_per_frame.
         # atp.
         # Status=candidate.
         self._streamsPer: Optional["PositiveInteger"] = None
@@ -1193,7 +1183,6 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
                 f"iidcChannel must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._iidcChannel = value
-        # Definition of the IIDC data block size (DBS).
         # atp.
         # Status=candidate.
         self._iidcDataBlock: Optional["PositiveInteger"] = None
@@ -1223,7 +1212,6 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
                 f"iidcDataBlock must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._iidcDataBlock = value
-        # Definition of the IIDC fractionNumber (FN).
         # atp.
         # Status=candidate.
         self._iidcFraction: Optional["PositiveInteger"] = None
@@ -1253,7 +1241,6 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
                 f"iidcFraction must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._iidcFraction = value
-        # Defines the IIDC source packet header (SPH) existence.
         # atp.
         # Status=candidate.
         self._iidcSource: Optional["Boolean"] = None
@@ -1283,7 +1270,6 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
                 f"iidcSource must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._iidcSource = value
-        # Definition of the IIDC stream format (FMT).
         # atp.
         # Status=candidate.
         self._iidcStream: Optional["PositiveInteger"] = None
@@ -1313,7 +1299,6 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
                 f"iidcStream must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._iidcStream = value
-        # Definition of the IIDC sy.
         self._iidcSy: Optional["PositiveInteger"] = None
 
     @property
@@ -1341,7 +1326,6 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
                 f"iidcSy must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._iidcSy = value
-        # Definition of the IIDC tag.
         self._iidcTag: Optional["PositiveInteger"] = None
 
     @property
@@ -1369,7 +1353,6 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
                 f"iidcTag must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._iidcTag = value
-        # Definition of the IIDC tcode.
         self._iidcTCode: Optional["PositiveInteger"] = None
 
     @property
@@ -1797,7 +1780,6 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
                 f"rvfActivePixels must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._rvfActivePixels = value
-        # Definition of the RVF stream colorspace.
         # atp.
         # Status=candidate 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
         self._rvfColorSpace: Optional["IEEE1722TpRvfColor"] = None
@@ -1827,7 +1809,6 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
                 f"rvfColorSpace must be IEEE1722TpRvfColor or None, got {type(value).__name__}"
             )
         self._rvfColorSpace = value
-        # Definition of the RVF stream event (evt) default value.
         self._rvfEventDefault: Optional["PositiveInteger"] = None
 
     @property
@@ -1855,7 +1836,6 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
                 f"rvfEventDefault must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._rvfEventDefault = value
-        # Definition of the RVF stream frame_rate.
         # atp.
         # Status=candidate.
         self._rvfFrameRate: Optional["IEEE1722TpRvfFrame"] = None
@@ -1885,7 +1865,6 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
                 f"rvfFrameRate must be IEEE1722TpRvfFrame or None, got {type(value).__name__}"
             )
         self._rvfFrameRate = value
-        # Defines the RVF stream interlaced (i).
         self._rvfInterlaced: Optional["Boolean"] = None
 
     @property
@@ -1913,7 +1892,6 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
                 f"rvfInterlaced must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._rvfInterlaced = value
-        # Definition of the RVF stream pixel_depth.
         # atp.
         # Status=candidate.
         self._rvfPixelDepth: Optional["IEEE1722TpRvfPixel"] = None
@@ -1943,7 +1921,6 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
                 f"rvfPixelDepth must be IEEE1722TpRvfPixel or None, got {type(value).__name__}"
             )
         self._rvfPixelDepth = value
-        # Definition of the RVF stream pixel_format.
         # atp.
         # Status=candidate.
         self._rvfPixelFormat: Optional["IEEE1722TpRvfPixel"] = None
@@ -1973,7 +1950,6 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
                 f"rvfPixelFormat must be IEEE1722TpRvfPixel or None, got {type(value).__name__}"
             )
         self._rvfPixelFormat = value
-        # Definition of the RVF stream total_lines.
         self._rvfTotalLines: Optional["PositiveInteger"] = None
 
     @property

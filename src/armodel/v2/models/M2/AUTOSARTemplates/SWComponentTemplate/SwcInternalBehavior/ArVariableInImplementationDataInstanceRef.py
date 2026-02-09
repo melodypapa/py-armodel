@@ -60,7 +60,6 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
             return
 
         self._portPrototype = value
-        # This refers to the VariableDataPrototype typed by the in which the target can
         # be found.
         self._rootVariable: RefType = None
 
@@ -85,7 +84,6 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
             return
 
         self._rootVariable = value
-        # This reference points to the target ImplementationData TypeElement.
         self._targetData: Optional["AbstractImplementation"] = None
 
     @property

@@ -49,7 +49,6 @@ class InvalidationPolicy(ARObject):
             return
 
         self._dataElement = value
-        # This attribute controls how invalidation is applied to the.
         self._handleInvalid: Optional["HandleInvalidEnum"] = None
 
     @property

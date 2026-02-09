@@ -61,7 +61,6 @@ class AutosarParameterRef(ARObject):
             return
 
         self._autosar = value
-        # In the majority of cases this reference goes to Parameter than
                 # VariableDataPrototypes.
         # reference to a VariableDataPrototype is special use cases, e.
         # g.

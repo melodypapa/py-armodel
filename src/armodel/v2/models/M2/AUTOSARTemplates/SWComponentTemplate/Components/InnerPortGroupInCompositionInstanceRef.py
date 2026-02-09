@@ -53,7 +53,6 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # Tags: xml.
         # sequenceOffset=20.
         self._context: List["SwComponent"] = []
 

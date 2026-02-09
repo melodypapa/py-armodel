@@ -55,7 +55,6 @@ class BlueprintGenerator(ARObject):
                 f"expression must be VerbatimString or None, got {type(value).__name__}"
             )
         self._expression = value
-        # This represents a description that documents how the shall be resolved when
         # deriving blueprints.
         self._introduction: Optional["DocumentationBlock"] = None
 

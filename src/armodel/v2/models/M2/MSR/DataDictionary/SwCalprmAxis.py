@@ -49,7 +49,6 @@ class SwCalprmAxis(ARObject):
                 f"category must be CalprmAxisCategory or None, got {type(value).__name__}"
             )
         self._category = value
-        # This property specifies how the axis values shall be in documents or in
         # measurement and.
         self._displayFormat: Optional["DisplayFormatString"] = None
 
@@ -78,7 +77,6 @@ class SwCalprmAxis(ARObject):
                 f"displayFormat must be DisplayFormatString or None, got {type(value).__name__}"
             )
         self._displayFormat = value
-        # This attribute specifies which axis is specified by the in a curve this is
                 # usually "1".
         # In a map this is "2".
         self._swAxisIndex: Optional["AxisIndexType"] = None
@@ -108,7 +106,6 @@ class SwCalprmAxis(ARObject):
                 f"swAxisIndex must be AxisIndexType or None, got {type(value).__name__}"
             )
         self._swAxisIndex = value
-        # Describes the applicability of parameters and variables.
         # Tags: xml.
         # sequenceOffset=90.
         self._swCalibration: Optional["SwCalibrationAccess"] = None
@@ -138,7 +135,6 @@ class SwCalprmAxis(ARObject):
                 f"swCalibration must be SwCalibrationAccess or None, got {type(value).__name__}"
             )
         self._swCalibration = value
-        # specific properties depending on the type of the axis.
         # Tags:.
         self._swCalprmAxis: Optional["SwCalprmAxisType"] = None
 

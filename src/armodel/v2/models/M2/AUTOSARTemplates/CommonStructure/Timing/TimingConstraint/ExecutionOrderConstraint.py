@@ -83,7 +83,6 @@ class ExecutionOrderConstraint(TimingConstraint):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        # Specifies the specific type of ExecutionOrderConstraint.
         self._executionOrder: Optional["ExecutionOrder"] = None
 
     @property
@@ -111,7 +110,6 @@ class ExecutionOrderConstraint(TimingConstraint):
                 f"executionOrder must be ExecutionOrder or None, got {type(value).__name__}"
             )
         self._executionOrder = value
-        # Controls whether the order of execution specified by this can be
         # intentionally ignored (TRUE), or shall be.
         self._ignoreOrder: Optional["Boolean"] = None
 
@@ -140,7 +138,6 @@ class ExecutionOrderConstraint(TimingConstraint):
                 f"ignoreOrder must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._ignoreOrder = value
-        # Indicates whether the ExecutionOrderConstraint is only Executable Entities
         # (FALSE) or only to RTE Events (TRUE).
         self._isEvent: Optional["Boolean"] = None
 
@@ -169,7 +166,6 @@ class ExecutionOrderConstraint(TimingConstraint):
                 f"isEvent must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isEvent = value
-        # This aggregation represents an unordered collection of to RunnableEntities
                 # which shall be considered ExecutionOrderConstraint.
         # The role does not imply collection of references itself shall be ordered.
         self._orderedElement: List["EOCExecutableEntity"] = []
@@ -647,7 +643,6 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
                 f"letData must be LetDataExchange or None, got {type(value).__name__}"
             )
         self._letData = value
-        # This association references the TimingDescriptionEvent that plays the role of
         # a LET interval the executable the group are assigned to.
         self._letInterval: List["TimingDescriptionEvent"] = []
 
@@ -686,7 +681,6 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
                 f"maxCycle must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxCycle = value
-        # In case of a Repetitive Execution Order Constraint this the number of cycles
         # the Execution is considering.
         self._maxCycles: Optional["Integer"] = None
 
@@ -715,7 +709,6 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
                 f"maxCycles must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxCycles = value
-        # In case of a Repetitive Execution Order Constraint this the number of slots
         # every cycle of the Constraint is consisting of.
         self._maxSlots: Optional["Integer"] = None
 
@@ -744,7 +737,6 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
                 f"maxSlots must be Integer or int or None, got {type(value).__name__}"
             )
         self._maxSlots = value
-        # Repetitive Execution Order Constraint only: number of ExecutableEntitys
         # (slots) that are a given order within a cycle, for the Repetitive Constraint.
         self._maxSlotsPer: Optional["PositiveInteger"] = None
 
@@ -773,7 +765,6 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
                 f"maxSlotsPer must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSlotsPer = value
-        # This association is used to establish hierarchies of EOCEER Groups and
         # References.
         self._nestedElement: List["EOCExecutableEntity"] = []
 
@@ -1169,7 +1160,6 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
                 f"bswModule must be BswImplementation or None, got {type(value).__name__}"
             )
         self._bswModule = value
-        # prototype.
         # by: ComponentIn.
         self._componentCompositionInstanceRef: Optional["SwComponent"] = None
 
@@ -1198,7 +1188,6 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
                 f"componentCompositionInstanceRef must be SwComponent or None, got {type(value).__name__}"
             )
         self._componentCompositionInstanceRef = value
-        # The ExecutableEntity whose execution order is restricted contraint.
         self._executable: Optional["ExecutableEntity"] = None
 
     @property
@@ -1226,7 +1215,6 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
                 f"executable must be ExecutableEntity or None, got {type(value).__name__}"
             )
         self._executable = value
-        # The logical successor of an executable entity or a group executable entities.
         self._successor: List["EOCExecutableEntity"] = []
 
     @property
@@ -1425,7 +1413,6 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
                 f"bswModule must be BswImplementation or None, got {type(value).__name__}"
             )
         self._bswModule = value
-        # prototype.
         # by: ComponentIn.
         self._componentCompositionInstanceRef: Optional["SwComponent"] = None
 
@@ -1454,7 +1441,6 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
                 f"componentCompositionInstanceRef must be SwComponent or None, got {type(value).__name__}"
             )
         self._componentCompositionInstanceRef = value
-        # The AbstractEvent (event) whose execution order is the contraint.
         self._event: Optional["AbstractEvent"] = None
 
     @property
@@ -1482,7 +1468,6 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
                 f"event must be AbstractEvent or None, got {type(value).__name__}"
             )
         self._event = value
-        # The logical successor of an executable entity or a group executable entities.
         self._successor: List["EOCExecutableEntity"] = []
 
     @property

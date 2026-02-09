@@ -66,7 +66,6 @@ class GeneralAnnotation(ARObject, ABC):
                 f"annotation must be String or str, got {type(value).__name__}"
             )
         self._annotation = value
-        # This is the text of the annotation.
         self._annotationText: "DocumentationBlock" = None
 
     @property
@@ -90,7 +89,6 @@ class GeneralAnnotation(ARObject, ABC):
                 f"annotationText must be DocumentationBlock, got {type(value).__name__}"
             )
         self._annotationText = value
-        # This is the headline for the annotation.
         # xml.
         # sequenceOffset=20.
         self._label: Optional["MultilanguageLong"] = None

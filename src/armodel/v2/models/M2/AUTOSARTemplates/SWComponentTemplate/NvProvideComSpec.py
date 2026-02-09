@@ -53,7 +53,6 @@ class NvProvideComSpec(PPortComSpec):
                 f"ramBlockInit must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._ramBlockInit = value
-        # This represents the initial value of the ROM block that to the referenced
         # variable.
         self._romBlockInit: Optional["ValueSpecification"] = None
 
@@ -82,7 +81,6 @@ class NvProvideComSpec(PPortComSpec):
                 f"romBlockInit must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._romBlockInit = value
-        # This represents the variable for which the ComSpec is.
         self._variable: RefType = None
 
     @property

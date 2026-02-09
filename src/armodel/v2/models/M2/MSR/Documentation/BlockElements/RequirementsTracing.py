@@ -73,7 +73,6 @@ class StructuredReq(Paginateable):
                 f"conflicts must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._conflicts = value
-        # This represents the date when the requirement was.
         self._date: "DateTime" = None
 
     @property
@@ -97,7 +96,6 @@ class StructuredReq(Paginateable):
                 f"date must be DateTime, got {type(value).__name__}"
             )
         self._date = value
-        # This represents an informal specification of that upstream tracing should be
         # the property trace provided by the.
         self._dependencies: Optional["DocumentationBlock"] = None
 
@@ -126,7 +124,6 @@ class StructuredReq(Paginateable):
                 f"dependencies must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._dependencies = value
-        # This represents the general description of the.
         self._description: Optional["DocumentationBlock"] = None
 
     @property
@@ -154,7 +151,6 @@ class StructuredReq(Paginateable):
                 f"description must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._description = value
-        # This allows to represent the importance of the.
         self._importance: "String" = None
 
     @property
@@ -178,7 +174,6 @@ class StructuredReq(Paginateable):
                 f"importance must be String or str, got {type(value).__name__}"
             )
         self._importance = value
-        # This represents the person, organization or authority the requirement.
         self._issuedBy: "String" = None
 
     @property
@@ -202,7 +197,6 @@ class StructuredReq(Paginateable):
                 f"issuedBy must be String or str, got {type(value).__name__}"
             )
         self._issuedBy = value
-        # This represents the rationale of the requirement.
         self._rationale: Optional["DocumentationBlock"] = None
 
     @property
@@ -230,7 +224,6 @@ class StructuredReq(Paginateable):
                 f"rationale must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._rationale = value
-        # This represents an informal remark.
         # Note that this is not annotation, since these remark is still of the
                 # requirement.
         self._remark: Optional["DocumentationBlock"] = None
@@ -260,7 +253,6 @@ class StructuredReq(Paginateable):
                 f"remark must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._remark = value
-        # This represents an informal specification of the material.
         self._supporting: Optional["DocumentationBlock"] = None
 
     @property
@@ -288,7 +280,6 @@ class StructuredReq(Paginateable):
                 f"supporting must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._supporting = value
-        # This association represents the ability to trace on the level.
         # This supports for example the of.
         self._testedItem: List["Traceable"] = []
 
@@ -321,7 +312,6 @@ class StructuredReq(Paginateable):
                 f"type must be String or str, got {type(value).__name__}"
             )
         self._type = value
-        # This describes the relevant use cases.
         # Note that formal use cases should be done in the trace.
         self._useCase: Optional["DocumentationBlock"] = None
 

@@ -52,7 +52,6 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
                 f"derivation must be EcucDerivation or None, got {type(value).__name__}"
             )
         self._derivation = value
-        # Specifies that this parameter’s value is used, together the aggregating
         # container, to derive a symbolic name chapter "Representation of Symbolic Ecuc
         # specification for more details.
         self._symbolicName: Optional["Boolean"] = None
@@ -82,7 +81,6 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
                 f"symbolicName must be Boolean or None, got {type(value).__name__}"
             )
         self._symbolicName = value
-        # Specifies whether it shall be allowed on the value side to parameter value as
                 # "AUTO".
         # is "true" it shall be possible to set the "isAuto of the respective parameter
                 # to "true".

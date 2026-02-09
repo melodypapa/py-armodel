@@ -69,7 +69,6 @@ class ModeAccessPoint(ARObject):
                 f"ident must be ModeAccessPointIdent or None, got {type(value).__name__}"
             )
         self._ident = value
-        # by: ModeGroupInAtomicSwc.
         self._modeGroupInstanceRef: Optional["RefType"] = None
 
     @property

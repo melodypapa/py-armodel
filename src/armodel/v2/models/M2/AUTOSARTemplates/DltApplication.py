@@ -52,7 +52,6 @@ class DltApplication(Identifiable):
                 f"application must be String or None, got {type(value).__name__}"
             )
         self._application = value
-        # This attribute identifies the SW-C/BSW module in the log message.
         self._applicationId: Optional["String"] = None
 
     @property
@@ -80,7 +79,6 @@ class DltApplication(Identifiable):
                 f"applicationId must be String or None, got {type(value).__name__}"
             )
         self._applicationId = value
-        # Definition of ContextIds for the Application.
         # atpVariation.
         self._context: List["DltContext"] = []
 

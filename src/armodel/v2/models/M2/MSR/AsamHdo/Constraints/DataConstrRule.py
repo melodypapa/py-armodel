@@ -55,7 +55,6 @@ class DataConstrRule(ARObject):
                 f"constrLevel must be Integer or None, got {type(value).__name__}"
             )
         self._constrLevel = value
-        # Describes the limitations applicable on the internal opposed to the physical
         # domain).
         self._internalConstrs: Optional["InternalConstrs"] = None
 
@@ -84,7 +83,6 @@ class DataConstrRule(ARObject):
                 f"internalConstrs must be InternalConstrs or None, got {type(value).__name__}"
             )
         self._internalConstrs = value
-        # Describes the limitations applicable on the physical opposed to the internal
         # domain).
         self._physConstrs: Optional["PhysConstrs"] = None
 

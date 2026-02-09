@@ -50,7 +50,6 @@ class InternalConstrs(ARObject):
                 f"lowerLimit must be Limit or None, got {type(value).__name__}"
             )
         self._lowerLimit = value
-        # Maximum difference that is permitted between two if the constraint is applied
         # to an axis.
         self._maxDiff: Optional["Numerical"] = None
 
@@ -79,7 +78,6 @@ class InternalConstrs(ARObject):
                 f"maxDiff must be Numerical or None, got {type(value).__name__}"
             )
         self._maxDiff = value
-        # This element specifies the maximum slope that may be maps and curves.
         self._maxGradient: Optional["Numerical"] = None
 
     @property
@@ -107,7 +105,6 @@ class InternalConstrs(ARObject):
                 f"maxGradient must be Numerical or None, got {type(value).__name__}"
             )
         self._maxGradient = value
-        # This element specifies the monotony characteristics of internal or physical
                 # limits.
         # The following table monotony characteristics which are to be filled
                 # corresponding values.
@@ -139,7 +136,6 @@ class InternalConstrs(ARObject):
                 f"monotony must be MonotonyEnum or None, got {type(value).__name__}"
             )
         self._monotony = value
-        # This is one particular scale which contributes to the data.
         self._scaleConstr: List["ScaleConstr"] = []
 
     @property

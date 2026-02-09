@@ -69,7 +69,6 @@ class Sdg(ARObject):
                 f"gid must be NameToken or str, got {type(value).__name__}"
             )
         self._gid = value
-        # This aggregation allows to assign the properties of the sdg.
         # By this, a shortName etc.
         # can be the Sdg.
         self._sdgCaption: Optional["SdgCaption"] = None
@@ -99,7 +98,6 @@ class Sdg(ARObject):
                 f"sdgCaption must be SdgCaption or None, got {type(value).__name__}"
             )
         self._sdgCaption = value
-        # This is the content of the Sdg.
         self._sdgContents: Optional["SdgContents"] = None
 
     @property
@@ -309,7 +307,6 @@ class SdgContents(ARObject):
                 f"sd must be Sd or None, got {type(value).__name__}"
             )
         self._sd = value
-        # This is one particular special data element.
         self._sdf: Optional["Sdf"] = None
 
     @property
@@ -337,7 +334,6 @@ class SdgContents(ARObject):
                 f"sdf must be Sdf or None, got {type(value).__name__}"
             )
         self._sdf = value
-        # This aggregation allows to express nested special data this, any structure
         # can be represented in atpVariation.
         self._sdg: Optional["Sdg"] = None
 
@@ -366,7 +362,6 @@ class SdgContents(ARObject):
                 f"sdg must be Sdg or None, got {type(value).__name__}"
             )
         self._sdg = value
-        # Reference to any identifiable element.
         # This allows to use to establish arbitrary relationships.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
         self._sdx: Optional["RefType"] = None
@@ -392,7 +387,6 @@ class SdgContents(ARObject):
             return
 
         self._sdx = value
-        # Additional reference with variant support.
         # atpVariation.
         self._sdxf: Optional["RefType"] = None
 
@@ -779,7 +773,6 @@ class Sd(ARObject):
                 f"gid must be NameToken or str, got {type(value).__name__}"
             )
         self._gid = value
-        # This is the value of the special data.
         self._value: "VerbatimStringPlain" = None
 
     @property
@@ -803,7 +796,6 @@ class Sd(ARObject):
                 f"value must be VerbatimStringPlain, got {type(value).__name__}"
             )
         self._value = value
-        # This attribute is used to signal an intention that in that space should be
         # preserved by is defined according to xml:space as W3C.
         self._xmlSpace: Optional["XmlSpaceEnum"] = None
 
@@ -1011,7 +1003,6 @@ class Sdf(ARObject):
                 f"gid must be NameToken or str, got {type(value).__name__}"
             )
         self._gid = value
-        # This is the value of the special data.
         self._value: Optional["Numerical"] = None
 
     @property

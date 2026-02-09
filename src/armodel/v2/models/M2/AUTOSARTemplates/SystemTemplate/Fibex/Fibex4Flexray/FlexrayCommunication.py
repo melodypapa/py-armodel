@@ -107,7 +107,6 @@ class FlexrayFrameTriggering(FrameTriggering):
                 f"allowDynamic must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._allowDynamic = value
-        # The first two bytes of the payload segment of the FlexRay for frames
         # transmitted in the dynamic be used as receiver filterable data called the.
         self._messageId: Optional["PositiveInteger"] = None
 
@@ -136,7 +135,6 @@ class FlexrayFrameTriggering(FrameTriggering):
                 f"messageId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._messageId = value
-        # Switching the Payload Preamble bit.
         self._payloadPreambleIndicator: Optional["Boolean"] = None
 
     @property
@@ -361,7 +359,6 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
                 f"communicationCycle must be CommunicationCycle or None, got {type(value).__name__}"
             )
         self._communicationCycle = value
-        # In the static part the SlotID defines the slot in which the transmitted.
         # The SlotID also determines, in FlexrayCluster::numberOfStaticSlots, frame is
                 # sent in static or dynamic segment.
         # In part, the slot id is equivalent to a priority.

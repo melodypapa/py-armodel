@@ -1089,7 +1089,6 @@ class BswModuleEntity(ExecutableEntity, ABC):
                 f"implemented must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._implemented = value
-        # A trigger issued by this entity via BSW Scheduler API call.
         # be a BswTrigger released (i.
         # e.
         # owned) by this cluster.
@@ -1405,7 +1404,6 @@ class BswVariableAccess(Referrable):
             return
 
         self._accessedVariable = value
-        # The existence of this reference indicates that the variable is received resp.
         # sent only in the context of the referred.
         self._context: List["BswDistinguished"] = []
 
@@ -1521,7 +1519,6 @@ class BswExclusiveAreaPolicy(ARObject):
                 f"apiPrinciple must be ApiPrincipleEnum or None, got {type(value).__name__}"
             )
         self._apiPrinciple = value
-        # The ExclusiveArea for which the BSW Scheduler using.
         self._exclusiveArea: Optional["ExclusiveArea"] = None
 
     @property
@@ -1976,7 +1973,6 @@ class BswTriggerDirectImplementation(ARObject):
             return
 
         self._masteredTrigger = value
-        # The name of the OS task, which is controlled by the This means, that the
                 # module uses the to directly activate an OS task instead of API of the
                 # BswScheduler.
         # The task name is the RTE generator resp.
@@ -2190,7 +2186,6 @@ class BswModeSenderPolicy(ARObject):
                 f"ackRequestRequest must be BswModeSwitchAck or None, got {type(value).__name__}"
             )
         self._ackRequestRequest = value
-        # This controls the creation of the enhanced mode API that information about
                 # the previous mode and the next set to TRUE the enhanced mode API is be
                 # generated.
         # For more details please refer SWS_RTE.
@@ -2221,7 +2216,6 @@ class BswModeSenderPolicy(ARObject):
                 f"enhancedMode must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._enhancedMode = value
-        # The provided mode group for which the policy is specified.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
         self._providedMode: Optional["RefType"] = None
@@ -2247,7 +2241,6 @@ class BswModeSenderPolicy(ARObject):
             return
 
         self._providedMode = value
-        # Length of call queue on the sender side.
         # The queue is the RTE resp.
         # BswScheduler.
         # The value greater or equal to 0.
@@ -2601,7 +2594,6 @@ class BswModeReceiverPolicy(ARObject):
                 f"enhancedMode must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._enhancedMode = value
-        # The required mode group for which the policy is specified.
         self._requiredMode: Optional["RefType"] = None
 
     @property
@@ -2625,7 +2617,6 @@ class BswModeReceiverPolicy(ARObject):
             return
 
         self._requiredMode = value
-        # Specifies whether the module can handle the reception of asynchronous mode
         # switch (true) or not (false).
         self._supports: Optional["Boolean"] = None
 
@@ -2976,7 +2967,6 @@ class BswServiceDependency(ServiceDependency):
                 f"ident must be BswService or None, got {type(value).__name__}"
             )
         self._ident = value
-        # The associated ServiceNeeds.
         self._serviceNeeds: Optional["ServiceNeeds"] = None
 
     @property
@@ -3170,7 +3160,6 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
                 f"assignedEntry must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._assignedEntry = value
-        # This is the role of the assigned BswModuleEntry in the The attribute is
                 # required (for example) kind of callbacks may be associated same ServiceNeeds
                 # (e.
         # g.
@@ -3390,7 +3379,6 @@ class BswInterruptEntity(BswModuleEntity):
                 f"interruptCategory must be BswInterruptCategory or None, got {type(value).__name__}"
             )
         self._interruptCategory = value
-        # Allows a textual documentation of the intended interrupt.
         self._interruptSource: Optional["String"] = None
 
     @property
@@ -3558,7 +3546,6 @@ class BswDirectCallPoint(BswModuleCallPoint):
                 f"calledEntry must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._calledEntry = value
-        # This indicates that the call point is located at the deepest level inside one
         # or more ExclusiveAreas that are nested the given order.
         self._calledFrom: Optional["ExclusiveAreaNesting"] = None
 
@@ -3724,7 +3711,6 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
                 f"calledEntryEntry must be BswModuleClientServer or None, got {type(value).__name__}"
             )
         self._calledEntryEntry = value
-        # This indicates that the call point is located at the deepest level inside one
         # or more ExclusiveAreas that are nested the given order.
         self._calledFrom: Optional["ExclusiveAreaNesting"] = None
 

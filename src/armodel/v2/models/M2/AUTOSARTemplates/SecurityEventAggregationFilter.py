@@ -49,7 +49,6 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
                 f"contextData must be SecurityEventContext or None, got {type(value).__name__}"
             )
         self._contextData = value
-        # This attribute represents the configuration of the minimum window in seconds
         # for the aggregation filter.
         self._minimum: Optional["TimeValue"] = None
 

@@ -55,7 +55,6 @@ class VariationPointProxy(Identifiable):
                 f"conditionAccess must be ConditionByFormula or None, got {type(value).__name__}"
             )
         self._conditionAccess = value
-        # This association to ImplementationDataType shall be taken as an
         # implementation hint by the RTE generator.
         self._implementation: Optional["AbstractImplementation"] = None
 
@@ -84,7 +83,6 @@ class VariationPointProxy(Identifiable):
                 f"implementation must be AbstractImplementation or None, got {type(value).__name__}"
             )
         self._implementation = value
-        # This represents the applicable PostBuildVariantCriterion in the context of a
         # VariationPointProxy.
         self._postBuildValue: Optional["PostBuildVariant"] = None
 

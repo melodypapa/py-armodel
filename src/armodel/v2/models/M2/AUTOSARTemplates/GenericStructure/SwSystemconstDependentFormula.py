@@ -55,7 +55,6 @@ class SwSystemconstDependentFormula(ARObject, ABC):
                 f"sysc must be SwSystemconst or None, got {type(value).__name__}"
             )
         self._sysc = value
-        # syscString indicates that the referenced system constant evaluated as a
         # string according to.
         self._syscString: Optional["SwSystemconst"] = None
 
