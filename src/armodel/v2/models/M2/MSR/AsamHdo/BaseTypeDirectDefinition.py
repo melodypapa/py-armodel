@@ -1,5 +1,25 @@
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ByteOrderEnum,
+    PositiveInteger,
+    String,
+)
+
+# Import BaseTypeDefinition from the BaseTypeDefinition.py file to avoid circular imports
+from armodel.v2.models.M2.MSR.AsamHdo.BaseTypeDefinition import (
+    BaseTypeDefinition,
+)
+
+
+# Type aliases for compatibility
+# Use String as fallback for types that don't exist in V2 yet or have circular import issues
+NativeDeclarationString = String
+BaseTypeEncoding = String
+
 
 class BaseTypeDirectDefinition(BaseTypeDefinition):
     """

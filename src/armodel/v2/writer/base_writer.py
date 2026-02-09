@@ -83,6 +83,11 @@ class ARXMLWriter:
             short_name_elem = ET.SubElement(pkg_elem, "SHORT-NAME")
             short_name_elem.text = self._to_primitive_value(pkg.short_name)
 
+        # Add CATEGORY if present
+        if pkg.category:
+            category_elem = ET.SubElement(pkg_elem, "CATEGORY")
+            category_elem.text = self._to_primitive_value(pkg.category)
+
         # Add nested AR-PACKAGES
         if pkg.ar_packages:
             sub_packages_elem = ET.SubElement(pkg_elem, "AR-PACKAGES")

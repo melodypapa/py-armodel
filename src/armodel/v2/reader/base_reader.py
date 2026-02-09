@@ -1,12 +1,14 @@
 """
 V2 ARXML reader - deserializes ARXML to model objects using reflection.
 """
+import inspect
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import (
     Any,
     Dict,
     Optional,
+    get_type_hints,
 )
 
 from armodel.v2.models.models import AUTOSAR
@@ -23,6 +25,98 @@ class ARXMLReader:
         self.options = options or {}
         self.warning = self.options.get("warning", False)
 
+    def _create_primitive_value(self, target_obj: Any, field_name: str,
+                               value: str) -> Any:
+        """Create a primitive type object for the given field.
+
+        Args:
+            target_obj: The target object with the field
+            field_name: Name of the field to set
+            value: String value from XML
+
+        Returns:
+            The appropriate value (primitive type object or string)
+        """
+        # Map field names to their expected primitive types
+        primitive_type_map = {
+            "short_name": "Identifier",
+            "category": "CategoryString",
+            "desc": "String",
+        }
+
+        # Get the expected type name for this field
+        type_name = primitive_type_map.get(field_name)
+        if not type_name:
+            return value
+
+        # Try to import and create the primitive type
+        try:
+            from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+                CategoryString,
+                Identifier,
+                String,
+            )
+
+            type_class_map = {
+                "Identifier": Identifier,
+                "CategoryString": CategoryString,
+                "String": String,
+            }
+
+            type_class = type_class_map.get(type_name)
+            if type_class:
+                instance = type_class()
+                if hasattr(instance, 'value'):
+                    instance.value = value
+                    return instance
+        except Exception:
+            pass
+
+        return value
+
+    def _map_tag_to_field(self, tag_name: str) -> str:
+        """Map XML tag name to Python field name.
+
+        Args:
+            tag_name: XML tag name (e.g., "SHORT-NAME", "BASE-TYPE-SIZE")
+
+        Returns:
+            Python field name in snake_case (e.g., "short_name", "base_type_size")
+        """
+        # Common mappings
+        tag_to_field_map = {
+            "SHORT-NAME": "short_name",
+            "CATEGORY": "category",
+            "LONG-NAME": "long_name",
+            "DESC": "desc",
+            "BASE-TYPE-SIZE": "base_type_size",
+            "MEM-ALIGNMENT": "mem_alignment",
+            "NATIVE-DECLARATION": "native",
+            "BASE-TYPE-ENCODING": "base_type_encoding",
+            "BYTE-ORDER": "byte_order",
+        }
+
+        if tag_name in tag_to_field_map:
+            return tag_to_field_map[tag_name]
+
+        # Default: convert kebab-case to snake_case
+        return tag_name.lower().replace("-", "_")
+
+    def _is_property_element(self, tag_name: str) -> bool:
+        """Check if an element looks like a property element (not a model class).
+
+        Property elements are typically all-caps with hyphens and contain text content.
+        Examples: SHORT-NAME, CATEGORY, BASE-TYPE-SIZE, etc.
+
+        Args:
+            tag_name: XML tag name
+
+        Returns:
+            True if this looks like a property element
+        """
+        # Property elements typically have hyphens and are uppercase
+        return "-" in tag_name and tag_name == tag_name.upper()
+
     def load(self, file_path: str, document: AUTOSAR) -> None:
         """Load ARXML file into AUTOSAR document."""
         file_path = Path(file_path)
@@ -31,8 +125,8 @@ class ARXMLReader:
         tree = ET.parse(file_path)
         root = tree.getroot()
 
-        # Detect AUTOSAR version (default to 3.2.3 for demo)
-        version = "3.2.3"
+        # Detect AUTOSAR version from schema location
+        version = self._detect_autosar_version(root, file_path)
 
         # Create deserialization context
         ctx = DeserializationContext(
@@ -72,19 +166,19 @@ class ARXMLReader:
                             self._add_child_to_parent(parent_obj, child_obj, child_elem, ctx)
                     return None
 
-                # Handle simple text elements
-                if tag_name in ["SHORT-NAME", "CATEGORY", "LONG-NAME", "DESC"]:
-                    # Map tag to field name
-                    field_map = {
-                        "SHORT-NAME": "short_name",
-                        "CATEGORY": "category",
-                        "LONG-NAME": "long_name",
-                        "DESC": "desc"
-                    }
-                    field_name = field_map.get(tag_name)
+                # Handle simple text elements that map to object properties
+                # These are typically primitive type properties like SHORT-NAME, CATEGORY, etc.
+                field_name = self._map_tag_to_field(tag_name)
 
-                    if field_name and hasattr(parent_obj, field_name) and elem.text and elem.text.strip():
-                        setattr(parent_obj, field_name, elem.text.strip())
+                if field_name and hasattr(parent_obj, field_name) and elem.text and elem.text.strip():
+                    value = self._create_primitive_value(parent_obj, field_name, elem.text.strip())
+                    setattr(parent_obj, field_name, value)
+                    return None
+
+                # Skip unknown property elements (those that look like properties but aren't recognized)
+                # This handles flattened XML structures where properties appear directly on parent
+                # instead of being nested in a child object
+                if self._is_property_element(tag_name):
                     return None
 
                 ctx.raise_or_log(f"Unknown XML element '{tag_name}'")
@@ -108,17 +202,12 @@ class ARXMLReader:
                 child_tag = self._strip_namespace(child_elem.tag)
 
                 # Handle simple text elements directly
-                if child_tag in ["SHORT-NAME", "CATEGORY", "LONG-NAME", "DESC"]:
-                    field_map = {
-                        "SHORT-NAME": "short_name",
-                        "CATEGORY": "category",
-                        "LONG-NAME": "long_name",
-                        "DESC": "desc"
-                    }
-                    field_name = field_map.get(child_tag)
+                # These map to object properties like short_name, category, base_type_size, etc.
+                field_name = self._map_tag_to_field(child_tag)
 
-                    if field_name and hasattr(instance, field_name) and child_elem.text and child_elem.text.strip():
-                        setattr(instance, field_name, child_elem.text.strip())
+                if field_name and hasattr(instance, field_name) and child_elem.text and child_elem.text.strip():
+                    value = self._create_primitive_value(instance, field_name, child_elem.text.strip())
+                    setattr(instance, field_name, value)
                     continue
 
                 # Handle complex child elements
@@ -165,6 +254,59 @@ class ARXMLReader:
                 if tag_spec == child_tag or tag_spec.endswith(child_tag) or child_tag.endswith(tag_spec):
                     return prop_name
         return None
+
+    def _detect_autosar_version(self, root: ET.Element, file_path: Path) -> str:
+        """Detect AUTOSAR version from XML schema location.
+
+        Args:
+            root: Root XML element
+            file_path: Path to the ARXML file
+
+        Returns:
+            AUTOSAR version string (e.g., "3.2.3", "4.0.3", "R23-11")
+        """
+        # Mapping from XSD files to AUTOSAR versions
+        xsd_to_version = {
+            "AUTOSAR_3.2.3.xsd": "3.2.3",
+            "AUTOSAR_4.0.3.xsd": "4.0.3",
+            "AUTOSAR_4.1.1.xsd": "4.1.1",
+            "AUTOSAR_4.1.2.xsd": "4.1.2",
+            "AUTOSAR_4.1.3.xsd": "4.1.3",
+            "AUTOSAR_4.2.1.xsd": "4.2.1",
+            "AUTOSAR_4.2.2.xsd": "4.2.2",
+            "AUTOSAR_4.3.0.xsd": "4.3.0",
+            "AUTOSAR_R19-11.xsd": "R19-11",
+            "AUTOSAR_R20-11.xsd": "R20-11",
+            "AUTOSAR_R21-11.xsd": "R21-11",
+            "AUTOSAR_R22-11.xsd": "R22-11",
+            "AUTOSAR_R23-11.xsd": "R23-11",
+            "AUTOSAR_R24-11.xsd": "R24-11",
+        }
+
+        # Check schemaLocation attribute
+        schema_loc = root.attrib.get(
+            "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation",
+            ""
+        )
+
+        if schema_loc:
+            # Extract XSD filename from schema location
+            # Format: "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
+            parts = schema_loc.split()
+            if len(parts) >= 2:
+                xsd_file = parts[1].split("/")[-1]
+                if xsd_file in xsd_to_version:
+                    return xsd_to_version[xsd_file]
+
+        # Try to detect from xmlns attribute (fallback)
+        xmlns = root.attrib.get("xmlns", "")
+        if "schema/r4.0" in xmlns:
+            return "4.0.3"  # Default for 4.0.x series
+        elif "schema/r3.2.3" in xmlns:
+            return "3.2.3"
+
+        # Default fallback
+        return "3.2.3"
 
     def _strip_namespace(self, tag: str) -> str:
         """Strip namespace from XML tag name."""
