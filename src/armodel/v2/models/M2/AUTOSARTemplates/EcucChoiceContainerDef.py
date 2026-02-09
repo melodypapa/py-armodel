@@ -29,6 +29,22 @@ class EcucChoiceContainerDef(EcucContainerDef):
         """Get choice (Pythonic accessor)."""
         return self._choice
 
+    def with_choice(self, value):
+        """
+        Set choice and return self for chaining.
+
+        Args:
+            value: The choice to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_choice("value")
+        """
+        self.choice = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getChoice(self) -> List["EcucParamConf"]:

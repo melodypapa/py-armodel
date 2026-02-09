@@ -4,8 +4,8 @@ AUTOSAR Package - AdminData
 Package: M2::MSR::AsamHdo::AdminData
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     String,
@@ -13,8 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class AdminData(ARObject):
@@ -86,6 +84,38 @@ class AdminData(ARObject):
                 f"usedLanguages must be MultiLanguagePlainText or None, got {type(value).__name__}"
             )
         self._usedLanguages = value
+
+    def with_doc_revision(self, value):
+        """
+        Set doc_revision and return self for chaining.
+
+        Args:
+            value: The doc_revision to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_doc_revision("value")
+        """
+        self.doc_revision = value  # Use property setter (gets validation)
+        return self
+
+    def with_modification(self, value):
+        """
+        Set modification and return self for chaining.
+
+        Args:
+            value: The modification to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_modification("value")
+        """
+        self.modification = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

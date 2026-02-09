@@ -4,13 +4,11 @@ AUTOSAR Package - FimMapping
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.__init__ import (
     DiagnosticMapping,
 )
-
-
 
 
 class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):

@@ -61,6 +61,22 @@ class AccessCountSet(ARObject):
             )
         self._countProfile = value
 
+    def with_access_count(self, value):
+        """
+        Set access_count and return self for chaining.
+
+        Args:
+            value: The access_count to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_access_count("value")
+        """
+        self.access_count = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAccessCount(self) -> List["AccessCount"]:

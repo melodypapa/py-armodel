@@ -89,6 +89,22 @@ class EcucDerivationSpecification(ARObject):
             )
         self._informalFormula = value
 
+    def with_ecuc_query(self, value):
+        """
+        Set ecuc_query and return self for chaining.
+
+        Args:
+            value: The ecuc_query to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecuc_query("value")
+        """
+        self.ecuc_query = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCalculation(self) -> "EcucParameter":

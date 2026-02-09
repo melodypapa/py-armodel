@@ -4,8 +4,8 @@ AUTOSAR Package - MemorySectionUsage
 Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     PositiveInteger,
@@ -17,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class MemorySection(Identifiable):
@@ -242,6 +240,38 @@ class MemorySection(Identifiable):
                 f"symbol must be Identifier or str or None, got {type(value).__name__}"
             )
         self._symbol = value
+
+    def with_executable_entity(self, value):
+        """
+        Set executable_entity and return self for chaining.
+
+        Args:
+            value: The executable_entity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_executable_entity("value")
+        """
+        self.executable_entity = value  # Use property setter (gets validation)
+        return self
+
+    def with_option(self, value):
+        """
+        Set option and return self for chaining.
+
+        Args:
+            value: The option to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_option("value")
+        """
+        self.option = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

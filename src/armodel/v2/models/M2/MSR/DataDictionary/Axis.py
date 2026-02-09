@@ -4,17 +4,17 @@ AUTOSAR Package - Axis
 Package: M2::MSR::DataDictionary::Axis
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -22,8 +22,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxisTypeProps,
 )
-
-
 
 
 class SwAxisIndividual(SwCalprmAxisTypeProps):
@@ -268,6 +266,22 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"unit must be Unit or None, got {type(value).__name__}"
             )
         self._unit = value
+
+    def with_sw_variable_ref(self, value):
+        """
+        Set sw_variable_ref and return self for chaining.
+
+        Args:
+            value: The sw_variable_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_variable_ref("value")
+        """
+        self.sw_variable_ref = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

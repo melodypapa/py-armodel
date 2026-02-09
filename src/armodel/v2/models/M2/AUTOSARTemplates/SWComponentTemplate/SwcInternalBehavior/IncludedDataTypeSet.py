@@ -67,6 +67,22 @@ class IncludedDataTypeSet(ARObject):
             )
         self._literalPrefix = value
 
+    def with_data_type(self, value):
+        """
+        Set data_type and return self for chaining.
+
+        Args:
+            value: The data_type to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type("value")
+        """
+        self.data_type = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDataType(self) -> List["AutosarDataType"]:

@@ -64,6 +64,22 @@ class Documentation(ARElement):
             )
         self._documentation = value
 
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getContext(self) -> List["DocumentationContext"]:

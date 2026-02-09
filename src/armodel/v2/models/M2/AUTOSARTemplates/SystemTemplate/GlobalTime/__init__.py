@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -23,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-
-
 
 
 class GlobalTimeDomain(FibexElement):
@@ -265,6 +264,38 @@ class GlobalTimeDomain(FibexElement):
                 f"syncLoss must be TimeValue or None, got {type(value).__name__}"
             )
         self._syncLoss = value
+
+    def with_gateway(self, value):
+        """
+        Set gateway and return self for chaining.
+
+        Args:
+            value: The gateway to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_gateway("value")
+        """
+        self.gateway = value  # Use property setter (gets validation)
+        return self
+
+    def with_global_time_sub(self, value):
+        """
+        Set global_time_sub and return self for chaining.
+
+        Args:
+            value: The global_time_sub to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_global_time_sub("value")
+        """
+        self.global_time_sub = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -2128,3 +2159,18 @@ Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
     # The ICV is required and will be verified.
     icvVerified = "0"
+
+
+__all__ = [
+    "GlobalTimeDomain",
+    "AbstractGlobalTimeDomainProps",
+    "NetworkSegmentIdentification",
+    "GlobalTimeMaster",
+    "GlobalTimeSlave",
+    "GlobalTimeGateway",
+    "GlobalTimeCorrectionProps",
+    "GlobalTimeCrcSupportEnum",
+    "GlobalTimeCrcValidationEnum",
+    "GlobalTimeIcvSupportEnum",
+    "GlobalTimeIcvVerificationEnum",
+]

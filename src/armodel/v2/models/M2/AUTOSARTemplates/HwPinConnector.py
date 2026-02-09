@@ -27,6 +27,22 @@ class HwPinConnector(Describable):
         """Get hwPin (Pythonic accessor)."""
         return self._hwPin
 
+    def with_hw_pin(self, value):
+        """
+        Set hw_pin and return self for chaining.
+
+        Args:
+            value: The hw_pin to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_pin("value")
+        """
+        self.hw_pin = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getHwPin(self) -> List["HwPin"]:

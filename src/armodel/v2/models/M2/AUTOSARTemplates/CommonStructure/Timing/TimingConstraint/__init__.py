@@ -6,11 +6,10 @@ Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     Traceable,
 )
-
-
 
 
 class TimingConstraint(Traceable, ABC):
@@ -107,3 +106,8 @@ class TimingConstraint(Traceable, ABC):
         """
         self.timing_condition = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "TimingConstraint",
+]

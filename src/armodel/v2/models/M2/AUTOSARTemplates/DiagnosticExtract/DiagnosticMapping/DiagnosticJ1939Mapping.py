@@ -4,14 +4,12 @@ AUTOSAR Package - DiagnosticJ1939Mapping
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.__init__ import (
     DiagnosticMapping,
     DiagnosticSwMapping,
 )
-
-
 
 
 class DiagnosticJ1939SpnMapping(DiagnosticMapping):
@@ -98,6 +96,22 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
                 f"systemSignal must be SystemSignal or None, got {type(value).__name__}"
             )
         self._systemSignal = value
+
+    def with_sending_node(self, value):
+        """
+        Set sending_node and return self for chaining.
+
+        Args:
+            value: The sending_node to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sending_node("value")
+        """
+        self.sending_node = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

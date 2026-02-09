@@ -4,16 +4,15 @@ AUTOSAR Package - CommonService
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
-
-
 
 
 class DiagnosticServiceClass(DiagnosticCommonElement, ABC):

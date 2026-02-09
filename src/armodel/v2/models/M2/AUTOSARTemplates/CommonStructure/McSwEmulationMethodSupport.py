@@ -151,6 +151,22 @@ class McSwEmulationMethodSupport(ARObject):
             )
         self._shortLabel = value
 
+    def with_element_group(self, value):
+        """
+        Set element_group and return self for chaining.
+
+        Args:
+            value: The element_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element_group("value")
+        """
+        self.element_group = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBaseReference(self) -> RefType:

@@ -4,16 +4,15 @@ AUTOSAR Package - InstanceRefs
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class VariableInAtomicSwcInstanceRef(ARObject, ABC):
@@ -109,6 +108,22 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
             return
 
         self._contextPort = value
+
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

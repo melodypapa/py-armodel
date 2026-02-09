@@ -4,16 +4,15 @@ AUTOSAR Package - EngineeringObject
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class EngineeringObject(ARObject, ABC):
@@ -131,6 +130,22 @@ class EngineeringObject(ARObject, ABC):
                 f"shortLabel must be NameToken or str, got {type(value).__name__}"
             )
         self._shortLabel = value
+
+    def with_revision_label(self, value):
+        """
+        Set revision_label and return self for chaining.
+
+        Args:
+            value: The revision_label to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_revision_label("value")
+        """
+        self.revision_label = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

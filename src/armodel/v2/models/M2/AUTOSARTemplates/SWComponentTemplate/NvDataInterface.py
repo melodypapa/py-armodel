@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataInterface
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    DataInterface,
+)
 
     RefType,
 )
@@ -35,6 +37,22 @@ class NvDataInterface(DataInterface):
     def nv_data(self) -> List[RefType]:
         """Get nvData (Pythonic accessor)."""
         return self._nvData
+
+    def with_nv_data(self, value):
+        """
+        Set nv_data and return self for chaining.
+
+        Args:
+            value: The nv_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_data("value")
+        """
+        self.nv_data = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

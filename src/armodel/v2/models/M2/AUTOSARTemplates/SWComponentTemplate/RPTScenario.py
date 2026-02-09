@@ -4,17 +4,18 @@ AUTOSAR Package - RPTScenario
 Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     PositiveInteger,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -22,8 +23,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class RptImplPolicy(ARObject):
@@ -100,6 +99,102 @@ class RptImplPolicy(ARObject):
                 f"rptPreparation must be RptPreparationEnum or None, got {type(value).__name__}"
             )
         self._rptPreparation = value
+
+    def with_rpt_container(self, value):
+        """
+        Set rpt_container and return self for chaining.
+
+        Args:
+            value: The rpt_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_container("value")
+        """
+        self.rpt_container = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_profile(self, value):
+        """
+        Set rpt_profile and return self for chaining.
+
+        Args:
+            value: The rpt_profile to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_profile("value")
+        """
+        self.rpt_profile = value  # Use property setter (gets validation)
+        return self
+
+    def with_by_pass_point(self, value):
+        """
+        Set by_pass_point and return self for chaining.
+
+        Args:
+            value: The by_pass_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_by_pass_point("value")
+        """
+        self.by_pass_point = value  # Use property setter (gets validation)
+        return self
+
+    def with_explicit_rpt(self, value):
+        """
+        Set explicit_rpt and return self for chaining.
+
+        Args:
+            value: The explicit_rpt to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_explicit_rpt("value")
+        """
+        self.explicit_rpt = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_container(self, value):
+        """
+        Set rpt_container and return self for chaining.
+
+        Args:
+            value: The rpt_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_container("value")
+        """
+        self.rpt_container = value  # Use property setter (gets validation)
+        return self
+
+    def with_sdg(self, value):
+        """
+        Set sdg and return self for chaining.
+
+        Args:
+            value: The sdg to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg("value")
+        """
+        self.sdg = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

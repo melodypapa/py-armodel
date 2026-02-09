@@ -4,13 +4,11 @@ AUTOSAR Package - SystemConstant
 Package: M2::MSR::DataDictionary::SystemConstant
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-
-
 
 
 class SwSystemconst(ARElement):

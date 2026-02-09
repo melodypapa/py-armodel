@@ -4,8 +4,9 @@ AUTOSAR Package - IEEE1722TpAcf
 Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -17,8 +18,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class IEEE1722TpAcfBus(Identifiable, ABC):
@@ -73,6 +72,22 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
                 f"busId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._busId = value
+
+    def with_acf_part(self, value):
+        """
+        Set acf_part and return self for chaining.
+
+        Args:
+            value: The acf_part to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acf_part("value")
+        """
+        self.acf_part = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

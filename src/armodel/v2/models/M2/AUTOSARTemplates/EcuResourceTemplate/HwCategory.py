@@ -28,6 +28,22 @@ class HwCategory(ARElement):
         """Get hwAttributeDef (Pythonic accessor)."""
         return self._hwAttributeDef
 
+    def with_hw_attribute_def(self, value):
+        """
+        Set hw_attribute_def and return self for chaining.
+
+        Args:
+            value: The hw_attribute_def to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_attribute_def("value")
+        """
+        self.hw_attribute_def = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getHwAttributeDef(self) -> List["HwAttributeDef"]:

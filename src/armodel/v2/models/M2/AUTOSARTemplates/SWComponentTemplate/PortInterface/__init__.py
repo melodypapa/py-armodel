@@ -6,17 +6,18 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -27,6 +28,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     AutosarDataPrototype,
 )
+
+
 class ArgumentDataPrototype(AutosarDataPrototype):
     """
     An argument of an operation, much like a data element, but also carries
@@ -109,6 +112,278 @@ class ArgumentDataPrototype(AutosarDataPrototype):
                 f"serverArgument must be ServerArgumentImpl or None, got {type(value).__name__}"
             )
         self._serverArgument = value
+
+    def with_argument(self, value):
+        """
+        Set argument and return self for chaining.
+
+        Args:
+            value: The argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_argument("value")
+        """
+        self.argument = value  # Use property setter (gets validation)
+        return self
+
+    def with_possible_error(self, value):
+        """
+        Set possible_error and return self for chaining.
+
+        Args:
+            value: The possible_error to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_possible_error("value")
+        """
+        self.possible_error = value  # Use property setter (gets validation)
+        return self
+
+    def with_port_interface(self, value):
+        """
+        Set port_interface and return self for chaining.
+
+        Args:
+            value: The port_interface to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_interface("value")
+        """
+        self.port_interface = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_element(self, value):
+        """
+        Set sub_element and return self for chaining.
+
+        Args:
+            value: The sub_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_element("value")
+        """
+        self.sub_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_argument(self, value):
+        """
+        Set argument and return self for chaining.
+
+        Args:
+            value: The argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_argument("value")
+        """
+        self.argument = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode(self, value):
+        """
+        Set mode and return self for chaining.
+
+        Args:
+            value: The mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode("value")
+        """
+        self.mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_first_mode(self, value):
+        """
+        Set first_mode and return self for chaining.
+
+        Args:
+            value: The first_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_first_mode("value")
+        """
+        self.first_mode = value  # Use property setter (gets validation)
+        return self
+
+    def with_value_pair(self, value):
+        """
+        Set value_pair and return self for chaining.
+
+        Args:
+            value: The value_pair to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value_pair("value")
+        """
+        self.value_pair = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_possible_error(self, value):
+        """
+        Set possible_error and return self for chaining.
+
+        Args:
+            value: The possible_error to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_possible_error("value")
+        """
+        self.possible_error = value  # Use property setter (gets validation)
+        return self
+
+    def with_trigger(self, value):
+        """
+        Set trigger and return self for chaining.
+
+        Args:
+            value: The trigger to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trigger("value")
+        """
+        self.trigger = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_mapping(self, value):
+        """
+        Set data_mapping and return self for chaining.
+
+        Args:
+            value: The data_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_mapping("value")
+        """
+        self.data_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_error_mapping(self, value):
+        """
+        Set error_mapping and return self for chaining.
+
+        Args:
+            value: The error_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_error_mapping("value")
+        """
+        self.error_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_trigger_mapping(self, value):
+        """
+        Set trigger_mapping and return self for chaining.
+
+        Args:
+            value: The trigger_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trigger_mapping("value")
+        """
+        self.trigger_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_invalidation_policy(self, value):
+        """
+        Set invalidation_policy and return self for chaining.
+
+        Args:
+            value: The invalidation_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_invalidation_policy("value")
+        """
+        self.invalidation_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_nv_data(self, value):
+        """
+        Set nv_data and return self for chaining.
+
+        Args:
+            value: The nv_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_data("value")
+        """
+        self.nv_data = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -3691,3 +3966,40 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     # The TextTableMapping is applicable in the direction from secondDataPrototype / secondOperation Argument referring into the PortInterface of the PPortPrototype to firstDataPrototype / firstOperation Argument referring into the PortInterface of the RPortPrototype.
     secondToFirst = "2"
+
+
+__all__ = [
+    "ArgumentDataPrototype",
+    "ClientServerOperation",
+    "PortInterface",
+    "InvalidationPolicy",
+    "MetaDataItem",
+    "MetaDataItemSet",
+    "ApplicationError",
+    "PortInterfaceMappingSet",
+    "PortInterfaceMapping",
+    "DataPrototypeMapping",
+    "ClientServerOperationMapping",
+    "ClientServerApplicationErrorMapping",
+    "ModeDeclarationMappingSet",
+    "ModeDeclarationMapping",
+    "SubElementMapping",
+    "SubElementRef",
+    "TextTableMapping",
+    "TextTableValuePair",
+    "ClientServerInterface",
+    "DataInterface",
+    "TriggerInterface",
+    "ModeSwitchInterface",
+    "VariableAndParameterInterfaceMapping",
+    "ClientServerInterfaceMapping",
+    "ModeInterfaceMapping",
+    "TriggerInterfaceMapping",
+    "ImplementationDataTypeSubElementRef",
+    "ApplicationCompositeDataTypeSubElementRef",
+    "SenderReceiverInterface",
+    "NvDataInterface",
+    "ParameterInterface",
+    "ServerArgumentImplPolicyEnum",
+    "MappingDirectionEnum",
+]

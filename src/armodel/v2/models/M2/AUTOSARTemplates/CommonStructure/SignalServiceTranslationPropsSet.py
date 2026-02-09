@@ -26,6 +26,22 @@ class SignalServiceTranslationPropsSet(ARElement):
         """Get signalServiceProps (Pythonic accessor)."""
         return self._signalServiceProps
 
+    def with_signal_service_props(self, value):
+        """
+        Set signal_service_props and return self for chaining.
+
+        Args:
+            value: The signal_service_props to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal_service_props("value")
+        """
+        self.signal_service_props = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getSignalServiceProps(self) -> List["SignalService"]:

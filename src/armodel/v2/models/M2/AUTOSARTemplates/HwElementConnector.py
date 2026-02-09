@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+)
 
     RefType,
 )
@@ -48,6 +50,54 @@ class HwElementConnector(Describable):
     def hw_pin_group(self) -> List[RefType]:
         """Get hwPinGroup (Pythonic accessor)."""
         return self._hwPinGroup
+
+    def with_hw_element(self, value):
+        """
+        Set hw_element and return self for chaining.
+
+        Args:
+            value: The hw_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_element("value")
+        """
+        self.hw_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_pin(self, value):
+        """
+        Set hw_pin and return self for chaining.
+
+        Args:
+            value: The hw_pin to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_pin("value")
+        """
+        self.hw_pin = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_pin_group(self, value):
+        """
+        Set hw_pin_group and return self for chaining.
+
+        Args:
+            value: The hw_pin_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_pin_group("value")
+        """
+        self.hw_pin_group = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

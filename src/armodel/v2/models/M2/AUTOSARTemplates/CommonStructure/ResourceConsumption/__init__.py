@@ -410,3 +410,9 @@ class SoftwareContext(ARObject):
         """
         self.state = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "HardwareConfiguration",
+    "SoftwareContext",
+]

@@ -4,8 +4,9 @@ AUTOSAR Package - AbstractStructure
 Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class AtpInstanceRef(ARObject, ABC):
@@ -103,6 +102,38 @@ class AtpInstanceRef(ARObject, ABC):
                 f"atpTarget must be AtpFeature, got {type(value).__name__}"
             )
         self._atpTarget = value
+
+    def with_atp_context(self, value):
+        """
+        Set atp_context and return self for chaining.
+
+        Args:
+            value: The atp_context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_context("value")
+        """
+        self.atp_context = value  # Use property setter (gets validation)
+        return self
+
+    def with_atp_feature(self, value):
+        """
+        Set atp_feature and return self for chaining.
+
+        Args:
+            value: The atp_feature to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_feature("value")
+        """
+        self.atp_feature = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -4,13 +4,11 @@ AUTOSAR Package - SoftwareComponentDocumentation
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class SwComponentDocumentation(ARObject):
@@ -245,6 +243,22 @@ class SwComponentDocumentation(ARObject):
                 f"swTestDesc must be Chapter or None, got {type(value).__name__}"
             )
         self._swTestDesc = value
+
+    def with_chapter(self, value):
+        """
+        Set chapter and return self for chaining.
+
+        Args:
+            value: The chapter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_chapter("value")
+        """
+        self.chapter = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
@@ -22,8 +23,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
     Referrable,
 )
-
-
 
 
 class HwDescriptionEntity(Referrable, ABC):
@@ -89,6 +88,102 @@ class HwDescriptionEntity(Referrable, ABC):
                 f"hwType must be HwType or None, got {type(value).__name__}"
             )
         self._hwType = value
+
+    def with_hw_attribute(self, value):
+        """
+        Set hw_attribute and return self for chaining.
+
+        Args:
+            value: The hw_attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_attribute("value")
+        """
+        self.hw_attribute = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_category(self, value):
+        """
+        Set hw_category and return self for chaining.
+
+        Args:
+            value: The hw_category to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_category("value")
+        """
+        self.hw_category = value  # Use property setter (gets validation)
+        return self
+
+    def with_function_name(self, value):
+        """
+        Set function_name and return self for chaining.
+
+        Args:
+            value: The function_name to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_function_name("value")
+        """
+        self.function_name = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_element(self, value):
+        """
+        Set hw_element and return self for chaining.
+
+        Args:
+            value: The hw_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_element("value")
+        """
+        self.hw_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_element(self, value):
+        """
+        Set hw_element and return self for chaining.
+
+        Args:
+            value: The hw_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_element("value")
+        """
+        self.hw_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_nested_element(self, value):
+        """
+        Set nested_element and return self for chaining.
+
+        Args:
+            value: The nested_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nested_element("value")
+        """
+        self.nested_element = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -882,3 +977,15 @@ class HwElement(HwDescriptionEntity):
         return self.nested_element  # Delegates to property
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+__all__ = [
+    "HwDescriptionEntity",
+    "HwPinGroup",
+    "HwPinGroupContent",
+    "HwPin",
+    "HwElementConnector",
+    "HwPinGroupConnector",
+    "HwPinConnector",
+    "HwElement",
+]

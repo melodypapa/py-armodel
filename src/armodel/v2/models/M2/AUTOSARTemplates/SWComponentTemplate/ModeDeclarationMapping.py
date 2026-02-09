@@ -61,6 +61,22 @@ class ModeDeclarationMapping(Identifiable):
             )
         self._secondMode = value
 
+    def with_first_mode(self, value):
+        """
+        Set first_mode and return self for chaining.
+
+        Args:
+            value: The first_mode to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_first_mode("value")
+        """
+        self.first_mode = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getFirstMode(self) -> List["ModeDeclaration"]:

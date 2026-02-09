@@ -50,6 +50,22 @@ class FMFeatureSelection(Identifiable):
         """Get attributeValue (Pythonic accessor)."""
         return self._attributeValue
 
+    def with_attribute_value(self, value):
+        """
+        Set attribute_value and return self for chaining.
+
+        Args:
+            value: The attribute_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_attribute_value("value")
+        """
+        self.attribute_value = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAttributeValue(self) -> List["FMAttributeValue"]:

@@ -980,3 +980,99 @@ class RegularExpression(ARLiteral):
 
     def __init__(self) -> None:
         super().__init__()
+
+    def with_value(self, value):
+        """
+        Set value and return self for chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self
+
+    def with_value(self, value):
+        """
+        Set value and return self for chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self
+
+    def with_value(self, value):
+        """
+        Set value and return self for chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self
+
+    def with_value(self, value):
+        """
+        Set value and return self for chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self
+
+    def with_value(self, value):
+        """
+        Set value and return self for chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self
+
+    def with_value(self, value):
+        """
+        Set value and return self for chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self

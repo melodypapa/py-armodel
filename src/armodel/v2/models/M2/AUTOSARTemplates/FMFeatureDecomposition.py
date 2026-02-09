@@ -123,6 +123,22 @@ class FMFeatureDecomposition(ARObject):
             )
         self._min = value
 
+    def with_feature(self, value):
+        """
+        Set feature and return self for chaining.
+
+        Args:
+            value: The feature to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_feature("value")
+        """
+        self.feature = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCategory(self) -> "CategoryString":

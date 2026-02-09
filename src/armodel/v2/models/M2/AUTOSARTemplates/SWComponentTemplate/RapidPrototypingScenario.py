@@ -101,6 +101,38 @@ class RapidPrototypingScenario(ARElement):
             )
         self._rptSystem = value
 
+    def with_rpt_container(self, value):
+        """
+        Set rpt_container and return self for chaining.
+
+        Args:
+            value: The rpt_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_container("value")
+        """
+        self.rpt_container = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_profile(self, value):
+        """
+        Set rpt_profile and return self for chaining.
+
+        Args:
+            value: The rpt_profile to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_profile("value")
+        """
+        self.rpt_profile = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getHostSystem(self) -> "System":

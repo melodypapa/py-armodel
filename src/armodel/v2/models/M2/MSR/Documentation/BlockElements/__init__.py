@@ -6,6 +6,7 @@ Package: M2::MSR::Documentation::BlockElements
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     MultilanguageReferrable,
 )
-
-
 
 
 class DocumentationBlock(ARObject):
@@ -932,3 +931,9 @@ class Caption(MultilanguageReferrable):
         """
         self.desc = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "DocumentationBlock",
+    "Caption",
+]

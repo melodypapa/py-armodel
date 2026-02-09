@@ -38,6 +38,38 @@ class NvBlockSwComponentType(AtomicSwComponentType):
         """Get nvBlock (Pythonic accessor)."""
         return self._nvBlock
 
+    def with_bulk_nv_data(self, value):
+        """
+        Set bulk_nv_data and return self for chaining.
+
+        Args:
+            value: The bulk_nv_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_bulk_nv_data("value")
+        """
+        self.bulk_nv_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_nv_block(self, value):
+        """
+        Set nv_block and return self for chaining.
+
+        Args:
+            value: The nv_block to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_block("value")
+        """
+        self.nv_block = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBulkNvData(self) -> List["BulkNvDataDescriptor"]:

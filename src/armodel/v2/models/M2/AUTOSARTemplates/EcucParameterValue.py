@@ -100,6 +100,22 @@ class EcucParameterValue(EcucIndexableValue, ABC):
             )
         self._isAutoValue = value
 
+    def with_annotation(self, value):
+        """
+        Set annotation and return self for chaining.
+
+        Args:
+            value: The annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_annotation("value")
+        """
+        self.annotation = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAnnotation(self) -> List["Annotation"]:

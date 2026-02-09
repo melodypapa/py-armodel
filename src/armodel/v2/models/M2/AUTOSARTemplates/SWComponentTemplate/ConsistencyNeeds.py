@@ -65,6 +65,70 @@ class ConsistencyNeeds(Identifiable):
         """Get regRequires (Pythonic accessor)."""
         return self._regRequires
 
+    def with_dpg_does_not(self, value):
+        """
+        Set dpg_does_not and return self for chaining.
+
+        Args:
+            value: The dpg_does_not to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dpg_does_not("value")
+        """
+        self.dpg_does_not = value  # Use property setter (gets validation)
+        return self
+
+    def with_dpg_requires(self, value):
+        """
+        Set dpg_requires and return self for chaining.
+
+        Args:
+            value: The dpg_requires to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dpg_requires("value")
+        """
+        self.dpg_requires = value  # Use property setter (gets validation)
+        return self
+
+    def with_reg_does_not(self, value):
+        """
+        Set reg_does_not and return self for chaining.
+
+        Args:
+            value: The reg_does_not to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reg_does_not("value")
+        """
+        self.reg_does_not = value  # Use property setter (gets validation)
+        return self
+
+    def with_reg_requires(self, value):
+        """
+        Set reg_requires and return self for chaining.
+
+        Args:
+            value: The reg_requires to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reg_requires("value")
+        """
+        self.reg_requires = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDpgDoesNot(self) -> List[RefType]:

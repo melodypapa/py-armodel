@@ -4,8 +4,8 @@ AUTOSAR Package - TimingCondition
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,8 +15,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class TimingCondition(Identifiable):
@@ -61,6 +59,54 @@ class TimingCondition(Identifiable):
                 f"timingCondition must be TimingCondition or None, got {type(value).__name__}"
             )
         self._timingCondition = value
+
+    def with_timing_argument(self, value):
+        """
+        Set timing_argument and return self for chaining.
+
+        Args:
+            value: The timing_argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_timing_argument("value")
+        """
+        self.timing_argument = value  # Use property setter (gets validation)
+        return self
+
+    def with_timing_variable(self, value):
+        """
+        Set timing_variable and return self for chaining.
+
+        Args:
+            value: The timing_variable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_timing_variable("value")
+        """
+        self.timing_variable = value  # Use property setter (gets validation)
+        return self
+
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -65,6 +65,22 @@ class RTEEvent(AbstractEvent, ABC):
             )
         self._startOnEvent = value
 
+    def with_disabled_mode_instance_ref(self, value):
+        """
+        Set disabled_mode_instance_ref and return self for chaining.
+
+        Args:
+            value: The disabled_mode_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_disabled_mode_instance_ref("value")
+        """
+        self.disabled_mode_instance_ref = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDisabledModeInstanceRef(self) -> List["ModeDeclaration"]:

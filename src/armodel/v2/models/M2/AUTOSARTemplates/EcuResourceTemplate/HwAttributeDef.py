@@ -91,6 +91,22 @@ class HwAttributeDef(Identifiable):
             )
         self._unit = value
 
+    def with_hw_attribute(self, value):
+        """
+        Set hw_attribute and return self for chaining.
+
+        Args:
+            value: The hw_attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_attribute("value")
+        """
+        self.hw_attribute = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getHwAttribute(self) -> List["HwAttributeLiteralDef"]:

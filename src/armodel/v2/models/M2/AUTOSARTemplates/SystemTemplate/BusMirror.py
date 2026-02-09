@@ -4,8 +4,9 @@ AUTOSAR Package - BusMirror
 Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
@@ -19,8 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-
-
 
 
 class BusMirrorChannelMapping(FibexElement, ABC):
@@ -136,6 +135,70 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def target_pdu(self) -> List["RefType"]:
         """Get targetPdu (Pythonic accessor)."""
         return self._targetPdu
+
+    def with_target_pdu(self, value):
+        """
+        Set target_pdu and return self for chaining.
+
+        Args:
+            value: The target_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_target_pdu("value")
+        """
+        self.target_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_can_id_range(self, value):
+        """
+        Set can_id_range and return self for chaining.
+
+        Args:
+            value: The can_id_range to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_can_id_range("value")
+        """
+        self.can_id_range = value  # Use property setter (gets validation)
+        return self
+
+    def with_can_id_to_can_id(self, value):
+        """
+        Set can_id_to_can_id and return self for chaining.
+
+        Args:
+            value: The can_id_to_can_id to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_can_id_to_can_id("value")
+        """
+        self.can_id_to_can_id = value  # Use property setter (gets validation)
+        return self
+
+    def with_lin_pid_to_can_id(self, value):
+        """
+        Set lin_pid_to_can_id and return self for chaining.
+
+        Args:
+            value: The lin_pid_to_can_id to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lin_pid_to_can_id("value")
+        """
+        self.lin_pid_to_can_id = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

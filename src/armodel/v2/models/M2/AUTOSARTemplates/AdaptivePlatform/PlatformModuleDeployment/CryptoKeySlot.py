@@ -220,6 +220,22 @@ class CryptoKeySlot(Identifiable):
             )
         self._slotType = value
 
+    def with_key_slot_content(self, value):
+        """
+        Set key_slot_content and return self for chaining.
+
+        Args:
+            value: The key_slot_content to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_key_slot_content("value")
+        """
+        self.key_slot_content = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAllocateShadow(self) -> "Boolean":

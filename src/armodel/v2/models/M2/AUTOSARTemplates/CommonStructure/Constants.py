@@ -4,8 +4,9 @@ AUTOSAR Package - Constants
 Package: M2::AUTOSARTemplates::CommonStructure::Constants
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     Integer,
@@ -13,14 +14,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ConstantSpecification(ARElement):
@@ -68,6 +67,102 @@ class ConstantSpecification(ARElement):
                 f"valueSpec must be ValueSpecification or None, got {type(value).__name__}"
             )
         self._valueSpec = value
+
+    def with_mapping(self, value):
+        """
+        Set mapping and return self for chaining.
+
+        Args:
+            value: The mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapping("value")
+        """
+        self.mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_axis_cont(self, value):
+        """
+        Set sw_axis_cont and return self for chaining.
+
+        Args:
+            value: The sw_axis_cont to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_axis_cont("value")
+        """
+        self.sw_axis_cont = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_axis_cont(self, value):
+        """
+        Set sw_axis_cont and return self for chaining.
+
+        Args:
+            value: The sw_axis_cont to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_axis_cont("value")
+        """
+        self.sw_axis_cont = value  # Use property setter (gets validation)
+        return self
+
+    def with_element(self, value):
+        """
+        Set element and return self for chaining.
+
+        Args:
+            value: The element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element("value")
+        """
+        self.element = value  # Use property setter (gets validation)
+        return self
+
+    def with_argument(self, value):
+        """
+        Set argument and return self for chaining.
+
+        Args:
+            value: The argument to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_argument("value")
+        """
+        self.argument = value  # Use property setter (gets validation)
+        return self
+
+    def with_compound(self, value):
+        """
+        Set compound and return self for chaining.
+
+        Args:
+            value: The compound to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_compound("value")
+        """
+        self.compound = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -91,6 +91,70 @@ class McSupportData(ARObject):
             )
         self._rptSupportData = value
 
+    def with_emulation(self, value):
+        """
+        Set emulation and return self for chaining.
+
+        Args:
+            value: The emulation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_emulation("value")
+        """
+        self.emulation = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_parameter(self, value):
+        """
+        Set mc_parameter and return self for chaining.
+
+        Args:
+            value: The mc_parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_parameter("value")
+        """
+        self.mc_parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_variable(self, value):
+        """
+        Set mc_variable and return self for chaining.
+
+        Args:
+            value: The mc_variable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_variable("value")
+        """
+        self.mc_variable = value  # Use property setter (gets validation)
+        return self
+
+    def with_measurable(self, value):
+        """
+        Set measurable and return self for chaining.
+
+        Args:
+            value: The measurable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_measurable("value")
+        """
+        self.measurable = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getEmulation(self) -> List["McSwEmulationMethod"]:
@@ -934,3 +998,15 @@ class RoleBasedMcDataAssignment(ARObject):
         """
         self.role = value
         return self
+
+
+__all__ = [
+    "McSupportData",
+    "McDataInstance",
+    "McSwEmulationMethodSupport",
+    "McParameterElementGroup",
+    "ImplementationElementInParameterInstanceRef",
+    "McFunction",
+    "McDataAccessDetails",
+    "RoleBasedMcDataAssignment",
+]

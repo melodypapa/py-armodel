@@ -4,8 +4,8 @@ AUTOSAR Package - Mode_0x08_RequestControlOfOnBoard
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
-
-
 
 
 class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):

@@ -90,6 +90,22 @@ class DltContext(ARElement):
         """Get dltMessage (Pythonic accessor)."""
         return self._dltMessage
 
+    def with_dlt_message(self, value):
+        """
+        Set dlt_message and return self for chaining.
+
+        Args:
+            value: The dlt_message to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dlt_message("value")
+        """
+        self.dlt_message = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getContext(self) -> "String":

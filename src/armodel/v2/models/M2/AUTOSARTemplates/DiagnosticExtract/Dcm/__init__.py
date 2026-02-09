@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -19,8 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DiagnosticAccessPermission(DiagnosticCommonElement):
@@ -114,6 +113,38 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def security_level(self) -> List["DiagnosticSecurityLevel"]:
         """Get securityLevel (Pythonic accessor)."""
         return self._securityLevel
+
+    def with_diagnostic(self, value):
+        """
+        Set diagnostic and return self for chaining.
+
+        Args:
+            value: The diagnostic to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_diagnostic("value")
+        """
+        self.diagnostic = value  # Use property setter (gets validation)
+        return self
+
+    def with_security_level(self, value):
+        """
+        Set security_level and return self for chaining.
+
+        Args:
+            value: The security_level to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_security_level("value")
+        """
+        self.security_level = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -1169,3 +1200,13 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm
 
     # This diagnostic session allows to jump to System Supplier Bootloader and application sends final RespApp response.
     systemSupplierBoot = "4"
+
+
+__all__ = [
+    "DiagnosticAccessPermission",
+    "DiagnosticSession",
+    "DiagnosticSecurityLevel",
+    "DiagnosticAuthRoleProxy",
+    "DiagnosticAuthRole",
+    "DiagnosticJumpToBootLoaderEnum",
+]

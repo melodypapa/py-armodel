@@ -4,18 +4,19 @@ AUTOSAR Package - ServiceInstances
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -27,8 +28,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-
-
 
 
 class ConsumedEventGroup(Identifiable):
@@ -263,6 +262,342 @@ class ConsumedEventGroup(Identifiable):
                 f"sdClientTimer must be SomeipSdClientEvent or None, got {type(value).__name__}"
             )
         self._sdClientTimer = value
+
+    def with_pdu_activation(self, value):
+        """
+        Set pdu_activation and return self for chaining.
+
+        Args:
+            value: The pdu_activation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu_activation("value")
+        """
+        self.pdu_activation = value  # Use property setter (gets validation)
+        return self
+
+    def with_routing_group(self, value):
+        """
+        Set routing_group and return self for chaining.
+
+        Args:
+            value: The routing_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_routing_group("value")
+        """
+        self.routing_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_connection(self, value):
+        """
+        Set connection and return self for chaining.
+
+        Args:
+            value: The connection to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_connection("value")
+        """
+        self.connection = value  # Use property setter (gets validation)
+        return self
+
+    def with_socket_address(self, value):
+        """
+        Set socket_address and return self for chaining.
+
+        Args:
+            value: The socket_address to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_socket_address("value")
+        """
+        self.socket_address = value  # Use property setter (gets validation)
+        return self
+
+    def with_static_socket(self, value):
+        """
+        Set static_socket and return self for chaining.
+
+        Args:
+            value: The static_socket to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_static_socket("value")
+        """
+        self.static_socket = value  # Use property setter (gets validation)
+        return self
+
+    def with_service_instance(self, value):
+        """
+        Set service_instance and return self for chaining.
+
+        Args:
+            value: The service_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_service_instance("value")
+        """
+        self.service_instance = value  # Use property setter (gets validation)
+        return self
+
+    def with_capability(self, value):
+        """
+        Set capability and return self for chaining.
+
+        Args:
+            value: The capability to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_capability("value")
+        """
+        self.capability = value  # Use property setter (gets validation)
+        return self
+
+    def with_routing_group(self, value):
+        """
+        Set routing_group and return self for chaining.
+
+        Args:
+            value: The routing_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_routing_group("value")
+        """
+        self.routing_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_pdu_identifier(self, value):
+        """
+        Set i_pdu_identifier and return self for chaining.
+
+        Args:
+            value: The i_pdu_identifier to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_pdu_identifier("value")
+        """
+        self.i_pdu_identifier = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_pdu_identifier(self, value):
+        """
+        Set i_pdu_identifier and return self for chaining.
+
+        Args:
+            value: The i_pdu_identifier to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_pdu_identifier("value")
+        """
+        self.i_pdu_identifier = value  # Use property setter (gets validation)
+        return self
+
+    def with_consumed_event(self, value):
+        """
+        Set consumed_event and return self for chaining.
+
+        Args:
+            value: The consumed_event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consumed_event("value")
+        """
+        self.consumed_event = value  # Use property setter (gets validation)
+        return self
+
+    def with_pdu_activation(self, value):
+        """
+        Set pdu_activation and return self for chaining.
+
+        Args:
+            value: The pdu_activation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu_activation("value")
+        """
+        self.pdu_activation = value  # Use property setter (gets validation)
+        return self
+
+    def with_routing_group(self, value):
+        """
+        Set routing_group and return self for chaining.
+
+        Args:
+            value: The routing_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_routing_group("value")
+        """
+        self.routing_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_consumed(self, value):
+        """
+        Set consumed and return self for chaining.
+
+        Args:
+            value: The consumed to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consumed("value")
+        """
+        self.consumed = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_pdu_identifier(self, value):
+        """
+        Set i_pdu_identifier and return self for chaining.
+
+        Args:
+            value: The i_pdu_identifier to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_pdu_identifier("value")
+        """
+        self.i_pdu_identifier = value  # Use property setter (gets validation)
+        return self
+
+    def with_allowed_service(self, value):
+        """
+        Set allowed_service and return self for chaining.
+
+        Args:
+            value: The allowed_service to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_allowed_service("value")
+        """
+        self.allowed_service = value  # Use property setter (gets validation)
+        return self
+
+    def with_blocklisted(self, value):
+        """
+        Set blocklisted and return self for chaining.
+
+        Args:
+            value: The blocklisted to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_blocklisted("value")
+        """
+        self.blocklisted = value  # Use property setter (gets validation)
+        return self
+
+    def with_consumed_event(self, value):
+        """
+        Set consumed_event and return self for chaining.
+
+        Args:
+            value: The consumed_event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consumed_event("value")
+        """
+        self.consumed_event = value  # Use property setter (gets validation)
+        return self
+
+    def with_allowed_service(self, value):
+        """
+        Set allowed_service and return self for chaining.
+
+        Args:
+            value: The allowed_service to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_allowed_service("value")
+        """
+        self.allowed_service = value  # Use property setter (gets validation)
+        return self
+
+    def with_event_handler(self, value):
+        """
+        Set event_handler and return self for chaining.
+
+        Args:
+            value: The event_handler to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_event_handler("value")
+        """
+        self.event_handler = value  # Use property setter (gets validation)
+        return self
+
+    def with_remote_multicast(self, value):
+        """
+        Set remote_multicast and return self for chaining.
+
+        Args:
+            value: The remote_multicast to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_remote_multicast("value")
+        """
+        self.remote_multicast = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

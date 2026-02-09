@@ -35,6 +35,22 @@ class Traceable(MultilanguageReferrable, ABC):
         """Get trace (Pythonic accessor)."""
         return self._trace
 
+    def with_trace(self, value):
+        """
+        Set trace and return self for chaining.
+
+        Args:
+            value: The trace to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trace("value")
+        """
+        self.trace = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getTrace(self) -> List["Traceable"]:

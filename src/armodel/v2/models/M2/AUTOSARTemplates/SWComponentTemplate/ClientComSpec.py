@@ -90,6 +90,22 @@ class ClientComSpec(RPortComSpec):
         """Get transformation (Pythonic accessor)."""
         return self._transformation
 
+    def with_transformation(self, value):
+        """
+        Set transformation and return self for chaining.
+
+        Args:
+            value: The transformation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_transformation("value")
+        """
+        self.transformation = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getEndToEndCall(self) -> "TimeValue":

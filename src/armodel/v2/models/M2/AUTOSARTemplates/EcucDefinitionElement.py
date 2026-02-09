@@ -183,6 +183,22 @@ class EcucDefinitionElement(Identifiable, ABC):
             )
         self._upperMultiplicity = value
 
+    def with_ecuc_validation(self, value):
+        """
+        Set ecuc_validation and return self for chaining.
+
+        Args:
+            value: The ecuc_validation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecuc_validation("value")
+        """
+        self.ecuc_validation = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getEcucCond(self) -> "EcucCondition":

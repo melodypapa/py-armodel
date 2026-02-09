@@ -46,6 +46,54 @@ class RptSupportData(ARObject):
         """Get rptServicePoint (Pythonic accessor)."""
         return self._rptServicePoint
 
+    def with_execution(self, value):
+        """
+        Set execution and return self for chaining.
+
+        Args:
+            value: The execution to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_execution("value")
+        """
+        self.execution = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_component(self, value):
+        """
+        Set rpt_component and return self for chaining.
+
+        Args:
+            value: The rpt_component to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_component("value")
+        """
+        self.rpt_component = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_service_point(self, value):
+        """
+        Set rpt_service_point and return self for chaining.
+
+        Args:
+            value: The rpt_service_point to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_service_point("value")
+        """
+        self.rpt_service_point = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getExecution(self) -> List["RptExecutionContext"]:

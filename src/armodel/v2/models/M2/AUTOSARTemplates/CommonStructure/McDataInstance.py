@@ -370,6 +370,38 @@ class McDataInstance(Identifiable):
             )
         self._symbol = value
 
+    def with_mc_data(self, value):
+        """
+        Set mc_data and return self for chaining.
+
+        Args:
+            value: The mc_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data("value")
+        """
+        self.mc_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_element(self, value):
+        """
+        Set sub_element and return self for chaining.
+
+        Args:
+            value: The sub_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_element("value")
+        """
+        self.sub_element = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getArraySize(self) -> "PositiveInteger":

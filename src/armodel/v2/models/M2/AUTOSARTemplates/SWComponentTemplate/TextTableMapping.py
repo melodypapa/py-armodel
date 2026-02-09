@@ -119,6 +119,22 @@ class TextTableMapping(ARObject):
         """Get valuePair (Pythonic accessor)."""
         return self._valuePair
 
+    def with_value_pair(self, value):
+        """
+        Set value_pair and return self for chaining.
+
+        Args:
+            value: The value_pair to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value_pair("value")
+        """
+        self.value_pair = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBitfieldTextTable(self) -> "PositiveInteger":

@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
@@ -26,8 +27,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.__init
     PortPrototype,
     SwComponentType,
 )
-
-
 
 
 class PortPrototype(Identifiable, ABC):
@@ -144,6 +143,374 @@ class PortPrototype(Identifiable, ABC):
     def trigger_port_annotation(self) -> List["RefType"]:
         """Get triggerPortAnnotation (Pythonic accessor)."""
         return self._triggerPortAnnotation
+
+    def with_client_server(self, value):
+        """
+        Set client_server and return self for chaining.
+
+        Args:
+            value: The client_server to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_client_server("value")
+        """
+        self.client_server = value  # Use property setter (gets validation)
+        return self
+
+    def with_io_hw_abstraction_annotation(self, value):
+        """
+        Set io_hw_abstraction_annotation and return self for chaining.
+
+        Args:
+            value: The io_hw_abstraction_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_io_hw_abstraction_annotation("value")
+        """
+        self.io_hw_abstraction_annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_port_annotation(self, value):
+        """
+        Set mode_port_annotation and return self for chaining.
+
+        Args:
+            value: The mode_port_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_port_annotation("value")
+        """
+        self.mode_port_annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_nv_data_port_annotation(self, value):
+        """
+        Set nv_data_port_annotation and return self for chaining.
+
+        Args:
+            value: The nv_data_port_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_data_port_annotation("value")
+        """
+        self.nv_data_port_annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter_port(self, value):
+        """
+        Set parameter_port and return self for chaining.
+
+        Args:
+            value: The parameter_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter_port("value")
+        """
+        self.parameter_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_sender_receiver(self, value):
+        """
+        Set sender_receiver and return self for chaining.
+
+        Args:
+            value: The sender_receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sender_receiver("value")
+        """
+        self.sender_receiver = value  # Use property setter (gets validation)
+        return self
+
+    def with_trigger_port_annotation(self, value):
+        """
+        Set trigger_port_annotation and return self for chaining.
+
+        Args:
+            value: The trigger_port_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trigger_port_annotation("value")
+        """
+        self.trigger_port_annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_consistency(self, value):
+        """
+        Set consistency and return self for chaining.
+
+        Args:
+            value: The consistency to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consistency("value")
+        """
+        self.consistency = value  # Use property setter (gets validation)
+        return self
+
+    def with_port(self, value):
+        """
+        Set port and return self for chaining.
+
+        Args:
+            value: The port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port("value")
+        """
+        self.port = value  # Use property setter (gets validation)
+        return self
+
+    def with_port_group(self, value):
+        """
+        Set port_group and return self for chaining.
+
+        Args:
+            value: The port_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_group("value")
+        """
+        self.port_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_swc_mapping(self, value):
+        """
+        Set swc_mapping and return self for chaining.
+
+        Args:
+            value: The swc_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_swc_mapping("value")
+        """
+        self.swc_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_unit_group(self, value):
+        """
+        Set unit_group and return self for chaining.
+
+        Args:
+            value: The unit_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_unit_group("value")
+        """
+        self.unit_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_inner_group(self, value):
+        """
+        Set inner_group and return self for chaining.
+
+        Args:
+            value: The inner_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_inner_group("value")
+        """
+        self.inner_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_outer_port(self, value):
+        """
+        Set outer_port and return self for chaining.
+
+        Args:
+            value: The outer_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_outer_port("value")
+        """
+        self.outer_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_required_com(self, value):
+        """
+        Set required_com and return self for chaining.
+
+        Args:
+            value: The required_com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_com("value")
+        """
+        self.required_com = value  # Use property setter (gets validation)
+        return self
+
+    def with_provided_com(self, value):
+        """
+        Set provided_com and return self for chaining.
+
+        Args:
+            value: The provided_com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_com("value")
+        """
+        self.provided_com = value  # Use property setter (gets validation)
+        return self
+
+    def with_constant(self, value):
+        """
+        Set constant and return self for chaining.
+
+        Args:
+            value: The constant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_constant("value")
+        """
+        self.constant = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_type(self, value):
+        """
+        Set data_type and return self for chaining.
+
+        Args:
+            value: The data_type to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_type("value")
+        """
+        self.data_type = value  # Use property setter (gets validation)
+        return self
+
+    def with_instantiation(self, value):
+        """
+        Set instantiation and return self for chaining.
+
+        Args:
+            value: The instantiation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_instantiation("value")
+        """
+        self.instantiation = value  # Use property setter (gets validation)
+        return self
+
+    def with_hardware(self, value):
+        """
+        Set hardware and return self for chaining.
+
+        Args:
+            value: The hardware to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hardware("value")
+        """
+        self.hardware = value  # Use property setter (gets validation)
+        return self
+
+    def with_hardware(self, value):
+        """
+        Set hardware and return self for chaining.
+
+        Args:
+            value: The hardware to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hardware("value")
+        """
+        self.hardware = value  # Use property setter (gets validation)
+        return self
+
+    def with_bulk_nv_data(self, value):
+        """
+        Set bulk_nv_data and return self for chaining.
+
+        Args:
+            value: The bulk_nv_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_bulk_nv_data("value")
+        """
+        self.bulk_nv_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_nv_block(self, value):
+        """
+        Set nv_block and return self for chaining.
+
+        Args:
+            value: The nv_block to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_block("value")
+        """
+        self.nv_block = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -1652,3 +2019,25 @@ class NvBlockSwComponentType(AtomicSwComponentType):
         return self.nv_block  # Delegates to property
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+__all__ = [
+    "PortPrototype",
+    "SwComponentType",
+    "PortGroup",
+    "SymbolProps",
+    "AbstractRequiredPortPrototype",
+    "AbstractProvidedPortPrototype",
+    "AtomicSwComponentType",
+    "ParameterSwComponentType",
+    "PRPortPrototype",
+    "RPortPrototype",
+    "PPortPrototype",
+    "ComplexDeviceDriverSwComponentType",
+    "EcuAbstractionSwComponentType",
+    "ServiceSwComponentType",
+    "ApplicationSwComponentType",
+    "SensorActuatorSwComponentType",
+    "ServiceProxySwComponentType",
+    "NvBlockSwComponentType",
+]

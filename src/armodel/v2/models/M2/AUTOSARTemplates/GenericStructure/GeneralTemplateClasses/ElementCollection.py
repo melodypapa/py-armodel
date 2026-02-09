@@ -4,12 +4,8 @@ AUTOSAR Package - ElementCollection
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Identifier,
-    NameToken,
-)
+from abc import ABC
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )

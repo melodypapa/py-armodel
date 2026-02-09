@@ -225,6 +225,22 @@ class Tgroup(ARObject):
             )
         self._thead = value
 
+    def with_colspec(self, value):
+        """
+        Set colspec and return self for chaining.
+
+        Args:
+            value: The colspec to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_colspec("value")
+        """
+        self.colspec = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAlign(self) -> "AlignEnum":

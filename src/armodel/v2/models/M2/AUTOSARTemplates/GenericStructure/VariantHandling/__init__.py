@@ -6,21 +6,20 @@ Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     NameToken,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class PostBuildVariantCriterion(ARElement):
@@ -67,6 +66,134 @@ class PostBuildVariantCriterion(ARElement):
                 f"compuMethod must be CompuMethod, got {type(value).__name__}"
             )
         self._compuMethod = value
+
+    def with_annotation(self, value):
+        """
+        Set annotation and return self for chaining.
+
+        Args:
+            value: The annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_annotation("value")
+        """
+        self.annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_included_variant(self, value):
+        """
+        Set included_variant and return self for chaining.
+
+        Args:
+            value: The included_variant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_included_variant("value")
+        """
+        self.included_variant = value  # Use property setter (gets validation)
+        return self
+
+    def with_post_build_variant(self, value):
+        """
+        Set post_build_variant and return self for chaining.
+
+        Args:
+            value: The post_build_variant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_post_build_variant("value")
+        """
+        self.post_build_variant = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw(self, value):
+        """
+        Set sw and return self for chaining.
+
+        Args:
+            value: The sw to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw("value")
+        """
+        self.sw = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw(self, value):
+        """
+        Set sw and return self for chaining.
+
+        Args:
+            value: The sw to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw("value")
+        """
+        self.sw = value  # Use property setter (gets validation)
+        return self
+
+    def with_post_build_variant(self, value):
+        """
+        Set post_build_variant and return self for chaining.
+
+        Args:
+            value: The post_build_variant to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_post_build_variant("value")
+        """
+        self.post_build_variant = value  # Use property setter (gets validation)
+        return self
+
+    def with_annotation(self, value):
+        """
+        Set annotation and return self for chaining.
+
+        Args:
+            value: The annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_annotation("value")
+        """
+        self.annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_evaluated(self, value):
+        """
+        Set evaluated and return self for chaining.
+
+        Args:
+            value: The evaluated to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_evaluated("value")
+        """
+        self.evaluated = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -1441,3 +1568,20 @@ Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     # • Designing the VFB.
     systemDesignTime = "3"
+
+
+__all__ = [
+    "PostBuildVariantCriterion",
+    "PostBuildVariantCriterionValue",
+    "PredefinedVariant",
+    "SwSystemconstantValueSet",
+    "VariationPoint",
+    "ConditionByFormula",
+    "PostBuildVariantCondition",
+    "PostBuildVariantCriterionValueSet",
+    "SwSystemconstDependentFormula",
+    "SwSystemconstValue",
+    "EvaluatedVariantSet",
+    "AdditionalBindingTimeEnum",
+    "BindingTimeEnum",
+]

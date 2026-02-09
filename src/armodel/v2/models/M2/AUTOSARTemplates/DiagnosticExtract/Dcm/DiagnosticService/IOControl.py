@@ -4,8 +4,8 @@ AUTOSAR Package - IOControl
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -17,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class DiagnosticIOControl(DiagnosticServiceInstance):
@@ -187,6 +185,38 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
                 f"shortTerm must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._shortTerm = value
+
+    def with_control_enable(self, value):
+        """
+        Set control_enable and return self for chaining.
+
+        Args:
+            value: The control_enable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_control_enable("value")
+        """
+        self.control_enable = value  # Use property setter (gets validation)
+        return self
+
+    def with_controlled_data(self, value):
+        """
+        Set controlled_data and return self for chaining.
+
+        Args:
+            value: The controlled_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_controlled_data("value")
+        """
+        self.controlled_data = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

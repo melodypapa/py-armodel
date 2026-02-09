@@ -123,6 +123,38 @@ class ReferenceBase(ARObject):
             )
         self._shortLabel = value
 
+    def with_global_element(self, value):
+        """
+        Set global_element and return self for chaining.
+
+        Args:
+            value: The global_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_global_element("value")
+        """
+        self.global_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_global_in(self, value):
+        """
+        Set global_in and return self for chaining.
+
+        Args:
+            value: The global_in to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_global_in("value")
+        """
+        self.global_in = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getGlobalElement(self) -> List[RefType]:

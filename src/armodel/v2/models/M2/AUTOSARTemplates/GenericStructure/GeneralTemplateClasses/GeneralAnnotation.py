@@ -4,16 +4,15 @@ AUTOSAR Package - GeneralAnnotation
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::GeneralAnnotation
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class GeneralAnnotation(ARObject, ABC):

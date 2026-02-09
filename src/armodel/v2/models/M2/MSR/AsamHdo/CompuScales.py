@@ -26,6 +26,22 @@ class CompuScales(CompuContent):
         """Get compuScale (Pythonic accessor)."""
         return self._compuScale
 
+    def with_compu_scale(self, value):
+        """
+        Set compu_scale and return self for chaining.
+
+        Args:
+            value: The compu_scale to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_compu_scale("value")
+        """
+        self.compu_scale = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCompuScale(self) -> List["CompuScale"]:

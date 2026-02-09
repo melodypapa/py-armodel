@@ -4,8 +4,9 @@ AUTOSAR Package - NetworkManagement
 Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -23,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-
-
 
 
 class NmConfig(FibexElement):
@@ -55,6 +54,118 @@ class NmConfig(FibexElement):
     def nm_if_ecu(self) -> List["NmEcu"]:
         """Get nmIfEcu (Pythonic accessor)."""
         return self._nmIfEcu
+
+    def with_nm_cluster(self, value):
+        """
+        Set nm_cluster and return self for chaining.
+
+        Args:
+            value: The nm_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nm_cluster("value")
+        """
+        self.nm_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_bus_dependent_nm_ecu(self, value):
+        """
+        Set bus_dependent_nm_ecu and return self for chaining.
+
+        Args:
+            value: The bus_dependent_nm_ecu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_bus_dependent_nm_ecu("value")
+        """
+        self.bus_dependent_nm_ecu = value  # Use property setter (gets validation)
+        return self
+
+    def with_rx_nm_pdu(self, value):
+        """
+        Set rx_nm_pdu and return self for chaining.
+
+        Args:
+            value: The rx_nm_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rx_nm_pdu("value")
+        """
+        self.rx_nm_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_tx_nm_pdu(self, value):
+        """
+        Set tx_nm_pdu and return self for chaining.
+
+        Args:
+            value: The tx_nm_pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tx_nm_pdu("value")
+        """
+        self.tx_nm_pdu = value  # Use property setter (gets validation)
+        return self
+
+    def with_coupled_cluster(self, value):
+        """
+        Set coupled_cluster and return self for chaining.
+
+        Args:
+            value: The coupled_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_coupled_cluster("value")
+        """
+        self.coupled_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_coupled_cluster(self, value):
+        """
+        Set coupled_cluster and return self for chaining.
+
+        Args:
+            value: The coupled_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_coupled_cluster("value")
+        """
+        self.coupled_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_coupled_cluster(self, value):
+        """
+        Set coupled_cluster and return self for chaining.
+
+        Args:
+            value: The coupled_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_coupled_cluster("value")
+        """
+        self.coupled_cluster = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

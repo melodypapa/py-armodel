@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataEle
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -18,8 +19,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
     AbstractAccessPoint,
 )
-
-
 
 
 class AutosarParameterRef(ARObject):
@@ -109,6 +108,38 @@ class AutosarParameterRef(ARObject):
             return
 
         self._localParameter = value
+
+    def with_context_data(self, value):
+        """
+        Set context_data and return self for chaining.
+
+        Args:
+            value: The context_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_data("value")
+        """
+        self.context_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_context_data(self, value):
+        """
+        Set context_data and return self for chaining.
+
+        Args:
+            value: The context_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_data("value")
+        """
+        self.context_data = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -1243,3 +1274,14 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataEle
 
     # In this case the communication shall cross the boundaries of partitions within one ECU but it shall not Ecu cross the boundaries of the ECU itself.
     interPartitionIntra = "2"
+
+
+__all__ = [
+    "AutosarParameterRef",
+    "AutosarVariableRef",
+    "ParameterAccess",
+    "VariableAccess",
+    "ArVariableInImplementationDataInstanceRef",
+    "ArParameterInImplementationDataInstanceRef",
+    "VariableAccessScopeEnum",
+]

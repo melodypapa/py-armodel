@@ -32,6 +32,22 @@ class AtpClassifier(Identifiable, ABC):
         """Get atpFeature (Pythonic accessor)."""
         return self._atpFeature
 
+    def with_atp_feature(self, value):
+        """
+        Set atp_feature and return self for chaining.
+
+        Args:
+            value: The atp_feature to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_feature("value")
+        """
+        self.atp_feature = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAtpFeature(self) -> List["AtpFeature"]:

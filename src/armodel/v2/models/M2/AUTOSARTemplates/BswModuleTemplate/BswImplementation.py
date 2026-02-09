@@ -4,16 +4,14 @@ AUTOSAR Package - BswImplementation
 Package: M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
 )
-
-
 
 
 class BswImplementation(Implementation):
@@ -165,6 +163,54 @@ class BswImplementation(Implementation):
     def vendor_specific(self) -> List["EcucModuleDef"]:
         """Get vendorSpecific (Pythonic accessor)."""
         return self._vendorSpecific
+
+    def with_preconfigured(self, value):
+        """
+        Set preconfigured and return self for chaining.
+
+        Args:
+            value: The preconfigured to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_preconfigured("value")
+        """
+        self.preconfigured = value  # Use property setter (gets validation)
+        return self
+
+    def with_recommended(self, value):
+        """
+        Set recommended and return self for chaining.
+
+        Args:
+            value: The recommended to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_recommended("value")
+        """
+        self.recommended = value  # Use property setter (gets validation)
+        return self
+
+    def with_vendor_specific(self, value):
+        """
+        Set vendor_specific and return self for chaining.
+
+        Args:
+            value: The vendor_specific to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_vendor_specific("value")
+        """
+        self.vendor_specific = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -181,6 +181,22 @@ class DataPrototypeMapping(ARObject):
         """
         self._textTable = value
 
+    def with_sub_element(self, value):
+        """
+        Set sub_element and return self for chaining.
+
+        Args:
+            value: The sub_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_element("value")
+        """
+        self.sub_element = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getFirstData(self) -> RefType:

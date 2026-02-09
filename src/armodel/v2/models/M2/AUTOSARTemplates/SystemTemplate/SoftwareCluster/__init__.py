@@ -6,17 +6,18 @@ Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -28,8 +29,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.__init
     CpSoftwareClusterCommunicationResourceProps,
     CpSoftwareClusterResource,
 )
-
-
 
 
 class CpSoftwareClusterResource(Identifiable, ABC):
@@ -117,6 +116,150 @@ class CpSoftwareClusterResource(Identifiable, ABC):
                 f"isMandatory must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isMandatory = value
+
+    def with_dependent(self, value):
+        """
+        Set dependent and return self for chaining.
+
+        Args:
+            value: The dependent to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dependent("value")
+        """
+        self.dependent = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_composition(self, value):
+        """
+        Set sw_composition and return self for chaining.
+
+        Args:
+            value: The sw_composition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_composition("value")
+        """
+        self.sw_composition = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_cluster(self, value):
+        """
+        Set sw_cluster and return self for chaining.
+
+        Args:
+            value: The sw_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_cluster("value")
+        """
+        self.sw_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_port_element_to(self, value):
+        """
+        Set port_element_to and return self for chaining.
+
+        Args:
+            value: The port_element_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_element_to("value")
+        """
+        self.port_element_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_resource_to(self, value):
+        """
+        Set resource_to and return self for chaining.
+
+        Args:
+            value: The resource_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_resource_to("value")
+        """
+        self.resource_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_swc_to(self, value):
+        """
+        Set swc_to and return self for chaining.
+
+        Args:
+            value: The swc_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_swc_to("value")
+        """
+        self.swc_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_ecu_scope(self, value):
+        """
+        Set ecu_scope and return self for chaining.
+
+        Args:
+            value: The ecu_scope to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecu_scope("value")
+        """
+        self.ecu_scope = value  # Use property setter (gets validation)
+        return self
+
+    def with_requester(self, value):
+        """
+        Set requester and return self for chaining.
+
+        Args:
+            value: The requester to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_requester("value")
+        """
+        self.requester = value  # Use property setter (gets validation)
+        return self
+
+    def with_resource_needs(self, value):
+        """
+        Set resource_needs and return self for chaining.
+
+        Args:
+            value: The resource_needs to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_resource_needs("value")
+        """
+        self.resource_needs = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -2222,3 +2365,26 @@ Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     # This value represents the requirement that send operations of the Software Cluster are not indicated.
     none = "1"
+
+
+__all__ = [
+    "CpSoftwareClusterResource",
+    "RoleBasedResourceDependency",
+    "CpSoftwareCluster",
+    "CpSoftwareClusterToEcuInstanceMapping",
+    "CpSoftwareClusterResourceToApplicationPartitionMapping",
+    "CpSoftwareClusterMappingSet",
+    "CpSoftwareClusterToApplicationPartitionMapping",
+    "SystemSignalToCommunicationResourceMapping",
+    "SystemSignalGroupToCommunicationResourceMapping",
+    "SwComponentPrototypeAssignment",
+    "CpSoftwareClusterResourcePool",
+    "CpSoftwareClusterCommunicationResourceProps",
+    "CpSoftwareClusterToResourceMapping",
+    "CpSoftwareClusterCommunicationResource",
+    "CpSoftwareClusterServiceResource",
+    "DataComProps",
+    "ClientServerOperationComProps",
+    "DataConsistencyPolicyEnum",
+    "SendIndicationEnum",
+]

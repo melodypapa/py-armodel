@@ -4,8 +4,9 @@ AUTOSAR Package - Implementation
 Package: M2::AUTOSARTemplates::CommonStructure::Implementation
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
@@ -21,8 +22,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class ImplementationProps(Referrable, ABC):
@@ -74,6 +73,150 @@ class ImplementationProps(Referrable, ABC):
                 f"symbol must be CIdentifier or None, got {type(value).__name__}"
             )
         self._symbol = value
+
+    def with_code_descriptor(self, value):
+        """
+        Set code_descriptor and return self for chaining.
+
+        Args:
+            value: The code_descriptor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_code_descriptor("value")
+        """
+        self.code_descriptor = value  # Use property setter (gets validation)
+        return self
+
+    def with_compiler(self, value):
+        """
+        Set compiler and return self for chaining.
+
+        Args:
+            value: The compiler to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_compiler("value")
+        """
+        self.compiler = value  # Use property setter (gets validation)
+        return self
+
+    def with_generated(self, value):
+        """
+        Set generated and return self for chaining.
+
+        Args:
+            value: The generated to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_generated("value")
+        """
+        self.generated = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_element(self, value):
+        """
+        Set hw_element and return self for chaining.
+
+        Args:
+            value: The hw_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_element("value")
+        """
+        self.hw_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_linker(self, value):
+        """
+        Set linker and return self for chaining.
+
+        Args:
+            value: The linker to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_linker("value")
+        """
+        self.linker = value  # Use property setter (gets validation)
+        return self
+
+    def with_required_artifact(self, value):
+        """
+        Set required_artifact and return self for chaining.
+
+        Args:
+            value: The required_artifact to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_artifact("value")
+        """
+        self.required_artifact = value  # Use property setter (gets validation)
+        return self
+
+    def with_required(self, value):
+        """
+        Set required and return self for chaining.
+
+        Args:
+            value: The required to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required("value")
+        """
+        self.required = value  # Use property setter (gets validation)
+        return self
+
+    def with_callback_header(self, value):
+        """
+        Set callback_header and return self for chaining.
+
+        Args:
+            value: The callback_header to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_callback_header("value")
+        """
+        self.callback_header = value  # Use property setter (gets validation)
+        return self
+
+    def with_usage(self, value):
+        """
+        Set usage and return self for chaining.
+
+        Args:
+            value: The usage to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_usage("value")
+        """
+        self.usage = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

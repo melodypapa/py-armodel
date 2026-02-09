@@ -62,6 +62,22 @@ class EcucValueCollection(ARElement):
             )
         self._ecuExtract = value
 
+    def with_ecuc_value(self, value):
+        """
+        Set ecuc_value and return self for chaining.
+
+        Args:
+            value: The ecuc_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecuc_value("value")
+        """
+        self.ecuc_value = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getEcucValue(self) -> List["EcucModule"]:

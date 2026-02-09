@@ -25,6 +25,22 @@ class PhysicalDimensionMappingSet(ARElement):
         """Get physical (Pythonic accessor)."""
         return self._physical
 
+    def with_physical(self, value):
+        """
+        Set physical and return self for chaining.
+
+        Args:
+            value: The physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_physical("value")
+        """
+        self.physical = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getPhysical(self) -> List["PhysicalDimension"]:

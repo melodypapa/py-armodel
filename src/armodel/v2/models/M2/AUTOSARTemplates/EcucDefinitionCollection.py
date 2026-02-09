@@ -28,6 +28,22 @@ class EcucDefinitionCollection(ARElement):
         """Get module (Pythonic accessor)."""
         return self._module
 
+    def with_module(self, value):
+        """
+        Set module and return self for chaining.
+
+        Args:
+            value: The module to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_module("value")
+        """
+        self.module = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getModule(self) -> List["EcucModuleDef"]:

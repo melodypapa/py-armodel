@@ -197,6 +197,22 @@ class EcucModuleConfigurationValues(ARElement):
             )
         self._postBuildVariant = value
 
+    def with_container(self, value):
+        """
+        Set container and return self for chaining.
+
+        Args:
+            value: The container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_container("value")
+        """
+        self.container = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getContainer(self) -> List["EcucContainerValue"]:

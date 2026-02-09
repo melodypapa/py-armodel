@@ -4,8 +4,9 @@ AUTOSAR Package - AbstractBlueprintStructure
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class AtpBlueprint(Identifiable, ABC):
@@ -47,6 +46,22 @@ class AtpBlueprint(Identifiable, ABC):
     def blueprint_policy(self) -> List["BlueprintPolicy"]:
         """Get blueprintPolicy (Pythonic accessor)."""
         return self._blueprintPolicy
+
+    def with_blueprint_policy(self, value):
+        """
+        Set blueprint_policy and return self for chaining.
+
+        Args:
+            value: The blueprint_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_blueprint_policy("value")
+        """
+        self.blueprint_policy = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

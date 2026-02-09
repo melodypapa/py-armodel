@@ -4,8 +4,9 @@ AUTOSAR Package - LinTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -24,8 +25,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTo
 )
 
 
-
-
 class LinCluster(ARObject):
     """
     LIN specific attributes
@@ -39,6 +38,102 @@ class LinCluster(ARObject):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_lin_slave(self, value):
+        """
+        Set lin_slave and return self for chaining.
+
+        Args:
+            value: The lin_slave to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lin_slave("value")
+        """
+        self.lin_slave = value  # Use property setter (gets validation)
+        return self
+
+    def with_lin_configurable(self, value):
+        """
+        Set lin_configurable and return self for chaining.
+
+        Args:
+            value: The lin_configurable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lin_configurable("value")
+        """
+        self.lin_configurable = value  # Use property setter (gets validation)
+        return self
+
+    def with_lin_ordered(self, value):
+        """
+        Set lin_ordered and return self for chaining.
+
+        Args:
+            value: The lin_ordered to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lin_ordered("value")
+        """
+        self.lin_ordered = value  # Use property setter (gets validation)
+        return self
+
+    def with_lin_configurable(self, value):
+        """
+        Set lin_configurable and return self for chaining.
+
+        Args:
+            value: The lin_configurable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lin_configurable("value")
+        """
+        self.lin_configurable = value  # Use property setter (gets validation)
+        return self
+
+    def with_lin_ordered(self, value):
+        """
+        Set lin_ordered and return self for chaining.
+
+        Args:
+            value: The lin_ordered to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lin_ordered("value")
+        """
+        self.lin_ordered = value  # Use property setter (gets validation)
+        return self
+
+    def with_schedule_table(self, value):
+        """
+        Set schedule_table and return self for chaining.
+
+        Args:
+            value: The schedule_table to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_schedule_table("value")
+        """
+        self.schedule_table = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -192,6 +192,70 @@ class Collection(ARElement):
         """Get sourceInstance (Pythonic accessor)."""
         return self._sourceInstance
 
+    def with_collected(self, value):
+        """
+        Set collected and return self for chaining.
+
+        Args:
+            value: The collected to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_collected("value")
+        """
+        self.collected = value  # Use property setter (gets validation)
+        return self
+
+    def with_element(self, value):
+        """
+        Set element and return self for chaining.
+
+        Args:
+            value: The element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element("value")
+        """
+        self.element = value  # Use property setter (gets validation)
+        return self
+
+    def with_source_element(self, value):
+        """
+        Set source_element and return self for chaining.
+
+        Args:
+            value: The source_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_source_element("value")
+        """
+        self.source_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_source_instance(self, value):
+        """
+        Set source_instance and return self for chaining.
+
+        Args:
+            value: The source_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_source_instance("value")
+        """
+        self.source_instance = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAutoCollect(self) -> Optional[AutoCollectEnum]:

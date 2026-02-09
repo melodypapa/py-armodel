@@ -98,6 +98,22 @@ class EndToEndProtectionVariablePrototype(ARObject):
             )
         self._shortLabel = value
 
+    def with_receiver(self, value):
+        """
+        Set receiver and return self for chaining.
+
+        Args:
+            value: The receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_receiver("value")
+        """
+        self.receiver = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getReceiver(self) -> List[RefType]:

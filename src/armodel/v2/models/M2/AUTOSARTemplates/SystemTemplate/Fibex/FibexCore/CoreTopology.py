@@ -4,8 +4,9 @@ AUTOSAR Package - CoreTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -25,8 +26,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-
-
 
 
 class CommunicationCluster(ARObject, ABC):
@@ -147,6 +146,246 @@ class CommunicationCluster(ARObject, ABC):
                 f"protocolVersion must be String or str or None, got {type(value).__name__}"
             )
         self._protocolVersion = value
+
+    def with_physical(self, value):
+        """
+        Set physical and return self for chaining.
+
+        Args:
+            value: The physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_physical("value")
+        """
+        self.physical = value  # Use property setter (gets validation)
+        return self
+
+    def with_associated_com(self, value):
+        """
+        Set associated_com and return self for chaining.
+
+        Args:
+            value: The associated_com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_associated_com("value")
+        """
+        self.associated_com = value  # Use property setter (gets validation)
+        return self
+
+    def with_associated(self, value):
+        """
+        Set associated and return self for chaining.
+
+        Args:
+            value: The associated to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_associated("value")
+        """
+        self.associated = value  # Use property setter (gets validation)
+        return self
+
+    def with_associated_pdur(self, value):
+        """
+        Set associated_pdur and return self for chaining.
+
+        Args:
+            value: The associated_pdur to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_associated_pdur("value")
+        """
+        self.associated_pdur = value  # Use property setter (gets validation)
+        return self
+
+    def with_connector(self, value):
+        """
+        Set connector and return self for chaining.
+
+        Args:
+            value: The connector to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_connector("value")
+        """
+        self.connector = value  # Use property setter (gets validation)
+        return self
+
+    def with_ecu_task_proxy(self, value):
+        """
+        Set ecu_task_proxy and return self for chaining.
+
+        Args:
+            value: The ecu_task_proxy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecu_task_proxy("value")
+        """
+        self.ecu_task_proxy = value  # Use property setter (gets validation)
+        return self
+
+    def with_firewall_rule(self, value):
+        """
+        Set firewall_rule and return self for chaining.
+
+        Args:
+            value: The firewall_rule to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_firewall_rule("value")
+        """
+        self.firewall_rule = value  # Use property setter (gets validation)
+        return self
+
+    def with_partition(self, value):
+        """
+        Set partition and return self for chaining.
+
+        Args:
+            value: The partition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_partition("value")
+        """
+        self.partition = value  # Use property setter (gets validation)
+        return self
+
+    def with_comm(self, value):
+        """
+        Set comm and return self for chaining.
+
+        Args:
+            value: The comm to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_comm("value")
+        """
+        self.comm = value  # Use property setter (gets validation)
+        return self
+
+    def with_frame_triggering(self, value):
+        """
+        Set frame_triggering and return self for chaining.
+
+        Args:
+            value: The frame_triggering to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_frame_triggering("value")
+        """
+        self.frame_triggering = value  # Use property setter (gets validation)
+        return self
+
+    def with_i_signal(self, value):
+        """
+        Set i_signal and return self for chaining.
+
+        Args:
+            value: The i_signal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_i_signal("value")
+        """
+        self.i_signal = value  # Use property setter (gets validation)
+        return self
+
+    def with_managed(self, value):
+        """
+        Set managed and return self for chaining.
+
+        Args:
+            value: The managed to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_managed("value")
+        """
+        self.managed = value  # Use property setter (gets validation)
+        return self
+
+    def with_pdu_triggering(self, value):
+        """
+        Set pdu_triggering and return self for chaining.
+
+        Args:
+            value: The pdu_triggering to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu_triggering("value")
+        """
+        self.pdu_triggering = value  # Use property setter (gets validation)
+        return self
+
+    def with_ecu_comm_port(self, value):
+        """
+        Set ecu_comm_port and return self for chaining.
+
+        Args:
+            value: The ecu_comm_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecu_comm_port("value")
+        """
+        self.ecu_comm_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_pnc_filter_array(self, value):
+        """
+        Set pnc_filter_array and return self for chaining.
+
+        Args:
+            value: The pnc_filter_array to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pnc_filter_array("value")
+        """
+        self.pnc_filter_array = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

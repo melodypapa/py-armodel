@@ -31,6 +31,22 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
         """Get providedCom (Pythonic accessor)."""
         return self._providedCom
 
+    def with_provided_com(self, value):
+        """
+        Set provided_com and return self for chaining.
+
+        Args:
+            value: The provided_com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_com("value")
+        """
+        self.provided_com = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getProvidedCom(self) -> List["PPortComSpec"]:

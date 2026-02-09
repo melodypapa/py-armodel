@@ -4,22 +4,21 @@ AUTOSAR Package - DiagnosticConnection
 Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Referrable,
 )
-
-
 
 
 class DiagnosticConnection(ARElement):
@@ -141,6 +140,38 @@ class DiagnosticConnection(ARElement):
                 f"responseOn must be TpConnectionIdent or None, got {type(value).__name__}"
             )
         self._responseOn = value
+
+    def with_functional_request(self, value):
+        """
+        Set functional_request and return self for chaining.
+
+        Args:
+            value: The functional_request to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_functional_request("value")
+        """
+        self.functional_request = value  # Use property setter (gets validation)
+        return self
+
+    def with_periodic_response_uudt(self, value):
+        """
+        Set periodic_response_uudt and return self for chaining.
+
+        Args:
+            value: The periodic_response_uudt to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_periodic_response_uudt("value")
+        """
+        self.periodic_response_uudt = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

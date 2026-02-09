@@ -73,6 +73,38 @@ class HwDescriptionEntity(Referrable, ABC):
             )
         self._hwType = value
 
+    def with_hw_attribute(self, value):
+        """
+        Set hw_attribute and return self for chaining.
+
+        Args:
+            value: The hw_attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_attribute("value")
+        """
+        self.hw_attribute = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_category(self, value):
+        """
+        Set hw_category and return self for chaining.
+
+        Args:
+            value: The hw_category to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_category("value")
+        """
+        self.hw_category = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getHwAttribute(self) -> List["HwAttributeValue"]:

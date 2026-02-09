@@ -176,6 +176,22 @@ class MlFigure(Paginateable):
             )
         self._verbatim = value
 
+    def with_l_graphic(self, value):
+        """
+        Set l_graphic and return self for chaining.
+
+        Args:
+            value: The l_graphic to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_l_graphic("value")
+        """
+        self.l_graphic = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getFigureCaption(self) -> "Caption":

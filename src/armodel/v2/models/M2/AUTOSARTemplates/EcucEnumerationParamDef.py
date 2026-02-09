@@ -61,6 +61,22 @@ class EcucEnumerationParamDef(EcucParameterDef):
         """Get literal (Pythonic accessor)."""
         return self._literal
 
+    def with_literal(self, value):
+        """
+        Set literal and return self for chaining.
+
+        Args:
+            value: The literal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_literal("value")
+        """
+        self.literal = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDefaultValue(self) -> "Identifier":

@@ -4,8 +4,8 @@ AUTOSAR Package - ETH
 Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -21,8 +21,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.__init__ im
     GlobalTimeMaster,
     GlobalTimeSlave,
 )
-
-
 
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
@@ -125,6 +123,22 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
                 f"subTlvConfig must be EthTSynSubTlvConfig or None, got {type(value).__name__}"
             )
         self._subTlvConfig = value
+
+    def with_managed(self, value):
+        """
+        Set managed and return self for chaining.
+
+        Args:
+            value: The managed to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_managed("value")
+        """
+        self.managed = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

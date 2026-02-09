@@ -29,6 +29,22 @@ class EndToEndProtectionSet(ARElement):
         """Get endToEnd (Pythonic accessor)."""
         return self._endToEnd
 
+    def with_end_to_end(self, value):
+        """
+        Set end_to_end and return self for chaining.
+
+        Args:
+            value: The end_to_end to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_end_to_end("value")
+        """
+        self.end_to_end = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getEndToEnd(self) -> List["EndToEndProtection"]:

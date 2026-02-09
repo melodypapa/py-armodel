@@ -84,6 +84,22 @@ class MsrQueryProps(ARObject):
             )
         self._msrQueryName = value
 
+    def with_msr_query_arg(self, value):
+        """
+        Set msr_query_arg and return self for chaining.
+
+        Args:
+            value: The msr_query_arg to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_msr_query_arg("value")
+        """
+        self.msr_query_arg = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getComment(self) -> "String":

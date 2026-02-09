@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucContainerDef
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucContainerDef,
+)
 
     RefType,
 )
@@ -42,6 +44,54 @@ class EcucParamConfContainerDef(EcucContainerDef):
     def sub_container(self) -> List["EcucContainerDef"]:
         """Get subContainer (Pythonic accessor)."""
         return self._subContainer
+
+    def with_parameter(self, value):
+        """
+        Set parameter and return self for chaining.
+
+        Args:
+            value: The parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter("value")
+        """
+        self.parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_reference(self, value):
+        """
+        Set reference and return self for chaining.
+
+        Args:
+            value: The reference to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reference("value")
+        """
+        self.reference = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_container(self, value):
+        """
+        Set sub_container and return self for chaining.
+
+        Args:
+            value: The sub_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_container("value")
+        """
+        self.sub_container = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

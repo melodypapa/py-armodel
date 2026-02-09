@@ -1,5 +1,8 @@
 # Import BaseType directly from the module file to avoid circular imports
-from armodel.v2.models.M2.MSR.AsamHdo.BaseType import BaseType
+from armodel.v2.models.MSR.AsamHdo.BaseType import (
+    BaseType,
+)
+
 
 class SwBaseType(BaseType):
     """

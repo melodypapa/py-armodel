@@ -48,6 +48,54 @@ class Baseline(ARObject):
         """Get standard (Pythonic accessor)."""
         return self._standard
 
+    def with_custom_sdg_def(self, value):
+        """
+        Set custom_sdg_def and return self for chaining.
+
+        Args:
+            value: The custom_sdg_def to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_custom_sdg_def("value")
+        """
+        self.custom_sdg_def = value  # Use property setter (gets validation)
+        return self
+
+    def with_custom(self, value):
+        """
+        Set custom and return self for chaining.
+
+        Args:
+            value: The custom to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_custom("value")
+        """
+        self.custom = value  # Use property setter (gets validation)
+        return self
+
+    def with_standard(self, value):
+        """
+        Set standard and return self for chaining.
+
+        Args:
+            value: The standard to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_standard("value")
+        """
+        self.standard = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCustomSdgDef(self) -> List["SdgDef"]:
@@ -87,3 +135,8 @@ class Baseline(ARObject):
         return self.standard  # Delegates to property
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+__all__ = [
+    "Baseline",
+]

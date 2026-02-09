@@ -74,6 +74,38 @@ class RoleBasedMcDataAssignment(ARObject):
             )
         self._role = value
 
+    def with_execution(self, value):
+        """
+        Set execution and return self for chaining.
+
+        Args:
+            value: The execution to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_execution("value")
+        """
+        self.execution = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_data_instance(self, value):
+        """
+        Set mc_data_instance and return self for chaining.
+
+        Args:
+            value: The mc_data_instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mc_data_instance("value")
+        """
+        self.mc_data_instance = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getExecution(self) -> List["RptExecutionContext"]:

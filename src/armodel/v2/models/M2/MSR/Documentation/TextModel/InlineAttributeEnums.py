@@ -4,14 +4,10 @@ AUTOSAR Package - InlineAttributeEnums
 Package: M2::MSR::Documentation::TextModel::InlineAttributeEnums
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARLiteral,
-    ARNumerical,
 )
-
 
 
 class EEnumFont(AREnum):

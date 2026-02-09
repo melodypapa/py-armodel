@@ -4,14 +4,10 @@ AUTOSAR Package - UserDefined
 Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::UserDefined
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.__init__ import (
     GlobalTimeMaster,
     GlobalTimeSlave,
 )
-
-
 
 
 class UserDefinedGlobalTimeMaster(GlobalTimeMaster):

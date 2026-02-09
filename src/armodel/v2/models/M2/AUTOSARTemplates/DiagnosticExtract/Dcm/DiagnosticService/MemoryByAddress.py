@@ -4,8 +4,9 @@ AUTOSAR Package - MemoryByAddress
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
@@ -17,8 +18,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
-
-
 
 
 class DiagnosticMemoryByAddress(DiagnosticServiceInstance, ABC):
@@ -38,6 +37,22 @@ class DiagnosticMemoryByAddress(DiagnosticServiceInstance, ABC):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_memory_range(self, value):
+        """
+        Set memory_range and return self for chaining.
+
+        Args:
+            value: The memory_range to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_memory_range("value")
+        """
+        self.memory_range = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

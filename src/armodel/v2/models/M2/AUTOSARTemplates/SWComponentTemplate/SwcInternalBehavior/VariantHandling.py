@@ -4,13 +4,11 @@ AUTOSAR Package - VariantHandling
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class VariationPointProxy(Identifiable):

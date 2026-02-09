@@ -337,6 +337,38 @@ class StructuredReq(Paginateable):
             )
         self._useCase = value
 
+    def with_applies_to(self, value):
+        """
+        Set applies_to and return self for chaining.
+
+        Args:
+            value: The applies_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_applies_to("value")
+        """
+        self.applies_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_tested_item(self, value):
+        """
+        Set tested_item and return self for chaining.
+
+        Args:
+            value: The tested_item to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tested_item("value")
+        """
+        self.tested_item = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getAppliesTo(self) -> List["StandardNameEnum"]:

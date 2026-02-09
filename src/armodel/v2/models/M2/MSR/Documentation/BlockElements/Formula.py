@@ -4,13 +4,11 @@ AUTOSAR Package - Formula
 Package: M2::MSR::Documentation::BlockElements::Formula
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
-
-
 
 
 class MlFormula(Paginateable):
@@ -154,6 +152,22 @@ class MlFormula(Paginateable):
                 f"verbatim must be MultiLanguageVerbatim or None, got {type(value).__name__}"
             )
         self._verbatim = value
+
+    def with_l_graphic(self, value):
+        """
+        Set l_graphic and return self for chaining.
+
+        Args:
+            value: The l_graphic to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_l_graphic("value")
+        """
+        self.l_graphic = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

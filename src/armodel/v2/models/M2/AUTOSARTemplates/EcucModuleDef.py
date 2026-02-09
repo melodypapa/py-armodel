@@ -135,6 +135,38 @@ class EcucModuleDef(EcucDefinitionElement):
         """Get supported (Pythonic accessor)."""
         return self._supported
 
+    def with_container(self, value):
+        """
+        Set container and return self for chaining.
+
+        Args:
+            value: The container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_container("value")
+        """
+        self.container = value  # Use property setter (gets validation)
+        return self
+
+    def with_supported(self, value):
+        """
+        Set supported and return self for chaining.
+
+        Args:
+            value: The supported to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_supported("value")
+        """
+        self.supported = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getApiServicePrefix(self) -> "CIdentifier":

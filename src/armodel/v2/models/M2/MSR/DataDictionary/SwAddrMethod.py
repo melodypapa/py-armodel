@@ -126,6 +126,22 @@ class SwAddrMethod(ARElement):
             )
         self._sectionType = value
 
+    def with_option(self, value):
+        """
+        Set option and return self for chaining.
+
+        Args:
+            value: The option to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_option("value")
+        """
+        self.option = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getMemory(self) -> "MemoryAllocation":

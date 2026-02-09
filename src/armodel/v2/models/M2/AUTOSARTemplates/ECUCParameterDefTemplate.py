@@ -4,8 +4,9 @@ AUTOSAR Package - ECUCParameterDefTemplate
 Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Float,
@@ -14,11 +15,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -26,8 +27,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class EcucDefinitionCollection(ARElement):
@@ -52,6 +51,262 @@ class EcucDefinitionCollection(ARElement):
     def module(self) -> List["EcucModuleDef"]:
         """Get module (Pythonic accessor)."""
         return self._module
+
+    def with_module(self, value):
+        """
+        Set module and return self for chaining.
+
+        Args:
+            value: The module to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_module("value")
+        """
+        self.module = value  # Use property setter (gets validation)
+        return self
+
+    def with_ecuc_validation(self, value):
+        """
+        Set ecuc_validation and return self for chaining.
+
+        Args:
+            value: The ecuc_validation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecuc_validation("value")
+        """
+        self.ecuc_validation = value  # Use property setter (gets validation)
+        return self
+
+    def with_destination_uri_def(self, value):
+        """
+        Set destination_uri_def and return self for chaining.
+
+        Args:
+            value: The destination_uri_def to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_destination_uri_def("value")
+        """
+        self.destination_uri_def = value  # Use property setter (gets validation)
+        return self
+
+    def with_container(self, value):
+        """
+        Set container and return self for chaining.
+
+        Args:
+            value: The container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_container("value")
+        """
+        self.container = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter(self, value):
+        """
+        Set parameter and return self for chaining.
+
+        Args:
+            value: The parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter("value")
+        """
+        self.parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_reference(self, value):
+        """
+        Set reference and return self for chaining.
+
+        Args:
+            value: The reference to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reference("value")
+        """
+        self.reference = value  # Use property setter (gets validation)
+        return self
+
+    def with_container(self, value):
+        """
+        Set container and return self for chaining.
+
+        Args:
+            value: The container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_container("value")
+        """
+        self.container = value  # Use property setter (gets validation)
+        return self
+
+    def with_supported(self, value):
+        """
+        Set supported and return self for chaining.
+
+        Args:
+            value: The supported to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_supported("value")
+        """
+        self.supported = value  # Use property setter (gets validation)
+        return self
+
+    def with_multiplicity(self, value):
+        """
+        Set multiplicity and return self for chaining.
+
+        Args:
+            value: The multiplicity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_multiplicity("value")
+        """
+        self.multiplicity = value  # Use property setter (gets validation)
+        return self
+
+    def with_multiplicity(self, value):
+        """
+        Set multiplicity and return self for chaining.
+
+        Args:
+            value: The multiplicity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_multiplicity("value")
+        """
+        self.multiplicity = value  # Use property setter (gets validation)
+        return self
+
+    def with_value_config(self, value):
+        """
+        Set value_config and return self for chaining.
+
+        Args:
+            value: The value_config to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value_config("value")
+        """
+        self.value_config = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter(self, value):
+        """
+        Set parameter and return self for chaining.
+
+        Args:
+            value: The parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter("value")
+        """
+        self.parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_reference(self, value):
+        """
+        Set reference and return self for chaining.
+
+        Args:
+            value: The reference to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reference("value")
+        """
+        self.reference = value  # Use property setter (gets validation)
+        return self
+
+    def with_sub_container(self, value):
+        """
+        Set sub_container and return self for chaining.
+
+        Args:
+            value: The sub_container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sub_container("value")
+        """
+        self.sub_container = value  # Use property setter (gets validation)
+        return self
+
+    def with_choice(self, value):
+        """
+        Set choice and return self for chaining.
+
+        Args:
+            value: The choice to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_choice("value")
+        """
+        self.choice = value  # Use property setter (gets validation)
+        return self
+
+    def with_literal(self, value):
+        """
+        Set literal and return self for chaining.
+
+        Args:
+            value: The literal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_literal("value")
+        """
+        self.literal = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -4,8 +4,9 @@ AUTOSAR Package - DiagnosticMemoryDestination
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics i
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
@@ -272,6 +271,22 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"typeOfFreeze must be DiagnosticTypeOf or None, got {type(value).__name__}"
             )
         self._typeOfFreeze = value
+
+    def with_auth_role(self, value):
+        """
+        Set auth_role and return self for chaining.
+
+        Args:
+            value: The auth_role to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_auth_role("value")
+        """
+        self.auth_role = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

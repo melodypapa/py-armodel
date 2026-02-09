@@ -46,6 +46,198 @@ class SwcToSwcSignal(ARObject):
         """Get dataElement (Pythonic accessor)."""
         return self._dataElement
 
+    def with_data_element(self, value):
+        """
+        Set data_element and return self for chaining.
+
+        Args:
+            value: The data_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_element("value")
+        """
+        self.data_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal(self, value):
+        """
+        Set signal and return self for chaining.
+
+        Args:
+            value: The signal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal("value")
+        """
+        self.signal = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_physical(self, value):
+        """
+        Set physical and return self for chaining.
+
+        Args:
+            value: The physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_physical("value")
+        """
+        self.physical = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal(self, value):
+        """
+        Set signal and return self for chaining.
+
+        Args:
+            value: The signal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal("value")
+        """
+        self.signal = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_physical(self, value):
+        """
+        Set physical and return self for chaining.
+
+        Args:
+            value: The physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_physical("value")
+        """
+        self.physical = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal(self, value):
+        """
+        Set signal and return self for chaining.
+
+        Args:
+            value: The signal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal("value")
+        """
+        self.signal = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal(self, value):
+        """
+        Set signal and return self for chaining.
+
+        Args:
+            value: The signal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal("value")
+        """
+        self.signal = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDataElement(self) -> List["RefType"]:

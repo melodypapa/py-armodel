@@ -4,16 +4,15 @@ AUTOSAR Package - DiagnosticCondition
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
-
-
 
 
 class DiagnosticCondition(DiagnosticCommonElement, ABC):

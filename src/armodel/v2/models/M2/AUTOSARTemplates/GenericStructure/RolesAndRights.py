@@ -4,8 +4,9 @@ AUTOSAR Package - RolesAndRights
 Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
@@ -19,8 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class AclPermission(ARElement):
@@ -95,6 +94,134 @@ class AclPermission(ARElement):
                 f"aclScope must be AclScopeEnum, got {type(value).__name__}"
             )
         self._aclScope = value
+
+    def with_acl_context(self, value):
+        """
+        Set acl_context and return self for chaining.
+
+        Args:
+            value: The acl_context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_context("value")
+        """
+        self.acl_context = value  # Use property setter (gets validation)
+        return self
+
+    def with_acl_object(self, value):
+        """
+        Set acl_object and return self for chaining.
+
+        Args:
+            value: The acl_object to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_object("value")
+        """
+        self.acl_object = value  # Use property setter (gets validation)
+        return self
+
+    def with_acl_operation(self, value):
+        """
+        Set acl_operation and return self for chaining.
+
+        Args:
+            value: The acl_operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_operation("value")
+        """
+        self.acl_operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_acl_role(self, value):
+        """
+        Set acl_role and return self for chaining.
+
+        Args:
+            value: The acl_role to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_role("value")
+        """
+        self.acl_role = value  # Use property setter (gets validation)
+        return self
+
+    def with_acl_object_class(self, value):
+        """
+        Set acl_object_class and return self for chaining.
+
+        Args:
+            value: The acl_object_class to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_object_class("value")
+        """
+        self.acl_object_class = value  # Use property setter (gets validation)
+        return self
+
+    def with_derived_from(self, value):
+        """
+        Set derived_from and return self for chaining.
+
+        Args:
+            value: The derived_from to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_derived_from("value")
+        """
+        self.derived_from = value  # Use property setter (gets validation)
+        return self
+
+    def with_engineering(self, value):
+        """
+        Set engineering and return self for chaining.
+
+        Args:
+            value: The engineering to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_engineering("value")
+        """
+        self.engineering = value  # Use property setter (gets validation)
+        return self
+
+    def with_implied(self, value):
+        """
+        Set implied and return self for chaining.
+
+        Args:
+            value: The implied to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_implied("value")
+        """
+        self.implied = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

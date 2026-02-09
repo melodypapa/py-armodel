@@ -4,19 +4,17 @@ AUTOSAR Package - Port
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class PortPrototypeBlueprint(ARElement):
@@ -89,6 +87,54 @@ class PortPrototypeBlueprint(ARElement):
     def required_com(self) -> List["RPortComSpec"]:
         """Get requiredCom (Pythonic accessor)."""
         return self._requiredCom
+
+    def with_init_value(self, value):
+        """
+        Set init_value and return self for chaining.
+
+        Args:
+            value: The init_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_init_value("value")
+        """
+        self.init_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_provided_com(self, value):
+        """
+        Set provided_com and return self for chaining.
+
+        Args:
+            value: The provided_com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_com("value")
+        """
+        self.provided_com = value  # Use property setter (gets validation)
+        return self
+
+    def with_required_com(self, value):
+        """
+        Set required_com and return self for chaining.
+
+        Args:
+            value: The required_com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_com("value")
+        """
+        self.required_com = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

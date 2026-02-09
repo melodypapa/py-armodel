@@ -29,6 +29,22 @@ class ParameterInterface(DataInterface):
         """Get parameter (Pythonic accessor)."""
         return self._parameter
 
+    def with_parameter(self, value):
+        """
+        Set parameter and return self for chaining.
+
+        Args:
+            value: The parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter("value")
+        """
+        self.parameter = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getParameter(self) -> List["ParameterData"]:

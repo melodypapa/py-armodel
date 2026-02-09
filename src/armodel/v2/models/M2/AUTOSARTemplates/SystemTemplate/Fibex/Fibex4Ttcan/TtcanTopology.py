@@ -4,8 +4,8 @@ AUTOSAR Package - TtcanTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -17,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTop
     AbstractCanCommunicationConnector,
     AbstractCanPhysicalChannel,
 )
-
-
 
 
 class TtcanCluster(ARObject):

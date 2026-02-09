@@ -78,6 +78,54 @@ class EcucDestinationUriPolicy(ARObject):
         """Get reference (Pythonic accessor)."""
         return self._reference
 
+    def with_container(self, value):
+        """
+        Set container and return self for chaining.
+
+        Args:
+            value: The container to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_container("value")
+        """
+        self.container = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter(self, value):
+        """
+        Set parameter and return self for chaining.
+
+        Args:
+            value: The parameter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter("value")
+        """
+        self.parameter = value  # Use property setter (gets validation)
+        return self
+
+    def with_reference(self, value):
+        """
+        Set reference and return self for chaining.
+
+        Args:
+            value: The reference to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reference("value")
+        """
+        self.reference = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getContainer(self) -> List["EcucContainerDef"]:

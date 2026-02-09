@@ -33,6 +33,22 @@ class SecurityEventStateFilter(AbstractSecurityEventFilter):
         """Get blockIfState (Pythonic accessor)."""
         return self._blockIfState
 
+    def with_block_if_state(self, value):
+        """
+        Set block_if_state and return self for chaining.
+
+        Args:
+            value: The block_if_state to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_block_if_state("value")
+        """
+        self.block_if_state = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getBlockIfState(self) -> List["BlockState"]:

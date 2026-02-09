@@ -4,8 +4,8 @@ AUTOSAR Package - IPv6HeaderFilterList
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
@@ -16,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class IPv6ExtHeaderFilterSet(ARElement):
@@ -41,6 +39,38 @@ class IPv6ExtHeaderFilterSet(ARElement):
     def ext_header_filter(self) -> List["RefType"]:
         """Get extHeaderFilter (Pythonic accessor)."""
         return self._extHeaderFilter
+
+    def with_ext_header_filter(self, value):
+        """
+        Set ext_header_filter and return self for chaining.
+
+        Args:
+            value: The ext_header_filter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ext_header_filter("value")
+        """
+        self.ext_header_filter = value  # Use property setter (gets validation)
+        return self
+
+    def with_allowed_i_pv6_ext(self, value):
+        """
+        Set allowed_i_pv6_ext and return self for chaining.
+
+        Args:
+            value: The allowed_i_pv6_ext to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_allowed_i_pv6_ext("value")
+        """
+        self.allowed_i_pv6_ext = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

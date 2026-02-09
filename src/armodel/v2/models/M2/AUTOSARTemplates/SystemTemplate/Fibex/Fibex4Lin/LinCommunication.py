@@ -4,8 +4,9 @@ AUTOSAR Package - LinCommunication
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     PositiveInteger,
@@ -24,8 +25,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
     Frame,
     FrameTriggering,
 )
-
-
 
 
 class LinErrorResponse(ARObject):
@@ -71,6 +70,86 @@ class LinErrorResponse(ARObject):
             return
 
         self._responseError = value
+
+    def with_table_entry(self, value):
+        """
+        Set table_entry and return self for chaining.
+
+        Args:
+            value: The table_entry to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_table_entry("value")
+        """
+        self.table_entry = value  # Use property setter (gets validation)
+        return self
+
+    def with_substituted(self, value):
+        """
+        Set substituted and return self for chaining.
+
+        Args:
+            value: The substituted to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_substituted("value")
+        """
+        self.substituted = value  # Use property setter (gets validation)
+        return self
+
+    def with_lin_unconditional(self, value):
+        """
+        Set lin_unconditional and return self for chaining.
+
+        Args:
+            value: The lin_unconditional to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lin_unconditional("value")
+        """
+        self.lin_unconditional = value  # Use property setter (gets validation)
+        return self
+
+    def with_byte_value(self, value):
+        """
+        Set byte_value and return self for chaining.
+
+        Args:
+            value: The byte_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_byte_value("value")
+        """
+        self.byte_value = value  # Use property setter (gets validation)
+        return self
+
+    def with_byte_value(self, value):
+        """
+        Set byte_value and return self for chaining.
+
+        Args:
+            value: The byte_value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_byte_value("value")
+        """
+        self.byte_value = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

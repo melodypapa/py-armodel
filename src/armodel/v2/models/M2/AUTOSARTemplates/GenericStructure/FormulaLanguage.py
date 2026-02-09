@@ -4,16 +4,15 @@ AUTOSAR Package - FormulaLanguage
 Package: M2::AUTOSARTemplates::GenericStructure::FormulaLanguage
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class FormulaExpression(ARObject, ABC):
@@ -53,6 +52,38 @@ class FormulaExpression(ARObject, ABC):
     def atp_string(self) -> List["RefType"]:
         """Get atpString (Pythonic accessor)."""
         return self._atpString
+
+    def with_atp_reference(self, value):
+        """
+        Set atp_reference and return self for chaining.
+
+        Args:
+            value: The atp_reference to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_reference("value")
+        """
+        self.atp_reference = value  # Use property setter (gets validation)
+        return self
+
+    def with_atp_string(self, value):
+        """
+        Set atp_string and return self for chaining.
+
+        Args:
+            value: The atp_string to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_atp_string("value")
+        """
+        self.atp_string = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

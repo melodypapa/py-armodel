@@ -4,8 +4,9 @@ AUTOSAR Package - ServiceMapping
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
@@ -20,8 +21,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     IdentCaption,
 )
-
-
 
 
 class DiagnosticServiceDataMapping(DiagnosticSwMapping):
@@ -155,6 +154,22 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
                 f"parameter must be DiagnosticParameter or None, got {type(value).__name__}"
             )
         self._parameter = value
+
+    def with_context_element(self, value):
+        """
+        Set context_element and return self for chaining.
+
+        Args:
+            value: The context_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context_element("value")
+        """
+        self.context_element = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

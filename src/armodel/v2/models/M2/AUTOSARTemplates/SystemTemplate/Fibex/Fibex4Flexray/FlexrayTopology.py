@@ -4,8 +4,8 @@ AUTOSAR Package - FlexrayTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Float,
@@ -22,8 +22,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTo
     CommunicationConnector,
     PhysicalChannel,
 )
-
-
 
 
 class FlexrayCluster(ARObject):
@@ -1002,6 +1000,38 @@ class FlexrayCluster(ARObject):
                 f"wakeupTxIdle must be Integer or int or None, got {type(value).__name__}"
             )
         self._wakeupTxIdle = value
+
+    def with_flexray_fifo(self, value):
+        """
+        Set flexray_fifo and return self for chaining.
+
+        Args:
+            value: The flexray_fifo to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_flexray_fifo("value")
+        """
+        self.flexray_fifo = value  # Use property setter (gets validation)
+        return self
+
+    def with_fifo_range(self, value):
+        """
+        Set fifo_range and return self for chaining.
+
+        Args:
+            value: The fifo_range to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_fifo_range("value")
+        """
+        self.fifo_range = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

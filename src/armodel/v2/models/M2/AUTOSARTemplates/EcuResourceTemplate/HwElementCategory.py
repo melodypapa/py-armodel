@@ -4,25 +4,23 @@ AUTOSAR Package - HwElementCategory
 Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.__init__ import (
     HwDescriptionEntity,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class HwAttributeValue(ARObject):
@@ -152,6 +150,22 @@ class HwAttributeValue(ARObject):
                 f"vt must be VerbatimString or None, got {type(value).__name__}"
             )
         self._vt = value
+
+    def with_hw_attribute(self, value):
+        """
+        Set hw_attribute and return self for chaining.
+
+        Args:
+            value: The hw_attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_attribute("value")
+        """
+        self.hw_attribute = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

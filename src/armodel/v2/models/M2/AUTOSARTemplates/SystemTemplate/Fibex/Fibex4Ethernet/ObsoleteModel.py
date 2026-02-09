@@ -4,8 +4,8 @@ AUTOSAR Package - ObsoleteModel
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
@@ -17,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-
-
 
 
 class SoAdRoutingGroup(FibexElement):
@@ -65,6 +63,22 @@ class SoAdRoutingGroup(FibexElement):
             return
 
         self._eventGroup = value
+
+    def with_pdu(self, value):
+        """
+        Set pdu and return self for chaining.
+
+        Args:
+            value: The pdu to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu("value")
+        """
+        self.pdu = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
     RefType,
 )
@@ -79,6 +81,70 @@ class AclPermission(ARElement):
                 f"aclScope must be AclScopeEnum, got {type(value).__name__}"
             )
         self._aclScope = value
+
+    def with_acl_context(self, value):
+        """
+        Set acl_context and return self for chaining.
+
+        Args:
+            value: The acl_context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_context("value")
+        """
+        self.acl_context = value  # Use property setter (gets validation)
+        return self
+
+    def with_acl_object(self, value):
+        """
+        Set acl_object and return self for chaining.
+
+        Args:
+            value: The acl_object to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_object("value")
+        """
+        self.acl_object = value  # Use property setter (gets validation)
+        return self
+
+    def with_acl_operation(self, value):
+        """
+        Set acl_operation and return self for chaining.
+
+        Args:
+            value: The acl_operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_operation("value")
+        """
+        self.acl_operation = value  # Use property setter (gets validation)
+        return self
+
+    def with_acl_role(self, value):
+        """
+        Set acl_role and return self for chaining.
+
+        Args:
+            value: The acl_role to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_role("value")
+        """
+        self.acl_role = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

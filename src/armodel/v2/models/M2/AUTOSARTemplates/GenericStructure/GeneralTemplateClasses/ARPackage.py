@@ -4,8 +4,9 @@ AUTOSAR Package - ARPackage
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -55,10 +56,10 @@ class ARPackage(CollectableElement):
         # Manually add shortName attribute for test compatibility
         # ARPackage should inherit from Identifiable but current generator doesn't support multiple inheritance
         self._shortName: Optional[str] = None
-        
+
         # Parent attribute for V1 compatibility
         self.parent: Optional["ARObject"] = None
-        
+
         # Initialize list attributes (these are generated outside __init__ by code generator, which is a bug)
         self._arPackage: List["ARPackage"] = []
         self._element: List["PackageableElement"] = []
@@ -183,6 +184,118 @@ class ARPackage(CollectableElement):
     def reference_base(self) -> List["RefType"]:
         """Get referenceBase (Pythonic accessor)."""
         return self._referenceBase
+
+    def with_shortName(self, value):
+        """
+        Set shortName and return self for chaining.
+
+        Args:
+            value: The shortName to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_shortName("value")
+        """
+        self.shortName = value  # Use property setter (gets validation)
+        return self
+
+    def with_ar_packages(self, value):
+        """
+        Set ar_packages and return self for chaining.
+
+        Args:
+            value: The ar_packages to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ar_packages("value")
+        """
+        self.ar_packages = value  # Use property setter (gets validation)
+        return self
+
+    def with_ar_package(self, value):
+        """
+        Set ar_package and return self for chaining.
+
+        Args:
+            value: The ar_package to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ar_package("value")
+        """
+        self.ar_package = value  # Use property setter (gets validation)
+        return self
+
+    def with_element(self, value):
+        """
+        Set element and return self for chaining.
+
+        Args:
+            value: The element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element("value")
+        """
+        self.element = value  # Use property setter (gets validation)
+        return self
+
+    def with_reference_base(self, value):
+        """
+        Set reference_base and return self for chaining.
+
+        Args:
+            value: The reference_base to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reference_base("value")
+        """
+        self.reference_base = value  # Use property setter (gets validation)
+        return self
+
+    def with_global_element(self, value):
+        """
+        Set global_element and return self for chaining.
+
+        Args:
+            value: The global_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_global_element("value")
+        """
+        self.global_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_global_in(self, value):
+        """
+        Set global_in and return self for chaining.
+
+        Args:
+            value: The global_in to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_global_in("value")
+        """
+        self.global_in = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

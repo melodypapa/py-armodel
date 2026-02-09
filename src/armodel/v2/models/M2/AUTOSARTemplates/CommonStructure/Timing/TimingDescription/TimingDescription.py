@@ -4,8 +4,9 @@ AUTOSAR Package - TimingDescription
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -23,8 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class TDEventVfb(TimingDescriptionEvent, ABC):
@@ -71,6 +70,38 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
                 f"componentCompositionInstanceRef must be SwComponent or None, got {type(value).__name__}"
             )
         self._componentCompositionInstanceRef = value
+
+    def with_td_header_id_filter(self, value):
+        """
+        Set td_header_id_filter and return self for chaining.
+
+        Args:
+            value: The td_header_id_filter to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_td_header_id_filter("value")
+        """
+        self.td_header_id_filter = value  # Use property setter (gets validation)
+        return self
+
+    def with_td_pdu_triggering(self, value):
+        """
+        Set td_pdu_triggering and return self for chaining.
+
+        Args:
+            value: The td_pdu_triggering to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_td_pdu_triggering("value")
+        """
+        self.td_pdu_triggering = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

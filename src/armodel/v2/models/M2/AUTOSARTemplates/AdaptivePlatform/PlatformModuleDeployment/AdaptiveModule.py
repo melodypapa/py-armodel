@@ -4,13 +4,11 @@ AUTOSAR Package - AdaptiveModule
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-
-
 
 
 class PlatformModuleEthernetEndpointConfiguration(ARElement):

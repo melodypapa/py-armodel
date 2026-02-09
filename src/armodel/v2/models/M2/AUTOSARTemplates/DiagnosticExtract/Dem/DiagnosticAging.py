@@ -4,16 +4,14 @@ AUTOSAR Package - DiagnosticAging
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticAging
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
-
-
 
 
 class DiagnosticAging(DiagnosticCommonElement):

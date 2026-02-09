@@ -29,6 +29,22 @@ class LifeCycleStateDefinitionGroup(ARElement):
         """Get lcState (Pythonic accessor)."""
         return self._lcState
 
+    def with_lc_state(self, value):
+        """
+        Set lc_state and return self for chaining.
+
+        Args:
+            value: The lc_state to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_lc_state("value")
+        """
+        self.lc_state = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getLcState(self) -> List["LifeCycleState"]:

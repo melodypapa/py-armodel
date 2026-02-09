@@ -4,7 +4,9 @@ from typing import (
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
     RefType,
 )
@@ -101,6 +103,54 @@ class AclObjectSet(ARElement):
     def engineering(self) -> List["AutosarEngineering"]:
         """Get engineering (Pythonic accessor)."""
         return self._engineering
+
+    def with_acl_object_class(self, value):
+        """
+        Set acl_object_class and return self for chaining.
+
+        Args:
+            value: The acl_object_class to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_acl_object_class("value")
+        """
+        self.acl_object_class = value  # Use property setter (gets validation)
+        return self
+
+    def with_derived_from(self, value):
+        """
+        Set derived_from and return self for chaining.
+
+        Args:
+            value: The derived_from to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_derived_from("value")
+        """
+        self.derived_from = value  # Use property setter (gets validation)
+        return self
+
+    def with_engineering(self, value):
+        """
+        Set engineering and return self for chaining.
+
+        Args:
+            value: The engineering to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_engineering("value")
+        """
+        self.engineering = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

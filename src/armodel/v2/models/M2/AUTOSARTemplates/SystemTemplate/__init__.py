@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SystemTemplate
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
@@ -16,8 +17,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class System(ARElement):
@@ -288,6 +287,534 @@ class System(ARElement):
                 f"systemVersion must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._systemVersion = value
+
+    def with_fibex_element(self, value):
+        """
+        Set fibex_element and return self for chaining.
+
+        Args:
+            value: The fibex_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_fibex_element("value")
+        """
+        self.fibex_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_interpolation(self, value):
+        """
+        Set interpolation and return self for chaining.
+
+        Args:
+            value: The interpolation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_interpolation("value")
+        """
+        self.interpolation = value  # Use property setter (gets validation)
+        return self
+
+    def with_j1939_shared(self, value):
+        """
+        Set j1939_shared and return self for chaining.
+
+        Args:
+            value: The j1939_shared to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_j1939_shared("value")
+        """
+        self.j1939_shared = value  # Use property setter (gets validation)
+        return self
+
+    def with_mapping(self, value):
+        """
+        Set mapping and return self for chaining.
+
+        Args:
+            value: The mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapping("value")
+        """
+        self.mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_cluster(self, value):
+        """
+        Set sw_cluster and return self for chaining.
+
+        Args:
+            value: The sw_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_cluster("value")
+        """
+        self.sw_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_system(self, value):
+        """
+        Set system and return self for chaining.
+
+        Args:
+            value: The system to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_system("value")
+        """
+        self.system = value  # Use property setter (gets validation)
+        return self
+
+    def with_calibration(self, value):
+        """
+        Set calibration and return self for chaining.
+
+        Args:
+            value: The calibration to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_calibration("value")
+        """
+        self.calibration = value  # Use property setter (gets validation)
+        return self
+
+    def with_application(self, value):
+        """
+        Set application and return self for chaining.
+
+        Args:
+            value: The application to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_application("value")
+        """
+        self.application = value  # Use property setter (gets validation)
+        return self
+
+    def with_app_os_task(self, value):
+        """
+        Set app_os_task and return self for chaining.
+
+        Args:
+            value: The app_os_task to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_app_os_task("value")
+        """
+        self.app_os_task = value  # Use property setter (gets validation)
+        return self
+
+    def with_com(self, value):
+        """
+        Set com and return self for chaining.
+
+        Args:
+            value: The com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_com("value")
+        """
+        self.com = value  # Use property setter (gets validation)
+        return self
+
+    def with_crypto_service(self, value):
+        """
+        Set crypto_service and return self for chaining.
+
+        Args:
+            value: The crypto_service to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_crypto_service("value")
+        """
+        self.crypto_service = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_mapping(self, value):
+        """
+        Set data_mapping and return self for chaining.
+
+        Args:
+            value: The data_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_mapping("value")
+        """
+        self.data_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_dds_i_signal_to(self, value):
+        """
+        Set dds_i_signal_to and return self for chaining.
+
+        Args:
+            value: The dds_i_signal_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dds_i_signal_to("value")
+        """
+        self.dds_i_signal_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_ecu_resource(self, value):
+        """
+        Set ecu_resource and return self for chaining.
+
+        Args:
+            value: The ecu_resource to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ecu_resource("value")
+        """
+        self.ecu_resource = value  # Use property setter (gets validation)
+        return self
+
+    def with_j1939_controller(self, value):
+        """
+        Set j1939_controller and return self for chaining.
+
+        Args:
+            value: The j1939_controller to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_j1939_controller("value")
+        """
+        self.j1939_controller = value  # Use property setter (gets validation)
+        return self
+
+    def with_mapping(self, value):
+        """
+        Set mapping and return self for chaining.
+
+        Args:
+            value: The mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapping("value")
+        """
+        self.mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_pnc_mapping(self, value):
+        """
+        Set pnc_mapping and return self for chaining.
+
+        Args:
+            value: The pnc_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pnc_mapping("value")
+        """
+        self.pnc_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_port_element_to(self, value):
+        """
+        Set port_element_to and return self for chaining.
+
+        Args:
+            value: The port_element_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_port_element_to("value")
+        """
+        self.port_element_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_resource(self, value):
+        """
+        Set resource and return self for chaining.
+
+        Args:
+            value: The resource to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_resource("value")
+        """
+        self.resource = value  # Use property setter (gets validation)
+        return self
+
+    def with_resource_to(self, value):
+        """
+        Set resource_to and return self for chaining.
+
+        Args:
+            value: The resource_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_resource_to("value")
+        """
+        self.resource_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_rte_event(self, value):
+        """
+        Set rte_event and return self for chaining.
+
+        Args:
+            value: The rte_event to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rte_event("value")
+        """
+        self.rte_event = value  # Use property setter (gets validation)
+        return self
+
+    def with_rte_event_to_os(self, value):
+        """
+        Set rte_event_to_os and return self for chaining.
+
+        Args:
+            value: The rte_event_to_os to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rte_event_to_os("value")
+        """
+        self.rte_event_to_os = value  # Use property setter (gets validation)
+        return self
+
+    def with_signal_path(self, value):
+        """
+        Set signal_path and return self for chaining.
+
+        Args:
+            value: The signal_path to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_signal_path("value")
+        """
+        self.signal_path = value  # Use property setter (gets validation)
+        return self
+
+    def with_software_cluster(self, value):
+        """
+        Set software_cluster and return self for chaining.
+
+        Args:
+            value: The software_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_software_cluster("value")
+        """
+        self.software_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_cluster(self, value):
+        """
+        Set sw_cluster and return self for chaining.
+
+        Args:
+            value: The sw_cluster to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_cluster("value")
+        """
+        self.sw_cluster = value  # Use property setter (gets validation)
+        return self
+
+    def with_swc_to(self, value):
+        """
+        Set swc_to and return self for chaining.
+
+        Args:
+            value: The swc_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_swc_to("value")
+        """
+        self.swc_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_impl_mapping(self, value):
+        """
+        Set sw_impl_mapping and return self for chaining.
+
+        Args:
+            value: The sw_impl_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_impl_mapping("value")
+        """
+        self.sw_impl_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_mapping(self, value):
+        """
+        Set sw_mapping and return self for chaining.
+
+        Args:
+            value: The sw_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_mapping("value")
+        """
+        self.sw_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_system_signal(self, value):
+        """
+        Set system_signal and return self for chaining.
+
+        Args:
+            value: The system_signal to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_system_signal("value")
+        """
+        self.system_signal = value  # Use property setter (gets validation)
+        return self
+
+    def with_system_signal_to(self, value):
+        """
+        Set system_signal_to and return self for chaining.
+
+        Args:
+            value: The system_signal_to to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_system_signal_to("value")
+        """
+        self.system_signal_to = value  # Use property setter (gets validation)
+        return self
+
+    def with_com(self, value):
+        """
+        Set com and return self for chaining.
+
+        Args:
+            value: The com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_com("value")
+        """
+        self.com = value  # Use property setter (gets validation)
+        return self
+
+    def with_physical(self, value):
+        """
+        Set physical and return self for chaining.
+
+        Args:
+            value: The physical to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_physical("value")
+        """
+        self.physical = value  # Use property setter (gets validation)
+        return self
+
+    def with_participating(self, value):
+        """
+        Set participating and return self for chaining.
+
+        Args:
+            value: The participating to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_participating("value")
+        """
+        self.participating = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -2092,3 +2619,15 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         """
         self.variable_data_system_instance_ref = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "System",
+    "RootSwCompositionPrototype",
+    "ClientIdDefinitionSet",
+    "ClientIdDefinition",
+    "SystemMapping",
+    "ComManagementMapping",
+    "J1939SharedAddressCluster",
+    "PortElementToCommunicationResourceMapping",
+]

@@ -4,16 +4,14 @@ AUTOSAR Package - DataExchange
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
     SpecElementReference,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
 
 
 class SpecificationScope(ARObject):
@@ -37,6 +35,54 @@ class SpecificationScope(ARObject):
     def specification(self) -> List["SpecificationDocument"]:
         """Get specification (Pythonic accessor)."""
         return self._specification
+
+    def with_specification(self, value):
+        """
+        Set specification and return self for chaining.
+
+        Args:
+            value: The specification to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_specification("value")
+        """
+        self.specification = value  # Use property setter (gets validation)
+        return self
+
+    def with_document(self, value):
+        """
+        Set document and return self for chaining.
+
+        Args:
+            value: The document to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_document("value")
+        """
+        self.document = value  # Use property setter (gets validation)
+        return self
+
+    def with_tailoring(self, value):
+        """
+        Set tailoring and return self for chaining.
+
+        Args:
+            value: The tailoring to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tailoring("value")
+        """
+        self.tailoring = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -127,6 +127,118 @@ class PortPrototype(Identifiable, ABC):
         """Get triggerPortAnnotation (Pythonic accessor)."""
         return self._triggerPortAnnotation
 
+    def with_client_server(self, value):
+        """
+        Set client_server and return self for chaining.
+
+        Args:
+            value: The client_server to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_client_server("value")
+        """
+        self.client_server = value  # Use property setter (gets validation)
+        return self
+
+    def with_io_hw_abstraction_annotation(self, value):
+        """
+        Set io_hw_abstraction_annotation and return self for chaining.
+
+        Args:
+            value: The io_hw_abstraction_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_io_hw_abstraction_annotation("value")
+        """
+        self.io_hw_abstraction_annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_mode_port_annotation(self, value):
+        """
+        Set mode_port_annotation and return self for chaining.
+
+        Args:
+            value: The mode_port_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mode_port_annotation("value")
+        """
+        self.mode_port_annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_nv_data_port_annotation(self, value):
+        """
+        Set nv_data_port_annotation and return self for chaining.
+
+        Args:
+            value: The nv_data_port_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nv_data_port_annotation("value")
+        """
+        self.nv_data_port_annotation = value  # Use property setter (gets validation)
+        return self
+
+    def with_parameter_port(self, value):
+        """
+        Set parameter_port and return self for chaining.
+
+        Args:
+            value: The parameter_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_parameter_port("value")
+        """
+        self.parameter_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_sender_receiver(self, value):
+        """
+        Set sender_receiver and return self for chaining.
+
+        Args:
+            value: The sender_receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sender_receiver("value")
+        """
+        self.sender_receiver = value  # Use property setter (gets validation)
+        return self
+
+    def with_trigger_port_annotation(self, value):
+        """
+        Set trigger_port_annotation and return self for chaining.
+
+        Args:
+            value: The trigger_port_annotation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trigger_port_annotation("value")
+        """
+        self.trigger_port_annotation = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getClientServer(self) -> List["ClientServerAnnotation"]:

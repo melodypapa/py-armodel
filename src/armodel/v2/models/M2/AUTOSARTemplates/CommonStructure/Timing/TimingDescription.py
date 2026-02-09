@@ -4,16 +4,15 @@ AUTOSAR Package - TimingDescription
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class TimingDescription(Identifiable, ABC):
@@ -32,6 +31,22 @@ class TimingDescription(Identifiable, ABC):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_segment(self, value):
+        """
+        Set segment and return self for chaining.
+
+        Args:
+            value: The segment to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_segment("value")
+        """
+        self.segment = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

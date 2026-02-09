@@ -124,6 +124,22 @@ class BuildActionIoElement(ARObject):
         """Get sdg (Pythonic accessor)."""
         return self._sdg
 
+    def with_sdg(self, value):
+        """
+        Set sdg and return self for chaining.
+
+        Args:
+            value: The sdg to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sdg("value")
+        """
+        self.sdg = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCategory(self) -> "NameToken":

@@ -4,8 +4,8 @@ AUTOSAR Package - Keyword
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
 )
@@ -15,8 +15,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class Keyword(Identifiable):
@@ -74,6 +72,38 @@ class Keyword(Identifiable):
     def classification(self) -> List["NameToken"]:
         """Get classification (Pythonic accessor)."""
         return self._classification
+
+    def with_classification(self, value):
+        """
+        Set classification and return self for chaining.
+
+        Args:
+            value: The classification to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_classification("value")
+        """
+        self.classification = value  # Use property setter (gets validation)
+        return self
+
+    def with_keyword(self, value):
+        """
+        Set keyword and return self for chaining.
+
+        Args:
+            value: The keyword to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_keyword("value")
+        """
+        self.keyword = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

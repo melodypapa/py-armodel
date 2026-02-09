@@ -33,6 +33,22 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
         """Get requiredCom (Pythonic accessor)."""
         return self._requiredCom
 
+    def with_required_com(self, value):
+        """
+        Set required_com and return self for chaining.
+
+        Args:
+            value: The required_com to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_required_com("value")
+        """
+        self.required_com = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getRequiredCom(self) -> List["RPortComSpec"]:

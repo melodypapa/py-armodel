@@ -82,6 +82,86 @@ class BuildAction(BuildActionEntity):
             )
         self._required = value
 
+    def with_created_data(self, value):
+        """
+        Set created_data and return self for chaining.
+
+        Args:
+            value: The created_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_created_data("value")
+        """
+        self.created_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_follow_up_action(self, value):
+        """
+        Set follow_up_action and return self for chaining.
+
+        Args:
+            value: The follow_up_action to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_follow_up_action("value")
+        """
+        self.follow_up_action = value  # Use property setter (gets validation)
+        return self
+
+    def with_input_data(self, value):
+        """
+        Set input_data and return self for chaining.
+
+        Args:
+            value: The input_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_input_data("value")
+        """
+        self.input_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_modified_data(self, value):
+        """
+        Set modified_data and return self for chaining.
+
+        Args:
+            value: The modified_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_modified_data("value")
+        """
+        self.modified_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_predecessor(self, value):
+        """
+        Set predecessor and return self for chaining.
+
+        Args:
+            value: The predecessor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_predecessor("value")
+        """
+        self.predecessor = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getCreatedData(self) -> List["BuildActionIoElement"]:

@@ -4,13 +4,11 @@ AUTOSAR Package - CustomServiceInstance
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CustomServiceInstance
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
     DiagnosticServiceInstance,
 )
-
-
 
 
 class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):

@@ -30,6 +30,22 @@ class FMFeatureMap(ARElement):
         """Get mapping (Pythonic accessor)."""
         return self._mapping
 
+    def with_mapping(self, value):
+        """
+        Set mapping and return self for chaining.
+
+        Args:
+            value: The mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapping("value")
+        """
+        self.mapping = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getMapping(self) -> List["FMFeatureMapElement"]:

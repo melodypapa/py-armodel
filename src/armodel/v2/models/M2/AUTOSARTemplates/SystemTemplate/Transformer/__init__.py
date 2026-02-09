@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -14,11 +15,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
@@ -35,8 +36,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__ i
     TransformationDescription,
     TransformationProps,
 )
-
-
 
 
 class DataTransformation(Identifiable):
@@ -123,6 +122,70 @@ class DataTransformation(Identifiable):
     def transformer(self) -> List["Transformation"]:
         """Get transformer (Pythonic accessor)."""
         return self._transformer
+
+    def with_data_prototype(self, value):
+        """
+        Set data_prototype and return self for chaining.
+
+        Args:
+            value: The data_prototype to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_prototype("value")
+        """
+        self.data_prototype = value  # Use property setter (gets validation)
+        return self
+
+    def with_tlv_data_id(self, value):
+        """
+        Set tlv_data_id and return self for chaining.
+
+        Args:
+            value: The tlv_data_id to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tlv_data_id("value")
+        """
+        self.tlv_data_id = value  # Use property setter (gets validation)
+        return self
+
+    def with_transformation_props(self, value):
+        """
+        Set transformation_props and return self for chaining.
+
+        Args:
+            value: The transformation_props to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_transformation_props("value")
+        """
+        self.transformation_props = value  # Use property setter (gets validation)
+        return self
+
+    def with_tlv_data_id(self, value):
+        """
+        Set tlv_data_id and return self for chaining.
+
+        Args:
+            value: The tlv_data_id to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_tlv_data_id("value")
+        """
+        self.tlv_data_id = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -6053,3 +6116,36 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     # Check behaves like new P4/P5/P6 profiles introduced in AUTOSAR Release 4.2.
     R4_2 = "1"
+
+
+__all__ = [
+    "DataTransformation",
+    "TransformationTechnology",
+    "BufferProperties",
+    "TransformationDescription",
+    "EndToEndTransformationComSpecProps",
+    "E2EProfileCompatibilityProps",
+    "DataTransformationSet",
+    "TransformationISignalProps",
+    "SOMEIPTransformationISignalProps",
+    "TransformationPropsSet",
+    "TransformationProps",
+    "DataPrototypeTransformationProps",
+    "DataPrototypeReference",
+    "EndToEndTransformationISignalProps",
+    "UserDefinedTransformationISignalProps",
+    "TlvDataIdDefinitionSet",
+    "TlvDataIdDefinition",
+    "EndToEndTransformationDescription",
+    "UserDefinedTransformationDescription",
+    "SOMEIPTransformationDescription",
+    "SOMEIPTransformationProps",
+    "UserDefinedTransformationProps",
+    "DataPrototypeInPortInterfaceRef",
+    "DataTransformationKindEnum",
+    "TransformerClassEnum",
+    "CSTransformerErrorReactionEnum",
+    "SOMEIPMessageTypeEnum",
+    "DataIdModeEnum",
+    "EndToEndProfileBehaviorEnum",
+]

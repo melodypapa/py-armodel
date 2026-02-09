@@ -6,8 +6,8 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObjec
 Manually maintained: Extended attributes support (CODING_RULE_V2_00014)
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Any, Dict, Optional
 
 
 # Manually maintained: Base class marker to prevent regeneration

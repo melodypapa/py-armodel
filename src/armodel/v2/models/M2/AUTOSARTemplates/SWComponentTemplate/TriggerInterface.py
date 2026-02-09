@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    PortInterface,
+)
 
     RefType,
 )
@@ -30,6 +32,22 @@ class TriggerInterface(PortInterface):
     def trigger(self) -> List[RefType]:
         """Get trigger (Pythonic accessor)."""
         return self._trigger
+
+    def with_trigger(self, value):
+        """
+        Set trigger and return self for chaining.
+
+        Args:
+            value: The trigger to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_trigger("value")
+        """
+        self.trigger = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

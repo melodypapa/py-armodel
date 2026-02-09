@@ -37,6 +37,38 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
         """Get operation (Pythonic accessor)."""
         return self._operation
 
+    def with_error_mapping(self, value):
+        """
+        Set error_mapping and return self for chaining.
+
+        Args:
+            value: The error_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_error_mapping("value")
+        """
+        self.error_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_operation(self, value):
+        """
+        Set operation and return self for chaining.
+
+        Args:
+            value: The operation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_operation("value")
+        """
+        self.operation = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getErrorMapping(self) -> List["ClientServerApplication"]:

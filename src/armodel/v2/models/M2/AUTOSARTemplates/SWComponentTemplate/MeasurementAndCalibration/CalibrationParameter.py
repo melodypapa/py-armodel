@@ -4,16 +4,14 @@ AUTOSAR Package - CalibrationParameter
 Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class CalibrationParameterValueSet(ARElement):
@@ -40,6 +38,22 @@ class CalibrationParameterValueSet(ARElement):
     def calibration(self) -> List["CalibrationParameter"]:
         """Get calibration (Pythonic accessor)."""
         return self._calibration
+
+    def with_calibration(self, value):
+        """
+        Set calibration and return self for chaining.
+
+        Args:
+            value: The calibration to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_calibration("value")
+        """
+        self.calibration = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

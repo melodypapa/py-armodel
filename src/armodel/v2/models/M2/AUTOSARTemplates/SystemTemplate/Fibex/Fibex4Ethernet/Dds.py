@@ -4,19 +4,20 @@ AUTOSAR Package - Dds
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
     PositiveInteger,
     RefType,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -27,8 +28,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
 )
-
-
 
 
 class DdsCpISignalToDdsTopicMapping(ARObject):
@@ -100,6 +99,70 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
                 f"iSignal must be ISignal or None, got {type(value).__name__}"
             )
         self._iSignal = value
+
+    def with_dds_domain(self, value):
+        """
+        Set dds_domain and return self for chaining.
+
+        Args:
+            value: The dds_domain to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dds_domain("value")
+        """
+        self.dds_domain = value  # Use property setter (gets validation)
+        return self
+
+    def with_dds_qos_profile(self, value):
+        """
+        Set dds_qos_profile and return self for chaining.
+
+        Args:
+            value: The dds_qos_profile to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dds_qos_profile("value")
+        """
+        self.dds_qos_profile = value  # Use property setter (gets validation)
+        return self
+
+    def with_provided_dds(self, value):
+        """
+        Set provided_dds and return self for chaining.
+
+        Args:
+            value: The provided_dds to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_dds("value")
+        """
+        self.provided_dds = value  # Use property setter (gets validation)
+        return self
+
+    def with_consumed_dds(self, value):
+        """
+        Set consumed_dds and return self for chaining.
+
+        Args:
+            value: The consumed_dds to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consumed_dds("value")
+        """
+        self.consumed_dds = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

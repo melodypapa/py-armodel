@@ -26,6 +26,22 @@ class EcucDestinationUriDefSet(ARElement):
         """Get destinationUriDef (Pythonic accessor)."""
         return self._destinationUriDef
 
+    def with_destination_uri_def(self, value):
+        """
+        Set destination_uri_def and return self for chaining.
+
+        Args:
+            value: The destination_uri_def to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_destination_uri_def("value")
+        """
+        self.destination_uri_def = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDestinationUriDef(self) -> List["EcucDestinationUriDef"]:

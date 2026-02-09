@@ -73,6 +73,54 @@ class RptExecutableEntity(Identifiable):
             )
         self._symbol = value
 
+    def with_rpt_executable(self, value):
+        """
+        Set rpt_executable and return self for chaining.
+
+        Args:
+            value: The rpt_executable to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_executable("value")
+        """
+        self.rpt_executable = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_read(self, value):
+        """
+        Set rpt_read and return self for chaining.
+
+        Args:
+            value: The rpt_read to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_read("value")
+        """
+        self.rpt_read = value  # Use property setter (gets validation)
+        return self
+
+    def with_rpt_write(self, value):
+        """
+        Set rpt_write and return self for chaining.
+
+        Args:
+            value: The rpt_write to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rpt_write("value")
+        """
+        self.rpt_write = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getRptExecutable(self) -> List["RptExecutableEntity"]:

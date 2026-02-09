@@ -40,6 +40,38 @@ class MetaDataItemSet(ARObject):
         """Get metaDataItem (Pythonic accessor)."""
         return self._metaDataItem
 
+    def with_data_element(self, value):
+        """
+        Set data_element and return self for chaining.
+
+        Args:
+            value: The data_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_element("value")
+        """
+        self.data_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_meta_data_item(self, value):
+        """
+        Set meta_data_item and return self for chaining.
+
+        Args:
+            value: The meta_data_item to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_meta_data_item("value")
+        """
+        self.meta_data_item = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDataElement(self) -> List[RefType]:

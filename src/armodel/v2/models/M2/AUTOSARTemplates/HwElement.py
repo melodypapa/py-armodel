@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
+from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
+    HwDescriptionEntity,
+)
 
     RefType,
 )
@@ -57,6 +59,54 @@ class HwElement(HwDescriptionEntity):
     def nested_element(self) -> List["HwElement"]:
         """Get nestedElement (Pythonic accessor)."""
         return self._nestedElement
+
+    def with_hw_element(self, value):
+        """
+        Set hw_element and return self for chaining.
+
+        Args:
+            value: The hw_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_element("value")
+        """
+        self.hw_element = value  # Use property setter (gets validation)
+        return self
+
+    def with_hw_pin_group(self, value):
+        """
+        Set hw_pin_group and return self for chaining.
+
+        Args:
+            value: The hw_pin_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_hw_pin_group("value")
+        """
+        self.hw_pin_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_nested_element(self, value):
+        """
+        Set nested_element and return self for chaining.
+
+        Args:
+            value: The nested_element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_nested_element("value")
+        """
+        self.nested_element = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

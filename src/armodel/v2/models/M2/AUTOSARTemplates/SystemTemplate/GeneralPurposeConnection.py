@@ -4,16 +4,14 @@ AUTOSAR Package - GeneralPurposeConnection
 Package: M2::AUTOSARTemplates::SystemTemplate::GeneralPurposeConnection
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-
-
 
 
 class GeneralPurposeConnection(ARElement):
@@ -39,6 +37,22 @@ class GeneralPurposeConnection(ARElement):
     def pdu_triggering(self) -> List["RefType"]:
         """Get pduTriggering (Pythonic accessor)."""
         return self._pduTriggering
+
+    def with_pdu_triggering(self, value):
+        """
+        Set pdu_triggering and return self for chaining.
+
+        Args:
+            value: The pdu_triggering to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pdu_triggering("value")
+        """
+        self.pdu_triggering = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

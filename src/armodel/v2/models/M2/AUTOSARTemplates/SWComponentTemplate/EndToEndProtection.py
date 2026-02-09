@@ -4,25 +4,23 @@ AUTOSAR Package - EndToEndProtection
 Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     NameToken,
     PositiveInteger,
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class EndToEndDescription(ARObject):
@@ -540,6 +538,54 @@ class EndToEndDescription(ARObject):
                 f"maxDelta must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxDelta = value
+
+    def with_end_to_end(self, value):
+        """
+        Set end_to_end and return self for chaining.
+
+        Args:
+            value: The end_to_end to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_end_to_end("value")
+        """
+        self.end_to_end = value  # Use property setter (gets validation)
+        return self
+
+    def with_end_to_end(self, value):
+        """
+        Set end_to_end and return self for chaining.
+
+        Args:
+            value: The end_to_end to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_end_to_end("value")
+        """
+        self.end_to_end = value  # Use property setter (gets validation)
+        return self
+
+    def with_receiver(self, value):
+        """
+        Set receiver and return self for chaining.
+
+        Args:
+            value: The receiver to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_receiver("value")
+        """
+        self.receiver = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

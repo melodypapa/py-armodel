@@ -1,7 +1,9 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
     RefType,
 )
@@ -45,6 +47,54 @@ class FMFeatureSelectionSet(ARElement):
     def selection(self) -> List["FMFeatureSelection"]:
         """Get selection (Pythonic accessor)."""
         return self._selection
+
+    def with_feature_model(self, value):
+        """
+        Set feature_model and return self for chaining.
+
+        Args:
+            value: The feature_model to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_feature_model("value")
+        """
+        self.feature_model = value  # Use property setter (gets validation)
+        return self
+
+    def with_include(self, value):
+        """
+        Set include and return self for chaining.
+
+        Args:
+            value: The include to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_include("value")
+        """
+        self.include = value  # Use property setter (gets validation)
+        return self
+
+    def with_selection(self, value):
+        """
+        Set selection and return self for chaining.
+
+        Args:
+            value: The selection to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_selection("value")
+        """
+        self.selection = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

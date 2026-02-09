@@ -89,6 +89,22 @@ class DltApplication(Identifiable):
         """Get context (Pythonic accessor)."""
         return self._context
 
+    def with_context(self, value):
+        """
+        Set context and return self for chaining.
+
+        Args:
+            value: The context to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_context("value")
+        """
+        self.context = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getApplication(self) -> "String":

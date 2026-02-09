@@ -30,6 +30,22 @@ class IdsDesign(ARElement):
         """Get element (Pythonic accessor)."""
         return self._element
 
+    def with_element(self, value):
+        """
+        Set element and return self for chaining.
+
+        Args:
+            value: The element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element("value")
+        """
+        self.element = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getElement(self) -> List["IdsCommonElement"]:

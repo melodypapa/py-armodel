@@ -4,23 +4,21 @@ AUTOSAR Package - FlatMap
 Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class AliasNameSet(ARElement):
@@ -48,6 +46,38 @@ class AliasNameSet(ARElement):
     def alias_name(self) -> List["AliasNameAssignment"]:
         """Get aliasName (Pythonic accessor)."""
         return self._aliasName
+
+    def with_alias_name(self, value):
+        """
+        Set alias_name and return self for chaining.
+
+        Args:
+            value: The alias_name to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_alias_name("value")
+        """
+        self.alias_name = value  # Use property setter (gets validation)
+        return self
+
+    def with_instance(self, value):
+        """
+        Set instance and return self for chaining.
+
+        Args:
+            value: The instance to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_instance("value")
+        """
+        self.instance = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

@@ -37,6 +37,38 @@ class IdsmProperties(IdsCommonElement):
         """Get trafficLimitation (Pythonic accessor)."""
         return self._trafficLimitation
 
+    def with_rate_limitation(self, value):
+        """
+        Set rate_limitation and return self for chaining.
+
+        Args:
+            value: The rate_limitation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rate_limitation("value")
+        """
+        self.rate_limitation = value  # Use property setter (gets validation)
+        return self
+
+    def with_traffic_limitation(self, value):
+        """
+        Set traffic_limitation and return self for chaining.
+
+        Args:
+            value: The traffic_limitation to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_traffic_limitation("value")
+        """
+        self.traffic_limitation = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getRateLimitation(self) -> List["IdsmRateLimitation"]:

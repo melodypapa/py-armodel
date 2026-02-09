@@ -4,8 +4,9 @@ AUTOSAR Package - EthernetTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
@@ -13,11 +14,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
@@ -27,15 +28,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
+    FibexElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     CommunicationConnector,
     PhysicalChannel,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
-    FibexElement,
-)
-
-
 
 
 class EthernetPhysicalChannel(PhysicalChannel):
@@ -119,6 +118,374 @@ class EthernetPhysicalChannel(PhysicalChannel):
                 f"vlan must be VlanConfig or None, got {type(value).__name__}"
             )
         self._vlan = value
+
+    def with_network(self, value):
+        """
+        Set network and return self for chaining.
+
+        Args:
+            value: The network to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_network("value")
+        """
+        self.network = value  # Use property setter (gets validation)
+        return self
+
+    def with_firewall_rule(self, value):
+        """
+        Set firewall_rule and return self for chaining.
+
+        Args:
+            value: The firewall_rule to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_firewall_rule("value")
+        """
+        self.firewall_rule = value  # Use property setter (gets validation)
+        return self
+
+    def with_mac_sec_props(self, value):
+        """
+        Set mac_sec_props and return self for chaining.
+
+        Args:
+            value: The mac_sec_props to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mac_sec_props("value")
+        """
+        self.mac_sec_props = value  # Use property setter (gets validation)
+        return self
+
+    def with_pnc_mapping(self, value):
+        """
+        Set pnc_mapping and return self for chaining.
+
+        Args:
+            value: The pnc_mapping to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_pnc_mapping("value")
+        """
+        self.pnc_mapping = value  # Use property setter (gets validation)
+        return self
+
+    def with_node_port(self, value):
+        """
+        Set node_port and return self for chaining.
+
+        Args:
+            value: The node_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_node_port("value")
+        """
+        self.node_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_rate_policy(self, value):
+        """
+        Set rate_policy and return self for chaining.
+
+        Args:
+            value: The rate_policy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_rate_policy("value")
+        """
+        self.rate_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_v_lan(self, value):
+        """
+        Set v_lan and return self for chaining.
+
+        Args:
+            value: The v_lan to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_v_lan("value")
+        """
+        self.v_lan = value  # Use property setter (gets validation)
+        return self
+
+    def with_dns_server(self, value):
+        """
+        Set dns_server and return self for chaining.
+
+        Args:
+            value: The dns_server to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dns_server("value")
+        """
+        self.dns_server = value  # Use property setter (gets validation)
+        return self
+
+    def with_dns_server(self, value):
+        """
+        Set dns_server and return self for chaining.
+
+        Args:
+            value: The dns_server to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dns_server("value")
+        """
+        self.dns_server = value  # Use property setter (gets validation)
+        return self
+
+    def with_egress_port(self, value):
+        """
+        Set egress_port and return self for chaining.
+
+        Args:
+            value: The egress_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_egress_port("value")
+        """
+        self.egress_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_ingress_port(self, value):
+        """
+        Set ingress_port and return self for chaining.
+
+        Args:
+            value: The ingress_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ingress_port("value")
+        """
+        self.ingress_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_destination_port(self, value):
+        """
+        Set destination_port and return self for chaining.
+
+        Args:
+            value: The destination_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_destination_port("value")
+        """
+        self.destination_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_source_port(self, value):
+        """
+        Set source_port and return self for chaining.
+
+        Args:
+            value: The source_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_source_port("value")
+        """
+        self.source_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_egress_port(self, value):
+        """
+        Set egress_port and return self for chaining.
+
+        Args:
+            value: The egress_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_egress_port("value")
+        """
+        self.egress_port = value  # Use property setter (gets validation)
+        return self
+
+    def with_ethernet(self, value):
+        """
+        Set ethernet and return self for chaining.
+
+        Args:
+            value: The ethernet to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ethernet("value")
+        """
+        self.ethernet = value  # Use property setter (gets validation)
+        return self
+
+    def with_consumed(self, value):
+        """
+        Set consumed and return self for chaining.
+
+        Args:
+            value: The consumed to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consumed("value")
+        """
+        self.consumed = value  # Use property setter (gets validation)
+        return self
+
+    def with_provided_service(self, value):
+        """
+        Set provided_service and return self for chaining.
+
+        Args:
+            value: The provided_service to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_provided_service("value")
+        """
+        self.provided_service = value  # Use property setter (gets validation)
+        return self
+
+    def with_network(self, value):
+        """
+        Set network and return self for chaining.
+
+        Args:
+            value: The network to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_network("value")
+        """
+        self.network = value  # Use property setter (gets validation)
+        return self
+
+    def with_ordered_master(self, value):
+        """
+        Set ordered_master and return self for chaining.
+
+        Args:
+            value: The ordered_master to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_ordered_master("value")
+        """
+        self.ordered_master = value  # Use property setter (gets validation)
+        return self
+
+    def with_predecessor(self, value):
+        """
+        Set predecessor and return self for chaining.
+
+        Args:
+            value: The predecessor to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_predecessor("value")
+        """
+        self.predecessor = value  # Use property setter (gets validation)
+        return self
+
+    def with_switch_stream(self, value):
+        """
+        Set switch_stream and return self for chaining.
+
+        Args:
+            value: The switch_stream to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_switch_stream("value")
+        """
+        self.switch_stream = value  # Use property setter (gets validation)
+        return self
+
+    def with_dns_server(self, value):
+        """
+        Set dns_server and return self for chaining.
+
+        Args:
+            value: The dns_server to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dns_server("value")
+        """
+        self.dns_server = value  # Use property setter (gets validation)
+        return self
+
+    def with_dns_server(self, value):
+        """
+        Set dns_server and return self for chaining.
+
+        Args:
+            value: The dns_server to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dns_server("value")
+        """
+        self.dns_server = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

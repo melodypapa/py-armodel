@@ -41,6 +41,38 @@ class DataPrototypeGroup(Identifiable):
         """Get implicitData (Pythonic accessor)."""
         return self._implicitData
 
+    def with_data_prototype_group_in_composition_instance_ref(self, value):
+        """
+        Set data_prototype_group_in_composition_instance_ref and return self for chaining.
+
+        Args:
+            value: The data_prototype_group_in_composition_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_prototype_group_in_composition_instance_ref("value")
+        """
+        self.data_prototype_group_in_composition_instance_ref = value  # Use property setter (gets validation)
+        return self
+
+    def with_implicit_data(self, value):
+        """
+        Set implicit_data and return self for chaining.
+
+        Args:
+            value: The implicit_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_implicit_data("value")
+        """
+        self.implicit_data = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDataPrototypeGroupInCompositionInstanceRef(self) -> List[RefType]:

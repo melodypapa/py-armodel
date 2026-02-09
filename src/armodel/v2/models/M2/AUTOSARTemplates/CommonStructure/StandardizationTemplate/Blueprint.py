@@ -4,13 +4,11 @@ AUTOSAR Package - Blueprint
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Blueprint
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-
-
 
 
 class ConsistencyNeedsBlueprintSet(ARElement):
@@ -35,6 +33,22 @@ class ConsistencyNeedsBlueprintSet(ARElement):
     def consistency(self) -> List["ConsistencyNeeds"]:
         """Get consistency (Pythonic accessor)."""
         return self._consistency
+
+    def with_consistency(self, value):
+        """
+        Set consistency and return self for chaining.
+
+        Args:
+            value: The consistency to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_consistency("value")
+        """
+        self.consistency = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

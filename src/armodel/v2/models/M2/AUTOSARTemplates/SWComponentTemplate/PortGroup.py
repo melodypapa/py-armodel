@@ -48,6 +48,38 @@ class PortGroup(Identifiable):
         """Get outerPort (Pythonic accessor)."""
         return self._outerPort
 
+    def with_inner_group(self, value):
+        """
+        Set inner_group and return self for chaining.
+
+        Args:
+            value: The inner_group to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_inner_group("value")
+        """
+        self.inner_group = value  # Use property setter (gets validation)
+        return self
+
+    def with_outer_port(self, value):
+        """
+        Set outer_port and return self for chaining.
+
+        Args:
+            value: The outer_port to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_outer_port("value")
+        """
+        self.outer_port = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getInnerGroup(self) -> List[RefType]:

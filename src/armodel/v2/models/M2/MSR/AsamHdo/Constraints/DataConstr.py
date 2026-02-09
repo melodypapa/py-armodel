@@ -28,6 +28,22 @@ class DataConstr(ARElement):
         """Get dataConstrRule (Pythonic accessor)."""
         return self._dataConstrRule
 
+    def with_data_constr_rule(self, value):
+        """
+        Set data_constr_rule and return self for chaining.
+
+        Args:
+            value: The data_constr_rule to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_constr_rule("value")
+        """
+        self.data_constr_rule = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getDataConstrRule(self) -> List["DataConstrRule"]:

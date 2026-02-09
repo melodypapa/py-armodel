@@ -4,8 +4,9 @@ AUTOSAR Package - DiagnosticTroubleCode
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     NameToken,
@@ -20,8 +21,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class EventObdReadinessGroup(ARObject):
@@ -70,6 +69,70 @@ class EventObdReadinessGroup(ARObject):
                 f"eventObd must be NameToken or str or None, got {type(value).__name__}"
             )
         self._eventObd = value
+
+    def with_dtc(self, value):
+        """
+        Set dtc and return self for chaining.
+
+        Args:
+            value: The dtc to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dtc("value")
+        """
+        self.dtc = value  # Use property setter (gets validation)
+        return self
+
+    def with_extended_data(self, value):
+        """
+        Set extended_data and return self for chaining.
+
+        Args:
+            value: The extended_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_extended_data("value")
+        """
+        self.extended_data = value  # Use property setter (gets validation)
+        return self
+
+    def with_freeze_frame(self, value):
+        """
+        Set freeze_frame and return self for chaining.
+
+        Args:
+            value: The freeze_frame to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_freeze_frame("value")
+        """
+        self.freeze_frame = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_identifier(self, value):
+        """
+        Set data_identifier and return self for chaining.
+
+        Args:
+            value: The data_identifier to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_identifier("value")
+        """
+        self.data_identifier = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

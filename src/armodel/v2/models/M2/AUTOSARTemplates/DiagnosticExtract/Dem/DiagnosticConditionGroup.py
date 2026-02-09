@@ -4,13 +4,12 @@ AUTOSAR Package - DiagnosticConditionGroup
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticConditionGroup
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List
+
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
-
-
 
 
 class DiagnosticConditionGroup(DiagnosticCommonElement, ABC):
@@ -29,6 +28,38 @@ class DiagnosticConditionGroup(DiagnosticCommonElement, ABC):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    def with_enable_condition(self, value):
+        """
+        Set enable_condition and return self for chaining.
+
+        Args:
+            value: The enable_condition to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_enable_condition("value")
+        """
+        self.enable_condition = value  # Use property setter (gets validation)
+        return self
+
+    def with_storage(self, value):
+        """
+        Set storage and return self for chaining.
+
+        Args:
+            value: The storage to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_storage("value")
+        """
+        self.storage = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

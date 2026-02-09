@@ -6,14 +6,13 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavio
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
 
 
 class ConsistencyNeeds(Identifiable):
@@ -72,6 +71,134 @@ class ConsistencyNeeds(Identifiable):
     def reg_requires(self) -> List["RefType"]:
         """Get regRequires (Pythonic accessor)."""
         return self._regRequires
+
+    def with_dpg_does_not(self, value):
+        """
+        Set dpg_does_not and return self for chaining.
+
+        Args:
+            value: The dpg_does_not to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dpg_does_not("value")
+        """
+        self.dpg_does_not = value  # Use property setter (gets validation)
+        return self
+
+    def with_dpg_requires(self, value):
+        """
+        Set dpg_requires and return self for chaining.
+
+        Args:
+            value: The dpg_requires to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_dpg_requires("value")
+        """
+        self.dpg_requires = value  # Use property setter (gets validation)
+        return self
+
+    def with_reg_does_not(self, value):
+        """
+        Set reg_does_not and return self for chaining.
+
+        Args:
+            value: The reg_does_not to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reg_does_not("value")
+        """
+        self.reg_does_not = value  # Use property setter (gets validation)
+        return self
+
+    def with_reg_requires(self, value):
+        """
+        Set reg_requires and return self for chaining.
+
+        Args:
+            value: The reg_requires to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_reg_requires("value")
+        """
+        self.reg_requires = value  # Use property setter (gets validation)
+        return self
+
+    def with_runnable_entity(self, value):
+        """
+        Set runnable_entity and return self for chaining.
+
+        Args:
+            value: The runnable_entity to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_runnable_entity("value")
+        """
+        self.runnable_entity = value  # Use property setter (gets validation)
+        return self
+
+    def with_runnable_entity_group_in_composition_instance_ref(self, value):
+        """
+        Set runnable_entity_group_in_composition_instance_ref and return self for chaining.
+
+        Args:
+            value: The runnable_entity_group_in_composition_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_runnable_entity_group_in_composition_instance_ref("value")
+        """
+        self.runnable_entity_group_in_composition_instance_ref = value  # Use property setter (gets validation)
+        return self
+
+    def with_data_prototype_group_in_composition_instance_ref(self, value):
+        """
+        Set data_prototype_group_in_composition_instance_ref and return self for chaining.
+
+        Args:
+            value: The data_prototype_group_in_composition_instance_ref to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_data_prototype_group_in_composition_instance_ref("value")
+        """
+        self.data_prototype_group_in_composition_instance_ref = value  # Use property setter (gets validation)
+        return self
+
+    def with_implicit_data(self, value):
+        """
+        Set implicit_data and return self for chaining.
+
+        Args:
+            value: The implicit_data to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_implicit_data("value")
+        """
+        self.implicit_data = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -250,3 +377,10 @@ class DataPrototypeGroup(Identifiable):
         return self.implicit_data  # Delegates to property
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+__all__ = [
+    "ConsistencyNeeds",
+    "RunnableEntityGroup",
+    "DataPrototypeGroup",
+]

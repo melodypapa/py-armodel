@@ -4,19 +4,20 @@ AUTOSAR Package - SecurityExtractTemplate
 Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Float,
     PositiveInteger,
     String,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -24,8 +25,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class SecurityEventContextProps(Identifiable):
@@ -226,6 +225,86 @@ class SecurityEventContextProps(Identifiable):
                 f"severity must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._severity = value
+
+    def with_element(self, value):
+        """
+        Set element and return self for chaining.
+
+        Args:
+            value: The element to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element("value")
+        """
+        self.element = value  # Use property setter (gets validation)
+        return self
+
+    def with_block_if_state(self, value):
+        """
+        Set block_if_state and return self for chaining.
+
+        Args:
+            value: The block_if_state to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_block_if_state("value")
+        """
+        self.block_if_state = value  # Use property setter (gets validation)
+        return self
+
+    def with_block_state(self, value):
+        """
+        Set block_state and return self for chaining.
+
+        Args:
+            value: The block_state to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_block_state("value")
+        """
+        self.block_state = value  # Use property setter (gets validation)
+        return self
+
+    def with_mapped_security(self, value):
+        """
+        Set mapped_security and return self for chaining.
+
+        Args:
+            value: The mapped_security to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mapped_security("value")
+        """
+        self.mapped_security = value  # Use property setter (gets validation)
+        return self
+
+    def with_comm(self, value):
+        """
+        Set comm and return self for chaining.
+
+        Args:
+            value: The comm to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_comm("value")
+        """
+        self.comm = value  # Use property setter (gets validation)
+        return self
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 

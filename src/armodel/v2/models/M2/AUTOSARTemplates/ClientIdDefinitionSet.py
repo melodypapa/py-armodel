@@ -29,6 +29,22 @@ class ClientIdDefinitionSet(ARElement):
         """Get clientId (Pythonic accessor)."""
         return self._clientId
 
+    def with_client_id(self, value):
+        """
+        Set client_id and return self for chaining.
+
+        Args:
+            value: The client_id to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_client_id("value")
+        """
+        self.client_id = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getClientId(self) -> List["ClientIdDefinition"]:

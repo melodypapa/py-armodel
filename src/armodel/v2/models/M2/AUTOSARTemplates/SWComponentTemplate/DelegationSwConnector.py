@@ -1,7 +1,9 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import SwConnector
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    SwConnector,
+)
 
     RefType,
 )

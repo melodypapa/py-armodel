@@ -121,6 +121,22 @@ class TimingDescriptionEventChain(TimingDescription):
             )
         self._stimulus = value
 
+    def with_segment(self, value):
+        """
+        Set segment and return self for chaining.
+
+        Args:
+            value: The segment to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_segment("value")
+        """
+        self.segment = value  # Use property setter (gets validation)
+        return self
+
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
     def getIsPipelining(self) -> "Boolean":
@@ -446,3 +462,9 @@ class TimingDescriptionEvent(TimingDescription, ABC):
         """
         self.occurrence = value  # Use property setter (gets validation)
         return self
+
+
+__all__ = [
+    "TimingDescriptionEventChain",
+    "TimingDescriptionEvent",
+]
