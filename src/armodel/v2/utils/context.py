@@ -57,3 +57,18 @@ class DeserializationContext:
     def get_path(self) -> str:
         """Get current element path string."""
         return "/".join(self._current_path)
+
+    def map_attribute_to_field(self, model_class: type, attr_name: str) -> str:
+        """Map XML attribute name to model class field name.
+
+        Args:
+            model_class: The model class
+            attr_name: The XML attribute name (kebab-case)
+
+        Returns:
+            The field name in snake_case
+        """
+        # Convert kebab-case to snake_case
+        # XML attributes use kebab-case (e.g., "some-attr")
+        # Python fields use snake_case (e.g., "some_attr")
+        return attr_name.lower().replace("-", "_")
