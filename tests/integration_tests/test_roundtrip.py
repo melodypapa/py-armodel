@@ -328,7 +328,11 @@ class TestRoundTrip:
 
                 # Find first differing line
                 for i, (orig_line, gen_line) in enumerate(zip(original_lines, generated_lines)):
-                    if orig_line != gen_line:
+                    # Normalize XML entities for comparison (minidom converts &quot; to ")
+                    orig_normalized = orig_line.replace('&quot;', '"').replace('&apos;', "'").replace('&lt;', '<').replace('&gt;', '>').replace('&amp;', '&')
+                    gen_normalized = gen_line.replace('&quot;', '"').replace('&apos;', "'").replace('&lt;', '<').replace('&gt;', '>').replace('&amp;', '&')
+
+                    if orig_normalized != gen_normalized:
                         # Show context around the difference
                         context_start = max(0, i - 2)
                         context_end = min(len(original_lines), i + 3)
@@ -346,8 +350,8 @@ class TestRoundTrip:
 
                         raise AssertionError(
                             f"File content mismatch at line {i + 1}:\n"
-                            f"  Original: {orig_line.rstrip()}\n"
-                            f"  Generated: {gen_line.rstrip()}\n"
+                            f"  Original: {orig_normalized.rstrip()}\n"
+                            f"  Generated: {gen_normalized.rstrip()}\n"
                             f"  Context:\n" + "\n".join(diff_context)
                         )
 

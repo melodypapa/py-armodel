@@ -10,9 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     NameToken,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
@@ -21,27 +18,48 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 
 
-
-
-class Collection(ARElement):
+class AutoCollectEnum(AREnum):
     """
-    that Collection is an ARElement. Therefore it is applicable e.g. for
-    EvaluatedVariant, even if this is not obvious. Usually the category of a
-    Collection is "SET". On the other hand, a Collection can also express an
-    arbitrary relationship between elements. This is denoted by the category
-    "RELATION" (see also [TPS_GST_00347]). In this case the collection
-    represents an association from "sourceElement" to "targetElement" in the
-    role "role".
-    
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection::Collection
-    
+    AutoCollectEnum enumeration
+
+This enumerator defines the possible approaches to determine the final set of elements in a collection. Aggregated by Collection.autoCollect
+
+Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
+    """
+
+    def __init__(self) -> None:
+        super().__init__([
+            AutoCollectEnum.REF_ALL,
+            AutoCollectEnum.REF_NONE,
+            AutoCollectEnum.REF_NON_STANDARD,
+        ])
+
+    # All objects being referenced (recursively) from the objects mentioned directly in the collection are also considered as part of the collection.
+    REF_ALL = "0"
+
+    # This indicates that only those objects mentioned directly in the collection are part of the collection. No other objects are considered further.
+    REF_NONE = "1"
+
+    # This indicates that non standard objects ([TPS_GST_00088]) referenced (recursively) by the objects mentioned directly in the collection are also considered to be part of the collection.
+    REF_NON_STANDARD = "2"
+
+
+class CollectableElement(Identifiable, ABC):
+    """
+    This meta-class specifies the ability to be part of a specific AUTOSAR
+    collection of ARPackages or ARElements. The scope of collection has been
+    extended beyond CollectableElement with Revision 4.0.3. For compatibility
+    reasons the name of this meta Class was not changed.
+
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
+
     Sources:
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2009, Classic Platform R23-11)
-      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 398, Foundation
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 399, Foundation
       R23-11)
-      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 175, Foundation R23-11)
     """
     def __init__(self):
+        if type(self) is CollectableElement:
+            raise TypeError("CollectableElement is an abstract class.")
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
