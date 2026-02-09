@@ -3,6 +3,7 @@ ARXML Writer for V2 models.
 """
 import sys
 import xml.etree.ElementTree as ET
+from typing import Any, Optional
 
 from armodel.v2.models.models import (
     AUTOSAR,
@@ -12,6 +13,38 @@ from armodel.v2.models.models import (
 
 class ARXMLWriter:
     """Writer for ARXML files."""
+
+    def __init__(self, options: Optional[dict] = None) -> None:
+        """
+        Initialize the ARXML writer.
+
+        Args:
+            options: Optional writer configuration
+        """
+        self.options = options or {}
+        self.format = self.options.get("format", True)
+
+    def _to_primitive_value(self, value: Any) -> Optional[str]:
+        """
+        Convert AUTOSAR primitive type objects to their string values.
+
+        Args:
+            value: The value to convert (can be Identifier, String, etc. or a plain str)
+
+        Returns:
+            The string value, or None if value is None
+        """
+        if value is None:
+            return None
+
+        # Check if it's an AUTOSAR primitive type (has getValue method or value property)
+        if hasattr(value, 'getValue'):
+            return value.getValue()
+        elif hasattr(value, 'value'):
+            return str(value.value) if value.value is not None else None
+        else:
+            # Plain string or other type
+            return str(value) if value else None
 
     def save(self, file_path: str, document: AUTOSAR) -> None:
         """
@@ -36,7 +69,7 @@ class ARXMLWriter:
         tree = ET.ElementTree(root)
 
         # Format XML with indentation (Python 3.9+ has ET.indent)
-        if sys.version_info >= (3, 9):
+        if sys.version_info >= (3, 9) and self.format:
             ET.indent(tree, space="  ")
 
         tree.write(file_path, encoding="utf-8", xml_declaration=True)
@@ -45,10 +78,10 @@ class ARXMLWriter:
         """Serialize ARPackage to XML element."""
         pkg_elem = ET.SubElement(parent, "AR-PACKAGE")
 
-        # Add SHORT-NAME
+        # Add SHORT-NAME (convert Identifier to string if needed)
         if pkg.short_name:
             short_name_elem = ET.SubElement(pkg_elem, "SHORT-NAME")
-            short_name_elem.text = pkg.short_name
+            short_name_elem.text = self._to_primitive_value(pkg.short_name)
 
         # Add nested AR-PACKAGES
         if pkg.ar_packages:

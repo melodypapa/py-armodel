@@ -121,7 +121,9 @@ def run_command(
 
         if result.returncode == 0:
             print_success("OK")
-            return True, result.stdout
+            # Combine stdout and stderr for parsing (pytest outputs to stderr in quiet mode)
+            output = result.stdout + result.stderr
+            return True, output
         else:
             print_error("FAILED")
             if not verbose and result.stderr:
