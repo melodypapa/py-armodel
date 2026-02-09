@@ -717,9 +717,17 @@ class TestIdentifiable:
 
     def test_annotation_property_initialization(self):
         """Test annotation property initialization."""
+        class ConcreteIdentifiable(Identifiable):
+            """Concrete implementation for testing."""
+
+            def __init__(self):
+                super().__init__()
+
+        # Create an instance
+        obj = ConcreteIdentifiable()
         # Access the property to trigger initialization
-        _ = self.obj.annotation
-        assert self.obj.annotation == []
+        _ = obj.annotation
+        assert obj.annotation == []
 
     def test_inherited_from_multilanguage_referrable(self):
         """Test that Identifiable inherits from MultilanguageReferrable."""

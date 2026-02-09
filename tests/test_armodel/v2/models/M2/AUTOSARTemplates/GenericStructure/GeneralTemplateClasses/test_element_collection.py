@@ -25,25 +25,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.CollectableElement import (
     CollectableElement,
 )
-
-# AutoCollectEnum is defined in ElementCollection.py file
-# We'll import it dynamically to avoid circular import issues
-AutoCollectEnum = None
-try:
-    import importlib
-    import sys
-    import os
-    
-    # Get the path to the ElementCollection.py file
-    module_path = os.path.join(os.path.dirname(__file__), '../../../../../../src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses')
-    sys.path.insert(0, module_path)
-    
-    # Import the module directly
-    ElementCollectionModule = importlib.import_module('ElementCollection')
-    AutoCollectEnum = ElementCollectionModule.AutoCollectEnum
-except Exception:
-    # If import fails, we'll skip AutoCollectEnum tests
-    pass
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    AutoCollectEnum,
+)
 
 
 class TestCollection:
@@ -347,18 +331,21 @@ class TestAutoCollectEnum:
 
     @pytest.mark.skipif(AutoCollectEnum is None, reason="AutoCollectEnum import failed due to circular import")
     def test_auto_collect_enum_ref_all_is_instance(self):
-        """Test that AutoCollectEnum.refAll is an instance of AutoCollectEnum."""
-        assert isinstance(AutoCollectEnum.refAll, AutoCollectEnum)
+        """Test that AutoCollectEnum.refAll is a string value."""
+        assert isinstance(AutoCollectEnum.refAll, str)
+        assert AutoCollectEnum.refAll == "0"
 
     @pytest.mark.skipif(AutoCollectEnum is None, reason="AutoCollectEnum import failed due to circular import")
     def test_auto_collect_enum_ref_none_is_instance(self):
-        """Test that AutoCollectEnum.refNone is an instance of AutoCollectEnum."""
-        assert isinstance(AutoCollectEnum.refNone, AutoCollectEnum)
+        """Test that AutoCollectEnum.refNone is a string value."""
+        assert isinstance(AutoCollectEnum.refNone, str)
+        assert AutoCollectEnum.refNone == "1"
 
     @pytest.mark.skipif(AutoCollectEnum is None, reason="AutoCollectEnum import failed due to circular import")
     def test_auto_collect_enum_ref_non_standard_is_instance(self):
-        """Test that AutoCollectEnum.refNonStandard is an instance of AutoCollectEnum."""
-        assert isinstance(AutoCollectEnum.refNonStandard, AutoCollectEnum)
+        """Test that AutoCollectEnum.refNonStandard is a string value."""
+        assert isinstance(AutoCollectEnum.refNonStandard, str)
+        assert AutoCollectEnum.refNonStandard == "2"
 
     @pytest.mark.skipif(AutoCollectEnum is None, reason="AutoCollectEnum import failed due to circular import")
     def test_auto_collect_enum_enum_values_are_unique(self):

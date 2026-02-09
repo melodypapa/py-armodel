@@ -441,6 +441,22 @@ class NameToken(ARLiteral):
     def __init__(self):
         super().__init__()
 
+    def __eq__(self, other):
+        """
+        Compare NameToken with other objects.
+
+        Args:
+            other: The object to compare with
+
+        Returns:
+            True if the other object is a NameToken with the same value or a string matching the value
+        """
+        if isinstance(other, NameToken):
+            return self._value == other._value
+        elif isinstance(other, str):
+            return self._value == other
+        return False
+
 
 class PositiveInteger(ARPositiveInteger):
     r'''\n
@@ -529,6 +545,22 @@ class Identifier(ARLiteral):
     '''
     def __init__(self):
         super().__init__()
+
+    def __eq__(self, other):
+        """
+        Compare Identifier with other objects.
+
+        Args:
+            other: The object to compare with
+
+        Returns:
+            True if the other object is an Identifier with the same value or a string matching the value
+        """
+        if isinstance(other, Identifier):
+            return self._value == other._value
+        elif isinstance(other, str):
+            return self._value == other
+        return False
 
 
 class CIdentifier(ARLiteral):
