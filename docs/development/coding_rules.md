@@ -331,17 +331,20 @@ def add_subpackage(self, pkg: "AutosarPackage") -> None:
 
 **Maturity**: accept
 
-**Use Python 3.10+ syntax** with `|` for union types:
+**Use `typing.Union` for Python 3.7+ compatibility** (project requires >= 3.7):
 
 ```python
-# Preferred (Python 3.10+):
-def get_class(self, name: str) -> AutosarClass | None:
+# Required (Python 3.7+ compatibility):
+from typing import Union, Optional
+
+def get_class(self, name: str) -> Optional[AutosarClass]:
     """Get a class by name."""
 
-# Not preferred (old style):
-# from typing import Optional
-# def get_class(self, name: str) -> Optional[AutosarClass]:
+def get_value(self) -> Union[str, int]:
+    """Get value which can be string or int."""
 ```
+
+**Note**: The `X | Y` syntax is only available in Python 3.10+ and should NOT be used since the project requires Python >= 3.7.
 
 ### CODING_RULE_TYPE_00003: Collection Types
 
