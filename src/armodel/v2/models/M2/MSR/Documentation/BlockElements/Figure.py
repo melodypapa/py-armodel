@@ -107,33 +107,33 @@ class Area(ARObject):
                 f"alt must be String or str or None, got {type(value).__name__}"
             )
         self._alt = value
-        self._class: Optional["String"] = None
+        self._class_name: Optional["String"] = None
 
     @property
-    def class(self) -> Optional["String"]:
-        """Get class (Pythonic accessor)."""
-        return self._class
+    def class_name(self) -> Optional["String"]:
+        """Get class_name (Pythonic accessor)."""
+        return self._class_name
 
-    @class.setter
-    def class(self, value: Optional["String"]) -> None:
+    @class_name.setter
+    def class_name(self, value: Optional["String"]) -> None:
         """
-        Set class with validation.
+        Set class_name with validation.
         
         Args:
-            value: The class to set
+            value: The class_name to set
         
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
-            self._class = None
+            self._class_name = None
             return
 
         if not isinstance(value, (String, str)):
             raise TypeError(
-                f"class must be String or str or None, got {type(value).__name__}"
+                f"class_name must be String or str or None, got {type(value).__name__}"
             )
-        self._class = value
+        self._class_name = value
         # their order depend on figure defined.
         self._coords: Optional["String"] = None
 
@@ -755,24 +755,24 @@ class Area(ARObject):
             The class value
         
         Note:
-            Delegates to class property (CODING_RULE_V2_00017)
+            Delegates to class_name property (CODING_RULE_V2_00017)
         """
-        return self.class  # Delegates to property
+        return self.class_name  # Delegates to property
 
     def setClass(self, value: "String") -> "Area":
         """
-        AUTOSAR-compliant setter for class with method chaining.
-        
+        AUTOSAR-compliant setter for class_name with method chaining.
+
         Args:
-            value: The class to set
-        
+            value: The class_name to set
+
         Returns:
             self for method chaining
-        
+
         Note:
-            Delegates to class property setter (gets validation automatically)
+            Delegates to class_name property setter (gets validation automatically)
         """
-        self.class = value  # Delegates to property setter
+        self.class_name = value  # Delegates to property setter
         return self
 
     def getCoords(self) -> "String":
@@ -1341,20 +1341,20 @@ class Area(ARObject):
         self.alt = value  # Use property setter (gets validation)
         return self
 
-    def with_class(self, value: Optional["String"]) -> "Area":
+    def with_class_name(self, value: Optional["String"]) -> "Area":
         """
-        Set class and return self for chaining.
+        Set class_name and return self for chaining.
         
         Args:
-            value: The class to set
+            value: The class_name to set
         
         Returns:
             self for method chaining
         
         Example:
-            >>> obj.with_class("value")
+            >>> obj.with_class_name("value")
         """
-        self.class = value  # Use property setter (gets validation)
+        self.class_name = value  # Use property setter (gets validation)
         return self
 
     def with_coords(self, value: Optional["String"]) -> "Area":
@@ -2827,33 +2827,33 @@ class Map(ARObject):
         # Any number of elements may be assigned class name or set of class names.
         # Multiple shall be separated by white space names are typically used to apply
                 # CSS to an element.
-        self._class: Optional["String"] = None
+        self._class_name: Optional["String"] = None
 
     @property
-    def class(self) -> Optional["String"]:
-        """Get class (Pythonic accessor)."""
-        return self._class
+    def class_name(self) -> Optional["String"]:
+        """Get class_name (Pythonic accessor)."""
+        return self._class_name
 
-    @class.setter
-    def class(self, value: Optional["String"]) -> None:
+    @class_name.setter
+    def class_name(self, value: Optional["String"]) -> None:
         """
-        Set class with validation.
+        Set class_name with validation.
         
         Args:
-            value: The class to set
+            value: The class_name to set
         
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
-            self._class = None
+            self._class_name = None
             return
 
         if not isinstance(value, (String, str)):
             raise TypeError(
-                f"class must be String or str or None, got {type(value).__name__}"
+                f"class_name must be String or str or None, got {type(value).__name__}"
             )
-        self._class = value
+        self._class_name = value
                 # to be referenced in image through the attribute USEMAP.
         # Although not actually necessary in the MSR model, it was order to support the
                 # MAPs which were created.
@@ -3237,24 +3237,24 @@ class Map(ARObject):
             The class value
         
         Note:
-            Delegates to class property (CODING_RULE_V2_00017)
+            Delegates to class_name property (CODING_RULE_V2_00017)
         """
-        return self.class  # Delegates to property
+        return self.class_name  # Delegates to property
 
     def setClass(self, value: "String") -> "Map":
         """
-        AUTOSAR-compliant setter for class with method chaining.
-        
+        AUTOSAR-compliant setter for class_name with method chaining.
+
         Args:
-            value: The class to set
-        
+            value: The class_name to set
+
         Returns:
             self for method chaining
-        
+
         Note:
-            Delegates to class property setter (gets validation automatically)
+            Delegates to class_name property setter (gets validation automatically)
         """
-        self.class = value  # Delegates to property setter
+        self.class_name = value  # Delegates to property setter
         return self
 
     def getName(self) -> "NameToken":
@@ -3611,20 +3611,20 @@ class Map(ARObject):
         self.area = value  # Use property setter (gets validation)
         return self
 
-    def with_class(self, value: Optional["String"]) -> "Map":
+    def with_class_name(self, value: Optional["String"]) -> "Map":
         """
-        Set class and return self for chaining.
+        Set class_name and return self for chaining.
         
         Args:
-            value: The class to set
+            value: The class_name to set
         
         Returns:
             self for method chaining
         
         Example:
-            >>> obj.with_class("value")
+            >>> obj.with_class_name("value")
         """
-        self.class = value  # Use property setter (gets validation)
+        self.class_name = value  # Use property setter (gets validation)
         return self
 
     def with_name(self, value: Optional["NameToken"]) -> "Map":

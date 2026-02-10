@@ -1,10 +1,9 @@
 from typing import List
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucContainerDef,
 )
-
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 

@@ -1100,33 +1100,33 @@ class BswEntryRelationship(ARObject):
             )
         self._bswEntry = value
         # this case the bswEntry be set to drivedFrom.
-        self._from: Optional["BswModuleEntry"] = None
+        self._from_module: Optional["BswModuleEntry"] = None
 
     @property
-    def from(self) -> Optional["BswModuleEntry"]:
-        """Get from (Pythonic accessor)."""
-        return self._from
+    def from_module(self) -> Optional["BswModuleEntry"]:
+        """Get from_module (Pythonic accessor)."""
+        return self._from_module
 
-    @from.setter
-    def from(self, value: Optional["BswModuleEntry"]) -> None:
+    @from_module.setter
+    def from_module(self, value: Optional["BswModuleEntry"]) -> None:
         """
-        Set from with validation.
+        Set from_module with validation.
         
         Args:
-            value: The from to set
+            value: The from_module to set
         
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
-            self._from = None
+            self._from_module = None
             return
 
         if not isinstance(value, BswModuleEntry):
             raise TypeError(
-                f"from must be BswModuleEntry or None, got {type(value).__name__}"
+                f"from_module must be BswModuleEntry or None, got {type(value).__name__}"
             )
-        self._from = value
+        self._from_module = value
         self._to: Optional["BswModuleEntry"] = None
 
     @property
@@ -1187,30 +1187,30 @@ class BswEntryRelationship(ARObject):
 
     def getFrom(self) -> "BswModuleEntry":
         """
-        AUTOSAR-compliant getter for from.
-        
+        AUTOSAR-compliant getter for from_module.
+
         Returns:
-            The from value
-        
+            The from_module value
+
         Note:
-            Delegates to from property (CODING_RULE_V2_00017)
+            Delegates to from_module property (CODING_RULE_V2_00017)
         """
-        return self.from  # Delegates to property
+        return self.from_module  # Delegates to property
 
     def setFrom(self, value: "BswModuleEntry") -> "BswEntryRelationship":
         """
-        AUTOSAR-compliant setter for from with method chaining.
-        
+        AUTOSAR-compliant setter for from_module with method chaining.
+
         Args:
-            value: The from to set
-        
+            value: The from_module to set
+
         Returns:
             self for method chaining
-        
+
         Note:
-            Delegates to from property setter (gets validation automatically)
+            Delegates to from_module property setter (gets validation automatically)
         """
-        self.from = value  # Delegates to property setter
+        self.from_module = value  # Delegates to property setter
         return self
 
     def getTo(self) -> "BswModuleEntry":
@@ -1259,20 +1259,20 @@ class BswEntryRelationship(ARObject):
         self.bsw_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_from(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
+    def with_from_module(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
         """
-        Set from and return self for chaining.
-        
+        Set from_module and return self for chaining.
+
         Args:
-            value: The from to set
-        
+            value: The from_module to set
+
         Returns:
             self for method chaining
-        
+
         Example:
-            >>> obj.with_from("value")
+            >>> obj.with_from_module("value")
         """
-        self.from = value  # Use property setter (gets validation)
+        self.from_module = value  # Use property setter (gets validation)
         return self
 
     def with_to(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
