@@ -1,5 +1,43 @@
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    String,
+)
+from armodel.v2.models.M2.MSR.Documentation.ChapterContent import (
+    ChapterContent,
+)
+from armodel.v2.models.M2.MSR.Documentation.ChapterOrMsrQuery import (
+    ChapterOrMsrQuery,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFigure import (
+    MlFigure,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFormula import (
+    MlFormula,
+)
+from armodel.v2.models.M2.MSR.Documentation.MsrQueryP2 import (
+    MsrQueryP2,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultiLanguageVerbatim import (
+    MultiLanguageVerbatim,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.Note import (
+    Note,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.StructuredReq import (
+    StructuredReq,
+)
+from armodel.v2.models.M2.MSR.Documentation.TopicOrMsrQuery import (
+    TopicOrMsrQuery,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.TraceableText import (
+    TraceableText,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.Paginateable import (
+    Paginateable,
+)
+from armodel.v2.models.M2.MSR.Documentation.ChapterModel import ChapterModel
+
 
 class Chapter(Paginateable):
     """
@@ -14,22 +52,22 @@ class Chapter(Paginateable):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 329, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the overall contents of the chapter.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._chapterModel: "ChapterModel" = None
+        self._chapterModel: Optional["ChapterModel"] = None
 
     @property
-    def chapter_model(self) -> "ChapterModel":
+    def chapter_model(self) -> Optional["ChapterModel"]:
         """Get chapterModel (Pythonic accessor)."""
         return self._chapterModel
 
     @chapter_model.setter
-    def chapter_model(self, value: "ChapterModel") -> None:
+    def chapter_model(self, value: Optional["ChapterModel"]) -> None:
         """
         Set chapterModel with validation.
 
@@ -39,9 +77,13 @@ class Chapter(Paginateable):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._chapterModel = None
+            return
+
         if not isinstance(value, ChapterModel):
             raise TypeError(
-                f"chapterModel must be ChapterModel, got {type(value).__name__}"
+                f"chapterModel must be ChapterModel or None, got {type(value).__name__}"
             )
         self._chapterModel = value
                 # class.
@@ -77,7 +119,7 @@ class Chapter(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChapterModel(self) -> "ChapterModel":
+    def getChapterModel(self) -> Optional["ChapterModel"]:
         """
         AUTOSAR-compliant getter for chapterModel.
 
@@ -89,7 +131,7 @@ class Chapter(Paginateable):
         """
         return self.chapter_model  # Delegates to property
 
-    def setChapterModel(self, value: "ChapterModel") -> "Chapter":
+    def setChapterModel(self, value: Optional["ChapterModel"]) -> "Chapter":
         """
         AUTOSAR-compliant setter for chapterModel with method chaining.
 
@@ -105,7 +147,7 @@ class Chapter(Paginateable):
         self.chapter_model = value  # Delegates to property setter
         return self
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> Optional["String"]:
         """
         AUTOSAR-compliant getter for helpEntry.
 
@@ -117,7 +159,7 @@ class Chapter(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> "Chapter":
+    def setHelpEntry(self, value: Optional["String"]) -> "Chapter":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -135,7 +177,7 @@ class Chapter(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_chapter_model(self, value: "ChapterModel") -> "Chapter":
+    def with_chapter_model(self, value: Optional["ChapterModel"]) -> "Chapter":
         """
         Set chapterModel and return self for chaining.
 

@@ -1,6 +1,10 @@
 from abc import ABC
 from typing import Optional
 
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.DocumentViewSelectable import (
+    DocumentViewSelectable,
+)
+
 
 class Paginateable(DocumentViewSelectable, ABC):
     """

@@ -1,8 +1,11 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.MSR.Documentation.MsrQueryProps import (
+    MsrQueryProps,
+)
 
 
 class MsrQueryP2(ARObject):
@@ -68,7 +71,7 @@ class MsrQueryP2(ARObject):
             self._msrQueryResult = None
             return
 
-        if not isinstance(value, DocumentationBlock):
+        if value.__class__.__name__ != "DocumentationBlock":
             raise TypeError(
                 f"msrQueryResult must be DocumentationBlock or None, got {type(value).__name__}"
             )

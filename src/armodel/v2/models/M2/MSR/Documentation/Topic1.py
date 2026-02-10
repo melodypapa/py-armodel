@@ -1,5 +1,42 @@
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    String,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFigure import (
+    MlFigure,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFormula import (
+    MlFormula,
+)
+from armodel.v2.models.M2.MSR.Documentation.MsrQueryP1 import (
+    MsrQueryP1,
+)
+from armodel.v2.models.M2.MSR.Documentation.MsrQueryP2 import (
+    MsrQueryP2,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultiLanguageVerbatim import (
+    MultiLanguageVerbatim,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.Note import (
+    Note,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.StructuredReq import (
+    StructuredReq,
+)
+from armodel.v2.models.M2.MSR.Documentation.TopicContent import (
+    TopicContent,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.TraceableText import (
+    TraceableText,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.Paginateable import (
+    Paginateable,
+)
+from armodel.v2.models.M2.MSR.Documentation.TopicContentOrMsrQuery import (
+    TopicContentOrMsrQuery,
+)
+
 
 class Topic1(Paginateable):
     """
@@ -14,7 +51,7 @@ class Topic1(Paginateable):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 338, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
@@ -48,15 +85,15 @@ class Topic1(Paginateable):
                 f"helpEntry must be String or None, got {type(value).__name__}"
             )
         self._helpEntry = value
-        self._topicContent: Optional["TopicContentOrMsr"] = None
+        self._topicContent: Optional["TopicContentOrMsrQuery"] = None
 
     @property
-    def topic_content(self) -> Optional["TopicContentOrMsr"]:
+    def topic_content(self) -> Optional["TopicContentOrMsrQuery"]:
         """Get topicContent (Pythonic accessor)."""
         return self._topicContent
 
     @topic_content.setter
-    def topic_content(self, value: Optional["TopicContentOrMsr"]) -> None:
+    def topic_content(self, value: Optional["TopicContentOrMsrQuery"]) -> None:
         """
         Set topicContent with validation.
 
@@ -70,15 +107,15 @@ class Topic1(Paginateable):
             self._topicContent = None
             return
 
-        if not isinstance(value, TopicContentOrMsr):
+        if not isinstance(value, TopicContentOrMsrQuery):
             raise TypeError(
-                f"topicContent must be TopicContentOrMsr or None, got {type(value).__name__}"
+                f"topicContent must be TopicContentOrMsrQuery or None, got {type(value).__name__}"
             )
         self._topicContent = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> Optional["String"]:
         """
         AUTOSAR-compliant getter for helpEntry.
 
@@ -90,7 +127,7 @@ class Topic1(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> "Topic1":
+    def setHelpEntry(self, value: Optional["String"]) -> "Topic1":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -106,7 +143,7 @@ class Topic1(Paginateable):
         self.help_entry = value  # Delegates to property setter
         return self
 
-    def getTopicContent(self) -> "TopicContentOrMsr":
+    def getTopicContent(self) -> Optional["TopicContentOrMsrQuery"]:
         """
         AUTOSAR-compliant getter for topicContent.
 
@@ -118,7 +155,7 @@ class Topic1(Paginateable):
         """
         return self.topic_content  # Delegates to property
 
-    def setTopicContent(self, value: "TopicContentOrMsr") -> "Topic1":
+    def setTopicContent(self, value: Optional["TopicContentOrMsrQuery"]) -> "Topic1":
         """
         AUTOSAR-compliant setter for topicContent with method chaining.
 
@@ -152,7 +189,7 @@ class Topic1(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_topic_content(self, value: Optional["TopicContentOrMsr"]) -> "Topic1":
+    def with_topic_content(self, value: Optional["TopicContentOrMsrQuery"]) -> "Topic1":
         """
         Set topicContent and return self for chaining.
 
