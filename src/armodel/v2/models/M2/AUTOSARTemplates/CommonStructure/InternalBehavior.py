@@ -27,9 +27,9 @@ class InternalBehavior(Identifiable, ABC):
     """
     Common base class (abstract) for the internal behavior of both software
     components and basic software modules/clusters.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::InternalBehavior
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 64, Classic
       Platform R23-11)
@@ -253,10 +253,10 @@ class InternalBehavior(Identifiable, ABC):
     def getConstant(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for constant.
-        
+
         Returns:
             The constant value
-        
+
         Note:
             Delegates to constant property (CODING_RULE_V2_00017)
         """
@@ -265,10 +265,10 @@ class InternalBehavior(Identifiable, ABC):
     def getConstantValue(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for constantValue.
-        
+
         Returns:
             The constantValue value
-        
+
         Note:
             Delegates to constant_value property (CODING_RULE_V2_00017)
         """
@@ -277,10 +277,10 @@ class InternalBehavior(Identifiable, ABC):
     def getDataType(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -289,10 +289,10 @@ class InternalBehavior(Identifiable, ABC):
     def getExclusiveArea(self) -> List["ExclusiveAreaNesting"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -301,10 +301,10 @@ class InternalBehavior(Identifiable, ABC):
     def getStaticMemory(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for staticMemory.
-        
+
         Returns:
             The staticMemory value
-        
+
         Note:
             Delegates to static_memory property (CODING_RULE_V2_00017)
         """
@@ -317,9 +317,9 @@ class InternalBehavior(Identifiable, ABC):
 class ExecutableEntity(Identifiable, ABC):
     """
     Abstraction of executable code.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExecutableEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 70, Classic
       Platform R23-11)
@@ -375,10 +375,10 @@ class ExecutableEntity(Identifiable, ABC):
     def minimum_start(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumStart with validation.
-        
+
         Args:
             value: The minimumStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -405,10 +405,10 @@ class ExecutableEntity(Identifiable, ABC):
     def reentrancy_level(self, value: Optional["ReentrancyLevelEnum"]) -> None:
         """
         Set reentrancyLevel with validation.
-        
+
         Args:
             value: The reentrancyLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -443,10 +443,10 @@ class ExecutableEntity(Identifiable, ABC):
     def sw_addr_method(self, value: Optional["SwAddrMethod"]) -> None:
         """
         Set swAddrMethod with validation.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -465,10 +465,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getActivation(self) -> List["ExecutableEntity"]:
         """
         AUTOSAR-compliant getter for activation.
-        
+
         Returns:
             The activation value
-        
+
         Note:
             Delegates to activation property (CODING_RULE_V2_00017)
         """
@@ -477,10 +477,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getCanEnter(self) -> List["ExclusiveArea"]:
         """
         AUTOSAR-compliant getter for canEnter.
-        
+
         Returns:
             The canEnter value
-        
+
         Note:
             Delegates to can_enter property (CODING_RULE_V2_00017)
         """
@@ -489,10 +489,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getExclusiveArea(self) -> List["ExclusiveAreaNesting"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -501,10 +501,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getMinimumStart(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumStart.
-        
+
         Returns:
             The minimumStart value
-        
+
         Note:
             Delegates to minimum_start property (CODING_RULE_V2_00017)
         """
@@ -513,13 +513,13 @@ class ExecutableEntity(Identifiable, ABC):
     def setMinimumStart(self, value: "TimeValue") -> "ExecutableEntity":
         """
         AUTOSAR-compliant setter for minimumStart with method chaining.
-        
+
         Args:
             value: The minimumStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_start property setter (gets validation automatically)
         """
@@ -529,10 +529,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getReentrancyLevel(self) -> "ReentrancyLevelEnum":
         """
         AUTOSAR-compliant getter for reentrancyLevel.
-        
+
         Returns:
             The reentrancyLevel value
-        
+
         Note:
             Delegates to reentrancy_level property (CODING_RULE_V2_00017)
         """
@@ -541,13 +541,13 @@ class ExecutableEntity(Identifiable, ABC):
     def setReentrancyLevel(self, value: "ReentrancyLevelEnum") -> "ExecutableEntity":
         """
         AUTOSAR-compliant setter for reentrancyLevel with method chaining.
-        
+
         Args:
             value: The reentrancyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reentrancy_level property setter (gets validation automatically)
         """
@@ -557,10 +557,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getRunsInside(self) -> List["ExclusiveArea"]:
         """
         AUTOSAR-compliant getter for runsInside.
-        
+
         Returns:
             The runsInside value
-        
+
         Note:
             Delegates to runs_inside property (CODING_RULE_V2_00017)
         """
@@ -569,10 +569,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getSwAddrMethod(self) -> "SwAddrMethod":
         """
         AUTOSAR-compliant getter for swAddrMethod.
-        
+
         Returns:
             The swAddrMethod value
-        
+
         Note:
             Delegates to sw_addr_method property (CODING_RULE_V2_00017)
         """
@@ -581,13 +581,13 @@ class ExecutableEntity(Identifiable, ABC):
     def setSwAddrMethod(self, value: "SwAddrMethod") -> "ExecutableEntity":
         """
         AUTOSAR-compliant setter for swAddrMethod with method chaining.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_addr_method property setter (gets validation automatically)
         """
@@ -599,13 +599,13 @@ class ExecutableEntity(Identifiable, ABC):
     def with_minimum_start(self, value: Optional["TimeValue"]) -> "ExecutableEntity":
         """
         Set minimumStart and return self for chaining.
-        
+
         Args:
             value: The minimumStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_start("value")
         """
@@ -615,13 +615,13 @@ class ExecutableEntity(Identifiable, ABC):
     def with_reentrancy_level(self, value: Optional["ReentrancyLevelEnum"]) -> "ExecutableEntity":
         """
         Set reentrancyLevel and return self for chaining.
-        
+
         Args:
             value: The reentrancyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reentrancy_level("value")
         """
@@ -631,13 +631,13 @@ class ExecutableEntity(Identifiable, ABC):
     def with_sw_addr_method(self, value: Optional["SwAddrMethod"]) -> "ExecutableEntity":
         """
         Set swAddrMethod and return self for chaining.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_addr_method("value")
         """
@@ -649,9 +649,9 @@ class ExecutableEntity(Identifiable, ABC):
 class ExclusiveArea(Identifiable):
     """
     Prevents an executable entity running in the area from being preempted.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExclusiveArea
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 82, Classic
       Platform R23-11)
@@ -674,9 +674,9 @@ class ExclusiveAreaNestingOrder(Referrable):
     This meta-class represents the ability to define a nesting order of
     ExclusiveAreas. A nesting order (that may occur in the executable code) is
     formally defined to be able to analyze the resource locking behavior.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExclusiveAreaNestingOrder
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 84, Classic
       Platform R23-11)
@@ -701,10 +701,10 @@ class ExclusiveAreaNestingOrder(Referrable):
     def getExclusiveArea(self) -> List["ExclusiveArea"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -718,9 +718,9 @@ class ExecutableEntityActivationReason(ImplementationProps):
     """
     This meta-class represents the ability to define the reason for the
     activation of the enclosing Executable Entity.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExecutableEntityActivationReason
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 315, Classic
       Platform R23-11)
@@ -743,10 +743,10 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def bit_position(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitPosition with validation.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -765,10 +765,10 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def getBitPosition(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitPosition.
-        
+
         Returns:
             The bitPosition value
-        
+
         Note:
             Delegates to bit_position property (CODING_RULE_V2_00017)
         """
@@ -777,13 +777,13 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def setBitPosition(self, value: "PositiveInteger") -> "ExecutableEntityActivationReason":
         """
         AUTOSAR-compliant setter for bitPosition with method chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_position property setter (gets validation automatically)
         """
@@ -795,13 +795,13 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def with_bit_position(self, value: Optional["PositiveInteger"]) -> "ExecutableEntityActivationReason":
         """
         Set bitPosition and return self for chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_position("value")
         """
@@ -814,9 +814,9 @@ class AbstractEvent(Identifiable, ABC):
     """
     This meta-class represents the abstract ability to model an event that can
     be taken to implement application software or basic software in AUTOSAR.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::AbstractEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 541, Classic Platform
       R23-11)
@@ -842,10 +842,10 @@ class AbstractEvent(Identifiable, ABC):
     def activation(self, value: Optional["ExecutableEntity"]) -> None:
         """
         Set activation with validation.
-        
+
         Args:
             value: The activation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -864,10 +864,10 @@ class AbstractEvent(Identifiable, ABC):
     def getActivation(self) -> "ExecutableEntity":
         """
         AUTOSAR-compliant getter for activation.
-        
+
         Returns:
             The activation value
-        
+
         Note:
             Delegates to activation property (CODING_RULE_V2_00017)
         """
@@ -876,13 +876,13 @@ class AbstractEvent(Identifiable, ABC):
     def setActivation(self, value: "ExecutableEntity") -> "AbstractEvent":
         """
         AUTOSAR-compliant setter for activation with method chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to activation property setter (gets validation automatically)
         """
@@ -894,13 +894,13 @@ class AbstractEvent(Identifiable, ABC):
     def with_activation(self, value: Optional["ExecutableEntity"]) -> "AbstractEvent":
         """
         Set activation and return self for chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_activation("value")
         """

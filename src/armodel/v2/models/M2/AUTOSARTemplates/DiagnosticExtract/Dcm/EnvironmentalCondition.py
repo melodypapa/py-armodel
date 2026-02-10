@@ -31,9 +31,9 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     condition which is evaluated during runtime of the ECU by looking at
     "environmental" states (e.g. one such condition is that the vehicle is not
     driving, i.e. vehicle speed == 0).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvironmentalCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 79, Classic Platform
       R23-11)
@@ -54,10 +54,10 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def formula(self, value: Optional["DiagnosticEnvCondition"]) -> None:
         """
         Set formula with validation.
-        
+
         Args:
             value: The formula to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def getFormula(self) -> "DiagnosticEnvCondition":
         """
         AUTOSAR-compliant getter for formula.
-        
+
         Returns:
             The formula value
-        
+
         Note:
             Delegates to formula property (CODING_RULE_V2_00017)
         """
@@ -95,13 +95,13 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def setFormula(self, value: "DiagnosticEnvCondition") -> "DiagnosticEnvironmentalCondition":
         """
         AUTOSAR-compliant setter for formula with method chaining.
-        
+
         Args:
             value: The formula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to formula property setter (gets validation automatically)
         """
@@ -111,10 +111,10 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def getModeElement(self) -> List["DiagnosticEnvMode"]:
         """
         AUTOSAR-compliant getter for modeElement.
-        
+
         Returns:
             The modeElement value
-        
+
         Note:
             Delegates to mode_element property (CODING_RULE_V2_00017)
         """
@@ -125,13 +125,13 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def with_formula(self, value: Optional["DiagnosticEnvCondition"]) -> "DiagnosticEnvironmentalCondition":
         """
         Set formula and return self for chaining.
-        
+
         Args:
             value: The formula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_formula("value")
         """
@@ -145,9 +145,9 @@ class DiagnosticEnvConditionFormulaPart(ARObject, ABC):
     A DiagnosticEnvConditionFormulaPart can either be a atomic condition, e.g. a
     DiagnosticEnvCompare Condition, or a DiagnosticEnvConditionFormula, again,
     which allows arbitrary nesting.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvConditionFormulaPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 80, Classic Platform
       R23-11)
@@ -174,9 +174,9 @@ class DiagnosticEnvModeElement(Referrable, ABC):
     InstanceRef definitions. Furthermore, it allows that an InstanceRef only
     needs to be defined once and can be used multiple times in the different
     DiagnosticEnvModeConditions.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvModeElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 89, Classic Platform
       R23-11)
@@ -206,9 +206,9 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     shall send a negative response code (NRC) back to the client. The value of
     the NRC is directly related to the specific formula and is therefore
     formalized in the attribute DiagnosticEnvCondition Formula.nrcValue.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvConditionFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 80, Classic Platform
       R23-11)
@@ -230,10 +230,10 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def nrc_value(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nrcValue with validation.
-        
+
         Args:
             value: The nrcValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -260,10 +260,10 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def op(self, value: Optional["DiagnosticLogical"]) -> None:
         """
         Set op with validation.
-        
+
         Args:
             value: The op to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -282,10 +282,10 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def getNrcValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nrcValue.
-        
+
         Returns:
             The nrcValue value
-        
+
         Note:
             Delegates to nrc_value property (CODING_RULE_V2_00017)
         """
@@ -294,13 +294,13 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def setNrcValue(self, value: "PositiveInteger") -> "DiagnosticEnvConditionFormula":
         """
         AUTOSAR-compliant setter for nrcValue with method chaining.
-        
+
         Args:
             value: The nrcValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nrc_value property setter (gets validation automatically)
         """
@@ -310,10 +310,10 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def getOp(self) -> "DiagnosticLogical":
         """
         AUTOSAR-compliant getter for op.
-        
+
         Returns:
             The op value
-        
+
         Note:
             Delegates to op property (CODING_RULE_V2_00017)
         """
@@ -322,13 +322,13 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def setOp(self, value: "DiagnosticLogical") -> "DiagnosticEnvConditionFormula":
         """
         AUTOSAR-compliant setter for op with method chaining.
-        
+
         Args:
             value: The op to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to op property setter (gets validation automatically)
         """
@@ -340,13 +340,13 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def with_nrc_value(self, value: Optional["PositiveInteger"]) -> "DiagnosticEnvConditionFormula":
         """
         Set nrcValue and return self for chaining.
-        
+
         Args:
             value: The nrcValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nrc_value("value")
         """
@@ -356,13 +356,13 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     def with_op(self, value: Optional["DiagnosticLogical"]) -> "DiagnosticEnvConditionFormula":
         """
         Set op and return self for chaining.
-        
+
         Args:
             value: The op to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_op("value")
         """
@@ -377,9 +377,9 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     idea of a comparison at runtime of some variable data with something
     constant. The type of the comparison (==, !=, <, <=, ...) is specified in
     DiagnosticCompareCondition.compareType.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvCompareCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 82, Classic Platform
       R23-11)
@@ -402,10 +402,10 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def compare_type(self, value: Optional["DiagnosticCompare"]) -> None:
         """
         Set compareType with validation.
-        
+
         Args:
             value: The compareType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -424,10 +424,10 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def getCompareType(self) -> "DiagnosticCompare":
         """
         AUTOSAR-compliant getter for compareType.
-        
+
         Returns:
             The compareType value
-        
+
         Note:
             Delegates to compare_type property (CODING_RULE_V2_00017)
         """
@@ -436,13 +436,13 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def setCompareType(self, value: "DiagnosticCompare") -> "DiagnosticEnvCompareCondition":
         """
         AUTOSAR-compliant setter for compareType with method chaining.
-        
+
         Args:
             value: The compareType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compare_type property setter (gets validation automatically)
         """
@@ -454,13 +454,13 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def with_compare_type(self, value: Optional["DiagnosticCompare"]) -> "DiagnosticEnvCompareCondition":
         """
         Set compareType and return self for chaining.
-        
+
         Args:
             value: The compareType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compare_type("value")
         """
@@ -473,9 +473,9 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     """
     This meta-class represents the ability to refer to a ModeDeclaration in a
     concrete System context.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvSwcModeElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 89, Classic Platform
       R23-11)
@@ -496,10 +496,10 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     def mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -518,10 +518,10 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     def getMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -530,13 +530,13 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     def setMode(self, value: "ModeDeclaration") -> "DiagnosticEnvSwcModeElement":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -548,13 +548,13 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
     def with_mode(self, value: Optional["ModeDeclaration"]) -> "DiagnosticEnvSwcModeElement":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -567,9 +567,9 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     """
     This meta-class represents the ability to refer to a specific
     ModeDeclaration in the scope of a BswModule Description.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvBswModeElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 90, Classic Platform
       R23-11)
@@ -590,10 +590,10 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -612,10 +612,10 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def getMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -624,13 +624,13 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def setMode(self, value: "ModeDeclaration") -> "DiagnosticEnvBswModeElement":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -642,13 +642,13 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def with_mode(self, value: Optional["ModeDeclaration"]) -> "DiagnosticEnvBswModeElement":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -662,9 +662,9 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     A DiagnosticEnvDataCondition is an atomic condition that compares the
     current value of the referenced DiagnosticDataElement with a constant value
     defined by the ValueSpecification. All compareTypes are supported.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvDataCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 84, Classic Platform
       R23-11)
@@ -685,10 +685,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def compare_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set compareValue with validation.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -712,10 +712,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def data_element(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -734,10 +734,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def getCompareValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for compareValue.
-        
+
         Returns:
             The compareValue value
-        
+
         Note:
             Delegates to compare_value property (CODING_RULE_V2_00017)
         """
@@ -746,13 +746,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def setCompareValue(self, value: "ValueSpecification") -> "DiagnosticEnvDataCondition":
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compare_value property setter (gets validation automatically)
         """
@@ -762,10 +762,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def getDataElement(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -774,13 +774,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticEnvDataCondition":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -792,13 +792,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def with_compare_value(self, value: Optional["ValueSpecification"]) -> "DiagnosticEnvDataCondition":
         """
         Set compareValue and return self for chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compare_value("value")
         """
@@ -808,13 +808,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticEnvDataCondition":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -828,9 +828,9 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     This meta-class represents the ability to formulate a diagnostic environment
     condition based on the value of a data element owned by the application
     software.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvDataElementCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 85, Classic Platform
       R23-11)
@@ -852,10 +852,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def compare_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set compareValue with validation.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -880,10 +880,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def data_prototype(self, value: Optional["RefType"]) -> None:
         """
         Set dataPrototype with validation.
-        
+
         Args:
             value: The dataPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -904,10 +904,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -926,10 +926,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def getCompareValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for compareValue.
-        
+
         Returns:
             The compareValue value
-        
+
         Note:
             Delegates to compare_value property (CODING_RULE_V2_00017)
         """
@@ -938,13 +938,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def setCompareValue(self, value: "ValueSpecification") -> "DiagnosticEnvDataElementCondition":
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compare_value property setter (gets validation automatically)
         """
@@ -954,10 +954,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def getDataPrototype(self) -> "RefType":
         """
         AUTOSAR-compliant getter for dataPrototype.
-        
+
         Returns:
             The dataPrototype value
-        
+
         Note:
             Delegates to data_prototype property (CODING_RULE_V2_00017)
         """
@@ -966,13 +966,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def setDataPrototype(self, value: "RefType") -> "DiagnosticEnvDataElementCondition":
         """
         AUTOSAR-compliant setter for dataPrototype with method chaining.
-        
+
         Args:
             value: The dataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_prototype property setter (gets validation automatically)
         """
@@ -982,10 +982,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -994,13 +994,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def setSwDataDef(self, value: "SwDataDefProps") -> "DiagnosticEnvDataElementCondition":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -1012,13 +1012,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def with_compare_value(self, value: Optional["ValueSpecification"]) -> "DiagnosticEnvDataElementCondition":
         """
         Set compareValue and return self for chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compare_value("value")
         """
@@ -1028,13 +1028,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def with_data_prototype(self, value: Optional[RefType]) -> "DiagnosticEnvDataElementCondition":
         """
         Set dataPrototype and return self for chaining.
-        
+
         Args:
             value: The dataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_prototype("value")
         """
@@ -1044,13 +1044,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "DiagnosticEnvDataElementCondition":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -1069,9 +1069,9 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     constant part of the comparison. Only DiagnosticCompareTypeEnum.isEqual or
     DiagnosticCompareTypeEnum.isNotEqual are eligible values for
     DiagnosticAtomicCondition.compareType.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvModeCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 88, Classic Platform
       R23-11)
@@ -1093,10 +1093,10 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def mode_element(self, value: Optional["DiagnosticEnvMode"]) -> None:
         """
         Set modeElement with validation.
-        
+
         Args:
             value: The modeElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1115,10 +1115,10 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def getModeElement(self) -> "DiagnosticEnvMode":
         """
         AUTOSAR-compliant getter for modeElement.
-        
+
         Returns:
             The modeElement value
-        
+
         Note:
             Delegates to mode_element property (CODING_RULE_V2_00017)
         """
@@ -1127,13 +1127,13 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def setModeElement(self, value: "DiagnosticEnvMode") -> "DiagnosticEnvModeCondition":
         """
         AUTOSAR-compliant setter for modeElement with method chaining.
-        
+
         Args:
             value: The modeElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_element property setter (gets validation automatically)
         """
@@ -1145,13 +1145,13 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def with_mode_element(self, value: Optional["DiagnosticEnvMode"]) -> "DiagnosticEnvModeCondition":
         """
         Set modeElement and return self for chaining.
-        
+
         Args:
             value: The modeElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_element("value")
         """

@@ -26,9 +26,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class NvBlockDescriptor(Identifiable):
     """
     Specifies the properties of exactly on NVRAM Block.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::NvBlockDescriptor
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 669, Classic Platform
       R23-11)
@@ -113,10 +113,10 @@ class NvBlockDescriptor(Identifiable):
     def nv_block_needs(self, value: Optional["NvBlockNeeds"]) -> None:
         """
         Set nvBlockNeeds with validation.
-        
+
         Args:
             value: The nvBlockNeeds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +140,10 @@ class NvBlockDescriptor(Identifiable):
     def ram_block(self, value: Optional["RefType"]) -> None:
         """
         Set ramBlock with validation.
-        
+
         Args:
             value: The ramBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -163,10 +163,10 @@ class NvBlockDescriptor(Identifiable):
     def rom_block(self, value: Optional["ParameterData"]) -> None:
         """
         Set romBlock with validation.
-        
+
         Args:
             value: The romBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +191,10 @@ class NvBlockDescriptor(Identifiable):
     def support_dirty(self, value: Optional["Boolean"]) -> None:
         """
         Set supportDirty with validation.
-        
+
         Args:
             value: The supportDirty to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -219,10 +219,10 @@ class NvBlockDescriptor(Identifiable):
     def timing_event(self, value: Optional["TimingEvent"]) -> None:
         """
         Set timingEvent with validation.
-        
+
         Args:
             value: The timingEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -376,10 +376,10 @@ class NvBlockDescriptor(Identifiable):
     def getClientServerPort(self) -> List["RoleBasedPort"]:
         """
         AUTOSAR-compliant getter for clientServerPort.
-        
+
         Returns:
             The clientServerPort value
-        
+
         Note:
             Delegates to client_server_port property (CODING_RULE_V2_00017)
         """
@@ -388,10 +388,10 @@ class NvBlockDescriptor(Identifiable):
     def getConstantValue(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for constantValue.
-        
+
         Returns:
             The constantValue value
-        
+
         Note:
             Delegates to constant_value property (CODING_RULE_V2_00017)
         """
@@ -400,10 +400,10 @@ class NvBlockDescriptor(Identifiable):
     def getDataType(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -412,10 +412,10 @@ class NvBlockDescriptor(Identifiable):
     def getInstantiation(self) -> List["InstantiationDataDef"]:
         """
         AUTOSAR-compliant getter for instantiation.
-        
+
         Returns:
             The instantiation value
-        
+
         Note:
             Delegates to instantiation property (CODING_RULE_V2_00017)
         """
@@ -424,10 +424,10 @@ class NvBlockDescriptor(Identifiable):
     def getModeSwitch(self) -> List["ModeSwitchEvent"]:
         """
         AUTOSAR-compliant getter for modeSwitch.
-        
+
         Returns:
             The modeSwitch value
-        
+
         Note:
             Delegates to mode_switch property (CODING_RULE_V2_00017)
         """
@@ -436,10 +436,10 @@ class NvBlockDescriptor(Identifiable):
     def getNvBlockData(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for nvBlockData.
-        
+
         Returns:
             The nvBlockData value
-        
+
         Note:
             Delegates to nv_block_data property (CODING_RULE_V2_00017)
         """
@@ -448,10 +448,10 @@ class NvBlockDescriptor(Identifiable):
     def getNvBlockNeeds(self) -> "NvBlockNeeds":
         """
         AUTOSAR-compliant getter for nvBlockNeeds.
-        
+
         Returns:
             The nvBlockNeeds value
-        
+
         Note:
             Delegates to nv_block_needs property (CODING_RULE_V2_00017)
         """
@@ -460,13 +460,13 @@ class NvBlockDescriptor(Identifiable):
     def setNvBlockNeeds(self, value: "NvBlockNeeds") -> "NvBlockDescriptor":
         """
         AUTOSAR-compliant setter for nvBlockNeeds with method chaining.
-        
+
         Args:
             value: The nvBlockNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nv_block_needs property setter (gets validation automatically)
         """
@@ -476,10 +476,10 @@ class NvBlockDescriptor(Identifiable):
     def getRamBlock(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ramBlock.
-        
+
         Returns:
             The ramBlock value
-        
+
         Note:
             Delegates to ram_block property (CODING_RULE_V2_00017)
         """
@@ -488,13 +488,13 @@ class NvBlockDescriptor(Identifiable):
     def setRamBlock(self, value: "RefType") -> "NvBlockDescriptor":
         """
         AUTOSAR-compliant setter for ramBlock with method chaining.
-        
+
         Args:
             value: The ramBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ram_block property setter (gets validation automatically)
         """
@@ -504,10 +504,10 @@ class NvBlockDescriptor(Identifiable):
     def getRomBlock(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for romBlock.
-        
+
         Returns:
             The romBlock value
-        
+
         Note:
             Delegates to rom_block property (CODING_RULE_V2_00017)
         """
@@ -516,13 +516,13 @@ class NvBlockDescriptor(Identifiable):
     def setRomBlock(self, value: "ParameterData") -> "NvBlockDescriptor":
         """
         AUTOSAR-compliant setter for romBlock with method chaining.
-        
+
         Args:
             value: The romBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rom_block property setter (gets validation automatically)
         """
@@ -532,10 +532,10 @@ class NvBlockDescriptor(Identifiable):
     def getSupportDirty(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for supportDirty.
-        
+
         Returns:
             The supportDirty value
-        
+
         Note:
             Delegates to support_dirty property (CODING_RULE_V2_00017)
         """
@@ -544,13 +544,13 @@ class NvBlockDescriptor(Identifiable):
     def setSupportDirty(self, value: "Boolean") -> "NvBlockDescriptor":
         """
         AUTOSAR-compliant setter for supportDirty with method chaining.
-        
+
         Args:
             value: The supportDirty to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_dirty property setter (gets validation automatically)
         """
@@ -560,10 +560,10 @@ class NvBlockDescriptor(Identifiable):
     def getTimingEvent(self) -> "TimingEvent":
         """
         AUTOSAR-compliant getter for timingEvent.
-        
+
         Returns:
             The timingEvent value
-        
+
         Note:
             Delegates to timing_event property (CODING_RULE_V2_00017)
         """
@@ -572,13 +572,13 @@ class NvBlockDescriptor(Identifiable):
     def setTimingEvent(self, value: "TimingEvent") -> "NvBlockDescriptor":
         """
         AUTOSAR-compliant setter for timingEvent with method chaining.
-        
+
         Args:
             value: The timingEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_event property setter (gets validation automatically)
         """
@@ -588,10 +588,10 @@ class NvBlockDescriptor(Identifiable):
     def getWritingStrategy(self) -> List["RoleBasedData"]:
         """
         AUTOSAR-compliant getter for writingStrategy.
-        
+
         Returns:
             The writingStrategy value
-        
+
         Note:
             Delegates to writing_strategy property (CODING_RULE_V2_00017)
         """
@@ -602,13 +602,13 @@ class NvBlockDescriptor(Identifiable):
     def with_nv_block_needs(self, value: Optional["NvBlockNeeds"]) -> "NvBlockDescriptor":
         """
         Set nvBlockNeeds and return self for chaining.
-        
+
         Args:
             value: The nvBlockNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nv_block_needs("value")
         """
@@ -618,13 +618,13 @@ class NvBlockDescriptor(Identifiable):
     def with_ram_block(self, value: Optional[RefType]) -> "NvBlockDescriptor":
         """
         Set ramBlock and return self for chaining.
-        
+
         Args:
             value: The ramBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ram_block("value")
         """
@@ -634,13 +634,13 @@ class NvBlockDescriptor(Identifiable):
     def with_rom_block(self, value: Optional["ParameterData"]) -> "NvBlockDescriptor":
         """
         Set romBlock and return self for chaining.
-        
+
         Args:
             value: The romBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rom_block("value")
         """
@@ -650,13 +650,13 @@ class NvBlockDescriptor(Identifiable):
     def with_support_dirty(self, value: Optional["Boolean"]) -> "NvBlockDescriptor":
         """
         Set supportDirty and return self for chaining.
-        
+
         Args:
             value: The supportDirty to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_dirty("value")
         """
@@ -666,13 +666,13 @@ class NvBlockDescriptor(Identifiable):
     def with_timing_event(self, value: Optional["TimingEvent"]) -> "NvBlockDescriptor":
         """
         Set timingEvent and return self for chaining.
-        
+
         Args:
             value: The timingEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_event("value")
         """
@@ -685,9 +685,9 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     """
     This meta-class defines an activity of the NvBlockSwComponentType for a
     specific NvBlock which is triggered by a ModeSwitchEvent.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::ModeSwitchEventTriggeredActivity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 675, Classic Platform
       R23-11)
@@ -708,10 +708,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -735,10 +735,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def swc_mode_switch(self, value: Optional["SwcModeSwitchEvent"]) -> None:
         """
         Set swcModeSwitch with validation.
-        
+
         Args:
             value: The swcModeSwitch to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -757,10 +757,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -769,13 +769,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def setRole(self, value: "Identifier") -> "ModeSwitchEventTriggeredActivity":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -785,10 +785,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def getSwcModeSwitch(self) -> "SwcModeSwitchEvent":
         """
         AUTOSAR-compliant getter for swcModeSwitch.
-        
+
         Returns:
             The swcModeSwitch value
-        
+
         Note:
             Delegates to swc_mode_switch property (CODING_RULE_V2_00017)
         """
@@ -797,13 +797,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def setSwcModeSwitch(self, value: "SwcModeSwitchEvent") -> "ModeSwitchEventTriggeredActivity":
         """
         AUTOSAR-compliant setter for swcModeSwitch with method chaining.
-        
+
         Args:
             value: The swcModeSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_mode_switch property setter (gets validation automatically)
         """
@@ -815,13 +815,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "ModeSwitchEventTriggeredActivity":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -831,13 +831,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def with_swc_mode_switch(self, value: Optional["SwcModeSwitchEvent"]) -> "ModeSwitchEventTriggeredActivity":
         """
         Set swcModeSwitch and return self for chaining.
-        
+
         Args:
             value: The swcModeSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_mode_switch("value")
         """
@@ -853,9 +853,9 @@ class NvBlockDataMapping(ARObject):
     data types of the referenced VariableDataPrototypes in the ports and the
     referenced sub-element (inside a CompositeDataType) of the
     VariableDataPrototype representing the RAM Block shall be compatible.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::NvBlockDataMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 688, Classic Platform
       R23-11)
@@ -877,10 +877,10 @@ class NvBlockDataMapping(ARObject):
     def bitfield_text_table(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitfieldTextTable with validation.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -904,10 +904,10 @@ class NvBlockDataMapping(ARObject):
     def nv_ram_block(self, value: Optional["RefType"]) -> None:
         """
         Set nvRamBlock with validation.
-        
+
         Args:
             value: The nvRamBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -928,10 +928,10 @@ class NvBlockDataMapping(ARObject):
     def read_nv_data(self, value: Optional["RefType"]) -> None:
         """
         Set readNvData with validation.
-        
+
         Args:
             value: The readNvData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -952,10 +952,10 @@ class NvBlockDataMapping(ARObject):
     def written_nv_data(self, value: Optional["RefType"]) -> None:
         """
         Set writtenNvData with validation.
-        
+
         Args:
             value: The writtenNvData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -976,10 +976,10 @@ class NvBlockDataMapping(ARObject):
     def written_read_nv(self, value: Optional["RefType"]) -> None:
         """
         Set writtenReadNv with validation.
-        
+
         Args:
             value: The writtenReadNv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -994,10 +994,10 @@ class NvBlockDataMapping(ARObject):
     def getBitfieldTextTable(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitfieldTextTable.
-        
+
         Returns:
             The bitfieldTextTable value
-        
+
         Note:
             Delegates to bitfield_text_table property (CODING_RULE_V2_00017)
         """
@@ -1006,13 +1006,13 @@ class NvBlockDataMapping(ARObject):
     def setBitfieldTextTable(self, value: "PositiveInteger") -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for bitfieldTextTable with method chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bitfield_text_table property setter (gets validation automatically)
         """
@@ -1022,10 +1022,10 @@ class NvBlockDataMapping(ARObject):
     def getNvRamBlock(self) -> "RefType":
         """
         AUTOSAR-compliant getter for nvRamBlock.
-        
+
         Returns:
             The nvRamBlock value
-        
+
         Note:
             Delegates to nv_ram_block property (CODING_RULE_V2_00017)
         """
@@ -1034,13 +1034,13 @@ class NvBlockDataMapping(ARObject):
     def setNvRamBlock(self, value: "RefType") -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for nvRamBlock with method chaining.
-        
+
         Args:
             value: The nvRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nv_ram_block property setter (gets validation automatically)
         """
@@ -1050,10 +1050,10 @@ class NvBlockDataMapping(ARObject):
     def getReadNvData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for readNvData.
-        
+
         Returns:
             The readNvData value
-        
+
         Note:
             Delegates to read_nv_data property (CODING_RULE_V2_00017)
         """
@@ -1062,13 +1062,13 @@ class NvBlockDataMapping(ARObject):
     def setReadNvData(self, value: "RefType") -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for readNvData with method chaining.
-        
+
         Args:
             value: The readNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to read_nv_data property setter (gets validation automatically)
         """
@@ -1078,10 +1078,10 @@ class NvBlockDataMapping(ARObject):
     def getWrittenNvData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for writtenNvData.
-        
+
         Returns:
             The writtenNvData value
-        
+
         Note:
             Delegates to written_nv_data property (CODING_RULE_V2_00017)
         """
@@ -1090,13 +1090,13 @@ class NvBlockDataMapping(ARObject):
     def setWrittenNvData(self, value: "RefType") -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for writtenNvData with method chaining.
-        
+
         Args:
             value: The writtenNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to written_nv_data property setter (gets validation automatically)
         """
@@ -1106,10 +1106,10 @@ class NvBlockDataMapping(ARObject):
     def getWrittenReadNv(self) -> "RefType":
         """
         AUTOSAR-compliant getter for writtenReadNv.
-        
+
         Returns:
             The writtenReadNv value
-        
+
         Note:
             Delegates to written_read_nv property (CODING_RULE_V2_00017)
         """
@@ -1118,13 +1118,13 @@ class NvBlockDataMapping(ARObject):
     def setWrittenReadNv(self, value: "RefType") -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for writtenReadNv with method chaining.
-        
+
         Args:
             value: The writtenReadNv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to written_read_nv property setter (gets validation automatically)
         """
@@ -1136,13 +1136,13 @@ class NvBlockDataMapping(ARObject):
     def with_bitfield_text_table(self, value: Optional["PositiveInteger"]) -> "NvBlockDataMapping":
         """
         Set bitfieldTextTable and return self for chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bitfield_text_table("value")
         """
@@ -1152,13 +1152,13 @@ class NvBlockDataMapping(ARObject):
     def with_nv_ram_block(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set nvRamBlock and return self for chaining.
-        
+
         Args:
             value: The nvRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nv_ram_block("value")
         """
@@ -1168,13 +1168,13 @@ class NvBlockDataMapping(ARObject):
     def with_read_nv_data(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set readNvData and return self for chaining.
-        
+
         Args:
             value: The readNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_read_nv_data("value")
         """
@@ -1184,13 +1184,13 @@ class NvBlockDataMapping(ARObject):
     def with_written_nv_data(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set writtenNvData and return self for chaining.
-        
+
         Args:
             value: The writtenNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_written_nv_data("value")
         """
@@ -1200,13 +1200,13 @@ class NvBlockDataMapping(ARObject):
     def with_written_read_nv(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set writtenReadNv and return self for chaining.
-        
+
         Args:
             value: The writtenReadNv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_written_read_nv("value")
         """
@@ -1221,9 +1221,9 @@ class BulkNvDataDescriptor(Identifiable):
     application software. The purpose of a bulk NV Data Block is to provide
     access to information uploaded to the vehicle at e.g. the end of the
     production line.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::BulkNvDataDescriptor
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 692, Classic Platform
       R23-11)
@@ -1244,10 +1244,10 @@ class BulkNvDataDescriptor(Identifiable):
     def bulk_nv_block(self, value: Optional["RefType"]) -> None:
         """
         Set bulkNvBlock with validation.
-        
+
         Args:
             value: The bulkNvBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1272,10 +1272,10 @@ class BulkNvDataDescriptor(Identifiable):
     def getBulkNvBlock(self) -> "RefType":
         """
         AUTOSAR-compliant getter for bulkNvBlock.
-        
+
         Returns:
             The bulkNvBlock value
-        
+
         Note:
             Delegates to bulk_nv_block property (CODING_RULE_V2_00017)
         """
@@ -1284,13 +1284,13 @@ class BulkNvDataDescriptor(Identifiable):
     def setBulkNvBlock(self, value: "RefType") -> "BulkNvDataDescriptor":
         """
         AUTOSAR-compliant setter for bulkNvBlock with method chaining.
-        
+
         Args:
             value: The bulkNvBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bulk_nv_block property setter (gets validation automatically)
         """
@@ -1300,10 +1300,10 @@ class BulkNvDataDescriptor(Identifiable):
     def getNvBlockData(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for nvBlockData.
-        
+
         Returns:
             The nvBlockData value
-        
+
         Note:
             Delegates to nv_block_data property (CODING_RULE_V2_00017)
         """
@@ -1314,13 +1314,13 @@ class BulkNvDataDescriptor(Identifiable):
     def with_bulk_nv_block(self, value: Optional[RefType]) -> "BulkNvDataDescriptor":
         """
         Set bulkNvBlock and return self for chaining.
-        
+
         Args:
             value: The bulkNvBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bulk_nv_block("value")
         """

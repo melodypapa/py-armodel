@@ -32,9 +32,9 @@ class ARPackage(CollectableElement):
     contained ARElements. ARPackages are open sets. This means that in a file
     based description system multiple files can be used to partially describe
     the contents of a package. This is an extended version of MSR’s SW-SYSTEM.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARPackage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 300, Classic
       Platform R23-11)
@@ -79,7 +79,7 @@ class ARPackage(CollectableElement):
     def getShortName(self) -> Optional[str]:
         """
         AUTOSAR-compliant getter for shortName.
-        
+
         Returns:
             The shortName value
         """
@@ -88,10 +88,10 @@ class ARPackage(CollectableElement):
     def setShortName(self, value: Optional[str]) -> "ARPackage":
         """
         AUTOSAR-compliant setter for shortName with method chaining.
-        
+
         Args:
             value: The shortName to set
-        
+
         Returns:
             self for method chaining
         """
@@ -107,7 +107,7 @@ class ARPackage(CollectableElement):
     def getTagName(self) -> str:
         """
         Get the XML tag name for this element.
-        
+
         Returns:
             The tag name "ARPackage"
         """
@@ -117,7 +117,7 @@ class ARPackage(CollectableElement):
     def getARPackages(self) -> List["ARPackage"]:
         """
         Get all child ARPackages (V1-compatible method).
-        
+
         Returns:
             List of child ARPackages
         """
@@ -126,7 +126,7 @@ class ARPackage(CollectableElement):
     def addARPackage(self, pkg: "ARPackage") -> None:
         """
         Add a child ARPackage (V1-compatible method).
-        
+
         Args:
             pkg: The ARPackage to add
         """
@@ -138,7 +138,7 @@ class ARPackage(CollectableElement):
     def addElement(self, elem: "PackageableElement") -> None:
         """
         Add an element to the package (V1-compatible method).
-        
+
         Args:
             elem: The element to add
         """
@@ -150,7 +150,7 @@ class ARPackage(CollectableElement):
     def getElements(self) -> List["PackageableElement"]:
         """
         Get all elements in the package (V1-compatible method).
-        
+
         Returns:
             List of elements
         """
@@ -302,10 +302,10 @@ class ARPackage(CollectableElement):
     def getArPackage(self) -> List["ARPackage"]:
         """
         AUTOSAR-compliant getter for arPackage.
-        
+
         Returns:
             The arPackage value
-        
+
         Note:
             Delegates to ar_package property (CODING_RULE_V2_00017)
         """
@@ -314,10 +314,10 @@ class ARPackage(CollectableElement):
     def getElement(self) -> List["PackageableElement"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -326,10 +326,10 @@ class ARPackage(CollectableElement):
     def getReferenceBase(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for referenceBase.
-        
+
         Returns:
             The referenceBase value
-        
+
         Note:
             Delegates to reference_base property (CODING_RULE_V2_00017)
         """
@@ -342,9 +342,9 @@ class ARPackage(CollectableElement):
 class PackageableElement(CollectableElement, ABC):
     """
     This meta-class specifies the ability to be a member of an AUTOSAR package.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::PackageableElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 302, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2042, Classic Platform R23-11)
@@ -494,10 +494,10 @@ class ReferenceBase(ARObject):
     def getGlobalElement(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for globalElement.
-        
+
         Returns:
             The globalElement value
-        
+
         Note:
             Delegates to global_element property (CODING_RULE_V2_00017)
         """
@@ -506,10 +506,10 @@ class ReferenceBase(ARObject):
     def getGlobalIn(self) -> List["ARPackage"]:
         """
         AUTOSAR-compliant getter for globalIn.
-        
+
         Returns:
             The globalIn value
-        
+
         Note:
             Delegates to global_in property (CODING_RULE_V2_00017)
         """
@@ -518,10 +518,10 @@ class ReferenceBase(ARObject):
     def getIsDefault(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isDefault.
-        
+
         Returns:
             The isDefault value
-        
+
         Note:
             Delegates to is_default property (CODING_RULE_V2_00017)
         """
@@ -530,13 +530,13 @@ class ReferenceBase(ARObject):
     def setIsDefault(self, value: "Boolean") -> "ReferenceBase":
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_default property setter (gets validation automatically)
         """
@@ -546,10 +546,10 @@ class ReferenceBase(ARObject):
     def getPackage(self) -> "ARPackage":
         """
         AUTOSAR-compliant getter for package.
-        
+
         Returns:
             The package value
-        
+
         Note:
             Delegates to package property (CODING_RULE_V2_00017)
         """
@@ -558,13 +558,13 @@ class ReferenceBase(ARObject):
     def setPackage(self, value: "ARPackage") -> "ReferenceBase":
         """
         AUTOSAR-compliant setter for package with method chaining.
-        
+
         Args:
             value: The package to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to package property setter (gets validation automatically)
         """
@@ -574,10 +574,10 @@ class ReferenceBase(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -586,13 +586,13 @@ class ReferenceBase(ARObject):
     def setShortLabel(self, value: "Identifier") -> "ReferenceBase":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -604,13 +604,13 @@ class ReferenceBase(ARObject):
     def with_is_default(self, value: "Boolean") -> "ReferenceBase":
         """
         Set isDefault and return self for chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_default("value")
         """
@@ -620,13 +620,13 @@ class ReferenceBase(ARObject):
     def with_package(self, value: Optional["ARPackage"]) -> "ReferenceBase":
         """
         Set package and return self for chaining.
-        
+
         Args:
             value: The package to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_package("value")
         """
@@ -636,13 +636,13 @@ class ReferenceBase(ARObject):
     def with_short_label(self, value: "Identifier") -> "ReferenceBase":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -655,9 +655,9 @@ class ARElement(PackageableElement, ABC):
     """
     An element that can be defined stand-alone, i.e. without being part of
     another element (except for packages of course).
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 300, Classic
       Platform R23-11)

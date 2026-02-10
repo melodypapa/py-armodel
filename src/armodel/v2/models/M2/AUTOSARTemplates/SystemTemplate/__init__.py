@@ -27,9 +27,9 @@ class System(ARElement):
     describing the Software, Mapping and Mapping Constraints; it contains a
     reference to an ASAM FIBEX description specifying Communication and
     Topology.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::System
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 349, Classic
       Platform R23-11)
@@ -68,10 +68,10 @@ class System(ARElement):
     def container_i_pdu(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set containerIPdu with validation.
-        
+
         Args:
             value: The containerIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +96,10 @@ class System(ARElement):
     def ecu_extract_version(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set ecuExtractVersion with validation.
-        
+
         Args:
             value: The ecuExtractVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +166,10 @@ class System(ARElement):
     def pnc_vector(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncVector with validation.
-        
+
         Args:
             value: The pncVector to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -195,10 +195,10 @@ class System(ARElement):
     def pnc_vector_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncVectorOffset with validation.
-        
+
         Args:
             value: The pncVectorOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -227,10 +227,10 @@ class System(ARElement):
     def root_software(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set rootSoftware with validation.
-        
+
         Args:
             value: The rootSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -271,10 +271,10 @@ class System(ARElement):
     def system_version(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set systemVersion with validation.
-        
+
         Args:
             value: The systemVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -821,10 +821,10 @@ class System(ARElement):
     def getClientId(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for clientId.
-        
+
         Returns:
             The clientId value
-        
+
         Note:
             Delegates to client_id property (CODING_RULE_V2_00017)
         """
@@ -833,10 +833,10 @@ class System(ARElement):
     def getContainerIPdu(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for containerIPdu.
-        
+
         Returns:
             The containerIPdu value
-        
+
         Note:
             Delegates to container_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -845,13 +845,13 @@ class System(ARElement):
     def setContainerIPdu(self, value: "ByteOrderEnum") -> "System":
         """
         AUTOSAR-compliant setter for containerIPdu with method chaining.
-        
+
         Args:
             value: The containerIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to container_i_pdu property setter (gets validation automatically)
         """
@@ -861,10 +861,10 @@ class System(ARElement):
     def getEcuExtractVersion(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for ecuExtractVersion.
-        
+
         Returns:
             The ecuExtractVersion value
-        
+
         Note:
             Delegates to ecu_extract_version property (CODING_RULE_V2_00017)
         """
@@ -873,13 +873,13 @@ class System(ARElement):
     def setEcuExtractVersion(self, value: "RevisionLabelString") -> "System":
         """
         AUTOSAR-compliant setter for ecuExtractVersion with method chaining.
-        
+
         Args:
             value: The ecuExtractVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_extract_version property setter (gets validation automatically)
         """
@@ -889,10 +889,10 @@ class System(ARElement):
     def getFibexElement(self) -> List["FibexElement"]:
         """
         AUTOSAR-compliant getter for fibexElement.
-        
+
         Returns:
             The fibexElement value
-        
+
         Note:
             Delegates to fibex_element property (CODING_RULE_V2_00017)
         """
@@ -901,10 +901,10 @@ class System(ARElement):
     def getInterpolation(self) -> List["InterpolationRoutine"]:
         """
         AUTOSAR-compliant getter for interpolation.
-        
+
         Returns:
             The interpolation value
-        
+
         Note:
             Delegates to interpolation property (CODING_RULE_V2_00017)
         """
@@ -913,10 +913,10 @@ class System(ARElement):
     def getJ1939Shared(self) -> List["J1939SharedAddress"]:
         """
         AUTOSAR-compliant getter for j1939Shared.
-        
+
         Returns:
             The j1939Shared value
-        
+
         Note:
             Delegates to j1939_shared property (CODING_RULE_V2_00017)
         """
@@ -925,10 +925,10 @@ class System(ARElement):
     def getMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """
@@ -937,10 +937,10 @@ class System(ARElement):
     def getPncVector(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncVector.
-        
+
         Returns:
             The pncVector value
-        
+
         Note:
             Delegates to pnc_vector property (CODING_RULE_V2_00017)
         """
@@ -949,13 +949,13 @@ class System(ARElement):
     def setPncVector(self, value: "PositiveInteger") -> "System":
         """
         AUTOSAR-compliant setter for pncVector with method chaining.
-        
+
         Args:
             value: The pncVector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_vector property setter (gets validation automatically)
         """
@@ -965,10 +965,10 @@ class System(ARElement):
     def getPncVectorOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncVectorOffset.
-        
+
         Returns:
             The pncVectorOffset value
-        
+
         Note:
             Delegates to pnc_vector_offset property (CODING_RULE_V2_00017)
         """
@@ -977,13 +977,13 @@ class System(ARElement):
     def setPncVectorOffset(self, value: "PositiveInteger") -> "System":
         """
         AUTOSAR-compliant setter for pncVectorOffset with method chaining.
-        
+
         Args:
             value: The pncVectorOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_vector_offset property setter (gets validation automatically)
         """
@@ -993,10 +993,10 @@ class System(ARElement):
     def getRootSoftware(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for rootSoftware.
-        
+
         Returns:
             The rootSoftware value
-        
+
         Note:
             Delegates to root_software property (CODING_RULE_V2_00017)
         """
@@ -1005,13 +1005,13 @@ class System(ARElement):
     def setRootSoftware(self, value: "RootSwComposition") -> "System":
         """
         AUTOSAR-compliant setter for rootSoftware with method chaining.
-        
+
         Args:
             value: The rootSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_software property setter (gets validation automatically)
         """
@@ -1021,10 +1021,10 @@ class System(ARElement):
     def getSwCluster(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for swCluster.
-        
+
         Returns:
             The swCluster value
-        
+
         Note:
             Delegates to sw_cluster property (CODING_RULE_V2_00017)
         """
@@ -1033,10 +1033,10 @@ class System(ARElement):
     def getSystem(self) -> List["Chapter"]:
         """
         AUTOSAR-compliant getter for system.
-        
+
         Returns:
             The system value
-        
+
         Note:
             Delegates to system property (CODING_RULE_V2_00017)
         """
@@ -1045,10 +1045,10 @@ class System(ARElement):
     def getSystemVersion(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for systemVersion.
-        
+
         Returns:
             The systemVersion value
-        
+
         Note:
             Delegates to system_version property (CODING_RULE_V2_00017)
         """
@@ -1057,13 +1057,13 @@ class System(ARElement):
     def setSystemVersion(self, value: "RevisionLabelString") -> "System":
         """
         AUTOSAR-compliant setter for systemVersion with method chaining.
-        
+
         Args:
             value: The systemVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_version property setter (gets validation automatically)
         """
@@ -1075,13 +1075,13 @@ class System(ARElement):
     def with_container_i_pdu(self, value: Optional["ByteOrderEnum"]) -> "System":
         """
         Set containerIPdu and return self for chaining.
-        
+
         Args:
             value: The containerIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_container_i_pdu("value")
         """
@@ -1091,13 +1091,13 @@ class System(ARElement):
     def with_ecu_extract_version(self, value: Optional["RevisionLabelString"]) -> "System":
         """
         Set ecuExtractVersion and return self for chaining.
-        
+
         Args:
             value: The ecuExtractVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_extract_version("value")
         """
@@ -1107,13 +1107,13 @@ class System(ARElement):
     def with_pnc_vector(self, value: Optional["PositiveInteger"]) -> "System":
         """
         Set pncVector and return self for chaining.
-        
+
         Args:
             value: The pncVector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_vector("value")
         """
@@ -1123,13 +1123,13 @@ class System(ARElement):
     def with_pnc_vector_offset(self, value: Optional["PositiveInteger"]) -> "System":
         """
         Set pncVectorOffset and return self for chaining.
-        
+
         Args:
             value: The pncVectorOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_vector_offset("value")
         """
@@ -1139,13 +1139,13 @@ class System(ARElement):
     def with_root_software(self, value: Optional["RootSwComposition"]) -> "System":
         """
         Set rootSoftware and return self for chaining.
-        
+
         Args:
             value: The rootSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_software("value")
         """
@@ -1155,13 +1155,13 @@ class System(ARElement):
     def with_system_version(self, value: Optional["RevisionLabelString"]) -> "System":
         """
         Set systemVersion and return self for chaining.
-        
+
         Args:
             value: The systemVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_version("value")
         """
@@ -1187,9 +1187,9 @@ class RootSwCompositionPrototype(Identifiable):
     SwComponentTypes (including Port Prototypes, PortInterfaces,
     VariableDataPrototypes, SwcInternalBehavior etc.), and their ports are
     interconnected using SwConnectorPrototypes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RootSwCompositionPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1003, Classic
       Platform R23-11)
@@ -1223,10 +1223,10 @@ class RootSwCompositionPrototype(Identifiable):
     def flat_map(self, value: Optional["FlatMap"]) -> None:
         """
         Set flatMap with validation.
-        
+
         Args:
             value: The flatMap to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1251,10 +1251,10 @@ class RootSwCompositionPrototype(Identifiable):
     def software(self, value: Optional["CompositionSw"]) -> None:
         """
         Set software with validation.
-        
+
         Args:
             value: The software to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1273,10 +1273,10 @@ class RootSwCompositionPrototype(Identifiable):
     def getCalibration(self) -> List["CalibrationParameter"]:
         """
         AUTOSAR-compliant getter for calibration.
-        
+
         Returns:
             The calibration value
-        
+
         Note:
             Delegates to calibration property (CODING_RULE_V2_00017)
         """
@@ -1285,10 +1285,10 @@ class RootSwCompositionPrototype(Identifiable):
     def getFlatMap(self) -> "FlatMap":
         """
         AUTOSAR-compliant getter for flatMap.
-        
+
         Returns:
             The flatMap value
-        
+
         Note:
             Delegates to flat_map property (CODING_RULE_V2_00017)
         """
@@ -1297,13 +1297,13 @@ class RootSwCompositionPrototype(Identifiable):
     def setFlatMap(self, value: "FlatMap") -> "RootSwCompositionPrototype":
         """
         AUTOSAR-compliant setter for flatMap with method chaining.
-        
+
         Args:
             value: The flatMap to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flat_map property setter (gets validation automatically)
         """
@@ -1313,10 +1313,10 @@ class RootSwCompositionPrototype(Identifiable):
     def getSoftware(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for software.
-        
+
         Returns:
             The software value
-        
+
         Note:
             Delegates to software property (CODING_RULE_V2_00017)
         """
@@ -1325,13 +1325,13 @@ class RootSwCompositionPrototype(Identifiable):
     def setSoftware(self, value: "CompositionSw") -> "RootSwCompositionPrototype":
         """
         AUTOSAR-compliant setter for software with method chaining.
-        
+
         Args:
             value: The software to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software property setter (gets validation automatically)
         """
@@ -1343,13 +1343,13 @@ class RootSwCompositionPrototype(Identifiable):
     def with_flat_map(self, value: Optional["FlatMap"]) -> "RootSwCompositionPrototype":
         """
         Set flatMap and return self for chaining.
-        
+
         Args:
             value: The flatMap to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flat_map("value")
         """
@@ -1359,13 +1359,13 @@ class RootSwCompositionPrototype(Identifiable):
     def with_software(self, value: Optional["CompositionSw"]) -> "RootSwCompositionPrototype":
         """
         Set software and return self for chaining.
-        
+
         Args:
             value: The software to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software("value")
         """
@@ -1378,9 +1378,9 @@ class ClientIdDefinitionSet(ARElement):
     """
     Set of Client Identifiers that are used for inter-ECU client-server
     communication in the System.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::ClientIdDefinitionSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 44, Classic Platform R23-11)
     """
@@ -1403,10 +1403,10 @@ class ClientIdDefinitionSet(ARElement):
     def getClientId(self) -> List["ClientIdDefinition"]:
         """
         AUTOSAR-compliant getter for clientId.
-        
+
         Returns:
             The clientId value
-        
+
         Note:
             Delegates to client_id property (CODING_RULE_V2_00017)
         """
@@ -1423,9 +1423,9 @@ class ClientIdDefinition(Identifiable):
     identifier is used to distinguish the different clients. The Client
     Identifier of the transaction handle that is used by the RTE can be defined
     by this element.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::ClientIdDefinition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 45, Classic Platform R23-11)
     """
@@ -1447,10 +1447,10 @@ class ClientIdDefinition(Identifiable):
     def client_id(self, value: Optional["Numerical"]) -> None:
         """
         Set clientId with validation.
-        
+
         Args:
             value: The clientId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1476,10 +1476,10 @@ class ClientIdDefinition(Identifiable):
     def client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set clientServerInstanceRef with validation.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1498,10 +1498,10 @@ class ClientIdDefinition(Identifiable):
     def getClientId(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for clientId.
-        
+
         Returns:
             The clientId value
-        
+
         Note:
             Delegates to client_id property (CODING_RULE_V2_00017)
         """
@@ -1510,13 +1510,13 @@ class ClientIdDefinition(Identifiable):
     def setClientId(self, value: "Numerical") -> "ClientIdDefinition":
         """
         AUTOSAR-compliant setter for clientId with method chaining.
-        
+
         Args:
             value: The clientId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_id property setter (gets validation automatically)
         """
@@ -1526,10 +1526,10 @@ class ClientIdDefinition(Identifiable):
     def getClientServerInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for clientServerInstanceRef.
-        
+
         Returns:
             The clientServerInstanceRef value
-        
+
         Note:
             Delegates to client_server_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -1538,13 +1538,13 @@ class ClientIdDefinition(Identifiable):
     def setClientServerInstanceRef(self, value: "ClientServerOperation") -> "ClientIdDefinition":
         """
         AUTOSAR-compliant setter for clientServerInstanceRef with method chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server_instance_ref property setter (gets validation automatically)
         """
@@ -1556,13 +1556,13 @@ class ClientIdDefinition(Identifiable):
     def with_client_id(self, value: Optional["Numerical"]) -> "ClientIdDefinition":
         """
         Set clientId and return self for chaining.
-        
+
         Args:
             value: The clientId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_id("value")
         """
@@ -1572,13 +1572,13 @@ class ClientIdDefinition(Identifiable):
     def with_client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> "ClientIdDefinition":
         """
         Set clientServerInstanceRef and return self for chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server_instance_ref("value")
         """
@@ -1591,9 +1591,9 @@ class SystemMapping(Identifiable):
     """
     The system mapping aggregates all mapping aspects (mapping of SW components
     to ECUs, mapping of data elements to signals, and mapping constraints).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SystemMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 190, Classic Platform R23-11)
     """
@@ -1798,10 +1798,10 @@ class SystemMapping(Identifiable):
     def getApplication(self) -> List["ApplicationPartitionTo"]:
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -1810,10 +1810,10 @@ class SystemMapping(Identifiable):
     def getAppOsTask(self) -> List["AppOsTaskProxyToEcu"]:
         """
         AUTOSAR-compliant getter for appOsTask.
-        
+
         Returns:
             The appOsTask value
-        
+
         Note:
             Delegates to app_os_task property (CODING_RULE_V2_00017)
         """
@@ -1822,10 +1822,10 @@ class SystemMapping(Identifiable):
     def getCom(self) -> List["ComManagement"]:
         """
         AUTOSAR-compliant getter for com.
-        
+
         Returns:
             The com value
-        
+
         Note:
             Delegates to com property (CODING_RULE_V2_00017)
         """
@@ -1834,10 +1834,10 @@ class SystemMapping(Identifiable):
     def getCryptoService(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for cryptoService.
-        
+
         Returns:
             The cryptoService value
-        
+
         Note:
             Delegates to crypto_service property (CODING_RULE_V2_00017)
         """
@@ -1846,10 +1846,10 @@ class SystemMapping(Identifiable):
     def getDataMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataMapping.
-        
+
         Returns:
             The dataMapping value
-        
+
         Note:
             Delegates to data_mapping property (CODING_RULE_V2_00017)
         """
@@ -1858,10 +1858,10 @@ class SystemMapping(Identifiable):
     def getDdsISignalTo(self) -> List["DdsCpISignalToDds"]:
         """
         AUTOSAR-compliant getter for ddsISignalTo.
-        
+
         Returns:
             The ddsISignalTo value
-        
+
         Note:
             Delegates to dds_i_signal_to property (CODING_RULE_V2_00017)
         """
@@ -1870,10 +1870,10 @@ class SystemMapping(Identifiable):
     def getEcuResource(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for ecuResource.
-        
+
         Returns:
             The ecuResource value
-        
+
         Note:
             Delegates to ecu_resource property (CODING_RULE_V2_00017)
         """
@@ -1882,10 +1882,10 @@ class SystemMapping(Identifiable):
     def getJ1939Controller(self) -> List["J1939Controller"]:
         """
         AUTOSAR-compliant getter for j1939Controller.
-        
+
         Returns:
             The j1939Controller value
-        
+
         Note:
             Delegates to j1939_controller property (CODING_RULE_V2_00017)
         """
@@ -1894,10 +1894,10 @@ class SystemMapping(Identifiable):
     def getMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """
@@ -1906,10 +1906,10 @@ class SystemMapping(Identifiable):
     def getPncMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for pncMapping.
-        
+
         Returns:
             The pncMapping value
-        
+
         Note:
             Delegates to pnc_mapping property (CODING_RULE_V2_00017)
         """
@@ -1918,10 +1918,10 @@ class SystemMapping(Identifiable):
     def getPortElementTo(self) -> List["PortElementTo"]:
         """
         AUTOSAR-compliant getter for portElementTo.
-        
+
         Returns:
             The portElementTo value
-        
+
         Note:
             Delegates to port_element_to property (CODING_RULE_V2_00017)
         """
@@ -1930,10 +1930,10 @@ class SystemMapping(Identifiable):
     def getResource(self) -> List["EcuResourceEstimation"]:
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -1942,10 +1942,10 @@ class SystemMapping(Identifiable):
     def getResourceTo(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for resourceTo.
-        
+
         Returns:
             The resourceTo value
-        
+
         Note:
             Delegates to resource_to property (CODING_RULE_V2_00017)
         """
@@ -1954,10 +1954,10 @@ class SystemMapping(Identifiable):
     def getRteEvent(self) -> List["RteEventInSystem"]:
         """
         AUTOSAR-compliant getter for rteEvent.
-        
+
         Returns:
             The rteEvent value
-        
+
         Note:
             Delegates to rte_event property (CODING_RULE_V2_00017)
         """
@@ -1966,10 +1966,10 @@ class SystemMapping(Identifiable):
     def getRteEventToOs(self) -> List["RteEventInSystemToOs"]:
         """
         AUTOSAR-compliant getter for rteEventToOs.
-        
+
         Returns:
             The rteEventToOs value
-        
+
         Note:
             Delegates to rte_event_to_os property (CODING_RULE_V2_00017)
         """
@@ -1978,10 +1978,10 @@ class SystemMapping(Identifiable):
     def getSignalPath(self) -> List["SignalPathConstraint"]:
         """
         AUTOSAR-compliant getter for signalPath.
-        
+
         Returns:
             The signalPath value
-        
+
         Note:
             Delegates to signal_path property (CODING_RULE_V2_00017)
         """
@@ -1990,10 +1990,10 @@ class SystemMapping(Identifiable):
     def getSoftwareCluster(self) -> List["CpSoftwareClusterTo"]:
         """
         AUTOSAR-compliant getter for softwareCluster.
-        
+
         Returns:
             The softwareCluster value
-        
+
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -2002,10 +2002,10 @@ class SystemMapping(Identifiable):
     def getSwCluster(self) -> List["CpSoftwareClusterTo"]:
         """
         AUTOSAR-compliant getter for swCluster.
-        
+
         Returns:
             The swCluster value
-        
+
         Note:
             Delegates to sw_cluster property (CODING_RULE_V2_00017)
         """
@@ -2014,10 +2014,10 @@ class SystemMapping(Identifiable):
     def getSwcTo(self) -> List["SwcToApplication"]:
         """
         AUTOSAR-compliant getter for swcTo.
-        
+
         Returns:
             The swcTo value
-        
+
         Note:
             Delegates to swc_to property (CODING_RULE_V2_00017)
         """
@@ -2026,10 +2026,10 @@ class SystemMapping(Identifiable):
     def getSwImplMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for swImplMapping.
-        
+
         Returns:
             The swImplMapping value
-        
+
         Note:
             Delegates to sw_impl_mapping property (CODING_RULE_V2_00017)
         """
@@ -2038,10 +2038,10 @@ class SystemMapping(Identifiable):
     def getSwMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for swMapping.
-        
+
         Returns:
             The swMapping value
-        
+
         Note:
             Delegates to sw_mapping property (CODING_RULE_V2_00017)
         """
@@ -2050,10 +2050,10 @@ class SystemMapping(Identifiable):
     def getSystemSignal(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -2062,10 +2062,10 @@ class SystemMapping(Identifiable):
     def getSystemSignalTo(self) -> List["SystemSignalTo"]:
         """
         AUTOSAR-compliant getter for systemSignalTo.
-        
+
         Returns:
             The systemSignalTo value
-        
+
         Note:
             Delegates to system_signal_to property (CODING_RULE_V2_00017)
         """
@@ -2079,9 +2079,9 @@ class ComManagementMapping(Identifiable):
     """
     Describes a mapping between one or several Mode Management PortGroups and
     communication channels.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::ComManagementMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 282, Classic Platform R23-11)
     """
@@ -2114,10 +2114,10 @@ class ComManagementMapping(Identifiable):
     def getCom(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for com.
-        
+
         Returns:
             The com value
-        
+
         Note:
             Delegates to com property (CODING_RULE_V2_00017)
         """
@@ -2126,10 +2126,10 @@ class ComManagementMapping(Identifiable):
     def getPhysical(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -2143,9 +2143,9 @@ class J1939SharedAddressCluster(Identifiable):
     """
     This meta-class represents the ability to identify several J1939Clusters
     that share a common address space for the routing of messages
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::J1939SharedAddressCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 694, Classic Platform R23-11)
     """
@@ -2166,10 +2166,10 @@ class J1939SharedAddressCluster(Identifiable):
     def getParticipating(self) -> List["J1939Cluster"]:
         """
         AUTOSAR-compliant getter for participating.
-        
+
         Returns:
             The participating value
-        
+
         Note:
             Delegates to participating property (CODING_RULE_V2_00017)
         """
@@ -2184,9 +2184,9 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     This meta class maps a communication resource to CP Software Clusters. In
     this case the kind of Port Prototype specified whether the Software Cluster
     has to provide or to require the resource.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::PortElementToCommunicationResourceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 905, Classic Platform R23-11)
     """
@@ -2206,10 +2206,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set clientServerInstanceRef with validation.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2234,10 +2234,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def communication(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2262,10 +2262,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def mode(self, value: Optional["RefType"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2287,10 +2287,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def parameter_data(self, value: Optional["ParameterData"]) -> None:
         """
         Set parameterData with validation.
-        
+
         Args:
             value: The parameterData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2315,10 +2315,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def trigger_ref(self, value: Optional["RefType"]) -> None:
         """
         Set triggerRef with validation.
-        
+
         Args:
             value: The triggerRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2339,10 +2339,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def variable_data_system_instance_ref(self, value: Optional["RefType"]) -> None:
         """
         Set variableDataSystemInstanceRef with validation.
-        
+
         Args:
             value: The variableDataSystemInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2357,10 +2357,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getClientServerInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for clientServerInstanceRef.
-        
+
         Returns:
             The clientServerInstanceRef value
-        
+
         Note:
             Delegates to client_server_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -2369,13 +2369,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setClientServerInstanceRef(self, value: "ClientServerOperation") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for clientServerInstanceRef with method chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server_instance_ref property setter (gets validation automatically)
         """
@@ -2385,10 +2385,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getCommunication(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -2397,13 +2397,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setCommunication(self, value: "CpSoftwareCluster") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -2413,10 +2413,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getMode(self) -> "RefType":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -2425,13 +2425,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setMode(self, value: "RefType") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -2441,10 +2441,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getParameterData(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for parameterData.
-        
+
         Returns:
             The parameterData value
-        
+
         Note:
             Delegates to parameter_data property (CODING_RULE_V2_00017)
         """
@@ -2453,13 +2453,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setParameterData(self, value: "ParameterData") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for parameterData with method chaining.
-        
+
         Args:
             value: The parameterData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter_data property setter (gets validation automatically)
         """
@@ -2469,10 +2469,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getTriggerRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for triggerRef.
-        
+
         Returns:
             The triggerRef value
-        
+
         Note:
             Delegates to trigger_ref property (CODING_RULE_V2_00017)
         """
@@ -2481,13 +2481,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setTriggerRef(self, value: "RefType") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for triggerRef with method chaining.
-        
+
         Args:
             value: The triggerRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_ref property setter (gets validation automatically)
         """
@@ -2497,10 +2497,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getVariableDataSystemInstanceRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for variableDataSystemInstanceRef.
-        
+
         Returns:
             The variableDataSystemInstanceRef value
-        
+
         Note:
             Delegates to variable_data_system_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -2509,13 +2509,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setVariableDataSystemInstanceRef(self, value: "RefType") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for variableDataSystemInstanceRef with method chaining.
-        
+
         Args:
             value: The variableDataSystemInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable_data_system_instance_ref property setter (gets validation automatically)
         """
@@ -2527,13 +2527,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> "PortElementToCommunicationResourceMapping":
         """
         Set clientServerInstanceRef and return self for chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server_instance_ref("value")
         """
@@ -2543,13 +2543,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_communication(self, value: Optional["CpSoftwareCluster"]) -> "PortElementToCommunicationResourceMapping":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -2559,13 +2559,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_mode(self, value: Optional[RefType]) -> "PortElementToCommunicationResourceMapping":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -2575,13 +2575,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_parameter_data(self, value: Optional["ParameterData"]) -> "PortElementToCommunicationResourceMapping":
         """
         Set parameterData and return self for chaining.
-        
+
         Args:
             value: The parameterData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter_data("value")
         """
@@ -2591,13 +2591,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_trigger_ref(self, value: Optional[RefType]) -> "PortElementToCommunicationResourceMapping":
         """
         Set triggerRef and return self for chaining.
-        
+
         Args:
             value: The triggerRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_ref("value")
         """
@@ -2607,13 +2607,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_variable_data_system_instance_ref(self, value: Optional[RefType]) -> "PortElementToCommunicationResourceMapping":
         """
         Set variableDataSystemInstanceRef and return self for chaining.
-        
+
         Args:
             value: The variableDataSystemInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable_data_system_instance_ref("value")
         """

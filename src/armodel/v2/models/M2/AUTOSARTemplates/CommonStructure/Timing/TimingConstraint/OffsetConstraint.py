@@ -21,9 +21,9 @@ class OffsetTimingConstraint(TimingConstraint):
     followed by a target event occurrence. In contrast to
     LatencyTimingConstraint, there shall not necessarily be a causal dependency
     between the source and target event.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::OffsetConstraint::OffsetTimingConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 114, Classic Platform R23-11)
     """
@@ -44,10 +44,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def maximum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +72,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def minimum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +99,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def source(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set source with validation.
-        
+
         Args:
             value: The source to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +126,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def target(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set target with validation.
-        
+
         Args:
             value: The target to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -148,10 +148,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def getMaximum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -160,13 +160,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def setMaximum(self, value: "MultidimensionalTime") -> "OffsetTimingConstraint":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -176,10 +176,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def getMinimum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -188,13 +188,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def setMinimum(self, value: "MultidimensionalTime") -> "OffsetTimingConstraint":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -204,10 +204,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def getSource(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for source.
-        
+
         Returns:
             The source value
-        
+
         Note:
             Delegates to source property (CODING_RULE_V2_00017)
         """
@@ -216,13 +216,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def setSource(self, value: "TimingDescriptionEvent") -> "OffsetTimingConstraint":
         """
         AUTOSAR-compliant setter for source with method chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source property setter (gets validation automatically)
         """
@@ -232,10 +232,10 @@ class OffsetTimingConstraint(TimingConstraint):
     def getTarget(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for target.
-        
+
         Returns:
             The target value
-        
+
         Note:
             Delegates to target property (CODING_RULE_V2_00017)
         """
@@ -244,13 +244,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def setTarget(self, value: "TimingDescriptionEvent") -> "OffsetTimingConstraint":
         """
         AUTOSAR-compliant setter for target with method chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target property setter (gets validation automatically)
         """
@@ -262,13 +262,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def with_maximum(self, value: Optional["MultidimensionalTime"]) -> "OffsetTimingConstraint":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -278,13 +278,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def with_minimum(self, value: Optional["MultidimensionalTime"]) -> "OffsetTimingConstraint":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """
@@ -294,13 +294,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def with_source(self, value: Optional["TimingDescriptionEvent"]) -> "OffsetTimingConstraint":
         """
         Set source and return self for chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source("value")
         """
@@ -310,13 +310,13 @@ class OffsetTimingConstraint(TimingConstraint):
     def with_target(self, value: Optional["TimingDescriptionEvent"]) -> "OffsetTimingConstraint":
         """
         Set target and return self for chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target("value")
         """

@@ -17,9 +17,9 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     CpSoftwareClusterResource with a Diagnostic Event. This allows for
     indicating that the CpSoftwareClusterResource is used to convey the
     reporting or status query of the mapped DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterToDiagEventMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 272, Classic Platform
       R23-11)
@@ -42,10 +42,10 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
-        
+
         Returns:
             The cpSoftware value
-        
+
         Note:
             Delegates to cp_software property (CODING_RULE_V2_00017)
         """
@@ -103,13 +103,13 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSwClusterToDiagEventMapping":
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cp_software property setter (gets validation automatically)
         """
@@ -119,10 +119,10 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -131,13 +131,13 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "CpSwClusterToDiagEventMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -149,13 +149,13 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSwClusterToDiagEventMapping":
         """
         Set cpSoftware and return self for chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cp_software("value")
         """
@@ -165,13 +165,13 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "CpSwClusterToDiagEventMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -186,9 +186,9 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     CpSoftwareClusterResource with a DiagnosticData Element. This allows for
     indicating that the CpSoftwareClusterResource is used to convey the
     Diagnostic DataElement.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterResourceToDiagDataElemMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 273, Classic Platform
       R23-11)
@@ -211,10 +211,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -238,10 +238,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set diagnosticData with validation.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -260,10 +260,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
-        
+
         Returns:
             The cpSoftware value
-        
+
         Note:
             Delegates to cp_software property (CODING_RULE_V2_00017)
         """
@@ -272,13 +272,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cp_software property setter (gets validation automatically)
         """
@@ -288,10 +288,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def getDiagnosticData(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for diagnosticData.
-        
+
         Returns:
             The diagnosticData value
-        
+
         Note:
             Delegates to diagnostic_data property (CODING_RULE_V2_00017)
         """
@@ -300,13 +300,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def setDiagnosticData(self, value: "DiagnosticDataElement") -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         AUTOSAR-compliant setter for diagnosticData with method chaining.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_data property setter (gets validation automatically)
         """
@@ -318,13 +318,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         Set cpSoftware and return self for chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cp_software("value")
         """
@@ -334,13 +334,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def with_diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         Set diagnosticData and return self for chaining.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_data("value")
         """
@@ -355,9 +355,9 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     CpSoftwareClusterResource with a subfunction of a DiagnosticRoutine. This
     allows for indicating that the CpSoftwareClusterResource is used to convey
     the calling or result return of the mapped DiagnosticRoutine.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterToDiagRoutineSubfunctionMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 274, Classic Platform
       R23-11)
@@ -380,10 +380,10 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -407,10 +407,10 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def routine(self, value: Optional["DiagnosticRoutine"]) -> None:
         """
         Set routine with validation.
-        
+
         Args:
             value: The routine to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -429,10 +429,10 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
-        
+
         Returns:
             The cpSoftware value
-        
+
         Note:
             Delegates to cp_software property (CODING_RULE_V2_00017)
         """
@@ -441,13 +441,13 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSwClusterToDiagRoutineSubfunctionMapping":
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cp_software property setter (gets validation automatically)
         """
@@ -457,10 +457,10 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def getRoutine(self) -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant getter for routine.
-        
+
         Returns:
             The routine value
-        
+
         Note:
             Delegates to routine property (CODING_RULE_V2_00017)
         """
@@ -469,13 +469,13 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def setRoutine(self, value: "DiagnosticRoutine") -> "CpSwClusterToDiagRoutineSubfunctionMapping":
         """
         AUTOSAR-compliant setter for routine with method chaining.
-        
+
         Args:
             value: The routine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routine property setter (gets validation automatically)
         """
@@ -487,13 +487,13 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSwClusterToDiagRoutineSubfunctionMapping":
         """
         Set cpSoftware and return self for chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cp_software("value")
         """
@@ -503,13 +503,13 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     def with_routine(self, value: Optional["DiagnosticRoutine"]) -> "CpSwClusterToDiagRoutineSubfunctionMapping":
         """
         Set routine and return self for chaining.
-        
+
         Args:
             value: The routine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routine("value")
         """
@@ -525,9 +525,9 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     DiagnosticFunctionIdentifier. This allows for indicating that the
     CpSoftwareClusterResource is used to convey the execution permission
     associated with the mapped function identifier.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterResourceToDiagFunctionIdMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 275, Classic Platform
       R23-11)
@@ -550,10 +550,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -577,10 +577,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def function(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -599,10 +599,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
-        
+
         Returns:
             The cpSoftware value
-        
+
         Note:
             Delegates to cp_software property (CODING_RULE_V2_00017)
         """
@@ -611,13 +611,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cp_software property setter (gets validation automatically)
         """
@@ -627,10 +627,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def getFunction(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -639,13 +639,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def setFunction(self, value: "DiagnosticFunction") -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -657,13 +657,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         Set cpSoftware and return self for chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cp_software("value")
         """
@@ -673,13 +673,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def with_function(self, value: Optional["DiagnosticFunction"]) -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """

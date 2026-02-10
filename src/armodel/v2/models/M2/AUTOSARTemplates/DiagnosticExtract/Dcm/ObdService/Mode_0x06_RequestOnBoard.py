@@ -16,9 +16,9 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x06 service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard::DiagnosticRequestOnBoardMonitoringTestResults
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 156, Classic Platform
       R23-11)
@@ -50,10 +50,10 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     def request_on(self, value: Optional["DiagnosticRequestOn"]) -> None:
         """
         Set requestOn with validation.
-        
+
         Args:
             value: The requestOn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     def getDiagnosticTest(self) -> List["DiagnosticTestResult"]:
         """
         AUTOSAR-compliant getter for diagnosticTest.
-        
+
         Returns:
             The diagnosticTest value
-        
+
         Note:
             Delegates to diagnostic_test property (CODING_RULE_V2_00017)
         """
@@ -100,10 +100,10 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     def getRequestOn(self) -> "DiagnosticRequestOn":
         """
         AUTOSAR-compliant getter for requestOn.
-        
+
         Returns:
             The requestOn value
-        
+
         Note:
             Delegates to request_on property (CODING_RULE_V2_00017)
         """
@@ -112,13 +112,13 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     def setRequestOn(self, value: "DiagnosticRequestOn") -> "DiagnosticRequestOnBoardMonitoringTestResults":
         """
         AUTOSAR-compliant setter for requestOn with method chaining.
-        
+
         Args:
             value: The requestOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_on property setter (gets validation automatically)
         """
@@ -130,13 +130,13 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     def with_request_on(self, value: Optional["DiagnosticRequestOn"]) -> "DiagnosticRequestOnBoardMonitoringTestResults":
         """
         Set requestOn and return self for chaining.
-        
+
         Args:
             value: The requestOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_on("value")
         """
@@ -150,9 +150,9 @@ class DiagnosticRequestOnBoardMonitoringTestResultsClass(DiagnosticServiceClass)
     This meta-class represents the ability to define common properties for all
     instances of the "Request On-Board Monitoring Test Results" OBD diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard::DiagnosticRequestOnBoardMonitoringTestResultsClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 156, Classic Platform
       R23-11)

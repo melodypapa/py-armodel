@@ -29,9 +29,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init
 class NmConfig(FibexElement):
     """
     Contains the all configuration elements for AUTOSAR Nm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 672, Classic Platform R23-11)
     """
@@ -172,10 +172,10 @@ class NmConfig(FibexElement):
     def getNmCluster(self) -> List["NmClusterCoupling"]:
         """
         AUTOSAR-compliant getter for nmCluster.
-        
+
         Returns:
             The nmCluster value
-        
+
         Note:
             Delegates to nm_cluster property (CODING_RULE_V2_00017)
         """
@@ -184,10 +184,10 @@ class NmConfig(FibexElement):
     def getNmIfEcu(self) -> List["NmEcu"]:
         """
         AUTOSAR-compliant getter for nmIfEcu.
-        
+
         Returns:
             The nmIfEcu value
-        
+
         Note:
             Delegates to nm_if_ecu property (CODING_RULE_V2_00017)
         """
@@ -200,9 +200,9 @@ class NmConfig(FibexElement):
 class NmCluster(Identifiable, ABC):
     """
     Set of NM nodes coordinated with use of the NM algorithm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 672, Classic Platform R23-11)
     """
@@ -224,10 +224,10 @@ class NmCluster(Identifiable, ABC):
     def communication(self, value: Optional["CommunicationCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -253,10 +253,10 @@ class NmCluster(Identifiable, ABC):
     def nm_channel(self, value: Optional["Boolean"]) -> None:
         """
         Set nmChannel with validation.
-        
+
         Args:
             value: The nmChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -281,10 +281,10 @@ class NmCluster(Identifiable, ABC):
     def nm_node(self, value: Optional["Boolean"]) -> None:
         """
         Set nmNode with validation.
-        
+
         Args:
             value: The nmNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -308,10 +308,10 @@ class NmCluster(Identifiable, ABC):
     def nm_node_id_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmNodeIdEnabled with validation.
-        
+
         Args:
             value: The nmNodeIdEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -335,10 +335,10 @@ class NmCluster(Identifiable, ABC):
     def nm_pnc(self, value: Optional["Boolean"]) -> None:
         """
         Set nmPnc with validation.
-        
+
         Args:
             value: The nmPnc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -362,10 +362,10 @@ class NmCluster(Identifiable, ABC):
     def nm_repeat_msg(self, value: Optional["Boolean"]) -> None:
         """
         Set nmRepeatMsg with validation.
-        
+
         Args:
             value: The nmRepeatMsg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -391,10 +391,10 @@ class NmCluster(Identifiable, ABC):
     def nm(self, value: Optional["Boolean"]) -> None:
         """
         Set nm with validation.
-        
+
         Args:
             value: The nm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -423,10 +423,10 @@ class NmCluster(Identifiable, ABC):
     def pnc_cluster(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncCluster with validation.
-        
+
         Args:
             value: The pncCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -445,10 +445,10 @@ class NmCluster(Identifiable, ABC):
     def getCommunication(self) -> "CommunicationCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -457,13 +457,13 @@ class NmCluster(Identifiable, ABC):
     def setCommunication(self, value: "CommunicationCluster") -> "NmCluster":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -473,10 +473,10 @@ class NmCluster(Identifiable, ABC):
     def getNmChannel(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmChannel.
-        
+
         Returns:
             The nmChannel value
-        
+
         Note:
             Delegates to nm_channel property (CODING_RULE_V2_00017)
         """
@@ -485,13 +485,13 @@ class NmCluster(Identifiable, ABC):
     def setNmChannel(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmChannel with method chaining.
-        
+
         Args:
             value: The nmChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_channel property setter (gets validation automatically)
         """
@@ -501,10 +501,10 @@ class NmCluster(Identifiable, ABC):
     def getNmNode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmNode.
-        
+
         Returns:
             The nmNode value
-        
+
         Note:
             Delegates to nm_node property (CODING_RULE_V2_00017)
         """
@@ -513,13 +513,13 @@ class NmCluster(Identifiable, ABC):
     def setNmNode(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmNode with method chaining.
-        
+
         Args:
             value: The nmNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_node property setter (gets validation automatically)
         """
@@ -529,10 +529,10 @@ class NmCluster(Identifiable, ABC):
     def getNmNodeIdEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmNodeIdEnabled.
-        
+
         Returns:
             The nmNodeIdEnabled value
-        
+
         Note:
             Delegates to nm_node_id_enabled property (CODING_RULE_V2_00017)
         """
@@ -541,13 +541,13 @@ class NmCluster(Identifiable, ABC):
     def setNmNodeIdEnabled(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmNodeIdEnabled with method chaining.
-        
+
         Args:
             value: The nmNodeIdEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_node_id_enabled property setter (gets validation automatically)
         """
@@ -557,10 +557,10 @@ class NmCluster(Identifiable, ABC):
     def getNmPnc(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmPnc.
-        
+
         Returns:
             The nmPnc value
-        
+
         Note:
             Delegates to nm_pnc property (CODING_RULE_V2_00017)
         """
@@ -569,13 +569,13 @@ class NmCluster(Identifiable, ABC):
     def setNmPnc(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmPnc with method chaining.
-        
+
         Args:
             value: The nmPnc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_pnc property setter (gets validation automatically)
         """
@@ -585,10 +585,10 @@ class NmCluster(Identifiable, ABC):
     def getNmRepeatMsg(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmRepeatMsg.
-        
+
         Returns:
             The nmRepeatMsg value
-        
+
         Note:
             Delegates to nm_repeat_msg property (CODING_RULE_V2_00017)
         """
@@ -597,13 +597,13 @@ class NmCluster(Identifiable, ABC):
     def setNmRepeatMsg(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmRepeatMsg with method chaining.
-        
+
         Args:
             value: The nmRepeatMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat_msg property setter (gets validation automatically)
         """
@@ -613,10 +613,10 @@ class NmCluster(Identifiable, ABC):
     def getNm(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nm.
-        
+
         Returns:
             The nm value
-        
+
         Note:
             Delegates to nm property (CODING_RULE_V2_00017)
         """
@@ -625,13 +625,13 @@ class NmCluster(Identifiable, ABC):
     def setNm(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nm with method chaining.
-        
+
         Args:
             value: The nm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm property setter (gets validation automatically)
         """
@@ -641,10 +641,10 @@ class NmCluster(Identifiable, ABC):
     def getPncCluster(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncCluster.
-        
+
         Returns:
             The pncCluster value
-        
+
         Note:
             Delegates to pnc_cluster property (CODING_RULE_V2_00017)
         """
@@ -653,13 +653,13 @@ class NmCluster(Identifiable, ABC):
     def setPncCluster(self, value: "PositiveInteger") -> "NmCluster":
         """
         AUTOSAR-compliant setter for pncCluster with method chaining.
-        
+
         Args:
             value: The pncCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_cluster property setter (gets validation automatically)
         """
@@ -671,13 +671,13 @@ class NmCluster(Identifiable, ABC):
     def with_communication(self, value: Optional["CommunicationCluster"]) -> "NmCluster":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -687,13 +687,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_channel(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmChannel and return self for chaining.
-        
+
         Args:
             value: The nmChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_channel("value")
         """
@@ -703,13 +703,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_node(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmNode and return self for chaining.
-        
+
         Args:
             value: The nmNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_node("value")
         """
@@ -719,13 +719,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_node_id_enabled(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmNodeIdEnabled and return self for chaining.
-        
+
         Args:
             value: The nmNodeIdEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_node_id_enabled("value")
         """
@@ -735,13 +735,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_pnc(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmPnc and return self for chaining.
-        
+
         Args:
             value: The nmPnc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_pnc("value")
         """
@@ -751,13 +751,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_repeat_msg(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmRepeatMsg and return self for chaining.
-        
+
         Args:
             value: The nmRepeatMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat_msg("value")
         """
@@ -767,13 +767,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nm and return self for chaining.
-        
+
         Args:
             value: The nm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm("value")
         """
@@ -783,13 +783,13 @@ class NmCluster(Identifiable, ABC):
     def with_pnc_cluster(self, value: Optional["PositiveInteger"]) -> "NmCluster":
         """
         Set pncCluster and return self for chaining.
-        
+
         Args:
             value: The pncCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_cluster("value")
         """
@@ -801,9 +801,9 @@ class NmCluster(Identifiable, ABC):
 class NmEcu(Identifiable):
     """
     ECU on which NM is running.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 674, Classic Platform R23-11)
     """
@@ -830,10 +830,10 @@ class NmEcu(Identifiable):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -857,10 +857,10 @@ class NmEcu(Identifiable):
     def nm_bus_synchronization_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmBusSynchronizationEnabled with validation.
-        
+
         Args:
             value: The nmBusSynchronizationEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -884,10 +884,10 @@ class NmEcu(Identifiable):
     def nm_com_control_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmComControlEnabled with validation.
-        
+
         Args:
             value: The nmComControlEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -911,10 +911,10 @@ class NmEcu(Identifiable):
     def nm_coordinator(self, value: Optional["NmCoordinator"]) -> None:
         """
         Set nmCoordinator with validation.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -939,10 +939,10 @@ class NmEcu(Identifiable):
     def nm_cycletime(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmCycletime with validation.
-        
+
         Args:
             value: The nmCycletime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -966,10 +966,10 @@ class NmEcu(Identifiable):
     def nm_pdu_rx_indication_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmPduRxIndicationEnabled with validation.
-        
+
         Args:
             value: The nmPduRxIndicationEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -993,10 +993,10 @@ class NmEcu(Identifiable):
     def nm_remote(self, value: Optional["Boolean"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1020,10 +1020,10 @@ class NmEcu(Identifiable):
     def nm_state_change(self, value: Optional["Boolean"]) -> None:
         """
         Set nmStateChange with validation.
-        
+
         Args:
             value: The nmStateChange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1047,10 +1047,10 @@ class NmEcu(Identifiable):
     def nm_user_data_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmUserDataEnabled with validation.
-        
+
         Args:
             value: The nmUserDataEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1069,10 +1069,10 @@ class NmEcu(Identifiable):
     def getBusDependentNmEcu(self) -> List["BusspecificNmEcu"]:
         """
         AUTOSAR-compliant getter for busDependentNmEcu.
-        
+
         Returns:
             The busDependentNmEcu value
-        
+
         Note:
             Delegates to bus_dependent_nm_ecu property (CODING_RULE_V2_00017)
         """
@@ -1081,10 +1081,10 @@ class NmEcu(Identifiable):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -1093,13 +1093,13 @@ class NmEcu(Identifiable):
     def setEcuInstance(self, value: "EcuInstance") -> "NmEcu":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -1109,10 +1109,10 @@ class NmEcu(Identifiable):
     def getNmBusSynchronizationEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmBusSynchronizationEnabled.
-        
+
         Returns:
             The nmBusSynchronizationEnabled value
-        
+
         Note:
             Delegates to nm_bus_synchronization_enabled property (CODING_RULE_V2_00017)
         """
@@ -1121,13 +1121,13 @@ class NmEcu(Identifiable):
     def setNmBusSynchronizationEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmBusSynchronizationEnabled with method chaining.
-        
+
         Args:
             value: The nmBusSynchronizationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_bus_synchronization_enabled property setter (gets validation automatically)
         """
@@ -1137,10 +1137,10 @@ class NmEcu(Identifiable):
     def getNmComControlEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmComControlEnabled.
-        
+
         Returns:
             The nmComControlEnabled value
-        
+
         Note:
             Delegates to nm_com_control_enabled property (CODING_RULE_V2_00017)
         """
@@ -1149,13 +1149,13 @@ class NmEcu(Identifiable):
     def setNmComControlEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmComControlEnabled with method chaining.
-        
+
         Args:
             value: The nmComControlEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_com_control_enabled property setter (gets validation automatically)
         """
@@ -1165,10 +1165,10 @@ class NmEcu(Identifiable):
     def getNmCoordinator(self) -> "NmCoordinator":
         """
         AUTOSAR-compliant getter for nmCoordinator.
-        
+
         Returns:
             The nmCoordinator value
-        
+
         Note:
             Delegates to nm_coordinator property (CODING_RULE_V2_00017)
         """
@@ -1177,13 +1177,13 @@ class NmEcu(Identifiable):
     def setNmCoordinator(self, value: "NmCoordinator") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmCoordinator with method chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coordinator property setter (gets validation automatically)
         """
@@ -1193,10 +1193,10 @@ class NmEcu(Identifiable):
     def getNmCycletime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmCycletime.
-        
+
         Returns:
             The nmCycletime value
-        
+
         Note:
             Delegates to nm_cycletime property (CODING_RULE_V2_00017)
         """
@@ -1205,13 +1205,13 @@ class NmEcu(Identifiable):
     def setNmCycletime(self, value: "TimeValue") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmCycletime with method chaining.
-        
+
         Args:
             value: The nmCycletime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_cycletime property setter (gets validation automatically)
         """
@@ -1221,10 +1221,10 @@ class NmEcu(Identifiable):
     def getNmPduRxIndicationEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmPduRxIndicationEnabled.
-        
+
         Returns:
             The nmPduRxIndicationEnabled value
-        
+
         Note:
             Delegates to nm_pdu_rx_indication_enabled property (CODING_RULE_V2_00017)
         """
@@ -1233,13 +1233,13 @@ class NmEcu(Identifiable):
     def setNmPduRxIndicationEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmPduRxIndicationEnabled with method chaining.
-        
+
         Args:
             value: The nmPduRxIndicationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_pdu_rx_indication_enabled property setter (gets validation automatically)
         """
@@ -1249,10 +1249,10 @@ class NmEcu(Identifiable):
     def getNmRemote(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -1261,13 +1261,13 @@ class NmEcu(Identifiable):
     def setNmRemote(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -1277,10 +1277,10 @@ class NmEcu(Identifiable):
     def getNmStateChange(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmStateChange.
-        
+
         Returns:
             The nmStateChange value
-        
+
         Note:
             Delegates to nm_state_change property (CODING_RULE_V2_00017)
         """
@@ -1289,13 +1289,13 @@ class NmEcu(Identifiable):
     def setNmStateChange(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmStateChange with method chaining.
-        
+
         Args:
             value: The nmStateChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_state_change property setter (gets validation automatically)
         """
@@ -1305,10 +1305,10 @@ class NmEcu(Identifiable):
     def getNmUserDataEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmUserDataEnabled.
-        
+
         Returns:
             The nmUserDataEnabled value
-        
+
         Note:
             Delegates to nm_user_data_enabled property (CODING_RULE_V2_00017)
         """
@@ -1317,13 +1317,13 @@ class NmEcu(Identifiable):
     def setNmUserDataEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmUserDataEnabled with method chaining.
-        
+
         Args:
             value: The nmUserDataEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_user_data_enabled property setter (gets validation automatically)
         """
@@ -1335,13 +1335,13 @@ class NmEcu(Identifiable):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "NmEcu":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -1351,13 +1351,13 @@ class NmEcu(Identifiable):
     def with_nm_bus_synchronization_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmBusSynchronizationEnabled and return self for chaining.
-        
+
         Args:
             value: The nmBusSynchronizationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_bus_synchronization_enabled("value")
         """
@@ -1367,13 +1367,13 @@ class NmEcu(Identifiable):
     def with_nm_com_control_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmComControlEnabled and return self for chaining.
-        
+
         Args:
             value: The nmComControlEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_com_control_enabled("value")
         """
@@ -1383,13 +1383,13 @@ class NmEcu(Identifiable):
     def with_nm_coordinator(self, value: Optional["NmCoordinator"]) -> "NmEcu":
         """
         Set nmCoordinator and return self for chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coordinator("value")
         """
@@ -1399,13 +1399,13 @@ class NmEcu(Identifiable):
     def with_nm_cycletime(self, value: Optional["TimeValue"]) -> "NmEcu":
         """
         Set nmCycletime and return self for chaining.
-        
+
         Args:
             value: The nmCycletime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_cycletime("value")
         """
@@ -1415,13 +1415,13 @@ class NmEcu(Identifiable):
     def with_nm_pdu_rx_indication_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmPduRxIndicationEnabled and return self for chaining.
-        
+
         Args:
             value: The nmPduRxIndicationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_pdu_rx_indication_enabled("value")
         """
@@ -1431,13 +1431,13 @@ class NmEcu(Identifiable):
     def with_nm_remote(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -1447,13 +1447,13 @@ class NmEcu(Identifiable):
     def with_nm_state_change(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmStateChange and return self for chaining.
-        
+
         Args:
             value: The nmStateChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_state_change("value")
         """
@@ -1463,13 +1463,13 @@ class NmEcu(Identifiable):
     def with_nm_user_data_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmUserDataEnabled and return self for chaining.
-        
+
         Args:
             value: The nmUserDataEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_user_data_enabled("value")
         """
@@ -1481,9 +1481,9 @@ class NmEcu(Identifiable):
 class BusspecificNmEcu(ARObject, ABC):
     """
     Busspecific NmEcu attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::BusspecificNmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 675, Classic Platform R23-11)
     """
@@ -1506,9 +1506,9 @@ class NmCoordinator(ARObject):
     where the requirement exists that shutdown of NM of at least two of these
     busses (also referred to as coordinated busses) has to be performed
     synchronously.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmCoordinator
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 675, Classic Platform R23-11)
     """
@@ -1528,10 +1528,10 @@ class NmCoordinator(ARObject):
     def index(self, value: Optional["Integer"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1555,10 +1555,10 @@ class NmCoordinator(ARObject):
     def nm_coord_sync(self, value: Optional["Boolean"]) -> None:
         """
         Set nmCoordSync with validation.
-        
+
         Args:
             value: The nmCoordSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1583,10 +1583,10 @@ class NmCoordinator(ARObject):
     def nm_global(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmGlobal with validation.
-        
+
         Args:
             value: The nmGlobal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1611,10 +1611,10 @@ class NmCoordinator(ARObject):
     def getIndex(self) -> "Integer":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -1623,13 +1623,13 @@ class NmCoordinator(ARObject):
     def setIndex(self, value: "Integer") -> "NmCoordinator":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -1639,10 +1639,10 @@ class NmCoordinator(ARObject):
     def getNmCoordSync(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmCoordSync.
-        
+
         Returns:
             The nmCoordSync value
-        
+
         Note:
             Delegates to nm_coord_sync property (CODING_RULE_V2_00017)
         """
@@ -1651,13 +1651,13 @@ class NmCoordinator(ARObject):
     def setNmCoordSync(self, value: "Boolean") -> "NmCoordinator":
         """
         AUTOSAR-compliant setter for nmCoordSync with method chaining.
-        
+
         Args:
             value: The nmCoordSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coord_sync property setter (gets validation automatically)
         """
@@ -1667,10 +1667,10 @@ class NmCoordinator(ARObject):
     def getNmGlobal(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmGlobal.
-        
+
         Returns:
             The nmGlobal value
-        
+
         Note:
             Delegates to nm_global property (CODING_RULE_V2_00017)
         """
@@ -1679,13 +1679,13 @@ class NmCoordinator(ARObject):
     def setNmGlobal(self, value: "TimeValue") -> "NmCoordinator":
         """
         AUTOSAR-compliant setter for nmGlobal with method chaining.
-        
+
         Args:
             value: The nmGlobal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_global property setter (gets validation automatically)
         """
@@ -1695,10 +1695,10 @@ class NmCoordinator(ARObject):
     def getNmNode(self) -> List["NmNode"]:
         """
         AUTOSAR-compliant getter for nmNode.
-        
+
         Returns:
             The nmNode value
-        
+
         Note:
             Delegates to nm_node property (CODING_RULE_V2_00017)
         """
@@ -1709,13 +1709,13 @@ class NmCoordinator(ARObject):
     def with_index(self, value: Optional["Integer"]) -> "NmCoordinator":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """
@@ -1725,13 +1725,13 @@ class NmCoordinator(ARObject):
     def with_nm_coord_sync(self, value: Optional["Boolean"]) -> "NmCoordinator":
         """
         Set nmCoordSync and return self for chaining.
-        
+
         Args:
             value: The nmCoordSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coord_sync("value")
         """
@@ -1741,13 +1741,13 @@ class NmCoordinator(ARObject):
     def with_nm_global(self, value: Optional["TimeValue"]) -> "NmCoordinator":
         """
         Set nmGlobal and return self for chaining.
-        
+
         Args:
             value: The nmGlobal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_global("value")
         """
@@ -1759,9 +1759,9 @@ class NmCoordinator(ARObject):
 class NmNode(Identifiable, ABC):
     """
     The linking of NmEcus to NmClusters is realized via the NmNodes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 675, Classic Platform R23-11)
     """
@@ -1783,10 +1783,10 @@ class NmNode(Identifiable, ABC):
     def controller(self, value: Optional["Communication"]) -> None:
         """
         Set controller with validation.
-        
+
         Args:
             value: The controller to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1810,10 +1810,10 @@ class NmNode(Identifiable, ABC):
     def nm_coord_cluster(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmCoordCluster with validation.
-        
+
         Args:
             value: The nmCoordCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1839,10 +1839,10 @@ class NmNode(Identifiable, ABC):
     def nm_coordinator(self, value: Optional["NmCoordinatorRole"]) -> None:
         """
         Set nmCoordinator with validation.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1867,10 +1867,10 @@ class NmNode(Identifiable, ABC):
     def nm_if_ecu(self, value: Optional["NmEcu"]) -> None:
         """
         Set nmIfEcu with validation.
-        
+
         Args:
             value: The nmIfEcu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1895,10 +1895,10 @@ class NmNode(Identifiable, ABC):
     def nm_node_id(self, value: Optional["Integer"]) -> None:
         """
         Set nmNodeId with validation.
-        
+
         Args:
             value: The nmNodeId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1923,10 +1923,10 @@ class NmNode(Identifiable, ABC):
     def nm_passive(self, value: Optional["Boolean"]) -> None:
         """
         Set nmPassive with validation.
-        
+
         Args:
             value: The nmPassive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1958,10 +1958,10 @@ class NmNode(Identifiable, ABC):
     def getController(self) -> "Communication":
         """
         AUTOSAR-compliant getter for controller.
-        
+
         Returns:
             The controller value
-        
+
         Note:
             Delegates to controller property (CODING_RULE_V2_00017)
         """
@@ -1970,13 +1970,13 @@ class NmNode(Identifiable, ABC):
     def setController(self, value: "Communication") -> "NmNode":
         """
         AUTOSAR-compliant setter for controller with method chaining.
-        
+
         Args:
             value: The controller to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to controller property setter (gets validation automatically)
         """
@@ -1986,10 +1986,10 @@ class NmNode(Identifiable, ABC):
     def getNmCoordCluster(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmCoordCluster.
-        
+
         Returns:
             The nmCoordCluster value
-        
+
         Note:
             Delegates to nm_coord_cluster property (CODING_RULE_V2_00017)
         """
@@ -1998,13 +1998,13 @@ class NmNode(Identifiable, ABC):
     def setNmCoordCluster(self, value: "PositiveInteger") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmCoordCluster with method chaining.
-        
+
         Args:
             value: The nmCoordCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coord_cluster property setter (gets validation automatically)
         """
@@ -2014,10 +2014,10 @@ class NmNode(Identifiable, ABC):
     def getNmCoordinator(self) -> "NmCoordinatorRole":
         """
         AUTOSAR-compliant getter for nmCoordinator.
-        
+
         Returns:
             The nmCoordinator value
-        
+
         Note:
             Delegates to nm_coordinator property (CODING_RULE_V2_00017)
         """
@@ -2026,13 +2026,13 @@ class NmNode(Identifiable, ABC):
     def setNmCoordinator(self, value: "NmCoordinatorRole") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmCoordinator with method chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coordinator property setter (gets validation automatically)
         """
@@ -2042,10 +2042,10 @@ class NmNode(Identifiable, ABC):
     def getNmIfEcu(self) -> "NmEcu":
         """
         AUTOSAR-compliant getter for nmIfEcu.
-        
+
         Returns:
             The nmIfEcu value
-        
+
         Note:
             Delegates to nm_if_ecu property (CODING_RULE_V2_00017)
         """
@@ -2054,13 +2054,13 @@ class NmNode(Identifiable, ABC):
     def setNmIfEcu(self, value: "NmEcu") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmIfEcu with method chaining.
-        
+
         Args:
             value: The nmIfEcu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_if_ecu property setter (gets validation automatically)
         """
@@ -2070,10 +2070,10 @@ class NmNode(Identifiable, ABC):
     def getNmNodeId(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmNodeId.
-        
+
         Returns:
             The nmNodeId value
-        
+
         Note:
             Delegates to nm_node_id property (CODING_RULE_V2_00017)
         """
@@ -2082,13 +2082,13 @@ class NmNode(Identifiable, ABC):
     def setNmNodeId(self, value: "Integer") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmNodeId with method chaining.
-        
+
         Args:
             value: The nmNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_node_id property setter (gets validation automatically)
         """
@@ -2098,10 +2098,10 @@ class NmNode(Identifiable, ABC):
     def getNmPassive(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmPassive.
-        
+
         Returns:
             The nmPassive value
-        
+
         Note:
             Delegates to nm_passive property (CODING_RULE_V2_00017)
         """
@@ -2110,13 +2110,13 @@ class NmNode(Identifiable, ABC):
     def setNmPassive(self, value: "Boolean") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmPassive with method chaining.
-        
+
         Args:
             value: The nmPassive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_passive property setter (gets validation automatically)
         """
@@ -2126,10 +2126,10 @@ class NmNode(Identifiable, ABC):
     def getRxNmPdu(self) -> List["NmPdu"]:
         """
         AUTOSAR-compliant getter for rxNmPdu.
-        
+
         Returns:
             The rxNmPdu value
-        
+
         Note:
             Delegates to rx_nm_pdu property (CODING_RULE_V2_00017)
         """
@@ -2138,10 +2138,10 @@ class NmNode(Identifiable, ABC):
     def getTxNmPdu(self) -> List["NmPdu"]:
         """
         AUTOSAR-compliant getter for txNmPdu.
-        
+
         Returns:
             The txNmPdu value
-        
+
         Note:
             Delegates to tx_nm_pdu property (CODING_RULE_V2_00017)
         """
@@ -2152,13 +2152,13 @@ class NmNode(Identifiable, ABC):
     def with_controller(self, value: Optional["Communication"]) -> "NmNode":
         """
         Set controller and return self for chaining.
-        
+
         Args:
             value: The controller to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_controller("value")
         """
@@ -2168,13 +2168,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_coord_cluster(self, value: Optional["PositiveInteger"]) -> "NmNode":
         """
         Set nmCoordCluster and return self for chaining.
-        
+
         Args:
             value: The nmCoordCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coord_cluster("value")
         """
@@ -2184,13 +2184,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_coordinator(self, value: Optional["NmCoordinatorRole"]) -> "NmNode":
         """
         Set nmCoordinator and return self for chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coordinator("value")
         """
@@ -2200,13 +2200,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_if_ecu(self, value: Optional["NmEcu"]) -> "NmNode":
         """
         Set nmIfEcu and return self for chaining.
-        
+
         Args:
             value: The nmIfEcu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_if_ecu("value")
         """
@@ -2216,13 +2216,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_node_id(self, value: Optional["Integer"]) -> "NmNode":
         """
         Set nmNodeId and return self for chaining.
-        
+
         Args:
             value: The nmNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_node_id("value")
         """
@@ -2232,13 +2232,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_passive(self, value: Optional["Boolean"]) -> "NmNode":
         """
         Set nmPassive and return self for chaining.
-        
+
         Args:
             value: The nmPassive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_passive("value")
         """
@@ -2250,9 +2250,9 @@ class NmNode(Identifiable, ABC):
 class NmClusterCoupling(ARObject, ABC):
     """
     Attributes that are valid for each of the referenced (coupled) clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmClusterCoupling
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 676, Classic Platform R23-11)
     """
@@ -2272,9 +2272,9 @@ class NmClusterCoupling(ARObject, ABC):
 class J1939NodeName(ARObject):
     """
     This element contains attributes to configure the J1939NmNode NAME.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NodeName
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 691, Classic Platform R23-11)
     """
@@ -2294,10 +2294,10 @@ class J1939NodeName(ARObject):
     def arbitrary(self, value: Optional["Boolean"]) -> None:
         """
         Set arbitrary with validation.
-        
+
         Args:
             value: The arbitrary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2321,10 +2321,10 @@ class J1939NodeName(ARObject):
     def ecu_instance(self, value: Optional["Integer"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2348,10 +2348,10 @@ class J1939NodeName(ARObject):
     def function(self, value: Optional["Integer"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2375,10 +2375,10 @@ class J1939NodeName(ARObject):
     def function_instance(self, value: Optional["Integer"]) -> None:
         """
         Set functionInstance with validation.
-        
+
         Args:
             value: The functionInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2402,10 +2402,10 @@ class J1939NodeName(ARObject):
     def identitiy_number(self, value: Optional["Integer"]) -> None:
         """
         Set identitiyNumber with validation.
-        
+
         Args:
             value: The identitiyNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2429,10 +2429,10 @@ class J1939NodeName(ARObject):
     def industry_group(self, value: Optional["Integer"]) -> None:
         """
         Set industryGroup with validation.
-        
+
         Args:
             value: The industryGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2457,10 +2457,10 @@ class J1939NodeName(ARObject):
     def manufacturer_code(self, value: Optional["Integer"]) -> None:
         """
         Set manufacturerCode with validation.
-        
+
         Args:
             value: The manufacturerCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2484,10 +2484,10 @@ class J1939NodeName(ARObject):
     def vehicle_system(self, value: Optional["Integer"]) -> None:
         """
         Set vehicleSystem with validation.
-        
+
         Args:
             value: The vehicleSystem to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2506,10 +2506,10 @@ class J1939NodeName(ARObject):
     def getArbitrary(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for arbitrary.
-        
+
         Returns:
             The arbitrary value
-        
+
         Note:
             Delegates to arbitrary property (CODING_RULE_V2_00017)
         """
@@ -2518,13 +2518,13 @@ class J1939NodeName(ARObject):
     def setArbitrary(self, value: "Boolean") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for arbitrary with method chaining.
-        
+
         Args:
             value: The arbitrary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to arbitrary property setter (gets validation automatically)
         """
@@ -2534,10 +2534,10 @@ class J1939NodeName(ARObject):
     def getEcuInstance(self) -> "Integer":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -2546,13 +2546,13 @@ class J1939NodeName(ARObject):
     def setEcuInstance(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -2562,10 +2562,10 @@ class J1939NodeName(ARObject):
     def getFunction(self) -> "Integer":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -2574,13 +2574,13 @@ class J1939NodeName(ARObject):
     def setFunction(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -2590,10 +2590,10 @@ class J1939NodeName(ARObject):
     def getFunctionInstance(self) -> "Integer":
         """
         AUTOSAR-compliant getter for functionInstance.
-        
+
         Returns:
             The functionInstance value
-        
+
         Note:
             Delegates to function_instance property (CODING_RULE_V2_00017)
         """
@@ -2602,13 +2602,13 @@ class J1939NodeName(ARObject):
     def setFunctionInstance(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for functionInstance with method chaining.
-        
+
         Args:
             value: The functionInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function_instance property setter (gets validation automatically)
         """
@@ -2618,10 +2618,10 @@ class J1939NodeName(ARObject):
     def getIdentitiyNumber(self) -> "Integer":
         """
         AUTOSAR-compliant getter for identitiyNumber.
-        
+
         Returns:
             The identitiyNumber value
-        
+
         Note:
             Delegates to identitiy_number property (CODING_RULE_V2_00017)
         """
@@ -2630,13 +2630,13 @@ class J1939NodeName(ARObject):
     def setIdentitiyNumber(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for identitiyNumber with method chaining.
-        
+
         Args:
             value: The identitiyNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identitiy_number property setter (gets validation automatically)
         """
@@ -2646,10 +2646,10 @@ class J1939NodeName(ARObject):
     def getIndustryGroup(self) -> "Integer":
         """
         AUTOSAR-compliant getter for industryGroup.
-        
+
         Returns:
             The industryGroup value
-        
+
         Note:
             Delegates to industry_group property (CODING_RULE_V2_00017)
         """
@@ -2658,13 +2658,13 @@ class J1939NodeName(ARObject):
     def setIndustryGroup(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for industryGroup with method chaining.
-        
+
         Args:
             value: The industryGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to industry_group property setter (gets validation automatically)
         """
@@ -2674,10 +2674,10 @@ class J1939NodeName(ARObject):
     def getManufacturerCode(self) -> "Integer":
         """
         AUTOSAR-compliant getter for manufacturerCode.
-        
+
         Returns:
             The manufacturerCode value
-        
+
         Note:
             Delegates to manufacturer_code property (CODING_RULE_V2_00017)
         """
@@ -2686,13 +2686,13 @@ class J1939NodeName(ARObject):
     def setManufacturerCode(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for manufacturerCode with method chaining.
-        
+
         Args:
             value: The manufacturerCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to manufacturer_code property setter (gets validation automatically)
         """
@@ -2702,10 +2702,10 @@ class J1939NodeName(ARObject):
     def getVehicleSystem(self) -> "Integer":
         """
         AUTOSAR-compliant getter for vehicleSystem.
-        
+
         Returns:
             The vehicleSystem value
-        
+
         Note:
             Delegates to vehicle_system property (CODING_RULE_V2_00017)
         """
@@ -2714,13 +2714,13 @@ class J1939NodeName(ARObject):
     def setVehicleSystem(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for vehicleSystem with method chaining.
-        
+
         Args:
             value: The vehicleSystem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vehicle_system property setter (gets validation automatically)
         """
@@ -2732,13 +2732,13 @@ class J1939NodeName(ARObject):
     def with_arbitrary(self, value: Optional["Boolean"]) -> "J1939NodeName":
         """
         Set arbitrary and return self for chaining.
-        
+
         Args:
             value: The arbitrary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_arbitrary("value")
         """
@@ -2748,13 +2748,13 @@ class J1939NodeName(ARObject):
     def with_ecu_instance(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -2764,13 +2764,13 @@ class J1939NodeName(ARObject):
     def with_function(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """
@@ -2780,13 +2780,13 @@ class J1939NodeName(ARObject):
     def with_function_instance(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set functionInstance and return self for chaining.
-        
+
         Args:
             value: The functionInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function_instance("value")
         """
@@ -2796,13 +2796,13 @@ class J1939NodeName(ARObject):
     def with_identitiy_number(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set identitiyNumber and return self for chaining.
-        
+
         Args:
             value: The identitiyNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identitiy_number("value")
         """
@@ -2812,13 +2812,13 @@ class J1939NodeName(ARObject):
     def with_industry_group(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set industryGroup and return self for chaining.
-        
+
         Args:
             value: The industryGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_industry_group("value")
         """
@@ -2828,13 +2828,13 @@ class J1939NodeName(ARObject):
     def with_manufacturer_code(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set manufacturerCode and return self for chaining.
-        
+
         Args:
             value: The manufacturerCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_manufacturer_code("value")
         """
@@ -2844,13 +2844,13 @@ class J1939NodeName(ARObject):
     def with_vehicle_system(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set vehicleSystem and return self for chaining.
-        
+
         Args:
             value: The vehicleSystem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vehicle_system("value")
         """
@@ -2862,9 +2862,9 @@ class J1939NodeName(ARObject):
 class FlexrayNmCluster(NmCluster):
     """
     FlexRay specific NM cluster attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 678, Classic Platform R23-11)
     """
@@ -2885,10 +2885,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_car_wake_up(self, value: Optional["Boolean"]) -> None:
         """
         Set nmCarWakeUp with validation.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2913,10 +2913,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_data_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set nmDataCycle with validation.
-        
+
         Args:
             value: The nmDataCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2940,10 +2940,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_main(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMain with validation.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2969,10 +2969,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_remote(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2997,10 +2997,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_repeat(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRepeat with validation.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3026,10 +3026,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_repetition(self, value: Optional["Integer"]) -> None:
         """
         Set nmRepetition with validation.
-        
+
         Args:
             value: The nmRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3054,10 +3054,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_voting_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set nmVotingCycle with validation.
-        
+
         Args:
             value: The nmVotingCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3076,10 +3076,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmCarWakeUp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmCarWakeUp.
-        
+
         Returns:
             The nmCarWakeUp value
-        
+
         Note:
             Delegates to nm_car_wake_up property (CODING_RULE_V2_00017)
         """
@@ -3088,13 +3088,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmCarWakeUp(self, value: "Boolean") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up property setter (gets validation automatically)
         """
@@ -3104,10 +3104,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmDataCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmDataCycle.
-        
+
         Returns:
             The nmDataCycle value
-        
+
         Note:
             Delegates to nm_data_cycle property (CODING_RULE_V2_00017)
         """
@@ -3116,13 +3116,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmDataCycle(self, value: "Integer") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmDataCycle with method chaining.
-        
+
         Args:
             value: The nmDataCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_data_cycle property setter (gets validation automatically)
         """
@@ -3132,10 +3132,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmMain(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMain.
-        
+
         Returns:
             The nmMain value
-        
+
         Note:
             Delegates to nm_main property (CODING_RULE_V2_00017)
         """
@@ -3144,13 +3144,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmMain(self, value: "TimeValue") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmMain with method chaining.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_main property setter (gets validation automatically)
         """
@@ -3160,10 +3160,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmRemote(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -3172,13 +3172,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmRemote(self, value: "TimeValue") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -3188,10 +3188,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmRepeat(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRepeat.
-        
+
         Returns:
             The nmRepeat value
-        
+
         Note:
             Delegates to nm_repeat property (CODING_RULE_V2_00017)
         """
@@ -3200,13 +3200,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmRepeat(self, value: "TimeValue") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat property setter (gets validation automatically)
         """
@@ -3216,10 +3216,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmRepetition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmRepetition.
-        
+
         Returns:
             The nmRepetition value
-        
+
         Note:
             Delegates to nm_repetition property (CODING_RULE_V2_00017)
         """
@@ -3228,13 +3228,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmRepetition(self, value: "Integer") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmRepetition with method chaining.
-        
+
         Args:
             value: The nmRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repetition property setter (gets validation automatically)
         """
@@ -3244,10 +3244,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmVotingCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmVotingCycle.
-        
+
         Returns:
             The nmVotingCycle value
-        
+
         Note:
             Delegates to nm_voting_cycle property (CODING_RULE_V2_00017)
         """
@@ -3256,13 +3256,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmVotingCycle(self, value: "Integer") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmVotingCycle with method chaining.
-        
+
         Args:
             value: The nmVotingCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_voting_cycle property setter (gets validation automatically)
         """
@@ -3274,13 +3274,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> "FlexrayNmCluster":
         """
         Set nmCarWakeUp and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up("value")
         """
@@ -3290,13 +3290,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_data_cycle(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
         """
         Set nmDataCycle and return self for chaining.
-        
+
         Args:
             value: The nmDataCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_data_cycle("value")
         """
@@ -3306,13 +3306,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_main(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
         """
         Set nmMain and return self for chaining.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_main("value")
         """
@@ -3322,13 +3322,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_remote(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -3338,13 +3338,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_repeat(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
         """
         Set nmRepeat and return self for chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat("value")
         """
@@ -3354,13 +3354,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_repetition(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
         """
         Set nmRepetition and return self for chaining.
-        
+
         Args:
             value: The nmRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repetition("value")
         """
@@ -3370,13 +3370,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_voting_cycle(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
         """
         Set nmVotingCycle and return self for chaining.
-        
+
         Args:
             value: The nmVotingCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_voting_cycle("value")
         """
@@ -3388,9 +3388,9 @@ class FlexrayNmCluster(NmCluster):
 class CanNmCluster(NmCluster):
     """
     Can specific NmCluster attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 682, Classic Platform R23-11)
     """
@@ -3411,10 +3411,10 @@ class CanNmCluster(NmCluster):
     def nm_busload(self, value: Optional["Boolean"]) -> None:
         """
         Set nmBusload with validation.
-        
+
         Args:
             value: The nmBusload to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3438,10 +3438,10 @@ class CanNmCluster(NmCluster):
     def nm_car_wake_up(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmCarWakeUp with validation.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3465,10 +3465,10 @@ class CanNmCluster(NmCluster):
     def nm_car_wake_up_filter_node_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmCarWakeUpFilterNodeId with validation.
-        
+
         Args:
             value: The nmCarWakeUpFilterNodeId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3493,10 +3493,10 @@ class CanNmCluster(NmCluster):
     def nm_cbv_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmCbvPosition with validation.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3522,10 +3522,10 @@ class CanNmCluster(NmCluster):
     def nm_immediate(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3551,10 +3551,10 @@ class CanNmCluster(NmCluster):
     def nm_message(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMessage with validation.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3580,10 +3580,10 @@ class CanNmCluster(NmCluster):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3608,10 +3608,10 @@ class CanNmCluster(NmCluster):
     def nm_network(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmNetwork with validation.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3636,10 +3636,10 @@ class CanNmCluster(NmCluster):
     def nm_nid_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmNidPosition with validation.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3665,10 +3665,10 @@ class CanNmCluster(NmCluster):
     def nm_remote(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3693,10 +3693,10 @@ class CanNmCluster(NmCluster):
     def nm_repeat(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRepeat with validation.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3722,10 +3722,10 @@ class CanNmCluster(NmCluster):
     def nm_wait_bus(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmWaitBus with validation.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3744,10 +3744,10 @@ class CanNmCluster(NmCluster):
     def getNmBusload(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmBusload.
-        
+
         Returns:
             The nmBusload value
-        
+
         Note:
             Delegates to nm_busload property (CODING_RULE_V2_00017)
         """
@@ -3756,13 +3756,13 @@ class CanNmCluster(NmCluster):
     def setNmBusload(self, value: "Boolean") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmBusload with method chaining.
-        
+
         Args:
             value: The nmBusload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_busload property setter (gets validation automatically)
         """
@@ -3772,10 +3772,10 @@ class CanNmCluster(NmCluster):
     def getNmCarWakeUp(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmCarWakeUp.
-        
+
         Returns:
             The nmCarWakeUp value
-        
+
         Note:
             Delegates to nm_car_wake_up property (CODING_RULE_V2_00017)
         """
@@ -3784,13 +3784,13 @@ class CanNmCluster(NmCluster):
     def setNmCarWakeUp(self, value: "PositiveInteger") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up property setter (gets validation automatically)
         """
@@ -3800,10 +3800,10 @@ class CanNmCluster(NmCluster):
     def getNmCarWakeUpFilterNodeId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmCarWakeUpFilterNodeId.
-        
+
         Returns:
             The nmCarWakeUpFilterNodeId value
-        
+
         Note:
             Delegates to nm_car_wake_up_filter_node_id property (CODING_RULE_V2_00017)
         """
@@ -3812,13 +3812,13 @@ class CanNmCluster(NmCluster):
     def setNmCarWakeUpFilterNodeId(self, value: "PositiveInteger") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmCarWakeUpFilterNodeId with method chaining.
-        
+
         Args:
             value: The nmCarWakeUpFilterNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up_filter_node_id property setter (gets validation automatically)
         """
@@ -3828,10 +3828,10 @@ class CanNmCluster(NmCluster):
     def getNmCbvPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmCbvPosition.
-        
+
         Returns:
             The nmCbvPosition value
-        
+
         Note:
             Delegates to nm_cbv_position property (CODING_RULE_V2_00017)
         """
@@ -3840,13 +3840,13 @@ class CanNmCluster(NmCluster):
     def setNmCbvPosition(self, value: "Integer") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmCbvPosition with method chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_cbv_position property setter (gets validation automatically)
         """
@@ -3856,10 +3856,10 @@ class CanNmCluster(NmCluster):
     def getNmImmediate(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -3868,13 +3868,13 @@ class CanNmCluster(NmCluster):
     def setNmImmediate(self, value: "PositiveInteger") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -3884,10 +3884,10 @@ class CanNmCluster(NmCluster):
     def getNmMessage(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMessage.
-        
+
         Returns:
             The nmMessage value
-        
+
         Note:
             Delegates to nm_message property (CODING_RULE_V2_00017)
         """
@@ -3896,13 +3896,13 @@ class CanNmCluster(NmCluster):
     def setNmMessage(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmMessage with method chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_message property setter (gets validation automatically)
         """
@@ -3912,10 +3912,10 @@ class CanNmCluster(NmCluster):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -3924,13 +3924,13 @@ class CanNmCluster(NmCluster):
     def setNmMsgCycle(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -3940,10 +3940,10 @@ class CanNmCluster(NmCluster):
     def getNmNetwork(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmNetwork.
-        
+
         Returns:
             The nmNetwork value
-        
+
         Note:
             Delegates to nm_network property (CODING_RULE_V2_00017)
         """
@@ -3952,13 +3952,13 @@ class CanNmCluster(NmCluster):
     def setNmNetwork(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmNetwork with method chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_network property setter (gets validation automatically)
         """
@@ -3968,10 +3968,10 @@ class CanNmCluster(NmCluster):
     def getNmNidPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmNidPosition.
-        
+
         Returns:
             The nmNidPosition value
-        
+
         Note:
             Delegates to nm_nid_position property (CODING_RULE_V2_00017)
         """
@@ -3980,13 +3980,13 @@ class CanNmCluster(NmCluster):
     def setNmNidPosition(self, value: "Integer") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmNidPosition with method chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_nid_position property setter (gets validation automatically)
         """
@@ -3996,10 +3996,10 @@ class CanNmCluster(NmCluster):
     def getNmRemote(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -4008,13 +4008,13 @@ class CanNmCluster(NmCluster):
     def setNmRemote(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -4024,10 +4024,10 @@ class CanNmCluster(NmCluster):
     def getNmRepeat(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRepeat.
-        
+
         Returns:
             The nmRepeat value
-        
+
         Note:
             Delegates to nm_repeat property (CODING_RULE_V2_00017)
         """
@@ -4036,13 +4036,13 @@ class CanNmCluster(NmCluster):
     def setNmRepeat(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat property setter (gets validation automatically)
         """
@@ -4052,10 +4052,10 @@ class CanNmCluster(NmCluster):
     def getNmWaitBus(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmWaitBus.
-        
+
         Returns:
             The nmWaitBus value
-        
+
         Note:
             Delegates to nm_wait_bus property (CODING_RULE_V2_00017)
         """
@@ -4064,13 +4064,13 @@ class CanNmCluster(NmCluster):
     def setNmWaitBus(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmWaitBus with method chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_wait_bus property setter (gets validation automatically)
         """
@@ -4082,13 +4082,13 @@ class CanNmCluster(NmCluster):
     def with_nm_busload(self, value: Optional["Boolean"]) -> "CanNmCluster":
         """
         Set nmBusload and return self for chaining.
-        
+
         Args:
             value: The nmBusload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_busload("value")
         """
@@ -4098,13 +4098,13 @@ class CanNmCluster(NmCluster):
     def with_nm_car_wake_up(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
         """
         Set nmCarWakeUp and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up("value")
         """
@@ -4114,13 +4114,13 @@ class CanNmCluster(NmCluster):
     def with_nm_car_wake_up_filter_node_id(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
         """
         Set nmCarWakeUpFilterNodeId and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUpFilterNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up_filter_node_id("value")
         """
@@ -4130,13 +4130,13 @@ class CanNmCluster(NmCluster):
     def with_nm_cbv_position(self, value: Optional["Integer"]) -> "CanNmCluster":
         """
         Set nmCbvPosition and return self for chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_cbv_position("value")
         """
@@ -4146,13 +4146,13 @@ class CanNmCluster(NmCluster):
     def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """
@@ -4162,13 +4162,13 @@ class CanNmCluster(NmCluster):
     def with_nm_message(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmMessage and return self for chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_message("value")
         """
@@ -4178,13 +4178,13 @@ class CanNmCluster(NmCluster):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """
@@ -4194,13 +4194,13 @@ class CanNmCluster(NmCluster):
     def with_nm_network(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmNetwork and return self for chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_network("value")
         """
@@ -4210,13 +4210,13 @@ class CanNmCluster(NmCluster):
     def with_nm_nid_position(self, value: Optional["Integer"]) -> "CanNmCluster":
         """
         Set nmNidPosition and return self for chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_nid_position("value")
         """
@@ -4226,13 +4226,13 @@ class CanNmCluster(NmCluster):
     def with_nm_remote(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -4242,13 +4242,13 @@ class CanNmCluster(NmCluster):
     def with_nm_repeat(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmRepeat and return self for chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat("value")
         """
@@ -4258,13 +4258,13 @@ class CanNmCluster(NmCluster):
     def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmWaitBus and return self for chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_wait_bus("value")
         """
@@ -4276,9 +4276,9 @@ class CanNmCluster(NmCluster):
 class UdpNmCluster(NmCluster):
     """
     Udp specific NmCluster attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 687, Classic Platform R23-11)
     """
@@ -4299,10 +4299,10 @@ class UdpNmCluster(NmCluster):
     def nm_cbv_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmCbvPosition with validation.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4328,10 +4328,10 @@ class UdpNmCluster(NmCluster):
     def nm_immediate(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4357,10 +4357,10 @@ class UdpNmCluster(NmCluster):
     def nm_message(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMessage with validation.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4386,10 +4386,10 @@ class UdpNmCluster(NmCluster):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4415,10 +4415,10 @@ class UdpNmCluster(NmCluster):
     def nm_network(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmNetwork with validation.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4443,10 +4443,10 @@ class UdpNmCluster(NmCluster):
     def nm_nid_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmNidPosition with validation.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4472,10 +4472,10 @@ class UdpNmCluster(NmCluster):
     def nm_remote(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4500,10 +4500,10 @@ class UdpNmCluster(NmCluster):
     def nm_repeat(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRepeat with validation.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4529,10 +4529,10 @@ class UdpNmCluster(NmCluster):
     def nm_wait_bus(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmWaitBus with validation.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4557,10 +4557,10 @@ class UdpNmCluster(NmCluster):
     def vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlan with validation.
-        
+
         Args:
             value: The vlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4579,10 +4579,10 @@ class UdpNmCluster(NmCluster):
     def getNmCbvPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmCbvPosition.
-        
+
         Returns:
             The nmCbvPosition value
-        
+
         Note:
             Delegates to nm_cbv_position property (CODING_RULE_V2_00017)
         """
@@ -4591,13 +4591,13 @@ class UdpNmCluster(NmCluster):
     def setNmCbvPosition(self, value: "Integer") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmCbvPosition with method chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_cbv_position property setter (gets validation automatically)
         """
@@ -4607,10 +4607,10 @@ class UdpNmCluster(NmCluster):
     def getNmImmediate(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -4619,13 +4619,13 @@ class UdpNmCluster(NmCluster):
     def setNmImmediate(self, value: "PositiveInteger") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -4635,10 +4635,10 @@ class UdpNmCluster(NmCluster):
     def getNmMessage(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMessage.
-        
+
         Returns:
             The nmMessage value
-        
+
         Note:
             Delegates to nm_message property (CODING_RULE_V2_00017)
         """
@@ -4647,13 +4647,13 @@ class UdpNmCluster(NmCluster):
     def setNmMessage(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmMessage with method chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_message property setter (gets validation automatically)
         """
@@ -4663,10 +4663,10 @@ class UdpNmCluster(NmCluster):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -4675,13 +4675,13 @@ class UdpNmCluster(NmCluster):
     def setNmMsgCycle(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -4691,10 +4691,10 @@ class UdpNmCluster(NmCluster):
     def getNmNetwork(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmNetwork.
-        
+
         Returns:
             The nmNetwork value
-        
+
         Note:
             Delegates to nm_network property (CODING_RULE_V2_00017)
         """
@@ -4703,13 +4703,13 @@ class UdpNmCluster(NmCluster):
     def setNmNetwork(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmNetwork with method chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_network property setter (gets validation automatically)
         """
@@ -4719,10 +4719,10 @@ class UdpNmCluster(NmCluster):
     def getNmNidPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmNidPosition.
-        
+
         Returns:
             The nmNidPosition value
-        
+
         Note:
             Delegates to nm_nid_position property (CODING_RULE_V2_00017)
         """
@@ -4731,13 +4731,13 @@ class UdpNmCluster(NmCluster):
     def setNmNidPosition(self, value: "Integer") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmNidPosition with method chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_nid_position property setter (gets validation automatically)
         """
@@ -4747,10 +4747,10 @@ class UdpNmCluster(NmCluster):
     def getNmRemote(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -4759,13 +4759,13 @@ class UdpNmCluster(NmCluster):
     def setNmRemote(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -4775,10 +4775,10 @@ class UdpNmCluster(NmCluster):
     def getNmRepeat(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRepeat.
-        
+
         Returns:
             The nmRepeat value
-        
+
         Note:
             Delegates to nm_repeat property (CODING_RULE_V2_00017)
         """
@@ -4787,13 +4787,13 @@ class UdpNmCluster(NmCluster):
     def setNmRepeat(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat property setter (gets validation automatically)
         """
@@ -4803,10 +4803,10 @@ class UdpNmCluster(NmCluster):
     def getNmWaitBus(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmWaitBus.
-        
+
         Returns:
             The nmWaitBus value
-        
+
         Note:
             Delegates to nm_wait_bus property (CODING_RULE_V2_00017)
         """
@@ -4815,13 +4815,13 @@ class UdpNmCluster(NmCluster):
     def setNmWaitBus(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmWaitBus with method chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_wait_bus property setter (gets validation automatically)
         """
@@ -4831,10 +4831,10 @@ class UdpNmCluster(NmCluster):
     def getVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -4843,13 +4843,13 @@ class UdpNmCluster(NmCluster):
     def setVlan(self, value: "EthernetPhysical") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for vlan with method chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan property setter (gets validation automatically)
         """
@@ -4861,13 +4861,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_cbv_position(self, value: Optional["Integer"]) -> "UdpNmCluster":
         """
         Set nmCbvPosition and return self for chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_cbv_position("value")
         """
@@ -4877,13 +4877,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> "UdpNmCluster":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """
@@ -4893,13 +4893,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_message(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmMessage and return self for chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_message("value")
         """
@@ -4909,13 +4909,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """
@@ -4925,13 +4925,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_network(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmNetwork and return self for chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_network("value")
         """
@@ -4941,13 +4941,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_nid_position(self, value: Optional["Integer"]) -> "UdpNmCluster":
         """
         Set nmNidPosition and return self for chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_nid_position("value")
         """
@@ -4957,13 +4957,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_remote(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -4973,13 +4973,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_repeat(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmRepeat and return self for chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat("value")
         """
@@ -4989,13 +4989,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmWaitBus and return self for chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_wait_bus("value")
         """
@@ -5005,13 +5005,13 @@ class UdpNmCluster(NmCluster):
     def with_vlan(self, value: Optional["EthernetPhysical"]) -> "UdpNmCluster":
         """
         Set vlan and return self for chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan("value")
         """
@@ -5023,9 +5023,9 @@ class UdpNmCluster(NmCluster):
 class J1939NmCluster(NmCluster):
     """
     J1939 specific NmCluster attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 691, Classic Platform R23-11)
     """
@@ -5048,10 +5048,10 @@ class J1939NmCluster(NmCluster):
     def address_claim(self, value: Optional["Boolean"]) -> None:
         """
         Set addressClaim with validation.
-        
+
         Args:
             value: The addressClaim to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5078,10 +5078,10 @@ class J1939NmCluster(NmCluster):
     def uses_dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set usesDynamic with validation.
-        
+
         Args:
             value: The usesDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5100,10 +5100,10 @@ class J1939NmCluster(NmCluster):
     def getAddressClaim(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for addressClaim.
-        
+
         Returns:
             The addressClaim value
-        
+
         Note:
             Delegates to address_claim property (CODING_RULE_V2_00017)
         """
@@ -5112,13 +5112,13 @@ class J1939NmCluster(NmCluster):
     def setAddressClaim(self, value: "Boolean") -> "J1939NmCluster":
         """
         AUTOSAR-compliant setter for addressClaim with method chaining.
-        
+
         Args:
             value: The addressClaim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address_claim property setter (gets validation automatically)
         """
@@ -5128,10 +5128,10 @@ class J1939NmCluster(NmCluster):
     def getUsesDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesDynamic.
-        
+
         Returns:
             The usesDynamic value
-        
+
         Note:
             Delegates to uses_dynamic property (CODING_RULE_V2_00017)
         """
@@ -5140,13 +5140,13 @@ class J1939NmCluster(NmCluster):
     def setUsesDynamic(self, value: "Boolean") -> "J1939NmCluster":
         """
         AUTOSAR-compliant setter for usesDynamic with method chaining.
-        
+
         Args:
             value: The usesDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_dynamic property setter (gets validation automatically)
         """
@@ -5158,13 +5158,13 @@ class J1939NmCluster(NmCluster):
     def with_address_claim(self, value: Optional["Boolean"]) -> "J1939NmCluster":
         """
         Set addressClaim and return self for chaining.
-        
+
         Args:
             value: The addressClaim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address_claim("value")
         """
@@ -5174,13 +5174,13 @@ class J1939NmCluster(NmCluster):
     def with_uses_dynamic(self, value: Optional["Boolean"]) -> "J1939NmCluster":
         """
         Set usesDynamic and return self for chaining.
-        
+
         Args:
             value: The usesDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_dynamic("value")
         """
@@ -5192,9 +5192,9 @@ class J1939NmCluster(NmCluster):
 class FlexrayNmEcu(BusspecificNmEcu):
     """
     FlexRay specific attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 679, Classic Platform R23-11)
     """
@@ -5214,10 +5214,10 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def nm_hw_vote(self, value: Optional["Boolean"]) -> None:
         """
         Set nmHwVote with validation.
-        
+
         Args:
             value: The nmHwVote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5242,10 +5242,10 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def nm_main(self, value: Optional["Boolean"]) -> None:
         """
         Set nmMain with validation.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5264,10 +5264,10 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def getNmHwVote(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmHwVote.
-        
+
         Returns:
             The nmHwVote value
-        
+
         Note:
             Delegates to nm_hw_vote property (CODING_RULE_V2_00017)
         """
@@ -5276,13 +5276,13 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def setNmHwVote(self, value: "Boolean") -> "FlexrayNmEcu":
         """
         AUTOSAR-compliant setter for nmHwVote with method chaining.
-        
+
         Args:
             value: The nmHwVote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_hw_vote property setter (gets validation automatically)
         """
@@ -5292,10 +5292,10 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def getNmMain(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmMain.
-        
+
         Returns:
             The nmMain value
-        
+
         Note:
             Delegates to nm_main property (CODING_RULE_V2_00017)
         """
@@ -5304,13 +5304,13 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def setNmMain(self, value: "Boolean") -> "FlexrayNmEcu":
         """
         AUTOSAR-compliant setter for nmMain with method chaining.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_main property setter (gets validation automatically)
         """
@@ -5322,13 +5322,13 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def with_nm_hw_vote(self, value: Optional["Boolean"]) -> "FlexrayNmEcu":
         """
         Set nmHwVote and return self for chaining.
-        
+
         Args:
             value: The nmHwVote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_hw_vote("value")
         """
@@ -5338,13 +5338,13 @@ class FlexrayNmEcu(BusspecificNmEcu):
     def with_nm_main(self, value: Optional["Boolean"]) -> "FlexrayNmEcu":
         """
         Set nmMain and return self for chaining.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_main("value")
         """
@@ -5356,9 +5356,9 @@ class FlexrayNmEcu(BusspecificNmEcu):
 class CanNmEcu(BusspecificNmEcu):
     """
     CAN specific attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 683, Classic Platform R23-11)
     """
@@ -5376,9 +5376,9 @@ class CanNmEcu(BusspecificNmEcu):
 class UdpNmEcu(BusspecificNmEcu):
     """
     Udp NM specific ECU attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 688, Classic Platform R23-11)
     """
@@ -5396,9 +5396,9 @@ class UdpNmEcu(BusspecificNmEcu):
 class J1939NmEcu(BusspecificNmEcu):
     """
     J1939 NmEcu specific attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 694, Classic Platform R23-11)
     """
@@ -5416,9 +5416,9 @@ class J1939NmEcu(BusspecificNmEcu):
 class J1939NmNode(NmNode):
     """
     J1939 specific NM Node attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 322, Classic Platform
       R23-11)
@@ -5441,10 +5441,10 @@ class J1939NmNode(NmNode):
     def address(self, value: Optional["J1939NmAddress"]) -> None:
         """
         Set address with validation.
-        
+
         Args:
             value: The address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5468,10 +5468,10 @@ class J1939NmNode(NmNode):
     def node_name(self, value: Optional["J1939NodeName"]) -> None:
         """
         Set nodeName with validation.
-        
+
         Args:
             value: The nodeName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5490,10 +5490,10 @@ class J1939NmNode(NmNode):
     def getAddress(self) -> "J1939NmAddress":
         """
         AUTOSAR-compliant getter for address.
-        
+
         Returns:
             The address value
-        
+
         Note:
             Delegates to address property (CODING_RULE_V2_00017)
         """
@@ -5502,13 +5502,13 @@ class J1939NmNode(NmNode):
     def setAddress(self, value: "J1939NmAddress") -> "J1939NmNode":
         """
         AUTOSAR-compliant setter for address with method chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address property setter (gets validation automatically)
         """
@@ -5518,10 +5518,10 @@ class J1939NmNode(NmNode):
     def getNodeName(self) -> "J1939NodeName":
         """
         AUTOSAR-compliant getter for nodeName.
-        
+
         Returns:
             The nodeName value
-        
+
         Note:
             Delegates to node_name property (CODING_RULE_V2_00017)
         """
@@ -5530,13 +5530,13 @@ class J1939NmNode(NmNode):
     def setNodeName(self, value: "J1939NodeName") -> "J1939NmNode":
         """
         AUTOSAR-compliant setter for nodeName with method chaining.
-        
+
         Args:
             value: The nodeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to node_name property setter (gets validation automatically)
         """
@@ -5548,13 +5548,13 @@ class J1939NmNode(NmNode):
     def with_address(self, value: Optional["J1939NmAddress"]) -> "J1939NmNode":
         """
         Set address and return self for chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address("value")
         """
@@ -5564,13 +5564,13 @@ class J1939NmNode(NmNode):
     def with_node_name(self, value: Optional["J1939NodeName"]) -> "J1939NmNode":
         """
         Set nodeName and return self for chaining.
-        
+
         Args:
             value: The nodeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_node_name("value")
         """
@@ -5582,9 +5582,9 @@ class J1939NmNode(NmNode):
 class FlexrayNmNode(NmNode):
     """
     FlexRay specific NM Node attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 679, Classic Platform R23-11)
     """
@@ -5602,9 +5602,9 @@ class FlexrayNmNode(NmNode):
 class CanNmNode(NmNode):
     """
     CAN specific NM Node attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 684, Classic Platform R23-11)
     """
@@ -5627,10 +5627,10 @@ class CanNmNode(NmNode):
     def all_nm_messages(self, value: Optional["Boolean"]) -> None:
         """
         Set allNmMessages with validation.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5655,10 +5655,10 @@ class CanNmNode(NmNode):
     def nm_car_wake_up(self, value: Optional["Boolean"]) -> None:
         """
         Set nmCarWakeUp with validation.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5684,10 +5684,10 @@ class CanNmNode(NmNode):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5713,10 +5713,10 @@ class CanNmNode(NmNode):
     def nm_msg(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsg with validation.
-        
+
         Args:
             value: The nmMsg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5735,10 +5735,10 @@ class CanNmNode(NmNode):
     def getAllNmMessages(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for allNmMessages.
-        
+
         Returns:
             The allNmMessages value
-        
+
         Note:
             Delegates to all_nm_messages property (CODING_RULE_V2_00017)
         """
@@ -5747,13 +5747,13 @@ class CanNmNode(NmNode):
     def setAllNmMessages(self, value: "Boolean") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for allNmMessages with method chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to all_nm_messages property setter (gets validation automatically)
         """
@@ -5763,10 +5763,10 @@ class CanNmNode(NmNode):
     def getNmCarWakeUp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmCarWakeUp.
-        
+
         Returns:
             The nmCarWakeUp value
-        
+
         Note:
             Delegates to nm_car_wake_up property (CODING_RULE_V2_00017)
         """
@@ -5775,13 +5775,13 @@ class CanNmNode(NmNode):
     def setNmCarWakeUp(self, value: "Boolean") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up property setter (gets validation automatically)
         """
@@ -5791,10 +5791,10 @@ class CanNmNode(NmNode):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -5803,13 +5803,13 @@ class CanNmNode(NmNode):
     def setNmMsgCycle(self, value: "TimeValue") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -5819,10 +5819,10 @@ class CanNmNode(NmNode):
     def getNmMsg(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsg.
-        
+
         Returns:
             The nmMsg value
-        
+
         Note:
             Delegates to nm_msg property (CODING_RULE_V2_00017)
         """
@@ -5831,13 +5831,13 @@ class CanNmNode(NmNode):
     def setNmMsg(self, value: "TimeValue") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for nmMsg with method chaining.
-        
+
         Args:
             value: The nmMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg property setter (gets validation automatically)
         """
@@ -5849,13 +5849,13 @@ class CanNmNode(NmNode):
     def with_all_nm_messages(self, value: Optional["Boolean"]) -> "CanNmNode":
         """
         Set allNmMessages and return self for chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_all_nm_messages("value")
         """
@@ -5865,13 +5865,13 @@ class CanNmNode(NmNode):
     def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> "CanNmNode":
         """
         Set nmCarWakeUp and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up("value")
         """
@@ -5881,13 +5881,13 @@ class CanNmNode(NmNode):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "CanNmNode":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """
@@ -5897,13 +5897,13 @@ class CanNmNode(NmNode):
     def with_nm_msg(self, value: Optional["TimeValue"]) -> "CanNmNode":
         """
         Set nmMsg and return self for chaining.
-        
+
         Args:
             value: The nmMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg("value")
         """
@@ -5915,9 +5915,9 @@ class CanNmNode(NmNode):
 class UdpNmNode(NmNode):
     """
     Udp specific NM Node attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 688, Classic Platform R23-11)
     """
@@ -5940,10 +5940,10 @@ class UdpNmNode(NmNode):
     def all_nm_messages(self, value: Optional["Boolean"]) -> None:
         """
         Set allNmMessages with validation.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5969,10 +5969,10 @@ class UdpNmNode(NmNode):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5991,10 +5991,10 @@ class UdpNmNode(NmNode):
     def getAllNmMessages(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for allNmMessages.
-        
+
         Returns:
             The allNmMessages value
-        
+
         Note:
             Delegates to all_nm_messages property (CODING_RULE_V2_00017)
         """
@@ -6003,13 +6003,13 @@ class UdpNmNode(NmNode):
     def setAllNmMessages(self, value: "Boolean") -> "UdpNmNode":
         """
         AUTOSAR-compliant setter for allNmMessages with method chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to all_nm_messages property setter (gets validation automatically)
         """
@@ -6019,10 +6019,10 @@ class UdpNmNode(NmNode):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -6031,13 +6031,13 @@ class UdpNmNode(NmNode):
     def setNmMsgCycle(self, value: "TimeValue") -> "UdpNmNode":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -6049,13 +6049,13 @@ class UdpNmNode(NmNode):
     def with_all_nm_messages(self, value: Optional["Boolean"]) -> "UdpNmNode":
         """
         Set allNmMessages and return self for chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_all_nm_messages("value")
         """
@@ -6065,13 +6065,13 @@ class UdpNmNode(NmNode):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "UdpNmNode":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """
@@ -6084,9 +6084,9 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     """
     FlexRay attributes that are valid for each of the referenced (coupled)
     FlexRay clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmClusterCoupling
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 679, Classic Platform R23-11)
     """
@@ -6113,10 +6113,10 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def nm_schedule(self, value: Optional["FlexrayNmSchedule"]) -> None:
         """
         Set nmSchedule with validation.
-        
+
         Args:
             value: The nmSchedule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6135,10 +6135,10 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def getCoupledCluster(self) -> List["FlexrayNmCluster"]:
         """
         AUTOSAR-compliant getter for coupledCluster.
-        
+
         Returns:
             The coupledCluster value
-        
+
         Note:
             Delegates to coupled_cluster property (CODING_RULE_V2_00017)
         """
@@ -6147,10 +6147,10 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def getNmSchedule(self) -> "FlexrayNmSchedule":
         """
         AUTOSAR-compliant getter for nmSchedule.
-        
+
         Returns:
             The nmSchedule value
-        
+
         Note:
             Delegates to nm_schedule property (CODING_RULE_V2_00017)
         """
@@ -6159,13 +6159,13 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def setNmSchedule(self, value: "FlexrayNmSchedule") -> "FlexrayNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmSchedule with method chaining.
-        
+
         Args:
             value: The nmSchedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_schedule property setter (gets validation automatically)
         """
@@ -6177,13 +6177,13 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def with_nm_schedule(self, value: Optional["FlexrayNmSchedule"]) -> "FlexrayNmClusterCoupling":
         """
         Set nmSchedule and return self for chaining.
-        
+
         Args:
             value: The nmSchedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_schedule("value")
         """
@@ -6196,9 +6196,9 @@ class CanNmClusterCoupling(NmClusterCoupling):
     """
     CAN attributes that are valid for each of the referenced (coupled) CAN
     clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmClusterCoupling
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 684, Classic Platform R23-11)
     """
@@ -6225,10 +6225,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def nm_busload_reduction_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmBusloadReductionEnabled with validation.
-        
+
         Args:
             value: The nmBusloadReductionEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6253,10 +6253,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def nm_immediate(self, value: Optional["Boolean"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6275,10 +6275,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def getCoupledCluster(self) -> List["CanNmCluster"]:
         """
         AUTOSAR-compliant getter for coupledCluster.
-        
+
         Returns:
             The coupledCluster value
-        
+
         Note:
             Delegates to coupled_cluster property (CODING_RULE_V2_00017)
         """
@@ -6287,10 +6287,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def getNmBusloadReductionEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmBusloadReductionEnabled.
-        
+
         Returns:
             The nmBusloadReductionEnabled value
-        
+
         Note:
             Delegates to nm_busload_reduction_enabled property (CODING_RULE_V2_00017)
         """
@@ -6299,13 +6299,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def setNmBusloadReductionEnabled(self, value: "Boolean") -> "CanNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmBusloadReductionEnabled with method chaining.
-        
+
         Args:
             value: The nmBusloadReductionEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_busload_reduction_enabled property setter (gets validation automatically)
         """
@@ -6315,10 +6315,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def getNmImmediate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -6327,13 +6327,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def setNmImmediate(self, value: "Boolean") -> "CanNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -6345,13 +6345,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def with_nm_busload_reduction_enabled(self, value: Optional["Boolean"]) -> "CanNmClusterCoupling":
         """
         Set nmBusloadReductionEnabled and return self for chaining.
-        
+
         Args:
             value: The nmBusloadReductionEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_busload_reduction_enabled("value")
         """
@@ -6361,13 +6361,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def with_nm_immediate(self, value: Optional["Boolean"]) -> "CanNmClusterCoupling":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """
@@ -6380,9 +6380,9 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     """
     Udp attributes that are valid for each of the referenced (coupled) UdpNm
     clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmClusterCoupling
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 688, Classic Platform R23-11)
     """
@@ -6410,10 +6410,10 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def nm_immediate(self, value: Optional["Boolean"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6432,10 +6432,10 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def getCoupledCluster(self) -> List["UdpNmCluster"]:
         """
         AUTOSAR-compliant getter for coupledCluster.
-        
+
         Returns:
             The coupledCluster value
-        
+
         Note:
             Delegates to coupled_cluster property (CODING_RULE_V2_00017)
         """
@@ -6444,10 +6444,10 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def getNmImmediate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -6456,13 +6456,13 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def setNmImmediate(self, value: "Boolean") -> "UdpNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -6474,13 +6474,13 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def with_nm_immediate(self, value: Optional["Boolean"]) -> "UdpNmClusterCoupling":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """

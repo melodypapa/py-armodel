@@ -17,9 +17,9 @@ class TimingConstraint(Traceable, ABC):
     The abstract parent class of different timing constraints supported by the
     Timing extension. A concrete timing constraint is used to bound the timing
     behavior of the model elements in its scope.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 253, Classic Platform R23-11)
     """
@@ -42,10 +42,10 @@ class TimingConstraint(Traceable, ABC):
     def timing_condition(self, value: Optional["TimingCondition"]) -> None:
         """
         Set timingCondition with validation.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +64,10 @@ class TimingConstraint(Traceable, ABC):
     def getTimingCondition(self) -> "TimingCondition":
         """
         AUTOSAR-compliant getter for timingCondition.
-        
+
         Returns:
             The timingCondition value
-        
+
         Note:
             Delegates to timing_condition property (CODING_RULE_V2_00017)
         """
@@ -76,13 +76,13 @@ class TimingConstraint(Traceable, ABC):
     def setTimingCondition(self, value: "TimingCondition") -> "TimingConstraint":
         """
         AUTOSAR-compliant setter for timingCondition with method chaining.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_condition property setter (gets validation automatically)
         """
@@ -94,13 +94,13 @@ class TimingConstraint(Traceable, ABC):
     def with_timing_condition(self, value: Optional["TimingCondition"]) -> "TimingConstraint":
         """
         Set timingCondition and return self for chaining.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_condition("value")
         """

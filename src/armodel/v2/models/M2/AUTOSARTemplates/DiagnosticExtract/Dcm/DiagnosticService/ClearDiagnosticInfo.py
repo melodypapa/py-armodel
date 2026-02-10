@@ -16,9 +16,9 @@ class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):
     """
     This represents an instance of the "Clear Diagnostic Information" diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ClearDiagnosticInfo::DiagnosticClearDiagnosticInformation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 137, Classic Platform
       R23-11)
@@ -41,10 +41,10 @@ class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):
     def clear_diagnostic(self, value: Optional["DiagnosticClear"]) -> None:
         """
         Set clearDiagnostic with validation.
-        
+
         Args:
             value: The clearDiagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):
     def getClearDiagnostic(self) -> "DiagnosticClear":
         """
         AUTOSAR-compliant getter for clearDiagnostic.
-        
+
         Returns:
             The clearDiagnostic value
-        
+
         Note:
             Delegates to clear_diagnostic property (CODING_RULE_V2_00017)
         """
@@ -75,13 +75,13 @@ class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):
     def setClearDiagnostic(self, value: "DiagnosticClear") -> "DiagnosticClearDiagnosticInformation":
         """
         AUTOSAR-compliant setter for clearDiagnostic with method chaining.
-        
+
         Args:
             value: The clearDiagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to clear_diagnostic property setter (gets validation automatically)
         """
@@ -93,13 +93,13 @@ class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):
     def with_clear_diagnostic(self, value: Optional["DiagnosticClear"]) -> "DiagnosticClearDiagnosticInformation":
         """
         Set clearDiagnostic and return self for chaining.
-        
+
         Args:
             value: The clearDiagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_clear_diagnostic("value")
         """
@@ -112,9 +112,9 @@ class DiagnosticClearDiagnosticInformationClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Clear
     Diagnostic Information" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ClearDiagnosticInfo::DiagnosticClearDiagnosticInformationClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 137, Classic Platform
       R23-11)

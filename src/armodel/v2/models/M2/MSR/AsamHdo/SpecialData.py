@@ -27,9 +27,9 @@ class Sdg(ARObject):
     meta-model. Thereby SDG should be considered as a temporary solution when no
     explicit model is available. If an sdg Caption is available, it is possible
     to establish a reference to the sdg structure.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::Sdg
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 328, Classic Platform
       R23-11)
@@ -57,10 +57,10 @@ class Sdg(ARObject):
     def gid(self, value: "NameToken") -> None:
         """
         Set gid with validation.
-        
+
         Args:
             value: The gid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class Sdg(ARObject):
     def sdg_caption(self, value: Optional["SdgCaption"]) -> None:
         """
         Set sdgCaption with validation.
-        
+
         Args:
             value: The sdgCaption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class Sdg(ARObject):
     def sdg_contents(self, value: Optional["SdgContents"]) -> None:
         """
         Set sdgContents with validation.
-        
+
         Args:
             value: The sdgContents to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +131,10 @@ class Sdg(ARObject):
     def getGid(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for gid.
-        
+
         Returns:
             The gid value
-        
+
         Note:
             Delegates to gid property (CODING_RULE_V2_00017)
         """
@@ -143,13 +143,13 @@ class Sdg(ARObject):
     def setGid(self, value: "NameToken") -> "Sdg":
         """
         AUTOSAR-compliant setter for gid with method chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to gid property setter (gets validation automatically)
         """
@@ -159,10 +159,10 @@ class Sdg(ARObject):
     def getSdgCaption(self) -> "SdgCaption":
         """
         AUTOSAR-compliant getter for sdgCaption.
-        
+
         Returns:
             The sdgCaption value
-        
+
         Note:
             Delegates to sdg_caption property (CODING_RULE_V2_00017)
         """
@@ -171,13 +171,13 @@ class Sdg(ARObject):
     def setSdgCaption(self, value: "SdgCaption") -> "Sdg":
         """
         AUTOSAR-compliant setter for sdgCaption with method chaining.
-        
+
         Args:
             value: The sdgCaption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdg_caption property setter (gets validation automatically)
         """
@@ -187,10 +187,10 @@ class Sdg(ARObject):
     def getSdgContents(self) -> "SdgContents":
         """
         AUTOSAR-compliant getter for sdgContents.
-        
+
         Returns:
             The sdgContents value
-        
+
         Note:
             Delegates to sdg_contents property (CODING_RULE_V2_00017)
         """
@@ -199,13 +199,13 @@ class Sdg(ARObject):
     def setSdgContents(self, value: "SdgContents") -> "Sdg":
         """
         AUTOSAR-compliant setter for sdgContents with method chaining.
-        
+
         Args:
             value: The sdgContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdg_contents property setter (gets validation automatically)
         """
@@ -217,13 +217,13 @@ class Sdg(ARObject):
     def with_gid(self, value: "NameToken") -> "Sdg":
         """
         Set gid and return self for chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_gid("value")
         """
@@ -233,13 +233,13 @@ class Sdg(ARObject):
     def with_sdg_caption(self, value: Optional["SdgCaption"]) -> "Sdg":
         """
         Set sdgCaption and return self for chaining.
-        
+
         Args:
             value: The sdgCaption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdg_caption("value")
         """
@@ -249,13 +249,13 @@ class Sdg(ARObject):
     def with_sdg_contents(self, value: Optional["SdgContents"]) -> "Sdg":
         """
         Set sdgContents and return self for chaining.
-        
+
         Args:
             value: The sdgContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdg_contents("value")
         """
@@ -269,9 +269,9 @@ class SdgContents(ARObject):
     This meta-class represents the possible contents of a special data group. It
     can be an arbitrary mix of references, of primitive special data and nested
     special data groups.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::SdgContents
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 90, Foundation R23-11)
     """
@@ -291,10 +291,10 @@ class SdgContents(ARObject):
     def sd(self, value: Optional["Sd"]) -> None:
         """
         Set sd with validation.
-        
+
         Args:
             value: The sd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -318,10 +318,10 @@ class SdgContents(ARObject):
     def sdf(self, value: Optional["Sdf"]) -> None:
         """
         Set sdf with validation.
-        
+
         Args:
             value: The sdf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -346,10 +346,10 @@ class SdgContents(ARObject):
     def sdg(self, value: Optional["Sdg"]) -> None:
         """
         Set sdg with validation.
-        
+
         Args:
             value: The sdg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -375,10 +375,10 @@ class SdgContents(ARObject):
     def sdx(self, value: Optional["RefType"]) -> None:
         """
         Set sdx with validation.
-        
+
         Args:
             value: The sdx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -399,10 +399,10 @@ class SdgContents(ARObject):
     def sdxf(self, value: Optional["RefType"]) -> None:
         """
         Set sdxf with validation.
-        
+
         Args:
             value: The sdxf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -417,10 +417,10 @@ class SdgContents(ARObject):
     def getSd(self) -> "Sd":
         """
         AUTOSAR-compliant getter for sd.
-        
+
         Returns:
             The sd value
-        
+
         Note:
             Delegates to sd property (CODING_RULE_V2_00017)
         """
@@ -429,13 +429,13 @@ class SdgContents(ARObject):
     def setSd(self, value: "Sd") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sd with method chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd property setter (gets validation automatically)
         """
@@ -445,10 +445,10 @@ class SdgContents(ARObject):
     def getSdf(self) -> "Sdf":
         """
         AUTOSAR-compliant getter for sdf.
-        
+
         Returns:
             The sdf value
-        
+
         Note:
             Delegates to sdf property (CODING_RULE_V2_00017)
         """
@@ -457,13 +457,13 @@ class SdgContents(ARObject):
     def setSdf(self, value: "Sdf") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdf with method chaining.
-        
+
         Args:
             value: The sdf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdf property setter (gets validation automatically)
         """
@@ -473,10 +473,10 @@ class SdgContents(ARObject):
     def getSdg(self) -> "Sdg":
         """
         AUTOSAR-compliant getter for sdg.
-        
+
         Returns:
             The sdg value
-        
+
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """
@@ -485,13 +485,13 @@ class SdgContents(ARObject):
     def setSdg(self, value: "Sdg") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdg with method chaining.
-        
+
         Args:
             value: The sdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdg property setter (gets validation automatically)
         """
@@ -501,10 +501,10 @@ class SdgContents(ARObject):
     def getSdx(self) -> "RefType":
         """
         AUTOSAR-compliant getter for sdx.
-        
+
         Returns:
             The sdx value
-        
+
         Note:
             Delegates to sdx property (CODING_RULE_V2_00017)
         """
@@ -513,13 +513,13 @@ class SdgContents(ARObject):
     def setSdx(self, value: "RefType") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdx with method chaining.
-        
+
         Args:
             value: The sdx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdx property setter (gets validation automatically)
         """
@@ -529,10 +529,10 @@ class SdgContents(ARObject):
     def getSdxf(self) -> "RefType":
         """
         AUTOSAR-compliant getter for sdxf.
-        
+
         Returns:
             The sdxf value
-        
+
         Note:
             Delegates to sdxf property (CODING_RULE_V2_00017)
         """
@@ -541,13 +541,13 @@ class SdgContents(ARObject):
     def setSdxf(self, value: "RefType") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdxf with method chaining.
-        
+
         Args:
             value: The sdxf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdxf property setter (gets validation automatically)
         """
@@ -559,13 +559,13 @@ class SdgContents(ARObject):
     def with_sd(self, value: Optional["Sd"]) -> "SdgContents":
         """
         Set sd and return self for chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd("value")
         """
@@ -575,13 +575,13 @@ class SdgContents(ARObject):
     def with_sdf(self, value: Optional["Sdf"]) -> "SdgContents":
         """
         Set sdf and return self for chaining.
-        
+
         Args:
             value: The sdf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdf("value")
         """
@@ -591,13 +591,13 @@ class SdgContents(ARObject):
     def with_sdg(self, value: Optional["Sdg"]) -> "SdgContents":
         """
         Set sdg and return self for chaining.
-        
+
         Args:
             value: The sdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdg("value")
         """
@@ -607,13 +607,13 @@ class SdgContents(ARObject):
     def with_sdx(self, value: Optional[RefType]) -> "SdgContents":
         """
         Set sdx and return self for chaining.
-        
+
         Args:
             value: The sdx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdx("value")
         """
@@ -623,13 +623,13 @@ class SdgContents(ARObject):
     def with_sdxf(self, value: Optional[RefType]) -> "SdgContents":
         """
         Set sdxf and return self for chaining.
-        
+
         Args:
             value: The sdxf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdxf("value")
         """
@@ -642,9 +642,9 @@ class SdgCaption(MultilanguageReferrable):
     """
     This meta-class represents the caption of a special data group. This allows
     to have some parts of special data as identifiable.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::SdgCaption
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 91, Foundation R23-11)
     """
@@ -667,10 +667,10 @@ class SdgCaption(MultilanguageReferrable):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -689,10 +689,10 @@ class SdgCaption(MultilanguageReferrable):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -701,13 +701,13 @@ class SdgCaption(MultilanguageReferrable):
     def setDesc(self, value: "MultiLanguageOverview") -> "SdgCaption":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -719,13 +719,13 @@ class SdgCaption(MultilanguageReferrable):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "SdgCaption":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -737,9 +737,9 @@ class SdgCaption(MultilanguageReferrable):
 class Sd(ARObject):
     """
     This class represents a primitive element in a special data group.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::Sd
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 91, Foundation R23-11)
     """
@@ -761,10 +761,10 @@ class Sd(ARObject):
     def gid(self, value: "NameToken") -> None:
         """
         Set gid with validation.
-        
+
         Args:
             value: The gid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -784,10 +784,10 @@ class Sd(ARObject):
     def value(self, value: "VerbatimStringPlain") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -808,10 +808,10 @@ class Sd(ARObject):
     def xml_space(self, value: Optional["XmlSpaceEnum"]) -> None:
         """
         Set xmlSpace with validation.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -830,10 +830,10 @@ class Sd(ARObject):
     def getGid(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for gid.
-        
+
         Returns:
             The gid value
-        
+
         Note:
             Delegates to gid property (CODING_RULE_V2_00017)
         """
@@ -842,13 +842,13 @@ class Sd(ARObject):
     def setGid(self, value: "NameToken") -> "Sd":
         """
         AUTOSAR-compliant setter for gid with method chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to gid property setter (gets validation automatically)
         """
@@ -858,10 +858,10 @@ class Sd(ARObject):
     def getValue(self) -> "VerbatimStringPlain":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -870,13 +870,13 @@ class Sd(ARObject):
     def setValue(self, value: "VerbatimStringPlain") -> "Sd":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -886,10 +886,10 @@ class Sd(ARObject):
     def getXmlSpace(self) -> "XmlSpaceEnum":
         """
         AUTOSAR-compliant getter for xmlSpace.
-        
+
         Returns:
             The xmlSpace value
-        
+
         Note:
             Delegates to xml_space property (CODING_RULE_V2_00017)
         """
@@ -898,13 +898,13 @@ class Sd(ARObject):
     def setXmlSpace(self, value: "XmlSpaceEnum") -> "Sd":
         """
         AUTOSAR-compliant setter for xmlSpace with method chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to xml_space property setter (gets validation automatically)
         """
@@ -916,13 +916,13 @@ class Sd(ARObject):
     def with_gid(self, value: "NameToken") -> "Sd":
         """
         Set gid and return self for chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_gid("value")
         """
@@ -932,13 +932,13 @@ class Sd(ARObject):
     def with_value(self, value: "VerbatimStringPlain") -> "Sd":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -948,13 +948,13 @@ class Sd(ARObject):
     def with_xml_space(self, value: Optional["XmlSpaceEnum"]) -> "Sd":
         """
         Set xmlSpace and return self for chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_xml_space("value")
         """
@@ -967,9 +967,9 @@ class Sdf(ARObject):
     """
     This class represents a numerical value in a special data group which may be
     subject to variability.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::Sdf
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 92, Foundation R23-11)
     """
@@ -991,10 +991,10 @@ class Sdf(ARObject):
     def gid(self, value: "NameToken") -> None:
         """
         Set gid with validation.
-        
+
         Args:
             value: The gid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1014,10 +1014,10 @@ class Sdf(ARObject):
     def value(self, value: Optional["Numerical"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1036,10 +1036,10 @@ class Sdf(ARObject):
     def getGid(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for gid.
-        
+
         Returns:
             The gid value
-        
+
         Note:
             Delegates to gid property (CODING_RULE_V2_00017)
         """
@@ -1048,13 +1048,13 @@ class Sdf(ARObject):
     def setGid(self, value: "NameToken") -> "Sdf":
         """
         AUTOSAR-compliant setter for gid with method chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to gid property setter (gets validation automatically)
         """
@@ -1064,10 +1064,10 @@ class Sdf(ARObject):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -1076,13 +1076,13 @@ class Sdf(ARObject):
     def setValue(self, value: "Numerical") -> "Sdf":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1094,13 +1094,13 @@ class Sdf(ARObject):
     def with_gid(self, value: "NameToken") -> "Sdf":
         """
         Set gid and return self for chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_gid("value")
         """
@@ -1110,13 +1110,13 @@ class Sdf(ARObject):
     def with_value(self, value: Optional["Numerical"]) -> "Sdf":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

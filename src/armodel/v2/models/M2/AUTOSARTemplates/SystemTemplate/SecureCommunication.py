@@ -29,9 +29,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class CryptoServiceCertificate(ARElement):
     """
     This meta-class represents the ability to model a cryptographic certificate.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServiceCertificate
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 310, Classic Platform
       R23-11)
@@ -54,10 +54,10 @@ class CryptoServiceCertificate(ARElement):
     def algorithm_family(self, value: Optional["CryptoCertificate"]) -> None:
         """
         Set algorithmFamily with validation.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class CryptoServiceCertificate(ARElement):
     def format(self, value: Optional["CryptoCertificateFormat"]) -> None:
         """
         Set format with validation.
-        
+
         Args:
             value: The format to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +110,10 @@ class CryptoServiceCertificate(ARElement):
     def maximum(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -138,10 +138,10 @@ class CryptoServiceCertificate(ARElement):
     def next_higher(self, value: Optional["CryptoService"]) -> None:
         """
         Set nextHigher with validation.
-        
+
         Args:
             value: The nextHigher to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -168,10 +168,10 @@ class CryptoServiceCertificate(ARElement):
     def server_name(self, value: Optional["String"]) -> None:
         """
         Set serverName with validation.
-        
+
         Args:
             value: The serverName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -366,10 +366,10 @@ class CryptoServiceCertificate(ARElement):
     def getAlgorithmFamily(self) -> "CryptoCertificate":
         """
         AUTOSAR-compliant getter for algorithmFamily.
-        
+
         Returns:
             The algorithmFamily value
-        
+
         Note:
             Delegates to algorithm_family property (CODING_RULE_V2_00017)
         """
@@ -378,13 +378,13 @@ class CryptoServiceCertificate(ARElement):
     def setAlgorithmFamily(self, value: "CryptoCertificate") -> "CryptoServiceCertificate":
         """
         AUTOSAR-compliant setter for algorithmFamily with method chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_family property setter (gets validation automatically)
         """
@@ -394,10 +394,10 @@ class CryptoServiceCertificate(ARElement):
     def getFormat(self) -> "CryptoCertificateFormat":
         """
         AUTOSAR-compliant getter for format.
-        
+
         Returns:
             The format value
-        
+
         Note:
             Delegates to format property (CODING_RULE_V2_00017)
         """
@@ -406,13 +406,13 @@ class CryptoServiceCertificate(ARElement):
     def setFormat(self, value: "CryptoCertificateFormat") -> "CryptoServiceCertificate":
         """
         AUTOSAR-compliant setter for format with method chaining.
-        
+
         Args:
             value: The format to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to format property setter (gets validation automatically)
         """
@@ -422,10 +422,10 @@ class CryptoServiceCertificate(ARElement):
     def getMaximum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -434,13 +434,13 @@ class CryptoServiceCertificate(ARElement):
     def setMaximum(self, value: "PositiveInteger") -> "CryptoServiceCertificate":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -450,10 +450,10 @@ class CryptoServiceCertificate(ARElement):
     def getNextHigher(self) -> "CryptoService":
         """
         AUTOSAR-compliant getter for nextHigher.
-        
+
         Returns:
             The nextHigher value
-        
+
         Note:
             Delegates to next_higher property (CODING_RULE_V2_00017)
         """
@@ -462,13 +462,13 @@ class CryptoServiceCertificate(ARElement):
     def setNextHigher(self, value: "CryptoService") -> "CryptoServiceCertificate":
         """
         AUTOSAR-compliant setter for nextHigher with method chaining.
-        
+
         Args:
             value: The nextHigher to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to next_higher property setter (gets validation automatically)
         """
@@ -478,10 +478,10 @@ class CryptoServiceCertificate(ARElement):
     def getServerName(self) -> "String":
         """
         AUTOSAR-compliant getter for serverName.
-        
+
         Returns:
             The serverName value
-        
+
         Note:
             Delegates to server_name property (CODING_RULE_V2_00017)
         """
@@ -490,13 +490,13 @@ class CryptoServiceCertificate(ARElement):
     def setServerName(self, value: "String") -> "CryptoServiceCertificate":
         """
         AUTOSAR-compliant setter for serverName with method chaining.
-        
+
         Args:
             value: The serverName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to server_name property setter (gets validation automatically)
         """
@@ -508,13 +508,13 @@ class CryptoServiceCertificate(ARElement):
     def with_algorithm_family(self, value: Optional["CryptoCertificate"]) -> "CryptoServiceCertificate":
         """
         Set algorithmFamily and return self for chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_family("value")
         """
@@ -524,13 +524,13 @@ class CryptoServiceCertificate(ARElement):
     def with_format(self, value: Optional["CryptoCertificateFormat"]) -> "CryptoServiceCertificate":
         """
         Set format and return self for chaining.
-        
+
         Args:
             value: The format to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_format("value")
         """
@@ -540,13 +540,13 @@ class CryptoServiceCertificate(ARElement):
     def with_maximum(self, value: Optional["PositiveInteger"]) -> "CryptoServiceCertificate":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -556,13 +556,13 @@ class CryptoServiceCertificate(ARElement):
     def with_next_higher(self, value: Optional["CryptoService"]) -> "CryptoServiceCertificate":
         """
         Set nextHigher and return self for chaining.
-        
+
         Args:
             value: The nextHigher to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_next_higher("value")
         """
@@ -572,13 +572,13 @@ class CryptoServiceCertificate(ARElement):
     def with_server_name(self, value: Optional["String"]) -> "CryptoServiceCertificate":
         """
         Set serverName and return self for chaining.
-        
+
         Args:
             value: The serverName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_server_name("value")
         """
@@ -591,9 +591,9 @@ class MacSecProps(ARObject):
     """
     This meta-class allows to configure MACsec (Media access control security)
     and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 173, Classic Platform R23-11)
     """
@@ -614,10 +614,10 @@ class MacSecProps(ARObject):
     def auto_start(self, value: Optional["Boolean"]) -> None:
         """
         Set autoStart with validation.
-        
+
         Args:
             value: The autoStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -641,10 +641,10 @@ class MacSecProps(ARObject):
     def mac_sec_kay(self, value: Optional["MacSecLocalKayProps"]) -> None:
         """
         Set macSecKay with validation.
-        
+
         Args:
             value: The macSecKay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -670,10 +670,10 @@ class MacSecProps(ARObject):
     def on_fail(self, value: Optional["TimeValue"]) -> None:
         """
         Set onFail with validation.
-        
+
         Args:
             value: The onFail to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -699,10 +699,10 @@ class MacSecProps(ARObject):
     def sak_rekey_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set sakRekeyTime with validation.
-        
+
         Args:
             value: The sakRekeyTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -721,10 +721,10 @@ class MacSecProps(ARObject):
     def getAutoStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoStart.
-        
+
         Returns:
             The autoStart value
-        
+
         Note:
             Delegates to auto_start property (CODING_RULE_V2_00017)
         """
@@ -733,13 +733,13 @@ class MacSecProps(ARObject):
     def setAutoStart(self, value: "Boolean") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for autoStart with method chaining.
-        
+
         Args:
             value: The autoStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_start property setter (gets validation automatically)
         """
@@ -749,10 +749,10 @@ class MacSecProps(ARObject):
     def getMacSecKay(self) -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant getter for macSecKay.
-        
+
         Returns:
             The macSecKay value
-        
+
         Note:
             Delegates to mac_sec_kay property (CODING_RULE_V2_00017)
         """
@@ -761,13 +761,13 @@ class MacSecProps(ARObject):
     def setMacSecKay(self, value: "MacSecLocalKayProps") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for macSecKay with method chaining.
-        
+
         Args:
             value: The macSecKay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_sec_kay property setter (gets validation automatically)
         """
@@ -777,10 +777,10 @@ class MacSecProps(ARObject):
     def getOnFail(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for onFail.
-        
+
         Returns:
             The onFail value
-        
+
         Note:
             Delegates to on_fail property (CODING_RULE_V2_00017)
         """
@@ -789,13 +789,13 @@ class MacSecProps(ARObject):
     def setOnFail(self, value: "TimeValue") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for onFail with method chaining.
-        
+
         Args:
             value: The onFail to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to on_fail property setter (gets validation automatically)
         """
@@ -805,10 +805,10 @@ class MacSecProps(ARObject):
     def getSakRekeyTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sakRekeyTime.
-        
+
         Returns:
             The sakRekeyTime value
-        
+
         Note:
             Delegates to sak_rekey_time property (CODING_RULE_V2_00017)
         """
@@ -817,13 +817,13 @@ class MacSecProps(ARObject):
     def setSakRekeyTime(self, value: "TimeValue") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for sakRekeyTime with method chaining.
-        
+
         Args:
             value: The sakRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sak_rekey_time property setter (gets validation automatically)
         """
@@ -835,13 +835,13 @@ class MacSecProps(ARObject):
     def with_auto_start(self, value: Optional["Boolean"]) -> "MacSecProps":
         """
         Set autoStart and return self for chaining.
-        
+
         Args:
             value: The autoStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_start("value")
         """
@@ -851,13 +851,13 @@ class MacSecProps(ARObject):
     def with_mac_sec_kay(self, value: Optional["MacSecLocalKayProps"]) -> "MacSecProps":
         """
         Set macSecKay and return self for chaining.
-        
+
         Args:
             value: The macSecKay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_sec_kay("value")
         """
@@ -867,13 +867,13 @@ class MacSecProps(ARObject):
     def with_on_fail(self, value: Optional["TimeValue"]) -> "MacSecProps":
         """
         Set onFail and return self for chaining.
-        
+
         Args:
             value: The onFail to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_on_fail("value")
         """
@@ -883,13 +883,13 @@ class MacSecProps(ARObject):
     def with_sak_rekey_time(self, value: Optional["TimeValue"]) -> "MacSecProps":
         """
         Set sakRekeyTime and return self for chaining.
-        
+
         Args:
             value: The sakRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sak_rekey_time("value")
         """
@@ -901,9 +901,9 @@ class MacSecProps(ARObject):
 class MacSecLocalKayProps(ARObject):
     """
     Configuration of the MAC Security Key Agreement Entity (KaY).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecLocalKayProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 173, Classic Platform R23-11)
     """
@@ -924,10 +924,10 @@ class MacSecLocalKayProps(ARObject):
     def destination_mac(self, value: Optional["MacAddressString"]) -> None:
         """
         Set destinationMac with validation.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -951,10 +951,10 @@ class MacSecLocalKayProps(ARObject):
     def global_kay_props(self, value: Optional["MacSecGlobalKay"]) -> None:
         """
         Set globalKayProps with validation.
-        
+
         Args:
             value: The globalKayProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -980,10 +980,10 @@ class MacSecLocalKayProps(ARObject):
     def key_server(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set keyServer with validation.
-        
+
         Args:
             value: The keyServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1015,10 +1015,10 @@ class MacSecLocalKayProps(ARObject):
     def role(self, value: Optional["MacSecRoleEnum"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1043,10 +1043,10 @@ class MacSecLocalKayProps(ARObject):
     def source_mac(self, value: Optional["MacAddressString"]) -> None:
         """
         Set sourceMac with validation.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1065,10 +1065,10 @@ class MacSecLocalKayProps(ARObject):
     def getDestinationMac(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for destinationMac.
-        
+
         Returns:
             The destinationMac value
-        
+
         Note:
             Delegates to destination_mac property (CODING_RULE_V2_00017)
         """
@@ -1077,13 +1077,13 @@ class MacSecLocalKayProps(ARObject):
     def setDestinationMac(self, value: "MacAddressString") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_mac property setter (gets validation automatically)
         """
@@ -1093,10 +1093,10 @@ class MacSecLocalKayProps(ARObject):
     def getGlobalKayProps(self) -> "MacSecGlobalKay":
         """
         AUTOSAR-compliant getter for globalKayProps.
-        
+
         Returns:
             The globalKayProps value
-        
+
         Note:
             Delegates to global_kay_props property (CODING_RULE_V2_00017)
         """
@@ -1105,13 +1105,13 @@ class MacSecLocalKayProps(ARObject):
     def setGlobalKayProps(self, value: "MacSecGlobalKay") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for globalKayProps with method chaining.
-        
+
         Args:
             value: The globalKayProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_kay_props property setter (gets validation automatically)
         """
@@ -1121,10 +1121,10 @@ class MacSecLocalKayProps(ARObject):
     def getKeyServer(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for keyServer.
-        
+
         Returns:
             The keyServer value
-        
+
         Note:
             Delegates to key_server property (CODING_RULE_V2_00017)
         """
@@ -1133,13 +1133,13 @@ class MacSecLocalKayProps(ARObject):
     def setKeyServer(self, value: "PositiveInteger") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for keyServer with method chaining.
-        
+
         Args:
             value: The keyServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_server property setter (gets validation automatically)
         """
@@ -1149,10 +1149,10 @@ class MacSecLocalKayProps(ARObject):
     def getMkaParticipant(self) -> List["MacSecKayParticipant"]:
         """
         AUTOSAR-compliant getter for mkaParticipant.
-        
+
         Returns:
             The mkaParticipant value
-        
+
         Note:
             Delegates to mka_participant property (CODING_RULE_V2_00017)
         """
@@ -1161,10 +1161,10 @@ class MacSecLocalKayProps(ARObject):
     def getRole(self) -> "MacSecRoleEnum":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -1173,13 +1173,13 @@ class MacSecLocalKayProps(ARObject):
     def setRole(self, value: "MacSecRoleEnum") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -1189,10 +1189,10 @@ class MacSecLocalKayProps(ARObject):
     def getSourceMac(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for sourceMac.
-        
+
         Returns:
             The sourceMac value
-        
+
         Note:
             Delegates to source_mac property (CODING_RULE_V2_00017)
         """
@@ -1201,13 +1201,13 @@ class MacSecLocalKayProps(ARObject):
     def setSourceMac(self, value: "MacAddressString") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for sourceMac with method chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_mac property setter (gets validation automatically)
         """
@@ -1219,13 +1219,13 @@ class MacSecLocalKayProps(ARObject):
     def with_destination_mac(self, value: Optional["MacAddressString"]) -> "MacSecLocalKayProps":
         """
         Set destinationMac and return self for chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_mac("value")
         """
@@ -1235,13 +1235,13 @@ class MacSecLocalKayProps(ARObject):
     def with_global_kay_props(self, value: Optional["MacSecGlobalKay"]) -> "MacSecLocalKayProps":
         """
         Set globalKayProps and return self for chaining.
-        
+
         Args:
             value: The globalKayProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_kay_props("value")
         """
@@ -1251,13 +1251,13 @@ class MacSecLocalKayProps(ARObject):
     def with_key_server(self, value: Optional["PositiveInteger"]) -> "MacSecLocalKayProps":
         """
         Set keyServer and return self for chaining.
-        
+
         Args:
             value: The keyServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_server("value")
         """
@@ -1267,13 +1267,13 @@ class MacSecLocalKayProps(ARObject):
     def with_role(self, value: Optional["MacSecRoleEnum"]) -> "MacSecLocalKayProps":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -1283,13 +1283,13 @@ class MacSecLocalKayProps(ARObject):
     def with_source_mac(self, value: Optional["MacAddressString"]) -> "MacSecLocalKayProps":
         """
         Set sourceMac and return self for chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_mac("value")
         """
@@ -1302,9 +1302,9 @@ class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are
     shared by different KaY configurations.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecGlobalKayProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 174, Classic Platform R23-11)
     """
@@ -1325,10 +1325,10 @@ class MacSecGlobalKayProps(ARElement):
     def bypass_ether(self, value: "PositiveInteger") -> None:
         """
         Set bypassEther with validation.
-        
+
         Args:
             value: The bypassEther to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1350,10 +1350,10 @@ class MacSecGlobalKayProps(ARElement):
     def bypass_vlan(self, value: "PositiveInteger") -> None:
         """
         Set bypassVlan with validation.
-        
+
         Args:
             value: The bypassVlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1368,10 +1368,10 @@ class MacSecGlobalKayProps(ARElement):
     def getBypassEther(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bypassEther.
-        
+
         Returns:
             The bypassEther value
-        
+
         Note:
             Delegates to bypass_ether property (CODING_RULE_V2_00017)
         """
@@ -1380,13 +1380,13 @@ class MacSecGlobalKayProps(ARElement):
     def setBypassEther(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         AUTOSAR-compliant setter for bypassEther with method chaining.
-        
+
         Args:
             value: The bypassEther to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bypass_ether property setter (gets validation automatically)
         """
@@ -1396,10 +1396,10 @@ class MacSecGlobalKayProps(ARElement):
     def getBypassVlan(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bypassVlan.
-        
+
         Returns:
             The bypassVlan value
-        
+
         Note:
             Delegates to bypass_vlan property (CODING_RULE_V2_00017)
         """
@@ -1408,13 +1408,13 @@ class MacSecGlobalKayProps(ARElement):
     def setBypassVlan(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         AUTOSAR-compliant setter for bypassVlan with method chaining.
-        
+
         Args:
             value: The bypassVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bypass_vlan property setter (gets validation automatically)
         """
@@ -1426,13 +1426,13 @@ class MacSecGlobalKayProps(ARElement):
     def with_bypass_ether(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         Set bypassEther and return self for chaining.
-        
+
         Args:
             value: The bypassEther to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bypass_ether("value")
         """
@@ -1442,13 +1442,13 @@ class MacSecGlobalKayProps(ARElement):
     def with_bypass_vlan(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         Set bypassVlan and return self for chaining.
-        
+
         Args:
             value: The bypassVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bypass_vlan("value")
         """
@@ -1460,9 +1460,9 @@ class MacSecGlobalKayProps(ARElement):
 class MacSecParticipantSet(ARElement):
     """
     Collection of MACsec Kay Participants on an Ethernet Link.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecParticipantSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 174, Classic Platform R23-11)
     """
@@ -1482,10 +1482,10 @@ class MacSecParticipantSet(ARElement):
     def ethernet_cluster(self, value: Optional["EthernetCluster"]) -> None:
         """
         Set ethernetCluster with validation.
-        
+
         Args:
             value: The ethernetCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1510,10 +1510,10 @@ class MacSecParticipantSet(ARElement):
     def getEthernetCluster(self) -> "EthernetCluster":
         """
         AUTOSAR-compliant getter for ethernetCluster.
-        
+
         Returns:
             The ethernetCluster value
-        
+
         Note:
             Delegates to ethernet_cluster property (CODING_RULE_V2_00017)
         """
@@ -1522,13 +1522,13 @@ class MacSecParticipantSet(ARElement):
     def setEthernetCluster(self, value: "EthernetCluster") -> "MacSecParticipantSet":
         """
         AUTOSAR-compliant setter for ethernetCluster with method chaining.
-        
+
         Args:
             value: The ethernetCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ethernet_cluster property setter (gets validation automatically)
         """
@@ -1538,10 +1538,10 @@ class MacSecParticipantSet(ARElement):
     def getMkaParticipant(self) -> List["MacSecKayParticipant"]:
         """
         AUTOSAR-compliant getter for mkaParticipant.
-        
+
         Returns:
             The mkaParticipant value
-        
+
         Note:
             Delegates to mka_participant property (CODING_RULE_V2_00017)
         """
@@ -1552,13 +1552,13 @@ class MacSecParticipantSet(ARElement):
     def with_ethernet_cluster(self, value: Optional["EthernetCluster"]) -> "MacSecParticipantSet":
         """
         Set ethernetCluster and return self for chaining.
-        
+
         Args:
             value: The ethernetCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ethernet_cluster("value")
         """
@@ -1570,9 +1570,9 @@ class MacSecParticipantSet(ARElement):
 class MacSecKayParticipant(Identifiable):
     """
     This meta-class configures a MKA participant.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecKayParticipant
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)
     """
@@ -1592,10 +1592,10 @@ class MacSecKayParticipant(Identifiable):
     def ckn(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set ckn with validation.
-        
+
         Args:
             value: The ckn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1621,10 +1621,10 @@ class MacSecKayParticipant(Identifiable):
     def crypto_algo(self, value: Optional["MacSecCryptoAlgo"]) -> None:
         """
         Set cryptoAlgo with validation.
-        
+
         Args:
             value: The cryptoAlgo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1648,10 +1648,10 @@ class MacSecKayParticipant(Identifiable):
     def sak(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set sak with validation.
-        
+
         Args:
             value: The sak to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1670,10 +1670,10 @@ class MacSecKayParticipant(Identifiable):
     def getCkn(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for ckn.
-        
+
         Returns:
             The ckn value
-        
+
         Note:
             Delegates to ckn property (CODING_RULE_V2_00017)
         """
@@ -1682,13 +1682,13 @@ class MacSecKayParticipant(Identifiable):
     def setCkn(self, value: "CryptoServiceKey") -> "MacSecKayParticipant":
         """
         AUTOSAR-compliant setter for ckn with method chaining.
-        
+
         Args:
             value: The ckn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ckn property setter (gets validation automatically)
         """
@@ -1698,10 +1698,10 @@ class MacSecKayParticipant(Identifiable):
     def getCryptoAlgo(self) -> "MacSecCryptoAlgo":
         """
         AUTOSAR-compliant getter for cryptoAlgo.
-        
+
         Returns:
             The cryptoAlgo value
-        
+
         Note:
             Delegates to crypto_algo property (CODING_RULE_V2_00017)
         """
@@ -1710,13 +1710,13 @@ class MacSecKayParticipant(Identifiable):
     def setCryptoAlgo(self, value: "MacSecCryptoAlgo") -> "MacSecKayParticipant":
         """
         AUTOSAR-compliant setter for cryptoAlgo with method chaining.
-        
+
         Args:
             value: The cryptoAlgo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_algo property setter (gets validation automatically)
         """
@@ -1726,10 +1726,10 @@ class MacSecKayParticipant(Identifiable):
     def getSak(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for sak.
-        
+
         Returns:
             The sak value
-        
+
         Note:
             Delegates to sak property (CODING_RULE_V2_00017)
         """
@@ -1738,13 +1738,13 @@ class MacSecKayParticipant(Identifiable):
     def setSak(self, value: "CryptoServiceKey") -> "MacSecKayParticipant":
         """
         AUTOSAR-compliant setter for sak with method chaining.
-        
+
         Args:
             value: The sak to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sak property setter (gets validation automatically)
         """
@@ -1756,13 +1756,13 @@ class MacSecKayParticipant(Identifiable):
     def with_ckn(self, value: Optional["CryptoServiceKey"]) -> "MacSecKayParticipant":
         """
         Set ckn and return self for chaining.
-        
+
         Args:
             value: The ckn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ckn("value")
         """
@@ -1772,13 +1772,13 @@ class MacSecKayParticipant(Identifiable):
     def with_crypto_algo(self, value: Optional["MacSecCryptoAlgo"]) -> "MacSecKayParticipant":
         """
         Set cryptoAlgo and return self for chaining.
-        
+
         Args:
             value: The cryptoAlgo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_algo("value")
         """
@@ -1788,13 +1788,13 @@ class MacSecKayParticipant(Identifiable):
     def with_sak(self, value: Optional["CryptoServiceKey"]) -> "MacSecKayParticipant":
         """
         Set sak and return self for chaining.
-        
+
         Args:
             value: The sak to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sak("value")
         """
@@ -1806,9 +1806,9 @@ class MacSecKayParticipant(Identifiable):
 class MacSecCryptoAlgoConfig(ARObject):
     """
     This meta-class defines the cryptography configuration for MACsec.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecCryptoAlgoConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)
     """
@@ -1828,10 +1828,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def capability(self, value: Optional["MacSecCapabilityEnum"]) -> None:
         """
         Set capability with validation.
-        
+
         Args:
             value: The capability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1856,10 +1856,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def cipher_suite(self, value: "MacSecCipherSuite") -> None:
         """
         Set cipherSuite with validation.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1881,10 +1881,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def confidentiality(self, value: Optional["MacSecConfidentiality"]) -> None:
         """
         Set confidentiality with validation.
-        
+
         Args:
             value: The confidentiality to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1909,10 +1909,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def replay_protection(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set replayProtection with validation.
-        
+
         Args:
             value: The replayProtection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1931,10 +1931,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getCapability(self) -> "MacSecCapabilityEnum":
         """
         AUTOSAR-compliant getter for capability.
-        
+
         Returns:
             The capability value
-        
+
         Note:
             Delegates to capability property (CODING_RULE_V2_00017)
         """
@@ -1943,13 +1943,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setCapability(self, value: "MacSecCapabilityEnum") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for capability with method chaining.
-        
+
         Args:
             value: The capability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to capability property setter (gets validation automatically)
         """
@@ -1959,10 +1959,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getCipherSuite(self) -> "MacSecCipherSuite":
         """
         AUTOSAR-compliant getter for cipherSuite.
-        
+
         Returns:
             The cipherSuite value
-        
+
         Note:
             Delegates to cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -1971,13 +1971,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setCipherSuite(self, value: "MacSecCipherSuite") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for cipherSuite with method chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cipher_suite property setter (gets validation automatically)
         """
@@ -1987,10 +1987,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getConfidentiality(self) -> "MacSecConfidentiality":
         """
         AUTOSAR-compliant getter for confidentiality.
-        
+
         Returns:
             The confidentiality value
-        
+
         Note:
             Delegates to confidentiality property (CODING_RULE_V2_00017)
         """
@@ -1999,13 +1999,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setConfidentiality(self, value: "MacSecConfidentiality") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for confidentiality with method chaining.
-        
+
         Args:
             value: The confidentiality to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to confidentiality property setter (gets validation automatically)
         """
@@ -2015,10 +2015,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getReplayProtection(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for replayProtection.
-        
+
         Returns:
             The replayProtection value
-        
+
         Note:
             Delegates to replay_protection property (CODING_RULE_V2_00017)
         """
@@ -2027,13 +2027,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setReplayProtection(self, value: "PositiveInteger") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for replayProtection with method chaining.
-        
+
         Args:
             value: The replayProtection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to replay_protection property setter (gets validation automatically)
         """
@@ -2045,13 +2045,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_capability(self, value: Optional["MacSecCapabilityEnum"]) -> "MacSecCryptoAlgoConfig":
         """
         Set capability and return self for chaining.
-        
+
         Args:
             value: The capability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_capability("value")
         """
@@ -2061,13 +2061,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_cipher_suite(self, value: "MacSecCipherSuite") -> "MacSecCryptoAlgoConfig":
         """
         Set cipherSuite and return self for chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cipher_suite("value")
         """
@@ -2077,13 +2077,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_confidentiality(self, value: Optional["MacSecConfidentiality"]) -> "MacSecCryptoAlgoConfig":
         """
         Set confidentiality and return self for chaining.
-        
+
         Args:
             value: The confidentiality to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_confidentiality("value")
         """
@@ -2093,13 +2093,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_replay_protection(self, value: Optional["PositiveInteger"]) -> "MacSecCryptoAlgoConfig":
         """
         Set replayProtection and return self for chaining.
-        
+
         Args:
             value: The replayProtection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_replay_protection("value")
         """
@@ -2115,9 +2115,9 @@ class MacSecCipherSuiteConfig(ARObject):
     to select the cipher suite to use for MACsec. (cid:53) 175 of 2090 Document
     ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11
     (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecCipherSuiteConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)
     """
@@ -2138,10 +2138,10 @@ class MacSecCipherSuiteConfig(ARObject):
     def cipher_suite(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set cipherSuite with validation.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2160,10 +2160,10 @@ class MacSecCipherSuiteConfig(ARObject):
     def getCipherSuite(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for cipherSuite.
-        
+
         Returns:
             The cipherSuite value
-        
+
         Note:
             Delegates to cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -2172,13 +2172,13 @@ class MacSecCipherSuiteConfig(ARObject):
     def setCipherSuite(self, value: "PositiveInteger") -> "MacSecCipherSuiteConfig":
         """
         AUTOSAR-compliant setter for cipherSuite with method chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cipher_suite property setter (gets validation automatically)
         """
@@ -2190,13 +2190,13 @@ class MacSecCipherSuiteConfig(ARObject):
     def with_cipher_suite(self, value: Optional["PositiveInteger"]) -> "MacSecCipherSuiteConfig":
         """
         Set cipherSuite and return self for chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cipher_suite("value")
         """
@@ -2209,9 +2209,9 @@ class CryptoServiceMapping(Identifiable, ABC):
     """
     This meta-class represents an abstract base class for specializations of
     crypto service mappings.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServiceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 375, Classic Platform R23-11)
     """
@@ -2231,9 +2231,9 @@ class CryptoServiceMapping(Identifiable, ABC):
 class CryptoServicePrimitive(ARElement):
     """
     This meta-class has the ability to represent a crypto primitive.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServicePrimitive
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 376, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 59, Foundation R23-11)
@@ -2256,10 +2256,10 @@ class CryptoServicePrimitive(ARElement):
     def algorithm_family(self, value: Optional["String"]) -> None:
         """
         Set algorithmFamily with validation.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2284,10 +2284,10 @@ class CryptoServicePrimitive(ARElement):
     def algorithm_mode(self, value: Optional["String"]) -> None:
         """
         Set algorithmMode with validation.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2315,10 +2315,10 @@ class CryptoServicePrimitive(ARElement):
     def algorithm(self, value: Optional["String"]) -> None:
         """
         Set algorithm with validation.
-        
+
         Args:
             value: The algorithm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2337,10 +2337,10 @@ class CryptoServicePrimitive(ARElement):
     def getAlgorithmFamily(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithmFamily.
-        
+
         Returns:
             The algorithmFamily value
-        
+
         Note:
             Delegates to algorithm_family property (CODING_RULE_V2_00017)
         """
@@ -2349,13 +2349,13 @@ class CryptoServicePrimitive(ARElement):
     def setAlgorithmFamily(self, value: "String") -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant setter for algorithmFamily with method chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_family property setter (gets validation automatically)
         """
@@ -2365,10 +2365,10 @@ class CryptoServicePrimitive(ARElement):
     def getAlgorithmMode(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithmMode.
-        
+
         Returns:
             The algorithmMode value
-        
+
         Note:
             Delegates to algorithm_mode property (CODING_RULE_V2_00017)
         """
@@ -2377,13 +2377,13 @@ class CryptoServicePrimitive(ARElement):
     def setAlgorithmMode(self, value: "String") -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant setter for algorithmMode with method chaining.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_mode property setter (gets validation automatically)
         """
@@ -2393,10 +2393,10 @@ class CryptoServicePrimitive(ARElement):
     def getAlgorithm(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithm.
-        
+
         Returns:
             The algorithm value
-        
+
         Note:
             Delegates to algorithm property (CODING_RULE_V2_00017)
         """
@@ -2405,13 +2405,13 @@ class CryptoServicePrimitive(ARElement):
     def setAlgorithm(self, value: "String") -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant setter for algorithm with method chaining.
-        
+
         Args:
             value: The algorithm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm property setter (gets validation automatically)
         """
@@ -2423,13 +2423,13 @@ class CryptoServicePrimitive(ARElement):
     def with_algorithm_family(self, value: Optional["String"]) -> "CryptoServicePrimitive":
         """
         Set algorithmFamily and return self for chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_family("value")
         """
@@ -2439,13 +2439,13 @@ class CryptoServicePrimitive(ARElement):
     def with_algorithm_mode(self, value: Optional["String"]) -> "CryptoServicePrimitive":
         """
         Set algorithmMode and return self for chaining.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_mode("value")
         """
@@ -2455,13 +2455,13 @@ class CryptoServicePrimitive(ARElement):
     def with_algorithm(self, value: Optional["String"]) -> "CryptoServicePrimitive":
         """
         Set algorithm and return self for chaining.
-        
+
         Args:
             value: The algorithm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm("value")
         """
@@ -2473,9 +2473,9 @@ class CryptoServicePrimitive(ARElement):
 class CryptoServiceKey(ARElement):
     """
     This meta-class has the ability to represent a crypto key.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServiceKey
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 377, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 58, Foundation R23-11)
@@ -2496,10 +2496,10 @@ class CryptoServiceKey(ARElement):
     def algorithm_family(self, value: Optional["String"]) -> None:
         """
         Set algorithmFamily with validation.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2524,10 +2524,10 @@ class CryptoServiceKey(ARElement):
     def development(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set development with validation.
-        
+
         Args:
             value: The development to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2551,10 +2551,10 @@ class CryptoServiceKey(ARElement):
     def key_generation(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set keyGeneration with validation.
-        
+
         Args:
             value: The keyGeneration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2579,10 +2579,10 @@ class CryptoServiceKey(ARElement):
     def key_storage_type(self, value: Optional["String"]) -> None:
         """
         Set keyStorageType with validation.
-        
+
         Args:
             value: The keyStorageType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2606,10 +2606,10 @@ class CryptoServiceKey(ARElement):
     def length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2628,10 +2628,10 @@ class CryptoServiceKey(ARElement):
     def getAlgorithmFamily(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithmFamily.
-        
+
         Returns:
             The algorithmFamily value
-        
+
         Note:
             Delegates to algorithm_family property (CODING_RULE_V2_00017)
         """
@@ -2640,13 +2640,13 @@ class CryptoServiceKey(ARElement):
     def setAlgorithmFamily(self, value: "String") -> "CryptoServiceKey":
         """
         AUTOSAR-compliant setter for algorithmFamily with method chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_family property setter (gets validation automatically)
         """
@@ -2656,10 +2656,10 @@ class CryptoServiceKey(ARElement):
     def getDevelopment(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for development.
-        
+
         Returns:
             The development value
-        
+
         Note:
             Delegates to development property (CODING_RULE_V2_00017)
         """
@@ -2668,13 +2668,13 @@ class CryptoServiceKey(ARElement):
     def setDevelopment(self, value: "ValueSpecification") -> "CryptoServiceKey":
         """
         AUTOSAR-compliant setter for development with method chaining.
-        
+
         Args:
             value: The development to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to development property setter (gets validation automatically)
         """
@@ -2684,10 +2684,10 @@ class CryptoServiceKey(ARElement):
     def getKeyGeneration(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for keyGeneration.
-        
+
         Returns:
             The keyGeneration value
-        
+
         Note:
             Delegates to key_generation property (CODING_RULE_V2_00017)
         """
@@ -2696,13 +2696,13 @@ class CryptoServiceKey(ARElement):
     def setKeyGeneration(self, value: "CryptoServiceKey") -> "CryptoServiceKey":
         """
         AUTOSAR-compliant setter for keyGeneration with method chaining.
-        
+
         Args:
             value: The keyGeneration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_generation property setter (gets validation automatically)
         """
@@ -2712,10 +2712,10 @@ class CryptoServiceKey(ARElement):
     def getKeyStorageType(self) -> "String":
         """
         AUTOSAR-compliant getter for keyStorageType.
-        
+
         Returns:
             The keyStorageType value
-        
+
         Note:
             Delegates to key_storage_type property (CODING_RULE_V2_00017)
         """
@@ -2724,13 +2724,13 @@ class CryptoServiceKey(ARElement):
     def setKeyStorageType(self, value: "String") -> "CryptoServiceKey":
         """
         AUTOSAR-compliant setter for keyStorageType with method chaining.
-        
+
         Args:
             value: The keyStorageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_storage_type property setter (gets validation automatically)
         """
@@ -2740,10 +2740,10 @@ class CryptoServiceKey(ARElement):
     def getLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -2752,13 +2752,13 @@ class CryptoServiceKey(ARElement):
     def setLength(self, value: "PositiveInteger") -> "CryptoServiceKey":
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -2770,13 +2770,13 @@ class CryptoServiceKey(ARElement):
     def with_algorithm_family(self, value: Optional["String"]) -> "CryptoServiceKey":
         """
         Set algorithmFamily and return self for chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_family("value")
         """
@@ -2786,13 +2786,13 @@ class CryptoServiceKey(ARElement):
     def with_development(self, value: Optional["ValueSpecification"]) -> "CryptoServiceKey":
         """
         Set development and return self for chaining.
-        
+
         Args:
             value: The development to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_development("value")
         """
@@ -2802,13 +2802,13 @@ class CryptoServiceKey(ARElement):
     def with_key_generation(self, value: Optional["CryptoServiceKey"]) -> "CryptoServiceKey":
         """
         Set keyGeneration and return self for chaining.
-        
+
         Args:
             value: The keyGeneration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_generation("value")
         """
@@ -2818,13 +2818,13 @@ class CryptoServiceKey(ARElement):
     def with_key_storage_type(self, value: Optional["String"]) -> "CryptoServiceKey":
         """
         Set keyStorageType and return self for chaining.
-        
+
         Args:
             value: The keyStorageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_storage_type("value")
         """
@@ -2834,13 +2834,13 @@ class CryptoServiceKey(ARElement):
     def with_length(self, value: Optional["PositiveInteger"]) -> "CryptoServiceKey":
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -2852,9 +2852,9 @@ class CryptoServiceKey(ARElement):
 class CryptoServiceQueue(ARElement):
     """
     This meta-class has the ability to represent a crypto queue.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServiceQueue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 381, Classic Platform R23-11)
     """
@@ -2874,10 +2874,10 @@ class CryptoServiceQueue(ARElement):
     def queue_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueSize with validation.
-        
+
         Args:
             value: The queueSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2896,10 +2896,10 @@ class CryptoServiceQueue(ARElement):
     def getQueueSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueSize.
-        
+
         Returns:
             The queueSize value
-        
+
         Note:
             Delegates to queue_size property (CODING_RULE_V2_00017)
         """
@@ -2908,13 +2908,13 @@ class CryptoServiceQueue(ARElement):
     def setQueueSize(self, value: "PositiveInteger") -> "CryptoServiceQueue":
         """
         AUTOSAR-compliant setter for queueSize with method chaining.
-        
+
         Args:
             value: The queueSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_size property setter (gets validation automatically)
         """
@@ -2926,13 +2926,13 @@ class CryptoServiceQueue(ARElement):
     def with_queue_size(self, value: Optional["PositiveInteger"]) -> "CryptoServiceQueue":
         """
         Set queueSize and return self for chaining.
-        
+
         Args:
             value: The queueSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_size("value")
         """
@@ -2946,9 +2946,9 @@ class TlsCryptoCipherSuite(Identifiable):
     This meta-class represents a cipher suite for describing cryptographic
     operations in the context of establishing a connection of
     ApplicationEndpoints that is protected by TLS.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsCryptoCipherSuite
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 562, Classic Platform R23-11)
     """
@@ -2969,10 +2969,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def authentication(self, value: Optional["CryptoServicePrimitive"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2996,10 +2996,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def certificate(self, value: Optional["CryptoService"]) -> None:
         """
         Set certificate with validation.
-        
+
         Args:
             value: The certificate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3023,10 +3023,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def cipher_suite_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set cipherSuiteId with validation.
-        
+
         Args:
             value: The cipherSuiteId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3050,10 +3050,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def cipher_suite(self, value: Optional["String"]) -> None:
         """
         Set cipherSuite with validation.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3084,10 +3084,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def encryption(self, value: Optional["CryptoServicePrimitive"]) -> None:
         """
         Set encryption with validation.
-        
+
         Args:
             value: The encryption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3120,10 +3120,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3147,10 +3147,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def props(self, value: Optional["TlsCryptoCipherSuite"]) -> None:
         """
         Set props with validation.
-        
+
         Args:
             value: The props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3175,10 +3175,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def psk_identity(self, value: Optional["TlsPskIdentity"]) -> None:
         """
         Set pskIdentity with validation.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3202,10 +3202,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def remote(self, value: Optional["CryptoService"]) -> None:
         """
         Set remote with validation.
-        
+
         Args:
             value: The remote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3236,10 +3236,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def version(self, value: Optional["TlsVersionEnum"]) -> None:
         """
         Set version with validation.
-        
+
         Args:
             value: The version to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3258,10 +3258,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getAuthentication(self) -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -3270,13 +3270,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setAuthentication(self, value: "CryptoServicePrimitive") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -3286,10 +3286,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getCertificate(self) -> "CryptoService":
         """
         AUTOSAR-compliant getter for certificate.
-        
+
         Returns:
             The certificate value
-        
+
         Note:
             Delegates to certificate property (CODING_RULE_V2_00017)
         """
@@ -3298,13 +3298,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setCertificate(self, value: "CryptoService") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for certificate with method chaining.
-        
+
         Args:
             value: The certificate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to certificate property setter (gets validation automatically)
         """
@@ -3314,10 +3314,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getCipherSuiteId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for cipherSuiteId.
-        
+
         Returns:
             The cipherSuiteId value
-        
+
         Note:
             Delegates to cipher_suite_id property (CODING_RULE_V2_00017)
         """
@@ -3326,13 +3326,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setCipherSuiteId(self, value: "PositiveInteger") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for cipherSuiteId with method chaining.
-        
+
         Args:
             value: The cipherSuiteId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cipher_suite_id property setter (gets validation automatically)
         """
@@ -3342,10 +3342,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getCipherSuite(self) -> "String":
         """
         AUTOSAR-compliant getter for cipherSuite.
-        
+
         Returns:
             The cipherSuite value
-        
+
         Note:
             Delegates to cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -3354,13 +3354,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setCipherSuite(self, value: "String") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for cipherSuite with method chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cipher_suite property setter (gets validation automatically)
         """
@@ -3370,10 +3370,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getEllipticCurve(self) -> List["CryptoEllipticCurve"]:
         """
         AUTOSAR-compliant getter for ellipticCurve.
-        
+
         Returns:
             The ellipticCurve value
-        
+
         Note:
             Delegates to elliptic_curve property (CODING_RULE_V2_00017)
         """
@@ -3382,10 +3382,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getEncryption(self) -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant getter for encryption.
-        
+
         Returns:
             The encryption value
-        
+
         Note:
             Delegates to encryption property (CODING_RULE_V2_00017)
         """
@@ -3394,13 +3394,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setEncryption(self, value: "CryptoServicePrimitive") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for encryption with method chaining.
-        
+
         Args:
             value: The encryption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to encryption property setter (gets validation automatically)
         """
@@ -3410,10 +3410,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getKeyExchange(self) -> List["CryptoServicePrimitive"]:
         """
         AUTOSAR-compliant getter for keyExchange.
-        
+
         Returns:
             The keyExchange value
-        
+
         Note:
             Delegates to key_exchange property (CODING_RULE_V2_00017)
         """
@@ -3422,10 +3422,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -3434,13 +3434,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -3450,10 +3450,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getProps(self) -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant getter for props.
-        
+
         Returns:
             The props value
-        
+
         Note:
             Delegates to props property (CODING_RULE_V2_00017)
         """
@@ -3462,13 +3462,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setProps(self, value: "TlsCryptoCipherSuite") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for props with method chaining.
-        
+
         Args:
             value: The props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to props property setter (gets validation automatically)
         """
@@ -3478,10 +3478,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getPskIdentity(self) -> "TlsPskIdentity":
         """
         AUTOSAR-compliant getter for pskIdentity.
-        
+
         Returns:
             The pskIdentity value
-        
+
         Note:
             Delegates to psk_identity property (CODING_RULE_V2_00017)
         """
@@ -3490,13 +3490,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setPskIdentity(self, value: "TlsPskIdentity") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for pskIdentity with method chaining.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to psk_identity property setter (gets validation automatically)
         """
@@ -3506,10 +3506,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getRemote(self) -> "CryptoService":
         """
         AUTOSAR-compliant getter for remote.
-        
+
         Returns:
             The remote value
-        
+
         Note:
             Delegates to remote property (CODING_RULE_V2_00017)
         """
@@ -3518,13 +3518,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setRemote(self, value: "CryptoService") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for remote with method chaining.
-        
+
         Args:
             value: The remote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote property setter (gets validation automatically)
         """
@@ -3534,10 +3534,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getSignature(self) -> List["CryptoSignature"]:
         """
         AUTOSAR-compliant getter for signature.
-        
+
         Returns:
             The signature value
-        
+
         Note:
             Delegates to signature property (CODING_RULE_V2_00017)
         """
@@ -3546,10 +3546,10 @@ class TlsCryptoCipherSuite(Identifiable):
     def getVersion(self) -> "TlsVersionEnum":
         """
         AUTOSAR-compliant getter for version.
-        
+
         Returns:
             The version value
-        
+
         Note:
             Delegates to version property (CODING_RULE_V2_00017)
         """
@@ -3558,13 +3558,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def setVersion(self, value: "TlsVersionEnum") -> "TlsCryptoCipherSuite":
         """
         AUTOSAR-compliant setter for version with method chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version property setter (gets validation automatically)
         """
@@ -3576,13 +3576,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_authentication(self, value: Optional["CryptoServicePrimitive"]) -> "TlsCryptoCipherSuite":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -3592,13 +3592,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_certificate(self, value: Optional["CryptoService"]) -> "TlsCryptoCipherSuite":
         """
         Set certificate and return self for chaining.
-        
+
         Args:
             value: The certificate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_certificate("value")
         """
@@ -3608,13 +3608,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_cipher_suite_id(self, value: Optional["PositiveInteger"]) -> "TlsCryptoCipherSuite":
         """
         Set cipherSuiteId and return self for chaining.
-        
+
         Args:
             value: The cipherSuiteId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cipher_suite_id("value")
         """
@@ -3624,13 +3624,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_cipher_suite(self, value: Optional["String"]) -> "TlsCryptoCipherSuite":
         """
         Set cipherSuite and return self for chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cipher_suite("value")
         """
@@ -3640,13 +3640,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_encryption(self, value: Optional["CryptoServicePrimitive"]) -> "TlsCryptoCipherSuite":
         """
         Set encryption and return self for chaining.
-        
+
         Args:
             value: The encryption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_encryption("value")
         """
@@ -3656,13 +3656,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "TlsCryptoCipherSuite":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -3672,13 +3672,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_props(self, value: Optional["TlsCryptoCipherSuite"]) -> "TlsCryptoCipherSuite":
         """
         Set props and return self for chaining.
-        
+
         Args:
             value: The props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_props("value")
         """
@@ -3688,13 +3688,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_psk_identity(self, value: Optional["TlsPskIdentity"]) -> "TlsCryptoCipherSuite":
         """
         Set pskIdentity and return self for chaining.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_psk_identity("value")
         """
@@ -3704,13 +3704,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_remote(self, value: Optional["CryptoService"]) -> "TlsCryptoCipherSuite":
         """
         Set remote and return self for chaining.
-        
+
         Args:
             value: The remote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote("value")
         """
@@ -3720,13 +3720,13 @@ class TlsCryptoCipherSuite(Identifiable):
     def with_version(self, value: Optional["TlsVersionEnum"]) -> "TlsCryptoCipherSuite":
         """
         Set version and return self for chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version("value")
         """
@@ -3740,9 +3740,9 @@ class TlsPskIdentity(ARObject):
     This element is used to describe the pre-shared key shared during the
     handshake among the communication parties, to establish a TLS connection if
     the handshake is based on the existence of a pre-shared key.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsPskIdentity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 563, Classic Platform R23-11)
     """
@@ -3762,10 +3762,10 @@ class TlsPskIdentity(ARObject):
     def pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set preSharedKey with validation.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3789,10 +3789,10 @@ class TlsPskIdentity(ARObject):
     def psk_identity(self, value: Optional["String"]) -> None:
         """
         Set pskIdentity with validation.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3816,10 +3816,10 @@ class TlsPskIdentity(ARObject):
     def psk_identity_hint(self, value: Optional["String"]) -> None:
         """
         Set pskIdentityHint with validation.
-        
+
         Args:
             value: The pskIdentityHint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3838,10 +3838,10 @@ class TlsPskIdentity(ARObject):
     def getPreSharedKey(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for preSharedKey.
-        
+
         Returns:
             The preSharedKey value
-        
+
         Note:
             Delegates to pre_shared_key property (CODING_RULE_V2_00017)
         """
@@ -3850,13 +3850,13 @@ class TlsPskIdentity(ARObject):
     def setPreSharedKey(self, value: "CryptoServiceKey") -> "TlsPskIdentity":
         """
         AUTOSAR-compliant setter for preSharedKey with method chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pre_shared_key property setter (gets validation automatically)
         """
@@ -3866,10 +3866,10 @@ class TlsPskIdentity(ARObject):
     def getPskIdentity(self) -> "String":
         """
         AUTOSAR-compliant getter for pskIdentity.
-        
+
         Returns:
             The pskIdentity value
-        
+
         Note:
             Delegates to psk_identity property (CODING_RULE_V2_00017)
         """
@@ -3878,13 +3878,13 @@ class TlsPskIdentity(ARObject):
     def setPskIdentity(self, value: "String") -> "TlsPskIdentity":
         """
         AUTOSAR-compliant setter for pskIdentity with method chaining.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to psk_identity property setter (gets validation automatically)
         """
@@ -3894,10 +3894,10 @@ class TlsPskIdentity(ARObject):
     def getPskIdentityHint(self) -> "String":
         """
         AUTOSAR-compliant getter for pskIdentityHint.
-        
+
         Returns:
             The pskIdentityHint value
-        
+
         Note:
             Delegates to psk_identity_hint property (CODING_RULE_V2_00017)
         """
@@ -3906,13 +3906,13 @@ class TlsPskIdentity(ARObject):
     def setPskIdentityHint(self, value: "String") -> "TlsPskIdentity":
         """
         AUTOSAR-compliant setter for pskIdentityHint with method chaining.
-        
+
         Args:
             value: The pskIdentityHint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to psk_identity_hint property setter (gets validation automatically)
         """
@@ -3924,13 +3924,13 @@ class TlsPskIdentity(ARObject):
     def with_pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> "TlsPskIdentity":
         """
         Set preSharedKey and return self for chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pre_shared_key("value")
         """
@@ -3940,13 +3940,13 @@ class TlsPskIdentity(ARObject):
     def with_psk_identity(self, value: Optional["String"]) -> "TlsPskIdentity":
         """
         Set pskIdentity and return self for chaining.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_psk_identity("value")
         """
@@ -3956,13 +3956,13 @@ class TlsPskIdentity(ARObject):
     def with_psk_identity_hint(self, value: Optional["String"]) -> "TlsPskIdentity":
         """
         Set pskIdentityHint and return self for chaining.
-        
+
         Args:
             value: The pskIdentityHint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_psk_identity_hint("value")
         """
@@ -3974,9 +3974,9 @@ class TlsPskIdentity(ARObject):
 class TlsCryptoCipherSuiteProps(Identifiable):
     """
     This meta-class provides attributes to specify details of TLS Cipher Suites.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsCryptoCipherSuiteProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 563, Classic Platform R23-11)
     """
@@ -3997,10 +3997,10 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def tcp_ip_tls_use(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpTlsUse with validation.
-        
+
         Args:
             value: The tcpIpTlsUse to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4019,10 +4019,10 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def getTcpIpTlsUse(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpTlsUse.
-        
+
         Returns:
             The tcpIpTlsUse value
-        
+
         Note:
             Delegates to tcp_ip_tls_use property (CODING_RULE_V2_00017)
         """
@@ -4031,13 +4031,13 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def setTcpIpTlsUse(self, value: "Boolean") -> "TlsCryptoCipherSuiteProps":
         """
         AUTOSAR-compliant setter for tcpIpTlsUse with method chaining.
-        
+
         Args:
             value: The tcpIpTlsUse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_tls_use property setter (gets validation automatically)
         """
@@ -4049,13 +4049,13 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def with_tcp_ip_tls_use(self, value: Optional["Boolean"]) -> "TlsCryptoCipherSuiteProps":
         """
         Set tcpIpTlsUse and return self for chaining.
-        
+
         Args:
             value: The tcpIpTlsUse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_tls_use("value")
         """
@@ -4068,9 +4068,9 @@ class CryptoEllipticCurveProps(ARElement):
     """
     This meta-class provides attributes to specify the properties of elliptic
     curves.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoEllipticCurveProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 564, Classic Platform R23-11)
     """
@@ -4090,10 +4090,10 @@ class CryptoEllipticCurveProps(ARElement):
     def named_curve_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set namedCurveId with validation.
-        
+
         Args:
             value: The namedCurveId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4112,10 +4112,10 @@ class CryptoEllipticCurveProps(ARElement):
     def getNamedCurveId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for namedCurveId.
-        
+
         Returns:
             The namedCurveId value
-        
+
         Note:
             Delegates to named_curve_id property (CODING_RULE_V2_00017)
         """
@@ -4124,13 +4124,13 @@ class CryptoEllipticCurveProps(ARElement):
     def setNamedCurveId(self, value: "PositiveInteger") -> "CryptoEllipticCurveProps":
         """
         AUTOSAR-compliant setter for namedCurveId with method chaining.
-        
+
         Args:
             value: The namedCurveId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to named_curve_id property setter (gets validation automatically)
         """
@@ -4142,13 +4142,13 @@ class CryptoEllipticCurveProps(ARElement):
     def with_named_curve_id(self, value: Optional["PositiveInteger"]) -> "CryptoEllipticCurveProps":
         """
         Set namedCurveId and return self for chaining.
-        
+
         Args:
             value: The namedCurveId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_named_curve_id("value")
         """
@@ -4160,9 +4160,9 @@ class CryptoEllipticCurveProps(ARElement):
 class CryptoSignatureScheme(ARElement):
     """
     This meta-class provides attributes to specify the TLS Signature Scheme.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoSignatureScheme
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 564, Classic Platform R23-11)
     """
@@ -4182,10 +4182,10 @@ class CryptoSignatureScheme(ARElement):
     def signature(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set signature with validation.
-        
+
         Args:
             value: The signature to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4204,10 +4204,10 @@ class CryptoSignatureScheme(ARElement):
     def getSignature(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for signature.
-        
+
         Returns:
             The signature value
-        
+
         Note:
             Delegates to signature property (CODING_RULE_V2_00017)
         """
@@ -4216,13 +4216,13 @@ class CryptoSignatureScheme(ARElement):
     def setSignature(self, value: "PositiveInteger") -> "CryptoSignatureScheme":
         """
         AUTOSAR-compliant setter for signature with method chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signature property setter (gets validation automatically)
         """
@@ -4234,13 +4234,13 @@ class CryptoSignatureScheme(ARElement):
     def with_signature(self, value: Optional["PositiveInteger"]) -> "CryptoSignatureScheme":
         """
         Set signature and return self for chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signature("value")
         """
@@ -4253,9 +4253,9 @@ class IPSecConfig(ARObject):
     """
     IPsec is a protocol that is designed to provide "end-to-end"
     cryptographically-based security for IP network connections.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 571, Classic Platform R23-11)
     """
@@ -4276,10 +4276,10 @@ class IPSecConfig(ARObject):
     def ip_sec_config(self, value: Optional["IPSecConfigProps"]) -> None:
         """
         Set ipSecConfig with validation.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4305,10 +4305,10 @@ class IPSecConfig(ARObject):
     def getIpSecConfig(self) -> "IPSecConfigProps":
         """
         AUTOSAR-compliant getter for ipSecConfig.
-        
+
         Returns:
             The ipSecConfig value
-        
+
         Note:
             Delegates to ip_sec_config property (CODING_RULE_V2_00017)
         """
@@ -4317,13 +4317,13 @@ class IPSecConfig(ARObject):
     def setIpSecConfig(self, value: "IPSecConfigProps") -> "IPSecConfig":
         """
         AUTOSAR-compliant setter for ipSecConfig with method chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_sec_config property setter (gets validation automatically)
         """
@@ -4333,10 +4333,10 @@ class IPSecConfig(ARObject):
     def getIpSecRule(self) -> List["IPSecRule"]:
         """
         AUTOSAR-compliant getter for ipSecRule.
-        
+
         Returns:
             The ipSecRule value
-        
+
         Note:
             Delegates to ip_sec_rule property (CODING_RULE_V2_00017)
         """
@@ -4347,13 +4347,13 @@ class IPSecConfig(ARObject):
     def with_ip_sec_config(self, value: Optional["IPSecConfigProps"]) -> "IPSecConfig":
         """
         Set ipSecConfig and return self for chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_sec_config("value")
         """
@@ -4366,9 +4366,9 @@ class IPSecRule(Identifiable):
     """
     This element defines an IPsec rule that describes communication traffic that
     is monitored, protected and filtered.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecRule
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 571, Classic Platform R23-11)
     """
@@ -4389,10 +4389,10 @@ class IPSecRule(Identifiable):
     def direction(self, value: Optional["Communication"]) -> None:
         """
         Set direction with validation.
-        
+
         Args:
             value: The direction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4416,10 +4416,10 @@ class IPSecRule(Identifiable):
     def header_type(self, value: Optional["IPsecHeaderTypeEnum"]) -> None:
         """
         Set headerType with validation.
-        
+
         Args:
             value: The headerType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4444,10 +4444,10 @@ class IPSecRule(Identifiable):
     def ip_protocol(self, value: Optional["IPsecIpProtocolEnum"]) -> None:
         """
         Set ipProtocol with validation.
-        
+
         Args:
             value: The ipProtocol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4479,10 +4479,10 @@ class IPSecRule(Identifiable):
     def local_id(self, value: Optional["String"]) -> None:
         """
         Set localId with validation.
-        
+
         Args:
             value: The localId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4511,10 +4511,10 @@ class IPSecRule(Identifiable):
     def local_port_range(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set localPortRange with validation.
-        
+
         Args:
             value: The localPortRange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4538,10 +4538,10 @@ class IPSecRule(Identifiable):
     def mode(self, value: Optional["IPsecModeEnum"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4566,10 +4566,10 @@ class IPSecRule(Identifiable):
     def policy(self, value: Optional["IPsecPolicyEnum"]) -> None:
         """
         Set policy with validation.
-        
+
         Args:
             value: The policy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4593,10 +4593,10 @@ class IPSecRule(Identifiable):
     def pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set preSharedKey with validation.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4621,10 +4621,10 @@ class IPSecRule(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4656,10 +4656,10 @@ class IPSecRule(Identifiable):
     def remote_id(self, value: Optional["String"]) -> None:
         """
         Set remoteId with validation.
-        
+
         Args:
             value: The remoteId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4697,10 +4697,10 @@ class IPSecRule(Identifiable):
     def remote_port(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set remotePort with validation.
-        
+
         Args:
             value: The remotePort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4719,10 +4719,10 @@ class IPSecRule(Identifiable):
     def getDirection(self) -> "Communication":
         """
         AUTOSAR-compliant getter for direction.
-        
+
         Returns:
             The direction value
-        
+
         Note:
             Delegates to direction property (CODING_RULE_V2_00017)
         """
@@ -4731,13 +4731,13 @@ class IPSecRule(Identifiable):
     def setDirection(self, value: "Communication") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for direction with method chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direction property setter (gets validation automatically)
         """
@@ -4747,10 +4747,10 @@ class IPSecRule(Identifiable):
     def getHeaderType(self) -> "IPsecHeaderTypeEnum":
         """
         AUTOSAR-compliant getter for headerType.
-        
+
         Returns:
             The headerType value
-        
+
         Note:
             Delegates to header_type property (CODING_RULE_V2_00017)
         """
@@ -4759,13 +4759,13 @@ class IPSecRule(Identifiable):
     def setHeaderType(self, value: "IPsecHeaderTypeEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for headerType with method chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_type property setter (gets validation automatically)
         """
@@ -4775,10 +4775,10 @@ class IPSecRule(Identifiable):
     def getIpProtocol(self) -> "IPsecIpProtocolEnum":
         """
         AUTOSAR-compliant getter for ipProtocol.
-        
+
         Returns:
             The ipProtocol value
-        
+
         Note:
             Delegates to ip_protocol property (CODING_RULE_V2_00017)
         """
@@ -4787,13 +4787,13 @@ class IPSecRule(Identifiable):
     def setIpProtocol(self, value: "IPsecIpProtocolEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for ipProtocol with method chaining.
-        
+
         Args:
             value: The ipProtocol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_protocol property setter (gets validation automatically)
         """
@@ -4803,10 +4803,10 @@ class IPSecRule(Identifiable):
     def getLocalCertificate(self) -> List["CryptoService"]:
         """
         AUTOSAR-compliant getter for localCertificate.
-        
+
         Returns:
             The localCertificate value
-        
+
         Note:
             Delegates to local_certificate property (CODING_RULE_V2_00017)
         """
@@ -4815,10 +4815,10 @@ class IPSecRule(Identifiable):
     def getLocalId(self) -> "String":
         """
         AUTOSAR-compliant getter for localId.
-        
+
         Returns:
             The localId value
-        
+
         Note:
             Delegates to local_id property (CODING_RULE_V2_00017)
         """
@@ -4827,13 +4827,13 @@ class IPSecRule(Identifiable):
     def setLocalId(self, value: "String") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for localId with method chaining.
-        
+
         Args:
             value: The localId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_id property setter (gets validation automatically)
         """
@@ -4843,10 +4843,10 @@ class IPSecRule(Identifiable):
     def getLocalPortRange(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for localPortRange.
-        
+
         Returns:
             The localPortRange value
-        
+
         Note:
             Delegates to local_port_range property (CODING_RULE_V2_00017)
         """
@@ -4855,13 +4855,13 @@ class IPSecRule(Identifiable):
     def setLocalPortRange(self, value: "PositiveInteger") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for localPortRange with method chaining.
-        
+
         Args:
             value: The localPortRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_port_range property setter (gets validation automatically)
         """
@@ -4871,10 +4871,10 @@ class IPSecRule(Identifiable):
     def getMode(self) -> "IPsecModeEnum":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -4883,13 +4883,13 @@ class IPSecRule(Identifiable):
     def setMode(self, value: "IPsecModeEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -4899,10 +4899,10 @@ class IPSecRule(Identifiable):
     def getPolicy(self) -> "IPsecPolicyEnum":
         """
         AUTOSAR-compliant getter for policy.
-        
+
         Returns:
             The policy value
-        
+
         Note:
             Delegates to policy property (CODING_RULE_V2_00017)
         """
@@ -4911,13 +4911,13 @@ class IPSecRule(Identifiable):
     def setPolicy(self, value: "IPsecPolicyEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for policy with method chaining.
-        
+
         Args:
             value: The policy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to policy property setter (gets validation automatically)
         """
@@ -4927,10 +4927,10 @@ class IPSecRule(Identifiable):
     def getPreSharedKey(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for preSharedKey.
-        
+
         Returns:
             The preSharedKey value
-        
+
         Note:
             Delegates to pre_shared_key property (CODING_RULE_V2_00017)
         """
@@ -4939,13 +4939,13 @@ class IPSecRule(Identifiable):
     def setPreSharedKey(self, value: "CryptoServiceKey") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for preSharedKey with method chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pre_shared_key property setter (gets validation automatically)
         """
@@ -4955,10 +4955,10 @@ class IPSecRule(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -4967,13 +4967,13 @@ class IPSecRule(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -4983,10 +4983,10 @@ class IPSecRule(Identifiable):
     def getRemote(self) -> List["CryptoService"]:
         """
         AUTOSAR-compliant getter for remote.
-        
+
         Returns:
             The remote value
-        
+
         Note:
             Delegates to remote property (CODING_RULE_V2_00017)
         """
@@ -4995,10 +4995,10 @@ class IPSecRule(Identifiable):
     def getRemoteId(self) -> "String":
         """
         AUTOSAR-compliant getter for remoteId.
-        
+
         Returns:
             The remoteId value
-        
+
         Note:
             Delegates to remote_id property (CODING_RULE_V2_00017)
         """
@@ -5007,13 +5007,13 @@ class IPSecRule(Identifiable):
     def setRemoteId(self, value: "String") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for remoteId with method chaining.
-        
+
         Args:
             value: The remoteId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_id property setter (gets validation automatically)
         """
@@ -5023,10 +5023,10 @@ class IPSecRule(Identifiable):
     def getRemoteIp(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for remoteIp.
-        
+
         Returns:
             The remoteIp value
-        
+
         Note:
             Delegates to remote_ip property (CODING_RULE_V2_00017)
         """
@@ -5035,10 +5035,10 @@ class IPSecRule(Identifiable):
     def getRemotePort(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for remotePort.
-        
+
         Returns:
             The remotePort value
-        
+
         Note:
             Delegates to remote_port property (CODING_RULE_V2_00017)
         """
@@ -5047,13 +5047,13 @@ class IPSecRule(Identifiable):
     def setRemotePort(self, value: "PositiveInteger") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for remotePort with method chaining.
-        
+
         Args:
             value: The remotePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_port property setter (gets validation automatically)
         """
@@ -5065,13 +5065,13 @@ class IPSecRule(Identifiable):
     def with_direction(self, value: Optional["Communication"]) -> "IPSecRule":
         """
         Set direction and return self for chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direction("value")
         """
@@ -5081,13 +5081,13 @@ class IPSecRule(Identifiable):
     def with_header_type(self, value: Optional["IPsecHeaderTypeEnum"]) -> "IPSecRule":
         """
         Set headerType and return self for chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_type("value")
         """
@@ -5097,13 +5097,13 @@ class IPSecRule(Identifiable):
     def with_ip_protocol(self, value: Optional["IPsecIpProtocolEnum"]) -> "IPSecRule":
         """
         Set ipProtocol and return self for chaining.
-        
+
         Args:
             value: The ipProtocol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_protocol("value")
         """
@@ -5113,13 +5113,13 @@ class IPSecRule(Identifiable):
     def with_local_id(self, value: Optional["String"]) -> "IPSecRule":
         """
         Set localId and return self for chaining.
-        
+
         Args:
             value: The localId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_id("value")
         """
@@ -5129,13 +5129,13 @@ class IPSecRule(Identifiable):
     def with_local_port_range(self, value: Optional["PositiveInteger"]) -> "IPSecRule":
         """
         Set localPortRange and return self for chaining.
-        
+
         Args:
             value: The localPortRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_port_range("value")
         """
@@ -5145,13 +5145,13 @@ class IPSecRule(Identifiable):
     def with_mode(self, value: Optional["IPsecModeEnum"]) -> "IPSecRule":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -5161,13 +5161,13 @@ class IPSecRule(Identifiable):
     def with_policy(self, value: Optional["IPsecPolicyEnum"]) -> "IPSecRule":
         """
         Set policy and return self for chaining.
-        
+
         Args:
             value: The policy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_policy("value")
         """
@@ -5177,13 +5177,13 @@ class IPSecRule(Identifiable):
     def with_pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> "IPSecRule":
         """
         Set preSharedKey and return self for chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pre_shared_key("value")
         """
@@ -5193,13 +5193,13 @@ class IPSecRule(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "IPSecRule":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -5209,13 +5209,13 @@ class IPSecRule(Identifiable):
     def with_remote_id(self, value: Optional["String"]) -> "IPSecRule":
         """
         Set remoteId and return self for chaining.
-        
+
         Args:
             value: The remoteId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_id("value")
         """
@@ -5225,13 +5225,13 @@ class IPSecRule(Identifiable):
     def with_remote_port(self, value: Optional["PositiveInteger"]) -> "IPSecRule":
         """
         Set remotePort and return self for chaining.
-        
+
         Args:
             value: The remotePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_port("value")
         """
@@ -5244,9 +5244,9 @@ class IPSecConfigProps(ARElement):
     """
     This element holds all the attributes for configuration of IPsec that are
     independent of specific IPsec rules.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecConfigProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 572, Classic Platform R23-11)
     """
@@ -5276,10 +5276,10 @@ class IPSecConfigProps(ARElement):
     def dpd_action(self, value: Optional["IPsecDpdActionEnum"]) -> None:
         """
         Set dpdAction with validation.
-        
+
         Args:
             value: The dpdAction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5306,10 +5306,10 @@ class IPSecConfigProps(ARElement):
     def dpd_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set dpdDelay with validation.
-        
+
         Args:
             value: The dpdDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5341,10 +5341,10 @@ class IPSecConfigProps(ARElement):
     def ike_cipher_suite(self, value: Optional["String"]) -> None:
         """
         Set ikeCipherSuite with validation.
-        
+
         Args:
             value: The ikeCipherSuite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5369,10 +5369,10 @@ class IPSecConfigProps(ARElement):
     def ike_over_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set ikeOverTime with validation.
-        
+
         Args:
             value: The ikeOverTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5397,10 +5397,10 @@ class IPSecConfigProps(ARElement):
     def ike_rand_time(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ikeRandTime with validation.
-        
+
         Args:
             value: The ikeRandTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5426,10 +5426,10 @@ class IPSecConfigProps(ARElement):
     def ike_reauth_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set ikeReauthTime with validation.
-        
+
         Args:
             value: The ikeReauthTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5454,10 +5454,10 @@ class IPSecConfigProps(ARElement):
     def ike_rekey_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set ikeRekeyTime with validation.
-        
+
         Args:
             value: The ikeRekeyTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5482,10 +5482,10 @@ class IPSecConfigProps(ARElement):
     def sa_over_time(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set saOverTime with validation.
-        
+
         Args:
             value: The saOverTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5509,10 +5509,10 @@ class IPSecConfigProps(ARElement):
     def sa_rand_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set saRandTime with validation.
-        
+
         Args:
             value: The saRandTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5537,10 +5537,10 @@ class IPSecConfigProps(ARElement):
     def sa_rekey_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set saRekeyTime with validation.
-        
+
         Args:
             value: The saRekeyTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5559,10 +5559,10 @@ class IPSecConfigProps(ARElement):
     def getAhCipherSuite(self) -> List["String"]:
         """
         AUTOSAR-compliant getter for ahCipherSuite.
-        
+
         Returns:
             The ahCipherSuite value
-        
+
         Note:
             Delegates to ah_cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -5571,10 +5571,10 @@ class IPSecConfigProps(ARElement):
     def getDpdAction(self) -> "IPsecDpdActionEnum":
         """
         AUTOSAR-compliant getter for dpdAction.
-        
+
         Returns:
             The dpdAction value
-        
+
         Note:
             Delegates to dpd_action property (CODING_RULE_V2_00017)
         """
@@ -5583,13 +5583,13 @@ class IPSecConfigProps(ARElement):
     def setDpdAction(self, value: "IPsecDpdActionEnum") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for dpdAction with method chaining.
-        
+
         Args:
             value: The dpdAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dpd_action property setter (gets validation automatically)
         """
@@ -5599,10 +5599,10 @@ class IPSecConfigProps(ARElement):
     def getDpdDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for dpdDelay.
-        
+
         Returns:
             The dpdDelay value
-        
+
         Note:
             Delegates to dpd_delay property (CODING_RULE_V2_00017)
         """
@@ -5611,13 +5611,13 @@ class IPSecConfigProps(ARElement):
     def setDpdDelay(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for dpdDelay with method chaining.
-        
+
         Args:
             value: The dpdDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dpd_delay property setter (gets validation automatically)
         """
@@ -5627,10 +5627,10 @@ class IPSecConfigProps(ARElement):
     def getEspCipherSuite(self) -> List["String"]:
         """
         AUTOSAR-compliant getter for espCipherSuite.
-        
+
         Returns:
             The espCipherSuite value
-        
+
         Note:
             Delegates to esp_cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -5639,10 +5639,10 @@ class IPSecConfigProps(ARElement):
     def getIkeCipherSuite(self) -> "String":
         """
         AUTOSAR-compliant getter for ikeCipherSuite.
-        
+
         Returns:
             The ikeCipherSuite value
-        
+
         Note:
             Delegates to ike_cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -5651,13 +5651,13 @@ class IPSecConfigProps(ARElement):
     def setIkeCipherSuite(self, value: "String") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeCipherSuite with method chaining.
-        
+
         Args:
             value: The ikeCipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_cipher_suite property setter (gets validation automatically)
         """
@@ -5667,10 +5667,10 @@ class IPSecConfigProps(ARElement):
     def getIkeOverTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ikeOverTime.
-        
+
         Returns:
             The ikeOverTime value
-        
+
         Note:
             Delegates to ike_over_time property (CODING_RULE_V2_00017)
         """
@@ -5679,13 +5679,13 @@ class IPSecConfigProps(ARElement):
     def setIkeOverTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeOverTime with method chaining.
-        
+
         Args:
             value: The ikeOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_over_time property setter (gets validation automatically)
         """
@@ -5695,10 +5695,10 @@ class IPSecConfigProps(ARElement):
     def getIkeRandTime(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ikeRandTime.
-        
+
         Returns:
             The ikeRandTime value
-        
+
         Note:
             Delegates to ike_rand_time property (CODING_RULE_V2_00017)
         """
@@ -5707,13 +5707,13 @@ class IPSecConfigProps(ARElement):
     def setIkeRandTime(self, value: "PositiveInteger") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeRandTime with method chaining.
-        
+
         Args:
             value: The ikeRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_rand_time property setter (gets validation automatically)
         """
@@ -5723,10 +5723,10 @@ class IPSecConfigProps(ARElement):
     def getIkeReauthTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ikeReauthTime.
-        
+
         Returns:
             The ikeReauthTime value
-        
+
         Note:
             Delegates to ike_reauth_time property (CODING_RULE_V2_00017)
         """
@@ -5735,13 +5735,13 @@ class IPSecConfigProps(ARElement):
     def setIkeReauthTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeReauthTime with method chaining.
-        
+
         Args:
             value: The ikeReauthTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_reauth_time property setter (gets validation automatically)
         """
@@ -5751,10 +5751,10 @@ class IPSecConfigProps(ARElement):
     def getIkeRekeyTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ikeRekeyTime.
-        
+
         Returns:
             The ikeRekeyTime value
-        
+
         Note:
             Delegates to ike_rekey_time property (CODING_RULE_V2_00017)
         """
@@ -5763,13 +5763,13 @@ class IPSecConfigProps(ARElement):
     def setIkeRekeyTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeRekeyTime with method chaining.
-        
+
         Args:
             value: The ikeRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_rekey_time property setter (gets validation automatically)
         """
@@ -5779,10 +5779,10 @@ class IPSecConfigProps(ARElement):
     def getSaOverTime(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for saOverTime.
-        
+
         Returns:
             The saOverTime value
-        
+
         Note:
             Delegates to sa_over_time property (CODING_RULE_V2_00017)
         """
@@ -5791,13 +5791,13 @@ class IPSecConfigProps(ARElement):
     def setSaOverTime(self, value: "PositiveInteger") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for saOverTime with method chaining.
-        
+
         Args:
             value: The saOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sa_over_time property setter (gets validation automatically)
         """
@@ -5807,10 +5807,10 @@ class IPSecConfigProps(ARElement):
     def getSaRandTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for saRandTime.
-        
+
         Returns:
             The saRandTime value
-        
+
         Note:
             Delegates to sa_rand_time property (CODING_RULE_V2_00017)
         """
@@ -5819,13 +5819,13 @@ class IPSecConfigProps(ARElement):
     def setSaRandTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for saRandTime with method chaining.
-        
+
         Args:
             value: The saRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sa_rand_time property setter (gets validation automatically)
         """
@@ -5835,10 +5835,10 @@ class IPSecConfigProps(ARElement):
     def getSaRekeyTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for saRekeyTime.
-        
+
         Returns:
             The saRekeyTime value
-        
+
         Note:
             Delegates to sa_rekey_time property (CODING_RULE_V2_00017)
         """
@@ -5847,13 +5847,13 @@ class IPSecConfigProps(ARElement):
     def setSaRekeyTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for saRekeyTime with method chaining.
-        
+
         Args:
             value: The saRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sa_rekey_time property setter (gets validation automatically)
         """
@@ -5865,13 +5865,13 @@ class IPSecConfigProps(ARElement):
     def with_dpd_action(self, value: Optional["IPsecDpdActionEnum"]) -> "IPSecConfigProps":
         """
         Set dpdAction and return self for chaining.
-        
+
         Args:
             value: The dpdAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dpd_action("value")
         """
@@ -5881,13 +5881,13 @@ class IPSecConfigProps(ARElement):
     def with_dpd_delay(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set dpdDelay and return self for chaining.
-        
+
         Args:
             value: The dpdDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dpd_delay("value")
         """
@@ -5897,13 +5897,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_cipher_suite(self, value: Optional["String"]) -> "IPSecConfigProps":
         """
         Set ikeCipherSuite and return self for chaining.
-        
+
         Args:
             value: The ikeCipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_cipher_suite("value")
         """
@@ -5913,13 +5913,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_over_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set ikeOverTime and return self for chaining.
-        
+
         Args:
             value: The ikeOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_over_time("value")
         """
@@ -5929,13 +5929,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_rand_time(self, value: Optional["PositiveInteger"]) -> "IPSecConfigProps":
         """
         Set ikeRandTime and return self for chaining.
-        
+
         Args:
             value: The ikeRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_rand_time("value")
         """
@@ -5945,13 +5945,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_reauth_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set ikeReauthTime and return self for chaining.
-        
+
         Args:
             value: The ikeReauthTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_reauth_time("value")
         """
@@ -5961,13 +5961,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_rekey_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set ikeRekeyTime and return self for chaining.
-        
+
         Args:
             value: The ikeRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_rekey_time("value")
         """
@@ -5977,13 +5977,13 @@ class IPSecConfigProps(ARElement):
     def with_sa_over_time(self, value: Optional["PositiveInteger"]) -> "IPSecConfigProps":
         """
         Set saOverTime and return self for chaining.
-        
+
         Args:
             value: The saOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sa_over_time("value")
         """
@@ -5993,13 +5993,13 @@ class IPSecConfigProps(ARElement):
     def with_sa_rand_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set saRandTime and return self for chaining.
-        
+
         Args:
             value: The saRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sa_rand_time("value")
         """
@@ -6009,13 +6009,13 @@ class IPSecConfigProps(ARElement):
     def with_sa_rekey_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set saRekeyTime and return self for chaining.
-        
+
         Args:
             value: The saRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sa_rekey_time("value")
         """
@@ -6028,9 +6028,9 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     """
     This meta-class has the ability to represent a crypto service mapping for
     the Pdu-based communication via SecOC.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::SecOcCryptoServiceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 375, Classic Platform R23-11)
     """
@@ -6050,10 +6050,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def authentication(self, value: Optional["CryptoServicePrimitive"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6078,10 +6078,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def crypto_service(self, value: Optional["CryptoServiceQueue"]) -> None:
         """
         Set cryptoService with validation.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6100,10 +6100,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def getAuthentication(self) -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -6112,13 +6112,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def setAuthentication(self, value: "CryptoServicePrimitive") -> "SecOcCryptoServiceMapping":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -6128,10 +6128,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def getCryptoService(self) -> "CryptoServiceQueue":
         """
         AUTOSAR-compliant getter for cryptoService.
-        
+
         Returns:
             The cryptoService value
-        
+
         Note:
             Delegates to crypto_service property (CODING_RULE_V2_00017)
         """
@@ -6140,13 +6140,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def setCryptoService(self, value: "CryptoServiceQueue") -> "SecOcCryptoServiceMapping":
         """
         AUTOSAR-compliant setter for cryptoService with method chaining.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_service property setter (gets validation automatically)
         """
@@ -6158,13 +6158,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def with_authentication(self, value: Optional["CryptoServicePrimitive"]) -> "SecOcCryptoServiceMapping":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -6174,13 +6174,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def with_crypto_service(self, value: Optional["CryptoServiceQueue"]) -> "SecOcCryptoServiceMapping":
         """
         Set cryptoService and return self for chaining.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_service("value")
         """
@@ -6193,9 +6193,9 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     """
     This meta-class has the ability to represent a crypto service mapping for
     the socket-based configuration of Transport Layer Security (TLS).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsCryptoServiceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 559, Classic Platform R23-11)
     """
@@ -6233,10 +6233,10 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def use_client(self, value: Optional["Boolean"]) -> None:
         """
         Set useClient with validation.
-        
+
         Args:
             value: The useClient to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6261,10 +6261,10 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def use_security(self, value: Optional["Boolean"]) -> None:
         """
         Set useSecurity with validation.
-        
+
         Args:
             value: The useSecurity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6283,10 +6283,10 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def getKeyExchange(self) -> List["CryptoServicePrimitive"]:
         """
         AUTOSAR-compliant getter for keyExchange.
-        
+
         Returns:
             The keyExchange value
-        
+
         Note:
             Delegates to key_exchange property (CODING_RULE_V2_00017)
         """
@@ -6295,10 +6295,10 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def getTlsCipherSuite(self) -> List["TlsCryptoCipherSuite"]:
         """
         AUTOSAR-compliant getter for tlsCipherSuite.
-        
+
         Returns:
             The tlsCipherSuite value
-        
+
         Note:
             Delegates to tls_cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -6307,10 +6307,10 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def getUseClient(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useClient.
-        
+
         Returns:
             The useClient value
-        
+
         Note:
             Delegates to use_client property (CODING_RULE_V2_00017)
         """
@@ -6319,13 +6319,13 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def setUseClient(self, value: "Boolean") -> "TlsCryptoServiceMapping":
         """
         AUTOSAR-compliant setter for useClient with method chaining.
-        
+
         Args:
             value: The useClient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_client property setter (gets validation automatically)
         """
@@ -6335,10 +6335,10 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def getUseSecurity(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useSecurity.
-        
+
         Returns:
             The useSecurity value
-        
+
         Note:
             Delegates to use_security property (CODING_RULE_V2_00017)
         """
@@ -6347,13 +6347,13 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def setUseSecurity(self, value: "Boolean") -> "TlsCryptoServiceMapping":
         """
         AUTOSAR-compliant setter for useSecurity with method chaining.
-        
+
         Args:
             value: The useSecurity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_security property setter (gets validation automatically)
         """
@@ -6365,13 +6365,13 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def with_use_client(self, value: Optional["Boolean"]) -> "TlsCryptoServiceMapping":
         """
         Set useClient and return self for chaining.
-        
+
         Args:
             value: The useClient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_client("value")
         """
@@ -6381,13 +6381,13 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def with_use_security(self, value: Optional["Boolean"]) -> "TlsCryptoServiceMapping":
         """
         Set useSecurity and return self for chaining.
-        
+
         Args:
             value: The useSecurity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_security("value")
         """

@@ -16,9 +16,9 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class for platform modules that
     implement the intrusion detection system.
-    
+
     Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem::IdsPlatformInstantiation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)
     """
@@ -50,10 +50,10 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     def time_base(self, value: Optional["TimeBaseResource"]) -> None:
         """
         Set timeBase with validation.
-        
+
         Args:
             value: The timeBase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     def getNetwork(self) -> List["PlatformModule"]:
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -100,10 +100,10 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     def getTimeBase(self) -> "TimeBaseResource":
         """
         AUTOSAR-compliant getter for timeBase.
-        
+
         Returns:
             The timeBase value
-        
+
         Note:
             Delegates to time_base property (CODING_RULE_V2_00017)
         """
@@ -112,13 +112,13 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     def setTimeBase(self, value: "TimeBaseResource") -> "IdsPlatformInstantiation":
         """
         AUTOSAR-compliant setter for timeBase with method chaining.
-        
+
         Args:
             value: The timeBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_base property setter (gets validation automatically)
         """
@@ -130,13 +130,13 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     def with_time_base(self, value: Optional["TimeBaseResource"]) -> "IdsPlatformInstantiation":
         """
         Set timeBase and return self for chaining.
-        
+
         Args:
             value: The timeBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_base("value")
         """
@@ -149,9 +149,9 @@ class IdsmModuleInstantiation(IdsPlatformInstantiation):
     """
     This meta-class defines the attributes for the IdsM configuration on a
     specific machine.
-    
+
     Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem::IdsmModuleInstantiation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)
     """

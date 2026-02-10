@@ -19,9 +19,9 @@ class DiagnosticServiceClass(DiagnosticCommonElement, ABC):
     """
     This meta-class provides the ability to define common properties that are
     shared among all instances of sub-classes of DiagnosticServiceInstance.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService::DiagnosticServiceClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 69, Classic Platform
       R23-11)
@@ -42,9 +42,9 @@ class DiagnosticServiceClass(DiagnosticCommonElement, ABC):
 class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     """
     This represents a concrete instance of a diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService::DiagnosticServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 69, Classic Platform
       R23-11)
@@ -69,10 +69,10 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def access(self, value: Optional["DiagnosticAccess"]) -> None:
         """
         Set access with validation.
-        
+
         Args:
             value: The access to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +100,10 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def service_class(self, value: Optional["DiagnosticServiceClass"]) -> None:
         """
         Set serviceClass with validation.
-        
+
         Args:
             value: The serviceClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +122,10 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def getAccess(self) -> "DiagnosticAccess":
         """
         AUTOSAR-compliant getter for access.
-        
+
         Returns:
             The access value
-        
+
         Note:
             Delegates to access property (CODING_RULE_V2_00017)
         """
@@ -134,13 +134,13 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def setAccess(self, value: "DiagnosticAccess") -> "DiagnosticServiceInstance":
         """
         AUTOSAR-compliant setter for access with method chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to access property setter (gets validation automatically)
         """
@@ -150,10 +150,10 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def getServiceClass(self) -> "DiagnosticServiceClass":
         """
         AUTOSAR-compliant getter for serviceClass.
-        
+
         Returns:
             The serviceClass value
-        
+
         Note:
             Delegates to service_class property (CODING_RULE_V2_00017)
         """
@@ -162,13 +162,13 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def setServiceClass(self, value: "DiagnosticServiceClass") -> "DiagnosticServiceInstance":
         """
         AUTOSAR-compliant setter for serviceClass with method chaining.
-        
+
         Args:
             value: The serviceClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_class property setter (gets validation automatically)
         """
@@ -180,13 +180,13 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def with_access(self, value: Optional["DiagnosticAccess"]) -> "DiagnosticServiceInstance":
         """
         Set access and return self for chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_access("value")
         """
@@ -196,13 +196,13 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
     def with_service_class(self, value: Optional["DiagnosticServiceClass"]) -> "DiagnosticServiceInstance":
         """
         Set serviceClass and return self for chaining.
-        
+
         Args:
             value: The serviceClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_class("value")
         """
@@ -217,9 +217,9 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     assign an ID to it. Further configuration is not foreseen from the point of
     view of the diagnostic extract and consequently needs to be done on the
     level of ECUC.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService::DiagnosticCustomServiceClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 71, Classic Platform
       R23-11)
@@ -241,10 +241,10 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def custom_service(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set customService with validation.
-        
+
         Args:
             value: The customService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -263,10 +263,10 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def getCustomService(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for customService.
-        
+
         Returns:
             The customService value
-        
+
         Note:
             Delegates to custom_service property (CODING_RULE_V2_00017)
         """
@@ -275,13 +275,13 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def setCustomService(self, value: "PositiveInteger") -> "DiagnosticCustomServiceClass":
         """
         AUTOSAR-compliant setter for customService with method chaining.
-        
+
         Args:
             value: The customService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to custom_service property setter (gets validation automatically)
         """
@@ -293,13 +293,13 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def with_custom_service(self, value: Optional["PositiveInteger"]) -> "DiagnosticCustomServiceClass":
         """
         Set customService and return self for chaining.
-        
+
         Args:
             value: The customService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_custom_service("value")
         """

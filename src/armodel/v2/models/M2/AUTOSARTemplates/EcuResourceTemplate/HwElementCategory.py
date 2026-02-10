@@ -27,9 +27,9 @@ class HwAttributeValue(ARObject):
     """
     This metaclass represents the ability to assign a hardware attribute value.
     Note that v and vt are mutually exclusive.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 16, Classic Platform
       R23-11)
@@ -50,10 +50,10 @@ class HwAttributeValue(ARObject):
     def annotation(self, value: Optional["Annotation"]) -> None:
         """
         Set annotation with validation.
-        
+
         Args:
             value: The annotation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class HwAttributeValue(ARObject):
     def hw_attribute_def(self, value: Optional["HwAttributeDef"]) -> None:
         """
         Set hwAttributeDef with validation.
-        
+
         Args:
             value: The hwAttributeDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +104,10 @@ class HwAttributeValue(ARObject):
     def v(self, value: Optional["Numerical"]) -> None:
         """
         Set v with validation.
-        
+
         Args:
             value: The v to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +131,10 @@ class HwAttributeValue(ARObject):
     def vt(self, value: Optional["VerbatimString"]) -> None:
         """
         Set vt with validation.
-        
+
         Args:
             value: The vt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +169,10 @@ class HwAttributeValue(ARObject):
     def getAnnotation(self) -> "Annotation":
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -181,13 +181,13 @@ class HwAttributeValue(ARObject):
     def setAnnotation(self, value: "Annotation") -> "HwAttributeValue":
         """
         AUTOSAR-compliant setter for annotation with method chaining.
-        
+
         Args:
             value: The annotation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to annotation property setter (gets validation automatically)
         """
@@ -197,10 +197,10 @@ class HwAttributeValue(ARObject):
     def getHwAttributeDef(self) -> "HwAttributeDef":
         """
         AUTOSAR-compliant getter for hwAttributeDef.
-        
+
         Returns:
             The hwAttributeDef value
-        
+
         Note:
             Delegates to hw_attribute_def property (CODING_RULE_V2_00017)
         """
@@ -209,13 +209,13 @@ class HwAttributeValue(ARObject):
     def setHwAttributeDef(self, value: "HwAttributeDef") -> "HwAttributeValue":
         """
         AUTOSAR-compliant setter for hwAttributeDef with method chaining.
-        
+
         Args:
             value: The hwAttributeDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_attribute_def property setter (gets validation automatically)
         """
@@ -225,10 +225,10 @@ class HwAttributeValue(ARObject):
     def getV(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for v.
-        
+
         Returns:
             The v value
-        
+
         Note:
             Delegates to v property (CODING_RULE_V2_00017)
         """
@@ -237,13 +237,13 @@ class HwAttributeValue(ARObject):
     def setV(self, value: "Numerical") -> "HwAttributeValue":
         """
         AUTOSAR-compliant setter for v with method chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to v property setter (gets validation automatically)
         """
@@ -253,10 +253,10 @@ class HwAttributeValue(ARObject):
     def getVt(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for vt.
-        
+
         Returns:
             The vt value
-        
+
         Note:
             Delegates to vt property (CODING_RULE_V2_00017)
         """
@@ -265,13 +265,13 @@ class HwAttributeValue(ARObject):
     def setVt(self, value: "VerbatimString") -> "HwAttributeValue":
         """
         AUTOSAR-compliant setter for vt with method chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vt property setter (gets validation automatically)
         """
@@ -283,13 +283,13 @@ class HwAttributeValue(ARObject):
     def with_annotation(self, value: Optional["Annotation"]) -> "HwAttributeValue":
         """
         Set annotation and return self for chaining.
-        
+
         Args:
             value: The annotation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_annotation("value")
         """
@@ -299,13 +299,13 @@ class HwAttributeValue(ARObject):
     def with_hw_attribute_def(self, value: Optional["HwAttributeDef"]) -> "HwAttributeValue":
         """
         Set hwAttributeDef and return self for chaining.
-        
+
         Args:
             value: The hwAttributeDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_attribute_def("value")
         """
@@ -315,13 +315,13 @@ class HwAttributeValue(ARObject):
     def with_v(self, value: Optional["Numerical"]) -> "HwAttributeValue":
         """
         Set v and return self for chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_v("value")
         """
@@ -331,13 +331,13 @@ class HwAttributeValue(ARObject):
     def with_vt(self, value: Optional["VerbatimString"]) -> "HwAttributeValue":
         """
         Set vt and return self for chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vt("value")
         """
@@ -352,9 +352,9 @@ class HwType(HwDescriptionEntity):
     The particular types of hardware are distinguished by the category. This
     category determines the applicable attributes. The possible categories and
     attributes are defined in HwCategory.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 17, Classic Platform
       R23-11)
@@ -376,9 +376,9 @@ class HwCategory(ARElement):
     """
     This metaclass represents the ability to declare hardware categories and its
     particular attributes.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwCategory
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 24, Classic Platform
       R23-11)
@@ -400,10 +400,10 @@ class HwCategory(ARElement):
     def getHwAttributeDef(self) -> List["HwAttributeDef"]:
         """
         AUTOSAR-compliant getter for hwAttributeDef.
-        
+
         Returns:
             The hwAttributeDef value
-        
+
         Note:
             Delegates to hw_attribute_def property (CODING_RULE_V2_00017)
         """
@@ -419,9 +419,9 @@ class HwAttributeDef(Identifiable):
     attribute. The category of this element defines the type of the
     attributeValue. If the category is Enumeration the hw
     AttributeEnumerationLiterals specify the available literals.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 26, Classic Platform
       R23-11)
@@ -450,10 +450,10 @@ class HwAttributeDef(Identifiable):
     def is_required(self, value: Optional["Boolean"]) -> None:
         """
         Set isRequired with validation.
-        
+
         Args:
             value: The isRequired to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -478,10 +478,10 @@ class HwAttributeDef(Identifiable):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -500,10 +500,10 @@ class HwAttributeDef(Identifiable):
     def getHwAttribute(self) -> List["HwAttributeLiteralDef"]:
         """
         AUTOSAR-compliant getter for hwAttribute.
-        
+
         Returns:
             The hwAttribute value
-        
+
         Note:
             Delegates to hw_attribute property (CODING_RULE_V2_00017)
         """
@@ -512,10 +512,10 @@ class HwAttributeDef(Identifiable):
     def getIsRequired(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isRequired.
-        
+
         Returns:
             The isRequired value
-        
+
         Note:
             Delegates to is_required property (CODING_RULE_V2_00017)
         """
@@ -524,13 +524,13 @@ class HwAttributeDef(Identifiable):
     def setIsRequired(self, value: "Boolean") -> "HwAttributeDef":
         """
         AUTOSAR-compliant setter for isRequired with method chaining.
-        
+
         Args:
             value: The isRequired to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_required property setter (gets validation automatically)
         """
@@ -540,10 +540,10 @@ class HwAttributeDef(Identifiable):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -552,13 +552,13 @@ class HwAttributeDef(Identifiable):
     def setUnit(self, value: "Unit") -> "HwAttributeDef":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -570,13 +570,13 @@ class HwAttributeDef(Identifiable):
     def with_is_required(self, value: Optional["Boolean"]) -> "HwAttributeDef":
         """
         Set isRequired and return self for chaining.
-        
+
         Args:
             value: The isRequired to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_required("value")
         """
@@ -586,13 +586,13 @@ class HwAttributeDef(Identifiable):
     def with_unit(self, value: Optional["Unit"]) -> "HwAttributeDef":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """
@@ -605,9 +605,9 @@ class HwAttributeLiteralDef(Identifiable):
     """
     One available EnumerationLiteral of the Enumeration definition. Only
     applicable if the category of the Hw AttributeDef equals Enumeration.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeLiteralDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 26, Classic Platform
       R23-11)

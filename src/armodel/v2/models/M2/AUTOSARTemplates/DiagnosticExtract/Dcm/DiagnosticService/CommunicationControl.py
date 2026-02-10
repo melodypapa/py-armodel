@@ -22,9 +22,9 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     """
     This represents an instance of the "Communication Control" diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControl
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 108, Classic Platform
       R23-11)
@@ -46,10 +46,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def com_control(self, value: Optional["DiagnosticComControl"]) -> None:
         """
         Set comControl with validation.
-        
+
         Args:
             value: The comControl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +74,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def custom_sub(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set customSub with validation.
-        
+
         Args:
             value: The customSub to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -128,10 +128,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def getComControl(self) -> "DiagnosticComControl":
         """
         AUTOSAR-compliant getter for comControl.
-        
+
         Returns:
             The comControl value
-        
+
         Note:
             Delegates to com_control property (CODING_RULE_V2_00017)
         """
@@ -140,13 +140,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def setComControl(self, value: "DiagnosticComControl") -> "DiagnosticComControl":
         """
         AUTOSAR-compliant setter for comControl with method chaining.
-        
+
         Args:
             value: The comControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to com_control property setter (gets validation automatically)
         """
@@ -156,10 +156,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def getCustomSub(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for customSub.
-        
+
         Returns:
             The customSub value
-        
+
         Note:
             Delegates to custom_sub property (CODING_RULE_V2_00017)
         """
@@ -168,13 +168,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def setCustomSub(self, value: "PositiveInteger") -> "DiagnosticComControl":
         """
         AUTOSAR-compliant setter for customSub with method chaining.
-        
+
         Args:
             value: The customSub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to custom_sub property setter (gets validation automatically)
         """
@@ -186,13 +186,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def with_com_control(self, value: Optional["DiagnosticComControl"]) -> "DiagnosticComControl":
         """
         Set comControl and return self for chaining.
-        
+
         Args:
             value: The comControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_com_control("value")
         """
@@ -202,13 +202,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def with_custom_sub(self, value: Optional["PositiveInteger"]) -> "DiagnosticComControl":
         """
         Set customSub and return self for chaining.
-        
+
         Args:
             value: The customSub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_custom_sub("value")
         """
@@ -222,9 +222,9 @@ class DiagnosticComControlSpecificChannel(ARObject):
     This represents the ability to add further attributes to the definition of a
     specific channel that is subject to the diagnostic service "communication
     control".
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControlSpecificChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 109, Classic Platform
       R23-11)
@@ -245,10 +245,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def specific_channel(self, value: Optional["CommunicationCluster"]) -> None:
         """
         Set specificChannel with validation.
-        
+
         Args:
             value: The specificChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -272,10 +272,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def specific_physical(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set specificPhysical with validation.
-        
+
         Args:
             value: The specificPhysical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -300,10 +300,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def subnet_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set subnetNumber with validation.
-        
+
         Args:
             value: The subnetNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -322,10 +322,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def getSpecificChannel(self) -> "CommunicationCluster":
         """
         AUTOSAR-compliant getter for specificChannel.
-        
+
         Returns:
             The specificChannel value
-        
+
         Note:
             Delegates to specific_channel property (CODING_RULE_V2_00017)
         """
@@ -334,13 +334,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def setSpecificChannel(self, value: "CommunicationCluster") -> "DiagnosticComControlSpecificChannel":
         """
         AUTOSAR-compliant setter for specificChannel with method chaining.
-        
+
         Args:
             value: The specificChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to specific_channel property setter (gets validation automatically)
         """
@@ -350,10 +350,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def getSpecificPhysical(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for specificPhysical.
-        
+
         Returns:
             The specificPhysical value
-        
+
         Note:
             Delegates to specific_physical property (CODING_RULE_V2_00017)
         """
@@ -362,13 +362,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def setSpecificPhysical(self, value: "EthernetPhysical") -> "DiagnosticComControlSpecificChannel":
         """
         AUTOSAR-compliant setter for specificPhysical with method chaining.
-        
+
         Args:
             value: The specificPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to specific_physical property setter (gets validation automatically)
         """
@@ -378,10 +378,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def getSubnetNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for subnetNumber.
-        
+
         Returns:
             The subnetNumber value
-        
+
         Note:
             Delegates to subnet_number property (CODING_RULE_V2_00017)
         """
@@ -390,13 +390,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def setSubnetNumber(self, value: "PositiveInteger") -> "DiagnosticComControlSpecificChannel":
         """
         AUTOSAR-compliant setter for subnetNumber with method chaining.
-        
+
         Args:
             value: The subnetNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to subnet_number property setter (gets validation automatically)
         """
@@ -408,13 +408,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def with_specific_channel(self, value: Optional["CommunicationCluster"]) -> "DiagnosticComControlSpecificChannel":
         """
         Set specificChannel and return self for chaining.
-        
+
         Args:
             value: The specificChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_specific_channel("value")
         """
@@ -424,13 +424,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def with_specific_physical(self, value: Optional["EthernetPhysical"]) -> "DiagnosticComControlSpecificChannel":
         """
         Set specificPhysical and return self for chaining.
-        
+
         Args:
             value: The specificPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_specific_physical("value")
         """
@@ -440,13 +440,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def with_subnet_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticComControlSpecificChannel":
         """
         Set subnetNumber and return self for chaining.
-        
+
         Args:
             value: The subnetNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_subnet_number("value")
         """
@@ -459,9 +459,9 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the
     "Communication Control" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControlClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 109, Classic Platform
       R23-11)
@@ -517,10 +517,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getAllChannels(self) -> List["CommunicationCluster"]:
         """
         AUTOSAR-compliant getter for allChannels.
-        
+
         Returns:
             The allChannels value
-        
+
         Note:
             Delegates to all_channels property (CODING_RULE_V2_00017)
         """
@@ -529,10 +529,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getAllPhysical(self) -> List["EthernetPhysical"]:
         """
         AUTOSAR-compliant getter for allPhysical.
-        
+
         Returns:
             The allPhysical value
-        
+
         Note:
             Delegates to all_physical property (CODING_RULE_V2_00017)
         """
@@ -541,10 +541,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getSpecificChannel(self) -> List["DiagnosticComControl"]:
         """
         AUTOSAR-compliant getter for specificChannel.
-        
+
         Returns:
             The specificChannel value
-        
+
         Note:
             Delegates to specific_channel property (CODING_RULE_V2_00017)
         """
@@ -553,10 +553,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getSubNode(self) -> List["DiagnosticComControl"]:
         """
         AUTOSAR-compliant getter for subNode.
-        
+
         Returns:
             The subNode value
-        
+
         Note:
             Delegates to sub_node property (CODING_RULE_V2_00017)
         """
@@ -571,9 +571,9 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     This represents the ability to add further attributes to the definition of a
     specific sub-node channel that is subject to the diagnostic service
     "communication control".
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControlSubNodeChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 110, Classic Platform
       R23-11)
@@ -594,10 +594,10 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def sub_node(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set subNode with validation.
-        
+
         Args:
             value: The subNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -616,10 +616,10 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def getSubNode(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for subNode.
-        
+
         Returns:
             The subNode value
-        
+
         Note:
             Delegates to sub_node property (CODING_RULE_V2_00017)
         """
@@ -628,13 +628,13 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def setSubNode(self, value: "EthernetPhysical") -> "DiagnosticComControlSubNodeChannel":
         """
         AUTOSAR-compliant setter for subNode with method chaining.
-        
+
         Args:
             value: The subNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_node property setter (gets validation automatically)
         """
@@ -646,13 +646,13 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def with_sub_node(self, value: Optional["EthernetPhysical"]) -> "DiagnosticComControlSubNodeChannel":
         """
         Set subNode and return self for chaining.
-        
+
         Args:
             value: The subNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_node("value")
         """

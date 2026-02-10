@@ -20,9 +20,9 @@ class VariationPointProxy(Identifiable):
     aVariationPointProxy. valueAccess AttributeValueVariation 0..1 aggr This
     value acts as Binding Function for the VariationPoint. Point Table 7.61:
     VariationPointProxy
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling::VariationPointProxy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 613, Classic Platform
       R23-11)
@@ -45,10 +45,10 @@ class VariationPointProxy(Identifiable):
     def condition_access(self, value: Optional["ConditionByFormula"]) -> None:
         """
         Set conditionAccess with validation.
-        
+
         Args:
             value: The conditionAccess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +73,10 @@ class VariationPointProxy(Identifiable):
     def implementation(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +101,10 @@ class VariationPointProxy(Identifiable):
     def post_build_value(self, value: Optional["PostBuildVariant"]) -> None:
         """
         Set postBuildValue with validation.
-        
+
         Args:
             value: The postBuildValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +123,10 @@ class VariationPointProxy(Identifiable):
     def getConditionAccess(self) -> "ConditionByFormula":
         """
         AUTOSAR-compliant getter for conditionAccess.
-        
+
         Returns:
             The conditionAccess value
-        
+
         Note:
             Delegates to condition_access property (CODING_RULE_V2_00017)
         """
@@ -135,13 +135,13 @@ class VariationPointProxy(Identifiable):
     def setConditionAccess(self, value: "ConditionByFormula") -> "VariationPointProxy":
         """
         AUTOSAR-compliant setter for conditionAccess with method chaining.
-        
+
         Args:
             value: The conditionAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to condition_access property setter (gets validation automatically)
         """
@@ -151,10 +151,10 @@ class VariationPointProxy(Identifiable):
     def getImplementation(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -163,13 +163,13 @@ class VariationPointProxy(Identifiable):
     def setImplementation(self, value: "AbstractImplementation") -> "VariationPointProxy":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -179,10 +179,10 @@ class VariationPointProxy(Identifiable):
     def getPostBuildValue(self) -> "PostBuildVariant":
         """
         AUTOSAR-compliant getter for postBuildValue.
-        
+
         Returns:
             The postBuildValue value
-        
+
         Note:
             Delegates to post_build_value property (CODING_RULE_V2_00017)
         """
@@ -191,13 +191,13 @@ class VariationPointProxy(Identifiable):
     def setPostBuildValue(self, value: "PostBuildVariant") -> "VariationPointProxy":
         """
         AUTOSAR-compliant setter for postBuildValue with method chaining.
-        
+
         Args:
             value: The postBuildValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to post_build_value property setter (gets validation automatically)
         """
@@ -209,13 +209,13 @@ class VariationPointProxy(Identifiable):
     def with_condition_access(self, value: Optional["ConditionByFormula"]) -> "VariationPointProxy":
         """
         Set conditionAccess and return self for chaining.
-        
+
         Args:
             value: The conditionAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_condition_access("value")
         """
@@ -225,13 +225,13 @@ class VariationPointProxy(Identifiable):
     def with_implementation(self, value: Optional["AbstractImplementation"]) -> "VariationPointProxy":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -241,13 +241,13 @@ class VariationPointProxy(Identifiable):
     def with_post_build_value(self, value: Optional["PostBuildVariant"]) -> "VariationPointProxy":
         """
         Set postBuildValue and return self for chaining.
-        
+
         Args:
             value: The postBuildValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_post_build_value("value")
         """

@@ -23,9 +23,9 @@ class AtpBlueprint(Identifiable, ABC):
     """
     This meta-class represents the ability to act as a Blueprint. As this class
     is an abstract one, particular blueprint meta-classes inherit from this one.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 305, Classic
       Platform R23-11)
@@ -68,10 +68,10 @@ class AtpBlueprint(Identifiable, ABC):
     def getBlueprintPolicy(self) -> List["BlueprintPolicy"]:
         """
         AUTOSAR-compliant getter for blueprintPolicy.
-        
+
         Returns:
             The blueprintPolicy value
-        
+
         Note:
             Delegates to blueprint_policy property (CODING_RULE_V2_00017)
         """
@@ -86,9 +86,9 @@ class AtpBlueprintable(Identifiable, ABC):
     This meta-class represents the ability to be derived from a Blueprint. As
     this class is an abstract one, particular blueprintable meta-classes inherit
     from this one.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprintable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 424, Foundation
       R23-11)
@@ -112,9 +112,9 @@ class AtpBlueprintMapping(ARObject, ABC):
     This meta-class represents the ability to express a particular mapping
     between a blueprint and an element derived from this blueprint. Particular
     mappings are defined by specializations of this meta-class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprintMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 161, Foundation R23-11)
     """
@@ -137,10 +137,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def atp_blueprint(self, value: "AtpBlueprint") -> None:
         """
         Set atpBlueprint with validation.
-        
+
         Args:
             value: The atpBlueprint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -160,10 +160,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def atp_blueprinted(self, value: "AtpBlueprintable") -> None:
         """
         Set atpBlueprinted with validation.
-        
+
         Args:
             value: The atpBlueprinted to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -178,10 +178,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def getAtpBlueprint(self) -> "AtpBlueprint":
         """
         AUTOSAR-compliant getter for atpBlueprint.
-        
+
         Returns:
             The atpBlueprint value
-        
+
         Note:
             Delegates to atp_blueprint property (CODING_RULE_V2_00017)
         """
@@ -190,13 +190,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def setAtpBlueprint(self, value: "AtpBlueprint") -> "AtpBlueprintMapping":
         """
         AUTOSAR-compliant setter for atpBlueprint with method chaining.
-        
+
         Args:
             value: The atpBlueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_blueprint property setter (gets validation automatically)
         """
@@ -206,10 +206,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def getAtpBlueprinted(self) -> "AtpBlueprintable":
         """
         AUTOSAR-compliant getter for atpBlueprinted.
-        
+
         Returns:
             The atpBlueprinted value
-        
+
         Note:
             Delegates to atp_blueprinted property (CODING_RULE_V2_00017)
         """
@@ -218,13 +218,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def setAtpBlueprinted(self, value: "AtpBlueprintable") -> "AtpBlueprintMapping":
         """
         AUTOSAR-compliant setter for atpBlueprinted with method chaining.
-        
+
         Args:
             value: The atpBlueprinted to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_blueprinted property setter (gets validation automatically)
         """
@@ -236,13 +236,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def with_atp_blueprint(self, value: "AtpBlueprint") -> "AtpBlueprintMapping":
         """
         Set atpBlueprint and return self for chaining.
-        
+
         Args:
             value: The atpBlueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_blueprint("value")
         """
@@ -252,13 +252,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def with_atp_blueprinted(self, value: "AtpBlueprintable") -> "AtpBlueprintMapping":
         """
         Set atpBlueprinted and return self for chaining.
-        
+
         Args:
             value: The atpBlueprinted to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_blueprinted("value")
         """
@@ -273,9 +273,9 @@ class BlueprintPolicy(ARObject, ABC):
     elements will be modifiable or not modifiable. (cid:53) 163 of 238 Document
     ID 535: AUTOSAR_FO_TPS_StandardizationTemplate Standardization Template
     AUTOSAR FO R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicy
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 163, Foundation R23-11)
     """
@@ -298,10 +298,10 @@ class BlueprintPolicy(ARObject, ABC):
     def attribute_name(self, value: "String") -> None:
         """
         Set attributeName with validation.
-        
+
         Args:
             value: The attributeName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -316,10 +316,10 @@ class BlueprintPolicy(ARObject, ABC):
     def getAttributeName(self) -> "String":
         """
         AUTOSAR-compliant getter for attributeName.
-        
+
         Returns:
             The attributeName value
-        
+
         Note:
             Delegates to attribute_name property (CODING_RULE_V2_00017)
         """
@@ -328,13 +328,13 @@ class BlueprintPolicy(ARObject, ABC):
     def setAttributeName(self, value: "String") -> "BlueprintPolicy":
         """
         AUTOSAR-compliant setter for attributeName with method chaining.
-        
+
         Args:
             value: The attributeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to attribute_name property setter (gets validation automatically)
         """
@@ -346,13 +346,13 @@ class BlueprintPolicy(ARObject, ABC):
     def with_attribute_name(self, value: "String") -> "BlueprintPolicy":
         """
         Set attributeName and return self for chaining.
-        
+
         Args:
             value: The attributeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_attribute_name("value")
         """
@@ -366,9 +366,9 @@ class BlueprintPolicyList(BlueprintPolicy):
     The class represents that the related attribute is modifiable during the
     blueprinting. It applies only to attribute with upper multiplicity greater
     than 1.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicyList
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 164, Foundation R23-11)
     """
@@ -389,10 +389,10 @@ class BlueprintPolicyList(BlueprintPolicy):
     def max_number_of(self, value: "PositiveInteger") -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -413,10 +413,10 @@ class BlueprintPolicyList(BlueprintPolicy):
     def min_number_of(self, value: "PositiveInteger") -> None:
         """
         Set minNumberOf with validation.
-        
+
         Args:
             value: The minNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -431,10 +431,10 @@ class BlueprintPolicyList(BlueprintPolicy):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -443,13 +443,13 @@ class BlueprintPolicyList(BlueprintPolicy):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "BlueprintPolicyList":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -459,10 +459,10 @@ class BlueprintPolicyList(BlueprintPolicy):
     def getMinNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minNumberOf.
-        
+
         Returns:
             The minNumberOf value
-        
+
         Note:
             Delegates to min_number_of property (CODING_RULE_V2_00017)
         """
@@ -471,13 +471,13 @@ class BlueprintPolicyList(BlueprintPolicy):
     def setMinNumberOf(self, value: "PositiveInteger") -> "BlueprintPolicyList":
         """
         AUTOSAR-compliant setter for minNumberOf with method chaining.
-        
+
         Args:
             value: The minNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_number_of property setter (gets validation automatically)
         """
@@ -489,13 +489,13 @@ class BlueprintPolicyList(BlueprintPolicy):
     def with_max_number_of(self, value: "PositiveInteger") -> "BlueprintPolicyList":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -505,13 +505,13 @@ class BlueprintPolicyList(BlueprintPolicy):
     def with_min_number_of(self, value: "PositiveInteger") -> "BlueprintPolicyList":
         """
         Set minNumberOf and return self for chaining.
-        
+
         Args:
             value: The minNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_number_of("value")
         """
@@ -524,9 +524,9 @@ class BlueprintPolicyNotModifiable(BlueprintPolicy):
     """
     The class represents that the related attribute is not modifiable during the
     blueprinting.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicyNotModifiable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 164, Foundation R23-11)
     """
@@ -545,9 +545,9 @@ class BlueprintPolicySingle(BlueprintPolicy):
     """
     The class represents that the related attribute is modifiable during the
     blueprinting. It applies only to attribute with upper multiplicity equal 1.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicySingle
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 164, Foundation R23-11)
     """

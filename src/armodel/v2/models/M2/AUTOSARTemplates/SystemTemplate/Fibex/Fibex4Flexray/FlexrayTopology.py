@@ -27,9 +27,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTo
 class FlexrayCluster(ARObject):
     """
     FlexRay specific attributes to the physicalCluster
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 80, Classic Platform R23-11)
     """
@@ -49,10 +49,10 @@ class FlexrayCluster(ARObject):
     def action_point_offset(self, value: Optional["Integer"]) -> None:
         """
         Set actionPointOffset with validation.
-        
+
         Args:
             value: The actionPointOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class FlexrayCluster(ARObject):
     def bit(self, value: Optional["TimeValue"]) -> None:
         """
         Set bit with validation.
-        
+
         Args:
             value: The bit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +105,10 @@ class FlexrayCluster(ARObject):
     def cas_rx_low_max(self, value: Optional["Integer"]) -> None:
         """
         Set casRxLowMax with validation.
-        
+
         Args:
             value: The casRxLowMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -133,10 +133,10 @@ class FlexrayCluster(ARObject):
     def cold_start(self, value: Optional["Integer"]) -> None:
         """
         Set coldStart with validation.
-        
+
         Args:
             value: The coldStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -161,10 +161,10 @@ class FlexrayCluster(ARObject):
     def cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set cycle with validation.
-        
+
         Args:
             value: The cycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +191,10 @@ class FlexrayCluster(ARObject):
     def cycle_count_max(self, value: Optional["Integer"]) -> None:
         """
         Set cycleCountMax with validation.
-        
+
         Args:
             value: The cycleCountMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -218,10 +218,10 @@ class FlexrayCluster(ARObject):
     def detect_nit_error(self, value: Optional["Boolean"]) -> None:
         """
         Set detectNitError with validation.
-        
+
         Args:
             value: The detectNitError to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -245,10 +245,10 @@ class FlexrayCluster(ARObject):
     def dynamic_slot_idle(self, value: Optional["Integer"]) -> None:
         """
         Set dynamicSlotIdle with validation.
-        
+
         Args:
             value: The dynamicSlotIdle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -272,10 +272,10 @@ class FlexrayCluster(ARObject):
     def ignore_after_tx(self, value: Optional["Integer"]) -> None:
         """
         Set ignoreAfterTx with validation.
-        
+
         Args:
             value: The ignoreAfterTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -301,10 +301,10 @@ class FlexrayCluster(ARObject):
     def listen_noise(self, value: Optional["Integer"]) -> None:
         """
         Set listenNoise with validation.
-        
+
         Args:
             value: The listenNoise to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -328,10 +328,10 @@ class FlexrayCluster(ARObject):
     def macro_per_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set macroPerCycle with validation.
-        
+
         Args:
             value: The macroPerCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -355,10 +355,10 @@ class FlexrayCluster(ARObject):
     def macrotick(self, value: Optional["TimeValue"]) -> None:
         """
         Set macrotick with validation.
-        
+
         Args:
             value: The macrotick to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -385,10 +385,10 @@ class FlexrayCluster(ARObject):
     def max_without(self, value: Optional["Integer"]) -> None:
         """
         Set maxWithout with validation.
-        
+
         Args:
             value: The maxWithout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -413,10 +413,10 @@ class FlexrayCluster(ARObject):
     def minislot_action(self, value: Optional["Integer"]) -> None:
         """
         Set minislotAction with validation.
-        
+
         Args:
             value: The minislotAction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -441,10 +441,10 @@ class FlexrayCluster(ARObject):
     def minislot_duration(self, value: Optional["Integer"]) -> None:
         """
         Set minislotDuration with validation.
-        
+
         Args:
             value: The minislotDuration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -469,10 +469,10 @@ class FlexrayCluster(ARObject):
     def network_idle(self, value: Optional["Integer"]) -> None:
         """
         Set networkIdle with validation.
-        
+
         Args:
             value: The networkIdle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -496,10 +496,10 @@ class FlexrayCluster(ARObject):
     def network(self, value: Optional["Integer"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -523,10 +523,10 @@ class FlexrayCluster(ARObject):
     def number_of_minislots(self, value: Optional["Integer"]) -> None:
         """
         Set numberOfMinislots with validation.
-        
+
         Args:
             value: The numberOfMinislots to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -550,10 +550,10 @@ class FlexrayCluster(ARObject):
     def number_of_static_slots(self, value: Optional["Integer"]) -> None:
         """
         Set numberOfStaticSlots with validation.
-        
+
         Args:
             value: The numberOfStaticSlots to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -579,10 +579,10 @@ class FlexrayCluster(ARObject):
     def offset_correction(self, value: Optional["Integer"]) -> None:
         """
         Set offsetCorrection with validation.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -607,10 +607,10 @@ class FlexrayCluster(ARObject):
     def payload_length(self, value: Optional["Integer"]) -> None:
         """
         Set payloadLength with validation.
-        
+
         Args:
             value: The payloadLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -636,10 +636,10 @@ class FlexrayCluster(ARObject):
     def safety_margin(self, value: Optional["Integer"]) -> None:
         """
         Set safetyMargin with validation.
-        
+
         Args:
             value: The safetyMargin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -664,10 +664,10 @@ class FlexrayCluster(ARObject):
     def sample_clock_period(self, value: Optional["TimeValue"]) -> None:
         """
         Set sampleClockPeriod with validation.
-        
+
         Args:
             value: The sampleClockPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -692,10 +692,10 @@ class FlexrayCluster(ARObject):
     def static_slot(self, value: Optional["Integer"]) -> None:
         """
         Set staticSlot with validation.
-        
+
         Args:
             value: The staticSlot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -720,10 +720,10 @@ class FlexrayCluster(ARObject):
     def symbol_window(self, value: Optional["Integer"]) -> None:
         """
         Set symbolWindow with validation.
-        
+
         Args:
             value: The symbolWindow to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -749,10 +749,10 @@ class FlexrayCluster(ARObject):
     def sync_frame_id(self, value: Optional["Integer"]) -> None:
         """
         Set syncFrameId with validation.
-        
+
         Args:
             value: The syncFrameId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -779,10 +779,10 @@ class FlexrayCluster(ARObject):
     def tranceiver(self, value: Optional["Float"]) -> None:
         """
         Set tranceiver with validation.
-        
+
         Args:
             value: The tranceiver to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -806,10 +806,10 @@ class FlexrayCluster(ARObject):
     def transmission(self, value: Optional["Integer"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -836,10 +836,10 @@ class FlexrayCluster(ARObject):
     def wakeup_rx_idle(self, value: Optional["Integer"]) -> None:
         """
         Set wakeupRxIdle with validation.
-        
+
         Args:
             value: The wakeupRxIdle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -866,10 +866,10 @@ class FlexrayCluster(ARObject):
     def wakeup_rx_low(self, value: Optional["Integer"]) -> None:
         """
         Set wakeupRxLow with validation.
-        
+
         Args:
             value: The wakeupRxLow to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -895,10 +895,10 @@ class FlexrayCluster(ARObject):
     def wakeup_rx(self, value: Optional["Integer"]) -> None:
         """
         Set wakeupRx with validation.
-        
+
         Args:
             value: The wakeupRx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -924,10 +924,10 @@ class FlexrayCluster(ARObject):
     def wakeup_tx_active(self, value: Optional["Integer"]) -> None:
         """
         Set wakeupTxActive with validation.
-        
+
         Args:
             value: The wakeupTxActive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -952,10 +952,10 @@ class FlexrayCluster(ARObject):
     def wakeup_tx_idle(self, value: Optional["Integer"]) -> None:
         """
         Set wakeupTxIdle with validation.
-        
+
         Args:
             value: The wakeupTxIdle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1006,10 +1006,10 @@ class FlexrayCluster(ARObject):
     def getActionPointOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for actionPointOffset.
-        
+
         Returns:
             The actionPointOffset value
-        
+
         Note:
             Delegates to action_point_offset property (CODING_RULE_V2_00017)
         """
@@ -1018,13 +1018,13 @@ class FlexrayCluster(ARObject):
     def setActionPointOffset(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for actionPointOffset with method chaining.
-        
+
         Args:
             value: The actionPointOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to action_point_offset property setter (gets validation automatically)
         """
@@ -1034,10 +1034,10 @@ class FlexrayCluster(ARObject):
     def getBit(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for bit.
-        
+
         Returns:
             The bit value
-        
+
         Note:
             Delegates to bit property (CODING_RULE_V2_00017)
         """
@@ -1046,13 +1046,13 @@ class FlexrayCluster(ARObject):
     def setBit(self, value: "TimeValue") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for bit with method chaining.
-        
+
         Args:
             value: The bit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit property setter (gets validation automatically)
         """
@@ -1062,10 +1062,10 @@ class FlexrayCluster(ARObject):
     def getCasRxLowMax(self) -> "Integer":
         """
         AUTOSAR-compliant getter for casRxLowMax.
-        
+
         Returns:
             The casRxLowMax value
-        
+
         Note:
             Delegates to cas_rx_low_max property (CODING_RULE_V2_00017)
         """
@@ -1074,13 +1074,13 @@ class FlexrayCluster(ARObject):
     def setCasRxLowMax(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for casRxLowMax with method chaining.
-        
+
         Args:
             value: The casRxLowMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cas_rx_low_max property setter (gets validation automatically)
         """
@@ -1090,10 +1090,10 @@ class FlexrayCluster(ARObject):
     def getColdStart(self) -> "Integer":
         """
         AUTOSAR-compliant getter for coldStart.
-        
+
         Returns:
             The coldStart value
-        
+
         Note:
             Delegates to cold_start property (CODING_RULE_V2_00017)
         """
@@ -1102,13 +1102,13 @@ class FlexrayCluster(ARObject):
     def setColdStart(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for coldStart with method chaining.
-        
+
         Args:
             value: The coldStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cold_start property setter (gets validation automatically)
         """
@@ -1118,10 +1118,10 @@ class FlexrayCluster(ARObject):
     def getCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for cycle.
-        
+
         Returns:
             The cycle value
-        
+
         Note:
             Delegates to cycle property (CODING_RULE_V2_00017)
         """
@@ -1130,13 +1130,13 @@ class FlexrayCluster(ARObject):
     def setCycle(self, value: "TimeValue") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for cycle with method chaining.
-        
+
         Args:
             value: The cycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle property setter (gets validation automatically)
         """
@@ -1146,10 +1146,10 @@ class FlexrayCluster(ARObject):
     def getCycleCountMax(self) -> "Integer":
         """
         AUTOSAR-compliant getter for cycleCountMax.
-        
+
         Returns:
             The cycleCountMax value
-        
+
         Note:
             Delegates to cycle_count_max property (CODING_RULE_V2_00017)
         """
@@ -1158,13 +1158,13 @@ class FlexrayCluster(ARObject):
     def setCycleCountMax(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for cycleCountMax with method chaining.
-        
+
         Args:
             value: The cycleCountMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_count_max property setter (gets validation automatically)
         """
@@ -1174,10 +1174,10 @@ class FlexrayCluster(ARObject):
     def getDetectNitError(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for detectNitError.
-        
+
         Returns:
             The detectNitError value
-        
+
         Note:
             Delegates to detect_nit_error property (CODING_RULE_V2_00017)
         """
@@ -1186,13 +1186,13 @@ class FlexrayCluster(ARObject):
     def setDetectNitError(self, value: "Boolean") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for detectNitError with method chaining.
-        
+
         Args:
             value: The detectNitError to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to detect_nit_error property setter (gets validation automatically)
         """
@@ -1202,10 +1202,10 @@ class FlexrayCluster(ARObject):
     def getDynamicSlotIdle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for dynamicSlotIdle.
-        
+
         Returns:
             The dynamicSlotIdle value
-        
+
         Note:
             Delegates to dynamic_slot_idle property (CODING_RULE_V2_00017)
         """
@@ -1214,13 +1214,13 @@ class FlexrayCluster(ARObject):
     def setDynamicSlotIdle(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for dynamicSlotIdle with method chaining.
-        
+
         Args:
             value: The dynamicSlotIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_slot_idle property setter (gets validation automatically)
         """
@@ -1230,10 +1230,10 @@ class FlexrayCluster(ARObject):
     def getIgnoreAfterTx(self) -> "Integer":
         """
         AUTOSAR-compliant getter for ignoreAfterTx.
-        
+
         Returns:
             The ignoreAfterTx value
-        
+
         Note:
             Delegates to ignore_after_tx property (CODING_RULE_V2_00017)
         """
@@ -1242,13 +1242,13 @@ class FlexrayCluster(ARObject):
     def setIgnoreAfterTx(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for ignoreAfterTx with method chaining.
-        
+
         Args:
             value: The ignoreAfterTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ignore_after_tx property setter (gets validation automatically)
         """
@@ -1258,10 +1258,10 @@ class FlexrayCluster(ARObject):
     def getListenNoise(self) -> "Integer":
         """
         AUTOSAR-compliant getter for listenNoise.
-        
+
         Returns:
             The listenNoise value
-        
+
         Note:
             Delegates to listen_noise property (CODING_RULE_V2_00017)
         """
@@ -1270,13 +1270,13 @@ class FlexrayCluster(ARObject):
     def setListenNoise(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for listenNoise with method chaining.
-        
+
         Args:
             value: The listenNoise to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to listen_noise property setter (gets validation automatically)
         """
@@ -1286,10 +1286,10 @@ class FlexrayCluster(ARObject):
     def getMacroPerCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for macroPerCycle.
-        
+
         Returns:
             The macroPerCycle value
-        
+
         Note:
             Delegates to macro_per_cycle property (CODING_RULE_V2_00017)
         """
@@ -1298,13 +1298,13 @@ class FlexrayCluster(ARObject):
     def setMacroPerCycle(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for macroPerCycle with method chaining.
-        
+
         Args:
             value: The macroPerCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to macro_per_cycle property setter (gets validation automatically)
         """
@@ -1314,10 +1314,10 @@ class FlexrayCluster(ARObject):
     def getMacrotick(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for macrotick.
-        
+
         Returns:
             The macrotick value
-        
+
         Note:
             Delegates to macrotick property (CODING_RULE_V2_00017)
         """
@@ -1326,13 +1326,13 @@ class FlexrayCluster(ARObject):
     def setMacrotick(self, value: "TimeValue") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for macrotick with method chaining.
-        
+
         Args:
             value: The macrotick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to macrotick property setter (gets validation automatically)
         """
@@ -1342,10 +1342,10 @@ class FlexrayCluster(ARObject):
     def getMaxWithout(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxWithout.
-        
+
         Returns:
             The maxWithout value
-        
+
         Note:
             Delegates to max_without property (CODING_RULE_V2_00017)
         """
@@ -1354,13 +1354,13 @@ class FlexrayCluster(ARObject):
     def setMaxWithout(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for maxWithout with method chaining.
-        
+
         Args:
             value: The maxWithout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_without property setter (gets validation automatically)
         """
@@ -1370,10 +1370,10 @@ class FlexrayCluster(ARObject):
     def getMinislotAction(self) -> "Integer":
         """
         AUTOSAR-compliant getter for minislotAction.
-        
+
         Returns:
             The minislotAction value
-        
+
         Note:
             Delegates to minislot_action property (CODING_RULE_V2_00017)
         """
@@ -1382,13 +1382,13 @@ class FlexrayCluster(ARObject):
     def setMinislotAction(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for minislotAction with method chaining.
-        
+
         Args:
             value: The minislotAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minislot_action property setter (gets validation automatically)
         """
@@ -1398,10 +1398,10 @@ class FlexrayCluster(ARObject):
     def getMinislotDuration(self) -> "Integer":
         """
         AUTOSAR-compliant getter for minislotDuration.
-        
+
         Returns:
             The minislotDuration value
-        
+
         Note:
             Delegates to minislot_duration property (CODING_RULE_V2_00017)
         """
@@ -1410,13 +1410,13 @@ class FlexrayCluster(ARObject):
     def setMinislotDuration(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for minislotDuration with method chaining.
-        
+
         Args:
             value: The minislotDuration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minislot_duration property setter (gets validation automatically)
         """
@@ -1426,10 +1426,10 @@ class FlexrayCluster(ARObject):
     def getNetworkIdle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for networkIdle.
-        
+
         Returns:
             The networkIdle value
-        
+
         Note:
             Delegates to network_idle property (CODING_RULE_V2_00017)
         """
@@ -1438,13 +1438,13 @@ class FlexrayCluster(ARObject):
     def setNetworkIdle(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for networkIdle with method chaining.
-        
+
         Args:
             value: The networkIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_idle property setter (gets validation automatically)
         """
@@ -1454,10 +1454,10 @@ class FlexrayCluster(ARObject):
     def getNetwork(self) -> "Integer":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -1466,13 +1466,13 @@ class FlexrayCluster(ARObject):
     def setNetwork(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -1482,10 +1482,10 @@ class FlexrayCluster(ARObject):
     def getNumberOfMinislots(self) -> "Integer":
         """
         AUTOSAR-compliant getter for numberOfMinislots.
-        
+
         Returns:
             The numberOfMinislots value
-        
+
         Note:
             Delegates to number_of_minislots property (CODING_RULE_V2_00017)
         """
@@ -1494,13 +1494,13 @@ class FlexrayCluster(ARObject):
     def setNumberOfMinislots(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for numberOfMinislots with method chaining.
-        
+
         Args:
             value: The numberOfMinislots to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number_of_minislots property setter (gets validation automatically)
         """
@@ -1510,10 +1510,10 @@ class FlexrayCluster(ARObject):
     def getNumberOfStaticSlots(self) -> "Integer":
         """
         AUTOSAR-compliant getter for numberOfStaticSlots.
-        
+
         Returns:
             The numberOfStaticSlots value
-        
+
         Note:
             Delegates to number_of_static_slots property (CODING_RULE_V2_00017)
         """
@@ -1522,13 +1522,13 @@ class FlexrayCluster(ARObject):
     def setNumberOfStaticSlots(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for numberOfStaticSlots with method chaining.
-        
+
         Args:
             value: The numberOfStaticSlots to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number_of_static_slots property setter (gets validation automatically)
         """
@@ -1538,10 +1538,10 @@ class FlexrayCluster(ARObject):
     def getOffsetCorrection(self) -> "Integer":
         """
         AUTOSAR-compliant getter for offsetCorrection.
-        
+
         Returns:
             The offsetCorrection value
-        
+
         Note:
             Delegates to offset_correction property (CODING_RULE_V2_00017)
         """
@@ -1550,13 +1550,13 @@ class FlexrayCluster(ARObject):
     def setOffsetCorrection(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for offsetCorrection with method chaining.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset_correction property setter (gets validation automatically)
         """
@@ -1566,10 +1566,10 @@ class FlexrayCluster(ARObject):
     def getPayloadLength(self) -> "Integer":
         """
         AUTOSAR-compliant getter for payloadLength.
-        
+
         Returns:
             The payloadLength value
-        
+
         Note:
             Delegates to payload_length property (CODING_RULE_V2_00017)
         """
@@ -1578,13 +1578,13 @@ class FlexrayCluster(ARObject):
     def setPayloadLength(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for payloadLength with method chaining.
-        
+
         Args:
             value: The payloadLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to payload_length property setter (gets validation automatically)
         """
@@ -1594,10 +1594,10 @@ class FlexrayCluster(ARObject):
     def getSafetyMargin(self) -> "Integer":
         """
         AUTOSAR-compliant getter for safetyMargin.
-        
+
         Returns:
             The safetyMargin value
-        
+
         Note:
             Delegates to safety_margin property (CODING_RULE_V2_00017)
         """
@@ -1606,13 +1606,13 @@ class FlexrayCluster(ARObject):
     def setSafetyMargin(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for safetyMargin with method chaining.
-        
+
         Args:
             value: The safetyMargin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to safety_margin property setter (gets validation automatically)
         """
@@ -1622,10 +1622,10 @@ class FlexrayCluster(ARObject):
     def getSampleClockPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sampleClockPeriod.
-        
+
         Returns:
             The sampleClockPeriod value
-        
+
         Note:
             Delegates to sample_clock_period property (CODING_RULE_V2_00017)
         """
@@ -1634,13 +1634,13 @@ class FlexrayCluster(ARObject):
     def setSampleClockPeriod(self, value: "TimeValue") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for sampleClockPeriod with method chaining.
-        
+
         Args:
             value: The sampleClockPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sample_clock_period property setter (gets validation automatically)
         """
@@ -1650,10 +1650,10 @@ class FlexrayCluster(ARObject):
     def getStaticSlot(self) -> "Integer":
         """
         AUTOSAR-compliant getter for staticSlot.
-        
+
         Returns:
             The staticSlot value
-        
+
         Note:
             Delegates to static_slot property (CODING_RULE_V2_00017)
         """
@@ -1662,13 +1662,13 @@ class FlexrayCluster(ARObject):
     def setStaticSlot(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for staticSlot with method chaining.
-        
+
         Args:
             value: The staticSlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to static_slot property setter (gets validation automatically)
         """
@@ -1678,10 +1678,10 @@ class FlexrayCluster(ARObject):
     def getSymbolWindow(self) -> "Integer":
         """
         AUTOSAR-compliant getter for symbolWindow.
-        
+
         Returns:
             The symbolWindow value
-        
+
         Note:
             Delegates to symbol_window property (CODING_RULE_V2_00017)
         """
@@ -1690,13 +1690,13 @@ class FlexrayCluster(ARObject):
     def setSymbolWindow(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for symbolWindow with method chaining.
-        
+
         Args:
             value: The symbolWindow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol_window property setter (gets validation automatically)
         """
@@ -1706,10 +1706,10 @@ class FlexrayCluster(ARObject):
     def getSyncFrameId(self) -> "Integer":
         """
         AUTOSAR-compliant getter for syncFrameId.
-        
+
         Returns:
             The syncFrameId value
-        
+
         Note:
             Delegates to sync_frame_id property (CODING_RULE_V2_00017)
         """
@@ -1718,13 +1718,13 @@ class FlexrayCluster(ARObject):
     def setSyncFrameId(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for syncFrameId with method chaining.
-        
+
         Args:
             value: The syncFrameId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_frame_id property setter (gets validation automatically)
         """
@@ -1734,10 +1734,10 @@ class FlexrayCluster(ARObject):
     def getTranceiver(self) -> "Float":
         """
         AUTOSAR-compliant getter for tranceiver.
-        
+
         Returns:
             The tranceiver value
-        
+
         Note:
             Delegates to tranceiver property (CODING_RULE_V2_00017)
         """
@@ -1746,13 +1746,13 @@ class FlexrayCluster(ARObject):
     def setTranceiver(self, value: "Float") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for tranceiver with method chaining.
-        
+
         Args:
             value: The tranceiver to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tranceiver property setter (gets validation automatically)
         """
@@ -1762,10 +1762,10 @@ class FlexrayCluster(ARObject):
     def getTransmission(self) -> "Integer":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -1774,13 +1774,13 @@ class FlexrayCluster(ARObject):
     def setTransmission(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -1790,10 +1790,10 @@ class FlexrayCluster(ARObject):
     def getWakeupRxIdle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for wakeupRxIdle.
-        
+
         Returns:
             The wakeupRxIdle value
-        
+
         Note:
             Delegates to wakeup_rx_idle property (CODING_RULE_V2_00017)
         """
@@ -1802,13 +1802,13 @@ class FlexrayCluster(ARObject):
     def setWakeupRxIdle(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for wakeupRxIdle with method chaining.
-        
+
         Args:
             value: The wakeupRxIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_rx_idle property setter (gets validation automatically)
         """
@@ -1818,10 +1818,10 @@ class FlexrayCluster(ARObject):
     def getWakeupRxLow(self) -> "Integer":
         """
         AUTOSAR-compliant getter for wakeupRxLow.
-        
+
         Returns:
             The wakeupRxLow value
-        
+
         Note:
             Delegates to wakeup_rx_low property (CODING_RULE_V2_00017)
         """
@@ -1830,13 +1830,13 @@ class FlexrayCluster(ARObject):
     def setWakeupRxLow(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for wakeupRxLow with method chaining.
-        
+
         Args:
             value: The wakeupRxLow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_rx_low property setter (gets validation automatically)
         """
@@ -1846,10 +1846,10 @@ class FlexrayCluster(ARObject):
     def getWakeupRx(self) -> "Integer":
         """
         AUTOSAR-compliant getter for wakeupRx.
-        
+
         Returns:
             The wakeupRx value
-        
+
         Note:
             Delegates to wakeup_rx property (CODING_RULE_V2_00017)
         """
@@ -1858,13 +1858,13 @@ class FlexrayCluster(ARObject):
     def setWakeupRx(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for wakeupRx with method chaining.
-        
+
         Args:
             value: The wakeupRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_rx property setter (gets validation automatically)
         """
@@ -1874,10 +1874,10 @@ class FlexrayCluster(ARObject):
     def getWakeupTxActive(self) -> "Integer":
         """
         AUTOSAR-compliant getter for wakeupTxActive.
-        
+
         Returns:
             The wakeupTxActive value
-        
+
         Note:
             Delegates to wakeup_tx_active property (CODING_RULE_V2_00017)
         """
@@ -1886,13 +1886,13 @@ class FlexrayCluster(ARObject):
     def setWakeupTxActive(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for wakeupTxActive with method chaining.
-        
+
         Args:
             value: The wakeupTxActive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_tx_active property setter (gets validation automatically)
         """
@@ -1902,10 +1902,10 @@ class FlexrayCluster(ARObject):
     def getWakeupTxIdle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for wakeupTxIdle.
-        
+
         Returns:
             The wakeupTxIdle value
-        
+
         Note:
             Delegates to wakeup_tx_idle property (CODING_RULE_V2_00017)
         """
@@ -1914,13 +1914,13 @@ class FlexrayCluster(ARObject):
     def setWakeupTxIdle(self, value: "Integer") -> "FlexrayCluster":
         """
         AUTOSAR-compliant setter for wakeupTxIdle with method chaining.
-        
+
         Args:
             value: The wakeupTxIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_tx_idle property setter (gets validation automatically)
         """
@@ -1932,13 +1932,13 @@ class FlexrayCluster(ARObject):
     def with_action_point_offset(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set actionPointOffset and return self for chaining.
-        
+
         Args:
             value: The actionPointOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_action_point_offset("value")
         """
@@ -1948,13 +1948,13 @@ class FlexrayCluster(ARObject):
     def with_bit(self, value: Optional["TimeValue"]) -> "FlexrayCluster":
         """
         Set bit and return self for chaining.
-        
+
         Args:
             value: The bit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit("value")
         """
@@ -1964,13 +1964,13 @@ class FlexrayCluster(ARObject):
     def with_cas_rx_low_max(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set casRxLowMax and return self for chaining.
-        
+
         Args:
             value: The casRxLowMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cas_rx_low_max("value")
         """
@@ -1980,13 +1980,13 @@ class FlexrayCluster(ARObject):
     def with_cold_start(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set coldStart and return self for chaining.
-        
+
         Args:
             value: The coldStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cold_start("value")
         """
@@ -1996,13 +1996,13 @@ class FlexrayCluster(ARObject):
     def with_cycle(self, value: Optional["TimeValue"]) -> "FlexrayCluster":
         """
         Set cycle and return self for chaining.
-        
+
         Args:
             value: The cycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle("value")
         """
@@ -2012,13 +2012,13 @@ class FlexrayCluster(ARObject):
     def with_cycle_count_max(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set cycleCountMax and return self for chaining.
-        
+
         Args:
             value: The cycleCountMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_count_max("value")
         """
@@ -2028,13 +2028,13 @@ class FlexrayCluster(ARObject):
     def with_detect_nit_error(self, value: Optional["Boolean"]) -> "FlexrayCluster":
         """
         Set detectNitError and return self for chaining.
-        
+
         Args:
             value: The detectNitError to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_detect_nit_error("value")
         """
@@ -2044,13 +2044,13 @@ class FlexrayCluster(ARObject):
     def with_dynamic_slot_idle(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set dynamicSlotIdle and return self for chaining.
-        
+
         Args:
             value: The dynamicSlotIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_slot_idle("value")
         """
@@ -2060,13 +2060,13 @@ class FlexrayCluster(ARObject):
     def with_ignore_after_tx(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set ignoreAfterTx and return self for chaining.
-        
+
         Args:
             value: The ignoreAfterTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ignore_after_tx("value")
         """
@@ -2076,13 +2076,13 @@ class FlexrayCluster(ARObject):
     def with_listen_noise(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set listenNoise and return self for chaining.
-        
+
         Args:
             value: The listenNoise to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_listen_noise("value")
         """
@@ -2092,13 +2092,13 @@ class FlexrayCluster(ARObject):
     def with_macro_per_cycle(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set macroPerCycle and return self for chaining.
-        
+
         Args:
             value: The macroPerCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_macro_per_cycle("value")
         """
@@ -2108,13 +2108,13 @@ class FlexrayCluster(ARObject):
     def with_macrotick(self, value: Optional["TimeValue"]) -> "FlexrayCluster":
         """
         Set macrotick and return self for chaining.
-        
+
         Args:
             value: The macrotick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_macrotick("value")
         """
@@ -2124,13 +2124,13 @@ class FlexrayCluster(ARObject):
     def with_max_without(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set maxWithout and return self for chaining.
-        
+
         Args:
             value: The maxWithout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_without("value")
         """
@@ -2140,13 +2140,13 @@ class FlexrayCluster(ARObject):
     def with_minislot_action(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set minislotAction and return self for chaining.
-        
+
         Args:
             value: The minislotAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minislot_action("value")
         """
@@ -2156,13 +2156,13 @@ class FlexrayCluster(ARObject):
     def with_minislot_duration(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set minislotDuration and return self for chaining.
-        
+
         Args:
             value: The minislotDuration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minislot_duration("value")
         """
@@ -2172,13 +2172,13 @@ class FlexrayCluster(ARObject):
     def with_network_idle(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set networkIdle and return self for chaining.
-        
+
         Args:
             value: The networkIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_idle("value")
         """
@@ -2188,13 +2188,13 @@ class FlexrayCluster(ARObject):
     def with_network(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -2204,13 +2204,13 @@ class FlexrayCluster(ARObject):
     def with_number_of_minislots(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set numberOfMinislots and return self for chaining.
-        
+
         Args:
             value: The numberOfMinislots to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number_of_minislots("value")
         """
@@ -2220,13 +2220,13 @@ class FlexrayCluster(ARObject):
     def with_number_of_static_slots(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set numberOfStaticSlots and return self for chaining.
-        
+
         Args:
             value: The numberOfStaticSlots to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number_of_static_slots("value")
         """
@@ -2236,13 +2236,13 @@ class FlexrayCluster(ARObject):
     def with_offset_correction(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set offsetCorrection and return self for chaining.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset_correction("value")
         """
@@ -2252,13 +2252,13 @@ class FlexrayCluster(ARObject):
     def with_payload_length(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set payloadLength and return self for chaining.
-        
+
         Args:
             value: The payloadLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_payload_length("value")
         """
@@ -2268,13 +2268,13 @@ class FlexrayCluster(ARObject):
     def with_safety_margin(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set safetyMargin and return self for chaining.
-        
+
         Args:
             value: The safetyMargin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_safety_margin("value")
         """
@@ -2284,13 +2284,13 @@ class FlexrayCluster(ARObject):
     def with_sample_clock_period(self, value: Optional["TimeValue"]) -> "FlexrayCluster":
         """
         Set sampleClockPeriod and return self for chaining.
-        
+
         Args:
             value: The sampleClockPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sample_clock_period("value")
         """
@@ -2300,13 +2300,13 @@ class FlexrayCluster(ARObject):
     def with_static_slot(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set staticSlot and return self for chaining.
-        
+
         Args:
             value: The staticSlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_static_slot("value")
         """
@@ -2316,13 +2316,13 @@ class FlexrayCluster(ARObject):
     def with_symbol_window(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set symbolWindow and return self for chaining.
-        
+
         Args:
             value: The symbolWindow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol_window("value")
         """
@@ -2332,13 +2332,13 @@ class FlexrayCluster(ARObject):
     def with_sync_frame_id(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set syncFrameId and return self for chaining.
-        
+
         Args:
             value: The syncFrameId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_frame_id("value")
         """
@@ -2348,13 +2348,13 @@ class FlexrayCluster(ARObject):
     def with_tranceiver(self, value: Optional["Float"]) -> "FlexrayCluster":
         """
         Set tranceiver and return self for chaining.
-        
+
         Args:
             value: The tranceiver to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tranceiver("value")
         """
@@ -2364,13 +2364,13 @@ class FlexrayCluster(ARObject):
     def with_transmission(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """
@@ -2380,13 +2380,13 @@ class FlexrayCluster(ARObject):
     def with_wakeup_rx_idle(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set wakeupRxIdle and return self for chaining.
-        
+
         Args:
             value: The wakeupRxIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_rx_idle("value")
         """
@@ -2396,13 +2396,13 @@ class FlexrayCluster(ARObject):
     def with_wakeup_rx_low(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set wakeupRxLow and return self for chaining.
-        
+
         Args:
             value: The wakeupRxLow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_rx_low("value")
         """
@@ -2412,13 +2412,13 @@ class FlexrayCluster(ARObject):
     def with_wakeup_rx(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set wakeupRx and return self for chaining.
-        
+
         Args:
             value: The wakeupRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_rx("value")
         """
@@ -2428,13 +2428,13 @@ class FlexrayCluster(ARObject):
     def with_wakeup_tx_active(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set wakeupTxActive and return self for chaining.
-        
+
         Args:
             value: The wakeupTxActive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_tx_active("value")
         """
@@ -2444,13 +2444,13 @@ class FlexrayCluster(ARObject):
     def with_wakeup_tx_idle(self, value: Optional["Integer"]) -> "FlexrayCluster":
         """
         Set wakeupTxIdle and return self for chaining.
-        
+
         Args:
             value: The wakeupTxIdle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_tx_idle("value")
         """
@@ -2462,9 +2462,9 @@ class FlexrayCluster(ARObject):
 class FlexrayCommunicationController(ARObject):
     """
     FlexRay bus specific communication port attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayCommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 84, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 446, Foundation
@@ -2488,10 +2488,10 @@ class FlexrayCommunicationController(ARObject):
     def accepted(self, value: Optional["Integer"]) -> None:
         """
         Set accepted with validation.
-        
+
         Args:
             value: The accepted to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2519,10 +2519,10 @@ class FlexrayCommunicationController(ARObject):
     def allow_halt_due_to(self, value: Optional["Boolean"]) -> None:
         """
         Set allowHaltDueTo with validation.
-        
+
         Args:
             value: The allowHaltDueTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2549,10 +2549,10 @@ class FlexrayCommunicationController(ARObject):
     def allow_passive_to(self, value: Optional["Integer"]) -> None:
         """
         Set allowPassiveTo with validation.
-        
+
         Args:
             value: The allowPassiveTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2576,10 +2576,10 @@ class FlexrayCommunicationController(ARObject):
     def cluster_drift(self, value: Optional["Integer"]) -> None:
         """
         Set clusterDrift with validation.
-        
+
         Args:
             value: The clusterDrift to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2604,10 +2604,10 @@ class FlexrayCommunicationController(ARObject):
     def decoding(self, value: Optional["Integer"]) -> None:
         """
         Set decoding with validation.
-        
+
         Args:
             value: The decoding to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2633,10 +2633,10 @@ class FlexrayCommunicationController(ARObject):
     def delay(self, value: Optional["Integer"]) -> None:
         """
         Set delay with validation.
-        
+
         Args:
             value: The delay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2661,10 +2661,10 @@ class FlexrayCommunicationController(ARObject):
     def external_sync(self, value: Optional["Boolean"]) -> None:
         """
         Set externalSync with validation.
-        
+
         Args:
             value: The externalSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2689,10 +2689,10 @@ class FlexrayCommunicationController(ARObject):
     def extern_offset(self, value: Optional["Integer"]) -> None:
         """
         Set externOffset with validation.
-        
+
         Args:
             value: The externOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2717,10 +2717,10 @@ class FlexrayCommunicationController(ARObject):
     def extern_rate(self, value: Optional["Integer"]) -> None:
         """
         Set externRate with validation.
-        
+
         Args:
             value: The externRate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2746,10 +2746,10 @@ class FlexrayCommunicationController(ARObject):
     def fall_back_internal(self, value: Optional["Boolean"]) -> None:
         """
         Set fallBackInternal with validation.
-        
+
         Args:
             value: The fallBackInternal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2783,10 +2783,10 @@ class FlexrayCommunicationController(ARObject):
     def key_slot_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set keySlotID with validation.
-        
+
         Args:
             value: The keySlotID to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2811,10 +2811,10 @@ class FlexrayCommunicationController(ARObject):
     def key_slot_only(self, value: Optional["Boolean"]) -> None:
         """
         Set keySlotOnly with validation.
-        
+
         Args:
             value: The keySlotOnly to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2838,10 +2838,10 @@ class FlexrayCommunicationController(ARObject):
     def key_slot_used_for(self, value: Optional["Boolean"]) -> None:
         """
         Set keySlotUsedFor with validation.
-        
+
         Args:
             value: The keySlotUsedFor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2866,10 +2866,10 @@ class FlexrayCommunicationController(ARObject):
     def latest_tx(self, value: Optional["Integer"]) -> None:
         """
         Set latestTX with validation.
-        
+
         Args:
             value: The latestTX to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2895,10 +2895,10 @@ class FlexrayCommunicationController(ARObject):
     def listen_timeout(self, value: Optional["Integer"]) -> None:
         """
         Set listenTimeout with validation.
-        
+
         Args:
             value: The listenTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2925,10 +2925,10 @@ class FlexrayCommunicationController(ARObject):
     def macro_initial(self, value: Optional["Integer"]) -> None:
         """
         Set macroInitial with validation.
-        
+
         Args:
             value: The macroInitial to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2952,10 +2952,10 @@ class FlexrayCommunicationController(ARObject):
     def maximum(self, value: Optional["Integer"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2982,10 +2982,10 @@ class FlexrayCommunicationController(ARObject):
     def micro_initial(self, value: Optional["Integer"]) -> None:
         """
         Set microInitial with validation.
-        
+
         Args:
             value: The microInitial to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3009,10 +3009,10 @@ class FlexrayCommunicationController(ARObject):
     def micro_per_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set microPerCycle with validation.
-        
+
         Args:
             value: The microPerCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3038,10 +3038,10 @@ class FlexrayCommunicationController(ARObject):
     def microtick(self, value: Optional["TimeValue"]) -> None:
         """
         Set microtick with validation.
-        
+
         Args:
             value: The microtick to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3068,10 +3068,10 @@ class FlexrayCommunicationController(ARObject):
     def nm_vector_early(self, value: Optional["Boolean"]) -> None:
         """
         Set nmVectorEarly with validation.
-        
+
         Args:
             value: The nmVectorEarly to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3096,10 +3096,10 @@ class FlexrayCommunicationController(ARObject):
     def offset_correction(self, value: Optional["Integer"]) -> None:
         """
         Set offsetCorrection with validation.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3126,10 +3126,10 @@ class FlexrayCommunicationController(ARObject):
     def rate_correction(self, value: Optional["Integer"]) -> None:
         """
         Set rateCorrection with validation.
-        
+
         Args:
             value: The rateCorrection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3153,10 +3153,10 @@ class FlexrayCommunicationController(ARObject):
     def samples_per_microtick(self, value: Optional["Integer"]) -> None:
         """
         Set samplesPerMicrotick with validation.
-        
+
         Args:
             value: The samplesPerMicrotick to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3182,10 +3182,10 @@ class FlexrayCommunicationController(ARObject):
     def second_key_slot(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set secondKeySlot with validation.
-        
+
         Args:
             value: The secondKeySlot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3210,10 +3210,10 @@ class FlexrayCommunicationController(ARObject):
     def two_key_slot(self, value: Optional["Boolean"]) -> None:
         """
         Set twoKeySlot with validation.
-        
+
         Args:
             value: The twoKeySlot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3238,10 +3238,10 @@ class FlexrayCommunicationController(ARObject):
     def wake_up_pattern(self, value: Optional["Integer"]) -> None:
         """
         Set wakeUpPattern with validation.
-        
+
         Args:
             value: The wakeUpPattern to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3260,10 +3260,10 @@ class FlexrayCommunicationController(ARObject):
     def getAccepted(self) -> "Integer":
         """
         AUTOSAR-compliant getter for accepted.
-        
+
         Returns:
             The accepted value
-        
+
         Note:
             Delegates to accepted property (CODING_RULE_V2_00017)
         """
@@ -3272,13 +3272,13 @@ class FlexrayCommunicationController(ARObject):
     def setAccepted(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for accepted with method chaining.
-        
+
         Args:
             value: The accepted to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accepted property setter (gets validation automatically)
         """
@@ -3288,10 +3288,10 @@ class FlexrayCommunicationController(ARObject):
     def getAllowHaltDueTo(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for allowHaltDueTo.
-        
+
         Returns:
             The allowHaltDueTo value
-        
+
         Note:
             Delegates to allow_halt_due_to property (CODING_RULE_V2_00017)
         """
@@ -3300,13 +3300,13 @@ class FlexrayCommunicationController(ARObject):
     def setAllowHaltDueTo(self, value: "Boolean") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for allowHaltDueTo with method chaining.
-        
+
         Args:
             value: The allowHaltDueTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allow_halt_due_to property setter (gets validation automatically)
         """
@@ -3316,10 +3316,10 @@ class FlexrayCommunicationController(ARObject):
     def getAllowPassiveTo(self) -> "Integer":
         """
         AUTOSAR-compliant getter for allowPassiveTo.
-        
+
         Returns:
             The allowPassiveTo value
-        
+
         Note:
             Delegates to allow_passive_to property (CODING_RULE_V2_00017)
         """
@@ -3328,13 +3328,13 @@ class FlexrayCommunicationController(ARObject):
     def setAllowPassiveTo(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for allowPassiveTo with method chaining.
-        
+
         Args:
             value: The allowPassiveTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allow_passive_to property setter (gets validation automatically)
         """
@@ -3344,10 +3344,10 @@ class FlexrayCommunicationController(ARObject):
     def getClusterDrift(self) -> "Integer":
         """
         AUTOSAR-compliant getter for clusterDrift.
-        
+
         Returns:
             The clusterDrift value
-        
+
         Note:
             Delegates to cluster_drift property (CODING_RULE_V2_00017)
         """
@@ -3356,13 +3356,13 @@ class FlexrayCommunicationController(ARObject):
     def setClusterDrift(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for clusterDrift with method chaining.
-        
+
         Args:
             value: The clusterDrift to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cluster_drift property setter (gets validation automatically)
         """
@@ -3372,10 +3372,10 @@ class FlexrayCommunicationController(ARObject):
     def getDecoding(self) -> "Integer":
         """
         AUTOSAR-compliant getter for decoding.
-        
+
         Returns:
             The decoding value
-        
+
         Note:
             Delegates to decoding property (CODING_RULE_V2_00017)
         """
@@ -3384,13 +3384,13 @@ class FlexrayCommunicationController(ARObject):
     def setDecoding(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for decoding with method chaining.
-        
+
         Args:
             value: The decoding to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to decoding property setter (gets validation automatically)
         """
@@ -3400,10 +3400,10 @@ class FlexrayCommunicationController(ARObject):
     def getDelay(self) -> "Integer":
         """
         AUTOSAR-compliant getter for delay.
-        
+
         Returns:
             The delay value
-        
+
         Note:
             Delegates to delay property (CODING_RULE_V2_00017)
         """
@@ -3412,13 +3412,13 @@ class FlexrayCommunicationController(ARObject):
     def setDelay(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for delay with method chaining.
-        
+
         Args:
             value: The delay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to delay property setter (gets validation automatically)
         """
@@ -3428,10 +3428,10 @@ class FlexrayCommunicationController(ARObject):
     def getExternalSync(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for externalSync.
-        
+
         Returns:
             The externalSync value
-        
+
         Note:
             Delegates to external_sync property (CODING_RULE_V2_00017)
         """
@@ -3440,13 +3440,13 @@ class FlexrayCommunicationController(ARObject):
     def setExternalSync(self, value: "Boolean") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for externalSync with method chaining.
-        
+
         Args:
             value: The externalSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to external_sync property setter (gets validation automatically)
         """
@@ -3456,10 +3456,10 @@ class FlexrayCommunicationController(ARObject):
     def getExternOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for externOffset.
-        
+
         Returns:
             The externOffset value
-        
+
         Note:
             Delegates to extern_offset property (CODING_RULE_V2_00017)
         """
@@ -3468,13 +3468,13 @@ class FlexrayCommunicationController(ARObject):
     def setExternOffset(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for externOffset with method chaining.
-        
+
         Args:
             value: The externOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to extern_offset property setter (gets validation automatically)
         """
@@ -3484,10 +3484,10 @@ class FlexrayCommunicationController(ARObject):
     def getExternRate(self) -> "Integer":
         """
         AUTOSAR-compliant getter for externRate.
-        
+
         Returns:
             The externRate value
-        
+
         Note:
             Delegates to extern_rate property (CODING_RULE_V2_00017)
         """
@@ -3496,13 +3496,13 @@ class FlexrayCommunicationController(ARObject):
     def setExternRate(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for externRate with method chaining.
-        
+
         Args:
             value: The externRate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to extern_rate property setter (gets validation automatically)
         """
@@ -3512,10 +3512,10 @@ class FlexrayCommunicationController(ARObject):
     def getFallBackInternal(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for fallBackInternal.
-        
+
         Returns:
             The fallBackInternal value
-        
+
         Note:
             Delegates to fall_back_internal property (CODING_RULE_V2_00017)
         """
@@ -3524,13 +3524,13 @@ class FlexrayCommunicationController(ARObject):
     def setFallBackInternal(self, value: "Boolean") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for fallBackInternal with method chaining.
-        
+
         Args:
             value: The fallBackInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fall_back_internal property setter (gets validation automatically)
         """
@@ -3540,10 +3540,10 @@ class FlexrayCommunicationController(ARObject):
     def getFlexrayFifo(self) -> List["FlexrayFifo"]:
         """
         AUTOSAR-compliant getter for flexrayFifo.
-        
+
         Returns:
             The flexrayFifo value
-        
+
         Note:
             Delegates to flexray_fifo property (CODING_RULE_V2_00017)
         """
@@ -3552,10 +3552,10 @@ class FlexrayCommunicationController(ARObject):
     def getKeySlotID(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for keySlotID.
-        
+
         Returns:
             The keySlotID value
-        
+
         Note:
             Delegates to key_slot_id property (CODING_RULE_V2_00017)
         """
@@ -3564,13 +3564,13 @@ class FlexrayCommunicationController(ARObject):
     def setKeySlotID(self, value: "PositiveInteger") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for keySlotID with method chaining.
-        
+
         Args:
             value: The keySlotID to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_slot_id property setter (gets validation automatically)
         """
@@ -3580,10 +3580,10 @@ class FlexrayCommunicationController(ARObject):
     def getKeySlotOnly(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for keySlotOnly.
-        
+
         Returns:
             The keySlotOnly value
-        
+
         Note:
             Delegates to key_slot_only property (CODING_RULE_V2_00017)
         """
@@ -3592,13 +3592,13 @@ class FlexrayCommunicationController(ARObject):
     def setKeySlotOnly(self, value: "Boolean") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for keySlotOnly with method chaining.
-        
+
         Args:
             value: The keySlotOnly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_slot_only property setter (gets validation automatically)
         """
@@ -3608,10 +3608,10 @@ class FlexrayCommunicationController(ARObject):
     def getKeySlotUsedFor(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for keySlotUsedFor.
-        
+
         Returns:
             The keySlotUsedFor value
-        
+
         Note:
             Delegates to key_slot_used_for property (CODING_RULE_V2_00017)
         """
@@ -3620,13 +3620,13 @@ class FlexrayCommunicationController(ARObject):
     def setKeySlotUsedFor(self, value: "Boolean") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for keySlotUsedFor with method chaining.
-        
+
         Args:
             value: The keySlotUsedFor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_slot_used_for property setter (gets validation automatically)
         """
@@ -3636,10 +3636,10 @@ class FlexrayCommunicationController(ARObject):
     def getLatestTX(self) -> "Integer":
         """
         AUTOSAR-compliant getter for latestTX.
-        
+
         Returns:
             The latestTX value
-        
+
         Note:
             Delegates to latest_tx property (CODING_RULE_V2_00017)
         """
@@ -3648,13 +3648,13 @@ class FlexrayCommunicationController(ARObject):
     def setLatestTX(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for latestTX with method chaining.
-        
+
         Args:
             value: The latestTX to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to latest_tx property setter (gets validation automatically)
         """
@@ -3664,10 +3664,10 @@ class FlexrayCommunicationController(ARObject):
     def getListenTimeout(self) -> "Integer":
         """
         AUTOSAR-compliant getter for listenTimeout.
-        
+
         Returns:
             The listenTimeout value
-        
+
         Note:
             Delegates to listen_timeout property (CODING_RULE_V2_00017)
         """
@@ -3676,13 +3676,13 @@ class FlexrayCommunicationController(ARObject):
     def setListenTimeout(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for listenTimeout with method chaining.
-        
+
         Args:
             value: The listenTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to listen_timeout property setter (gets validation automatically)
         """
@@ -3692,10 +3692,10 @@ class FlexrayCommunicationController(ARObject):
     def getMacroInitial(self) -> "Integer":
         """
         AUTOSAR-compliant getter for macroInitial.
-        
+
         Returns:
             The macroInitial value
-        
+
         Note:
             Delegates to macro_initial property (CODING_RULE_V2_00017)
         """
@@ -3704,13 +3704,13 @@ class FlexrayCommunicationController(ARObject):
     def setMacroInitial(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for macroInitial with method chaining.
-        
+
         Args:
             value: The macroInitial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to macro_initial property setter (gets validation automatically)
         """
@@ -3720,10 +3720,10 @@ class FlexrayCommunicationController(ARObject):
     def getMaximum(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -3732,13 +3732,13 @@ class FlexrayCommunicationController(ARObject):
     def setMaximum(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -3748,10 +3748,10 @@ class FlexrayCommunicationController(ARObject):
     def getMicroInitial(self) -> "Integer":
         """
         AUTOSAR-compliant getter for microInitial.
-        
+
         Returns:
             The microInitial value
-        
+
         Note:
             Delegates to micro_initial property (CODING_RULE_V2_00017)
         """
@@ -3760,13 +3760,13 @@ class FlexrayCommunicationController(ARObject):
     def setMicroInitial(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for microInitial with method chaining.
-        
+
         Args:
             value: The microInitial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to micro_initial property setter (gets validation automatically)
         """
@@ -3776,10 +3776,10 @@ class FlexrayCommunicationController(ARObject):
     def getMicroPerCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for microPerCycle.
-        
+
         Returns:
             The microPerCycle value
-        
+
         Note:
             Delegates to micro_per_cycle property (CODING_RULE_V2_00017)
         """
@@ -3788,13 +3788,13 @@ class FlexrayCommunicationController(ARObject):
     def setMicroPerCycle(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for microPerCycle with method chaining.
-        
+
         Args:
             value: The microPerCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to micro_per_cycle property setter (gets validation automatically)
         """
@@ -3804,10 +3804,10 @@ class FlexrayCommunicationController(ARObject):
     def getMicrotick(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for microtick.
-        
+
         Returns:
             The microtick value
-        
+
         Note:
             Delegates to microtick property (CODING_RULE_V2_00017)
         """
@@ -3816,13 +3816,13 @@ class FlexrayCommunicationController(ARObject):
     def setMicrotick(self, value: "TimeValue") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for microtick with method chaining.
-        
+
         Args:
             value: The microtick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to microtick property setter (gets validation automatically)
         """
@@ -3832,10 +3832,10 @@ class FlexrayCommunicationController(ARObject):
     def getNmVectorEarly(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmVectorEarly.
-        
+
         Returns:
             The nmVectorEarly value
-        
+
         Note:
             Delegates to nm_vector_early property (CODING_RULE_V2_00017)
         """
@@ -3844,13 +3844,13 @@ class FlexrayCommunicationController(ARObject):
     def setNmVectorEarly(self, value: "Boolean") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for nmVectorEarly with method chaining.
-        
+
         Args:
             value: The nmVectorEarly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_vector_early property setter (gets validation automatically)
         """
@@ -3860,10 +3860,10 @@ class FlexrayCommunicationController(ARObject):
     def getOffsetCorrection(self) -> "Integer":
         """
         AUTOSAR-compliant getter for offsetCorrection.
-        
+
         Returns:
             The offsetCorrection value
-        
+
         Note:
             Delegates to offset_correction property (CODING_RULE_V2_00017)
         """
@@ -3872,13 +3872,13 @@ class FlexrayCommunicationController(ARObject):
     def setOffsetCorrection(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for offsetCorrection with method chaining.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset_correction property setter (gets validation automatically)
         """
@@ -3888,10 +3888,10 @@ class FlexrayCommunicationController(ARObject):
     def getRateCorrection(self) -> "Integer":
         """
         AUTOSAR-compliant getter for rateCorrection.
-        
+
         Returns:
             The rateCorrection value
-        
+
         Note:
             Delegates to rate_correction property (CODING_RULE_V2_00017)
         """
@@ -3900,13 +3900,13 @@ class FlexrayCommunicationController(ARObject):
     def setRateCorrection(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for rateCorrection with method chaining.
-        
+
         Args:
             value: The rateCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rate_correction property setter (gets validation automatically)
         """
@@ -3916,10 +3916,10 @@ class FlexrayCommunicationController(ARObject):
     def getSamplesPerMicrotick(self) -> "Integer":
         """
         AUTOSAR-compliant getter for samplesPerMicrotick.
-        
+
         Returns:
             The samplesPerMicrotick value
-        
+
         Note:
             Delegates to samples_per_microtick property (CODING_RULE_V2_00017)
         """
@@ -3928,13 +3928,13 @@ class FlexrayCommunicationController(ARObject):
     def setSamplesPerMicrotick(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for samplesPerMicrotick with method chaining.
-        
+
         Args:
             value: The samplesPerMicrotick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to samples_per_microtick property setter (gets validation automatically)
         """
@@ -3944,10 +3944,10 @@ class FlexrayCommunicationController(ARObject):
     def getSecondKeySlot(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for secondKeySlot.
-        
+
         Returns:
             The secondKeySlot value
-        
+
         Note:
             Delegates to second_key_slot property (CODING_RULE_V2_00017)
         """
@@ -3956,13 +3956,13 @@ class FlexrayCommunicationController(ARObject):
     def setSecondKeySlot(self, value: "PositiveInteger") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for secondKeySlot with method chaining.
-        
+
         Args:
             value: The secondKeySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_key_slot property setter (gets validation automatically)
         """
@@ -3972,10 +3972,10 @@ class FlexrayCommunicationController(ARObject):
     def getTwoKeySlot(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for twoKeySlot.
-        
+
         Returns:
             The twoKeySlot value
-        
+
         Note:
             Delegates to two_key_slot property (CODING_RULE_V2_00017)
         """
@@ -3984,13 +3984,13 @@ class FlexrayCommunicationController(ARObject):
     def setTwoKeySlot(self, value: "Boolean") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for twoKeySlot with method chaining.
-        
+
         Args:
             value: The twoKeySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to two_key_slot property setter (gets validation automatically)
         """
@@ -4000,10 +4000,10 @@ class FlexrayCommunicationController(ARObject):
     def getWakeUpPattern(self) -> "Integer":
         """
         AUTOSAR-compliant getter for wakeUpPattern.
-        
+
         Returns:
             The wakeUpPattern value
-        
+
         Note:
             Delegates to wake_up_pattern property (CODING_RULE_V2_00017)
         """
@@ -4012,13 +4012,13 @@ class FlexrayCommunicationController(ARObject):
     def setWakeUpPattern(self, value: "Integer") -> "FlexrayCommunicationController":
         """
         AUTOSAR-compliant setter for wakeUpPattern with method chaining.
-        
+
         Args:
             value: The wakeUpPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wake_up_pattern property setter (gets validation automatically)
         """
@@ -4030,13 +4030,13 @@ class FlexrayCommunicationController(ARObject):
     def with_accepted(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set accepted and return self for chaining.
-        
+
         Args:
             value: The accepted to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accepted("value")
         """
@@ -4046,13 +4046,13 @@ class FlexrayCommunicationController(ARObject):
     def with_allow_halt_due_to(self, value: Optional["Boolean"]) -> "FlexrayCommunicationController":
         """
         Set allowHaltDueTo and return self for chaining.
-        
+
         Args:
             value: The allowHaltDueTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allow_halt_due_to("value")
         """
@@ -4062,13 +4062,13 @@ class FlexrayCommunicationController(ARObject):
     def with_allow_passive_to(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set allowPassiveTo and return self for chaining.
-        
+
         Args:
             value: The allowPassiveTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allow_passive_to("value")
         """
@@ -4078,13 +4078,13 @@ class FlexrayCommunicationController(ARObject):
     def with_cluster_drift(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set clusterDrift and return self for chaining.
-        
+
         Args:
             value: The clusterDrift to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cluster_drift("value")
         """
@@ -4094,13 +4094,13 @@ class FlexrayCommunicationController(ARObject):
     def with_decoding(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set decoding and return self for chaining.
-        
+
         Args:
             value: The decoding to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_decoding("value")
         """
@@ -4110,13 +4110,13 @@ class FlexrayCommunicationController(ARObject):
     def with_delay(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set delay and return self for chaining.
-        
+
         Args:
             value: The delay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_delay("value")
         """
@@ -4126,13 +4126,13 @@ class FlexrayCommunicationController(ARObject):
     def with_external_sync(self, value: Optional["Boolean"]) -> "FlexrayCommunicationController":
         """
         Set externalSync and return self for chaining.
-        
+
         Args:
             value: The externalSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_external_sync("value")
         """
@@ -4142,13 +4142,13 @@ class FlexrayCommunicationController(ARObject):
     def with_extern_offset(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set externOffset and return self for chaining.
-        
+
         Args:
             value: The externOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_extern_offset("value")
         """
@@ -4158,13 +4158,13 @@ class FlexrayCommunicationController(ARObject):
     def with_extern_rate(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set externRate and return self for chaining.
-        
+
         Args:
             value: The externRate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_extern_rate("value")
         """
@@ -4174,13 +4174,13 @@ class FlexrayCommunicationController(ARObject):
     def with_fall_back_internal(self, value: Optional["Boolean"]) -> "FlexrayCommunicationController":
         """
         Set fallBackInternal and return self for chaining.
-        
+
         Args:
             value: The fallBackInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fall_back_internal("value")
         """
@@ -4190,13 +4190,13 @@ class FlexrayCommunicationController(ARObject):
     def with_key_slot_id(self, value: Optional["PositiveInteger"]) -> "FlexrayCommunicationController":
         """
         Set keySlotID and return self for chaining.
-        
+
         Args:
             value: The keySlotID to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_slot_id("value")
         """
@@ -4206,13 +4206,13 @@ class FlexrayCommunicationController(ARObject):
     def with_key_slot_only(self, value: Optional["Boolean"]) -> "FlexrayCommunicationController":
         """
         Set keySlotOnly and return self for chaining.
-        
+
         Args:
             value: The keySlotOnly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_slot_only("value")
         """
@@ -4222,13 +4222,13 @@ class FlexrayCommunicationController(ARObject):
     def with_key_slot_used_for(self, value: Optional["Boolean"]) -> "FlexrayCommunicationController":
         """
         Set keySlotUsedFor and return self for chaining.
-        
+
         Args:
             value: The keySlotUsedFor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_slot_used_for("value")
         """
@@ -4238,13 +4238,13 @@ class FlexrayCommunicationController(ARObject):
     def with_latest_tx(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set latestTX and return self for chaining.
-        
+
         Args:
             value: The latestTX to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_latest_tx("value")
         """
@@ -4254,13 +4254,13 @@ class FlexrayCommunicationController(ARObject):
     def with_listen_timeout(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set listenTimeout and return self for chaining.
-        
+
         Args:
             value: The listenTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_listen_timeout("value")
         """
@@ -4270,13 +4270,13 @@ class FlexrayCommunicationController(ARObject):
     def with_macro_initial(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set macroInitial and return self for chaining.
-        
+
         Args:
             value: The macroInitial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_macro_initial("value")
         """
@@ -4286,13 +4286,13 @@ class FlexrayCommunicationController(ARObject):
     def with_maximum(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -4302,13 +4302,13 @@ class FlexrayCommunicationController(ARObject):
     def with_micro_initial(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set microInitial and return self for chaining.
-        
+
         Args:
             value: The microInitial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_micro_initial("value")
         """
@@ -4318,13 +4318,13 @@ class FlexrayCommunicationController(ARObject):
     def with_micro_per_cycle(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set microPerCycle and return self for chaining.
-        
+
         Args:
             value: The microPerCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_micro_per_cycle("value")
         """
@@ -4334,13 +4334,13 @@ class FlexrayCommunicationController(ARObject):
     def with_microtick(self, value: Optional["TimeValue"]) -> "FlexrayCommunicationController":
         """
         Set microtick and return self for chaining.
-        
+
         Args:
             value: The microtick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_microtick("value")
         """
@@ -4350,13 +4350,13 @@ class FlexrayCommunicationController(ARObject):
     def with_nm_vector_early(self, value: Optional["Boolean"]) -> "FlexrayCommunicationController":
         """
         Set nmVectorEarly and return self for chaining.
-        
+
         Args:
             value: The nmVectorEarly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_vector_early("value")
         """
@@ -4366,13 +4366,13 @@ class FlexrayCommunicationController(ARObject):
     def with_offset_correction(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set offsetCorrection and return self for chaining.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset_correction("value")
         """
@@ -4382,13 +4382,13 @@ class FlexrayCommunicationController(ARObject):
     def with_rate_correction(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set rateCorrection and return self for chaining.
-        
+
         Args:
             value: The rateCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rate_correction("value")
         """
@@ -4398,13 +4398,13 @@ class FlexrayCommunicationController(ARObject):
     def with_samples_per_microtick(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set samplesPerMicrotick and return self for chaining.
-        
+
         Args:
             value: The samplesPerMicrotick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_samples_per_microtick("value")
         """
@@ -4414,13 +4414,13 @@ class FlexrayCommunicationController(ARObject):
     def with_second_key_slot(self, value: Optional["PositiveInteger"]) -> "FlexrayCommunicationController":
         """
         Set secondKeySlot and return self for chaining.
-        
+
         Args:
             value: The secondKeySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_key_slot("value")
         """
@@ -4430,13 +4430,13 @@ class FlexrayCommunicationController(ARObject):
     def with_two_key_slot(self, value: Optional["Boolean"]) -> "FlexrayCommunicationController":
         """
         Set twoKeySlot and return self for chaining.
-        
+
         Args:
             value: The twoKeySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_two_key_slot("value")
         """
@@ -4446,13 +4446,13 @@ class FlexrayCommunicationController(ARObject):
     def with_wake_up_pattern(self, value: Optional["Integer"]) -> "FlexrayCommunicationController":
         """
         Set wakeUpPattern and return self for chaining.
-        
+
         Args:
             value: The wakeUpPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wake_up_pattern("value")
         """
@@ -4466,9 +4466,9 @@ class FlexrayFifoConfiguration(ARObject):
     One First In First Out (FIFO) queued receive structure, defining the
     admittance criteria to the FIFO, and mandating the ability to admit messages
     into the FIFO based on Message Id filtering criteria.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayFifoConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 87, Classic Platform R23-11)
     """
@@ -4489,10 +4489,10 @@ class FlexrayFifoConfiguration(ARObject):
     def admit_without(self, value: Optional["Boolean"]) -> None:
         """
         Set admitWithout with validation.
-        
+
         Args:
             value: The admitWithout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4516,10 +4516,10 @@ class FlexrayFifoConfiguration(ARObject):
     def base_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set baseCycle with validation.
-        
+
         Args:
             value: The baseCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4543,10 +4543,10 @@ class FlexrayFifoConfiguration(ARObject):
     def channel(self, value: Optional["FlexrayPhysicalChannel"]) -> None:
         """
         Set channel with validation.
-        
+
         Args:
             value: The channel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4570,10 +4570,10 @@ class FlexrayFifoConfiguration(ARObject):
     def cycle_repetition(self, value: Optional["Integer"]) -> None:
         """
         Set cycleRepetition with validation.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4597,10 +4597,10 @@ class FlexrayFifoConfiguration(ARObject):
     def fifo_depth(self, value: Optional["Integer"]) -> None:
         """
         Set fifoDepth with validation.
-        
+
         Args:
             value: The fifoDepth to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4631,10 +4631,10 @@ class FlexrayFifoConfiguration(ARObject):
     def msg_id_mask(self, value: Optional["Integer"]) -> None:
         """
         Set msgIdMask with validation.
-        
+
         Args:
             value: The msgIdMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4658,10 +4658,10 @@ class FlexrayFifoConfiguration(ARObject):
     def msg_id_match(self, value: Optional["Integer"]) -> None:
         """
         Set msgIdMatch with validation.
-        
+
         Args:
             value: The msgIdMatch to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4680,10 +4680,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getAdmitWithout(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for admitWithout.
-        
+
         Returns:
             The admitWithout value
-        
+
         Note:
             Delegates to admit_without property (CODING_RULE_V2_00017)
         """
@@ -4692,13 +4692,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setAdmitWithout(self, value: "Boolean") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for admitWithout with method chaining.
-        
+
         Args:
             value: The admitWithout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to admit_without property setter (gets validation automatically)
         """
@@ -4708,10 +4708,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getBaseCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for baseCycle.
-        
+
         Returns:
             The baseCycle value
-        
+
         Note:
             Delegates to base_cycle property (CODING_RULE_V2_00017)
         """
@@ -4720,13 +4720,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setBaseCycle(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for baseCycle with method chaining.
-        
+
         Args:
             value: The baseCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_cycle property setter (gets validation automatically)
         """
@@ -4736,10 +4736,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getChannel(self) -> "FlexrayPhysicalChannel":
         """
         AUTOSAR-compliant getter for channel.
-        
+
         Returns:
             The channel value
-        
+
         Note:
             Delegates to channel property (CODING_RULE_V2_00017)
         """
@@ -4748,13 +4748,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setChannel(self, value: "FlexrayPhysicalChannel") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for channel with method chaining.
-        
+
         Args:
             value: The channel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to channel property setter (gets validation automatically)
         """
@@ -4764,10 +4764,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getCycleRepetition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for cycleRepetition.
-        
+
         Returns:
             The cycleRepetition value
-        
+
         Note:
             Delegates to cycle_repetition property (CODING_RULE_V2_00017)
         """
@@ -4776,13 +4776,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setCycleRepetition(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for cycleRepetition with method chaining.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_repetition property setter (gets validation automatically)
         """
@@ -4792,10 +4792,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getFifoDepth(self) -> "Integer":
         """
         AUTOSAR-compliant getter for fifoDepth.
-        
+
         Returns:
             The fifoDepth value
-        
+
         Note:
             Delegates to fifo_depth property (CODING_RULE_V2_00017)
         """
@@ -4804,13 +4804,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setFifoDepth(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for fifoDepth with method chaining.
-        
+
         Args:
             value: The fifoDepth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fifo_depth property setter (gets validation automatically)
         """
@@ -4820,10 +4820,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getFifoRange(self) -> List["FlexrayFifoRange"]:
         """
         AUTOSAR-compliant getter for fifoRange.
-        
+
         Returns:
             The fifoRange value
-        
+
         Note:
             Delegates to fifo_range property (CODING_RULE_V2_00017)
         """
@@ -4832,10 +4832,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getMsgIdMask(self) -> "Integer":
         """
         AUTOSAR-compliant getter for msgIdMask.
-        
+
         Returns:
             The msgIdMask value
-        
+
         Note:
             Delegates to msg_id_mask property (CODING_RULE_V2_00017)
         """
@@ -4844,13 +4844,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setMsgIdMask(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for msgIdMask with method chaining.
-        
+
         Args:
             value: The msgIdMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msg_id_mask property setter (gets validation automatically)
         """
@@ -4860,10 +4860,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getMsgIdMatch(self) -> "Integer":
         """
         AUTOSAR-compliant getter for msgIdMatch.
-        
+
         Returns:
             The msgIdMatch value
-        
+
         Note:
             Delegates to msg_id_match property (CODING_RULE_V2_00017)
         """
@@ -4872,13 +4872,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setMsgIdMatch(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for msgIdMatch with method chaining.
-        
+
         Args:
             value: The msgIdMatch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msg_id_match property setter (gets validation automatically)
         """
@@ -4890,13 +4890,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_admit_without(self, value: Optional["Boolean"]) -> "FlexrayFifoConfiguration":
         """
         Set admitWithout and return self for chaining.
-        
+
         Args:
             value: The admitWithout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_admit_without("value")
         """
@@ -4906,13 +4906,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_base_cycle(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set baseCycle and return self for chaining.
-        
+
         Args:
             value: The baseCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_cycle("value")
         """
@@ -4922,13 +4922,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_channel(self, value: Optional["FlexrayPhysicalChannel"]) -> "FlexrayFifoConfiguration":
         """
         Set channel and return self for chaining.
-        
+
         Args:
             value: The channel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_channel("value")
         """
@@ -4938,13 +4938,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_cycle_repetition(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set cycleRepetition and return self for chaining.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_repetition("value")
         """
@@ -4954,13 +4954,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_fifo_depth(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set fifoDepth and return self for chaining.
-        
+
         Args:
             value: The fifoDepth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fifo_depth("value")
         """
@@ -4970,13 +4970,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_msg_id_mask(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set msgIdMask and return self for chaining.
-        
+
         Args:
             value: The msgIdMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msg_id_mask("value")
         """
@@ -4986,13 +4986,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_msg_id_match(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set msgIdMatch and return self for chaining.
-        
+
         Args:
             value: The msgIdMatch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msg_id_match("value")
         """
@@ -5004,9 +5004,9 @@ class FlexrayFifoConfiguration(ARObject):
 class FlexrayFifoRange(ARObject):
     """
     FIFO Frame Id range acceptance criteria.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayFifoRange
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 87, Classic Platform R23-11)
     """
@@ -5026,10 +5026,10 @@ class FlexrayFifoRange(ARObject):
     def range_max(self, value: Optional["Integer"]) -> None:
         """
         Set rangeMax with validation.
-        
+
         Args:
             value: The rangeMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5053,10 +5053,10 @@ class FlexrayFifoRange(ARObject):
     def range_min(self, value: Optional["Integer"]) -> None:
         """
         Set rangeMin with validation.
-        
+
         Args:
             value: The rangeMin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5075,10 +5075,10 @@ class FlexrayFifoRange(ARObject):
     def getRangeMax(self) -> "Integer":
         """
         AUTOSAR-compliant getter for rangeMax.
-        
+
         Returns:
             The rangeMax value
-        
+
         Note:
             Delegates to range_max property (CODING_RULE_V2_00017)
         """
@@ -5087,13 +5087,13 @@ class FlexrayFifoRange(ARObject):
     def setRangeMax(self, value: "Integer") -> "FlexrayFifoRange":
         """
         AUTOSAR-compliant setter for rangeMax with method chaining.
-        
+
         Args:
             value: The rangeMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to range_max property setter (gets validation automatically)
         """
@@ -5103,10 +5103,10 @@ class FlexrayFifoRange(ARObject):
     def getRangeMin(self) -> "Integer":
         """
         AUTOSAR-compliant getter for rangeMin.
-        
+
         Returns:
             The rangeMin value
-        
+
         Note:
             Delegates to range_min property (CODING_RULE_V2_00017)
         """
@@ -5115,13 +5115,13 @@ class FlexrayFifoRange(ARObject):
     def setRangeMin(self, value: "Integer") -> "FlexrayFifoRange":
         """
         AUTOSAR-compliant setter for rangeMin with method chaining.
-        
+
         Args:
             value: The rangeMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to range_min property setter (gets validation automatically)
         """
@@ -5133,13 +5133,13 @@ class FlexrayFifoRange(ARObject):
     def with_range_max(self, value: Optional["Integer"]) -> "FlexrayFifoRange":
         """
         Set rangeMax and return self for chaining.
-        
+
         Args:
             value: The rangeMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_range_max("value")
         """
@@ -5149,13 +5149,13 @@ class FlexrayFifoRange(ARObject):
     def with_range_min(self, value: Optional["Integer"]) -> "FlexrayFifoRange":
         """
         Set rangeMin and return self for chaining.
-        
+
         Args:
             value: The rangeMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_range_min("value")
         """
@@ -5167,9 +5167,9 @@ class FlexrayFifoRange(ARObject):
 class FlexrayCommunicationConnector(CommunicationConnector):
     """
     FlexRay specific attributes to the CommunicationConnector
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 89, Classic Platform R23-11)
     """
@@ -5191,10 +5191,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def nm_ready_sleep(self, value: Optional["Float"]) -> None:
         """
         Set nmReadySleep with validation.
-        
+
         Args:
             value: The nmReadySleep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5218,10 +5218,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def wake_up(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeUp with validation.
-        
+
         Args:
             value: The wakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5240,10 +5240,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def getNmReadySleep(self) -> "Float":
         """
         AUTOSAR-compliant getter for nmReadySleep.
-        
+
         Returns:
             The nmReadySleep value
-        
+
         Note:
             Delegates to nm_ready_sleep property (CODING_RULE_V2_00017)
         """
@@ -5252,13 +5252,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def setNmReadySleep(self, value: "Float") -> "FlexrayCommunicationConnector":
         """
         AUTOSAR-compliant setter for nmReadySleep with method chaining.
-        
+
         Args:
             value: The nmReadySleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_ready_sleep property setter (gets validation automatically)
         """
@@ -5268,10 +5268,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def getWakeUp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeUp.
-        
+
         Returns:
             The wakeUp value
-        
+
         Note:
             Delegates to wake_up property (CODING_RULE_V2_00017)
         """
@@ -5280,13 +5280,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def setWakeUp(self, value: "Boolean") -> "FlexrayCommunicationConnector":
         """
         AUTOSAR-compliant setter for wakeUp with method chaining.
-        
+
         Args:
             value: The wakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wake_up property setter (gets validation automatically)
         """
@@ -5298,13 +5298,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def with_nm_ready_sleep(self, value: Optional["Float"]) -> "FlexrayCommunicationConnector":
         """
         Set nmReadySleep and return self for chaining.
-        
+
         Args:
             value: The nmReadySleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_ready_sleep("value")
         """
@@ -5314,13 +5314,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def with_wake_up(self, value: Optional["Boolean"]) -> "FlexrayCommunicationConnector":
         """
         Set wakeUp and return self for chaining.
-        
+
         Args:
             value: The wakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wake_up("value")
         """
@@ -5332,9 +5332,9 @@ class FlexrayCommunicationConnector(CommunicationConnector):
 class FlexrayPhysicalChannel(PhysicalChannel):
     """
     FlexRay specific attributes to the physicalChannel
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 89, Classic Platform R23-11)
     """
@@ -5354,10 +5354,10 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def channel_name(self, value: Optional["FlexrayChannelName"]) -> None:
         """
         Set channelName with validation.
-        
+
         Args:
             value: The channelName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5376,10 +5376,10 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def getChannelName(self) -> "FlexrayChannelName":
         """
         AUTOSAR-compliant getter for channelName.
-        
+
         Returns:
             The channelName value
-        
+
         Note:
             Delegates to channel_name property (CODING_RULE_V2_00017)
         """
@@ -5388,13 +5388,13 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def setChannelName(self, value: "FlexrayChannelName") -> "FlexrayPhysicalChannel":
         """
         AUTOSAR-compliant setter for channelName with method chaining.
-        
+
         Args:
             value: The channelName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to channel_name property setter (gets validation automatically)
         """
@@ -5406,13 +5406,13 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def with_channel_name(self, value: Optional["FlexrayChannelName"]) -> "FlexrayPhysicalChannel":
         """
         Set channelName and return self for chaining.
-        
+
         Args:
             value: The channelName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_channel_name("value")
         """

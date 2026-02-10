@@ -20,9 +20,9 @@ class ARType_ManuallyMaintained:  # Marker class to prevent regeneration
 class ARObject(ABC):
     """
     Implicit base class of all classes in meta-model. Base
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObject::ARObject
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 191, Foundation
       R23-11)
@@ -38,7 +38,7 @@ class ARObject(ABC):
     def getTagName(self) -> str:
         """
         Get the XML tag name for this element.
-        
+
         Returns:
             The tag name (class name by default)
         """
@@ -73,10 +73,10 @@ class ARObject(ABC):
     def checksum(self, value: Optional["String"]) -> None:
         """
         Set checksum with validation.
-        
+
         Args:
             value: The checksum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +103,10 @@ class ARObject(ABC):
     def timestamp(self, value: Optional["DateTime"]) -> None:
         """
         Set timestamp with validation.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +125,10 @@ class ARObject(ABC):
     def getChecksum(self) -> "String":
         """
         AUTOSAR-compliant getter for checksum.
-        
+
         Returns:
             The checksum value
-        
+
         Note:
             Delegates to checksum property (CODING_RULE_V2_00017)
         """
@@ -137,13 +137,13 @@ class ARObject(ABC):
     def setChecksum(self, value: "String") -> "ARObject":
         """
         AUTOSAR-compliant setter for checksum with method chaining.
-        
+
         Args:
             value: The checksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to checksum property setter (gets validation automatically)
         """
@@ -153,10 +153,10 @@ class ARObject(ABC):
     def getTimestamp(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for timestamp.
-        
+
         Returns:
             The timestamp value
-        
+
         Note:
             Delegates to timestamp property (CODING_RULE_V2_00017)
         """
@@ -165,13 +165,13 @@ class ARObject(ABC):
     def setTimestamp(self, value: "DateTime") -> "ARObject":
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timestamp property setter (gets validation automatically)
         """
@@ -183,13 +183,13 @@ class ARObject(ABC):
     def with_checksum(self, value: Optional["String"]) -> "ARObject":
         """
         Set checksum and return self for chaining.
-        
+
         Args:
             value: The checksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_checksum("value")
         """
@@ -199,13 +199,13 @@ class ARObject(ABC):
     def with_timestamp(self, value: Optional["DateTime"]) -> "ARObject":
         """
         Set timestamp and return self for chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timestamp("value")
         """

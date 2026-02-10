@@ -15,9 +15,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
 class DiagnosticRoutineControl(DiagnosticServiceInstance):
     """
     This represents an instance of the "Routine Control" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RoutineControl::DiagnosticRoutineControl
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 125, Classic Platform
       R23-11)
@@ -38,10 +38,10 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def routine(self, value: Optional["DiagnosticRoutine"]) -> None:
         """
         Set routine with validation.
-        
+
         Args:
             value: The routine to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +67,10 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def routine_control(self, value: Optional["DiagnosticRoutine"]) -> None:
         """
         Set routineControl with validation.
-        
+
         Args:
             value: The routineControl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def getRoutine(self) -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant getter for routine.
-        
+
         Returns:
             The routine value
-        
+
         Note:
             Delegates to routine property (CODING_RULE_V2_00017)
         """
@@ -101,13 +101,13 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def setRoutine(self, value: "DiagnosticRoutine") -> "DiagnosticRoutineControl":
         """
         AUTOSAR-compliant setter for routine with method chaining.
-        
+
         Args:
             value: The routine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routine property setter (gets validation automatically)
         """
@@ -117,10 +117,10 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def getRoutineControl(self) -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant getter for routineControl.
-        
+
         Returns:
             The routineControl value
-        
+
         Note:
             Delegates to routine_control property (CODING_RULE_V2_00017)
         """
@@ -129,13 +129,13 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def setRoutineControl(self, value: "DiagnosticRoutine") -> "DiagnosticRoutineControl":
         """
         AUTOSAR-compliant setter for routineControl with method chaining.
-        
+
         Args:
             value: The routineControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routine_control property setter (gets validation automatically)
         """
@@ -147,13 +147,13 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def with_routine(self, value: Optional["DiagnosticRoutine"]) -> "DiagnosticRoutineControl":
         """
         Set routine and return self for chaining.
-        
+
         Args:
             value: The routine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routine("value")
         """
@@ -163,13 +163,13 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
     def with_routine_control(self, value: Optional["DiagnosticRoutine"]) -> "DiagnosticRoutineControl":
         """
         Set routineControl and return self for chaining.
-        
+
         Args:
             value: The routineControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routine_control("value")
         """
@@ -184,9 +184,9 @@ class DiagnosticRoutineControlClass(DiagnosticServiceClass):
     Control" diagnostic service. (cid:53) 125 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RoutineControl::DiagnosticRoutineControlClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 125, Classic Platform
       R23-11)

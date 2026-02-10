@@ -12,9 +12,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class ImpositionTime(Identifiable):
     """
     This meta class represents one particular imposition time.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::ImpositionTimes::ImpositionTime
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 194, Foundation R23-11)
     """

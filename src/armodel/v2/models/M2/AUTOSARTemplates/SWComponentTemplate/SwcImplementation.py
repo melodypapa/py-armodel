@@ -22,9 +22,9 @@ class SwcImplementation(Implementation):
     """
     This meta-class represents a specialization of the general Implementation
     meta-class with respect to the usage in application software.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation::SwcImplementation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 344, Classic
       Platform R23-11)
@@ -50,10 +50,10 @@ class SwcImplementation(Implementation):
     def behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set behavior with validation.
-        
+
         Args:
             value: The behavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class SwcImplementation(Implementation):
     def required(self, value: Optional["String"]) -> None:
         """
         Set required with validation.
-        
+
         Args:
             value: The required to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -132,10 +132,10 @@ class SwcImplementation(Implementation):
     def getBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for behavior.
-        
+
         Returns:
             The behavior value
-        
+
         Note:
             Delegates to behavior property (CODING_RULE_V2_00017)
         """
@@ -144,13 +144,13 @@ class SwcImplementation(Implementation):
     def setBehavior(self, value: "SwcInternalBehavior") -> "SwcImplementation":
         """
         AUTOSAR-compliant setter for behavior with method chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to behavior property setter (gets validation automatically)
         """
@@ -160,10 +160,10 @@ class SwcImplementation(Implementation):
     def getPerInstance(self) -> List["PerInstanceMemory"]:
         """
         AUTOSAR-compliant getter for perInstance.
-        
+
         Returns:
             The perInstance value
-        
+
         Note:
             Delegates to per_instance property (CODING_RULE_V2_00017)
         """
@@ -172,10 +172,10 @@ class SwcImplementation(Implementation):
     def getRequired(self) -> "String":
         """
         AUTOSAR-compliant getter for required.
-        
+
         Returns:
             The required value
-        
+
         Note:
             Delegates to required property (CODING_RULE_V2_00017)
         """
@@ -184,13 +184,13 @@ class SwcImplementation(Implementation):
     def setRequired(self, value: "String") -> "SwcImplementation":
         """
         AUTOSAR-compliant setter for required with method chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required property setter (gets validation automatically)
         """
@@ -202,13 +202,13 @@ class SwcImplementation(Implementation):
     def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcImplementation":
         """
         Set behavior and return self for chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_behavior("value")
         """
@@ -218,13 +218,13 @@ class SwcImplementation(Implementation):
     def with_required(self, value: Optional["String"]) -> "SwcImplementation":
         """
         Set required and return self for chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required("value")
         """
@@ -238,9 +238,9 @@ class PerInstanceMemorySize(ARObject):
     Resources needed by the allocation of PerInstanceMemory for each SWC
     instance. Note that these resources are not covered by an ObjectFileSection,
     because they are supposed to be allocated by the RTE.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation::PerInstanceMemorySize
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 623, Classic Platform
       R23-11)
@@ -262,10 +262,10 @@ class PerInstanceMemorySize(ARObject):
     def alignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set alignment with validation.
-        
+
         Args:
             value: The alignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -289,10 +289,10 @@ class PerInstanceMemorySize(ARObject):
     def per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> None:
         """
         Set perInstanceMemory with validation.
-        
+
         Args:
             value: The perInstanceMemory to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -319,10 +319,10 @@ class PerInstanceMemorySize(ARObject):
     def size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set size with validation.
-        
+
         Args:
             value: The size to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -341,10 +341,10 @@ class PerInstanceMemorySize(ARObject):
     def getAlignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for alignment.
-        
+
         Returns:
             The alignment value
-        
+
         Note:
             Delegates to alignment property (CODING_RULE_V2_00017)
         """
@@ -353,13 +353,13 @@ class PerInstanceMemorySize(ARObject):
     def setAlignment(self, value: "PositiveInteger") -> "PerInstanceMemorySize":
         """
         AUTOSAR-compliant setter for alignment with method chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alignment property setter (gets validation automatically)
         """
@@ -369,10 +369,10 @@ class PerInstanceMemorySize(ARObject):
     def getPerInstanceMemory(self) -> "PerInstanceMemory":
         """
         AUTOSAR-compliant getter for perInstanceMemory.
-        
+
         Returns:
             The perInstanceMemory value
-        
+
         Note:
             Delegates to per_instance_memory property (CODING_RULE_V2_00017)
         """
@@ -381,13 +381,13 @@ class PerInstanceMemorySize(ARObject):
     def setPerInstanceMemory(self, value: "PerInstanceMemory") -> "PerInstanceMemorySize":
         """
         AUTOSAR-compliant setter for perInstanceMemory with method chaining.
-        
+
         Args:
             value: The perInstanceMemory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to per_instance_memory property setter (gets validation automatically)
         """
@@ -397,10 +397,10 @@ class PerInstanceMemorySize(ARObject):
     def getSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for size.
-        
+
         Returns:
             The size value
-        
+
         Note:
             Delegates to size property (CODING_RULE_V2_00017)
         """
@@ -409,13 +409,13 @@ class PerInstanceMemorySize(ARObject):
     def setSize(self, value: "PositiveInteger") -> "PerInstanceMemorySize":
         """
         AUTOSAR-compliant setter for size with method chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size property setter (gets validation automatically)
         """
@@ -427,13 +427,13 @@ class PerInstanceMemorySize(ARObject):
     def with_alignment(self, value: Optional["PositiveInteger"]) -> "PerInstanceMemorySize":
         """
         Set alignment and return self for chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alignment("value")
         """
@@ -443,13 +443,13 @@ class PerInstanceMemorySize(ARObject):
     def with_per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> "PerInstanceMemorySize":
         """
         Set perInstanceMemory and return self for chaining.
-        
+
         Args:
             value: The perInstanceMemory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_per_instance_memory("value")
         """
@@ -459,13 +459,13 @@ class PerInstanceMemorySize(ARObject):
     def with_size(self, value: Optional["PositiveInteger"]) -> "PerInstanceMemorySize":
         """
         Set size and return self for chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size("value")
         """

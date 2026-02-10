@@ -34,9 +34,9 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     """
     An argument of an operation, much like a data element, but also carries
     direction information and is owned by a particular ClientServerOperation.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ArgumentDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 303, Classic
       Platform R23-11)
@@ -65,10 +65,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def direction(self, value: Optional["ArgumentDirection"]) -> None:
         """
         Set direction with validation.
-        
+
         Args:
             value: The direction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +96,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def server_argument(self, value: Optional["ServerArgumentImpl"]) -> None:
         """
         Set serverArgument with validation.
-        
+
         Args:
             value: The serverArgument to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -390,10 +390,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def getDirection(self) -> "ArgumentDirection":
         """
         AUTOSAR-compliant getter for direction.
-        
+
         Returns:
             The direction value
-        
+
         Note:
             Delegates to direction property (CODING_RULE_V2_00017)
         """
@@ -402,13 +402,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def setDirection(self, value: "ArgumentDirection") -> "ArgumentDataPrototype":
         """
         AUTOSAR-compliant setter for direction with method chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direction property setter (gets validation automatically)
         """
@@ -418,10 +418,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def getServerArgument(self) -> "ServerArgumentImpl":
         """
         AUTOSAR-compliant getter for serverArgument.
-        
+
         Returns:
             The serverArgument value
-        
+
         Note:
             Delegates to server_argument property (CODING_RULE_V2_00017)
         """
@@ -430,13 +430,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def setServerArgument(self, value: "ServerArgumentImpl") -> "ArgumentDataPrototype":
         """
         AUTOSAR-compliant setter for serverArgument with method chaining.
-        
+
         Args:
             value: The serverArgument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to server_argument property setter (gets validation automatically)
         """
@@ -448,13 +448,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def with_direction(self, value: Optional["ArgumentDirection"]) -> "ArgumentDataPrototype":
         """
         Set direction and return self for chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direction("value")
         """
@@ -464,13 +464,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def with_server_argument(self, value: Optional["ServerArgumentImpl"]) -> "ArgumentDataPrototype":
         """
         Set serverArgument and return self for chaining.
-        
+
         Args:
             value: The serverArgument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_server_argument("value")
         """
@@ -482,9 +482,9 @@ class ArgumentDataPrototype(AutosarDataPrototype):
 class ClientServerOperation(Identifiable):
     """
     An operation declared within the scope of a client/server interface.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerOperation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 309, Classic
       Platform R23-11)
@@ -530,10 +530,10 @@ class ClientServerOperation(Identifiable):
     def diag_arg_integrity(self, value: Optional["Boolean"]) -> None:
         """
         Set diagArgIntegrity with validation.
-        
+
         Args:
             value: The diagArgIntegrity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -559,10 +559,10 @@ class ClientServerOperation(Identifiable):
     def getArgument(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -571,10 +571,10 @@ class ClientServerOperation(Identifiable):
     def getDiagArgIntegrity(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for diagArgIntegrity.
-        
+
         Returns:
             The diagArgIntegrity value
-        
+
         Note:
             Delegates to diag_arg_integrity property (CODING_RULE_V2_00017)
         """
@@ -583,13 +583,13 @@ class ClientServerOperation(Identifiable):
     def setDiagArgIntegrity(self, value: "Boolean") -> "ClientServerOperation":
         """
         AUTOSAR-compliant setter for diagArgIntegrity with method chaining.
-        
+
         Args:
             value: The diagArgIntegrity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_arg_integrity property setter (gets validation automatically)
         """
@@ -599,10 +599,10 @@ class ClientServerOperation(Identifiable):
     def getPossibleError(self) -> List["ApplicationError"]:
         """
         AUTOSAR-compliant getter for possibleError.
-        
+
         Returns:
             The possibleError value
-        
+
         Note:
             Delegates to possible_error property (CODING_RULE_V2_00017)
         """
@@ -613,13 +613,13 @@ class ClientServerOperation(Identifiable):
     def with_diag_arg_integrity(self, value: Optional["Boolean"]) -> "ClientServerOperation":
         """
         Set diagArgIntegrity and return self for chaining.
-        
+
         Args:
             value: The diagArgIntegrity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_arg_integrity("value")
         """
@@ -632,9 +632,9 @@ class PortInterface(ARElement, ABC):
     """
     Abstract base class for an interface that is either provided or required by
     a port of a software component.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 326, Classic Platform
       R23-11)
@@ -667,10 +667,10 @@ class PortInterface(ARElement, ABC):
     def is_service(self, value: Optional["Boolean"]) -> None:
         """
         Set isService with validation.
-        
+
         Args:
             value: The isService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -695,10 +695,10 @@ class PortInterface(ARElement, ABC):
     def service_kind(self, value: Optional["ServiceProviderEnum"]) -> None:
         """
         Set serviceKind with validation.
-        
+
         Args:
             value: The serviceKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -717,10 +717,10 @@ class PortInterface(ARElement, ABC):
     def getIsService(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isService.
-        
+
         Returns:
             The isService value
-        
+
         Note:
             Delegates to is_service property (CODING_RULE_V2_00017)
         """
@@ -729,13 +729,13 @@ class PortInterface(ARElement, ABC):
     def setIsService(self, value: "Boolean") -> "PortInterface":
         """
         AUTOSAR-compliant setter for isService with method chaining.
-        
+
         Args:
             value: The isService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_service property setter (gets validation automatically)
         """
@@ -745,10 +745,10 @@ class PortInterface(ARElement, ABC):
     def getServiceKind(self) -> "ServiceProviderEnum":
         """
         AUTOSAR-compliant getter for serviceKind.
-        
+
         Returns:
             The serviceKind value
-        
+
         Note:
             Delegates to service_kind property (CODING_RULE_V2_00017)
         """
@@ -757,13 +757,13 @@ class PortInterface(ARElement, ABC):
     def setServiceKind(self, value: "ServiceProviderEnum") -> "PortInterface":
         """
         AUTOSAR-compliant setter for serviceKind with method chaining.
-        
+
         Args:
             value: The serviceKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_kind property setter (gets validation automatically)
         """
@@ -775,13 +775,13 @@ class PortInterface(ARElement, ABC):
     def with_is_service(self, value: Optional["Boolean"]) -> "PortInterface":
         """
         Set isService and return self for chaining.
-        
+
         Args:
             value: The isService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_service("value")
         """
@@ -791,13 +791,13 @@ class PortInterface(ARElement, ABC):
     def with_service_kind(self, value: Optional["ServiceProviderEnum"]) -> "PortInterface":
         """
         Set serviceKind and return self for chaining.
-        
+
         Args:
             value: The serviceKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_kind("value")
         """
@@ -812,9 +812,9 @@ class InvalidationPolicy(ARObject):
     dataElement. If no invalidationPolicy points to a dataElement this is
     considered to yield the identical result as if the handleInvalid attribute
     was set to dontInvalidate.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InvalidationPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 97, Classic Platform
       R23-11)
@@ -835,10 +835,10 @@ class InvalidationPolicy(ARObject):
     def data_element(self, value: Optional["RefType"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -859,10 +859,10 @@ class InvalidationPolicy(ARObject):
     def handle_invalid(self, value: Optional["HandleInvalidEnum"]) -> None:
         """
         Set handleInvalid with validation.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -881,10 +881,10 @@ class InvalidationPolicy(ARObject):
     def getDataElement(self) -> "RefType":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -893,13 +893,13 @@ class InvalidationPolicy(ARObject):
     def setDataElement(self, value: "RefType") -> "InvalidationPolicy":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -909,10 +909,10 @@ class InvalidationPolicy(ARObject):
     def getHandleInvalid(self) -> "HandleInvalidEnum":
         """
         AUTOSAR-compliant getter for handleInvalid.
-        
+
         Returns:
             The handleInvalid value
-        
+
         Note:
             Delegates to handle_invalid property (CODING_RULE_V2_00017)
         """
@@ -921,13 +921,13 @@ class InvalidationPolicy(ARObject):
     def setHandleInvalid(self, value: "HandleInvalidEnum") -> "InvalidationPolicy":
         """
         AUTOSAR-compliant setter for handleInvalid with method chaining.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_invalid property setter (gets validation automatically)
         """
@@ -939,13 +939,13 @@ class InvalidationPolicy(ARObject):
     def with_data_element(self, value: Optional[RefType]) -> "InvalidationPolicy":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -955,13 +955,13 @@ class InvalidationPolicy(ARObject):
     def with_handle_invalid(self, value: Optional["HandleInvalidEnum"]) -> "InvalidationPolicy":
         """
         Set handleInvalid and return self for chaining.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_invalid("value")
         """
@@ -973,9 +973,9 @@ class InvalidationPolicy(ARObject):
 class MetaDataItem(ARObject):
     """
     This meta-class represents a single meta-data item.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::MetaDataItem
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 98, Classic Platform
       R23-11)
@@ -997,10 +997,10 @@ class MetaDataItem(ARObject):
     def length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1025,10 +1025,10 @@ class MetaDataItem(ARObject):
     def meta_data_item(self, value: Optional["TextValueSpecification"]) -> None:
         """
         Set metaDataItem with validation.
-        
+
         Args:
             value: The metaDataItem to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1047,10 +1047,10 @@ class MetaDataItem(ARObject):
     def getLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -1059,13 +1059,13 @@ class MetaDataItem(ARObject):
     def setLength(self, value: "PositiveInteger") -> "MetaDataItem":
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -1075,10 +1075,10 @@ class MetaDataItem(ARObject):
     def getMetaDataItem(self) -> "TextValueSpecification":
         """
         AUTOSAR-compliant getter for metaDataItem.
-        
+
         Returns:
             The metaDataItem value
-        
+
         Note:
             Delegates to meta_data_item property (CODING_RULE_V2_00017)
         """
@@ -1087,13 +1087,13 @@ class MetaDataItem(ARObject):
     def setMetaDataItem(self, value: "TextValueSpecification") -> "MetaDataItem":
         """
         AUTOSAR-compliant setter for metaDataItem with method chaining.
-        
+
         Args:
             value: The metaDataItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to meta_data_item property setter (gets validation automatically)
         """
@@ -1105,13 +1105,13 @@ class MetaDataItem(ARObject):
     def with_length(self, value: Optional["PositiveInteger"]) -> "MetaDataItem":
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -1121,13 +1121,13 @@ class MetaDataItem(ARObject):
     def with_meta_data_item(self, value: Optional["TextValueSpecification"]) -> "MetaDataItem":
         """
         Set metaDataItem and return self for chaining.
-        
+
         Args:
             value: The metaDataItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_meta_data_item("value")
         """
@@ -1140,9 +1140,9 @@ class MetaDataItemSet(ARObject):
     """
     This meta-class represents the ability to define a set of meta-data items to
     be used in SenderReceiver Interfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::MetaDataItemSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 99, Classic Platform
       R23-11)
@@ -1173,10 +1173,10 @@ class MetaDataItemSet(ARObject):
     def getDataElement(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -1185,10 +1185,10 @@ class MetaDataItemSet(ARObject):
     def getMetaDataItem(self) -> List["MetaDataItem"]:
         """
         AUTOSAR-compliant getter for metaDataItem.
-        
+
         Returns:
             The metaDataItem value
-        
+
         Note:
             Delegates to meta_data_item property (CODING_RULE_V2_00017)
         """
@@ -1203,9 +1203,9 @@ class ApplicationError(Identifiable):
     This is a user-defined error that is associated with an element of an
     AUTOSAR interface. It is specific for the particular functionality or
     service provided by the AUTOSAR software component.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ApplicationError
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 108, Classic Platform
       R23-11)
@@ -1228,10 +1228,10 @@ class ApplicationError(Identifiable):
     def error_code(self, value: Optional["Integer"]) -> None:
         """
         Set errorCode with validation.
-        
+
         Args:
             value: The errorCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1250,10 +1250,10 @@ class ApplicationError(Identifiable):
     def getErrorCode(self) -> "Integer":
         """
         AUTOSAR-compliant getter for errorCode.
-        
+
         Returns:
             The errorCode value
-        
+
         Note:
             Delegates to error_code property (CODING_RULE_V2_00017)
         """
@@ -1262,13 +1262,13 @@ class ApplicationError(Identifiable):
     def setErrorCode(self, value: "Integer") -> "ApplicationError":
         """
         AUTOSAR-compliant setter for errorCode with method chaining.
-        
+
         Args:
             value: The errorCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to error_code property setter (gets validation automatically)
         """
@@ -1280,13 +1280,13 @@ class ApplicationError(Identifiable):
     def with_error_code(self, value: Optional["Integer"]) -> "ApplicationError":
         """
         Set errorCode and return self for chaining.
-        
+
         Args:
             value: The errorCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_error_code("value")
         """
@@ -1298,9 +1298,9 @@ class ApplicationError(Identifiable):
 class PortInterfaceMappingSet(ARElement):
     """
     Specifies a set of (one or more) PortInterfaceMappings.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterfaceMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 119, Classic Platform
       R23-11)
@@ -1326,10 +1326,10 @@ class PortInterfaceMappingSet(ARElement):
     def getPortInterface(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for portInterface.
-        
+
         Returns:
             The portInterface value
-        
+
         Note:
             Delegates to port_interface property (CODING_RULE_V2_00017)
         """
@@ -1344,9 +1344,9 @@ class PortInterfaceMapping(Identifiable, ABC):
     Specifies one PortInterfaceMapping to support the connection of Ports typed
     by two different Port Interfaces with PortInterface elements having unequal
     names and/or unequal semantic (resolution or range).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 119, Classic Platform
       R23-11)
@@ -1383,9 +1383,9 @@ class DataPrototypeMapping(ARObject):
     out of the factorSiToUnit and offsetSiToUnit attributes of the referred
     Units and the CompuRationalCoeffs of a compuInternalToPhys of the referred
     CompuMethods.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::DataPrototypeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 125, Classic Platform
       R23-11)
@@ -1408,10 +1408,10 @@ class DataPrototypeMapping(ARObject):
     def first_data(self, value: Optional["RefType"]) -> None:
         """
         Set firstData with validation.
-        
+
         Args:
             value: The firstData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1438,10 +1438,10 @@ class DataPrototypeMapping(ARObject):
     def first_to_second(self, value: Optional["DataTransformation"]) -> None:
         """
         Set firstToSecond with validation.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1467,10 +1467,10 @@ class DataPrototypeMapping(ARObject):
     def second_data(self, value: Optional["RefType"]) -> None:
         """
         Set secondData with validation.
-        
+
         Args:
             value: The secondData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1492,10 +1492,10 @@ class DataPrototypeMapping(ARObject):
     def second_to_first(self, value: Optional["DataTransformation"]) -> None:
         """
         Set secondToFirst with validation.
-        
+
         Args:
             value: The secondToFirst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1527,10 +1527,10 @@ class DataPrototypeMapping(ARObject):
     def text_table(self, value: "RefType") -> None:
         """
         Set textTable with validation.
-        
+
         Args:
             value: The textTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1541,10 +1541,10 @@ class DataPrototypeMapping(ARObject):
     def getFirstData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for firstData.
-        
+
         Returns:
             The firstData value
-        
+
         Note:
             Delegates to first_data property (CODING_RULE_V2_00017)
         """
@@ -1553,13 +1553,13 @@ class DataPrototypeMapping(ARObject):
     def setFirstData(self, value: "RefType") -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for firstData with method chaining.
-        
+
         Args:
             value: The firstData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_data property setter (gets validation automatically)
         """
@@ -1569,10 +1569,10 @@ class DataPrototypeMapping(ARObject):
     def getFirstToSecond(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for firstToSecond.
-        
+
         Returns:
             The firstToSecond value
-        
+
         Note:
             Delegates to first_to_second property (CODING_RULE_V2_00017)
         """
@@ -1581,13 +1581,13 @@ class DataPrototypeMapping(ARObject):
     def setFirstToSecond(self, value: "DataTransformation") -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for firstToSecond with method chaining.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_to_second property setter (gets validation automatically)
         """
@@ -1597,10 +1597,10 @@ class DataPrototypeMapping(ARObject):
     def getSecondData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for secondData.
-        
+
         Returns:
             The secondData value
-        
+
         Note:
             Delegates to second_data property (CODING_RULE_V2_00017)
         """
@@ -1609,13 +1609,13 @@ class DataPrototypeMapping(ARObject):
     def setSecondData(self, value: "RefType") -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for secondData with method chaining.
-        
+
         Args:
             value: The secondData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_data property setter (gets validation automatically)
         """
@@ -1625,10 +1625,10 @@ class DataPrototypeMapping(ARObject):
     def getSecondToFirst(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for secondToFirst.
-        
+
         Returns:
             The secondToFirst value
-        
+
         Note:
             Delegates to second_to_first property (CODING_RULE_V2_00017)
         """
@@ -1637,13 +1637,13 @@ class DataPrototypeMapping(ARObject):
     def setSecondToFirst(self, value: "DataTransformation") -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for secondToFirst with method chaining.
-        
+
         Args:
             value: The secondToFirst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_to_first property setter (gets validation automatically)
         """
@@ -1653,10 +1653,10 @@ class DataPrototypeMapping(ARObject):
     def getSubElement(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -1665,10 +1665,10 @@ class DataPrototypeMapping(ARObject):
     def getTextTable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for textTable.
-        
+
         Returns:
             The textTable value
-        
+
         Note:
             Delegates to text_table property (CODING_RULE_V2_00017)
         """
@@ -1677,13 +1677,13 @@ class DataPrototypeMapping(ARObject):
     def setTextTable(self, value: "RefType") -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for textTable with method chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to text_table property setter (gets validation automatically)
         """
@@ -1695,13 +1695,13 @@ class DataPrototypeMapping(ARObject):
     def with_first_data(self, value: Optional[RefType]) -> "DataPrototypeMapping":
         """
         Set firstData and return self for chaining.
-        
+
         Args:
             value: The firstData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_data("value")
         """
@@ -1711,13 +1711,13 @@ class DataPrototypeMapping(ARObject):
     def with_first_to_second(self, value: Optional["DataTransformation"]) -> "DataPrototypeMapping":
         """
         Set firstToSecond and return self for chaining.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_to_second("value")
         """
@@ -1727,13 +1727,13 @@ class DataPrototypeMapping(ARObject):
     def with_second_data(self, value: Optional[RefType]) -> "DataPrototypeMapping":
         """
         Set secondData and return self for chaining.
-        
+
         Args:
             value: The secondData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_data("value")
         """
@@ -1743,13 +1743,13 @@ class DataPrototypeMapping(ARObject):
     def with_second_to_first(self, value: Optional["DataTransformation"]) -> "DataPrototypeMapping":
         """
         Set secondToFirst and return self for chaining.
-        
+
         Args:
             value: The secondToFirst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_to_first("value")
         """
@@ -1759,13 +1759,13 @@ class DataPrototypeMapping(ARObject):
     def with_text_table(self, value: RefType) -> "DataPrototypeMapping":
         """
         Set textTable and return self for chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_text_table("value")
         """
@@ -1778,9 +1778,9 @@ class ClientServerOperationMapping(ARObject):
     """
     Defines the mapping of two particular ClientServerOperations in context of
     two different ClientServer Interfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerOperationMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 129, Classic Platform
       R23-11)
@@ -1809,10 +1809,10 @@ class ClientServerOperationMapping(ARObject):
     def first_operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set firstOperation with validation.
-        
+
         Args:
             value: The firstOperation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1838,10 +1838,10 @@ class ClientServerOperationMapping(ARObject):
     def first_to_second(self, value: Optional["DataTransformation"]) -> None:
         """
         Set firstToSecond with validation.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1866,10 +1866,10 @@ class ClientServerOperationMapping(ARObject):
     def second(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set second with validation.
-        
+
         Args:
             value: The second to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1888,10 +1888,10 @@ class ClientServerOperationMapping(ARObject):
     def getArgument(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -1900,10 +1900,10 @@ class ClientServerOperationMapping(ARObject):
     def getFirstOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for firstOperation.
-        
+
         Returns:
             The firstOperation value
-        
+
         Note:
             Delegates to first_operation property (CODING_RULE_V2_00017)
         """
@@ -1912,13 +1912,13 @@ class ClientServerOperationMapping(ARObject):
     def setFirstOperation(self, value: "ClientServerOperation") -> "ClientServerOperationMapping":
         """
         AUTOSAR-compliant setter for firstOperation with method chaining.
-        
+
         Args:
             value: The firstOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_operation property setter (gets validation automatically)
         """
@@ -1928,10 +1928,10 @@ class ClientServerOperationMapping(ARObject):
     def getFirstToSecond(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for firstToSecond.
-        
+
         Returns:
             The firstToSecond value
-        
+
         Note:
             Delegates to first_to_second property (CODING_RULE_V2_00017)
         """
@@ -1940,13 +1940,13 @@ class ClientServerOperationMapping(ARObject):
     def setFirstToSecond(self, value: "DataTransformation") -> "ClientServerOperationMapping":
         """
         AUTOSAR-compliant setter for firstToSecond with method chaining.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_to_second property setter (gets validation automatically)
         """
@@ -1956,10 +1956,10 @@ class ClientServerOperationMapping(ARObject):
     def getSecond(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for second.
-        
+
         Returns:
             The second value
-        
+
         Note:
             Delegates to second property (CODING_RULE_V2_00017)
         """
@@ -1968,13 +1968,13 @@ class ClientServerOperationMapping(ARObject):
     def setSecond(self, value: "ClientServerOperation") -> "ClientServerOperationMapping":
         """
         AUTOSAR-compliant setter for second with method chaining.
-        
+
         Args:
             value: The second to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second property setter (gets validation automatically)
         """
@@ -1986,13 +1986,13 @@ class ClientServerOperationMapping(ARObject):
     def with_first_operation(self, value: Optional["ClientServerOperation"]) -> "ClientServerOperationMapping":
         """
         Set firstOperation and return self for chaining.
-        
+
         Args:
             value: The firstOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_operation("value")
         """
@@ -2002,13 +2002,13 @@ class ClientServerOperationMapping(ARObject):
     def with_first_to_second(self, value: Optional["DataTransformation"]) -> "ClientServerOperationMapping":
         """
         Set firstToSecond and return self for chaining.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_to_second("value")
         """
@@ -2018,13 +2018,13 @@ class ClientServerOperationMapping(ARObject):
     def with_second(self, value: Optional["ClientServerOperation"]) -> "ClientServerOperationMapping":
         """
         Set second and return self for chaining.
-        
+
         Args:
             value: The second to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second("value")
         """
@@ -2037,9 +2037,9 @@ class ClientServerApplicationErrorMapping(ARObject):
     """
     This meta-class represents the ability to map ApplicationErrors onto each
     other.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerApplicationErrorMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 129, Classic Platform
       R23-11)
@@ -2061,10 +2061,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def first_application(self, value: Optional["ApplicationError"]) -> None:
         """
         Set firstApplication with validation.
-        
+
         Args:
             value: The firstApplication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2090,10 +2090,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def second(self, value: Optional["ApplicationError"]) -> None:
         """
         Set second with validation.
-        
+
         Args:
             value: The second to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2112,10 +2112,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def getFirstApplication(self) -> "ApplicationError":
         """
         AUTOSAR-compliant getter for firstApplication.
-        
+
         Returns:
             The firstApplication value
-        
+
         Note:
             Delegates to first_application property (CODING_RULE_V2_00017)
         """
@@ -2124,13 +2124,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def setFirstApplication(self, value: "ApplicationError") -> "ClientServerApplicationErrorMapping":
         """
         AUTOSAR-compliant setter for firstApplication with method chaining.
-        
+
         Args:
             value: The firstApplication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_application property setter (gets validation automatically)
         """
@@ -2140,10 +2140,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def getSecond(self) -> "ApplicationError":
         """
         AUTOSAR-compliant getter for second.
-        
+
         Returns:
             The second value
-        
+
         Note:
             Delegates to second property (CODING_RULE_V2_00017)
         """
@@ -2152,13 +2152,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def setSecond(self, value: "ApplicationError") -> "ClientServerApplicationErrorMapping":
         """
         AUTOSAR-compliant setter for second with method chaining.
-        
+
         Args:
             value: The second to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second property setter (gets validation automatically)
         """
@@ -2170,13 +2170,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def with_first_application(self, value: Optional["ApplicationError"]) -> "ClientServerApplicationErrorMapping":
         """
         Set firstApplication and return self for chaining.
-        
+
         Args:
             value: The firstApplication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_application("value")
         """
@@ -2186,13 +2186,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def with_second(self, value: Optional["ApplicationError"]) -> "ClientServerApplicationErrorMapping":
         """
         Set second and return self for chaining.
-        
+
         Args:
             value: The second to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second("value")
         """
@@ -2204,9 +2204,9 @@ class ClientServerApplicationErrorMapping(ARObject):
 class ModeDeclarationMappingSet(ARElement):
     """
     This meta-class implements a container for ModeDeclarationGroupMappings
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeDeclarationMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 132, Classic Platform
       R23-11)
@@ -2229,10 +2229,10 @@ class ModeDeclarationMappingSet(ARElement):
     def getMode(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -2245,9 +2245,9 @@ class ModeDeclarationMappingSet(ARElement):
 class ModeDeclarationMapping(Identifiable):
     """
     This meta-class implements a concrete mapping of two ModeDeclarations.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeDeclarationMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 132, Classic Platform
       R23-11)
@@ -2278,10 +2278,10 @@ class ModeDeclarationMapping(Identifiable):
     def second_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set secondMode with validation.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2300,10 +2300,10 @@ class ModeDeclarationMapping(Identifiable):
     def getFirstMode(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for firstMode.
-        
+
         Returns:
             The firstMode value
-        
+
         Note:
             Delegates to first_mode property (CODING_RULE_V2_00017)
         """
@@ -2312,10 +2312,10 @@ class ModeDeclarationMapping(Identifiable):
     def getSecondMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for secondMode.
-        
+
         Returns:
             The secondMode value
-        
+
         Note:
             Delegates to second_mode property (CODING_RULE_V2_00017)
         """
@@ -2324,13 +2324,13 @@ class ModeDeclarationMapping(Identifiable):
     def setSecondMode(self, value: "ModeDeclaration") -> "ModeDeclarationMapping":
         """
         AUTOSAR-compliant setter for secondMode with method chaining.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_mode property setter (gets validation automatically)
         """
@@ -2342,13 +2342,13 @@ class ModeDeclarationMapping(Identifiable):
     def with_second_mode(self, value: Optional["ModeDeclaration"]) -> "ModeDeclarationMapping":
         """
         Set secondMode and return self for chaining.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_mode("value")
         """
@@ -2361,9 +2361,9 @@ class SubElementMapping(ARObject):
     """
     This meta-class allows for the definition of mappings of elements of a
     composite data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::SubElementMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 137, Classic Platform
       R23-11)
@@ -2385,10 +2385,10 @@ class SubElementMapping(ARObject):
     def first_element(self, value: Optional["RefType"]) -> None:
         """
         Set firstElement with validation.
-        
+
         Args:
             value: The firstElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2410,10 +2410,10 @@ class SubElementMapping(ARObject):
     def second_element(self, value: Optional["RefType"]) -> None:
         """
         Set secondElement with validation.
-        
+
         Args:
             value: The secondElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2434,10 +2434,10 @@ class SubElementMapping(ARObject):
     def text_table(self, value: "RefType") -> None:
         """
         Set textTable with validation.
-        
+
         Args:
             value: The textTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2448,10 +2448,10 @@ class SubElementMapping(ARObject):
     def getFirstElement(self) -> "RefType":
         """
         AUTOSAR-compliant getter for firstElement.
-        
+
         Returns:
             The firstElement value
-        
+
         Note:
             Delegates to first_element property (CODING_RULE_V2_00017)
         """
@@ -2460,13 +2460,13 @@ class SubElementMapping(ARObject):
     def setFirstElement(self, value: "RefType") -> "SubElementMapping":
         """
         AUTOSAR-compliant setter for firstElement with method chaining.
-        
+
         Args:
             value: The firstElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_element property setter (gets validation automatically)
         """
@@ -2476,10 +2476,10 @@ class SubElementMapping(ARObject):
     def getSecondElement(self) -> "RefType":
         """
         AUTOSAR-compliant getter for secondElement.
-        
+
         Returns:
             The secondElement value
-        
+
         Note:
             Delegates to second_element property (CODING_RULE_V2_00017)
         """
@@ -2488,13 +2488,13 @@ class SubElementMapping(ARObject):
     def setSecondElement(self, value: "RefType") -> "SubElementMapping":
         """
         AUTOSAR-compliant setter for secondElement with method chaining.
-        
+
         Args:
             value: The secondElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_element property setter (gets validation automatically)
         """
@@ -2504,10 +2504,10 @@ class SubElementMapping(ARObject):
     def getTextTable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for textTable.
-        
+
         Returns:
             The textTable value
-        
+
         Note:
             Delegates to text_table property (CODING_RULE_V2_00017)
         """
@@ -2516,13 +2516,13 @@ class SubElementMapping(ARObject):
     def setTextTable(self, value: "RefType") -> "SubElementMapping":
         """
         AUTOSAR-compliant setter for textTable with method chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to text_table property setter (gets validation automatically)
         """
@@ -2534,13 +2534,13 @@ class SubElementMapping(ARObject):
     def with_first_element(self, value: Optional[RefType]) -> "SubElementMapping":
         """
         Set firstElement and return self for chaining.
-        
+
         Args:
             value: The firstElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_element("value")
         """
@@ -2550,13 +2550,13 @@ class SubElementMapping(ARObject):
     def with_second_element(self, value: Optional[RefType]) -> "SubElementMapping":
         """
         Set secondElement and return self for chaining.
-        
+
         Args:
             value: The secondElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_element("value")
         """
@@ -2566,13 +2566,13 @@ class SubElementMapping(ARObject):
     def with_text_table(self, value: RefType) -> "SubElementMapping":
         """
         Set textTable and return self for chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_text_table("value")
         """
@@ -2585,9 +2585,9 @@ class SubElementRef(ARObject, ABC):
     """
     This meta-class provides the ability to reference elements of composite data
     type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::SubElementRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform
       R23-11)
@@ -2610,9 +2610,9 @@ class TextTableMapping(ARObject):
     Defines the mapping of two DataPrototypes typed by AutosarDataTypes that
     refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or
     BITFIELD_TEXTTABLE.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TextTableMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 145, Classic Platform
       R23-11)
@@ -2636,10 +2636,10 @@ class TextTableMapping(ARObject):
     def bitfield_text_table(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitfieldTextTable with validation.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2665,10 +2665,10 @@ class TextTableMapping(ARObject):
     def identical(self, value: Optional["Boolean"]) -> None:
         """
         Set identical with validation.
-        
+
         Args:
             value: The identical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2693,10 +2693,10 @@ class TextTableMapping(ARObject):
     def mapping(self, value: Optional["RefType"]) -> None:
         """
         Set mapping with validation.
-        
+
         Args:
             value: The mapping to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2718,10 +2718,10 @@ class TextTableMapping(ARObject):
     def getBitfieldTextTable(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitfieldTextTable.
-        
+
         Returns:
             The bitfieldTextTable value
-        
+
         Note:
             Delegates to bitfield_text_table property (CODING_RULE_V2_00017)
         """
@@ -2730,13 +2730,13 @@ class TextTableMapping(ARObject):
     def setBitfieldTextTable(self, value: "PositiveInteger") -> "TextTableMapping":
         """
         AUTOSAR-compliant setter for bitfieldTextTable with method chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bitfield_text_table property setter (gets validation automatically)
         """
@@ -2746,10 +2746,10 @@ class TextTableMapping(ARObject):
     def getIdentical(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for identical.
-        
+
         Returns:
             The identical value
-        
+
         Note:
             Delegates to identical property (CODING_RULE_V2_00017)
         """
@@ -2758,13 +2758,13 @@ class TextTableMapping(ARObject):
     def setIdentical(self, value: "Boolean") -> "TextTableMapping":
         """
         AUTOSAR-compliant setter for identical with method chaining.
-        
+
         Args:
             value: The identical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identical property setter (gets validation automatically)
         """
@@ -2774,10 +2774,10 @@ class TextTableMapping(ARObject):
     def getMapping(self) -> "RefType":
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """
@@ -2786,13 +2786,13 @@ class TextTableMapping(ARObject):
     def setMapping(self, value: "RefType") -> "TextTableMapping":
         """
         AUTOSAR-compliant setter for mapping with method chaining.
-        
+
         Args:
             value: The mapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapping property setter (gets validation automatically)
         """
@@ -2802,10 +2802,10 @@ class TextTableMapping(ARObject):
     def getValuePair(self) -> List["TextTableValuePair"]:
         """
         AUTOSAR-compliant getter for valuePair.
-        
+
         Returns:
             The valuePair value
-        
+
         Note:
             Delegates to value_pair property (CODING_RULE_V2_00017)
         """
@@ -2816,13 +2816,13 @@ class TextTableMapping(ARObject):
     def with_bitfield_text_table(self, value: Optional["PositiveInteger"]) -> "TextTableMapping":
         """
         Set bitfieldTextTable and return self for chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bitfield_text_table("value")
         """
@@ -2832,13 +2832,13 @@ class TextTableMapping(ARObject):
     def with_identical(self, value: Optional["Boolean"]) -> "TextTableMapping":
         """
         Set identical and return self for chaining.
-        
+
         Args:
             value: The identical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identical("value")
         """
@@ -2848,13 +2848,13 @@ class TextTableMapping(ARObject):
     def with_mapping(self, value: Optional[RefType]) -> "TextTableMapping":
         """
         Set mapping and return self for chaining.
-        
+
         Args:
             value: The mapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapping("value")
         """
@@ -2866,9 +2866,9 @@ class TextTableMapping(ARObject):
 class TextTableValuePair(ARObject):
     """
     Defines a pair of text values which are translated into each other.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TextTableValuePair
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 146, Classic Platform
       R23-11)
@@ -2891,10 +2891,10 @@ class TextTableValuePair(ARObject):
     def first_value(self, value: Optional["Numerical"]) -> None:
         """
         Set firstValue with validation.
-        
+
         Args:
             value: The firstValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2921,10 +2921,10 @@ class TextTableValuePair(ARObject):
     def second_value(self, value: Optional["Numerical"]) -> None:
         """
         Set secondValue with validation.
-        
+
         Args:
             value: The secondValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2943,10 +2943,10 @@ class TextTableValuePair(ARObject):
     def getFirstValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for firstValue.
-        
+
         Returns:
             The firstValue value
-        
+
         Note:
             Delegates to first_value property (CODING_RULE_V2_00017)
         """
@@ -2955,13 +2955,13 @@ class TextTableValuePair(ARObject):
     def setFirstValue(self, value: "Numerical") -> "TextTableValuePair":
         """
         AUTOSAR-compliant setter for firstValue with method chaining.
-        
+
         Args:
             value: The firstValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_value property setter (gets validation automatically)
         """
@@ -2971,10 +2971,10 @@ class TextTableValuePair(ARObject):
     def getSecondValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for secondValue.
-        
+
         Returns:
             The secondValue value
-        
+
         Note:
             Delegates to second_value property (CODING_RULE_V2_00017)
         """
@@ -2983,13 +2983,13 @@ class TextTableValuePair(ARObject):
     def setSecondValue(self, value: "Numerical") -> "TextTableValuePair":
         """
         AUTOSAR-compliant setter for secondValue with method chaining.
-        
+
         Args:
             value: The secondValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_value property setter (gets validation automatically)
         """
@@ -3001,13 +3001,13 @@ class TextTableValuePair(ARObject):
     def with_first_value(self, value: Optional["Numerical"]) -> "TextTableValuePair":
         """
         Set firstValue and return self for chaining.
-        
+
         Args:
             value: The firstValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_value("value")
         """
@@ -3017,13 +3017,13 @@ class TextTableValuePair(ARObject):
     def with_second_value(self, value: Optional["Numerical"]) -> "TextTableValuePair":
         """
         Set secondValue and return self for chaining.
-        
+
         Args:
             value: The secondValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_value("value")
         """
@@ -3036,9 +3036,9 @@ class ClientServerInterface(PortInterface):
     """
     A client/server interface declares a number of operations that can be
     invoked on a server by a client.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 308, Classic
       Platform R23-11)
@@ -3075,10 +3075,10 @@ class ClientServerInterface(PortInterface):
     def getOperation(self) -> List["ClientServerOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -3087,10 +3087,10 @@ class ClientServerInterface(PortInterface):
     def getPossibleError(self) -> List["ApplicationError"]:
         """
         AUTOSAR-compliant getter for possibleError.
-        
+
         Returns:
             The possibleError value
-        
+
         Note:
             Delegates to possible_error property (CODING_RULE_V2_00017)
         """
@@ -3105,9 +3105,9 @@ class DataInterface(PortInterface, ABC):
     The purpose of this meta-class is to act as an abstract base class for
     subclasses that share the semantics of being concerned about data (as
     opposed to e.g. operations).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::DataInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 310, Classic Platform
       R23-11)
@@ -3131,9 +3131,9 @@ class TriggerInterface(PortInterface):
     """
     A trigger interface declares a number of triggers that can be sent by an
     trigger source.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TriggerInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 109, Classic Platform
       R23-11)
@@ -3156,10 +3156,10 @@ class TriggerInterface(PortInterface):
     def getTrigger(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -3173,9 +3173,9 @@ class ModeSwitchInterface(PortInterface):
     """
     A mode switch interface declares a ModeDeclarationGroupPrototype to be sent
     and received.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeSwitchInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -3197,10 +3197,10 @@ class ModeSwitchInterface(PortInterface):
     def mode_group(self, value: Optional["RefType"]) -> None:
         """
         Set modeGroup with validation.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3215,10 +3215,10 @@ class ModeSwitchInterface(PortInterface):
     def getModeGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for modeGroup.
-        
+
         Returns:
             The modeGroup value
-        
+
         Note:
             Delegates to mode_group property (CODING_RULE_V2_00017)
         """
@@ -3227,13 +3227,13 @@ class ModeSwitchInterface(PortInterface):
     def setModeGroup(self, value: "RefType") -> "ModeSwitchInterface":
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_group property setter (gets validation automatically)
         """
@@ -3245,13 +3245,13 @@ class ModeSwitchInterface(PortInterface):
     def with_mode_group(self, value: Optional[RefType]) -> "ModeSwitchInterface":
         """
         Set modeGroup and return self for chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_group("value")
         """
@@ -3265,9 +3265,9 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     Defines the mapping of VariableDataPrototypes or ParameterDataPrototypes in
     context of two different SenderReceiverInterfaces, NvDataInterfaces or
     ParameterInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::VariableAndParameterInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 124, Classic Platform
       R23-11)
@@ -3292,10 +3292,10 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     def getDataMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataMapping.
-        
+
         Returns:
             The dataMapping value
-        
+
         Note:
             Delegates to data_mapping property (CODING_RULE_V2_00017)
         """
@@ -3309,9 +3309,9 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     """
     Defines the mapping of ClientServerOperations in context of two different
     ClientServerInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 128, Classic Platform
       R23-11)
@@ -3342,10 +3342,10 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def getErrorMapping(self) -> List["ClientServerApplication"]:
         """
         AUTOSAR-compliant getter for errorMapping.
-        
+
         Returns:
             The errorMapping value
-        
+
         Note:
             Delegates to error_mapping property (CODING_RULE_V2_00017)
         """
@@ -3354,10 +3354,10 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def getOperation(self) -> List["ClientServerOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -3371,9 +3371,9 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     """
     Defines the mapping of ModeDeclarationGroupPrototypes in context of two
     different ModeInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 130, Classic Platform
       R23-11)
@@ -3394,10 +3394,10 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def mode_mapping(self, value: Optional["RefType"]) -> None:
         """
         Set modeMapping with validation.
-        
+
         Args:
             value: The modeMapping to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3412,10 +3412,10 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def getModeMapping(self) -> "RefType":
         """
         AUTOSAR-compliant getter for modeMapping.
-        
+
         Returns:
             The modeMapping value
-        
+
         Note:
             Delegates to mode_mapping property (CODING_RULE_V2_00017)
         """
@@ -3424,13 +3424,13 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def setModeMapping(self, value: "RefType") -> "ModeInterfaceMapping":
         """
         AUTOSAR-compliant setter for modeMapping with method chaining.
-        
+
         Args:
             value: The modeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_mapping property setter (gets validation automatically)
         """
@@ -3442,13 +3442,13 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def with_mode_mapping(self, value: Optional[RefType]) -> "ModeInterfaceMapping":
         """
         Set modeMapping and return self for chaining.
-        
+
         Args:
             value: The modeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_mapping("value")
         """
@@ -3461,9 +3461,9 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
     """
     Defines the mapping of unequal named Triggers in context of two different
     TriggerInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TriggerInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 134, Classic Platform
       R23-11)
@@ -3485,10 +3485,10 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
     def getTriggerMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for triggerMapping.
-        
+
         Returns:
             The triggerMapping value
-        
+
         Note:
             Delegates to trigger_mapping property (CODING_RULE_V2_00017)
         """
@@ -3502,9 +3502,9 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     """
     This meta-class represents the specialization of SubElementMapping with
     respect to Implementation DataTypes.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ImplementationDataTypeSubElementRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform
       R23-11)
@@ -3525,10 +3525,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def implementation(self, value: Optional["ArVariableIn"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3553,10 +3553,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def parameter(self, value: Optional["ArParameterIn"]) -> None:
         """
         Set parameter with validation.
-        
+
         Args:
             value: The parameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3575,10 +3575,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def getImplementation(self) -> "ArVariableIn":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -3587,13 +3587,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def setImplementation(self, value: "ArVariableIn") -> "ImplementationDataTypeSubElementRef":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -3603,10 +3603,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def getParameter(self) -> "ArParameterIn":
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -3615,13 +3615,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def setParameter(self, value: "ArParameterIn") -> "ImplementationDataTypeSubElementRef":
         """
         AUTOSAR-compliant setter for parameter with method chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter property setter (gets validation automatically)
         """
@@ -3633,13 +3633,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def with_implementation(self, value: Optional["ArVariableIn"]) -> "ImplementationDataTypeSubElementRef":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -3649,13 +3649,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def with_parameter(self, value: Optional["ArParameterIn"]) -> "ImplementationDataTypeSubElementRef":
         """
         Set parameter and return self for chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter("value")
         """
@@ -3668,9 +3668,9 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     """
     This meta-class represents the specialization of SubElementMapping with
     respect to Application CompositeDataTypes.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ApplicationCompositeDataTypeSubElementRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform
       R23-11)
@@ -3692,10 +3692,10 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def application(self, value: Optional["ApplicationComposite"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3714,10 +3714,10 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def getApplication(self) -> "ApplicationComposite":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -3726,13 +3726,13 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def setApplication(self, value: "ApplicationComposite") -> "ApplicationCompositeDataTypeSubElementRef":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -3744,13 +3744,13 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def with_application(self, value: Optional["ApplicationComposite"]) -> "ApplicationCompositeDataTypeSubElementRef":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -3763,9 +3763,9 @@ class SenderReceiverInterface(DataInterface):
     """
     A sender/receiver interface declares a number of data elements to be sent
     and received.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::SenderReceiverInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 335, Classic
       Platform R23-11)
@@ -3809,10 +3809,10 @@ class SenderReceiverInterface(DataInterface):
     def getDataElement(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -3821,10 +3821,10 @@ class SenderReceiverInterface(DataInterface):
     def getInvalidationPolicy(self) -> List["InvalidationPolicy"]:
         """
         AUTOSAR-compliant getter for invalidationPolicy.
-        
+
         Returns:
             The invalidationPolicy value
-        
+
         Note:
             Delegates to invalidation_policy property (CODING_RULE_V2_00017)
         """
@@ -3833,10 +3833,10 @@ class SenderReceiverInterface(DataInterface):
     def getMetaDataItem(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for metaDataItem.
-        
+
         Returns:
             The metaDataItem value
-        
+
         Note:
             Delegates to meta_data_item property (CODING_RULE_V2_00017)
         """
@@ -3851,9 +3851,9 @@ class NvDataInterface(DataInterface):
     A non volatile data interface declares a number of VariableDataPrototypes to
     be exchanged between non volatile block components and atomic software
     components.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::NvDataInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform
       R23-11)
@@ -3880,10 +3880,10 @@ class NvDataInterface(DataInterface):
     def getNvData(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for nvData.
-        
+
         Returns:
             The nvData value
-        
+
         Note:
             Delegates to nv_data property (CODING_RULE_V2_00017)
         """
@@ -3897,9 +3897,9 @@ class ParameterInterface(DataInterface):
     """
     A parameter interface declares a number of parameter and characteristic
     values to be exchanged between parameter components and software components.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ParameterInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 41, Classic Platform
       R23-11)
@@ -3922,10 +3922,10 @@ class ParameterInterface(DataInterface):
     def getParameter(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """

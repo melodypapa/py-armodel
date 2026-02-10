@@ -14,9 +14,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstrai
 class AgeConstraint(TimingConstraint):
     """
     Constrains the scope by a minimum and maximum time boundary.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint::AgeConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 115, Classic Platform R23-11)
     """
@@ -36,10 +36,10 @@ class AgeConstraint(TimingConstraint):
     def maximum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class AgeConstraint(TimingConstraint):
     def minimum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +90,10 @@ class AgeConstraint(TimingConstraint):
     def scope(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set scope with validation.
-        
+
         Args:
             value: The scope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class AgeConstraint(TimingConstraint):
     def getMaximum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -124,13 +124,13 @@ class AgeConstraint(TimingConstraint):
     def setMaximum(self, value: "MultidimensionalTime") -> "AgeConstraint":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -140,10 +140,10 @@ class AgeConstraint(TimingConstraint):
     def getMinimum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -152,13 +152,13 @@ class AgeConstraint(TimingConstraint):
     def setMinimum(self, value: "MultidimensionalTime") -> "AgeConstraint":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -168,10 +168,10 @@ class AgeConstraint(TimingConstraint):
     def getScope(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for scope.
-        
+
         Returns:
             The scope value
-        
+
         Note:
             Delegates to scope property (CODING_RULE_V2_00017)
         """
@@ -180,13 +180,13 @@ class AgeConstraint(TimingConstraint):
     def setScope(self, value: "TimingDescriptionEvent") -> "AgeConstraint":
         """
         AUTOSAR-compliant setter for scope with method chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scope property setter (gets validation automatically)
         """
@@ -198,13 +198,13 @@ class AgeConstraint(TimingConstraint):
     def with_maximum(self, value: Optional["MultidimensionalTime"]) -> "AgeConstraint":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -214,13 +214,13 @@ class AgeConstraint(TimingConstraint):
     def with_minimum(self, value: Optional["MultidimensionalTime"]) -> "AgeConstraint":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """
@@ -230,13 +230,13 @@ class AgeConstraint(TimingConstraint):
     def with_scope(self, value: Optional["TimingDescriptionEvent"]) -> "AgeConstraint":
         """
         Set scope and return self for chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scope("value")
         """

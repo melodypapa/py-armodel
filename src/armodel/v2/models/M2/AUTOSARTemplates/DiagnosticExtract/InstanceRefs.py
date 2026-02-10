@@ -16,9 +16,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class DataPrototypeInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs::DataPrototypeInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 368, Classic Platform
       R23-11)
@@ -39,10 +39,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def context_port(self, value: Optional["RefType"]) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +106,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def context_root(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set contextRoot with validation.
-        
+
         Args:
             value: The contextRoot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +134,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def root_data_prototype(self, value: Optional["RefType"]) -> None:
         """
         Set rootDataPrototype with validation.
-        
+
         Args:
             value: The rootDataPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -158,10 +158,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def target_data(self, value: Optional["RefType"]) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -208,10 +208,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -220,13 +220,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setBase(self, value: "System") -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -236,10 +236,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContext(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -248,10 +248,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -260,10 +260,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContextPort(self) -> "RefType":
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -272,13 +272,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setContextPort(self, value: "RefType") -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -288,10 +288,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContextRoot(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for contextRoot.
-        
+
         Returns:
             The contextRoot value
-        
+
         Note:
             Delegates to context_root property (CODING_RULE_V2_00017)
         """
@@ -300,13 +300,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setContextRoot(self, value: "RootSwComposition") -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextRoot with method chaining.
-        
+
         Args:
             value: The contextRoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_root property setter (gets validation automatically)
         """
@@ -316,10 +316,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getRootDataPrototype(self) -> "RefType":
         """
         AUTOSAR-compliant getter for rootDataPrototype.
-        
+
         Returns:
             The rootDataPrototype value
-        
+
         Note:
             Delegates to root_data_prototype property (CODING_RULE_V2_00017)
         """
@@ -328,13 +328,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setRootDataPrototype(self, value: "RefType") -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for rootDataPrototype with method chaining.
-        
+
         Args:
             value: The rootDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data_prototype property setter (gets validation automatically)
         """
@@ -344,10 +344,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getTargetData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -356,13 +356,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setTargetData(self, value: "RefType") -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -374,13 +374,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_base(self, value: Optional["System"]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -390,13 +390,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_context_port(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -406,13 +406,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_context_root(self, value: Optional["RootSwComposition"]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set contextRoot and return self for chaining.
-        
+
         Args:
             value: The contextRoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_root("value")
         """
@@ -422,13 +422,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_root_data_prototype(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set rootDataPrototype and return self for chaining.
-        
+
         Args:
             value: The rootDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data_prototype("value")
         """
@@ -438,13 +438,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_target_data(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """
@@ -455,9 +455,9 @@ class DataPrototypeInSystemInstanceRef(ARObject):
 
 class SwcServiceDependencyInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs::SwcServiceDependencyInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 369, Classic Platform
       R23-11)
@@ -477,10 +477,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def context_root_sw(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set contextRootSw with validation.
-        
+
         Args:
             value: The contextRootSw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -511,10 +511,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def target_swc(self, value: Optional["SwcService"]) -> None:
         """
         Set targetSwc with validation.
-        
+
         Args:
             value: The targetSwc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -533,10 +533,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def getContextRootSw(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for contextRootSw.
-        
+
         Returns:
             The contextRootSw value
-        
+
         Note:
             Delegates to context_root_sw property (CODING_RULE_V2_00017)
         """
@@ -545,13 +545,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def setContextRootSw(self, value: "RootSwComposition") -> "SwcServiceDependencyInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextRootSw with method chaining.
-        
+
         Args:
             value: The contextRootSw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_root_sw property setter (gets validation automatically)
         """
@@ -561,10 +561,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-        
+
         Returns:
             The contextSw value
-        
+
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
@@ -573,10 +573,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def getTargetSwc(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for targetSwc.
-        
+
         Returns:
             The targetSwc value
-        
+
         Note:
             Delegates to target_swc property (CODING_RULE_V2_00017)
         """
@@ -585,13 +585,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def setTargetSwc(self, value: "SwcService") -> "SwcServiceDependencyInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetSwc with method chaining.
-        
+
         Args:
             value: The targetSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_swc property setter (gets validation automatically)
         """
@@ -603,13 +603,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def with_context_root_sw(self, value: Optional["RootSwComposition"]) -> "SwcServiceDependencyInSystemInstanceRef":
         """
         Set contextRootSw and return self for chaining.
-        
+
         Args:
             value: The contextRootSw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_root_sw("value")
         """
@@ -619,13 +619,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def with_target_swc(self, value: Optional["SwcService"]) -> "SwcServiceDependencyInSystemInstanceRef":
         """
         Set targetSwc and return self for chaining.
-        
+
         Args:
             value: The targetSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_swc("value")
         """
@@ -636,9 +636,9 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
 
 class PModeInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs::PModeInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 370, Classic Platform
       R23-11)
@@ -659,10 +659,10 @@ class PModeInSystemInstanceRef(ARObject):
     def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -687,10 +687,10 @@ class PModeInSystemInstanceRef(ARObject):
     def context(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set context with validation.
-        
+
         Args:
             value: The context to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -715,10 +715,10 @@ class PModeInSystemInstanceRef(ARObject):
     def context_mode_group(self, value: Optional["RefType"]) -> None:
         """
         Set contextModeGroup with validation.
-        
+
         Args:
             value: The contextModeGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -739,10 +739,10 @@ class PModeInSystemInstanceRef(ARObject):
     def context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set contextPPortPrototype with validation.
-        
+
         Args:
             value: The contextPPortPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -767,10 +767,10 @@ class PModeInSystemInstanceRef(ARObject):
     def target_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set targetMode with validation.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -789,10 +789,10 @@ class PModeInSystemInstanceRef(ARObject):
     def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -801,13 +801,13 @@ class PModeInSystemInstanceRef(ARObject):
     def setBase(self, value: "System") -> "PModeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -817,10 +817,10 @@ class PModeInSystemInstanceRef(ARObject):
     def getContext(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -829,13 +829,13 @@ class PModeInSystemInstanceRef(ARObject):
     def setContext(self, value: "RootSwComposition") -> "PModeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for context with method chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context property setter (gets validation automatically)
         """
@@ -845,10 +845,10 @@ class PModeInSystemInstanceRef(ARObject):
     def getContextModeGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for contextModeGroup.
-        
+
         Returns:
             The contextModeGroup value
-        
+
         Note:
             Delegates to context_mode_group property (CODING_RULE_V2_00017)
         """
@@ -857,13 +857,13 @@ class PModeInSystemInstanceRef(ARObject):
     def setContextModeGroup(self, value: "RefType") -> "PModeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextModeGroup with method chaining.
-        
+
         Args:
             value: The contextModeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_mode_group property setter (gets validation automatically)
         """
@@ -873,10 +873,10 @@ class PModeInSystemInstanceRef(ARObject):
     def getContextPPortPrototype(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for contextPPortPrototype.
-        
+
         Returns:
             The contextPPortPrototype value
-        
+
         Note:
             Delegates to context_p_port_prototype property (CODING_RULE_V2_00017)
         """
@@ -885,13 +885,13 @@ class PModeInSystemInstanceRef(ARObject):
     def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "PModeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
-        
+
         Args:
             value: The contextPPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_p_port_prototype property setter (gets validation automatically)
         """
@@ -901,10 +901,10 @@ class PModeInSystemInstanceRef(ARObject):
     def getTargetMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for targetMode.
-        
+
         Returns:
             The targetMode value
-        
+
         Note:
             Delegates to target_mode property (CODING_RULE_V2_00017)
         """
@@ -913,13 +913,13 @@ class PModeInSystemInstanceRef(ARObject):
     def setTargetMode(self, value: "ModeDeclaration") -> "PModeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_mode property setter (gets validation automatically)
         """
@@ -931,13 +931,13 @@ class PModeInSystemInstanceRef(ARObject):
     def with_base(self, value: Optional["System"]) -> "PModeInSystemInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -947,13 +947,13 @@ class PModeInSystemInstanceRef(ARObject):
     def with_context(self, value: Optional["RootSwComposition"]) -> "PModeInSystemInstanceRef":
         """
         Set context and return self for chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context("value")
         """
@@ -963,13 +963,13 @@ class PModeInSystemInstanceRef(ARObject):
     def with_context_mode_group(self, value: Optional[RefType]) -> "PModeInSystemInstanceRef":
         """
         Set contextModeGroup and return self for chaining.
-        
+
         Args:
             value: The contextModeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_mode_group("value")
         """
@@ -979,13 +979,13 @@ class PModeInSystemInstanceRef(ARObject):
     def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PModeInSystemInstanceRef":
         """
         Set contextPPortPrototype and return self for chaining.
-        
+
         Args:
             value: The contextPPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_p_port_prototype("value")
         """
@@ -995,13 +995,13 @@ class PModeInSystemInstanceRef(ARObject):
     def with_target_mode(self, value: Optional["ModeDeclaration"]) -> "PModeInSystemInstanceRef":
         """
         Set targetMode and return self for chaining.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_mode("value")
         """

@@ -18,9 +18,9 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     and a SystemSignal. The existence of a mapping means that neither the SPN
     nor the SystemSignal need to be updated if the relation between the two
     changes.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticJ1939SpnMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 267, Classic Platform
       R23-11)
@@ -52,10 +52,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def spn(self, value: Optional["DiagnosticJ1939Spn"]) -> None:
         """
         Set spn with validation.
-        
+
         Args:
             value: The spn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def getSendingNode(self) -> List["DiagnosticJ1939Node"]:
         """
         AUTOSAR-compliant getter for sendingNode.
-        
+
         Returns:
             The sendingNode value
-        
+
         Note:
             Delegates to sending_node property (CODING_RULE_V2_00017)
         """
@@ -129,10 +129,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def getSpn(self) -> "DiagnosticJ1939Spn":
         """
         AUTOSAR-compliant getter for spn.
-        
+
         Returns:
             The spn value
-        
+
         Note:
             Delegates to spn property (CODING_RULE_V2_00017)
         """
@@ -141,13 +141,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def setSpn(self, value: "DiagnosticJ1939Spn") -> "DiagnosticJ1939SpnMapping":
         """
         AUTOSAR-compliant setter for spn with method chaining.
-        
+
         Args:
             value: The spn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to spn property setter (gets validation automatically)
         """
@@ -157,10 +157,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -169,13 +169,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def setSystemSignal(self, value: "SystemSignal") -> "DiagnosticJ1939SpnMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -187,13 +187,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def with_spn(self, value: Optional["DiagnosticJ1939Spn"]) -> "DiagnosticJ1939SpnMapping":
         """
         Set spn and return self for chaining.
-        
+
         Args:
             value: The spn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_spn("value")
         """
@@ -203,13 +203,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "DiagnosticJ1939SpnMapping":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """
@@ -223,9 +223,9 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     This meta-class represents the ability to map a piece of application
     software to a J1939DiagnosticNode. By this means the diagnostic
     configuration can be associated with the application software.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticJ1939SwMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 268, Classic Platform
       R23-11)
@@ -246,10 +246,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def node(self, value: Optional["DiagnosticJ1939Node"]) -> None:
         """
         Set node with validation.
-        
+
         Args:
             value: The node to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -273,10 +273,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def sw_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponentCompositionInstanceRef with validation.
-        
+
         Args:
             value: The swComponentCompositionInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -295,10 +295,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def getNode(self) -> "DiagnosticJ1939Node":
         """
         AUTOSAR-compliant getter for node.
-        
+
         Returns:
             The node value
-        
+
         Note:
             Delegates to node property (CODING_RULE_V2_00017)
         """
@@ -307,13 +307,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def setNode(self, value: "DiagnosticJ1939Node") -> "DiagnosticJ1939SwMapping":
         """
         AUTOSAR-compliant setter for node with method chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to node property setter (gets validation automatically)
         """
@@ -323,10 +323,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def getSwComponentCompositionInstanceRef(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponentCompositionInstanceRef.
-        
+
         Returns:
             The swComponentCompositionInstanceRef value
-        
+
         Note:
             Delegates to sw_component_composition_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -335,13 +335,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def setSwComponentCompositionInstanceRef(self, value: "SwComponent") -> "DiagnosticJ1939SwMapping":
         """
         AUTOSAR-compliant setter for swComponentCompositionInstanceRef with method chaining.
-        
+
         Args:
             value: The swComponentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_component_composition_instance_ref property setter (gets validation automatically)
         """
@@ -353,13 +353,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> "DiagnosticJ1939SwMapping":
         """
         Set node and return self for chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_node("value")
         """
@@ -369,13 +369,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def with_sw_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "DiagnosticJ1939SwMapping":
         """
         Set swComponentCompositionInstanceRef and return self for chaining.
-        
+
         Args:
             value: The swComponentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_component_composition_instance_ref("value")
         """
@@ -388,9 +388,9 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     """
     By means of this meta-class it is possible to associate a DiagnosticEvent to
     a DiagnosticTroubleCode J1939.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticEventToTroubleCodeJ1939Mapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 269, Classic Platform
       R23-11)
@@ -411,10 +411,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -439,10 +439,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCode with validation.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -461,10 +461,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -473,13 +473,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -489,10 +489,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def getTroubleCode(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCode.
-        
+
         Returns:
             The troubleCode value
-        
+
         Note:
             Delegates to trouble_code property (CODING_RULE_V2_00017)
         """
@@ -501,13 +501,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def setTroubleCode(self, value: "DiagnosticTroubleCode") -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         AUTOSAR-compliant setter for troubleCode with method chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code property setter (gets validation automatically)
         """
@@ -519,13 +519,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -535,13 +535,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def with_trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         Set troubleCode and return self for chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code("value")
         """

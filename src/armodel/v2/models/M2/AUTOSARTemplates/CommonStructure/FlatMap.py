@@ -25,9 +25,9 @@ class AliasNameSet(ARElement):
     """
     This meta-class represents a set of AliasNames. The AliasNameSet can for
     example be an input to the A2L-Generator.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::AliasNameSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 174, Classic
       Platform R23-11)
@@ -84,10 +84,10 @@ class AliasNameSet(ARElement):
     def getAliasName(self) -> List["AliasNameAssignment"]:
         """
         AUTOSAR-compliant getter for aliasName.
-        
+
         Returns:
             The aliasName value
-        
+
         Note:
             Delegates to alias_name property (CODING_RULE_V2_00017)
         """
@@ -100,9 +100,9 @@ class AliasNameSet(ARElement):
 class AliasNameAssignment(ARObject):
     """
     that flatInstance and identifiable are mutually exclusive.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::AliasNameAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 175, Classic
       Platform R23-11)
@@ -124,10 +124,10 @@ class AliasNameAssignment(ARObject):
     def flat_instance(self, value: Optional["FlatInstanceDescriptor"]) -> None:
         """
         Set flatInstance with validation.
-        
+
         Args:
             value: The flatInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,10 +151,10 @@ class AliasNameAssignment(ARObject):
     def identifiable(self, value: Optional["Identifiable"]) -> None:
         """
         Set identifiable with validation.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -180,10 +180,10 @@ class AliasNameAssignment(ARObject):
     def label(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set label with validation.
-        
+
         Args:
             value: The label to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -209,10 +209,10 @@ class AliasNameAssignment(ARObject):
     def short_label(self, value: Optional["String"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -231,10 +231,10 @@ class AliasNameAssignment(ARObject):
     def getFlatInstance(self) -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant getter for flatInstance.
-        
+
         Returns:
             The flatInstance value
-        
+
         Note:
             Delegates to flat_instance property (CODING_RULE_V2_00017)
         """
@@ -243,13 +243,13 @@ class AliasNameAssignment(ARObject):
     def setFlatInstance(self, value: "FlatInstanceDescriptor") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for flatInstance with method chaining.
-        
+
         Args:
             value: The flatInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flat_instance property setter (gets validation automatically)
         """
@@ -259,10 +259,10 @@ class AliasNameAssignment(ARObject):
     def getIdentifiable(self) -> "Identifiable":
         """
         AUTOSAR-compliant getter for identifiable.
-        
+
         Returns:
             The identifiable value
-        
+
         Note:
             Delegates to identifiable property (CODING_RULE_V2_00017)
         """
@@ -271,13 +271,13 @@ class AliasNameAssignment(ARObject):
     def setIdentifiable(self, value: "Identifiable") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for identifiable with method chaining.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identifiable property setter (gets validation automatically)
         """
@@ -287,10 +287,10 @@ class AliasNameAssignment(ARObject):
     def getLabel(self) -> "MultilanguageLong":
         """
         AUTOSAR-compliant getter for label.
-        
+
         Returns:
             The label value
-        
+
         Note:
             Delegates to label property (CODING_RULE_V2_00017)
         """
@@ -299,13 +299,13 @@ class AliasNameAssignment(ARObject):
     def setLabel(self, value: "MultilanguageLong") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for label with method chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to label property setter (gets validation automatically)
         """
@@ -315,10 +315,10 @@ class AliasNameAssignment(ARObject):
     def getShortLabel(self) -> "String":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -327,13 +327,13 @@ class AliasNameAssignment(ARObject):
     def setShortLabel(self, value: "String") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -345,13 +345,13 @@ class AliasNameAssignment(ARObject):
     def with_flat_instance(self, value: Optional["FlatInstanceDescriptor"]) -> "AliasNameAssignment":
         """
         Set flatInstance and return self for chaining.
-        
+
         Args:
             value: The flatInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flat_instance("value")
         """
@@ -361,13 +361,13 @@ class AliasNameAssignment(ARObject):
     def with_identifiable(self, value: Optional["Identifiable"]) -> "AliasNameAssignment":
         """
         Set identifiable and return self for chaining.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identifiable("value")
         """
@@ -377,13 +377,13 @@ class AliasNameAssignment(ARObject):
     def with_label(self, value: Optional["MultilanguageLong"]) -> "AliasNameAssignment":
         """
         Set label and return self for chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_label("value")
         """
@@ -393,13 +393,13 @@ class AliasNameAssignment(ARObject):
     def with_short_label(self, value: Optional["String"]) -> "AliasNameAssignment":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -412,9 +412,9 @@ class FlatInstanceDescriptor(Identifiable):
     """
     that in addition it is possible to assign alias names via
     AliasNameAssignment.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::FlatInstanceDescriptor
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 316, Classic
       Platform R23-11)
@@ -445,10 +445,10 @@ class FlatInstanceDescriptor(Identifiable):
     def ecu_extract(self, value: Optional["AtpFeature"]) -> None:
         """
         Set ecuExtract with validation.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -477,10 +477,10 @@ class FlatInstanceDescriptor(Identifiable):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -505,10 +505,10 @@ class FlatInstanceDescriptor(Identifiable):
     def rte_plugin_props(self, value: Optional["RtePluginProps"]) -> None:
         """
         Set rtePluginProps with validation.
-        
+
         Args:
             value: The rtePluginProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -533,10 +533,10 @@ class FlatInstanceDescriptor(Identifiable):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -570,10 +570,10 @@ class FlatInstanceDescriptor(Identifiable):
     def upstream(self, value: Optional["AtpFeature"]) -> None:
         """
         Set upstream with validation.
-        
+
         Args:
             value: The upstream to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -592,10 +592,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getEcuExtract(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for ecuExtract.
-        
+
         Returns:
             The ecuExtract value
-        
+
         Note:
             Delegates to ecu_extract property (CODING_RULE_V2_00017)
         """
@@ -604,13 +604,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setEcuExtract(self, value: "AtpFeature") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for ecuExtract with method chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_extract property setter (gets validation automatically)
         """
@@ -620,10 +620,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -632,13 +632,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setRole(self, value: "Identifier") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -648,10 +648,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getRtePluginProps(self) -> "RtePluginProps":
         """
         AUTOSAR-compliant getter for rtePluginProps.
-        
+
         Returns:
             The rtePluginProps value
-        
+
         Note:
             Delegates to rte_plugin_props property (CODING_RULE_V2_00017)
         """
@@ -660,13 +660,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setRtePluginProps(self, value: "RtePluginProps") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for rtePluginProps with method chaining.
-        
+
         Args:
             value: The rtePluginProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rte_plugin_props property setter (gets validation automatically)
         """
@@ -676,10 +676,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -688,13 +688,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setSwDataDef(self, value: "SwDataDefProps") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -704,10 +704,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getUpstream(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for upstream.
-        
+
         Returns:
             The upstream value
-        
+
         Note:
             Delegates to upstream property (CODING_RULE_V2_00017)
         """
@@ -716,13 +716,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setUpstream(self, value: "AtpFeature") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for upstream with method chaining.
-        
+
         Args:
             value: The upstream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upstream property setter (gets validation automatically)
         """
@@ -734,13 +734,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_ecu_extract(self, value: Optional["AtpFeature"]) -> "FlatInstanceDescriptor":
         """
         Set ecuExtract and return self for chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_extract("value")
         """
@@ -750,13 +750,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_role(self, value: Optional["Identifier"]) -> "FlatInstanceDescriptor":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -766,13 +766,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_rte_plugin_props(self, value: Optional["RtePluginProps"]) -> "FlatInstanceDescriptor":
         """
         Set rtePluginProps and return self for chaining.
-        
+
         Args:
             value: The rtePluginProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rte_plugin_props("value")
         """
@@ -782,13 +782,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "FlatInstanceDescriptor":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -798,13 +798,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_upstream(self, value: Optional["AtpFeature"]) -> "FlatInstanceDescriptor":
         """
         Set upstream and return self for chaining.
-        
+
         Args:
             value: The upstream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upstream("value")
         """
@@ -822,9 +822,9 @@ class FlatMap(ARElement):
     used in a preliminary context, e.g. in the scope of a software component
     before integration into a system. In this case it is not referred by a
     RootSwComposition Prototype.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::FlatMap
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 317, Classic
       Platform R23-11)
@@ -857,10 +857,10 @@ class FlatMap(ARElement):
     def getInstance(self) -> List["FlatInstanceDescriptor"]:
         """
         AUTOSAR-compliant getter for instance.
-        
+
         Returns:
             The instance value
-        
+
         Note:
             Delegates to instance property (CODING_RULE_V2_00017)
         """
@@ -874,9 +874,9 @@ class RtePluginProps(ARObject):
     """
     The properties of a communication graph with respect to the utilization of
     RTE Implementation Plug-in.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::RtePluginProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 971, Classic Platform R23-11)
     """
@@ -897,10 +897,10 @@ class RtePluginProps(ARObject):
     def associated(self, value: Optional["EcucContainerValue"]) -> None:
         """
         Set associated with validation.
-        
+
         Args:
             value: The associated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -925,10 +925,10 @@ class RtePluginProps(ARObject):
     def associated_rte(self, value: Optional["EcucContainerValue"]) -> None:
         """
         Set associatedRte with validation.
-        
+
         Args:
             value: The associatedRte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -947,10 +947,10 @@ class RtePluginProps(ARObject):
     def getAssociated(self) -> "EcucContainerValue":
         """
         AUTOSAR-compliant getter for associated.
-        
+
         Returns:
             The associated value
-        
+
         Note:
             Delegates to associated property (CODING_RULE_V2_00017)
         """
@@ -959,13 +959,13 @@ class RtePluginProps(ARObject):
     def setAssociated(self, value: "EcucContainerValue") -> "RtePluginProps":
         """
         AUTOSAR-compliant setter for associated with method chaining.
-        
+
         Args:
             value: The associated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to associated property setter (gets validation automatically)
         """
@@ -975,10 +975,10 @@ class RtePluginProps(ARObject):
     def getAssociatedRte(self) -> "EcucContainerValue":
         """
         AUTOSAR-compliant getter for associatedRte.
-        
+
         Returns:
             The associatedRte value
-        
+
         Note:
             Delegates to associated_rte property (CODING_RULE_V2_00017)
         """
@@ -987,13 +987,13 @@ class RtePluginProps(ARObject):
     def setAssociatedRte(self, value: "EcucContainerValue") -> "RtePluginProps":
         """
         AUTOSAR-compliant setter for associatedRte with method chaining.
-        
+
         Args:
             value: The associatedRte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to associated_rte property setter (gets validation automatically)
         """
@@ -1005,13 +1005,13 @@ class RtePluginProps(ARObject):
     def with_associated(self, value: Optional["EcucContainerValue"]) -> "RtePluginProps":
         """
         Set associated and return self for chaining.
-        
+
         Args:
             value: The associated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_associated("value")
         """
@@ -1021,13 +1021,13 @@ class RtePluginProps(ARObject):
     def with_associated_rte(self, value: Optional["EcucContainerValue"]) -> "RtePluginProps":
         """
         Set associatedRte and return self for chaining.
-        
+
         Args:
             value: The associatedRte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_associated_rte("value")
         """

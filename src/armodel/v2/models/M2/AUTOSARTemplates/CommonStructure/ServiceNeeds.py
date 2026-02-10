@@ -38,9 +38,9 @@ class ServiceDependency(ARObject, ABC):
     well as (optionally) references to additional elements. This information is
     required for tools in order to generate the related basic software
     configuration and ServiceSwComponentTypes.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ServiceDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 225, Classic
       Platform R23-11)
@@ -66,10 +66,10 @@ class ServiceDependency(ARObject, ABC):
     def assigned_data(self, value: Optional["RoleBasedDataType"]) -> None:
         """
         Set assignedData with validation.
-        
+
         Args:
             value: The assignedData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class ServiceDependency(ARObject, ABC):
     def diagnostic(self, value: Optional["ServiceDiagnostic"]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +125,10 @@ class ServiceDependency(ARObject, ABC):
     def symbolic_name(self, value: Optional["SymbolicNameProps"]) -> None:
         """
         Set symbolicName with validation.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -243,10 +243,10 @@ class ServiceDependency(ARObject, ABC):
     def getAssignedData(self) -> "RoleBasedDataType":
         """
         AUTOSAR-compliant getter for assignedData.
-        
+
         Returns:
             The assignedData value
-        
+
         Note:
             Delegates to assigned_data property (CODING_RULE_V2_00017)
         """
@@ -255,13 +255,13 @@ class ServiceDependency(ARObject, ABC):
     def setAssignedData(self, value: "RoleBasedDataType") -> "ServiceDependency":
         """
         AUTOSAR-compliant setter for assignedData with method chaining.
-        
+
         Args:
             value: The assignedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned_data property setter (gets validation automatically)
         """
@@ -271,10 +271,10 @@ class ServiceDependency(ARObject, ABC):
     def getDiagnostic(self) -> "ServiceDiagnostic":
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -283,13 +283,13 @@ class ServiceDependency(ARObject, ABC):
     def setDiagnostic(self, value: "ServiceDiagnostic") -> "ServiceDependency":
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -299,10 +299,10 @@ class ServiceDependency(ARObject, ABC):
     def getSymbolicName(self) -> "SymbolicNameProps":
         """
         AUTOSAR-compliant getter for symbolicName.
-        
+
         Returns:
             The symbolicName value
-        
+
         Note:
             Delegates to symbolic_name property (CODING_RULE_V2_00017)
         """
@@ -311,13 +311,13 @@ class ServiceDependency(ARObject, ABC):
     def setSymbolicName(self, value: "SymbolicNameProps") -> "ServiceDependency":
         """
         AUTOSAR-compliant setter for symbolicName with method chaining.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbolic_name property setter (gets validation automatically)
         """
@@ -329,13 +329,13 @@ class ServiceDependency(ARObject, ABC):
     def with_assigned_data(self, value: Optional["RoleBasedDataType"]) -> "ServiceDependency":
         """
         Set assignedData and return self for chaining.
-        
+
         Args:
             value: The assignedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned_data("value")
         """
@@ -345,13 +345,13 @@ class ServiceDependency(ARObject, ABC):
     def with_diagnostic(self, value: Optional["ServiceDiagnostic"]) -> "ServiceDependency":
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -361,13 +361,13 @@ class ServiceDependency(ARObject, ABC):
     def with_symbolic_name(self, value: Optional["SymbolicNameProps"]) -> "ServiceDependency":
         """
         Set symbolicName and return self for chaining.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbolic_name("value")
         """
@@ -387,9 +387,9 @@ class RoleBasedDataAssignment(ARObject):
     is used in the context of the definition of a specific ServiceNeeds or
     NvBlockDescriptor, so that a tool is able to create the correct access or
     writing strategy.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::RoleBasedDataAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 226, Classic
       Platform R23-11)
@@ -417,10 +417,10 @@ class RoleBasedDataAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -448,10 +448,10 @@ class RoleBasedDataAssignment(ARObject):
     def used_data(self, value: Optional["RefType"]) -> None:
         """
         Set usedData with validation.
-        
+
         Args:
             value: The usedData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -475,10 +475,10 @@ class RoleBasedDataAssignment(ARObject):
     def used_parameter(self, value: Optional["RefType"]) -> None:
         """
         Set usedParameter with validation.
-        
+
         Args:
             value: The usedParameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -500,10 +500,10 @@ class RoleBasedDataAssignment(ARObject):
     def used_pim(self, value: Optional["PerInstanceMemory"]) -> None:
         """
         Set usedPim with validation.
-        
+
         Args:
             value: The usedPim to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -522,10 +522,10 @@ class RoleBasedDataAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -534,13 +534,13 @@ class RoleBasedDataAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -550,10 +550,10 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for usedData.
-        
+
         Returns:
             The usedData value
-        
+
         Note:
             Delegates to used_data property (CODING_RULE_V2_00017)
         """
@@ -562,13 +562,13 @@ class RoleBasedDataAssignment(ARObject):
     def setUsedData(self, value: "RefType") -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for usedData with method chaining.
-        
+
         Args:
             value: The usedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_data property setter (gets validation automatically)
         """
@@ -578,10 +578,10 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedParameter(self) -> "RefType":
         """
         AUTOSAR-compliant getter for usedParameter.
-        
+
         Returns:
             The usedParameter value
-        
+
         Note:
             Delegates to used_parameter property (CODING_RULE_V2_00017)
         """
@@ -590,13 +590,13 @@ class RoleBasedDataAssignment(ARObject):
     def setUsedParameter(self, value: "RefType") -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for usedParameter with method chaining.
-        
+
         Args:
             value: The usedParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_parameter property setter (gets validation automatically)
         """
@@ -606,10 +606,10 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedPim(self) -> "PerInstanceMemory":
         """
         AUTOSAR-compliant getter for usedPim.
-        
+
         Returns:
             The usedPim value
-        
+
         Note:
             Delegates to used_pim property (CODING_RULE_V2_00017)
         """
@@ -618,13 +618,13 @@ class RoleBasedDataAssignment(ARObject):
     def setUsedPim(self, value: "PerInstanceMemory") -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for usedPim with method chaining.
-        
+
         Args:
             value: The usedPim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_pim property setter (gets validation automatically)
         """
@@ -636,13 +636,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedDataAssignment":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -652,13 +652,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_used_data(self, value: Optional[RefType]) -> "RoleBasedDataAssignment":
         """
         Set usedData and return self for chaining.
-        
+
         Args:
             value: The usedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_data("value")
         """
@@ -668,13 +668,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_used_parameter(self, value: Optional[RefType]) -> "RoleBasedDataAssignment":
         """
         Set usedParameter and return self for chaining.
-        
+
         Args:
             value: The usedParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_parameter("value")
         """
@@ -684,13 +684,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_used_pim(self, value: Optional["PerInstanceMemory"]) -> "RoleBasedDataAssignment":
         """
         Set usedPim and return self for chaining.
-        
+
         Args:
             value: The usedPim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_pim("value")
         """
@@ -707,9 +707,9 @@ class ServiceNeeds(Identifiable, ABC):
     Configuration Parameters of the underlying Basic Software. (cid:53) 227 of
     381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic
     Software Module Description Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 227, Classic
       Platform R23-11)
@@ -740,9 +740,9 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
     inherits from Identifiable in order to allow further documentation of the
     expected or implemented debouncing and to use the category for the
     identification of the expected / implemented debouncing.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceAlgorithm
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 259, Classic
       Platform R23-11)
@@ -768,9 +768,9 @@ class TracedFailure(Identifiable, ABC):
     """
     Specifies the ability to report a specific failure to the error tracer. The
     short name specifies the literal applicable for the Default Error Tracer.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::TracedFailure
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic
       Platform R23-11)
@@ -795,10 +795,10 @@ class TracedFailure(Identifiable, ABC):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -817,10 +817,10 @@ class TracedFailure(Identifiable, ABC):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -829,13 +829,13 @@ class TracedFailure(Identifiable, ABC):
     def setId(self, value: "PositiveInteger") -> "TracedFailure":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -847,13 +847,13 @@ class TracedFailure(Identifiable, ABC):
     def with_id(self, value: Optional["PositiveInteger"]) -> "TracedFailure":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -866,9 +866,9 @@ class SymbolicNameProps(ImplementationProps):
     """
     This meta-class can be taken to contribute to the creation of symbolic name
     values.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SymbolicNameProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 610, Classic Platform
       R23-11)
@@ -887,9 +887,9 @@ class SymbolicNameProps(ImplementationProps):
 class NvBlockNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of a single NVRAM Block.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::NvBlockNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 231, Classic
       Platform R23-11)
@@ -912,10 +912,10 @@ class NvBlockNeeds(ServiceNeeds):
     def calc_ram_block(self, value: Optional["Boolean"]) -> None:
         """
         Set calcRamBlock with validation.
-        
+
         Args:
             value: The calcRamBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -939,10 +939,10 @@ class NvBlockNeeds(ServiceNeeds):
     def check_static(self, value: Optional["Boolean"]) -> None:
         """
         Set checkStatic with validation.
-        
+
         Args:
             value: The checkStatic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -967,10 +967,10 @@ class NvBlockNeeds(ServiceNeeds):
     def cyclic_writing(self, value: Optional["TimeValue"]) -> None:
         """
         Set cyclicWriting with validation.
-        
+
         Args:
             value: The cyclicWriting to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -995,10 +995,10 @@ class NvBlockNeeds(ServiceNeeds):
     def n_data_sets(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nDataSets with validation.
-        
+
         Args:
             value: The nDataSets to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1023,10 +1023,10 @@ class NvBlockNeeds(ServiceNeeds):
     def n_rom_blocks(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nRomBlocks with validation.
-        
+
         Args:
             value: The nRomBlocks to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1051,10 +1051,10 @@ class NvBlockNeeds(ServiceNeeds):
     def ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> None:
         """
         Set ramBlockStatus with validation.
-        
+
         Args:
             value: The ramBlockStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1081,10 +1081,10 @@ class NvBlockNeeds(ServiceNeeds):
     def readonly(self, value: Optional["Boolean"]) -> None:
         """
         Set readonly with validation.
-        
+
         Args:
             value: The readonly to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1108,10 +1108,10 @@ class NvBlockNeeds(ServiceNeeds):
     def reliability(self, value: Optional["NvBlockNeeds"]) -> None:
         """
         Set reliability with validation.
-        
+
         Args:
             value: The reliability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1137,10 +1137,10 @@ class NvBlockNeeds(ServiceNeeds):
     def resistant_to(self, value: Optional["Boolean"]) -> None:
         """
         Set resistantTo with validation.
-        
+
         Args:
             value: The resistantTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1165,10 +1165,10 @@ class NvBlockNeeds(ServiceNeeds):
     def restore_at_start(self, value: Optional["Boolean"]) -> None:
         """
         Set restoreAtStart with validation.
-        
+
         Args:
             value: The restoreAtStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1193,10 +1193,10 @@ class NvBlockNeeds(ServiceNeeds):
     def select_block_for(self, value: Optional["Boolean"]) -> None:
         """
         Set selectBlockFor with validation.
-        
+
         Args:
             value: The selectBlockFor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1221,10 +1221,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_at(self, value: Optional["Boolean"]) -> None:
         """
         Set storeAt with validation.
-        
+
         Args:
             value: The storeAt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1249,10 +1249,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_cyclic(self, value: Optional["Boolean"]) -> None:
         """
         Set storeCyclic with validation.
-        
+
         Args:
             value: The storeCyclic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1281,10 +1281,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store(self, value: Optional["Boolean"]) -> None:
         """
         Set store with validation.
-        
+
         Args:
             value: The store to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1309,10 +1309,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_immediate(self, value: Optional["Boolean"]) -> None:
         """
         Set storeImmediate with validation.
-        
+
         Args:
             value: The storeImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1338,10 +1338,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_on_change(self, value: Optional["Boolean"]) -> None:
         """
         Set storeOnChange with validation.
-        
+
         Args:
             value: The storeOnChange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1365,10 +1365,10 @@ class NvBlockNeeds(ServiceNeeds):
     def use_auto(self, value: Optional["Boolean"]) -> None:
         """
         Set useAuto with validation.
-        
+
         Args:
             value: The useAuto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1394,10 +1394,10 @@ class NvBlockNeeds(ServiceNeeds):
     def use_crc_comp(self, value: Optional["Boolean"]) -> None:
         """
         Set useCRCComp with validation.
-        
+
         Args:
             value: The useCRCComp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1424,10 +1424,10 @@ class NvBlockNeeds(ServiceNeeds):
     def write_only_once(self, value: Optional["Boolean"]) -> None:
         """
         Set writeOnlyOnce with validation.
-        
+
         Args:
             value: The writeOnlyOnce to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1451,10 +1451,10 @@ class NvBlockNeeds(ServiceNeeds):
     def write_verification(self, value: Optional["Boolean"]) -> None:
         """
         Set writeVerification with validation.
-        
+
         Args:
             value: The writeVerification to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1479,10 +1479,10 @@ class NvBlockNeeds(ServiceNeeds):
     def writing(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set writing with validation.
-        
+
         Args:
             value: The writing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1507,10 +1507,10 @@ class NvBlockNeeds(ServiceNeeds):
     def writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> None:
         """
         Set writingPriority with validation.
-        
+
         Args:
             value: The writingPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1529,10 +1529,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getCalcRamBlock(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for calcRamBlock.
-        
+
         Returns:
             The calcRamBlock value
-        
+
         Note:
             Delegates to calc_ram_block property (CODING_RULE_V2_00017)
         """
@@ -1541,13 +1541,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setCalcRamBlock(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for calcRamBlock with method chaining.
-        
+
         Args:
             value: The calcRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to calc_ram_block property setter (gets validation automatically)
         """
@@ -1557,10 +1557,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getCheckStatic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for checkStatic.
-        
+
         Returns:
             The checkStatic value
-        
+
         Note:
             Delegates to check_static property (CODING_RULE_V2_00017)
         """
@@ -1569,13 +1569,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setCheckStatic(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for checkStatic with method chaining.
-        
+
         Args:
             value: The checkStatic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to check_static property setter (gets validation automatically)
         """
@@ -1585,10 +1585,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getCyclicWriting(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for cyclicWriting.
-        
+
         Returns:
             The cyclicWriting value
-        
+
         Note:
             Delegates to cyclic_writing property (CODING_RULE_V2_00017)
         """
@@ -1597,13 +1597,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setCyclicWriting(self, value: "TimeValue") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for cyclicWriting with method chaining.
-        
+
         Args:
             value: The cyclicWriting to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cyclic_writing property setter (gets validation automatically)
         """
@@ -1613,10 +1613,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getNDataSets(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nDataSets.
-        
+
         Returns:
             The nDataSets value
-        
+
         Note:
             Delegates to n_data_sets property (CODING_RULE_V2_00017)
         """
@@ -1625,13 +1625,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setNDataSets(self, value: "PositiveInteger") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for nDataSets with method chaining.
-        
+
         Args:
             value: The nDataSets to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to n_data_sets property setter (gets validation automatically)
         """
@@ -1641,10 +1641,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getNRomBlocks(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nRomBlocks.
-        
+
         Returns:
             The nRomBlocks value
-        
+
         Note:
             Delegates to n_rom_blocks property (CODING_RULE_V2_00017)
         """
@@ -1653,13 +1653,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setNRomBlocks(self, value: "PositiveInteger") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for nRomBlocks with method chaining.
-        
+
         Args:
             value: The nRomBlocks to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to n_rom_blocks property setter (gets validation automatically)
         """
@@ -1669,10 +1669,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getRamBlockStatus(self) -> "RamBlockStatusControl":
         """
         AUTOSAR-compliant getter for ramBlockStatus.
-        
+
         Returns:
             The ramBlockStatus value
-        
+
         Note:
             Delegates to ram_block_status property (CODING_RULE_V2_00017)
         """
@@ -1681,13 +1681,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setRamBlockStatus(self, value: "RamBlockStatusControl") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for ramBlockStatus with method chaining.
-        
+
         Args:
             value: The ramBlockStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ram_block_status property setter (gets validation automatically)
         """
@@ -1697,10 +1697,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getReadonly(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for readonly.
-        
+
         Returns:
             The readonly value
-        
+
         Note:
             Delegates to readonly property (CODING_RULE_V2_00017)
         """
@@ -1709,13 +1709,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setReadonly(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for readonly with method chaining.
-        
+
         Args:
             value: The readonly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to readonly property setter (gets validation automatically)
         """
@@ -1725,10 +1725,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getReliability(self) -> "NvBlockNeeds":
         """
         AUTOSAR-compliant getter for reliability.
-        
+
         Returns:
             The reliability value
-        
+
         Note:
             Delegates to reliability property (CODING_RULE_V2_00017)
         """
@@ -1737,13 +1737,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setReliability(self, value: "NvBlockNeeds") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for reliability with method chaining.
-        
+
         Args:
             value: The reliability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reliability property setter (gets validation automatically)
         """
@@ -1753,10 +1753,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getResistantTo(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for resistantTo.
-        
+
         Returns:
             The resistantTo value
-        
+
         Note:
             Delegates to resistant_to property (CODING_RULE_V2_00017)
         """
@@ -1765,13 +1765,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setResistantTo(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for resistantTo with method chaining.
-        
+
         Args:
             value: The resistantTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resistant_to property setter (gets validation automatically)
         """
@@ -1781,10 +1781,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getRestoreAtStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for restoreAtStart.
-        
+
         Returns:
             The restoreAtStart value
-        
+
         Note:
             Delegates to restore_at_start property (CODING_RULE_V2_00017)
         """
@@ -1793,13 +1793,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setRestoreAtStart(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for restoreAtStart with method chaining.
-        
+
         Args:
             value: The restoreAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to restore_at_start property setter (gets validation automatically)
         """
@@ -1809,10 +1809,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getSelectBlockFor(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for selectBlockFor.
-        
+
         Returns:
             The selectBlockFor value
-        
+
         Note:
             Delegates to select_block_for property (CODING_RULE_V2_00017)
         """
@@ -1821,13 +1821,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setSelectBlockFor(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for selectBlockFor with method chaining.
-        
+
         Args:
             value: The selectBlockFor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to select_block_for property setter (gets validation automatically)
         """
@@ -1837,10 +1837,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreAt(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeAt.
-        
+
         Returns:
             The storeAt value
-        
+
         Note:
             Delegates to store_at property (CODING_RULE_V2_00017)
         """
@@ -1849,13 +1849,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreAt(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeAt with method chaining.
-        
+
         Args:
             value: The storeAt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_at property setter (gets validation automatically)
         """
@@ -1865,10 +1865,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreCyclic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeCyclic.
-        
+
         Returns:
             The storeCyclic value
-        
+
         Note:
             Delegates to store_cyclic property (CODING_RULE_V2_00017)
         """
@@ -1877,13 +1877,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreCyclic(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeCyclic with method chaining.
-        
+
         Args:
             value: The storeCyclic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_cyclic property setter (gets validation automatically)
         """
@@ -1893,10 +1893,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStore(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for store.
-        
+
         Returns:
             The store value
-        
+
         Note:
             Delegates to store property (CODING_RULE_V2_00017)
         """
@@ -1905,13 +1905,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStore(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for store with method chaining.
-        
+
         Args:
             value: The store to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store property setter (gets validation automatically)
         """
@@ -1921,10 +1921,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreImmediate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeImmediate.
-        
+
         Returns:
             The storeImmediate value
-        
+
         Note:
             Delegates to store_immediate property (CODING_RULE_V2_00017)
         """
@@ -1933,13 +1933,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreImmediate(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeImmediate with method chaining.
-        
+
         Args:
             value: The storeImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_immediate property setter (gets validation automatically)
         """
@@ -1949,10 +1949,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreOnChange(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeOnChange.
-        
+
         Returns:
             The storeOnChange value
-        
+
         Note:
             Delegates to store_on_change property (CODING_RULE_V2_00017)
         """
@@ -1961,13 +1961,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreOnChange(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeOnChange with method chaining.
-        
+
         Args:
             value: The storeOnChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_on_change property setter (gets validation automatically)
         """
@@ -1977,10 +1977,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getUseAuto(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useAuto.
-        
+
         Returns:
             The useAuto value
-        
+
         Note:
             Delegates to use_auto property (CODING_RULE_V2_00017)
         """
@@ -1989,13 +1989,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setUseAuto(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for useAuto with method chaining.
-        
+
         Args:
             value: The useAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_auto property setter (gets validation automatically)
         """
@@ -2005,10 +2005,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getUseCRCComp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useCRCComp.
-        
+
         Returns:
             The useCRCComp value
-        
+
         Note:
             Delegates to use_crc_comp property (CODING_RULE_V2_00017)
         """
@@ -2017,13 +2017,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setUseCRCComp(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for useCRCComp with method chaining.
-        
+
         Args:
             value: The useCRCComp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_crc_comp property setter (gets validation automatically)
         """
@@ -2033,10 +2033,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWriteOnlyOnce(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for writeOnlyOnce.
-        
+
         Returns:
             The writeOnlyOnce value
-        
+
         Note:
             Delegates to write_only_once property (CODING_RULE_V2_00017)
         """
@@ -2045,13 +2045,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWriteOnlyOnce(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writeOnlyOnce with method chaining.
-        
+
         Args:
             value: The writeOnlyOnce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to write_only_once property setter (gets validation automatically)
         """
@@ -2061,10 +2061,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWriteVerification(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for writeVerification.
-        
+
         Returns:
             The writeVerification value
-        
+
         Note:
             Delegates to write_verification property (CODING_RULE_V2_00017)
         """
@@ -2073,13 +2073,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWriteVerification(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writeVerification with method chaining.
-        
+
         Args:
             value: The writeVerification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to write_verification property setter (gets validation automatically)
         """
@@ -2089,10 +2089,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWriting(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for writing.
-        
+
         Returns:
             The writing value
-        
+
         Note:
             Delegates to writing property (CODING_RULE_V2_00017)
         """
@@ -2101,13 +2101,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWriting(self, value: "PositiveInteger") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writing with method chaining.
-        
+
         Args:
             value: The writing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to writing property setter (gets validation automatically)
         """
@@ -2117,10 +2117,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWritingPriority(self) -> "NvBlockNeedsWriting":
         """
         AUTOSAR-compliant getter for writingPriority.
-        
+
         Returns:
             The writingPriority value
-        
+
         Note:
             Delegates to writing_priority property (CODING_RULE_V2_00017)
         """
@@ -2129,13 +2129,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWritingPriority(self, value: "NvBlockNeedsWriting") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writingPriority with method chaining.
-        
+
         Args:
             value: The writingPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to writing_priority property setter (gets validation automatically)
         """
@@ -2147,13 +2147,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_calc_ram_block(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set calcRamBlock and return self for chaining.
-        
+
         Args:
             value: The calcRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_calc_ram_block("value")
         """
@@ -2163,13 +2163,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_check_static(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set checkStatic and return self for chaining.
-        
+
         Args:
             value: The checkStatic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_check_static("value")
         """
@@ -2179,13 +2179,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_cyclic_writing(self, value: Optional["TimeValue"]) -> "NvBlockNeeds":
         """
         Set cyclicWriting and return self for chaining.
-        
+
         Args:
             value: The cyclicWriting to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cyclic_writing("value")
         """
@@ -2195,13 +2195,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_n_data_sets(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
         """
         Set nDataSets and return self for chaining.
-        
+
         Args:
             value: The nDataSets to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_n_data_sets("value")
         """
@@ -2211,13 +2211,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_n_rom_blocks(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
         """
         Set nRomBlocks and return self for chaining.
-        
+
         Args:
             value: The nRomBlocks to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_n_rom_blocks("value")
         """
@@ -2227,13 +2227,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> "NvBlockNeeds":
         """
         Set ramBlockStatus and return self for chaining.
-        
+
         Args:
             value: The ramBlockStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ram_block_status("value")
         """
@@ -2243,13 +2243,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_readonly(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set readonly and return self for chaining.
-        
+
         Args:
             value: The readonly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_readonly("value")
         """
@@ -2259,13 +2259,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_reliability(self, value: Optional["NvBlockNeeds"]) -> "NvBlockNeeds":
         """
         Set reliability and return self for chaining.
-        
+
         Args:
             value: The reliability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reliability("value")
         """
@@ -2275,13 +2275,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_resistant_to(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set resistantTo and return self for chaining.
-        
+
         Args:
             value: The resistantTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resistant_to("value")
         """
@@ -2291,13 +2291,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_restore_at_start(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set restoreAtStart and return self for chaining.
-        
+
         Args:
             value: The restoreAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_restore_at_start("value")
         """
@@ -2307,13 +2307,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_select_block_for(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set selectBlockFor and return self for chaining.
-        
+
         Args:
             value: The selectBlockFor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_select_block_for("value")
         """
@@ -2323,13 +2323,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_at(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeAt and return self for chaining.
-        
+
         Args:
             value: The storeAt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_at("value")
         """
@@ -2339,13 +2339,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_cyclic(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeCyclic and return self for chaining.
-        
+
         Args:
             value: The storeCyclic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_cyclic("value")
         """
@@ -2355,13 +2355,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set store and return self for chaining.
-        
+
         Args:
             value: The store to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store("value")
         """
@@ -2371,13 +2371,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_immediate(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeImmediate and return self for chaining.
-        
+
         Args:
             value: The storeImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_immediate("value")
         """
@@ -2387,13 +2387,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_on_change(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeOnChange and return self for chaining.
-        
+
         Args:
             value: The storeOnChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_on_change("value")
         """
@@ -2403,13 +2403,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_use_auto(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set useAuto and return self for chaining.
-        
+
         Args:
             value: The useAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_auto("value")
         """
@@ -2419,13 +2419,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_use_crc_comp(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set useCRCComp and return self for chaining.
-        
+
         Args:
             value: The useCRCComp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_crc_comp("value")
         """
@@ -2435,13 +2435,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_write_only_once(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set writeOnlyOnce and return self for chaining.
-        
+
         Args:
             value: The writeOnlyOnce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_write_only_once("value")
         """
@@ -2451,13 +2451,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_write_verification(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set writeVerification and return self for chaining.
-        
+
         Args:
             value: The writeVerification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_write_verification("value")
         """
@@ -2467,13 +2467,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_writing(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
         """
         Set writing and return self for chaining.
-        
+
         Args:
             value: The writing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_writing("value")
         """
@@ -2483,13 +2483,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> "NvBlockNeeds":
         """
         Set writingPriority and return self for chaining.
-        
+
         Args:
             value: The writingPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_writing_priority("value")
         """
@@ -2504,9 +2504,9 @@ class SupervisedEntityNeeds(ServiceNeeds):
     time for ECU configuration. Table 12.12: SupervisedEntityNeeds 234 of 381
     Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software
     Module Description Template AUTOSAR CP R23-11
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SupervisedEntityNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 234, Classic
       Platform R23-11)
@@ -2530,10 +2530,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def activate_at_start(self, value: Optional["Boolean"]) -> None:
         """
         Set activateAtStart with validation.
-        
+
         Args:
             value: The activateAtStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2566,10 +2566,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def enable(self, value: Optional["Boolean"]) -> None:
         """
         Set enable with validation.
-        
+
         Args:
             value: The enable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2593,10 +2593,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def expected_alive(self, value: Optional["TimeValue"]) -> None:
         """
         Set expectedAlive with validation.
-        
+
         Args:
             value: The expectedAlive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2620,10 +2620,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def max_alive_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxAliveCycle with validation.
-        
+
         Args:
             value: The maxAliveCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2647,10 +2647,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def min_alive_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set minAliveCycle with validation.
-        
+
         Args:
             value: The minAliveCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2675,10 +2675,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def tolerated_failed(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set toleratedFailed with validation.
-        
+
         Args:
             value: The toleratedFailed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2697,10 +2697,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getActivateAtStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for activateAtStart.
-        
+
         Returns:
             The activateAtStart value
-        
+
         Note:
             Delegates to activate_at_start property (CODING_RULE_V2_00017)
         """
@@ -2709,13 +2709,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setActivateAtStart(self, value: "Boolean") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for activateAtStart with method chaining.
-        
+
         Args:
             value: The activateAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to activate_at_start property setter (gets validation automatically)
         """
@@ -2725,10 +2725,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getCheckpoints(self) -> List["SupervisedEntity"]:
         """
         AUTOSAR-compliant getter for checkpoints.
-        
+
         Returns:
             The checkpoints value
-        
+
         Note:
             Delegates to checkpoints property (CODING_RULE_V2_00017)
         """
@@ -2737,10 +2737,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getEnable(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enable.
-        
+
         Returns:
             The enable value
-        
+
         Note:
             Delegates to enable property (CODING_RULE_V2_00017)
         """
@@ -2749,13 +2749,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setEnable(self, value: "Boolean") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for enable with method chaining.
-        
+
         Args:
             value: The enable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable property setter (gets validation automatically)
         """
@@ -2765,10 +2765,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getExpectedAlive(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for expectedAlive.
-        
+
         Returns:
             The expectedAlive value
-        
+
         Note:
             Delegates to expected_alive property (CODING_RULE_V2_00017)
         """
@@ -2777,13 +2777,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setExpectedAlive(self, value: "TimeValue") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for expectedAlive with method chaining.
-        
+
         Args:
             value: The expectedAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to expected_alive property setter (gets validation automatically)
         """
@@ -2793,10 +2793,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getMaxAliveCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxAliveCycle.
-        
+
         Returns:
             The maxAliveCycle value
-        
+
         Note:
             Delegates to max_alive_cycle property (CODING_RULE_V2_00017)
         """
@@ -2805,13 +2805,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setMaxAliveCycle(self, value: "TimeValue") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for maxAliveCycle with method chaining.
-        
+
         Args:
             value: The maxAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_alive_cycle property setter (gets validation automatically)
         """
@@ -2821,10 +2821,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getMinAliveCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minAliveCycle.
-        
+
         Returns:
             The minAliveCycle value
-        
+
         Note:
             Delegates to min_alive_cycle property (CODING_RULE_V2_00017)
         """
@@ -2833,13 +2833,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setMinAliveCycle(self, value: "TimeValue") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for minAliveCycle with method chaining.
-        
+
         Args:
             value: The minAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_alive_cycle property setter (gets validation automatically)
         """
@@ -2849,10 +2849,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getToleratedFailed(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for toleratedFailed.
-        
+
         Returns:
             The toleratedFailed value
-        
+
         Note:
             Delegates to tolerated_failed property (CODING_RULE_V2_00017)
         """
@@ -2861,13 +2861,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setToleratedFailed(self, value: "PositiveInteger") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for toleratedFailed with method chaining.
-        
+
         Args:
             value: The toleratedFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tolerated_failed property setter (gets validation automatically)
         """
@@ -2879,13 +2879,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_activate_at_start(self, value: Optional["Boolean"]) -> "SupervisedEntityNeeds":
         """
         Set activateAtStart and return self for chaining.
-        
+
         Args:
             value: The activateAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_activate_at_start("value")
         """
@@ -2895,13 +2895,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_enable(self, value: Optional["Boolean"]) -> "SupervisedEntityNeeds":
         """
         Set enable and return self for chaining.
-        
+
         Args:
             value: The enable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable("value")
         """
@@ -2911,13 +2911,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_expected_alive(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
         """
         Set expectedAlive and return self for chaining.
-        
+
         Args:
             value: The expectedAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_expected_alive("value")
         """
@@ -2927,13 +2927,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_max_alive_cycle(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
         """
         Set maxAliveCycle and return self for chaining.
-        
+
         Args:
             value: The maxAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_alive_cycle("value")
         """
@@ -2943,13 +2943,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_min_alive_cycle(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
         """
         Set minAliveCycle and return self for chaining.
-        
+
         Args:
             value: The minAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_alive_cycle("value")
         """
@@ -2959,13 +2959,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_tolerated_failed(self, value: Optional["PositiveInteger"]) -> "SupervisedEntityNeeds":
         """
         Set toleratedFailed and return self for chaining.
-        
+
         Args:
             value: The toleratedFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tolerated_failed("value")
         """
@@ -2978,9 +2978,9 @@ class ComMgrUserNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Communication
     Manager for one "user".
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ComMgrUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic
       Platform R23-11)
@@ -3003,10 +3003,10 @@ class ComMgrUserNeeds(ServiceNeeds):
     def max_comm(self, value: Optional["MaxCommModeEnum"]) -> None:
         """
         Set maxComm with validation.
-        
+
         Args:
             value: The maxComm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3025,10 +3025,10 @@ class ComMgrUserNeeds(ServiceNeeds):
     def getMaxComm(self) -> "MaxCommModeEnum":
         """
         AUTOSAR-compliant getter for maxComm.
-        
+
         Returns:
             The maxComm value
-        
+
         Note:
             Delegates to max_comm property (CODING_RULE_V2_00017)
         """
@@ -3037,13 +3037,13 @@ class ComMgrUserNeeds(ServiceNeeds):
     def setMaxComm(self, value: "MaxCommModeEnum") -> "ComMgrUserNeeds":
         """
         AUTOSAR-compliant setter for maxComm with method chaining.
-        
+
         Args:
             value: The maxComm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_comm property setter (gets validation automatically)
         """
@@ -3055,13 +3055,13 @@ class ComMgrUserNeeds(ServiceNeeds):
     def with_max_comm(self, value: Optional["MaxCommModeEnum"]) -> "ComMgrUserNeeds":
         """
         Set maxComm and return self for chaining.
-        
+
         Args:
             value: The maxComm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_comm("value")
         """
@@ -3076,9 +3076,9 @@ class EcuStateMgrUserNeeds(ServiceNeeds):
     for one "user". This class currently contains no attributes. Its name can be
     regarded as a symbol identifying the user from the viewpoint of the
     component or module which owns this class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::EcuStateMgrUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic
       Platform R23-11)
@@ -3102,9 +3102,9 @@ class CryptoServiceNeeds(ServiceNeeds):
     ConfigID (see Specification AUTOSAR_SWS_CSM.doc). An instance of this class
     is used to find out which ports of a software-component belong to this
     ConfigID.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::CryptoServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic
       Platform R23-11)
@@ -3129,10 +3129,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def algorithm_family(self, value: Optional["String"]) -> None:
         """
         Set algorithmFamily with validation.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3156,10 +3156,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def algorithm_mode(self, value: Optional["String"]) -> None:
         """
         Set algorithmMode with validation.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3184,10 +3184,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def crypto_key(self, value: Optional["String"]) -> None:
         """
         Set cryptoKey with validation.
-        
+
         Args:
             value: The cryptoKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3212,10 +3212,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def maximum_key(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximumKey with validation.
-        
+
         Args:
             value: The maximumKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3234,10 +3234,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getAlgorithmFamily(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithmFamily.
-        
+
         Returns:
             The algorithmFamily value
-        
+
         Note:
             Delegates to algorithm_family property (CODING_RULE_V2_00017)
         """
@@ -3246,13 +3246,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setAlgorithmFamily(self, value: "String") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for algorithmFamily with method chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_family property setter (gets validation automatically)
         """
@@ -3262,10 +3262,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getAlgorithmMode(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithmMode.
-        
+
         Returns:
             The algorithmMode value
-        
+
         Note:
             Delegates to algorithm_mode property (CODING_RULE_V2_00017)
         """
@@ -3274,13 +3274,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setAlgorithmMode(self, value: "String") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for algorithmMode with method chaining.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_mode property setter (gets validation automatically)
         """
@@ -3290,10 +3290,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getCryptoKey(self) -> "String":
         """
         AUTOSAR-compliant getter for cryptoKey.
-        
+
         Returns:
             The cryptoKey value
-        
+
         Note:
             Delegates to crypto_key property (CODING_RULE_V2_00017)
         """
@@ -3302,13 +3302,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setCryptoKey(self, value: "String") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for cryptoKey with method chaining.
-        
+
         Args:
             value: The cryptoKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_key property setter (gets validation automatically)
         """
@@ -3318,10 +3318,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getMaximumKey(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximumKey.
-        
+
         Returns:
             The maximumKey value
-        
+
         Note:
             Delegates to maximum_key property (CODING_RULE_V2_00017)
         """
@@ -3330,13 +3330,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setMaximumKey(self, value: "PositiveInteger") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for maximumKey with method chaining.
-        
+
         Args:
             value: The maximumKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum_key property setter (gets validation automatically)
         """
@@ -3348,13 +3348,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_algorithm_family(self, value: Optional["String"]) -> "CryptoServiceNeeds":
         """
         Set algorithmFamily and return self for chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_family("value")
         """
@@ -3364,13 +3364,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_algorithm_mode(self, value: Optional["String"]) -> "CryptoServiceNeeds":
         """
         Set algorithmMode and return self for chaining.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_mode("value")
         """
@@ -3380,13 +3380,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_crypto_key(self, value: Optional["String"]) -> "CryptoServiceNeeds":
         """
         Set cryptoKey and return self for chaining.
-        
+
         Args:
             value: The cryptoKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_key("value")
         """
@@ -3396,13 +3396,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_maximum_key(self, value: Optional["PositiveInteger"]) -> "CryptoServiceNeeds":
         """
         Set maximumKey and return self for chaining.
-        
+
         Args:
             value: The maximumKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum_key("value")
         """
@@ -3420,9 +3420,9 @@ class DltUserNeeds(ServiceNeeds):
     to group the request and response PortPrototypes of the same SessionId. The
     actual SessionId value is stored in the PortDefinedArgumentValue of the
     respective PortPrototype specification.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DltUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic
       Platform R23-11)
@@ -3448,9 +3448,9 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     software-component belong to this time-base in order to group the request
     and response ports of the same time-base. The actual time-base value is
     stored in the PortDefinedArgumentValue of the respective port specification.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SyncTimeBaseMgrUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic
       Platform R23-11)
@@ -3474,9 +3474,9 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     attribute might become obsolete. (cid:53) 236 of 381 Document ID 89:
     AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module
     Description Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticCapabilityElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic
       Platform R23-11)
@@ -3509,10 +3509,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def diag(self, value: Optional["DiagRequirementId"]) -> None:
         """
         Set diag with validation.
-        
+
         Args:
             value: The diag to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3539,10 +3539,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def security_access(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set securityAccess with validation.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3561,10 +3561,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getAudience(self) -> List["DiagnosticAudience"]:
         """
         AUTOSAR-compliant getter for audience.
-        
+
         Returns:
             The audience value
-        
+
         Note:
             Delegates to audience property (CODING_RULE_V2_00017)
         """
@@ -3573,10 +3573,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getDiag(self) -> "DiagRequirementId":
         """
         AUTOSAR-compliant getter for diag.
-        
+
         Returns:
             The diag value
-        
+
         Note:
             Delegates to diag property (CODING_RULE_V2_00017)
         """
@@ -3585,13 +3585,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def setDiag(self, value: "DiagRequirementId") -> "DiagnosticCapabilityElement":
         """
         AUTOSAR-compliant setter for diag with method chaining.
-        
+
         Args:
             value: The diag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag property setter (gets validation automatically)
         """
@@ -3601,10 +3601,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getSecurityAccess(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for securityAccess.
-        
+
         Returns:
             The securityAccess value
-        
+
         Note:
             Delegates to security_access property (CODING_RULE_V2_00017)
         """
@@ -3613,13 +3613,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def setSecurityAccess(self, value: "PositiveInteger") -> "DiagnosticCapabilityElement":
         """
         AUTOSAR-compliant setter for securityAccess with method chaining.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_access property setter (gets validation automatically)
         """
@@ -3631,13 +3631,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def with_diag(self, value: Optional["DiagRequirementId"]) -> "DiagnosticCapabilityElement":
         """
         Set diag and return self for chaining.
-        
+
         Args:
             value: The diag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag("value")
         """
@@ -3647,13 +3647,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def with_security_access(self, value: Optional["PositiveInteger"]) -> "DiagnosticCapabilityElement":
         """
         Set securityAccess and return self for chaining.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_access("value")
         """
@@ -3668,9 +3668,9 @@ class FunctionInhibitionNeeds(ServiceNeeds):
     Manager for one Function Identifier (FID). This class currently contains no
     attributes. Its name can be regarded as a symbol identifying the FID from
     the viewpoint of the component or module which owns this class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FunctionInhibitionNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 237, Classic
       Platform R23-11)
@@ -3693,9 +3693,9 @@ class FunctionInhibitionNeeds(ServiceNeeds):
 class DoIpServiceNeeds(ServiceNeeds, ABC):
     """
     This represents an abstract base class for ServiceNeeds related to DoIP.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 237, Classic
       Platform R23-11)
@@ -3720,9 +3720,9 @@ class SupervisedEntityCheckpointNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Watchdog Manager to
     support a Checkpoint for a Supervised Entity.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SupervisedEntityCheckpointNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 254, Classic
       Platform R23-11)
@@ -3743,9 +3743,9 @@ class SupervisedEntityCheckpointNeeds(ServiceNeeds):
 class ErrorTracerNeeds(ServiceNeeds):
     """
     Specifies the need to report failures to the error tracer.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ErrorTracerNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic
       Platform R23-11)
@@ -3769,10 +3769,10 @@ class ErrorTracerNeeds(ServiceNeeds):
     def getTracedFailure(self) -> List["TracedFailure"]:
         """
         AUTOSAR-compliant getter for tracedFailure.
-        
+
         Returns:
             The tracedFailure value
-        
+
         Note:
             Delegates to traced_failure property (CODING_RULE_V2_00017)
         """
@@ -3787,9 +3787,9 @@ class HardwareTestNeeds(ServiceNeeds):
     This meta-class represents the ability to indicate that a software-component
     is interested in the results of the hardware test and will establish a
     PortPrototype to query the hardware test manager.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::HardwareTestNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 264, Classic
       Platform R23-11)
@@ -3811,9 +3811,9 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Function Inhibition
     Manager to provide the control function for one Function Identifier (FID).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FunctionInhibitionAvailabilityNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 318, Classic
       Platform R23-11)
@@ -3836,10 +3836,10 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def controlled_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
         """
         Set controlledFid with validation.
-        
+
         Args:
             value: The controlledFid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3858,10 +3858,10 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def getControlledFid(self) -> "FunctionInhibitionNeeds":
         """
         AUTOSAR-compliant getter for controlledFid.
-        
+
         Returns:
             The controlledFid value
-        
+
         Note:
             Delegates to controlled_fid property (CODING_RULE_V2_00017)
         """
@@ -3870,13 +3870,13 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def setControlledFid(self, value: "FunctionInhibitionNeeds") -> "FunctionInhibitionAvailabilityNeeds":
         """
         AUTOSAR-compliant setter for controlledFid with method chaining.
-        
+
         Args:
             value: The controlledFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to controlled_fid property setter (gets validation automatically)
         """
@@ -3888,13 +3888,13 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def with_controlled_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "FunctionInhibitionAvailabilityNeeds":
         """
         Set controlledFid and return self for chaining.
-        
+
         Args:
             value: The controlledFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_controlled_fid("value")
         """
@@ -3907,9 +3907,9 @@ class GlobalSupervisionNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Watchdog Manager to
     get access on the Global Supervision control and status interface.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::GlobalSupervisionNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 318, Classic
       Platform R23-11)
@@ -3930,9 +3930,9 @@ class GlobalSupervisionNeeds(ServiceNeeds):
 class VendorSpecificServiceNeeds(ServiceNeeds):
     """
     This represents the ability to define vendor-specific service needs.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::VendorSpecificServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 603, Classic Platform
       R23-11)
@@ -3952,9 +3952,9 @@ class BswMgrNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Basic Software
     Manager for one "user".
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::BswMgrNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 716, Classic Platform
       R23-11)
@@ -3974,9 +3974,9 @@ class CryptoServiceJobNeeds(ServiceNeeds):
     """
     This meta-class shall be taken to indicate that the service use case modeled
     with this kind of Service Needs assumes the usage of the crypto job API.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::CryptoServiceJobNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 733, Classic Platform
       R23-11)
@@ -3996,9 +3996,9 @@ class CryptoKeyManagementNeeds(ServiceNeeds):
     """
     This meta-class can be used to indicate a service use case for key
     management.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::CryptoKeyManagementNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 745, Classic Platform
       R23-11)
@@ -4018,9 +4018,9 @@ class IndicatorStatusNeeds(ServiceNeeds):
     """
     This meta-class shall be taken to signal a service use case that affects the
     indicator status.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::IndicatorStatusNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 766, Classic Platform
       R23-11)
@@ -4041,10 +4041,10 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> None:
         """
         Set typeEnum with validation.
-        
+
         Args:
             value: The typeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4063,10 +4063,10 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def getTypeEnum(self) -> "DiagnosticIndicatorType":
         """
         AUTOSAR-compliant getter for typeEnum.
-        
+
         Returns:
             The typeEnum value
-        
+
         Note:
             Delegates to type_enum property (CODING_RULE_V2_00017)
         """
@@ -4075,13 +4075,13 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def setTypeEnum(self, value: "DiagnosticIndicatorType") -> "IndicatorStatusNeeds":
         """
         AUTOSAR-compliant setter for typeEnum with method chaining.
-        
+
         Args:
             value: The typeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_enum property setter (gets validation automatically)
         """
@@ -4093,13 +4093,13 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def with_type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> "IndicatorStatusNeeds":
         """
         Set typeEnum and return self for chaining.
-        
+
         Args:
             value: The typeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_enum("value")
         """
@@ -4115,9 +4115,9 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     is used to find out which ports of a software-component deal with the
     administration of secure communication in order to group the request and
     response ports.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SecureOnBoardCommunicationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 824, Classic Platform
       R23-11)
@@ -4139,10 +4139,10 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def verification(self, value: Optional["VerificationStatus"]) -> None:
         """
         Set verification with validation.
-        
+
         Args:
             value: The verification to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4161,10 +4161,10 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def getVerification(self) -> "VerificationStatus":
         """
         AUTOSAR-compliant getter for verification.
-        
+
         Returns:
             The verification value
-        
+
         Note:
             Delegates to verification property (CODING_RULE_V2_00017)
         """
@@ -4173,13 +4173,13 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def setVerification(self, value: "VerificationStatus") -> "SecureOnBoardCommunicationNeeds":
         """
         AUTOSAR-compliant setter for verification with method chaining.
-        
+
         Args:
             value: The verification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to verification property setter (gets validation automatically)
         """
@@ -4191,13 +4191,13 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def with_verification(self, value: Optional["VerificationStatus"]) -> "SecureOnBoardCommunicationNeeds":
         """
         Set verification and return self for chaining.
-        
+
         Args:
             value: The verification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_verification("value")
         """
@@ -4211,9 +4211,9 @@ class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     This meta-class shall be used to specify needs with respect to the
     configuration of the J1939Rm, in particular for the case where an
     ApplicationSwComponentType needs to send a request to another J1939 node.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::J1939RmOutgoingRequestServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 829, Classic Platform
       R23-11)
@@ -4235,9 +4235,9 @@ class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     configuration of the J1939Rm, in particular for the case where an
     ApplicationSwComponentType needs to accept a request from another J1939
     node.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::J1939RmIncomingRequestServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 829, Classic Platform
       R23-11)
@@ -4257,9 +4257,9 @@ class J1939DcmDm19Support(ServiceNeeds):
     """
     The software-component provides information about calibration verification
     numbers for inclusion in DM19
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::J1939DcmDm19Support
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 831, Classic Platform
       R23-11)
@@ -4279,9 +4279,9 @@ class V2xFacUserNeeds(ServiceNeeds):
     """
     This meta-class represents the ability to define service needs for V2x
     facilities.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::V2xFacUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 834, Classic Platform
       R23-11)
@@ -4301,9 +4301,9 @@ class V2xMUserNeeds(ServiceNeeds):
     """
     This meta-class represents the ability to express service needs for the V2x
     management.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::V2xMUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 835, Classic Platform
       R23-11)
@@ -4323,9 +4323,9 @@ class V2xDataManagerNeeds(ServiceNeeds):
     """
     This meta-class represents the ability to define service needs for V2x Data
     Manager.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::V2xDataManagerNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 840, Classic Platform
       R23-11)
@@ -4345,9 +4345,9 @@ class IdsMgrNeeds(ServiceNeeds):
     """
     This meta-class is used to indicate that the enclosing SwcServiceDependency
     represents a service use case for the Intrusion Detection System Manager.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::IdsMgrNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 842, Classic Platform
       R23-11)
@@ -4369,10 +4369,10 @@ class IdsMgrNeeds(ServiceNeeds):
     def use_smart(self, value: Optional["Boolean"]) -> None:
         """
         Set useSmart with validation.
-        
+
         Args:
             value: The useSmart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4391,10 +4391,10 @@ class IdsMgrNeeds(ServiceNeeds):
     def getUseSmart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useSmart.
-        
+
         Returns:
             The useSmart value
-        
+
         Note:
             Delegates to use_smart property (CODING_RULE_V2_00017)
         """
@@ -4403,13 +4403,13 @@ class IdsMgrNeeds(ServiceNeeds):
     def setUseSmart(self, value: "Boolean") -> "IdsMgrNeeds":
         """
         AUTOSAR-compliant setter for useSmart with method chaining.
-        
+
         Args:
             value: The useSmart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_smart property setter (gets validation automatically)
         """
@@ -4421,13 +4421,13 @@ class IdsMgrNeeds(ServiceNeeds):
     def with_use_smart(self, value: Optional["Boolean"]) -> "IdsMgrNeeds":
         """
         Set useSmart and return self for chaining.
-        
+
         Args:
             value: The useSmart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_smart("value")
         """
@@ -4441,9 +4441,9 @@ class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     This meta-class is used to indicate that the enclosing SwcServiceDependency
     represents a service use case for the retrieval of a custom timestamp by the
     Intrusion Detection System Manager.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::IdsMgrCustomTimestampNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 842, Classic Platform
       R23-11)
@@ -4465,9 +4465,9 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     debounce algorithm shall be used by the DEM for this diagnostic monitor.
     This is related to set the ECUC choice container DemDebounceAlgorithmClass
     to DemDebounce CounterBased.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceCounterBased
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 259, Classic
       Platform R23-11)
@@ -4492,10 +4492,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_based(self, value: Optional["Integer"]) -> None:
         """
         Set counterBased with validation.
-        
+
         Args:
             value: The counterBased to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4520,10 +4520,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter(self, value: Optional["Integer"]) -> None:
         """
         Set counter with validation.
-        
+
         Args:
             value: The counter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4548,10 +4548,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_failed(self, value: Optional["Integer"]) -> None:
         """
         Set counterFailed with validation.
-        
+
         Args:
             value: The counterFailed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4578,10 +4578,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_jump(self, value: Optional["Integer"]) -> None:
         """
         Set counterJump with validation.
-        
+
         Args:
             value: The counterJump to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4606,10 +4606,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_jump_up(self, value: Optional["Integer"]) -> None:
         """
         Set counterJumpUp with validation.
-        
+
         Args:
             value: The counterJumpUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4634,10 +4634,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_passed(self, value: Optional["Integer"]) -> None:
         """
         Set counterPassed with validation.
-        
+
         Args:
             value: The counterPassed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4656,10 +4656,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterBased(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterBased.
-        
+
         Returns:
             The counterBased value
-        
+
         Note:
             Delegates to counter_based property (CODING_RULE_V2_00017)
         """
@@ -4668,13 +4668,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterBased(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterBased with method chaining.
-        
+
         Args:
             value: The counterBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_based property setter (gets validation automatically)
         """
@@ -4684,10 +4684,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounter(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counter.
-        
+
         Returns:
             The counter value
-        
+
         Note:
             Delegates to counter property (CODING_RULE_V2_00017)
         """
@@ -4696,13 +4696,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounter(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counter with method chaining.
-        
+
         Args:
             value: The counter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter property setter (gets validation automatically)
         """
@@ -4712,10 +4712,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterFailed(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterFailed.
-        
+
         Returns:
             The counterFailed value
-        
+
         Note:
             Delegates to counter_failed property (CODING_RULE_V2_00017)
         """
@@ -4724,13 +4724,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterFailed(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterFailed with method chaining.
-        
+
         Args:
             value: The counterFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_failed property setter (gets validation automatically)
         """
@@ -4740,10 +4740,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterJump(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterJump.
-        
+
         Returns:
             The counterJump value
-        
+
         Note:
             Delegates to counter_jump property (CODING_RULE_V2_00017)
         """
@@ -4752,13 +4752,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterJump(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterJump with method chaining.
-        
+
         Args:
             value: The counterJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_jump property setter (gets validation automatically)
         """
@@ -4768,10 +4768,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterJumpUp(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterJumpUp.
-        
+
         Returns:
             The counterJumpUp value
-        
+
         Note:
             Delegates to counter_jump_up property (CODING_RULE_V2_00017)
         """
@@ -4780,13 +4780,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterJumpUp(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterJumpUp with method chaining.
-        
+
         Args:
             value: The counterJumpUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_jump_up property setter (gets validation automatically)
         """
@@ -4796,10 +4796,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterPassed(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterPassed.
-        
+
         Returns:
             The counterPassed value
-        
+
         Note:
             Delegates to counter_passed property (CODING_RULE_V2_00017)
         """
@@ -4808,13 +4808,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterPassed(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterPassed with method chaining.
-        
+
         Args:
             value: The counterPassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_passed property setter (gets validation automatically)
         """
@@ -4826,13 +4826,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_based(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterBased and return self for chaining.
-        
+
         Args:
             value: The counterBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_based("value")
         """
@@ -4842,13 +4842,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counter and return self for chaining.
-        
+
         Args:
             value: The counter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter("value")
         """
@@ -4858,13 +4858,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_failed(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterFailed and return self for chaining.
-        
+
         Args:
             value: The counterFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_failed("value")
         """
@@ -4874,13 +4874,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_jump(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterJump and return self for chaining.
-        
+
         Args:
             value: The counterJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_jump("value")
         """
@@ -4890,13 +4890,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_jump_up(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterJumpUp and return self for chaining.
-        
+
         Args:
             value: The counterJumpUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_jump_up("value")
         """
@@ -4906,13 +4906,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_passed(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterPassed and return self for chaining.
-        
+
         Args:
             value: The counterPassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_passed("value")
         """
@@ -4927,9 +4927,9 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     pre-debounce algorithm shall be used by the Dem for this diagnostic monitor.
     This is related to set the EcuC choice container DemDebounceAlgorithmClass
     to DemDebounceTime Base.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceTimeBased
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 260, Classic
       Platform R23-11)
@@ -4955,10 +4955,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def time_based_fdc(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBasedFdc with validation.
-        
+
         Args:
             value: The timeBasedFdc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4982,10 +4982,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def time_failed(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeFailed with validation.
-        
+
         Args:
             value: The timeFailed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5009,10 +5009,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def time_passed(self, value: Optional["TimeValue"]) -> None:
         """
         Set timePassed with validation.
-        
+
         Args:
             value: The timePassed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5031,10 +5031,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def getTimeBasedFdc(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBasedFdc.
-        
+
         Returns:
             The timeBasedFdc value
-        
+
         Note:
             Delegates to time_based_fdc property (CODING_RULE_V2_00017)
         """
@@ -5043,13 +5043,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def setTimeBasedFdc(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
         """
         AUTOSAR-compliant setter for timeBasedFdc with method chaining.
-        
+
         Args:
             value: The timeBasedFdc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_based_fdc property setter (gets validation automatically)
         """
@@ -5059,10 +5059,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def getTimeFailed(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeFailed.
-        
+
         Returns:
             The timeFailed value
-        
+
         Note:
             Delegates to time_failed property (CODING_RULE_V2_00017)
         """
@@ -5071,13 +5071,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def setTimeFailed(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
         """
         AUTOSAR-compliant setter for timeFailed with method chaining.
-        
+
         Args:
             value: The timeFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_failed property setter (gets validation automatically)
         """
@@ -5087,10 +5087,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def getTimePassed(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timePassed.
-        
+
         Returns:
             The timePassed value
-        
+
         Note:
             Delegates to time_passed property (CODING_RULE_V2_00017)
         """
@@ -5099,13 +5099,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def setTimePassed(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
         """
         AUTOSAR-compliant setter for timePassed with method chaining.
-        
+
         Args:
             value: The timePassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_passed property setter (gets validation automatically)
         """
@@ -5117,13 +5117,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def with_time_based_fdc(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
         """
         Set timeBasedFdc and return self for chaining.
-        
+
         Args:
             value: The timeBasedFdc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_based_fdc("value")
         """
@@ -5133,13 +5133,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def with_time_failed(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
         """
         Set timeFailed and return self for chaining.
-        
+
         Args:
             value: The timeFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_failed("value")
         """
@@ -5149,13 +5149,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def with_time_passed(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
         """
         Set timePassed and return self for chaining.
-        
+
         Args:
             value: The timePassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_passed("value")
         """
@@ -5170,9 +5170,9 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     algorithm shall be used for this diagnostic monitor. The SWC might implement
     an internal debouncing algorithm and report qualified (debounced) results to
     the Dem/DM.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceMonitorInternal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 260, Classic
       Platform R23-11)
@@ -5195,9 +5195,9 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
 class DevelopmentError(TracedFailure):
     """
     The reported failure is classified as development error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DevelopmentError
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic
       Platform R23-11)
@@ -5218,9 +5218,9 @@ class DevelopmentError(TracedFailure):
 class RuntimeError(TracedFailure):
     """
     The reported failure is classified as runtime error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::RuntimeError
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic
       Platform R23-11)
@@ -5241,9 +5241,9 @@ class RuntimeError(TracedFailure):
 class TransientFault(TracedFailure):
     """
     The reported failure is classified as runtime error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::TransientFault
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1009, Classic
       Platform R23-11)
@@ -5265,10 +5265,10 @@ class TransientFault(TracedFailure):
     def getPossibleError(self) -> List["PossibleErrorReaction"]:
         """
         AUTOSAR-compliant getter for possibleError.
-        
+
         Returns:
             The possibleError value
-        
+
         Note:
             Delegates to possible_error property (CODING_RULE_V2_00017)
         """
@@ -5292,9 +5292,9 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     specifications (SWS). (cid:53) 245 of 381 Document ID 89:
     AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module
     Description Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticValueNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 245, Classic
       Platform R23-11)
@@ -5321,10 +5321,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5351,10 +5351,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> None:
         """
         Set diagnosticValue with validation.
-        
+
         Args:
             value: The diagnosticValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5380,10 +5380,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def fixed_length(self, value: Optional["Boolean"]) -> None:
         """
         Set fixedLength with validation.
-        
+
         Args:
             value: The fixedLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5409,10 +5409,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def processing_style(self, value: Optional["DiagnosticProcessing"]) -> None:
         """
         Set processingStyle with validation.
-        
+
         Args:
             value: The processingStyle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5431,10 +5431,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -5443,13 +5443,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setDataLength(self, value: "PositiveInteger") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -5459,10 +5459,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getDiagnosticValue(self) -> "DiagnosticValueAccess":
         """
         AUTOSAR-compliant getter for diagnosticValue.
-        
+
         Returns:
             The diagnosticValue value
-        
+
         Note:
             Delegates to diagnostic_value property (CODING_RULE_V2_00017)
         """
@@ -5471,13 +5471,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setDiagnosticValue(self, value: "DiagnosticValueAccess") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for diagnosticValue with method chaining.
-        
+
         Args:
             value: The diagnosticValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_value property setter (gets validation automatically)
         """
@@ -5487,10 +5487,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getFixedLength(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for fixedLength.
-        
+
         Returns:
             The fixedLength value
-        
+
         Note:
             Delegates to fixed_length property (CODING_RULE_V2_00017)
         """
@@ -5499,13 +5499,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setFixedLength(self, value: "Boolean") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for fixedLength with method chaining.
-        
+
         Args:
             value: The fixedLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fixed_length property setter (gets validation automatically)
         """
@@ -5515,10 +5515,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getProcessingStyle(self) -> "DiagnosticProcessing":
         """
         AUTOSAR-compliant getter for processingStyle.
-        
+
         Returns:
             The processingStyle value
-        
+
         Note:
             Delegates to processing_style property (CODING_RULE_V2_00017)
         """
@@ -5527,13 +5527,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setProcessingStyle(self, value: "DiagnosticProcessing") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for processingStyle with method chaining.
-        
+
         Args:
             value: The processingStyle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to processing_style property setter (gets validation automatically)
         """
@@ -5545,13 +5545,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "DiagnosticValueNeeds":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -5561,13 +5561,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> "DiagnosticValueNeeds":
         """
         Set diagnosticValue and return self for chaining.
-        
+
         Args:
             value: The diagnosticValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_value("value")
         """
@@ -5577,13 +5577,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_fixed_length(self, value: Optional["Boolean"]) -> "DiagnosticValueNeeds":
         """
         Set fixedLength and return self for chaining.
-        
+
         Args:
             value: The fixedLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fixed_length("value")
         """
@@ -5593,13 +5593,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_processing_style(self, value: Optional["DiagnosticProcessing"]) -> "DiagnosticValueNeeds":
         """
         Set processingStyle and return self for chaining.
-        
+
         Args:
             value: The processingStyle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_processing_style("value")
         """
@@ -5614,9 +5614,9 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     Communication Manager (Dcm) which are not related to a particular item (e.g.
     a PID). The main use case is the mapping of service ports to the Dcm which
     are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticRoutineNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 247, Classic
       Platform R23-11)
@@ -5642,10 +5642,10 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> None:
         """
         Set diagRoutine with validation.
-        
+
         Args:
             value: The diagRoutine to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5664,10 +5664,10 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def getDiagRoutine(self) -> "DiagnosticRoutineType":
         """
         AUTOSAR-compliant getter for diagRoutine.
-        
+
         Returns:
             The diagRoutine value
-        
+
         Note:
             Delegates to diag_routine property (CODING_RULE_V2_00017)
         """
@@ -5676,13 +5676,13 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def setDiagRoutine(self, value: "DiagnosticRoutineType") -> "DiagnosticRoutineNeeds":
         """
         AUTOSAR-compliant setter for diagRoutine with method chaining.
-        
+
         Args:
             value: The diagRoutine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_routine property setter (gets validation automatically)
         """
@@ -5694,13 +5694,13 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def with_diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> "DiagnosticRoutineNeeds":
         """
         Set diagRoutine and return self for chaining.
-        
+
         Args:
             value: The diagRoutine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_routine("value")
         """
@@ -5715,9 +5715,9 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     Communication Manager (DCM) which are not related to a particular item (e.g.
     a PID). The main use case is the mapping of service ports to the Dcm which
     are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticIoControlNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 248, Classic
       Platform R23-11)
@@ -5743,10 +5743,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def current_value(self, value: Optional["DiagnosticValueNeeds"]) -> None:
         """
         Set currentValue with validation.
-        
+
         Args:
             value: The currentValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5772,10 +5772,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def freeze_current(self, value: Optional["Boolean"]) -> None:
         """
         Set freezeCurrent with validation.
-        
+
         Args:
             value: The freezeCurrent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5800,10 +5800,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def reset_to_default(self, value: Optional["Boolean"]) -> None:
         """
         Set resetToDefault with validation.
-        
+
         Args:
             value: The resetToDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5829,10 +5829,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def short_term(self, value: Optional["Boolean"]) -> None:
         """
         Set shortTerm with validation.
-        
+
         Args:
             value: The shortTerm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5851,10 +5851,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getCurrentValue(self) -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant getter for currentValue.
-        
+
         Returns:
             The currentValue value
-        
+
         Note:
             Delegates to current_value property (CODING_RULE_V2_00017)
         """
@@ -5863,13 +5863,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setCurrentValue(self, value: "DiagnosticValueNeeds") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for currentValue with method chaining.
-        
+
         Args:
             value: The currentValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to current_value property setter (gets validation automatically)
         """
@@ -5879,10 +5879,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getFreezeCurrent(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for freezeCurrent.
-        
+
         Returns:
             The freezeCurrent value
-        
+
         Note:
             Delegates to freeze_current property (CODING_RULE_V2_00017)
         """
@@ -5891,13 +5891,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setFreezeCurrent(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for freezeCurrent with method chaining.
-        
+
         Args:
             value: The freezeCurrent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freeze_current property setter (gets validation automatically)
         """
@@ -5907,10 +5907,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getResetToDefault(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for resetToDefault.
-        
+
         Returns:
             The resetToDefault value
-        
+
         Note:
             Delegates to reset_to_default property (CODING_RULE_V2_00017)
         """
@@ -5919,13 +5919,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setResetToDefault(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for resetToDefault with method chaining.
-        
+
         Args:
             value: The resetToDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reset_to_default property setter (gets validation automatically)
         """
@@ -5935,10 +5935,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getShortTerm(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for shortTerm.
-        
+
         Returns:
             The shortTerm value
-        
+
         Note:
             Delegates to short_term property (CODING_RULE_V2_00017)
         """
@@ -5947,13 +5947,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setShortTerm(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for shortTerm with method chaining.
-        
+
         Args:
             value: The shortTerm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_term property setter (gets validation automatically)
         """
@@ -5965,13 +5965,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_current_value(self, value: Optional["DiagnosticValueNeeds"]) -> "DiagnosticIoControlNeeds":
         """
         Set currentValue and return self for chaining.
-        
+
         Args:
             value: The currentValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_current_value("value")
         """
@@ -5981,13 +5981,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_freeze_current(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
         """
         Set freezeCurrent and return self for chaining.
-        
+
         Args:
             value: The freezeCurrent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freeze_current("value")
         """
@@ -5997,13 +5997,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_reset_to_default(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
         """
         Set resetToDefault and return self for chaining.
-        
+
         Args:
             value: The resetToDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reset_to_default("value")
         """
@@ -6013,13 +6013,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_short_term(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
         """
         Set shortTerm and return self for chaining.
-        
+
         Args:
             value: The shortTerm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_term("value")
         """
@@ -6032,9 +6032,9 @@ class DiagnosticsCommunicationSecurityNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component to verify the
     access to security level via diagnostic services.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticsCommunicationSecurityNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 248, Classic
       Platform R23-11)
@@ -6058,9 +6058,9 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     Communication Manager (Dcm) which are not related to a particular item (e.g.
     a PID or DiagnosticRoutineNeeds). The main use case is the mapping of
     service ports to the Dcm which are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticCommunicationManagerNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 248, Classic
       Platform R23-11)
@@ -6085,10 +6085,10 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def service_request(self, value: Optional["DiagnosticService"]) -> None:
         """
         Set serviceRequest with validation.
-        
+
         Args:
             value: The serviceRequest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6107,10 +6107,10 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def getServiceRequest(self) -> "DiagnosticService":
         """
         AUTOSAR-compliant getter for serviceRequest.
-        
+
         Returns:
             The serviceRequest value
-        
+
         Note:
             Delegates to service_request property (CODING_RULE_V2_00017)
         """
@@ -6119,13 +6119,13 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def setServiceRequest(self, value: "DiagnosticService") -> "DiagnosticCommunicationManagerNeeds":
         """
         AUTOSAR-compliant setter for serviceRequest with method chaining.
-        
+
         Args:
             value: The serviceRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_request property setter (gets validation automatically)
         """
@@ -6137,13 +6137,13 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def with_service_request(self, value: Optional["DiagnosticService"]) -> "DiagnosticCommunicationManagerNeeds":
         """
         Set serviceRequest and return self for chaining.
-        
+
         Args:
             value: The serviceRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_request("value")
         """
@@ -6156,9 +6156,9 @@ class DiagnosticUploadDownloadNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the ability to specify needs regarding upload and
     download by means of diagnostic services.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticUploadDownloadNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 252, Classic
       Platform R23-11)
@@ -6183,9 +6183,9 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     identifying the diagnostic event from the viewpoint of the component or
     module which owns this element. In case the diagnostic event specifies a
     production error, the shortName shall be the name of the production error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEventNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 258, Classic
       Platform R23-11)
@@ -6219,10 +6219,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def diag_event(self, value: Optional["DiagEventDebounce"]) -> None:
         """
         Set diagEvent with validation.
-        
+
         Args:
             value: The diagEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6248,10 +6248,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def inhibiting_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
         """
         Set inhibitingFid with validation.
-        
+
         Args:
             value: The inhibitingFid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6289,10 +6289,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def prestored(self, value: Optional["Boolean"]) -> None:
         """
         Set prestored with validation.
-        
+
         Args:
             value: The prestored to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6317,10 +6317,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def uses_monitor(self, value: Optional["Boolean"]) -> None:
         """
         Set usesMonitor with validation.
-        
+
         Args:
             value: The usesMonitor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6339,10 +6339,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getDeferringFid(self) -> List["FunctionInhibitionNeeds"]:
         """
         AUTOSAR-compliant getter for deferringFid.
-        
+
         Returns:
             The deferringFid value
-        
+
         Note:
             Delegates to deferring_fid property (CODING_RULE_V2_00017)
         """
@@ -6351,10 +6351,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getDiagEvent(self) -> "DiagEventDebounce":
         """
         AUTOSAR-compliant getter for diagEvent.
-        
+
         Returns:
             The diagEvent value
-        
+
         Note:
             Delegates to diag_event property (CODING_RULE_V2_00017)
         """
@@ -6363,13 +6363,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setDiagEvent(self, value: "DiagEventDebounce") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for diagEvent with method chaining.
-        
+
         Args:
             value: The diagEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_event property setter (gets validation automatically)
         """
@@ -6379,10 +6379,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getInhibitingFid(self) -> "FunctionInhibitionNeeds":
         """
         AUTOSAR-compliant getter for inhibitingFid.
-        
+
         Returns:
             The inhibitingFid value
-        
+
         Note:
             Delegates to inhibiting_fid property (CODING_RULE_V2_00017)
         """
@@ -6391,13 +6391,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setInhibitingFid(self, value: "FunctionInhibitionNeeds") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for inhibitingFid with method chaining.
-        
+
         Args:
             value: The inhibitingFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to inhibiting_fid property setter (gets validation automatically)
         """
@@ -6407,10 +6407,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getInhibiting(self) -> List["FunctionInhibitionNeeds"]:
         """
         AUTOSAR-compliant getter for inhibiting.
-        
+
         Returns:
             The inhibiting value
-        
+
         Note:
             Delegates to inhibiting property (CODING_RULE_V2_00017)
         """
@@ -6419,10 +6419,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getPrestored(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for prestored.
-        
+
         Returns:
             The prestored value
-        
+
         Note:
             Delegates to prestored property (CODING_RULE_V2_00017)
         """
@@ -6431,13 +6431,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setPrestored(self, value: "Boolean") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for prestored with method chaining.
-        
+
         Args:
             value: The prestored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prestored property setter (gets validation automatically)
         """
@@ -6447,10 +6447,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getUsesMonitor(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesMonitor.
-        
+
         Returns:
             The usesMonitor value
-        
+
         Note:
             Delegates to uses_monitor property (CODING_RULE_V2_00017)
         """
@@ -6459,13 +6459,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setUsesMonitor(self, value: "Boolean") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for usesMonitor with method chaining.
-        
+
         Args:
             value: The usesMonitor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_monitor property setter (gets validation automatically)
         """
@@ -6477,13 +6477,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_diag_event(self, value: Optional["DiagEventDebounce"]) -> "DiagnosticEventNeeds":
         """
         Set diagEvent and return self for chaining.
-        
+
         Args:
             value: The diagEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_event("value")
         """
@@ -6493,13 +6493,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_inhibiting_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "DiagnosticEventNeeds":
         """
         Set inhibitingFid and return self for chaining.
-        
+
         Args:
             value: The inhibitingFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_inhibiting_fid("value")
         """
@@ -6509,13 +6509,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_prestored(self, value: Optional["Boolean"]) -> "DiagnosticEventNeeds":
         """
         Set prestored and return self for chaining.
-        
+
         Args:
             value: The prestored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prestored("value")
         """
@@ -6525,13 +6525,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_uses_monitor(self, value: Optional["Boolean"]) -> "DiagnosticEventNeeds":
         """
         Set usesMonitor and return self for chaining.
-        
+
         Args:
             value: The usesMonitor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_monitor("value")
         """
@@ -6544,9 +6544,9 @@ class DiagnosticComponentNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the ability to specify the service needs for the
     configuration of component events.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticComponentNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 312, Classic
       Platform R23-11)
@@ -6568,9 +6568,9 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component interested to
     get information regarding specific DTCs.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEventInfoNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 312, Classic
       Platform R23-11)
@@ -6597,10 +6597,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def obd_dtc_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set obdDtcNumber with validation.
-        
+
         Args:
             value: The obdDtcNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6628,10 +6628,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def uds_dtc_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set udsDtcNumber with validation.
-        
+
         Args:
             value: The udsDtcNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6650,10 +6650,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def getObdDtcNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for obdDtcNumber.
-        
+
         Returns:
             The obdDtcNumber value
-        
+
         Note:
             Delegates to obd_dtc_number property (CODING_RULE_V2_00017)
         """
@@ -6662,13 +6662,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def setObdDtcNumber(self, value: "PositiveInteger") -> "DiagnosticEventInfoNeeds":
         """
         AUTOSAR-compliant setter for obdDtcNumber with method chaining.
-        
+
         Args:
             value: The obdDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to obd_dtc_number property setter (gets validation automatically)
         """
@@ -6678,10 +6678,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def getUdsDtcNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for udsDtcNumber.
-        
+
         Returns:
             The udsDtcNumber value
-        
+
         Note:
             Delegates to uds_dtc_number property (CODING_RULE_V2_00017)
         """
@@ -6690,13 +6690,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def setUdsDtcNumber(self, value: "PositiveInteger") -> "DiagnosticEventInfoNeeds":
         """
         AUTOSAR-compliant setter for udsDtcNumber with method chaining.
-        
+
         Args:
             value: The udsDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uds_dtc_number property setter (gets validation automatically)
         """
@@ -6708,13 +6708,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def with_obd_dtc_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticEventInfoNeeds":
         """
         Set obdDtcNumber and return self for chaining.
-        
+
         Args:
             value: The obdDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_obd_dtc_number("value")
         """
@@ -6724,13 +6724,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def with_uds_dtc_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticEventInfoNeeds":
         """
         Set udsDtcNumber and return self for chaining.
-        
+
         Args:
             value: The udsDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uds_dtc_number("value")
         """
@@ -6744,9 +6744,9 @@ class ObdInfoServiceNeeds(DiagnosticCapabilityElement):
     Specifies the abstract needs of a component or module on the configuration
     of OBD Services in relation to a given InfoType (OBD Service 09) which is
     supported by this component or module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdInfoServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 324, Classic
       Platform R23-11)
@@ -6775,9 +6775,9 @@ class ObdPidServiceNeeds(DiagnosticCapabilityElement):
     referenced by assignedPort. The details of this communication (e.g.
     appropriate naming conventions) are specified in the related software
     specifications (SWS).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdPidServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic
       Platform R23-11)
@@ -6802,9 +6802,9 @@ class ObdControlServiceNeeds(DiagnosticCapabilityElement):
     Specifies the abstract needs of a component or module on the configuration
     of OBD Service 08 (request control of on-board system) in relation to a
     particular test-Identifier (TID) supported by this component or module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdControlServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 233, Classic Platform
       R23-11)
@@ -6827,9 +6827,9 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     Specifies the abstract needs of a component or module on the configuration
     of OBD Services in relation to a particular on-board monitoring test
     supported by this component or module. (OBD Service 06).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdMonitorServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform
       R23-11)
@@ -6853,10 +6853,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def application_data(self, value: Optional["ApplicationDataType"]) -> None:
         """
         Set applicationData with validation.
-        
+
         Args:
             value: The applicationData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6880,10 +6880,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def event_needs(self, value: Optional["DiagnosticEventNeeds"]) -> None:
         """
         Set eventNeeds with validation.
-        
+
         Args:
             value: The eventNeeds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6907,10 +6907,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def unit_and_scaling_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set unitAndScalingId with validation.
-        
+
         Args:
             value: The unitAndScalingId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6934,10 +6934,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def update_kind(self, value: Optional["DiagnosticMonitor"]) -> None:
         """
         Set updateKind with validation.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6956,10 +6956,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getApplicationData(self) -> "ApplicationDataType":
         """
         AUTOSAR-compliant getter for applicationData.
-        
+
         Returns:
             The applicationData value
-        
+
         Note:
             Delegates to application_data property (CODING_RULE_V2_00017)
         """
@@ -6968,13 +6968,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setApplicationData(self, value: "ApplicationDataType") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for applicationData with method chaining.
-        
+
         Args:
             value: The applicationData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_data property setter (gets validation automatically)
         """
@@ -6984,10 +6984,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getEventNeeds(self) -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant getter for eventNeeds.
-        
+
         Returns:
             The eventNeeds value
-        
+
         Note:
             Delegates to event_needs property (CODING_RULE_V2_00017)
         """
@@ -6996,13 +6996,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setEventNeeds(self, value: "DiagnosticEventNeeds") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for eventNeeds with method chaining.
-        
+
         Args:
             value: The eventNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_needs property setter (gets validation automatically)
         """
@@ -7012,10 +7012,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getUnitAndScalingId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for unitAndScalingId.
-        
+
         Returns:
             The unitAndScalingId value
-        
+
         Note:
             Delegates to unit_and_scaling_id property (CODING_RULE_V2_00017)
         """
@@ -7024,13 +7024,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setUnitAndScalingId(self, value: "PositiveInteger") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for unitAndScalingId with method chaining.
-        
+
         Args:
             value: The unitAndScalingId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit_and_scaling_id property setter (gets validation automatically)
         """
@@ -7040,10 +7040,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getUpdateKind(self) -> "DiagnosticMonitor":
         """
         AUTOSAR-compliant getter for updateKind.
-        
+
         Returns:
             The updateKind value
-        
+
         Note:
             Delegates to update_kind property (CODING_RULE_V2_00017)
         """
@@ -7052,13 +7052,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setUpdateKind(self, value: "DiagnosticMonitor") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for updateKind with method chaining.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update_kind property setter (gets validation automatically)
         """
@@ -7070,13 +7070,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_application_data(self, value: Optional["ApplicationDataType"]) -> "ObdMonitorServiceNeeds":
         """
         Set applicationData and return self for chaining.
-        
+
         Args:
             value: The applicationData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_data("value")
         """
@@ -7086,13 +7086,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_event_needs(self, value: Optional["DiagnosticEventNeeds"]) -> "ObdMonitorServiceNeeds":
         """
         Set eventNeeds and return self for chaining.
-        
+
         Args:
             value: The eventNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_needs("value")
         """
@@ -7102,13 +7102,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_unit_and_scaling_id(self, value: Optional["PositiveInteger"]) -> "ObdMonitorServiceNeeds":
         """
         Set unitAndScalingId and return self for chaining.
-        
+
         Args:
             value: The unitAndScalingId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit_and_scaling_id("value")
         """
@@ -7118,13 +7118,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_update_kind(self, value: Optional["DiagnosticMonitor"]) -> "ObdMonitorServiceNeeds":
         """
         Set updateKind and return self for chaining.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update_kind("value")
         """
@@ -7137,9 +7137,9 @@ class DiagnosticEventManagerNeeds(DiagnosticCapabilityElement):
     """
     Specifies the general needs on the configuration of the Diagnostic Event
     Manager (Dem) which are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEventManagerNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 753, Classic Platform
       R23-11)
@@ -7159,9 +7159,9 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component to provide
     information regarding the operation cycle management to the Dem module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticOperationCycleNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 761, Classic Platform
       R23-11)
@@ -7182,10 +7182,10 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def operation_cycle(self, value: Optional["OperationCycleType"]) -> None:
         """
         Set operationCycle with validation.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7204,10 +7204,10 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def getOperationCycle(self) -> "OperationCycleType":
         """
         AUTOSAR-compliant getter for operationCycle.
-        
+
         Returns:
             The operationCycle value
-        
+
         Note:
             Delegates to operation_cycle property (CODING_RULE_V2_00017)
         """
@@ -7216,13 +7216,13 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def setOperationCycle(self, value: "OperationCycleType") -> "DiagnosticOperationCycleNeeds":
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_cycle property setter (gets validation automatically)
         """
@@ -7234,13 +7234,13 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def with_operation_cycle(self, value: Optional["OperationCycleType"]) -> "DiagnosticOperationCycleNeeds":
         """
         Set operationCycle and return self for chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_cycle("value")
         """
@@ -7253,9 +7253,9 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component to provide the
     capability to set an enable condition.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEnableConditionNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 762, Classic Platform
       R23-11)
@@ -7277,10 +7277,10 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def initial_status(self, value: Optional["EventAcceptanceStatus"]) -> None:
         """
         Set initialStatus with validation.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7299,10 +7299,10 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def getInitialStatus(self) -> "EventAcceptanceStatus":
         """
         AUTOSAR-compliant getter for initialStatus.
-        
+
         Returns:
             The initialStatus value
-        
+
         Note:
             Delegates to initial_status property (CODING_RULE_V2_00017)
         """
@@ -7311,13 +7311,13 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def setInitialStatus(self, value: "EventAcceptanceStatus") -> "DiagnosticEnableConditionNeeds":
         """
         AUTOSAR-compliant setter for initialStatus with method chaining.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_status property setter (gets validation automatically)
         """
@@ -7329,13 +7329,13 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def with_initial_status(self, value: Optional["EventAcceptanceStatus"]) -> "DiagnosticEnableConditionNeeds":
         """
         Set initialStatus and return self for chaining.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_status("value")
         """
@@ -7348,9 +7348,9 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component to provide the
     capability to set a storage condition.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticStorageConditionNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 762, Classic Platform
       R23-11)
@@ -7372,10 +7372,10 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
     def initial_status(self, value: Optional["StorageConditionStatus"]) -> None:
         """
         Set initialStatus with validation.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7394,10 +7394,10 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
     def getInitialStatus(self) -> "StorageConditionStatus":
         """
         AUTOSAR-compliant getter for initialStatus.
-        
+
         Returns:
             The initialStatus value
-        
+
         Note:
             Delegates to initial_status property (CODING_RULE_V2_00017)
         """
@@ -7406,13 +7406,13 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
     def setInitialStatus(self, value: "StorageConditionStatus") -> "DiagnosticStorageConditionNeeds":
         """
         AUTOSAR-compliant setter for initialStatus with method chaining.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_status property setter (gets validation automatically)
         """
@@ -7424,13 +7424,13 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
     def with_initial_status(self, value: Optional["StorageConditionStatus"]) -> "DiagnosticStorageConditionNeeds":
         """
         Set initialStatus and return self for chaining.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_status("value")
         """
@@ -7443,9 +7443,9 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component interested to
     get information regarding any DTC status change.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DtcStatusChangeNotificationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 776, Classic Platform
       R23-11)
@@ -7468,10 +7468,10 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def notification_time(self, value: Optional["DiagnosticClearDtc"]) -> None:
         """
         Set notificationTime with validation.
-        
+
         Args:
             value: The notificationTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7490,10 +7490,10 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def getNotificationTime(self) -> "DiagnosticClearDtc":
         """
         AUTOSAR-compliant getter for notificationTime.
-        
+
         Returns:
             The notificationTime value
-        
+
         Note:
             Delegates to notification_time property (CODING_RULE_V2_00017)
         """
@@ -7502,13 +7502,13 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def setNotificationTime(self, value: "DiagnosticClearDtc") -> "DtcStatusChangeNotificationNeeds":
         """
         AUTOSAR-compliant setter for notificationTime with method chaining.
-        
+
         Args:
             value: The notificationTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to notification_time property setter (gets validation automatically)
         """
@@ -7520,13 +7520,13 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def with_notification_time(self, value: Optional["DiagnosticClearDtc"]) -> "DtcStatusChangeNotificationNeeds":
         """
         Set notificationTime and return self for chaining.
-        
+
         Args:
             value: The notificationTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_notification_time("value")
         """
@@ -7539,9 +7539,9 @@ class DiagnosticRequestFileTransferNeeds(DiagnosticCapabilityElement):
     """
     This meta-class indicates the existence of a service use case that involves
     UDS service 0x38, Request File Transfer.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticRequestFileTransferNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 795, Classic Platform
       R23-11)
@@ -7562,9 +7562,9 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     Specifies the abstract needs of a component or module on the configuration
     of OBD Services in relation to a particular "ratio monitoring" which is
     supported by this component or module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdRatioServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 795, Classic Platform
       R23-11)
@@ -7586,10 +7586,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def connection_type(self, value: Optional["ObdRatioConnection"]) -> None:
         """
         Set connectionType with validation.
-        
+
         Args:
             value: The connectionType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7613,10 +7613,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def rate_based_monitored_event(self, value: Optional["DiagnosticEventNeeds"]) -> None:
         """
         Set rateBasedMonitoredEvent with validation.
-        
+
         Args:
             value: The rateBasedMonitoredEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7642,10 +7642,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def used_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
         """
         Set usedFid with validation.
-        
+
         Args:
             value: The usedFid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7664,10 +7664,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getConnectionType(self) -> "ObdRatioConnection":
         """
         AUTOSAR-compliant getter for connectionType.
-        
+
         Returns:
             The connectionType value
-        
+
         Note:
             Delegates to connection_type property (CODING_RULE_V2_00017)
         """
@@ -7676,13 +7676,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def setConnectionType(self, value: "ObdRatioConnection") -> "ObdRatioServiceNeeds":
         """
         AUTOSAR-compliant setter for connectionType with method chaining.
-        
+
         Args:
             value: The connectionType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connection_type property setter (gets validation automatically)
         """
@@ -7692,10 +7692,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getRateBasedMonitoredEvent(self) -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant getter for rateBasedMonitoredEvent.
-        
+
         Returns:
             The rateBasedMonitoredEvent value
-        
+
         Note:
             Delegates to rate_based_monitored_event property (CODING_RULE_V2_00017)
         """
@@ -7704,13 +7704,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def setRateBasedMonitoredEvent(self, value: "DiagnosticEventNeeds") -> "ObdRatioServiceNeeds":
         """
         AUTOSAR-compliant setter for rateBasedMonitoredEvent with method chaining.
-        
+
         Args:
             value: The rateBasedMonitoredEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rate_based_monitored_event property setter (gets validation automatically)
         """
@@ -7720,10 +7720,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getUsedFid(self) -> "FunctionInhibitionNeeds":
         """
         AUTOSAR-compliant getter for usedFid.
-        
+
         Returns:
             The usedFid value
-        
+
         Note:
             Delegates to used_fid property (CODING_RULE_V2_00017)
         """
@@ -7732,13 +7732,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def setUsedFid(self, value: "FunctionInhibitionNeeds") -> "ObdRatioServiceNeeds":
         """
         AUTOSAR-compliant setter for usedFid with method chaining.
-        
+
         Args:
             value: The usedFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_fid property setter (gets validation automatically)
         """
@@ -7750,13 +7750,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def with_connection_type(self, value: Optional["ObdRatioConnection"]) -> "ObdRatioServiceNeeds":
         """
         Set connectionType and return self for chaining.
-        
+
         Args:
             value: The connectionType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connection_type("value")
         """
@@ -7766,13 +7766,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def with_rate_based_monitored_event(self, value: Optional["DiagnosticEventNeeds"]) -> "ObdRatioServiceNeeds":
         """
         Set rateBasedMonitoredEvent and return self for chaining.
-        
+
         Args:
             value: The rateBasedMonitoredEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rate_based_monitored_event("value")
         """
@@ -7782,13 +7782,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def with_used_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "ObdRatioServiceNeeds":
         """
         Set usedFid and return self for chaining.
-        
+
         Args:
             value: The usedFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_fid("value")
         """
@@ -7801,9 +7801,9 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     """
     This meta-class shall be used to indicate that a software-component wants to
     access the in-use-monitoring performance ration denominator.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdRatioDenominatorNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 802, Classic Platform
       R23-11)
@@ -7824,10 +7824,10 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def denominator(self, value: Optional["DiagnosticDenominator"]) -> None:
         """
         Set denominator with validation.
-        
+
         Args:
             value: The denominator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7846,10 +7846,10 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def getDenominator(self) -> "DiagnosticDenominator":
         """
         AUTOSAR-compliant getter for denominator.
-        
+
         Returns:
             The denominator value
-        
+
         Note:
             Delegates to denominator property (CODING_RULE_V2_00017)
         """
@@ -7858,13 +7858,13 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def setDenominator(self, value: "DiagnosticDenominator") -> "ObdRatioDenominatorNeeds":
         """
         AUTOSAR-compliant setter for denominator with method chaining.
-        
+
         Args:
             value: The denominator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to denominator property setter (gets validation automatically)
         """
@@ -7876,13 +7876,13 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def with_denominator(self, value: Optional["DiagnosticDenominator"]) -> "ObdRatioDenominatorNeeds":
         """
         Set denominator and return self for chaining.
-        
+
         Args:
             value: The denominator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_denominator("value")
         """
@@ -7895,9 +7895,9 @@ class WarningIndicatorRequestedBitNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the ability to explicitly request the existence
     of the WarningIndicator RequestedBit.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::WarningIndicatorRequestedBitNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 811, Classic Platform
       R23-11)
@@ -7917,9 +7917,9 @@ class DiagnosticControlNeeds(DiagnosticCapabilityElement):
     """
     This meta-class indicates a service use-case for reporting the controlled
     status by diagnostic services.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticControlNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 812, Classic Platform
       R23-11)
@@ -7942,9 +7942,9 @@ class DoIpGidNeeds(DoIpServiceNeeds):
     or by other means like e.g. flashed EEPROM parameter. This need can be used
     independent from DoIpGidSynchronizationNeeds and is necessary if the GID can
     not be provided out of the DoIP configuration options.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpGidNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 805, Classic Platform
       R23-11)
@@ -7969,9 +7969,9 @@ class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
     or before announcement via service 0x0004 according to ISO 13400-2:2012 if
     necessary. Note that this need is only relevant for DoIP synchronization
     masters.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpGidSynchronizationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 805, Classic Platform
       R23-11)
@@ -7993,9 +7993,9 @@ class DoIpPowerModeStatusNeeds(DoIpServiceNeeds):
     The DoIpPowerModeStatusNeeds indicates that the software-component owning
     this ServiceNeeds is providing the PowerModeStatus for the DoIP service
     0x4003 according to ISO 13400-2:2012.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpPowerModeStatusNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 806, Classic Platform
       R23-11)
@@ -8018,9 +8018,9 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     software-component owning this Service Needs will have an authentication
     required for a DoIP routing activation service (0x0005) according to ISO
     13400-2:2012.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpRoutingActivationAuthenticationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 806, Classic Platform
       R23-11)
@@ -8046,10 +8046,10 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8077,10 +8077,10 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def routing(self, value: Optional["NameToken"]) -> None:
         """
         Set routing with validation.
-        
+
         Args:
             value: The routing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8099,10 +8099,10 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -8111,13 +8111,13 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def setDataLength(self, value: "PositiveInteger") -> "DoIpRoutingActivationAuthenticationNeeds":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -8127,10 +8127,10 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def getRouting(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for routing.
-        
+
         Returns:
             The routing value
-        
+
         Note:
             Delegates to routing property (CODING_RULE_V2_00017)
         """
@@ -8139,13 +8139,13 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def setRouting(self, value: "NameToken") -> "DoIpRoutingActivationAuthenticationNeeds":
         """
         AUTOSAR-compliant setter for routing with method chaining.
-        
+
         Args:
             value: The routing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routing property setter (gets validation automatically)
         """
@@ -8157,13 +8157,13 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "DoIpRoutingActivationAuthenticationNeeds":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -8173,13 +8173,13 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
     def with_routing(self, value: Optional["NameToken"]) -> "DoIpRoutingActivationAuthenticationNeeds":
         """
         Set routing and return self for chaining.
-        
+
         Args:
             value: The routing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routing("value")
         """
@@ -8193,9 +8193,9 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     DoIpRoutingActivationConfirmationNeeds indicates that the software-component
     that owns this Service Needs will have a confirmation required for a DoIP
     routing activation service (0x0005) according to ISO 13400-2:2012.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpRoutingActivationConfirmationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 807, Classic Platform
       R23-11)
@@ -8221,10 +8221,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8252,10 +8252,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def routing(self, value: Optional["NameToken"]) -> None:
         """
         Set routing with validation.
-        
+
         Args:
             value: The routing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8274,10 +8274,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -8286,13 +8286,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def setDataLength(self, value: "PositiveInteger") -> "DoIpRoutingActivationConfirmationNeeds":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -8302,10 +8302,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def getRouting(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for routing.
-        
+
         Returns:
             The routing value
-        
+
         Note:
             Delegates to routing property (CODING_RULE_V2_00017)
         """
@@ -8314,13 +8314,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def setRouting(self, value: "NameToken") -> "DoIpRoutingActivationConfirmationNeeds":
         """
         AUTOSAR-compliant setter for routing with method chaining.
-        
+
         Args:
             value: The routing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routing property setter (gets validation automatically)
         """
@@ -8332,13 +8332,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "DoIpRoutingActivationConfirmationNeeds":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -8348,13 +8348,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def with_routing(self, value: Optional["NameToken"]) -> "DoIpRoutingActivationConfirmationNeeds":
         """
         Set routing and return self for chaining.
-        
+
         Args:
             value: The routing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routing("value")
         """
@@ -8369,9 +8369,9 @@ class DoIpActivationLineNeeds(DoIpServiceNeeds):
     activated. The DoIpActivation ServiceNeeds specifies the trigger for such an
     event. Examples would be a Pdu via a regular communication bus, a PWM
     signal, or an I/O. For details please refer to the ISO 13400.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpActivationLineNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 807, Classic Platform
       R23-11)
@@ -8392,9 +8392,9 @@ class FurtherActionByteNeeds(DoIpServiceNeeds):
     """
     The FurtherActionByteNeeds indicates that the software-component is able to
     provide the "further action byte" to the DoIp Service Component.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FurtherActionByteNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 812, Classic Platform
       R23-11)

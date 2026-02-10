@@ -4,8 +4,8 @@ AUTOSAR Package - ListElements
 Package: M2::MSR::Documentation::BlockElements::ListElements
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
     String,
@@ -19,8 +19,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
-
-
 
 
 class List(Paginateable):
@@ -948,29 +946,29 @@ class DefItem(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the definition part of the DefItem.
-        self._def: "DocumentationBlock" = None
+        self._definition: "DocumentationBlock" = None
 
     @property
-    def def(self) -> "DocumentationBlock":
-        """Get def (Pythonic accessor)."""
-        return self._def
+    def definition(self) -> "DocumentationBlock":
+        """Get definition (Pythonic accessor)."""
+        return self._definition
 
-    @def.setter
-    def def(self, value: "DocumentationBlock") -> None:
+    @definition.setter
+    def definition(self, value: "DocumentationBlock") -> None:
         """
-        Set def with validation.
+        Set definition with validation.
         
         Args:
-            value: The def to set
+            value: The definition to set
         
         Raises:
             TypeError: If value type is incorrect
         """
         if not isinstance(value, DocumentationBlock):
             raise TypeError(
-                f"def must be DocumentationBlock, got {type(value).__name__}"
+                f"definition must be DocumentationBlock, got {type(value).__name__}"
             )
-        self._def = value
+        self._definition = value
         # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
@@ -1009,27 +1007,27 @@ class DefItem(Paginateable):
         AUTOSAR-compliant getter for def.
         
         Returns:
-            The def value
+            The definition value
         
         Note:
-            Delegates to def property (CODING_RULE_V2_00017)
+            Delegates to definition property (CODING_RULE_V2_00017)
         """
-        return self.def  # Delegates to property
+        return self.definition  # Delegates to property
 
-    def setDef(self, value: "DocumentationBlock") -> "DefItem":
+    def setDefinition(self, value: "DocumentationBlock") -> "DefItem":
         """
-        AUTOSAR-compliant setter for def with method chaining.
+        AUTOSAR-compliant setter for definition with method chaining.
         
         Args:
-            value: The def to set
+            value: The definition to set
         
         Returns:
             self for method chaining
         
         Note:
-            Delegates to def property setter (gets validation automatically)
+            Delegates to definition property setter (gets validation automatically)
         """
-        self.def = value  # Delegates to property setter
+        self.definition = value  # Delegates to property setter
         return self
 
     def getHelpEntry(self) -> "String":
@@ -1075,7 +1073,7 @@ class DefItem(Paginateable):
         Example:
             >>> obj.with_def("value")
         """
-        self.def = value  # Use property setter (gets validation)
+        self.definition = value  # Use property setter (gets validation)
         return self
 
     def with_help_entry(self, value: Optional["String"]) -> "DefItem":

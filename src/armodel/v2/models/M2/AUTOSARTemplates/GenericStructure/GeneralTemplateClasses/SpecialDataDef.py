@@ -26,9 +26,9 @@ class SdgDef(ARElement):
     """
     A SdgDef groups several SdgClasses which belong to the same extension. The
     concept of an SdgDef is similiar to an UML Profile.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgDef
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 99, Foundation R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 207, Foundation R23-11)
@@ -98,10 +98,10 @@ class SdgDef(ARElement):
     def getSdgClass(self) -> List["SdgClass"]:
         """
         AUTOSAR-compliant getter for sdgClass.
-        
+
         Returns:
             The sdgClass value
-        
+
         Note:
             Delegates to sdg_class property (CODING_RULE_V2_00017)
         """
@@ -115,9 +115,9 @@ class SdgElementWithGid(ARObject, ABC):
     """
     A special data group element with gid is an abstract element that shall have
     a name (gid, "Generic Identifier").
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgElementWithGid
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 99, Foundation R23-11)
     """
@@ -139,10 +139,10 @@ class SdgElementWithGid(ARObject, ABC):
     def gid(self, value: Optional["NameToken"]) -> None:
         """
         Set gid with validation.
-        
+
         Args:
             value: The gid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -161,10 +161,10 @@ class SdgElementWithGid(ARObject, ABC):
     def getGid(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for gid.
-        
+
         Returns:
             The gid value
-        
+
         Note:
             Delegates to gid property (CODING_RULE_V2_00017)
         """
@@ -173,13 +173,13 @@ class SdgElementWithGid(ARObject, ABC):
     def setGid(self, value: "NameToken") -> "SdgElementWithGid":
         """
         AUTOSAR-compliant setter for gid with method chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to gid property setter (gets validation automatically)
         """
@@ -191,13 +191,13 @@ class SdgElementWithGid(ARObject, ABC):
     def with_gid(self, value: Optional["NameToken"]) -> "SdgElementWithGid":
         """
         Set gid and return self for chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_gid("value")
         """
@@ -209,9 +209,9 @@ class SdgElementWithGid(ARObject, ABC):
 class SdgAttribute(Identifiable, ABC):
     """
     Describes the attributes of an Sdg.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAttribute
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 100, Foundation
       R23-11)
@@ -234,9 +234,9 @@ class SdgClass(SdgElementWithGid):
     An SdgClass specifies the name and structure of the SDG that may be used to
     store proprietary data in an AUTOSAR model. The SdgClass is similar to an
     UML stereotype.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgClass
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 99, Foundation R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 207, Foundation R23-11)
@@ -266,10 +266,10 @@ class SdgClass(SdgElementWithGid):
     def caption(self, value: Optional["Boolean"]) -> None:
         """
         Set caption with validation.
-        
+
         Args:
             value: The caption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -293,10 +293,10 @@ class SdgClass(SdgElementWithGid):
     def extends_meta(self, value: Optional["MetaClassName"]) -> None:
         """
         Set extendsMeta with validation.
-        
+
         Args:
             value: The extendsMeta to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -321,10 +321,10 @@ class SdgClass(SdgElementWithGid):
     def getAttribute(self) -> List["SdgAttribute"]:
         """
         AUTOSAR-compliant getter for attribute.
-        
+
         Returns:
             The attribute value
-        
+
         Note:
             Delegates to attribute property (CODING_RULE_V2_00017)
         """
@@ -333,10 +333,10 @@ class SdgClass(SdgElementWithGid):
     def getCaption(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for caption.
-        
+
         Returns:
             The caption value
-        
+
         Note:
             Delegates to caption property (CODING_RULE_V2_00017)
         """
@@ -345,13 +345,13 @@ class SdgClass(SdgElementWithGid):
     def setCaption(self, value: "Boolean") -> "SdgClass":
         """
         AUTOSAR-compliant setter for caption with method chaining.
-        
+
         Args:
             value: The caption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to caption property setter (gets validation automatically)
         """
@@ -361,10 +361,10 @@ class SdgClass(SdgElementWithGid):
     def getExtendsMeta(self) -> "MetaClassName":
         """
         AUTOSAR-compliant getter for extendsMeta.
-        
+
         Returns:
             The extendsMeta value
-        
+
         Note:
             Delegates to extends_meta property (CODING_RULE_V2_00017)
         """
@@ -373,13 +373,13 @@ class SdgClass(SdgElementWithGid):
     def setExtendsMeta(self, value: "MetaClassName") -> "SdgClass":
         """
         AUTOSAR-compliant setter for extendsMeta with method chaining.
-        
+
         Args:
             value: The extendsMeta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to extends_meta property setter (gets validation automatically)
         """
@@ -389,10 +389,10 @@ class SdgClass(SdgElementWithGid):
     def getSdgConstraint(self) -> List["TraceableText"]:
         """
         AUTOSAR-compliant getter for sdgConstraint.
-        
+
         Returns:
             The sdgConstraint value
-        
+
         Note:
             Delegates to sdg_constraint property (CODING_RULE_V2_00017)
         """
@@ -403,13 +403,13 @@ class SdgClass(SdgElementWithGid):
     def with_caption(self, value: Optional["Boolean"]) -> "SdgClass":
         """
         Set caption and return self for chaining.
-        
+
         Args:
             value: The caption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_caption("value")
         """
@@ -419,13 +419,13 @@ class SdgClass(SdgElementWithGid):
     def with_extends_meta(self, value: Optional["MetaClassName"]) -> "SdgClass":
         """
         Set extendsMeta and return self for chaining.
-        
+
         Args:
             value: The extendsMeta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_extends_meta("value")
         """
@@ -437,9 +437,9 @@ class SdgClass(SdgElementWithGid):
 class SdgAbstractPrimitiveAttribute(SdgElementWithGid, ABC):
     """
     Describes primitive attributes of a special data group.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAbstractPrimitiveAttribute
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 100, Foundation
       R23-11)
@@ -461,9 +461,9 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     """
     Describes that the Sdg may contain another Sdg. The gid of the nested Sdg is
     defined by subSdg. Represents ’sdg’.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAggregationWithVariation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation
       R23-11)
@@ -484,10 +484,10 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def sub_sdg(self, value: Optional["SdgClass"]) -> None:
         """
         Set subSdg with validation.
-        
+
         Args:
             value: The subSdg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -506,10 +506,10 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def getSubSdg(self) -> "SdgClass":
         """
         AUTOSAR-compliant getter for subSdg.
-        
+
         Returns:
             The subSdg value
-        
+
         Note:
             Delegates to sub_sdg property (CODING_RULE_V2_00017)
         """
@@ -518,13 +518,13 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def setSubSdg(self, value: "SdgClass") -> "SdgAggregationWithVariation":
         """
         AUTOSAR-compliant setter for subSdg with method chaining.
-        
+
         Args:
             value: The subSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_sdg property setter (gets validation automatically)
         """
@@ -536,13 +536,13 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def with_sub_sdg(self, value: Optional["SdgClass"]) -> "SdgAggregationWithVariation":
         """
         Set subSdg and return self for chaining.
-        
+
         Args:
             value: The subSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_sdg("value")
         """
@@ -555,9 +555,9 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     """
     An abstract reference that can point to any referrable object in an AUTOSAR
     Model.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAbstractForeignReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 102, Foundation
       R23-11)
@@ -580,10 +580,10 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def dest_meta_class(self, value: Optional["MetaClassName"]) -> None:
         """
         Set destMetaClass with validation.
-        
+
         Args:
             value: The destMetaClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -602,10 +602,10 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def getDestMetaClass(self) -> "MetaClassName":
         """
         AUTOSAR-compliant getter for destMetaClass.
-        
+
         Returns:
             The destMetaClass value
-        
+
         Note:
             Delegates to dest_meta_class property (CODING_RULE_V2_00017)
         """
@@ -614,13 +614,13 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def setDestMetaClass(self, value: "MetaClassName") -> "SdgAbstractForeignReference":
         """
         AUTOSAR-compliant setter for destMetaClass with method chaining.
-        
+
         Args:
             value: The destMetaClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dest_meta_class property setter (gets validation automatically)
         """
@@ -632,13 +632,13 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def with_dest_meta_class(self, value: Optional["MetaClassName"]) -> "SdgAbstractForeignReference":
         """
         Set destMetaClass and return self for chaining.
-        
+
         Args:
             value: The destMetaClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dest_meta_class("value")
         """
@@ -651,9 +651,9 @@ class SdgReference(SdgAttribute):
     """
     Describes an attribute of a SdgClass which is used on the definition side to
     model a reference from one Sdg to another Sdg on the value side.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation
       R23-11)
@@ -677,10 +677,10 @@ class SdgReference(SdgAttribute):
     def dest_sdg(self, value: Optional["SdgClass"]) -> None:
         """
         Set destSdg with validation.
-        
+
         Args:
             value: The destSdg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -699,10 +699,10 @@ class SdgReference(SdgAttribute):
     def getDestSdg(self) -> "SdgClass":
         """
         AUTOSAR-compliant getter for destSdg.
-        
+
         Returns:
             The destSdg value
-        
+
         Note:
             Delegates to dest_sdg property (CODING_RULE_V2_00017)
         """
@@ -711,13 +711,13 @@ class SdgReference(SdgAttribute):
     def setDestSdg(self, value: "SdgClass") -> "SdgReference":
         """
         AUTOSAR-compliant setter for destSdg with method chaining.
-        
+
         Args:
             value: The destSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dest_sdg property setter (gets validation automatically)
         """
@@ -729,13 +729,13 @@ class SdgReference(SdgAttribute):
     def with_dest_sdg(self, value: Optional["SdgClass"]) -> "SdgReference":
         """
         Set destSdg and return self for chaining.
-        
+
         Args:
             value: The destSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dest_sdg("value")
         """
@@ -748,9 +748,9 @@ class SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute):
     """
     Describes primitive special data attributes without variation. This class
     accepts a special data "sd" attribute.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgPrimitiveAttribute
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 100, Foundation
       R23-11)
@@ -770,9 +770,9 @@ class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute):
     """
     Describes a primitive numerical special data attribute with variation. This
     class accepts a special data "sdf" element.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgPrimitiveAttributeWithVariation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation
       R23-11)
@@ -793,9 +793,9 @@ class SdgForeignReference(SdgAbstractForeignReference):
     A reference without variation support that can point to any referrable
     object in an AUTOSAR Model. This class accepts the special data "Sdx"
     reference.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgForeignReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 102, Foundation
       R23-11)
@@ -815,9 +815,9 @@ class SdgForeignReferenceWithVariation(SdgAbstractForeignReference):
     """
     A reference with variation support that can point to any referrable object
     in an AUTOSAR Model. This class accepts the special data "Sdxf" reference.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgForeignReferenceWithVariation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 102, Foundation
       R23-11)

@@ -18,9 +18,9 @@ class ClientServerOperationBlueprintMapping(ARObject):
     """
     This class describes a specific mapping between a ClientServerOperation in a
     ClientServerInterface blueprint and a BswModuleEntry blueprint.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw::ClientServerOperationBlueprintMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 68, Foundation R23-11)
     """
@@ -41,10 +41,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def blueprint(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set blueprint with validation.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +68,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def bsw_module(self, value: "BswModuleEntry") -> None:
         """
         Set bswModule with validation.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +92,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def client_server(self, value: "ClientServerOperation") -> None:
         """
         Set clientServer with validation.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +126,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def getBlueprint(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for blueprint.
-        
+
         Returns:
             The blueprint value
-        
+
         Note:
             Delegates to blueprint property (CODING_RULE_V2_00017)
         """
@@ -138,13 +138,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def setBlueprint(self, value: "DocumentationBlock") -> "ClientServerOperationBlueprintMapping":
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint property setter (gets validation automatically)
         """
@@ -154,10 +154,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def getBswModule(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for bswModule.
-        
+
         Returns:
             The bswModule value
-        
+
         Note:
             Delegates to bsw_module property (CODING_RULE_V2_00017)
         """
@@ -166,13 +166,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def setBswModule(self, value: "BswModuleEntry") -> "ClientServerOperationBlueprintMapping":
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_module property setter (gets validation automatically)
         """
@@ -182,10 +182,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def getClientServer(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for clientServer.
-        
+
         Returns:
             The clientServer value
-        
+
         Note:
             Delegates to client_server property (CODING_RULE_V2_00017)
         """
@@ -194,13 +194,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def setClientServer(self, value: "ClientServerOperation") -> "ClientServerOperationBlueprintMapping":
         """
         AUTOSAR-compliant setter for clientServer with method chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server property setter (gets validation automatically)
         """
@@ -212,13 +212,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def with_blueprint(self, value: Optional["DocumentationBlock"]) -> "ClientServerOperationBlueprintMapping":
         """
         Set blueprint and return self for chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint("value")
         """
@@ -228,13 +228,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def with_bsw_module(self, value: "BswModuleEntry") -> "ClientServerOperationBlueprintMapping":
         """
         Set bswModule and return self for chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_module("value")
         """
@@ -244,13 +244,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def with_client_server(self, value: "ClientServerOperation") -> "ClientServerOperationBlueprintMapping":
         """
         Set clientServer and return self for chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server("value")
         """
@@ -268,9 +268,9 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     number of arguments and the data types of arguments of the operation +
     additional PortDefined Arguments matches the signature of the
     BswModuleEntry.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw::ClientServerInterfaceToBswModuleEntryBlueprintMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 174, Foundation R23-11)
     """
@@ -291,10 +291,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def client_server(self, value: "ClientServerInterface") -> None:
         """
         Set clientServer with validation.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -314,10 +314,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def operation(self, value: "ClientServerOperation") -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -339,10 +339,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def getClientServer(self) -> "ClientServerInterface":
         """
         AUTOSAR-compliant getter for clientServer.
-        
+
         Returns:
             The clientServer value
-        
+
         Note:
             Delegates to client_server property (CODING_RULE_V2_00017)
         """
@@ -351,13 +351,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def setClientServer(self, value: "ClientServerInterface") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         AUTOSAR-compliant setter for clientServer with method chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server property setter (gets validation automatically)
         """
@@ -367,10 +367,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -379,13 +379,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def setOperation(self, value: "ClientServerOperation") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -395,10 +395,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def getPortDefined(self) -> List["PortDefinedArgument"]:
         """
         AUTOSAR-compliant getter for portDefined.
-        
+
         Returns:
             The portDefined value
-        
+
         Note:
             Delegates to port_defined property (CODING_RULE_V2_00017)
         """
@@ -409,13 +409,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def with_client_server(self, value: "ClientServerInterface") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         Set clientServer and return self for chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server("value")
         """
@@ -425,13 +425,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def with_operation(self, value: "ClientServerOperation") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """

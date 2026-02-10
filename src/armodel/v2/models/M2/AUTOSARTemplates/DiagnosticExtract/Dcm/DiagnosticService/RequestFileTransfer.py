@@ -17,9 +17,9 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
     This diagnostic service instance implements the UDS service 0x38. (cid:53)
     146 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate
     Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RequestFileTransfer::DiagnosticRequestFileTransfer
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 146, Classic Platform
       R23-11)
@@ -43,10 +43,10 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
     def request_file(self, value: Optional["DiagnosticRequestFile"]) -> None:
         """
         Set requestFile with validation.
-        
+
         Args:
             value: The requestFile to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
     def getRequestFile(self) -> "DiagnosticRequestFile":
         """
         AUTOSAR-compliant getter for requestFile.
-        
+
         Returns:
             The requestFile value
-        
+
         Note:
             Delegates to request_file property (CODING_RULE_V2_00017)
         """
@@ -77,13 +77,13 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
     def setRequestFile(self, value: "DiagnosticRequestFile") -> "DiagnosticRequestFileTransfer":
         """
         AUTOSAR-compliant setter for requestFile with method chaining.
-        
+
         Args:
             value: The requestFile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_file property setter (gets validation automatically)
         """
@@ -95,13 +95,13 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
     def with_request_file(self, value: Optional["DiagnosticRequestFile"]) -> "DiagnosticRequestFileTransfer":
         """
         Set requestFile and return self for chaining.
-        
+
         Args:
             value: The requestFile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_file("value")
         """
@@ -114,9 +114,9 @@ class DiagnosticRequestFileTransferClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Request
     File transfer" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RequestFileTransfer::DiagnosticRequestFileTransferClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 147, Classic Platform
       R23-11)

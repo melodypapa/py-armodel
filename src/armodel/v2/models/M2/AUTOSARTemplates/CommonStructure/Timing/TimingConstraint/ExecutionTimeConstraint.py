@@ -24,9 +24,9 @@ class ExecutionTimeConstraint(TimingConstraint):
     the start of the entity to the termination of the entity with according
     latency constraint represents a response time constraint for that executable
     entity.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint::ExecutionTimeConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 130, Classic Platform R23-11)
     """
@@ -48,10 +48,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def component(self, value: Optional["SwComponent"]) -> None:
         """
         Set component with validation.
-        
+
         Args:
             value: The component to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +75,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def executable(self, value: Optional["ExecutableEntity"]) -> None:
         """
         Set executable with validation.
-        
+
         Args:
             value: The executable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +103,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def execution_time(self, value: Optional["ExecutionTimeType"]) -> None:
         """
         Set executionTime with validation.
-        
+
         Args:
             value: The executionTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +130,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def maximum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -157,10 +157,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def minimum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -179,10 +179,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def getComponent(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for component.
-        
+
         Returns:
             The component value
-        
+
         Note:
             Delegates to component property (CODING_RULE_V2_00017)
         """
@@ -191,13 +191,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def setComponent(self, value: "SwComponent") -> "ExecutionTimeConstraint":
         """
         AUTOSAR-compliant setter for component with method chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to component property setter (gets validation automatically)
         """
@@ -207,10 +207,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def getExecutable(self) -> "ExecutableEntity":
         """
         AUTOSAR-compliant getter for executable.
-        
+
         Returns:
             The executable value
-        
+
         Note:
             Delegates to executable property (CODING_RULE_V2_00017)
         """
@@ -219,13 +219,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def setExecutable(self, value: "ExecutableEntity") -> "ExecutionTimeConstraint":
         """
         AUTOSAR-compliant setter for executable with method chaining.
-        
+
         Args:
             value: The executable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to executable property setter (gets validation automatically)
         """
@@ -235,10 +235,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def getExecutionTime(self) -> "ExecutionTimeType":
         """
         AUTOSAR-compliant getter for executionTime.
-        
+
         Returns:
             The executionTime value
-        
+
         Note:
             Delegates to execution_time property (CODING_RULE_V2_00017)
         """
@@ -247,13 +247,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def setExecutionTime(self, value: "ExecutionTimeType") -> "ExecutionTimeConstraint":
         """
         AUTOSAR-compliant setter for executionTime with method chaining.
-        
+
         Args:
             value: The executionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to execution_time property setter (gets validation automatically)
         """
@@ -263,10 +263,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def getMaximum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -275,13 +275,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def setMaximum(self, value: "MultidimensionalTime") -> "ExecutionTimeConstraint":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -291,10 +291,10 @@ class ExecutionTimeConstraint(TimingConstraint):
     def getMinimum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -303,13 +303,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def setMinimum(self, value: "MultidimensionalTime") -> "ExecutionTimeConstraint":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -321,13 +321,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def with_component(self, value: Optional["SwComponent"]) -> "ExecutionTimeConstraint":
         """
         Set component and return self for chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_component("value")
         """
@@ -337,13 +337,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def with_executable(self, value: Optional["ExecutableEntity"]) -> "ExecutionTimeConstraint":
         """
         Set executable and return self for chaining.
-        
+
         Args:
             value: The executable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_executable("value")
         """
@@ -353,13 +353,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def with_execution_time(self, value: Optional["ExecutionTimeType"]) -> "ExecutionTimeConstraint":
         """
         Set executionTime and return self for chaining.
-        
+
         Args:
             value: The executionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_execution_time("value")
         """
@@ -369,13 +369,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def with_maximum(self, value: Optional["MultidimensionalTime"]) -> "ExecutionTimeConstraint":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -385,13 +385,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     def with_minimum(self, value: Optional["MultidimensionalTime"]) -> "ExecutionTimeConstraint":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """

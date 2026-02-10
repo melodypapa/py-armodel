@@ -22,9 +22,9 @@ class SwCalprmAxisSet(ARObject):
     """
     This element specifies the input parameter axes (abscissas) of parameters
     (and variables, if these are used adaptively).
-    
+
     Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxisSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 351, Classic Platform
       R23-11)
@@ -46,10 +46,10 @@ class SwCalprmAxisSet(ARObject):
     def getSwCalprmAxis(self) -> List["SwCalprmAxis"]:
         """
         AUTOSAR-compliant getter for swCalprmAxis.
-        
+
         Returns:
             The swCalprmAxis value
-        
+
         Note:
             Delegates to sw_calprm_axis property (CODING_RULE_V2_00017)
         """
@@ -62,9 +62,9 @@ class SwCalprmAxisSet(ARObject):
 class SwCalprmAxis(ARObject):
     """
     This element specifies an individual input parameter axis (abscissa).
-    
+
     Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxis
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 352, Classic Platform
       R23-11)
@@ -87,10 +87,10 @@ class SwCalprmAxis(ARObject):
     def category(self, value: Optional["CalprmAxisCategory"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class SwCalprmAxis(ARObject):
     def display_format(self, value: Optional["DisplayFormatString"]) -> None:
         """
         Set displayFormat with validation.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +144,10 @@ class SwCalprmAxis(ARObject):
     def sw_axis_index(self, value: Optional["AxisIndexType"]) -> None:
         """
         Set swAxisIndex with validation.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class SwCalprmAxis(ARObject):
     def sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> None:
         """
         Set swCalibration with validation.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +201,10 @@ class SwCalprmAxis(ARObject):
     def sw_calprm_axis(self, value: Optional["SwCalprmAxisType"]) -> None:
         """
         Set swCalprmAxis with validation.
-        
+
         Args:
             value: The swCalprmAxis to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -223,10 +223,10 @@ class SwCalprmAxis(ARObject):
     def getCategory(self) -> "CalprmAxisCategory":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class SwCalprmAxis(ARObject):
     def setCategory(self, value: "CalprmAxisCategory") -> "SwCalprmAxis":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -251,10 +251,10 @@ class SwCalprmAxis(ARObject):
     def getDisplayFormat(self) -> "DisplayFormatString":
         """
         AUTOSAR-compliant getter for displayFormat.
-        
+
         Returns:
             The displayFormat value
-        
+
         Note:
             Delegates to display_format property (CODING_RULE_V2_00017)
         """
@@ -263,13 +263,13 @@ class SwCalprmAxis(ARObject):
     def setDisplayFormat(self, value: "DisplayFormatString") -> "SwCalprmAxis":
         """
         AUTOSAR-compliant setter for displayFormat with method chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to display_format property setter (gets validation automatically)
         """
@@ -279,10 +279,10 @@ class SwCalprmAxis(ARObject):
     def getSwAxisIndex(self) -> "AxisIndexType":
         """
         AUTOSAR-compliant getter for swAxisIndex.
-        
+
         Returns:
             The swAxisIndex value
-        
+
         Note:
             Delegates to sw_axis_index property (CODING_RULE_V2_00017)
         """
@@ -291,13 +291,13 @@ class SwCalprmAxis(ARObject):
     def setSwAxisIndex(self, value: "AxisIndexType") -> "SwCalprmAxis":
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_axis_index property setter (gets validation automatically)
         """
@@ -307,10 +307,10 @@ class SwCalprmAxis(ARObject):
     def getSwCalibration(self) -> "SwCalibrationAccess":
         """
         AUTOSAR-compliant getter for swCalibration.
-        
+
         Returns:
             The swCalibration value
-        
+
         Note:
             Delegates to sw_calibration property (CODING_RULE_V2_00017)
         """
@@ -319,13 +319,13 @@ class SwCalprmAxis(ARObject):
     def setSwCalibration(self, value: "SwCalibrationAccess") -> "SwCalprmAxis":
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calibration property setter (gets validation automatically)
         """
@@ -335,10 +335,10 @@ class SwCalprmAxis(ARObject):
     def getSwCalprmAxis(self) -> "SwCalprmAxisType":
         """
         AUTOSAR-compliant getter for swCalprmAxis.
-        
+
         Returns:
             The swCalprmAxis value
-        
+
         Note:
             Delegates to sw_calprm_axis property (CODING_RULE_V2_00017)
         """
@@ -347,13 +347,13 @@ class SwCalprmAxis(ARObject):
     def setSwCalprmAxis(self, value: "SwCalprmAxisType") -> "SwCalprmAxis":
         """
         AUTOSAR-compliant setter for swCalprmAxis with method chaining.
-        
+
         Args:
             value: The swCalprmAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calprm_axis property setter (gets validation automatically)
         """
@@ -365,13 +365,13 @@ class SwCalprmAxis(ARObject):
     def with_category(self, value: Optional["CalprmAxisCategory"]) -> "SwCalprmAxis":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -381,13 +381,13 @@ class SwCalprmAxis(ARObject):
     def with_display_format(self, value: Optional["DisplayFormatString"]) -> "SwCalprmAxis":
         """
         Set displayFormat and return self for chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_display_format("value")
         """
@@ -397,13 +397,13 @@ class SwCalprmAxis(ARObject):
     def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "SwCalprmAxis":
         """
         Set swAxisIndex and return self for chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_axis_index("value")
         """
@@ -413,13 +413,13 @@ class SwCalprmAxis(ARObject):
     def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> "SwCalprmAxis":
         """
         Set swCalibration and return self for chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calibration("value")
         """
@@ -429,13 +429,13 @@ class SwCalprmAxis(ARObject):
     def with_sw_calprm_axis(self, value: Optional["SwCalprmAxisType"]) -> "SwCalprmAxis":
         """
         Set swCalprmAxis and return self for chaining.
-        
+
         Args:
             value: The swCalprmAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calprm_axis("value")
         """
@@ -450,9 +450,9 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     particular model of the specialization. If the specialization would be the
     directly from SwCalPrmAxis, the sequence of common properties and the
     specializes ones would be different.
-    
+
     Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxisTypeProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 353, Classic Platform
       R23-11)
@@ -477,10 +477,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def max_gradient(self, value: Optional["Float"]) -> None:
         """
         Set maxGradient with validation.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -506,10 +506,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def monotony(self, value: Optional["MonotonyEnum"]) -> None:
         """
         Set monotony with validation.
-        
+
         Args:
             value: The monotony to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -528,10 +528,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def getMaxGradient(self) -> "Float":
         """
         AUTOSAR-compliant getter for maxGradient.
-        
+
         Returns:
             The maxGradient value
-        
+
         Note:
             Delegates to max_gradient property (CODING_RULE_V2_00017)
         """
@@ -540,13 +540,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def setMaxGradient(self, value: "Float") -> "SwCalprmAxisTypeProps":
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_gradient property setter (gets validation automatically)
         """
@@ -556,10 +556,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def getMonotony(self) -> "MonotonyEnum":
         """
         AUTOSAR-compliant getter for monotony.
-        
+
         Returns:
             The monotony value
-        
+
         Note:
             Delegates to monotony property (CODING_RULE_V2_00017)
         """
@@ -568,13 +568,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def setMonotony(self, value: "MonotonyEnum") -> "SwCalprmAxisTypeProps":
         """
         AUTOSAR-compliant setter for monotony with method chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to monotony property setter (gets validation automatically)
         """
@@ -586,13 +586,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def with_max_gradient(self, value: Optional["Float"]) -> "SwCalprmAxisTypeProps":
         """
         Set maxGradient and return self for chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_gradient("value")
         """
@@ -602,13 +602,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def with_monotony(self, value: Optional["MonotonyEnum"]) -> "SwCalprmAxisTypeProps":
         """
         Set monotony and return self for chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_monotony("value")
         """

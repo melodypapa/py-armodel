@@ -18,9 +18,9 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     """
     This class implements an instance reference which can be applied for
     variables as well as for parameters.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs::ParameterInAtomicSWCTypeInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 319, Classic Platform
       R23-11)
@@ -42,10 +42,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def base(self, value: Optional["AtomicSwComponent"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def port_prototype(self, value: Optional["RefType"]) -> None:
         """
         Set portPrototype with validation.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +101,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def root_parameter(self, value: Optional["RefType"]) -> None:
         """
         Set rootParameter with validation.
-        
+
         Args:
             value: The rootParameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +126,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def target_data(self, value: Optional["RefType"]) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +176,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def getBase(self) -> "AtomicSwComponent":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -188,13 +188,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def setBase(self, value: "AtomicSwComponent") -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -204,10 +204,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -216,10 +216,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def getPortPrototype(self) -> "RefType":
         """
         AUTOSAR-compliant getter for portPrototype.
-        
+
         Returns:
             The portPrototype value
-        
+
         Note:
             Delegates to port_prototype property (CODING_RULE_V2_00017)
         """
@@ -228,13 +228,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def setPortPrototype(self, value: "RefType") -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_prototype property setter (gets validation automatically)
         """
@@ -244,10 +244,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def getRootParameter(self) -> "RefType":
         """
         AUTOSAR-compliant getter for rootParameter.
-        
+
         Returns:
             The rootParameter value
-        
+
         Note:
             Delegates to root_parameter property (CODING_RULE_V2_00017)
         """
@@ -256,13 +256,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def setRootParameter(self, value: "RefType") -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for rootParameter with method chaining.
-        
+
         Args:
             value: The rootParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_parameter property setter (gets validation automatically)
         """
@@ -272,10 +272,10 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def getTargetData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -284,13 +284,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def setTargetData(self, value: "RefType") -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -302,13 +302,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def with_base(self, value: Optional["AtomicSwComponent"]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -318,13 +318,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def with_port_prototype(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         Set portPrototype and return self for chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_prototype("value")
         """
@@ -334,13 +334,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def with_root_parameter(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         Set rootParameter and return self for chaining.
-        
+
         Args:
             value: The rootParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_parameter("value")
         """
@@ -350,13 +350,13 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     def with_target_data(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """
@@ -367,9 +367,9 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
 
 class VariableInAtomicSWCTypeInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs::VariableInAtomicSWCTypeInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 953, Classic Platform
       R23-11)
@@ -391,10 +391,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def base(self, value: Optional["AtomicSwComponent"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -428,10 +428,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def port_prototype(self, value: Optional["RefType"]) -> None:
         """
         Set portPrototype with validation.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -453,10 +453,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def root_variable_data_prototype(self, value: Optional["RefType"]) -> None:
         """
         Set rootVariableDataPrototype with validation.
-        
+
         Args:
             value: The rootVariableDataPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -477,10 +477,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def target_data(self, value: Optional["RefType"]) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -495,10 +495,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getBase(self) -> "AtomicSwComponent":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -507,13 +507,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setBase(self, value: "AtomicSwComponent") -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -523,10 +523,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -535,10 +535,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getPortPrototype(self) -> "RefType":
         """
         AUTOSAR-compliant getter for portPrototype.
-        
+
         Returns:
             The portPrototype value
-        
+
         Note:
             Delegates to port_prototype property (CODING_RULE_V2_00017)
         """
@@ -547,13 +547,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setPortPrototype(self, value: "RefType") -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_prototype property setter (gets validation automatically)
         """
@@ -563,10 +563,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getRootVariableDataPrototype(self) -> "RefType":
         """
         AUTOSAR-compliant getter for rootVariableDataPrototype.
-        
+
         Returns:
             The rootVariableDataPrototype value
-        
+
         Note:
             Delegates to root_variable_data_prototype property (CODING_RULE_V2_00017)
         """
@@ -575,13 +575,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setRootVariableDataPrototype(self, value: "RefType") -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for rootVariableDataPrototype with method chaining.
-        
+
         Args:
             value: The rootVariableDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_variable_data_prototype property setter (gets validation automatically)
         """
@@ -591,10 +591,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getTargetData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -603,13 +603,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setTargetData(self, value: "RefType") -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -621,13 +621,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_base(self, value: Optional["AtomicSwComponent"]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -637,13 +637,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_port_prototype(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set portPrototype and return self for chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_prototype("value")
         """
@@ -653,13 +653,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_root_variable_data_prototype(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set rootVariableDataPrototype and return self for chaining.
-        
+
         Args:
             value: The rootVariableDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_variable_data_prototype("value")
         """
@@ -669,13 +669,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_target_data(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """

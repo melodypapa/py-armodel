@@ -16,9 +16,9 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x01 service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x01_RequestCurrentPowertrain::DiagnosticRequestCurrentPowertrainData
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 150, Classic Platform
       R23-11)
@@ -40,10 +40,10 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def pid(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set pid with validation.
-        
+
         Args:
             value: The pid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +70,10 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def request_current(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestCurrent with validation.
-        
+
         Args:
             value: The requestCurrent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +92,10 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def getPid(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for pid.
-        
+
         Returns:
             The pid value
-        
+
         Note:
             Delegates to pid property (CODING_RULE_V2_00017)
         """
@@ -104,13 +104,13 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def setPid(self, value: "DiagnosticParameter") -> "DiagnosticRequestCurrentPowertrainData":
         """
         AUTOSAR-compliant setter for pid with method chaining.
-        
+
         Args:
             value: The pid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pid property setter (gets validation automatically)
         """
@@ -120,10 +120,10 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def getRequestCurrent(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestCurrent.
-        
+
         Returns:
             The requestCurrent value
-        
+
         Note:
             Delegates to request_current property (CODING_RULE_V2_00017)
         """
@@ -132,13 +132,13 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def setRequestCurrent(self, value: "DiagnosticRequest") -> "DiagnosticRequestCurrentPowertrainData":
         """
         AUTOSAR-compliant setter for requestCurrent with method chaining.
-        
+
         Args:
             value: The requestCurrent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_current property setter (gets validation automatically)
         """
@@ -150,13 +150,13 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def with_pid(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticRequestCurrentPowertrainData":
         """
         Set pid and return self for chaining.
-        
+
         Args:
             value: The pid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pid("value")
         """
@@ -166,13 +166,13 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     def with_request_current(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestCurrentPowertrainData":
         """
         Set requestCurrent and return self for chaining.
-        
+
         Args:
             value: The requestCurrent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_current("value")
         """
@@ -185,9 +185,9 @@ class DiagnosticRequestCurrentPowertrainDataClass(DiagnosticServiceClass):
     """
     This meta-class represents the ability to define common properties for all
     instances of the "Request current Powertrain Data" OBD diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x01_RequestCurrentPowertrain::DiagnosticRequestCurrentPowertrainDataClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 151, Classic Platform
       R23-11)

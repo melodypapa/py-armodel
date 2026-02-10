@@ -18,9 +18,9 @@ class CalibrationParameterValueSet(ARElement):
     """
     Specification of a constant that can be part of a package, i.e. it can be
     defined stand-alone.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter::CalibrationParameterValueSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 477, Classic Platform
       R23-11)
@@ -60,10 +60,10 @@ class CalibrationParameterValueSet(ARElement):
     def getCalibration(self) -> List["CalibrationParameter"]:
         """
         AUTOSAR-compliant getter for calibration.
-        
+
         Returns:
             The calibration value
-        
+
         Note:
             Delegates to calibration property (CODING_RULE_V2_00017)
         """
@@ -78,9 +78,9 @@ class CalibrationParameterValue(ARObject):
     further that in this case an explicit mapping of ValueSpecification is not
     implemented because calibration parameters are delivered back after the
     calibration phase.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter::CalibrationParameterValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 478, Classic Platform
       R23-11)
@@ -103,10 +103,10 @@ class CalibrationParameterValue(ARObject):
     def appl_init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set applInitValue with validation.
-        
+
         Args:
             value: The applInitValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +131,10 @@ class CalibrationParameterValue(ARObject):
     def impl_init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set implInitValue with validation.
-        
+
         Args:
             value: The implInitValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -158,10 +158,10 @@ class CalibrationParameterValue(ARObject):
     def initialized(self, value: Optional["FlatInstanceDescriptor"]) -> None:
         """
         Set initialized with validation.
-        
+
         Args:
             value: The initialized to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -180,10 +180,10 @@ class CalibrationParameterValue(ARObject):
     def getApplInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for applInitValue.
-        
+
         Returns:
             The applInitValue value
-        
+
         Note:
             Delegates to appl_init_value property (CODING_RULE_V2_00017)
         """
@@ -192,13 +192,13 @@ class CalibrationParameterValue(ARObject):
     def setApplInitValue(self, value: "ValueSpecification") -> "CalibrationParameterValue":
         """
         AUTOSAR-compliant setter for applInitValue with method chaining.
-        
+
         Args:
             value: The applInitValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to appl_init_value property setter (gets validation automatically)
         """
@@ -208,10 +208,10 @@ class CalibrationParameterValue(ARObject):
     def getImplInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for implInitValue.
-        
+
         Returns:
             The implInitValue value
-        
+
         Note:
             Delegates to impl_init_value property (CODING_RULE_V2_00017)
         """
@@ -220,13 +220,13 @@ class CalibrationParameterValue(ARObject):
     def setImplInitValue(self, value: "ValueSpecification") -> "CalibrationParameterValue":
         """
         AUTOSAR-compliant setter for implInitValue with method chaining.
-        
+
         Args:
             value: The implInitValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to impl_init_value property setter (gets validation automatically)
         """
@@ -236,10 +236,10 @@ class CalibrationParameterValue(ARObject):
     def getInitialized(self) -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant getter for initialized.
-        
+
         Returns:
             The initialized value
-        
+
         Note:
             Delegates to initialized property (CODING_RULE_V2_00017)
         """
@@ -248,13 +248,13 @@ class CalibrationParameterValue(ARObject):
     def setInitialized(self, value: "FlatInstanceDescriptor") -> "CalibrationParameterValue":
         """
         AUTOSAR-compliant setter for initialized with method chaining.
-        
+
         Args:
             value: The initialized to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initialized property setter (gets validation automatically)
         """
@@ -266,13 +266,13 @@ class CalibrationParameterValue(ARObject):
     def with_appl_init_value(self, value: Optional["ValueSpecification"]) -> "CalibrationParameterValue":
         """
         Set applInitValue and return self for chaining.
-        
+
         Args:
             value: The applInitValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_appl_init_value("value")
         """
@@ -282,13 +282,13 @@ class CalibrationParameterValue(ARObject):
     def with_impl_init_value(self, value: Optional["ValueSpecification"]) -> "CalibrationParameterValue":
         """
         Set implInitValue and return self for chaining.
-        
+
         Args:
             value: The implInitValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_impl_init_value("value")
         """
@@ -298,13 +298,13 @@ class CalibrationParameterValue(ARObject):
     def with_initialized(self, value: Optional["FlatInstanceDescriptor"]) -> "CalibrationParameterValue":
         """
         Set initialized and return self for chaining.
-        
+
         Args:
             value: The initialized to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initialized("value")
         """

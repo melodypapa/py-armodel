@@ -22,9 +22,9 @@ class DocumentationBlock(ARObject):
     """
     This class represents a documentation block. It is made of basic text
     structure elements which can be displayed in a table cell.
-    
+
     Package: M2::MSR::Documentation::BlockElements::DocumentationBlock
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 52, Classic Platform
       R23-11)
@@ -50,10 +50,10 @@ class DocumentationBlock(ARObject):
     def def_list(self, value: Optional["RefType"]) -> None:
         """
         Set defList with validation.
-        
+
         Args:
             value: The defList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +75,10 @@ class DocumentationBlock(ARObject):
     def figure(self, value: Optional["MlFigure"]) -> None:
         """
         Set figure with validation.
-        
+
         Args:
             value: The figure to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +104,10 @@ class DocumentationBlock(ARObject):
     def formula(self, value: Optional["MlFormula"]) -> None:
         """
         Set formula with validation.
-        
+
         Args:
             value: The formula to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -133,10 +133,10 @@ class DocumentationBlock(ARObject):
     def labeled_list_label(self, value: Optional["RefType"]) -> None:
         """
         Set labeledListLabel with validation.
-        
+
         Args:
             value: The labeledListLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -158,10 +158,10 @@ class DocumentationBlock(ARObject):
     def list(self, value: Optional["RefType"]) -> None:
         """
         Set list with validation.
-        
+
         Args:
             value: The list to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -184,10 +184,10 @@ class DocumentationBlock(ARObject):
     def msr_query_p2(self, value: Optional["MsrQueryP2"]) -> None:
         """
         Set msrQueryP2 with validation.
-        
+
         Args:
             value: The msrQueryP2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -213,10 +213,10 @@ class DocumentationBlock(ARObject):
     def note(self, value: Optional["Note"]) -> None:
         """
         Set note with validation.
-        
+
         Args:
             value: The note to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -242,10 +242,10 @@ class DocumentationBlock(ARObject):
     def p(self, value: Optional["MultiLanguage"]) -> None:
         """
         Set p with validation.
-        
+
         Args:
             value: The p to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -271,10 +271,10 @@ class DocumentationBlock(ARObject):
     def structured_req(self, value: Optional["StructuredReq"]) -> None:
         """
         Set structuredReq with validation.
-        
+
         Args:
             value: The structuredReq to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -302,10 +302,10 @@ class DocumentationBlock(ARObject):
     def trace(self, value: Optional["TraceableText"]) -> None:
         """
         Set trace with validation.
-        
+
         Args:
             value: The trace to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -331,10 +331,10 @@ class DocumentationBlock(ARObject):
     def verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> None:
         """
         Set verbatim with validation.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -353,10 +353,10 @@ class DocumentationBlock(ARObject):
     def getDefList(self) -> "RefType":
         """
         AUTOSAR-compliant getter for defList.
-        
+
         Returns:
             The defList value
-        
+
         Note:
             Delegates to def_list property (CODING_RULE_V2_00017)
         """
@@ -365,13 +365,13 @@ class DocumentationBlock(ARObject):
     def setDefList(self, value: "RefType") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for defList with method chaining.
-        
+
         Args:
             value: The defList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to def_list property setter (gets validation automatically)
         """
@@ -381,10 +381,10 @@ class DocumentationBlock(ARObject):
     def getFigure(self) -> "MlFigure":
         """
         AUTOSAR-compliant getter for figure.
-        
+
         Returns:
             The figure value
-        
+
         Note:
             Delegates to figure property (CODING_RULE_V2_00017)
         """
@@ -393,13 +393,13 @@ class DocumentationBlock(ARObject):
     def setFigure(self, value: "MlFigure") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for figure with method chaining.
-        
+
         Args:
             value: The figure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to figure property setter (gets validation automatically)
         """
@@ -409,10 +409,10 @@ class DocumentationBlock(ARObject):
     def getFormula(self) -> "MlFormula":
         """
         AUTOSAR-compliant getter for formula.
-        
+
         Returns:
             The formula value
-        
+
         Note:
             Delegates to formula property (CODING_RULE_V2_00017)
         """
@@ -421,13 +421,13 @@ class DocumentationBlock(ARObject):
     def setFormula(self, value: "MlFormula") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for formula with method chaining.
-        
+
         Args:
             value: The formula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to formula property setter (gets validation automatically)
         """
@@ -437,10 +437,10 @@ class DocumentationBlock(ARObject):
     def getLabeledListLabel(self) -> "RefType":
         """
         AUTOSAR-compliant getter for labeledListLabel.
-        
+
         Returns:
             The labeledListLabel value
-        
+
         Note:
             Delegates to labeled_list_label property (CODING_RULE_V2_00017)
         """
@@ -449,13 +449,13 @@ class DocumentationBlock(ARObject):
     def setLabeledListLabel(self, value: "RefType") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for labeledListLabel with method chaining.
-        
+
         Args:
             value: The labeledListLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to labeled_list_label property setter (gets validation automatically)
         """
@@ -465,10 +465,10 @@ class DocumentationBlock(ARObject):
     def getList(self) -> "RefType":
         """
         AUTOSAR-compliant getter for list.
-        
+
         Returns:
             The list value
-        
+
         Note:
             Delegates to list property (CODING_RULE_V2_00017)
         """
@@ -477,13 +477,13 @@ class DocumentationBlock(ARObject):
     def setList(self, value: "RefType") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for list with method chaining.
-        
+
         Args:
             value: The list to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to list property setter (gets validation automatically)
         """
@@ -493,10 +493,10 @@ class DocumentationBlock(ARObject):
     def getMsrQueryP2(self) -> "MsrQueryP2":
         """
         AUTOSAR-compliant getter for msrQueryP2.
-        
+
         Returns:
             The msrQueryP2 value
-        
+
         Note:
             Delegates to msr_query_p2 property (CODING_RULE_V2_00017)
         """
@@ -505,13 +505,13 @@ class DocumentationBlock(ARObject):
     def setMsrQueryP2(self, value: "MsrQueryP2") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for msrQueryP2 with method chaining.
-        
+
         Args:
             value: The msrQueryP2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_p2 property setter (gets validation automatically)
         """
@@ -521,10 +521,10 @@ class DocumentationBlock(ARObject):
     def getNote(self) -> "Note":
         """
         AUTOSAR-compliant getter for note.
-        
+
         Returns:
             The note value
-        
+
         Note:
             Delegates to note property (CODING_RULE_V2_00017)
         """
@@ -533,13 +533,13 @@ class DocumentationBlock(ARObject):
     def setNote(self, value: "Note") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for note with method chaining.
-        
+
         Args:
             value: The note to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to note property setter (gets validation automatically)
         """
@@ -549,10 +549,10 @@ class DocumentationBlock(ARObject):
     def getP(self) -> "MultiLanguage":
         """
         AUTOSAR-compliant getter for p.
-        
+
         Returns:
             The p value
-        
+
         Note:
             Delegates to p property (CODING_RULE_V2_00017)
         """
@@ -561,13 +561,13 @@ class DocumentationBlock(ARObject):
     def setP(self, value: "MultiLanguage") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for p with method chaining.
-        
+
         Args:
             value: The p to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to p property setter (gets validation automatically)
         """
@@ -577,10 +577,10 @@ class DocumentationBlock(ARObject):
     def getStructuredReq(self) -> "StructuredReq":
         """
         AUTOSAR-compliant getter for structuredReq.
-        
+
         Returns:
             The structuredReq value
-        
+
         Note:
             Delegates to structured_req property (CODING_RULE_V2_00017)
         """
@@ -589,13 +589,13 @@ class DocumentationBlock(ARObject):
     def setStructuredReq(self, value: "StructuredReq") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for structuredReq with method chaining.
-        
+
         Args:
             value: The structuredReq to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to structured_req property setter (gets validation automatically)
         """
@@ -605,10 +605,10 @@ class DocumentationBlock(ARObject):
     def getTrace(self) -> "TraceableText":
         """
         AUTOSAR-compliant getter for trace.
-        
+
         Returns:
             The trace value
-        
+
         Note:
             Delegates to trace property (CODING_RULE_V2_00017)
         """
@@ -617,13 +617,13 @@ class DocumentationBlock(ARObject):
     def setTrace(self, value: "TraceableText") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for trace with method chaining.
-        
+
         Args:
             value: The trace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trace property setter (gets validation automatically)
         """
@@ -633,10 +633,10 @@ class DocumentationBlock(ARObject):
     def getVerbatim(self) -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant getter for verbatim.
-        
+
         Returns:
             The verbatim value
-        
+
         Note:
             Delegates to verbatim property (CODING_RULE_V2_00017)
         """
@@ -645,13 +645,13 @@ class DocumentationBlock(ARObject):
     def setVerbatim(self, value: "MultiLanguageVerbatim") -> "DocumentationBlock":
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to verbatim property setter (gets validation automatically)
         """
@@ -663,13 +663,13 @@ class DocumentationBlock(ARObject):
     def with_def_list(self, value: Optional[RefType]) -> "DocumentationBlock":
         """
         Set defList and return self for chaining.
-        
+
         Args:
             value: The defList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_def_list("value")
         """
@@ -679,13 +679,13 @@ class DocumentationBlock(ARObject):
     def with_figure(self, value: Optional["MlFigure"]) -> "DocumentationBlock":
         """
         Set figure and return self for chaining.
-        
+
         Args:
             value: The figure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_figure("value")
         """
@@ -695,13 +695,13 @@ class DocumentationBlock(ARObject):
     def with_formula(self, value: Optional["MlFormula"]) -> "DocumentationBlock":
         """
         Set formula and return self for chaining.
-        
+
         Args:
             value: The formula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_formula("value")
         """
@@ -711,13 +711,13 @@ class DocumentationBlock(ARObject):
     def with_labeled_list_label(self, value: Optional[RefType]) -> "DocumentationBlock":
         """
         Set labeledListLabel and return self for chaining.
-        
+
         Args:
             value: The labeledListLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_labeled_list_label("value")
         """
@@ -727,13 +727,13 @@ class DocumentationBlock(ARObject):
     def with_list(self, value: Optional[RefType]) -> "DocumentationBlock":
         """
         Set list and return self for chaining.
-        
+
         Args:
             value: The list to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_list("value")
         """
@@ -743,13 +743,13 @@ class DocumentationBlock(ARObject):
     def with_msr_query_p2(self, value: Optional["MsrQueryP2"]) -> "DocumentationBlock":
         """
         Set msrQueryP2 and return self for chaining.
-        
+
         Args:
             value: The msrQueryP2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_p2("value")
         """
@@ -759,13 +759,13 @@ class DocumentationBlock(ARObject):
     def with_note(self, value: Optional["Note"]) -> "DocumentationBlock":
         """
         Set note and return self for chaining.
-        
+
         Args:
             value: The note to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_note("value")
         """
@@ -775,13 +775,13 @@ class DocumentationBlock(ARObject):
     def with_p(self, value: Optional["MultiLanguage"]) -> "DocumentationBlock":
         """
         Set p and return self for chaining.
-        
+
         Args:
             value: The p to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_p("value")
         """
@@ -791,13 +791,13 @@ class DocumentationBlock(ARObject):
     def with_structured_req(self, value: Optional["StructuredReq"]) -> "DocumentationBlock":
         """
         Set structuredReq and return self for chaining.
-        
+
         Args:
             value: The structuredReq to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_structured_req("value")
         """
@@ -807,13 +807,13 @@ class DocumentationBlock(ARObject):
     def with_trace(self, value: Optional["TraceableText"]) -> "DocumentationBlock":
         """
         Set trace and return self for chaining.
-        
+
         Args:
             value: The trace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trace("value")
         """
@@ -823,13 +823,13 @@ class DocumentationBlock(ARObject):
     def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> "DocumentationBlock":
         """
         Set verbatim and return self for chaining.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_verbatim("value")
         """
@@ -842,9 +842,9 @@ class Caption(MultilanguageReferrable):
     """
     This meta-class represents the ability to express a caption which is a
     title, and a shortName.
-    
+
     Package: M2::MSR::Documentation::BlockElements::Caption
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 432, Foundation
       R23-11)
@@ -867,10 +867,10 @@ class Caption(MultilanguageReferrable):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -889,10 +889,10 @@ class Caption(MultilanguageReferrable):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -901,13 +901,13 @@ class Caption(MultilanguageReferrable):
     def setDesc(self, value: "MultiLanguageOverview") -> "Caption":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -919,13 +919,13 @@ class Caption(MultilanguageReferrable):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "Caption":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """

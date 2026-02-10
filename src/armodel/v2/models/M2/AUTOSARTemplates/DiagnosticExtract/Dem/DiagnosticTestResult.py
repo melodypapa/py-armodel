@@ -23,9 +23,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class DiagnosticTestResult(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define diagnostic test results.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult::DiagnosticTestResult
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 204, Classic Platform
       R23-11)
@@ -50,10 +50,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def monitored(self, value: Optional["Diagnostic"]) -> None:
         """
         Set monitored with validation.
-        
+
         Args:
             value: The monitored to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +104,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def test_identifier(self, value: Optional["DiagnosticTestIdentifier"]) -> None:
         """
         Set testIdentifier with validation.
-        
+
         Args:
             value: The testIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +131,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def update_kind(self, value: Optional["DiagnosticTestResult"]) -> None:
         """
         Set updateKind with validation.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -153,10 +153,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -165,13 +165,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticTestResult":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -181,10 +181,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def getMonitored(self) -> "Diagnostic":
         """
         AUTOSAR-compliant getter for monitored.
-        
+
         Returns:
             The monitored value
-        
+
         Note:
             Delegates to monitored property (CODING_RULE_V2_00017)
         """
@@ -193,13 +193,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def setMonitored(self, value: "Diagnostic") -> "DiagnosticTestResult":
         """
         AUTOSAR-compliant setter for monitored with method chaining.
-        
+
         Args:
             value: The monitored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to monitored property setter (gets validation automatically)
         """
@@ -209,10 +209,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def getTestIdentifier(self) -> "DiagnosticTestIdentifier":
         """
         AUTOSAR-compliant getter for testIdentifier.
-        
+
         Returns:
             The testIdentifier value
-        
+
         Note:
             Delegates to test_identifier property (CODING_RULE_V2_00017)
         """
@@ -221,13 +221,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def setTestIdentifier(self, value: "DiagnosticTestIdentifier") -> "DiagnosticTestResult":
         """
         AUTOSAR-compliant setter for testIdentifier with method chaining.
-        
+
         Args:
             value: The testIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to test_identifier property setter (gets validation automatically)
         """
@@ -237,10 +237,10 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def getUpdateKind(self) -> "DiagnosticTestResult":
         """
         AUTOSAR-compliant getter for updateKind.
-        
+
         Returns:
             The updateKind value
-        
+
         Note:
             Delegates to update_kind property (CODING_RULE_V2_00017)
         """
@@ -249,13 +249,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def setUpdateKind(self, value: "DiagnosticTestResult") -> "DiagnosticTestResult":
         """
         AUTOSAR-compliant setter for updateKind with method chaining.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update_kind property setter (gets validation automatically)
         """
@@ -267,13 +267,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticTestResult":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -283,13 +283,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def with_monitored(self, value: Optional["Diagnostic"]) -> "DiagnosticTestResult":
         """
         Set monitored and return self for chaining.
-        
+
         Args:
             value: The monitored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_monitored("value")
         """
@@ -299,13 +299,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def with_test_identifier(self, value: Optional["DiagnosticTestIdentifier"]) -> "DiagnosticTestResult":
         """
         Set testIdentifier and return self for chaining.
-        
+
         Args:
             value: The testIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_test_identifier("value")
         """
@@ -315,13 +315,13 @@ class DiagnosticTestResult(DiagnosticCommonElement):
     def with_update_kind(self, value: Optional["DiagnosticTestResult"]) -> "DiagnosticTestResult":
         """
         Set updateKind and return self for chaining.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update_kind("value")
         """
@@ -334,9 +334,9 @@ class DiagnosticTestIdentifier(ARObject):
     """
     This meta-class represents the ability to create a diagnostic test
     identifier.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult::DiagnosticTestIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 205, Classic Platform
       R23-11)
@@ -357,10 +357,10 @@ class DiagnosticTestIdentifier(ARObject):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -384,10 +384,10 @@ class DiagnosticTestIdentifier(ARObject):
     def uas_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set uasId with validation.
-        
+
         Args:
             value: The uasId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -406,10 +406,10 @@ class DiagnosticTestIdentifier(ARObject):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -418,13 +418,13 @@ class DiagnosticTestIdentifier(ARObject):
     def setId(self, value: "PositiveInteger") -> "DiagnosticTestIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -434,10 +434,10 @@ class DiagnosticTestIdentifier(ARObject):
     def getUasId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for uasId.
-        
+
         Returns:
             The uasId value
-        
+
         Note:
             Delegates to uas_id property (CODING_RULE_V2_00017)
         """
@@ -446,13 +446,13 @@ class DiagnosticTestIdentifier(ARObject):
     def setUasId(self, value: "PositiveInteger") -> "DiagnosticTestIdentifier":
         """
         AUTOSAR-compliant setter for uasId with method chaining.
-        
+
         Args:
             value: The uasId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uas_id property setter (gets validation automatically)
         """
@@ -464,13 +464,13 @@ class DiagnosticTestIdentifier(ARObject):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestIdentifier":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -480,13 +480,13 @@ class DiagnosticTestIdentifier(ARObject):
     def with_uas_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestIdentifier":
         """
         Set uasId and return self for chaining.
-        
+
         Args:
             value: The uasId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uas_id("value")
         """
@@ -501,9 +501,9 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     (cid:53) 205 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult::DiagnosticMeasurementIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 205, Classic Platform
       R23-11)
@@ -524,10 +524,10 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def obd_mid(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set obdMid with validation.
-        
+
         Args:
             value: The obdMid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -546,10 +546,10 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def getObdMid(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for obdMid.
-        
+
         Returns:
             The obdMid value
-        
+
         Note:
             Delegates to obd_mid property (CODING_RULE_V2_00017)
         """
@@ -558,13 +558,13 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def setObdMid(self, value: "PositiveInteger") -> "DiagnosticMeasurementIdentifier":
         """
         AUTOSAR-compliant setter for obdMid with method chaining.
-        
+
         Args:
             value: The obdMid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to obd_mid property setter (gets validation automatically)
         """
@@ -576,13 +576,13 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def with_obd_mid(self, value: Optional["PositiveInteger"]) -> "DiagnosticMeasurementIdentifier":
         """
         Set obdMid and return self for chaining.
-        
+
         Args:
             value: The obdMid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_obd_mid("value")
         """

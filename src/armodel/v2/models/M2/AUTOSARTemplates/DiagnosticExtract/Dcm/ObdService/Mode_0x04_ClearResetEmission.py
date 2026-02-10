@@ -16,9 +16,9 @@ class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x04 service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x04_ClearResetEmission::DiagnosticClearResetEmissionRelatedInfo
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 154, Classic Platform
       R23-11)
@@ -43,10 +43,10 @@ class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
     def clear_reset(self, value: Optional["DiagnosticClearReset"]) -> None:
         """
         Set clearReset with validation.
-        
+
         Args:
             value: The clearReset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
     def getClearReset(self) -> "DiagnosticClearReset":
         """
         AUTOSAR-compliant getter for clearReset.
-        
+
         Returns:
             The clearReset value
-        
+
         Note:
             Delegates to clear_reset property (CODING_RULE_V2_00017)
         """
@@ -77,13 +77,13 @@ class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
     def setClearReset(self, value: "DiagnosticClearReset") -> "DiagnosticClearResetEmissionRelatedInfo":
         """
         AUTOSAR-compliant setter for clearReset with method chaining.
-        
+
         Args:
             value: The clearReset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to clear_reset property setter (gets validation automatically)
         """
@@ -95,13 +95,13 @@ class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
     def with_clear_reset(self, value: Optional["DiagnosticClearReset"]) -> "DiagnosticClearResetEmissionRelatedInfo":
         """
         Set clearReset and return self for chaining.
-        
+
         Args:
             value: The clearReset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_clear_reset("value")
         """
@@ -114,9 +114,9 @@ class DiagnosticClearResetEmissionRelatedInfoClass(DiagnosticServiceClass):
     """
     This meta-class represents the ability to define common properties for all
     instances of the "Clear Reset Emission Related Data" OBD diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x04_ClearResetEmission::DiagnosticClearResetEmissionRelatedInfoClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 155, Classic Platform
       R23-11)

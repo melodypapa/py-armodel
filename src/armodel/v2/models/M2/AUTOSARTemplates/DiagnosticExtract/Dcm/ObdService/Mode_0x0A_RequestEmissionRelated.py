@@ -16,9 +16,9 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x0A service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x0A_RequestEmissionRelated::DiagnosticRequestEmissionRelatedDTCPermanentStatus
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 161, Classic Platform
       R23-11)
@@ -44,10 +44,10 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
     def request(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
     def getRequest(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -78,13 +78,13 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
     def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestEmissionRelatedDTCPermanentStatus":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -96,13 +96,13 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
     def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestEmissionRelatedDTCPermanentStatus":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """
@@ -118,9 +118,9 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(DiagnosticServiceC
     diagnostic service. (cid:53) 161 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x0A_RequestEmissionRelated::DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 161, Classic Platform
       R23-11)

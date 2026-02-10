@@ -19,9 +19,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
 class AbstractEthernetFrame(Frame, ABC):
     """
     Ethernet specific attributes to the Frame.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::AbstractEthernetFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 578, Classic Platform R23-11)
     """
@@ -41,9 +41,9 @@ class AbstractEthernetFrame(Frame, ABC):
 class EthernetFrameTriggering(FrameTriggering):
     """
     Ethernet specific Frame element.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::EthernetFrameTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 578, Classic Platform R23-11)
     """
@@ -63,9 +63,9 @@ class GenericEthernetFrame(AbstractEthernetFrame):
     This element is used for EthernetFrames without additional attributes that
     are routed by the EthIf. (cid:53) 578 of 2090 Document ID 63:
     AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::GenericEthernetFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 578, Classic Platform R23-11)
     """
@@ -84,9 +84,9 @@ class UserDefinedEthernetFrame(AbstractEthernetFrame):
     """
     UserDefinedEthernetFrame allows the description of a frame-based
     communication to Complex Drivers that are located above the EthDrv.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::UserDefinedEthernetFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 579, Classic Platform R23-11)
     """
@@ -104,9 +104,9 @@ class UserDefinedEthernetFrame(AbstractEthernetFrame):
 class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     """
     Ieee1722Tp Ethernet Frame
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::Ieee1722TpEthernetFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 579, Classic Platform R23-11)
     """
@@ -127,10 +127,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def relative(self, value: Optional["TimeValue"]) -> None:
         """
         Set relative with validation.
-        
+
         Args:
             value: The relative to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +154,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def stream_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set streamIdentifier with validation.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -181,10 +181,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def sub_type(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set subType with validation.
-        
+
         Args:
             value: The subType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -208,10 +208,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set version with validation.
-        
+
         Args:
             value: The version to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -230,10 +230,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def getRelative(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for relative.
-        
+
         Returns:
             The relative value
-        
+
         Note:
             Delegates to relative property (CODING_RULE_V2_00017)
         """
@@ -242,13 +242,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def setRelative(self, value: "TimeValue") -> "Ieee1722TpEthernetFrame":
         """
         AUTOSAR-compliant setter for relative with method chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to relative property setter (gets validation automatically)
         """
@@ -258,10 +258,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def getStreamIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for streamIdentifier.
-        
+
         Returns:
             The streamIdentifier value
-        
+
         Note:
             Delegates to stream_identifier property (CODING_RULE_V2_00017)
         """
@@ -270,13 +270,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def setStreamIdentifier(self, value: "PositiveInteger") -> "Ieee1722TpEthernetFrame":
         """
         AUTOSAR-compliant setter for streamIdentifier with method chaining.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_identifier property setter (gets validation automatically)
         """
@@ -286,10 +286,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def getSubType(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for subType.
-        
+
         Returns:
             The subType value
-        
+
         Note:
             Delegates to sub_type property (CODING_RULE_V2_00017)
         """
@@ -298,13 +298,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def setSubType(self, value: "PositiveInteger") -> "Ieee1722TpEthernetFrame":
         """
         AUTOSAR-compliant setter for subType with method chaining.
-        
+
         Args:
             value: The subType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_type property setter (gets validation automatically)
         """
@@ -314,10 +314,10 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def getVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for version.
-        
+
         Returns:
             The version value
-        
+
         Note:
             Delegates to version property (CODING_RULE_V2_00017)
         """
@@ -326,13 +326,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def setVersion(self, value: "PositiveInteger") -> "Ieee1722TpEthernetFrame":
         """
         AUTOSAR-compliant setter for version with method chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version property setter (gets validation automatically)
         """
@@ -344,13 +344,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def with_relative(self, value: Optional["TimeValue"]) -> "Ieee1722TpEthernetFrame":
         """
         Set relative and return self for chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_relative("value")
         """
@@ -360,13 +360,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def with_stream_identifier(self, value: Optional["PositiveInteger"]) -> "Ieee1722TpEthernetFrame":
         """
         Set streamIdentifier and return self for chaining.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_identifier("value")
         """
@@ -376,13 +376,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def with_sub_type(self, value: Optional["PositiveInteger"]) -> "Ieee1722TpEthernetFrame":
         """
         Set subType and return self for chaining.
-        
+
         Args:
             value: The subType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_type("value")
         """
@@ -392,13 +392,13 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     def with_version(self, value: Optional["PositiveInteger"]) -> "Ieee1722TpEthernetFrame":
         """
         Set version and return self for chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version("value")
         """

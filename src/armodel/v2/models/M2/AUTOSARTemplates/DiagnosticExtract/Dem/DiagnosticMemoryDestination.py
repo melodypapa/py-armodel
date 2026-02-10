@@ -23,9 +23,9 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     """
     This abstract meta-class represents a possible memory destination for a
     diagnostic event.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination::DiagnosticMemoryDestination
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 181, Classic Platform
       R23-11)
@@ -53,10 +53,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def aging_requires(self, value: Optional["Boolean"]) -> None:
         """
         Set agingRequires with validation.
-        
+
         Args:
             value: The agingRequires to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def clear_dtc(self, value: Optional["DiagnosticClearDtc"]) -> None:
         """
         Set clearDtc with validation.
-        
+
         Args:
             value: The clearDtc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def dtc_status(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dtcStatus with validation.
-        
+
         Args:
             value: The dtcStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +137,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set event with validation.
-        
+
         Args:
             value: The event to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +164,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +191,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def memory_entry(self, value: Optional["DiagnosticMemoryEntry"]) -> None:
         """
         Set memoryEntry with validation.
-        
+
         Args:
             value: The memoryEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -220,10 +220,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def status_bit(self, value: Optional["Boolean"]) -> None:
         """
         Set statusBit with validation.
-        
+
         Args:
             value: The statusBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -248,10 +248,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def type_of_freeze(self, value: Optional["DiagnosticTypeOf"]) -> None:
         """
         Set typeOfFreeze with validation.
-        
+
         Args:
             value: The typeOfFreeze to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -286,10 +286,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getAgingRequires(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for agingRequires.
-        
+
         Returns:
             The agingRequires value
-        
+
         Note:
             Delegates to aging_requires property (CODING_RULE_V2_00017)
         """
@@ -298,13 +298,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setAgingRequires(self, value: "Boolean") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for agingRequires with method chaining.
-        
+
         Args:
             value: The agingRequires to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to aging_requires property setter (gets validation automatically)
         """
@@ -314,10 +314,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getClearDtc(self) -> "DiagnosticClearDtc":
         """
         AUTOSAR-compliant getter for clearDtc.
-        
+
         Returns:
             The clearDtc value
-        
+
         Note:
             Delegates to clear_dtc property (CODING_RULE_V2_00017)
         """
@@ -326,13 +326,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setClearDtc(self, value: "DiagnosticClearDtc") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for clearDtc with method chaining.
-        
+
         Args:
             value: The clearDtc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to clear_dtc property setter (gets validation automatically)
         """
@@ -342,10 +342,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getDtcStatus(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dtcStatus.
-        
+
         Returns:
             The dtcStatus value
-        
+
         Note:
             Delegates to dtc_status property (CODING_RULE_V2_00017)
         """
@@ -354,13 +354,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setDtcStatus(self, value: "PositiveInteger") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for dtcStatus with method chaining.
-        
+
         Args:
             value: The dtcStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dtc_status property setter (gets validation automatically)
         """
@@ -370,10 +370,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -382,13 +382,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setEvent(self, value: "DiagnosticEvent") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for event with method chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -398,10 +398,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -410,13 +410,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -426,10 +426,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getMemoryEntry(self) -> "DiagnosticMemoryEntry":
         """
         AUTOSAR-compliant getter for memoryEntry.
-        
+
         Returns:
             The memoryEntry value
-        
+
         Note:
             Delegates to memory_entry property (CODING_RULE_V2_00017)
         """
@@ -438,13 +438,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setMemoryEntry(self, value: "DiagnosticMemoryEntry") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for memoryEntry with method chaining.
-        
+
         Args:
             value: The memoryEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_entry property setter (gets validation automatically)
         """
@@ -454,10 +454,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getStatusBit(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for statusBit.
-        
+
         Returns:
             The statusBit value
-        
+
         Note:
             Delegates to status_bit property (CODING_RULE_V2_00017)
         """
@@ -466,13 +466,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setStatusBit(self, value: "Boolean") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for statusBit with method chaining.
-        
+
         Args:
             value: The statusBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to status_bit property setter (gets validation automatically)
         """
@@ -482,10 +482,10 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def getTypeOfFreeze(self) -> "DiagnosticTypeOf":
         """
         AUTOSAR-compliant getter for typeOfFreeze.
-        
+
         Returns:
             The typeOfFreeze value
-        
+
         Note:
             Delegates to type_of_freeze property (CODING_RULE_V2_00017)
         """
@@ -494,13 +494,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def setTypeOfFreeze(self, value: "DiagnosticTypeOf") -> "DiagnosticMemoryDestination":
         """
         AUTOSAR-compliant setter for typeOfFreeze with method chaining.
-        
+
         Args:
             value: The typeOfFreeze to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_of_freeze property setter (gets validation automatically)
         """
@@ -512,13 +512,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_aging_requires(self, value: Optional["Boolean"]) -> "DiagnosticMemoryDestination":
         """
         Set agingRequires and return self for chaining.
-        
+
         Args:
             value: The agingRequires to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_aging_requires("value")
         """
@@ -528,13 +528,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_clear_dtc(self, value: Optional["DiagnosticClearDtc"]) -> "DiagnosticMemoryDestination":
         """
         Set clearDtc and return self for chaining.
-        
+
         Args:
             value: The clearDtc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_clear_dtc("value")
         """
@@ -544,13 +544,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_dtc_status(self, value: Optional["PositiveInteger"]) -> "DiagnosticMemoryDestination":
         """
         Set dtcStatus and return self for chaining.
-        
+
         Args:
             value: The dtcStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dtc_status("value")
         """
@@ -560,13 +560,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticMemoryDestination":
         """
         Set event and return self for chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event("value")
         """
@@ -576,13 +576,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "DiagnosticMemoryDestination":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -592,13 +592,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_memory_entry(self, value: Optional["DiagnosticMemoryEntry"]) -> "DiagnosticMemoryDestination":
         """
         Set memoryEntry and return self for chaining.
-        
+
         Args:
             value: The memoryEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_entry("value")
         """
@@ -608,13 +608,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_status_bit(self, value: Optional["Boolean"]) -> "DiagnosticMemoryDestination":
         """
         Set statusBit and return self for chaining.
-        
+
         Args:
             value: The statusBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_status_bit("value")
         """
@@ -624,13 +624,13 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
     def with_type_of_freeze(self, value: Optional["DiagnosticTypeOf"]) -> "DiagnosticMemoryDestination":
         """
         Set typeOfFreeze and return self for chaining.
-        
+
         Args:
             value: The typeOfFreeze to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_of_freeze("value")
         """
@@ -642,9 +642,9 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
 class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     """
     This represents a primary memory for a diagnostic event.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination::DiagnosticMemoryDestinationPrimary
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 184, Classic Platform
       R23-11)
@@ -666,10 +666,10 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def type_of_dtc(self, value: Optional["DiagnosticTypeOfDtc"]) -> None:
         """
         Set typeOfDtc with validation.
-        
+
         Args:
             value: The typeOfDtc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -688,10 +688,10 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def getTypeOfDtc(self) -> "DiagnosticTypeOfDtc":
         """
         AUTOSAR-compliant getter for typeOfDtc.
-        
+
         Returns:
             The typeOfDtc value
-        
+
         Note:
             Delegates to type_of_dtc property (CODING_RULE_V2_00017)
         """
@@ -700,13 +700,13 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def setTypeOfDtc(self, value: "DiagnosticTypeOfDtc") -> "DiagnosticMemoryDestinationPrimary":
         """
         AUTOSAR-compliant setter for typeOfDtc with method chaining.
-        
+
         Args:
             value: The typeOfDtc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_of_dtc property setter (gets validation automatically)
         """
@@ -718,13 +718,13 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def with_type_of_dtc(self, value: Optional["DiagnosticTypeOfDtc"]) -> "DiagnosticMemoryDestinationPrimary":
         """
         Set typeOfDtc and return self for chaining.
-        
+
         Args:
             value: The typeOfDtc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_of_dtc("value")
         """
@@ -736,9 +736,9 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
 class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     """
     This represents a user-defined memory for a diagnostic event.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination::DiagnosticMemoryDestinationUserDefined
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 184, Classic Platform
       R23-11)
@@ -766,10 +766,10 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def memory_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set memoryId with validation.
-        
+
         Args:
             value: The memoryId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -788,10 +788,10 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def getAuthRole(self) -> List["DiagnosticAuthRole"]:
         """
         AUTOSAR-compliant getter for authRole.
-        
+
         Returns:
             The authRole value
-        
+
         Note:
             Delegates to auth_role property (CODING_RULE_V2_00017)
         """
@@ -800,10 +800,10 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def getMemoryId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for memoryId.
-        
+
         Returns:
             The memoryId value
-        
+
         Note:
             Delegates to memory_id property (CODING_RULE_V2_00017)
         """
@@ -812,13 +812,13 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def setMemoryId(self, value: "PositiveInteger") -> "DiagnosticMemoryDestinationUserDefined":
         """
         AUTOSAR-compliant setter for memoryId with method chaining.
-        
+
         Args:
             value: The memoryId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_id property setter (gets validation automatically)
         """
@@ -830,13 +830,13 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def with_memory_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticMemoryDestinationUserDefined":
         """
         Set memoryId and return self for chaining.
-        
+
         Args:
             value: The memoryId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_id("value")
         """

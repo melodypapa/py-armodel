@@ -29,9 +29,9 @@ class SwPointerTargetProps(ARObject):
     The attributes of this element describe the category and the detailed
     properties of the target which is either a data description or a function
     signature.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwPointerTargetProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 39, Classic
       Platform R23-11)
@@ -59,10 +59,10 @@ class SwPointerTargetProps(ARObject):
     def function_pointer(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set functionPointer with validation.
-        
+
         Args:
             value: The functionPointer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class SwPointerTargetProps(ARObject):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class SwPointerTargetProps(ARObject):
     def target_category(self, value: Optional["Identifier"]) -> None:
         """
         Set targetCategory with validation.
-        
+
         Args:
             value: The targetCategory to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -187,10 +187,10 @@ class SwPointerTargetProps(ARObject):
     def getFunctionPointer(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for functionPointer.
-        
+
         Returns:
             The functionPointer value
-        
+
         Note:
             Delegates to function_pointer property (CODING_RULE_V2_00017)
         """
@@ -199,13 +199,13 @@ class SwPointerTargetProps(ARObject):
     def setFunctionPointer(self, value: "BswModuleEntry") -> "SwPointerTargetProps":
         """
         AUTOSAR-compliant setter for functionPointer with method chaining.
-        
+
         Args:
             value: The functionPointer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function_pointer property setter (gets validation automatically)
         """
@@ -215,10 +215,10 @@ class SwPointerTargetProps(ARObject):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -227,13 +227,13 @@ class SwPointerTargetProps(ARObject):
     def setSwDataDef(self, value: "SwDataDefProps") -> "SwPointerTargetProps":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -243,10 +243,10 @@ class SwPointerTargetProps(ARObject):
     def getTargetCategory(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for targetCategory.
-        
+
         Returns:
             The targetCategory value
-        
+
         Note:
             Delegates to target_category property (CODING_RULE_V2_00017)
         """
@@ -255,13 +255,13 @@ class SwPointerTargetProps(ARObject):
     def setTargetCategory(self, value: "Identifier") -> "SwPointerTargetProps":
         """
         AUTOSAR-compliant setter for targetCategory with method chaining.
-        
+
         Args:
             value: The targetCategory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_category property setter (gets validation automatically)
         """
@@ -273,13 +273,13 @@ class SwPointerTargetProps(ARObject):
     def with_function_pointer(self, value: Optional["BswModuleEntry"]) -> "SwPointerTargetProps":
         """
         Set functionPointer and return self for chaining.
-        
+
         Args:
             value: The functionPointer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function_pointer("value")
         """
@@ -289,13 +289,13 @@ class SwPointerTargetProps(ARObject):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "SwPointerTargetProps":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -305,13 +305,13 @@ class SwPointerTargetProps(ARObject):
     def with_target_category(self, value: Optional["Identifier"]) -> "SwPointerTargetProps":
         """
         Set targetCategory and return self for chaining.
-        
+
         Args:
             value: The targetCategory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_category("value")
         """
@@ -337,9 +337,9 @@ class SwDataDefProps(ARObject):
     data element, mainly expressed by compuMethod and/or unit, dataConstr,
     invalid Value • Code generation policy provided by swRecordLayout Tags:
     vh.latestBindingTime=codeGenerationTime
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwDataDefProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 339, Classic
       Platform R23-11)
@@ -377,10 +377,10 @@ class SwDataDefProps(ARObject):
     def additional_native(self, value: Optional["NativeDeclarationString"]) -> None:
         """
         Set additionalNative with validation.
-        
+
         Args:
             value: The additionalNative to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -412,10 +412,10 @@ class SwDataDefProps(ARObject):
     def base_type(self, value: Optional["SwBaseType"]) -> None:
         """
         Set baseType with validation.
-        
+
         Args:
             value: The baseType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -439,10 +439,10 @@ class SwDataDefProps(ARObject):
     def compu_method(self, value: Optional["CompuMethod"]) -> None:
         """
         Set compuMethod with validation.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -468,10 +468,10 @@ class SwDataDefProps(ARObject):
     def data_constr(self, value: Optional["DataConstr"]) -> None:
         """
         Set dataConstr with validation.
-        
+
         Args:
             value: The dataConstr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -496,10 +496,10 @@ class SwDataDefProps(ARObject):
     def display_format(self, value: Optional["DisplayFormatString"]) -> None:
         """
         Set displayFormat with validation.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -524,10 +524,10 @@ class SwDataDefProps(ARObject):
     def display(self, value: Optional["DisplayPresentation"]) -> None:
         """
         Set display with validation.
-        
+
         Args:
             value: The display to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -558,10 +558,10 @@ class SwDataDefProps(ARObject):
     def implementation(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -585,10 +585,10 @@ class SwDataDefProps(ARObject):
     def invalid_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set invalidValue with validation.
-        
+
         Args:
             value: The invalidValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -613,10 +613,10 @@ class SwDataDefProps(ARObject):
     def step_size(self, value: Optional["Float"]) -> None:
         """
         Set stepSize with validation.
-        
+
         Args:
             value: The stepSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -642,10 +642,10 @@ class SwDataDefProps(ARObject):
     def sw_addr_method(self, value: Optional["SwAddrMethod"]) -> None:
         """
         Set swAddrMethod with validation.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -670,10 +670,10 @@ class SwDataDefProps(ARObject):
     def sw_alignment(self, value: Optional["AlignmentType"]) -> None:
         """
         Set swAlignment with validation.
-        
+
         Args:
             value: The swAlignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -697,10 +697,10 @@ class SwDataDefProps(ARObject):
     def sw_bit(self, value: Optional["SwBitRepresentation"]) -> None:
         """
         Set swBit with validation.
-        
+
         Args:
             value: The swBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -724,10 +724,10 @@ class SwDataDefProps(ARObject):
     def sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> None:
         """
         Set swCalibration with validation.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -752,10 +752,10 @@ class SwDataDefProps(ARObject):
     def sw_calprm_axis(self, value: Optional["RefType"]) -> None:
         """
         Set swCalprmAxis with validation.
-        
+
         Args:
             value: The swCalprmAxis to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -785,10 +785,10 @@ class SwDataDefProps(ARObject):
     def sw_data(self, value: Optional["RefType"]) -> None:
         """
         Set swData with validation.
-        
+
         Args:
             value: The swData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -809,10 +809,10 @@ class SwDataDefProps(ARObject):
     def sw_host_variable(self, value: Optional["RefType"]) -> None:
         """
         Set swHostVariable with validation.
-        
+
         Args:
             value: The swHostVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -832,10 +832,10 @@ class SwDataDefProps(ARObject):
     def sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> None:
         """
         Set swImplPolicy with validation.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -864,10 +864,10 @@ class SwDataDefProps(ARObject):
     def sw_intended(self, value: Optional["Numerical"]) -> None:
         """
         Set swIntended with validation.
-        
+
         Args:
             value: The swIntended to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -893,10 +893,10 @@ class SwDataDefProps(ARObject):
     def sw_interpolation(self, value: Optional["Identifier"]) -> None:
         """
         Set swInterpolation with validation.
-        
+
         Args:
             value: The swInterpolation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -922,10 +922,10 @@ class SwDataDefProps(ARObject):
     def sw_is_virtual(self, value: Optional["Boolean"]) -> None:
         """
         Set swIsVirtual with validation.
-        
+
         Args:
             value: The swIsVirtual to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -951,10 +951,10 @@ class SwDataDefProps(ARObject):
     def sw_pointer_target(self, value: Optional["SwPointerTargetProps"]) -> None:
         """
         Set swPointerTarget with validation.
-        
+
         Args:
             value: The swPointerTarget to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -982,10 +982,10 @@ class SwDataDefProps(ARObject):
     def sw_record(self, value: Optional["SwRecordLayout"]) -> None:
         """
         Set swRecord with validation.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1014,10 +1014,10 @@ class SwDataDefProps(ARObject):
     def sw_refresh(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set swRefresh with validation.
-        
+
         Args:
             value: The swRefresh to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1041,10 +1041,10 @@ class SwDataDefProps(ARObject):
     def sw_text_props(self, value: Optional["SwTextProps"]) -> None:
         """
         Set swTextProps with validation.
-        
+
         Args:
             value: The swTextProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1081,10 +1081,10 @@ class SwDataDefProps(ARObject):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1112,10 +1112,10 @@ class SwDataDefProps(ARObject):
     def value_axis_data(self, value: Optional["ApplicationPrimitive"]) -> None:
         """
         Set valueAxisData with validation.
-        
+
         Args:
             value: The valueAxisData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1134,10 +1134,10 @@ class SwDataDefProps(ARObject):
     def getAdditionalNative(self) -> "NativeDeclarationString":
         """
         AUTOSAR-compliant getter for additionalNative.
-        
+
         Returns:
             The additionalNative value
-        
+
         Note:
             Delegates to additional_native property (CODING_RULE_V2_00017)
         """
@@ -1146,13 +1146,13 @@ class SwDataDefProps(ARObject):
     def setAdditionalNative(self, value: "NativeDeclarationString") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for additionalNative with method chaining.
-        
+
         Args:
             value: The additionalNative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to additional_native property setter (gets validation automatically)
         """
@@ -1162,10 +1162,10 @@ class SwDataDefProps(ARObject):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -1174,10 +1174,10 @@ class SwDataDefProps(ARObject):
     def getBaseType(self) -> "SwBaseType":
         """
         AUTOSAR-compliant getter for baseType.
-        
+
         Returns:
             The baseType value
-        
+
         Note:
             Delegates to base_type property (CODING_RULE_V2_00017)
         """
@@ -1186,13 +1186,13 @@ class SwDataDefProps(ARObject):
     def setBaseType(self, value: "SwBaseType") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for baseType with method chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_type property setter (gets validation automatically)
         """
@@ -1202,10 +1202,10 @@ class SwDataDefProps(ARObject):
     def getCompuMethod(self) -> "CompuMethod":
         """
         AUTOSAR-compliant getter for compuMethod.
-        
+
         Returns:
             The compuMethod value
-        
+
         Note:
             Delegates to compu_method property (CODING_RULE_V2_00017)
         """
@@ -1214,13 +1214,13 @@ class SwDataDefProps(ARObject):
     def setCompuMethod(self, value: "CompuMethod") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_method property setter (gets validation automatically)
         """
@@ -1230,10 +1230,10 @@ class SwDataDefProps(ARObject):
     def getDataConstr(self) -> "DataConstr":
         """
         AUTOSAR-compliant getter for dataConstr.
-        
+
         Returns:
             The dataConstr value
-        
+
         Note:
             Delegates to data_constr property (CODING_RULE_V2_00017)
         """
@@ -1242,13 +1242,13 @@ class SwDataDefProps(ARObject):
     def setDataConstr(self, value: "DataConstr") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for dataConstr with method chaining.
-        
+
         Args:
             value: The dataConstr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_constr property setter (gets validation automatically)
         """
@@ -1258,10 +1258,10 @@ class SwDataDefProps(ARObject):
     def getDisplayFormat(self) -> "DisplayFormatString":
         """
         AUTOSAR-compliant getter for displayFormat.
-        
+
         Returns:
             The displayFormat value
-        
+
         Note:
             Delegates to display_format property (CODING_RULE_V2_00017)
         """
@@ -1270,13 +1270,13 @@ class SwDataDefProps(ARObject):
     def setDisplayFormat(self, value: "DisplayFormatString") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for displayFormat with method chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to display_format property setter (gets validation automatically)
         """
@@ -1286,10 +1286,10 @@ class SwDataDefProps(ARObject):
     def getDisplay(self) -> "DisplayPresentation":
         """
         AUTOSAR-compliant getter for display.
-        
+
         Returns:
             The display value
-        
+
         Note:
             Delegates to display property (CODING_RULE_V2_00017)
         """
@@ -1298,13 +1298,13 @@ class SwDataDefProps(ARObject):
     def setDisplay(self, value: "DisplayPresentation") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for display with method chaining.
-        
+
         Args:
             value: The display to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to display property setter (gets validation automatically)
         """
@@ -1314,10 +1314,10 @@ class SwDataDefProps(ARObject):
     def getImplementation(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -1326,13 +1326,13 @@ class SwDataDefProps(ARObject):
     def setImplementation(self, value: "AbstractImplementation") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -1342,10 +1342,10 @@ class SwDataDefProps(ARObject):
     def getInvalidValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for invalidValue.
-        
+
         Returns:
             The invalidValue value
-        
+
         Note:
             Delegates to invalid_value property (CODING_RULE_V2_00017)
         """
@@ -1354,13 +1354,13 @@ class SwDataDefProps(ARObject):
     def setInvalidValue(self, value: "ValueSpecification") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for invalidValue with method chaining.
-        
+
         Args:
             value: The invalidValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to invalid_value property setter (gets validation automatically)
         """
@@ -1370,10 +1370,10 @@ class SwDataDefProps(ARObject):
     def getStepSize(self) -> "Float":
         """
         AUTOSAR-compliant getter for stepSize.
-        
+
         Returns:
             The stepSize value
-        
+
         Note:
             Delegates to step_size property (CODING_RULE_V2_00017)
         """
@@ -1382,13 +1382,13 @@ class SwDataDefProps(ARObject):
     def setStepSize(self, value: "Float") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for stepSize with method chaining.
-        
+
         Args:
             value: The stepSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to step_size property setter (gets validation automatically)
         """
@@ -1398,10 +1398,10 @@ class SwDataDefProps(ARObject):
     def getSwAddrMethod(self) -> "SwAddrMethod":
         """
         AUTOSAR-compliant getter for swAddrMethod.
-        
+
         Returns:
             The swAddrMethod value
-        
+
         Note:
             Delegates to sw_addr_method property (CODING_RULE_V2_00017)
         """
@@ -1410,13 +1410,13 @@ class SwDataDefProps(ARObject):
     def setSwAddrMethod(self, value: "SwAddrMethod") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swAddrMethod with method chaining.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_addr_method property setter (gets validation automatically)
         """
@@ -1426,10 +1426,10 @@ class SwDataDefProps(ARObject):
     def getSwAlignment(self) -> "AlignmentType":
         """
         AUTOSAR-compliant getter for swAlignment.
-        
+
         Returns:
             The swAlignment value
-        
+
         Note:
             Delegates to sw_alignment property (CODING_RULE_V2_00017)
         """
@@ -1438,13 +1438,13 @@ class SwDataDefProps(ARObject):
     def setSwAlignment(self, value: "AlignmentType") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swAlignment with method chaining.
-        
+
         Args:
             value: The swAlignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_alignment property setter (gets validation automatically)
         """
@@ -1454,10 +1454,10 @@ class SwDataDefProps(ARObject):
     def getSwBit(self) -> "SwBitRepresentation":
         """
         AUTOSAR-compliant getter for swBit.
-        
+
         Returns:
             The swBit value
-        
+
         Note:
             Delegates to sw_bit property (CODING_RULE_V2_00017)
         """
@@ -1466,13 +1466,13 @@ class SwDataDefProps(ARObject):
     def setSwBit(self, value: "SwBitRepresentation") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swBit with method chaining.
-        
+
         Args:
             value: The swBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_bit property setter (gets validation automatically)
         """
@@ -1482,10 +1482,10 @@ class SwDataDefProps(ARObject):
     def getSwCalibration(self) -> "SwCalibrationAccess":
         """
         AUTOSAR-compliant getter for swCalibration.
-        
+
         Returns:
             The swCalibration value
-        
+
         Note:
             Delegates to sw_calibration property (CODING_RULE_V2_00017)
         """
@@ -1494,13 +1494,13 @@ class SwDataDefProps(ARObject):
     def setSwCalibration(self, value: "SwCalibrationAccess") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calibration property setter (gets validation automatically)
         """
@@ -1510,10 +1510,10 @@ class SwDataDefProps(ARObject):
     def getSwCalprmAxis(self) -> "RefType":
         """
         AUTOSAR-compliant getter for swCalprmAxis.
-        
+
         Returns:
             The swCalprmAxis value
-        
+
         Note:
             Delegates to sw_calprm_axis property (CODING_RULE_V2_00017)
         """
@@ -1522,13 +1522,13 @@ class SwDataDefProps(ARObject):
     def setSwCalprmAxis(self, value: "RefType") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swCalprmAxis with method chaining.
-        
+
         Args:
             value: The swCalprmAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calprm_axis property setter (gets validation automatically)
         """
@@ -1538,10 +1538,10 @@ class SwDataDefProps(ARObject):
     def getSwComparison(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for swComparison.
-        
+
         Returns:
             The swComparison value
-        
+
         Note:
             Delegates to sw_comparison property (CODING_RULE_V2_00017)
         """
@@ -1550,10 +1550,10 @@ class SwDataDefProps(ARObject):
     def getSwData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for swData.
-        
+
         Returns:
             The swData value
-        
+
         Note:
             Delegates to sw_data property (CODING_RULE_V2_00017)
         """
@@ -1562,13 +1562,13 @@ class SwDataDefProps(ARObject):
     def setSwData(self, value: "RefType") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swData with method chaining.
-        
+
         Args:
             value: The swData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data property setter (gets validation automatically)
         """
@@ -1578,10 +1578,10 @@ class SwDataDefProps(ARObject):
     def getSwHostVariable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for swHostVariable.
-        
+
         Returns:
             The swHostVariable value
-        
+
         Note:
             Delegates to sw_host_variable property (CODING_RULE_V2_00017)
         """
@@ -1590,13 +1590,13 @@ class SwDataDefProps(ARObject):
     def setSwHostVariable(self, value: "RefType") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swHostVariable with method chaining.
-        
+
         Args:
             value: The swHostVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_host_variable property setter (gets validation automatically)
         """
@@ -1606,10 +1606,10 @@ class SwDataDefProps(ARObject):
     def getSwImplPolicy(self) -> "SwImplPolicyEnum":
         """
         AUTOSAR-compliant getter for swImplPolicy.
-        
+
         Returns:
             The swImplPolicy value
-        
+
         Note:
             Delegates to sw_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -1618,13 +1618,13 @@ class SwDataDefProps(ARObject):
     def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_impl_policy property setter (gets validation automatically)
         """
@@ -1634,10 +1634,10 @@ class SwDataDefProps(ARObject):
     def getSwIntended(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for swIntended.
-        
+
         Returns:
             The swIntended value
-        
+
         Note:
             Delegates to sw_intended property (CODING_RULE_V2_00017)
         """
@@ -1646,13 +1646,13 @@ class SwDataDefProps(ARObject):
     def setSwIntended(self, value: "Numerical") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swIntended with method chaining.
-        
+
         Args:
             value: The swIntended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_intended property setter (gets validation automatically)
         """
@@ -1662,10 +1662,10 @@ class SwDataDefProps(ARObject):
     def getSwInterpolation(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for swInterpolation.
-        
+
         Returns:
             The swInterpolation value
-        
+
         Note:
             Delegates to sw_interpolation property (CODING_RULE_V2_00017)
         """
@@ -1674,13 +1674,13 @@ class SwDataDefProps(ARObject):
     def setSwInterpolation(self, value: "Identifier") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swInterpolation with method chaining.
-        
+
         Args:
             value: The swInterpolation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_interpolation property setter (gets validation automatically)
         """
@@ -1690,10 +1690,10 @@ class SwDataDefProps(ARObject):
     def getSwIsVirtual(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for swIsVirtual.
-        
+
         Returns:
             The swIsVirtual value
-        
+
         Note:
             Delegates to sw_is_virtual property (CODING_RULE_V2_00017)
         """
@@ -1702,13 +1702,13 @@ class SwDataDefProps(ARObject):
     def setSwIsVirtual(self, value: "Boolean") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swIsVirtual with method chaining.
-        
+
         Args:
             value: The swIsVirtual to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_is_virtual property setter (gets validation automatically)
         """
@@ -1718,10 +1718,10 @@ class SwDataDefProps(ARObject):
     def getSwPointerTarget(self) -> "SwPointerTargetProps":
         """
         AUTOSAR-compliant getter for swPointerTarget.
-        
+
         Returns:
             The swPointerTarget value
-        
+
         Note:
             Delegates to sw_pointer_target property (CODING_RULE_V2_00017)
         """
@@ -1730,13 +1730,13 @@ class SwDataDefProps(ARObject):
     def setSwPointerTarget(self, value: "SwPointerTargetProps") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swPointerTarget with method chaining.
-        
+
         Args:
             value: The swPointerTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_pointer_target property setter (gets validation automatically)
         """
@@ -1746,10 +1746,10 @@ class SwDataDefProps(ARObject):
     def getSwRecord(self) -> "SwRecordLayout":
         """
         AUTOSAR-compliant getter for swRecord.
-        
+
         Returns:
             The swRecord value
-        
+
         Note:
             Delegates to sw_record property (CODING_RULE_V2_00017)
         """
@@ -1758,13 +1758,13 @@ class SwDataDefProps(ARObject):
     def setSwRecord(self, value: "SwRecordLayout") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_record property setter (gets validation automatically)
         """
@@ -1774,10 +1774,10 @@ class SwDataDefProps(ARObject):
     def getSwRefresh(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for swRefresh.
-        
+
         Returns:
             The swRefresh value
-        
+
         Note:
             Delegates to sw_refresh property (CODING_RULE_V2_00017)
         """
@@ -1786,13 +1786,13 @@ class SwDataDefProps(ARObject):
     def setSwRefresh(self, value: "MultidimensionalTime") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swRefresh with method chaining.
-        
+
         Args:
             value: The swRefresh to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_refresh property setter (gets validation automatically)
         """
@@ -1802,10 +1802,10 @@ class SwDataDefProps(ARObject):
     def getSwTextProps(self) -> "SwTextProps":
         """
         AUTOSAR-compliant getter for swTextProps.
-        
+
         Returns:
             The swTextProps value
-        
+
         Note:
             Delegates to sw_text_props property (CODING_RULE_V2_00017)
         """
@@ -1814,13 +1814,13 @@ class SwDataDefProps(ARObject):
     def setSwTextProps(self, value: "SwTextProps") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for swTextProps with method chaining.
-        
+
         Args:
             value: The swTextProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_text_props property setter (gets validation automatically)
         """
@@ -1830,10 +1830,10 @@ class SwDataDefProps(ARObject):
     def getSwValueBlock(self) -> List["Numerical"]:
         """
         AUTOSAR-compliant getter for swValueBlock.
-        
+
         Returns:
             The swValueBlock value
-        
+
         Note:
             Delegates to sw_value_block property (CODING_RULE_V2_00017)
         """
@@ -1842,10 +1842,10 @@ class SwDataDefProps(ARObject):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -1854,13 +1854,13 @@ class SwDataDefProps(ARObject):
     def setUnit(self, value: "Unit") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -1870,10 +1870,10 @@ class SwDataDefProps(ARObject):
     def getValueAxisData(self) -> "ApplicationPrimitive":
         """
         AUTOSAR-compliant getter for valueAxisData.
-        
+
         Returns:
             The valueAxisData value
-        
+
         Note:
             Delegates to value_axis_data property (CODING_RULE_V2_00017)
         """
@@ -1882,13 +1882,13 @@ class SwDataDefProps(ARObject):
     def setValueAxisData(self, value: "ApplicationPrimitive") -> "SwDataDefProps":
         """
         AUTOSAR-compliant setter for valueAxisData with method chaining.
-        
+
         Args:
             value: The valueAxisData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value_axis_data property setter (gets validation automatically)
         """
@@ -1900,13 +1900,13 @@ class SwDataDefProps(ARObject):
     def with_additional_native(self, value: Optional["NativeDeclarationString"]) -> "SwDataDefProps":
         """
         Set additionalNative and return self for chaining.
-        
+
         Args:
             value: The additionalNative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_additional_native("value")
         """
@@ -1916,13 +1916,13 @@ class SwDataDefProps(ARObject):
     def with_base_type(self, value: Optional["SwBaseType"]) -> "SwDataDefProps":
         """
         Set baseType and return self for chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_type("value")
         """
@@ -1932,13 +1932,13 @@ class SwDataDefProps(ARObject):
     def with_compu_method(self, value: Optional["CompuMethod"]) -> "SwDataDefProps":
         """
         Set compuMethod and return self for chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_method("value")
         """
@@ -1948,13 +1948,13 @@ class SwDataDefProps(ARObject):
     def with_data_constr(self, value: Optional["DataConstr"]) -> "SwDataDefProps":
         """
         Set dataConstr and return self for chaining.
-        
+
         Args:
             value: The dataConstr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_constr("value")
         """
@@ -1964,13 +1964,13 @@ class SwDataDefProps(ARObject):
     def with_display_format(self, value: Optional["DisplayFormatString"]) -> "SwDataDefProps":
         """
         Set displayFormat and return self for chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_display_format("value")
         """
@@ -1980,13 +1980,13 @@ class SwDataDefProps(ARObject):
     def with_display(self, value: Optional["DisplayPresentation"]) -> "SwDataDefProps":
         """
         Set display and return self for chaining.
-        
+
         Args:
             value: The display to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_display("value")
         """
@@ -1996,13 +1996,13 @@ class SwDataDefProps(ARObject):
     def with_implementation(self, value: Optional["AbstractImplementation"]) -> "SwDataDefProps":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -2012,13 +2012,13 @@ class SwDataDefProps(ARObject):
     def with_invalid_value(self, value: Optional["ValueSpecification"]) -> "SwDataDefProps":
         """
         Set invalidValue and return self for chaining.
-        
+
         Args:
             value: The invalidValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_invalid_value("value")
         """
@@ -2028,13 +2028,13 @@ class SwDataDefProps(ARObject):
     def with_step_size(self, value: Optional["Float"]) -> "SwDataDefProps":
         """
         Set stepSize and return self for chaining.
-        
+
         Args:
             value: The stepSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_step_size("value")
         """
@@ -2044,13 +2044,13 @@ class SwDataDefProps(ARObject):
     def with_sw_addr_method(self, value: Optional["SwAddrMethod"]) -> "SwDataDefProps":
         """
         Set swAddrMethod and return self for chaining.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_addr_method("value")
         """
@@ -2060,13 +2060,13 @@ class SwDataDefProps(ARObject):
     def with_sw_alignment(self, value: Optional["AlignmentType"]) -> "SwDataDefProps":
         """
         Set swAlignment and return self for chaining.
-        
+
         Args:
             value: The swAlignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_alignment("value")
         """
@@ -2076,13 +2076,13 @@ class SwDataDefProps(ARObject):
     def with_sw_bit(self, value: Optional["SwBitRepresentation"]) -> "SwDataDefProps":
         """
         Set swBit and return self for chaining.
-        
+
         Args:
             value: The swBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_bit("value")
         """
@@ -2092,13 +2092,13 @@ class SwDataDefProps(ARObject):
     def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> "SwDataDefProps":
         """
         Set swCalibration and return self for chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calibration("value")
         """
@@ -2108,13 +2108,13 @@ class SwDataDefProps(ARObject):
     def with_sw_calprm_axis(self, value: Optional[RefType]) -> "SwDataDefProps":
         """
         Set swCalprmAxis and return self for chaining.
-        
+
         Args:
             value: The swCalprmAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calprm_axis("value")
         """
@@ -2124,13 +2124,13 @@ class SwDataDefProps(ARObject):
     def with_sw_data(self, value: Optional[RefType]) -> "SwDataDefProps":
         """
         Set swData and return self for chaining.
-        
+
         Args:
             value: The swData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data("value")
         """
@@ -2140,13 +2140,13 @@ class SwDataDefProps(ARObject):
     def with_sw_host_variable(self, value: Optional[RefType]) -> "SwDataDefProps":
         """
         Set swHostVariable and return self for chaining.
-        
+
         Args:
             value: The swHostVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_host_variable("value")
         """
@@ -2156,13 +2156,13 @@ class SwDataDefProps(ARObject):
     def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> "SwDataDefProps":
         """
         Set swImplPolicy and return self for chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_impl_policy("value")
         """
@@ -2172,13 +2172,13 @@ class SwDataDefProps(ARObject):
     def with_sw_intended(self, value: Optional["Numerical"]) -> "SwDataDefProps":
         """
         Set swIntended and return self for chaining.
-        
+
         Args:
             value: The swIntended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_intended("value")
         """
@@ -2188,13 +2188,13 @@ class SwDataDefProps(ARObject):
     def with_sw_interpolation(self, value: Optional["Identifier"]) -> "SwDataDefProps":
         """
         Set swInterpolation and return self for chaining.
-        
+
         Args:
             value: The swInterpolation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_interpolation("value")
         """
@@ -2204,13 +2204,13 @@ class SwDataDefProps(ARObject):
     def with_sw_is_virtual(self, value: Optional["Boolean"]) -> "SwDataDefProps":
         """
         Set swIsVirtual and return self for chaining.
-        
+
         Args:
             value: The swIsVirtual to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_is_virtual("value")
         """
@@ -2220,13 +2220,13 @@ class SwDataDefProps(ARObject):
     def with_sw_pointer_target(self, value: Optional["SwPointerTargetProps"]) -> "SwDataDefProps":
         """
         Set swPointerTarget and return self for chaining.
-        
+
         Args:
             value: The swPointerTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_pointer_target("value")
         """
@@ -2236,13 +2236,13 @@ class SwDataDefProps(ARObject):
     def with_sw_record(self, value: Optional["SwRecordLayout"]) -> "SwDataDefProps":
         """
         Set swRecord and return self for chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_record("value")
         """
@@ -2252,13 +2252,13 @@ class SwDataDefProps(ARObject):
     def with_sw_refresh(self, value: Optional["MultidimensionalTime"]) -> "SwDataDefProps":
         """
         Set swRefresh and return self for chaining.
-        
+
         Args:
             value: The swRefresh to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_refresh("value")
         """
@@ -2268,13 +2268,13 @@ class SwDataDefProps(ARObject):
     def with_sw_text_props(self, value: Optional["SwTextProps"]) -> "SwDataDefProps":
         """
         Set swTextProps and return self for chaining.
-        
+
         Args:
             value: The swTextProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_text_props("value")
         """
@@ -2284,13 +2284,13 @@ class SwDataDefProps(ARObject):
     def with_unit(self, value: Optional["Unit"]) -> "SwDataDefProps":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """
@@ -2300,13 +2300,13 @@ class SwDataDefProps(ARObject):
     def with_value_axis_data(self, value: Optional["ApplicationPrimitive"]) -> "SwDataDefProps":
         """
         Set valueAxisData and return self for chaining.
-        
+
         Args:
             value: The valueAxisData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value_axis_data("value")
         """
@@ -2319,9 +2319,9 @@ class SwTextProps(ARObject):
     """
     This meta-class expresses particular properties applicable to strings in
     variables or calibration parameters.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwTextProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 343, Classic
       Platform R23-11)
@@ -2350,10 +2350,10 @@ class SwTextProps(ARObject):
     def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2379,10 +2379,10 @@ class SwTextProps(ARObject):
     def base_type(self, value: Optional["SwBaseType"]) -> None:
         """
         Set baseType with validation.
-        
+
         Args:
             value: The baseType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2410,10 +2410,10 @@ class SwTextProps(ARObject):
     def sw_fill_character(self, value: Optional["Integer"]) -> None:
         """
         Set swFillCharacter with validation.
-        
+
         Args:
             value: The swFillCharacter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2438,10 +2438,10 @@ class SwTextProps(ARObject):
     def sw_max_text_size(self, value: Optional["Integer"]) -> None:
         """
         Set swMaxTextSize with validation.
-        
+
         Args:
             value: The swMaxTextSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2460,10 +2460,10 @@ class SwTextProps(ARObject):
     def getArraySize(self) -> "ArraySizeSemantics":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -2472,13 +2472,13 @@ class SwTextProps(ARObject):
     def setArraySize(self, value: "ArraySizeSemantics") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -2488,10 +2488,10 @@ class SwTextProps(ARObject):
     def getBaseType(self) -> "SwBaseType":
         """
         AUTOSAR-compliant getter for baseType.
-        
+
         Returns:
             The baseType value
-        
+
         Note:
             Delegates to base_type property (CODING_RULE_V2_00017)
         """
@@ -2500,13 +2500,13 @@ class SwTextProps(ARObject):
     def setBaseType(self, value: "SwBaseType") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for baseType with method chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_type property setter (gets validation automatically)
         """
@@ -2516,10 +2516,10 @@ class SwTextProps(ARObject):
     def getSwFillCharacter(self) -> "Integer":
         """
         AUTOSAR-compliant getter for swFillCharacter.
-        
+
         Returns:
             The swFillCharacter value
-        
+
         Note:
             Delegates to sw_fill_character property (CODING_RULE_V2_00017)
         """
@@ -2528,13 +2528,13 @@ class SwTextProps(ARObject):
     def setSwFillCharacter(self, value: "Integer") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for swFillCharacter with method chaining.
-        
+
         Args:
             value: The swFillCharacter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_fill_character property setter (gets validation automatically)
         """
@@ -2544,10 +2544,10 @@ class SwTextProps(ARObject):
     def getSwMaxTextSize(self) -> "Integer":
         """
         AUTOSAR-compliant getter for swMaxTextSize.
-        
+
         Returns:
             The swMaxTextSize value
-        
+
         Note:
             Delegates to sw_max_text_size property (CODING_RULE_V2_00017)
         """
@@ -2556,13 +2556,13 @@ class SwTextProps(ARObject):
     def setSwMaxTextSize(self, value: "Integer") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for swMaxTextSize with method chaining.
-        
+
         Args:
             value: The swMaxTextSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_max_text_size property setter (gets validation automatically)
         """
@@ -2574,13 +2574,13 @@ class SwTextProps(ARObject):
     def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "SwTextProps":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -2590,13 +2590,13 @@ class SwTextProps(ARObject):
     def with_base_type(self, value: Optional["SwBaseType"]) -> "SwTextProps":
         """
         Set baseType and return self for chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_type("value")
         """
@@ -2606,13 +2606,13 @@ class SwTextProps(ARObject):
     def with_sw_fill_character(self, value: Optional["Integer"]) -> "SwTextProps":
         """
         Set swFillCharacter and return self for chaining.
-        
+
         Args:
             value: The swFillCharacter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_fill_character("value")
         """
@@ -2622,13 +2622,13 @@ class SwTextProps(ARObject):
     def with_sw_max_text_size(self, value: Optional["Integer"]) -> "SwTextProps":
         """
         Set swMaxTextSize and return self for chaining.
-        
+
         Args:
             value: The swMaxTextSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_max_text_size("value")
         """
@@ -2640,9 +2640,9 @@ class SwTextProps(ARObject):
 class ValueList(ARObject):
     """
     This is a generic list of numerical values.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::ValueList
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 350, Classic
       Platform R23-11)
@@ -2668,10 +2668,10 @@ class ValueList(ARObject):
     def v(self, value: Optional["Numerical"]) -> None:
         """
         Set v with validation.
-        
+
         Args:
             value: The v to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2690,10 +2690,10 @@ class ValueList(ARObject):
     def getV(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for v.
-        
+
         Returns:
             The v value
-        
+
         Note:
             Delegates to v property (CODING_RULE_V2_00017)
         """
@@ -2702,13 +2702,13 @@ class ValueList(ARObject):
     def setV(self, value: "Numerical") -> "ValueList":
         """
         AUTOSAR-compliant setter for v with method chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to v property setter (gets validation automatically)
         """
@@ -2720,13 +2720,13 @@ class ValueList(ARObject):
     def with_v(self, value: Optional["Numerical"]) -> "ValueList":
         """
         Set v and return self for chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_v("value")
         """
@@ -2741,9 +2741,9 @@ class SwBitRepresentation(ARObject):
     in a memory object (e.g. sw HostVariable, which stands parallel to
     swBitRepresentation) and the numberOfBits . In this way, interrelated memory
     areas can be described. Non-related memory areas are not supported.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwBitRepresentation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 333, Classic Platform
       R23-11)
@@ -2766,10 +2766,10 @@ class SwBitRepresentation(ARObject):
     def bit_position(self, value: Optional["Integer"]) -> None:
         """
         Set bitPosition with validation.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2793,10 +2793,10 @@ class SwBitRepresentation(ARObject):
     def number_of_bits(self, value: Optional["Integer"]) -> None:
         """
         Set numberOfBits with validation.
-        
+
         Args:
             value: The numberOfBits to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2815,10 +2815,10 @@ class SwBitRepresentation(ARObject):
     def getBitPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for bitPosition.
-        
+
         Returns:
             The bitPosition value
-        
+
         Note:
             Delegates to bit_position property (CODING_RULE_V2_00017)
         """
@@ -2827,13 +2827,13 @@ class SwBitRepresentation(ARObject):
     def setBitPosition(self, value: "Integer") -> "SwBitRepresentation":
         """
         AUTOSAR-compliant setter for bitPosition with method chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_position property setter (gets validation automatically)
         """
@@ -2843,10 +2843,10 @@ class SwBitRepresentation(ARObject):
     def getNumberOfBits(self) -> "Integer":
         """
         AUTOSAR-compliant getter for numberOfBits.
-        
+
         Returns:
             The numberOfBits value
-        
+
         Note:
             Delegates to number_of_bits property (CODING_RULE_V2_00017)
         """
@@ -2855,13 +2855,13 @@ class SwBitRepresentation(ARObject):
     def setNumberOfBits(self, value: "Integer") -> "SwBitRepresentation":
         """
         AUTOSAR-compliant setter for numberOfBits with method chaining.
-        
+
         Args:
             value: The numberOfBits to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number_of_bits property setter (gets validation automatically)
         """
@@ -2873,13 +2873,13 @@ class SwBitRepresentation(ARObject):
     def with_bit_position(self, value: Optional["Integer"]) -> "SwBitRepresentation":
         """
         Set bitPosition and return self for chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_position("value")
         """
@@ -2889,13 +2889,13 @@ class SwBitRepresentation(ARObject):
     def with_number_of_bits(self, value: Optional["Integer"]) -> "SwBitRepresentation":
         """
         Set numberOfBits and return self for chaining.
-        
+
         Args:
             value: The numberOfBits to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number_of_bits("value")
         """
@@ -2912,9 +2912,9 @@ class SwDataDependency(ARObject):
     Virtual data - that means the data object is not directly in the ecu and
     this property describes how the "virtual variable" can be computed from the
     real ones (by the MCD system).
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwDataDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 373, Classic Platform
       R23-11)
@@ -2936,10 +2936,10 @@ class SwDataDependency(ARObject):
     def sw_data(self, value: Optional["CompuGenericMath"]) -> None:
         """
         Set swData with validation.
-        
+
         Args:
             value: The swData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2958,10 +2958,10 @@ class SwDataDependency(ARObject):
     def getSwData(self) -> "CompuGenericMath":
         """
         AUTOSAR-compliant getter for swData.
-        
+
         Returns:
             The swData value
-        
+
         Note:
             Delegates to sw_data property (CODING_RULE_V2_00017)
         """
@@ -2970,13 +2970,13 @@ class SwDataDependency(ARObject):
     def setSwData(self, value: "CompuGenericMath") -> "SwDataDependency":
         """
         AUTOSAR-compliant setter for swData with method chaining.
-        
+
         Args:
             value: The swData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data property setter (gets validation automatically)
         """
@@ -2988,13 +2988,13 @@ class SwDataDependency(ARObject):
     def with_sw_data(self, value: Optional["CompuGenericMath"]) -> "SwDataDependency":
         """
         Set swData and return self for chaining.
-        
+
         Args:
             value: The swData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data("value")
         """
@@ -3006,9 +3006,9 @@ class SwDataDependency(ARObject):
 class SwDataDependencyArgs(ARObject):
     """
     This element specifies the elements used in a SwDataDependency.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwDataDependencyArgs
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 374, Classic Platform
       R23-11)
@@ -3029,10 +3029,10 @@ class SwDataDependencyArgs(ARObject):
     def sw_calprm_ref(self, value: Optional["RefType"]) -> None:
         """
         Set swCalprmRef with validation.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3052,10 +3052,10 @@ class SwDataDependencyArgs(ARObject):
     def sw_variable(self, value: Optional["RefType"]) -> None:
         """
         Set swVariable with validation.
-        
+
         Args:
             value: The swVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3070,10 +3070,10 @@ class SwDataDependencyArgs(ARObject):
     def getSwCalprmRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for swCalprmRef.
-        
+
         Returns:
             The swCalprmRef value
-        
+
         Note:
             Delegates to sw_calprm_ref property (CODING_RULE_V2_00017)
         """
@@ -3082,13 +3082,13 @@ class SwDataDependencyArgs(ARObject):
     def setSwCalprmRef(self, value: "RefType") -> "SwDataDependencyArgs":
         """
         AUTOSAR-compliant setter for swCalprmRef with method chaining.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calprm_ref property setter (gets validation automatically)
         """
@@ -3098,10 +3098,10 @@ class SwDataDependencyArgs(ARObject):
     def getSwVariable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for swVariable.
-        
+
         Returns:
             The swVariable value
-        
+
         Note:
             Delegates to sw_variable property (CODING_RULE_V2_00017)
         """
@@ -3110,13 +3110,13 @@ class SwDataDependencyArgs(ARObject):
     def setSwVariable(self, value: "RefType") -> "SwDataDependencyArgs":
         """
         AUTOSAR-compliant setter for swVariable with method chaining.
-        
+
         Args:
             value: The swVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_variable property setter (gets validation automatically)
         """
@@ -3128,13 +3128,13 @@ class SwDataDependencyArgs(ARObject):
     def with_sw_calprm_ref(self, value: Optional[RefType]) -> "SwDataDependencyArgs":
         """
         Set swCalprmRef and return self for chaining.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calprm_ref("value")
         """
@@ -3144,13 +3144,13 @@ class SwDataDependencyArgs(ARObject):
     def with_sw_variable(self, value: Optional[RefType]) -> "SwDataDependencyArgs":
         """
         Set swVariable and return self for chaining.
-        
+
         Args:
             value: The swVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_variable("value")
         """

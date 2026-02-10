@@ -21,9 +21,9 @@ class BswModuleDescription(ARElement):
     Root element for the description of a single BSW module or BSW cluster. In
     case it describes a BSW module, the short name of this element equals the
     name of the BSW module.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::BswModuleDescription
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 26, Classic
       Platform R23-11)
@@ -55,10 +55,10 @@ class BswModuleDescription(ARElement):
     def bsw_module(self, value: Optional["SwComponent"]) -> None:
         """
         Set bswModule with validation.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +111,10 @@ class BswModuleDescription(ARElement):
     def module_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set moduleId with validation.
-        
+
         Args:
             value: The moduleId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -395,10 +395,10 @@ class BswModuleDescription(ARElement):
     def getBswModule(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for bswModule.
-        
+
         Returns:
             The bswModule value
-        
+
         Note:
             Delegates to bsw_module property (CODING_RULE_V2_00017)
         """
@@ -407,13 +407,13 @@ class BswModuleDescription(ARElement):
     def setBswModule(self, value: "SwComponent") -> "BswModuleDescription":
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_module property setter (gets validation automatically)
         """
@@ -423,10 +423,10 @@ class BswModuleDescription(ARElement):
     def getExpectedEntry(self) -> List["BswModuleEntry"]:
         """
         AUTOSAR-compliant getter for expectedEntry.
-        
+
         Returns:
             The expectedEntry value
-        
+
         Note:
             Delegates to expected_entry property (CODING_RULE_V2_00017)
         """
@@ -435,10 +435,10 @@ class BswModuleDescription(ARElement):
     def getImplemented(self) -> List["BswModuleEntry"]:
         """
         AUTOSAR-compliant getter for implemented.
-        
+
         Returns:
             The implemented value
-        
+
         Note:
             Delegates to implemented property (CODING_RULE_V2_00017)
         """
@@ -447,10 +447,10 @@ class BswModuleDescription(ARElement):
     def getInternalBehavior(self) -> List["BswInternalBehavior"]:
         """
         AUTOSAR-compliant getter for internalBehavior.
-        
+
         Returns:
             The internalBehavior value
-        
+
         Note:
             Delegates to internal_behavior property (CODING_RULE_V2_00017)
         """
@@ -459,10 +459,10 @@ class BswModuleDescription(ARElement):
     def getModuleId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for moduleId.
-        
+
         Returns:
             The moduleId value
-        
+
         Note:
             Delegates to module_id property (CODING_RULE_V2_00017)
         """
@@ -471,13 +471,13 @@ class BswModuleDescription(ARElement):
     def setModuleId(self, value: "PositiveInteger") -> "BswModuleDescription":
         """
         AUTOSAR-compliant setter for moduleId with method chaining.
-        
+
         Args:
             value: The moduleId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to module_id property setter (gets validation automatically)
         """
@@ -487,10 +487,10 @@ class BswModuleDescription(ARElement):
     def getProvidedClient(self) -> List["BswModuleClientServer"]:
         """
         AUTOSAR-compliant getter for providedClient.
-        
+
         Returns:
             The providedClient value
-        
+
         Note:
             Delegates to provided_client property (CODING_RULE_V2_00017)
         """
@@ -499,10 +499,10 @@ class BswModuleDescription(ARElement):
     def getProvidedData(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for providedData.
-        
+
         Returns:
             The providedData value
-        
+
         Note:
             Delegates to provided_data property (CODING_RULE_V2_00017)
         """
@@ -511,10 +511,10 @@ class BswModuleDescription(ARElement):
     def getProvidedMode(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for providedMode.
-        
+
         Returns:
             The providedMode value
-        
+
         Note:
             Delegates to provided_mode property (CODING_RULE_V2_00017)
         """
@@ -523,10 +523,10 @@ class BswModuleDescription(ARElement):
     def getReleasedTrigger(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for releasedTrigger.
-        
+
         Returns:
             The releasedTrigger value
-        
+
         Note:
             Delegates to released_trigger property (CODING_RULE_V2_00017)
         """
@@ -535,10 +535,10 @@ class BswModuleDescription(ARElement):
     def getRequiredClient(self) -> List["BswModuleClientServer"]:
         """
         AUTOSAR-compliant getter for requiredClient.
-        
+
         Returns:
             The requiredClient value
-        
+
         Note:
             Delegates to required_client property (CODING_RULE_V2_00017)
         """
@@ -547,10 +547,10 @@ class BswModuleDescription(ARElement):
     def getRequiredData(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for requiredData.
-        
+
         Returns:
             The requiredData value
-        
+
         Note:
             Delegates to required_data property (CODING_RULE_V2_00017)
         """
@@ -559,10 +559,10 @@ class BswModuleDescription(ARElement):
     def getRequiredMode(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for requiredMode.
-        
+
         Returns:
             The requiredMode value
-        
+
         Note:
             Delegates to required_mode property (CODING_RULE_V2_00017)
         """
@@ -571,10 +571,10 @@ class BswModuleDescription(ARElement):
     def getRequiredTrigger(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for requiredTrigger.
-        
+
         Returns:
             The requiredTrigger value
-        
+
         Note:
             Delegates to required_trigger property (CODING_RULE_V2_00017)
         """
@@ -585,13 +585,13 @@ class BswModuleDescription(ARElement):
     def with_bsw_module(self, value: Optional["SwComponent"]) -> "BswModuleDescription":
         """
         Set bswModule and return self for chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_module("value")
         """
@@ -601,13 +601,13 @@ class BswModuleDescription(ARElement):
     def with_module_id(self, value: Optional["PositiveInteger"]) -> "BswModuleDescription":
         """
         Set moduleId and return self for chaining.
-        
+
         Args:
             value: The moduleId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_module_id("value")
         """

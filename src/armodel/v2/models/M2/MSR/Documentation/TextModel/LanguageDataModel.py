@@ -4,8 +4,9 @@ AUTOSAR Package - LanguageDataModel
 Package: M2::MSR::Documentation::TextModel::LanguageDataModel
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
@@ -15,8 +16,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-
 
 
 class LLongName(ARObject):
@@ -487,7 +486,7 @@ Package: M2::MSR::Documentation::TextModel::LanguageDataModel
     ar = "4"
 
     # Assamese
-    as = "5"
+    assamese = "5"
 
     # Aymara
     ay = "6"
@@ -628,10 +627,10 @@ Package: M2::MSR::Documentation::TextModel::LanguageDataModel
     ik = "48"
 
     # Indonesian
-    in = "49"
+    indonesian = "49"
 
     # Icelandic
-    is = "50"
+    icelandic = "50"
 
     # Italian
     it = "51"
@@ -745,7 +744,7 @@ Package: M2::MSR::Documentation::TextModel::LanguageDataModel
     om = "85"
 
     # Oriya
-    or = "86"
+    oriya = "86"
 
     # Punjabi
     pa = "87"

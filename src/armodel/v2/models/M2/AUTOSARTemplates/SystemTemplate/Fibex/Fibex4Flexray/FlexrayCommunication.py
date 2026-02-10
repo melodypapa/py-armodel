@@ -22,9 +22,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
 class FlexrayFrame(Frame):
     """
     FlexRay specific Frame element.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication::FlexrayFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 422, Classic Platform R23-11)
     """
@@ -58,9 +58,9 @@ class FlexrayFrame(Frame):
 class FlexrayFrameTriggering(FrameTriggering):
     """
     FlexRay specific attributes to the FrameTriggering
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication::FlexrayFrameTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 422, Classic Platform R23-11)
     """
@@ -91,10 +91,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def allow_dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set allowDynamic with validation.
-        
+
         Args:
             value: The allowDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def message_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageId with validation.
-        
+
         Args:
             value: The messageId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +146,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def payload_preamble_indicator(self, value: Optional["Boolean"]) -> None:
         """
         Set payloadPreambleIndicator with validation.
-        
+
         Args:
             value: The payloadPreambleIndicator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -168,10 +168,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getAbsolutely(self) -> List["FlexrayAbsolutely"]:
         """
         AUTOSAR-compliant getter for absolutely.
-        
+
         Returns:
             The absolutely value
-        
+
         Note:
             Delegates to absolutely property (CODING_RULE_V2_00017)
         """
@@ -180,10 +180,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getAllowDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for allowDynamic.
-        
+
         Returns:
             The allowDynamic value
-        
+
         Note:
             Delegates to allow_dynamic property (CODING_RULE_V2_00017)
         """
@@ -192,13 +192,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def setAllowDynamic(self, value: "Boolean") -> "FlexrayFrameTriggering":
         """
         AUTOSAR-compliant setter for allowDynamic with method chaining.
-        
+
         Args:
             value: The allowDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allow_dynamic property setter (gets validation automatically)
         """
@@ -208,10 +208,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getMessageId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageId.
-        
+
         Returns:
             The messageId value
-        
+
         Note:
             Delegates to message_id property (CODING_RULE_V2_00017)
         """
@@ -220,13 +220,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def setMessageId(self, value: "PositiveInteger") -> "FlexrayFrameTriggering":
         """
         AUTOSAR-compliant setter for messageId with method chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_id property setter (gets validation automatically)
         """
@@ -236,10 +236,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getPayloadPreambleIndicator(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for payloadPreambleIndicator.
-        
+
         Returns:
             The payloadPreambleIndicator value
-        
+
         Note:
             Delegates to payload_preamble_indicator property (CODING_RULE_V2_00017)
         """
@@ -248,13 +248,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def setPayloadPreambleIndicator(self, value: "Boolean") -> "FlexrayFrameTriggering":
         """
         AUTOSAR-compliant setter for payloadPreambleIndicator with method chaining.
-        
+
         Args:
             value: The payloadPreambleIndicator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to payload_preamble_indicator property setter (gets validation automatically)
         """
@@ -266,13 +266,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def with_allow_dynamic(self, value: Optional["Boolean"]) -> "FlexrayFrameTriggering":
         """
         Set allowDynamic and return self for chaining.
-        
+
         Args:
             value: The allowDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allow_dynamic("value")
         """
@@ -282,13 +282,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def with_message_id(self, value: Optional["PositiveInteger"]) -> "FlexrayFrameTriggering":
         """
         Set messageId and return self for chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_id("value")
         """
@@ -298,13 +298,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def with_payload_preamble_indicator(self, value: Optional["Boolean"]) -> "FlexrayFrameTriggering":
         """
         Set payloadPreambleIndicator and return self for chaining.
-        
+
         Args:
             value: The payloadPreambleIndicator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_payload_preamble_indicator("value")
         """
@@ -321,9 +321,9 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     cycle. For describing this case multiple AbsolutelyScheduledTimings have to
     be used. The main use case would be that a frame is sent twice within one
     communication cycle.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication::FlexrayAbsolutelyScheduledTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 423, Classic Platform R23-11)
     """
@@ -343,10 +343,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def communication_cycle(self, value: Optional["CommunicationCycle"]) -> None:
         """
         Set communicationCycle with validation.
-        
+
         Args:
             value: The communicationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -375,10 +375,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def slot_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set slotID with validation.
-        
+
         Args:
             value: The slotID to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -397,10 +397,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def getCommunicationCycle(self) -> "CommunicationCycle":
         """
         AUTOSAR-compliant getter for communicationCycle.
-        
+
         Returns:
             The communicationCycle value
-        
+
         Note:
             Delegates to communication_cycle property (CODING_RULE_V2_00017)
         """
@@ -409,13 +409,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def setCommunicationCycle(self, value: "CommunicationCycle") -> "FlexrayAbsolutelyScheduledTiming":
         """
         AUTOSAR-compliant setter for communicationCycle with method chaining.
-        
+
         Args:
             value: The communicationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication_cycle property setter (gets validation automatically)
         """
@@ -425,10 +425,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def getSlotID(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for slotID.
-        
+
         Returns:
             The slotID value
-        
+
         Note:
             Delegates to slot_id property (CODING_RULE_V2_00017)
         """
@@ -437,13 +437,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def setSlotID(self, value: "PositiveInteger") -> "FlexrayAbsolutelyScheduledTiming":
         """
         AUTOSAR-compliant setter for slotID with method chaining.
-        
+
         Args:
             value: The slotID to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slot_id property setter (gets validation automatically)
         """
@@ -455,13 +455,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def with_communication_cycle(self, value: Optional["CommunicationCycle"]) -> "FlexrayAbsolutelyScheduledTiming":
         """
         Set communicationCycle and return self for chaining.
-        
+
         Args:
             value: The communicationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication_cycle("value")
         """
@@ -471,13 +471,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def with_slot_id(self, value: Optional["PositiveInteger"]) -> "FlexrayAbsolutelyScheduledTiming":
         """
         Set slotID and return self for chaining.
-        
+
         Args:
             value: The slotID to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slot_id("value")
         """

@@ -19,9 +19,9 @@ class GeneralPurposeConnection(ARElement):
     This meta-class allows to describe the relationship between several
     PduTriggerings that are defined on the same PhysicalChannel, e.g. to create
     a link between Rx and Tx Pdu that are used for request/ response.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GeneralPurposeConnection::GeneralPurposeConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 388, Classic Platform R23-11)
     """
@@ -59,10 +59,10 @@ class GeneralPurposeConnection(ARElement):
     def getPduTriggering(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for pduTriggering.
-        
+
         Returns:
             The pduTriggering value
-        
+
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """

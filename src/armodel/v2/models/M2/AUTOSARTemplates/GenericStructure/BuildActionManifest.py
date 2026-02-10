@@ -30,9 +30,9 @@ class BuildActionManifest(ARElement):
     """
     This meta-class represents the ability to specify a manifest for processing
     artifacts. An example use case is the processing of ECUC parameter values.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionManifest
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 134, Classic
       Platform R23-11)
@@ -274,10 +274,10 @@ class BuildActionManifest(ARElement):
     def getBuildAction(self) -> List["BuildActionEnvironment"]:
         """
         AUTOSAR-compliant getter for buildAction.
-        
+
         Returns:
             The buildAction value
-        
+
         Note:
             Delegates to build_action property (CODING_RULE_V2_00017)
         """
@@ -286,10 +286,10 @@ class BuildActionManifest(ARElement):
     def getDynamicAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for dynamicAction.
-        
+
         Returns:
             The dynamicAction value
-        
+
         Note:
             Delegates to dynamic_action property (CODING_RULE_V2_00017)
         """
@@ -298,10 +298,10 @@ class BuildActionManifest(ARElement):
     def getStartAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for startAction.
-        
+
         Returns:
             The startAction value
-        
+
         Note:
             Delegates to start_action property (CODING_RULE_V2_00017)
         """
@@ -310,10 +310,10 @@ class BuildActionManifest(ARElement):
     def getTearDownAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for tearDownAction.
-        
+
         Returns:
             The tearDownAction value
-        
+
         Note:
             Delegates to tear_down_action property (CODING_RULE_V2_00017)
         """
@@ -334,9 +334,9 @@ class BuildActionIoElement(ARObject):
     should also be able to refer also to non AUTOSAR models. (cid:53) 368 of 535
     Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure
     Template AUTOSAR FO R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionIoElement
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 368, Foundation
       R23-11)
@@ -360,10 +360,10 @@ class BuildActionIoElement(ARObject):
     def category(self, value: "NameToken") -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -384,10 +384,10 @@ class BuildActionIoElement(ARObject):
     def ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> None:
         """
         Set ecucDefinition with validation.
-        
+
         Args:
             value: The ecucDefinition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -412,10 +412,10 @@ class BuildActionIoElement(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -441,10 +441,10 @@ class BuildActionIoElement(ARObject):
     def getCategory(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -453,13 +453,13 @@ class BuildActionIoElement(ARObject):
     def setCategory(self, value: "NameToken") -> "BuildActionIoElement":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -469,10 +469,10 @@ class BuildActionIoElement(ARObject):
     def getEcucDefinition(self) -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant getter for ecucDefinition.
-        
+
         Returns:
             The ecucDefinition value
-        
+
         Note:
             Delegates to ecuc_definition property (CODING_RULE_V2_00017)
         """
@@ -481,13 +481,13 @@ class BuildActionIoElement(ARObject):
     def setEcucDefinition(self, value: "EcucDefinitionElement") -> "BuildActionIoElement":
         """
         AUTOSAR-compliant setter for ecucDefinition with method chaining.
-        
+
         Args:
             value: The ecucDefinition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecuc_definition property setter (gets validation automatically)
         """
@@ -497,10 +497,10 @@ class BuildActionIoElement(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -509,13 +509,13 @@ class BuildActionIoElement(ARObject):
     def setRole(self, value: "Identifier") -> "BuildActionIoElement":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -525,10 +525,10 @@ class BuildActionIoElement(ARObject):
     def getSdg(self) -> List["Sdg"]:
         """
         AUTOSAR-compliant getter for sdg.
-        
+
         Returns:
             The sdg value
-        
+
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """
@@ -539,13 +539,13 @@ class BuildActionIoElement(ARObject):
     def with_category(self, value: "NameToken") -> "BuildActionIoElement":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -555,13 +555,13 @@ class BuildActionIoElement(ARObject):
     def with_ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> "BuildActionIoElement":
         """
         Set ecucDefinition and return self for chaining.
-        
+
         Args:
             value: The ecucDefinition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecuc_definition("value")
         """
@@ -571,13 +571,13 @@ class BuildActionIoElement(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "BuildActionIoElement":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -590,9 +590,9 @@ class BuildActionEnvironment(Identifiable):
     """
     This meta-class represents the ability to specify a build action
     environment.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionEnvironment
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 370, Foundation
       R23-11)
@@ -616,10 +616,10 @@ class BuildActionEnvironment(Identifiable):
     def getSdg(self) -> List["Sdg"]:
         """
         AUTOSAR-compliant getter for sdg.
-        
+
         Returns:
             The sdg value
-        
+
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """
@@ -634,9 +634,9 @@ class BuildActionEntity(Identifiable, ABC):
     This meta-class represents the ability to describe a build action entity
     which might be specialized to environments as well as to individual build
     actions.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionEntity
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 370, Foundation
       R23-11)
@@ -666,10 +666,10 @@ class BuildActionEntity(Identifiable, ABC):
     def invocation(self, value: Optional["BuildActionInvocator"]) -> None:
         """
         Set invocation with validation.
-        
+
         Args:
             value: The invocation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -688,10 +688,10 @@ class BuildActionEntity(Identifiable, ABC):
     def getDeliveryArtifact(self) -> List["AutosarEngineering"]:
         """
         AUTOSAR-compliant getter for deliveryArtifact.
-        
+
         Returns:
             The deliveryArtifact value
-        
+
         Note:
             Delegates to delivery_artifact property (CODING_RULE_V2_00017)
         """
@@ -700,10 +700,10 @@ class BuildActionEntity(Identifiable, ABC):
     def getInvocation(self) -> "BuildActionInvocator":
         """
         AUTOSAR-compliant getter for invocation.
-        
+
         Returns:
             The invocation value
-        
+
         Note:
             Delegates to invocation property (CODING_RULE_V2_00017)
         """
@@ -712,13 +712,13 @@ class BuildActionEntity(Identifiable, ABC):
     def setInvocation(self, value: "BuildActionInvocator") -> "BuildActionEntity":
         """
         AUTOSAR-compliant setter for invocation with method chaining.
-        
+
         Args:
             value: The invocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to invocation property setter (gets validation automatically)
         """
@@ -730,13 +730,13 @@ class BuildActionEntity(Identifiable, ABC):
     def with_invocation(self, value: Optional["BuildActionInvocator"]) -> "BuildActionEntity":
         """
         Set invocation and return self for chaining.
-        
+
         Args:
             value: The invocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_invocation("value")
         """
@@ -752,9 +752,9 @@ class BuildActionInvocator(ARObject):
     properties of an invocator can be complex and not standardized. sdg Sdg *
     aggr This represents a general data structure intended to denote parameters
     for the BuildAction. Table 10.6: BuildActionInvocator
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionInvocator
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 372, Foundation
       R23-11)
@@ -775,10 +775,10 @@ class BuildActionInvocator(ARObject):
     def command(self, value: Optional["VerbatimString"]) -> None:
         """
         Set command with validation.
-        
+
         Args:
             value: The command to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -797,10 +797,10 @@ class BuildActionInvocator(ARObject):
     def getCommand(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for command.
-        
+
         Returns:
             The command value
-        
+
         Note:
             Delegates to command property (CODING_RULE_V2_00017)
         """
@@ -809,13 +809,13 @@ class BuildActionInvocator(ARObject):
     def setCommand(self, value: "VerbatimString") -> "BuildActionInvocator":
         """
         AUTOSAR-compliant setter for command with method chaining.
-        
+
         Args:
             value: The command to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to command property setter (gets validation automatically)
         """
@@ -827,13 +827,13 @@ class BuildActionInvocator(ARObject):
     def with_command(self, value: Optional["VerbatimString"]) -> "BuildActionInvocator":
         """
         Set command and return self for chaining.
-        
+
         Args:
             value: The command to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_command("value")
         """
@@ -907,9 +907,9 @@ class BuildEngineeringObject(EngineeringObject):
     <SHORT-NAME>ECU_Integrator</SHORT-NAME> <LONG-NAME> <L-4 L="EN">See <TT>ECU
     Integrator</TT></L-4> </LONG-NAME> </ACL-ROLE> </ELEMENTS> </AR-PACKAGE>
     </AR-PACKAGES> </AR-PACKAGE> Listing 11.1: Example for Access Control
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildEngineeringObject
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 372, Foundation
       R23-11)
@@ -933,10 +933,10 @@ class BuildEngineeringObject(EngineeringObject):
     def file_type(self, value: "NameToken") -> None:
         """
         Set fileType with validation.
-        
+
         Args:
             value: The fileType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -957,10 +957,10 @@ class BuildEngineeringObject(EngineeringObject):
     def file_type_pattern(self, value: "RegularExpression") -> None:
         """
         Set fileTypePattern with validation.
-        
+
         Args:
             value: The fileTypePattern to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -983,10 +983,10 @@ class BuildEngineeringObject(EngineeringObject):
     def intended(self, value: Optional["UriString"]) -> None:
         """
         Set intended with validation.
-        
+
         Args:
             value: The intended to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1005,10 +1005,10 @@ class BuildEngineeringObject(EngineeringObject):
     def getFileType(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for fileType.
-        
+
         Returns:
             The fileType value
-        
+
         Note:
             Delegates to file_type property (CODING_RULE_V2_00017)
         """
@@ -1017,13 +1017,13 @@ class BuildEngineeringObject(EngineeringObject):
     def setFileType(self, value: "NameToken") -> "BuildEngineeringObject":
         """
         AUTOSAR-compliant setter for fileType with method chaining.
-        
+
         Args:
             value: The fileType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to file_type property setter (gets validation automatically)
         """
@@ -1033,10 +1033,10 @@ class BuildEngineeringObject(EngineeringObject):
     def getFileTypePattern(self) -> "RegularExpression":
         """
         AUTOSAR-compliant getter for fileTypePattern.
-        
+
         Returns:
             The fileTypePattern value
-        
+
         Note:
             Delegates to file_type_pattern property (CODING_RULE_V2_00017)
         """
@@ -1045,13 +1045,13 @@ class BuildEngineeringObject(EngineeringObject):
     def setFileTypePattern(self, value: "RegularExpression") -> "BuildEngineeringObject":
         """
         AUTOSAR-compliant setter for fileTypePattern with method chaining.
-        
+
         Args:
             value: The fileTypePattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to file_type_pattern property setter (gets validation automatically)
         """
@@ -1061,10 +1061,10 @@ class BuildEngineeringObject(EngineeringObject):
     def getIntended(self) -> "UriString":
         """
         AUTOSAR-compliant getter for intended.
-        
+
         Returns:
             The intended value
-        
+
         Note:
             Delegates to intended property (CODING_RULE_V2_00017)
         """
@@ -1073,13 +1073,13 @@ class BuildEngineeringObject(EngineeringObject):
     def setIntended(self, value: "UriString") -> "BuildEngineeringObject":
         """
         AUTOSAR-compliant setter for intended with method chaining.
-        
+
         Args:
             value: The intended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to intended property setter (gets validation automatically)
         """
@@ -1091,13 +1091,13 @@ class BuildEngineeringObject(EngineeringObject):
     def with_file_type(self, value: "NameToken") -> "BuildEngineeringObject":
         """
         Set fileType and return self for chaining.
-        
+
         Args:
             value: The fileType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_file_type("value")
         """
@@ -1107,13 +1107,13 @@ class BuildEngineeringObject(EngineeringObject):
     def with_file_type_pattern(self, value: "RegularExpression") -> "BuildEngineeringObject":
         """
         Set fileTypePattern and return self for chaining.
-        
+
         Args:
             value: The fileTypePattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_file_type_pattern("value")
         """
@@ -1123,13 +1123,13 @@ class BuildEngineeringObject(EngineeringObject):
     def with_intended(self, value: Optional["UriString"]) -> "BuildEngineeringObject":
         """
         Set intended and return self for chaining.
-        
+
         Args:
             value: The intended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_intended("value")
         """
@@ -1144,9 +1144,9 @@ class GenericModelReference(ARObject):
     to a model element. The model element can be from every model. Even if it is
     modeled according to the association representation, it is not limited to
     refer to AUTOSAR model elements.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::GenericModelReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 449, Foundation
       R23-11)
@@ -1167,10 +1167,10 @@ class GenericModelReference(ARObject):
     def base(self, value: "NameToken") -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1192,10 +1192,10 @@ class GenericModelReference(ARObject):
     def dest(self, value: "NameToken") -> None:
         """
         Set dest with validation.
-        
+
         Args:
             value: The dest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1215,10 +1215,10 @@ class GenericModelReference(ARObject):
     def ref(self, value: "RefType") -> None:
         """
         Set ref with validation.
-        
+
         Args:
             value: The ref to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1229,10 +1229,10 @@ class GenericModelReference(ARObject):
     def getBase(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -1241,13 +1241,13 @@ class GenericModelReference(ARObject):
     def setBase(self, value: "NameToken") -> "GenericModelReference":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -1257,10 +1257,10 @@ class GenericModelReference(ARObject):
     def getDest(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for dest.
-        
+
         Returns:
             The dest value
-        
+
         Note:
             Delegates to dest property (CODING_RULE_V2_00017)
         """
@@ -1269,13 +1269,13 @@ class GenericModelReference(ARObject):
     def setDest(self, value: "NameToken") -> "GenericModelReference":
         """
         AUTOSAR-compliant setter for dest with method chaining.
-        
+
         Args:
             value: The dest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dest property setter (gets validation automatically)
         """
@@ -1285,10 +1285,10 @@ class GenericModelReference(ARObject):
     def getRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ref.
-        
+
         Returns:
             The ref value
-        
+
         Note:
             Delegates to ref property (CODING_RULE_V2_00017)
         """
@@ -1297,13 +1297,13 @@ class GenericModelReference(ARObject):
     def setRef(self, value: "RefType") -> "GenericModelReference":
         """
         AUTOSAR-compliant setter for ref with method chaining.
-        
+
         Args:
             value: The ref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ref property setter (gets validation automatically)
         """
@@ -1315,13 +1315,13 @@ class GenericModelReference(ARObject):
     def with_base(self, value: "NameToken") -> "GenericModelReference":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -1331,13 +1331,13 @@ class GenericModelReference(ARObject):
     def with_dest(self, value: "NameToken") -> "GenericModelReference":
         """
         Set dest and return self for chaining.
-        
+
         Args:
             value: The dest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dest("value")
         """
@@ -1347,13 +1347,13 @@ class GenericModelReference(ARObject):
     def with_ref(self, value: RefType) -> "GenericModelReference":
         """
         Set ref and return self for chaining.
-        
+
         Args:
             value: The ref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ref("value")
         """
@@ -1365,9 +1365,9 @@ class GenericModelReference(ARObject):
 class BuildAction(BuildActionEntity):
     """
     This meta-class represents the ability to specify a build action.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildAction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 366, Foundation
       R23-11)
@@ -1426,10 +1426,10 @@ class BuildAction(BuildActionEntity):
     def required(self, value: "BuildActionEnvironment") -> None:
         """
         Set required with validation.
-        
+
         Args:
             value: The required to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1444,10 +1444,10 @@ class BuildAction(BuildActionEntity):
     def getCreatedData(self) -> List["BuildActionIoElement"]:
         """
         AUTOSAR-compliant getter for createdData.
-        
+
         Returns:
             The createdData value
-        
+
         Note:
             Delegates to created_data property (CODING_RULE_V2_00017)
         """
@@ -1456,10 +1456,10 @@ class BuildAction(BuildActionEntity):
     def getFollowUpAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for followUpAction.
-        
+
         Returns:
             The followUpAction value
-        
+
         Note:
             Delegates to follow_up_action property (CODING_RULE_V2_00017)
         """
@@ -1468,10 +1468,10 @@ class BuildAction(BuildActionEntity):
     def getInputData(self) -> List["BuildActionIoElement"]:
         """
         AUTOSAR-compliant getter for inputData.
-        
+
         Returns:
             The inputData value
-        
+
         Note:
             Delegates to input_data property (CODING_RULE_V2_00017)
         """
@@ -1480,10 +1480,10 @@ class BuildAction(BuildActionEntity):
     def getModifiedData(self) -> List["BuildActionIoElement"]:
         """
         AUTOSAR-compliant getter for modifiedData.
-        
+
         Returns:
             The modifiedData value
-        
+
         Note:
             Delegates to modified_data property (CODING_RULE_V2_00017)
         """
@@ -1492,10 +1492,10 @@ class BuildAction(BuildActionEntity):
     def getPredecessor(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for predecessor.
-        
+
         Returns:
             The predecessor value
-        
+
         Note:
             Delegates to predecessor property (CODING_RULE_V2_00017)
         """
@@ -1504,10 +1504,10 @@ class BuildAction(BuildActionEntity):
     def getRequired(self) -> "BuildActionEnvironment":
         """
         AUTOSAR-compliant getter for required.
-        
+
         Returns:
             The required value
-        
+
         Note:
             Delegates to required property (CODING_RULE_V2_00017)
         """
@@ -1516,13 +1516,13 @@ class BuildAction(BuildActionEntity):
     def setRequired(self, value: "BuildActionEnvironment") -> "BuildAction":
         """
         AUTOSAR-compliant setter for required with method chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required property setter (gets validation automatically)
         """
@@ -1534,13 +1534,13 @@ class BuildAction(BuildActionEntity):
     def with_required(self, value: "BuildActionEnvironment") -> "BuildAction":
         """
         Set required and return self for chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required("value")
         """

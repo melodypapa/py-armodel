@@ -34,9 +34,9 @@ class EcucModuleConfigurationValues(ARElement):
     changed. These two EcucModuleConfigurationValues are used when the base
     EcucModuleConfigurationValues (as part of the base ECU configuration) is
     created to fill parameters with initial values.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucModuleConfigurationValues
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 313, Classic
       Platform R23-11)
@@ -68,10 +68,10 @@ class EcucModuleConfigurationValues(ARElement):
     def definition(self, value: Optional["EcucModuleDef"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class EcucModuleConfigurationValues(ARElement):
     def ecuc_def_edition(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set ecucDefEdition with validation.
-        
+
         Args:
             value: The ecucDefEdition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +130,10 @@ class EcucModuleConfigurationValues(ARElement):
     def implementation(self, value: Optional["EcucConfiguration"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -161,10 +161,10 @@ class EcucModuleConfigurationValues(ARElement):
     def module(self, value: Optional["BswImplementation"]) -> None:
         """
         Set module with validation.
-        
+
         Args:
             value: The module to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +191,10 @@ class EcucModuleConfigurationValues(ARElement):
     def post_build_variant(self, value: Optional["Boolean"]) -> None:
         """
         Set postBuildVariant with validation.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -325,10 +325,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getContainer(self) -> List["EcucContainerValue"]:
         """
         AUTOSAR-compliant getter for container.
-        
+
         Returns:
             The container value
-        
+
         Note:
             Delegates to container property (CODING_RULE_V2_00017)
         """
@@ -337,10 +337,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getDefinition(self) -> "EcucModuleDef":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -349,13 +349,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setDefinition(self, value: "EcucModuleDef") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -365,10 +365,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getEcucDefEdition(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for ecucDefEdition.
-        
+
         Returns:
             The ecucDefEdition value
-        
+
         Note:
             Delegates to ecuc_def_edition property (CODING_RULE_V2_00017)
         """
@@ -377,13 +377,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setEcucDefEdition(self, value: "RevisionLabelString") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for ecucDefEdition with method chaining.
-        
+
         Args:
             value: The ecucDefEdition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecuc_def_edition property setter (gets validation automatically)
         """
@@ -393,10 +393,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getImplementation(self) -> "EcucConfiguration":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -405,13 +405,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setImplementation(self, value: "EcucConfiguration") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -421,10 +421,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getModule(self) -> "BswImplementation":
         """
         AUTOSAR-compliant getter for module.
-        
+
         Returns:
             The module value
-        
+
         Note:
             Delegates to module property (CODING_RULE_V2_00017)
         """
@@ -433,13 +433,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setModule(self, value: "BswImplementation") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for module with method chaining.
-        
+
         Args:
             value: The module to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to module property setter (gets validation automatically)
         """
@@ -449,10 +449,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getPostBuildVariant(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -461,13 +461,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setPostBuildVariant(self, value: "Boolean") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for postBuildVariant with method chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to post_build_variant property setter (gets validation automatically)
         """
@@ -479,13 +479,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_definition(self, value: Optional["EcucModuleDef"]) -> "EcucModuleConfigurationValues":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """
@@ -495,13 +495,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_ecuc_def_edition(self, value: Optional["RevisionLabelString"]) -> "EcucModuleConfigurationValues":
         """
         Set ecucDefEdition and return self for chaining.
-        
+
         Args:
             value: The ecucDefEdition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecuc_def_edition("value")
         """
@@ -511,13 +511,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_implementation(self, value: Optional["EcucConfiguration"]) -> "EcucModuleConfigurationValues":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -527,13 +527,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_module(self, value: Optional["BswImplementation"]) -> "EcucModuleConfigurationValues":
         """
         Set module and return self for chaining.
-        
+
         Args:
             value: The module to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_module("value")
         """
@@ -543,13 +543,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_post_build_variant(self, value: Optional["Boolean"]) -> "EcucModuleConfigurationValues":
         """
         Set postBuildVariant and return self for chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_post_build_variant("value")
         """
@@ -561,9 +561,9 @@ class EcucModuleConfigurationValues(ARElement):
 class EcucValueCollection(ARElement):
     """
     This represents the anchor point of the ECU configuration description.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucValueCollection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 108, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2022, Classic Platform R23-11)
@@ -595,10 +595,10 @@ class EcucValueCollection(ARElement):
     def ecu_extract(self, value: Optional["System"]) -> None:
         """
         Set ecuExtract with validation.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -617,10 +617,10 @@ class EcucValueCollection(ARElement):
     def getEcucValue(self) -> List["EcucModule"]:
         """
         AUTOSAR-compliant getter for ecucValue.
-        
+
         Returns:
             The ecucValue value
-        
+
         Note:
             Delegates to ecuc_value property (CODING_RULE_V2_00017)
         """
@@ -629,10 +629,10 @@ class EcucValueCollection(ARElement):
     def getEcuExtract(self) -> "System":
         """
         AUTOSAR-compliant getter for ecuExtract.
-        
+
         Returns:
             The ecuExtract value
-        
+
         Note:
             Delegates to ecu_extract property (CODING_RULE_V2_00017)
         """
@@ -641,13 +641,13 @@ class EcucValueCollection(ARElement):
     def setEcuExtract(self, value: "System") -> "EcucValueCollection":
         """
         AUTOSAR-compliant setter for ecuExtract with method chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_extract property setter (gets validation automatically)
         """
@@ -659,13 +659,13 @@ class EcucValueCollection(ARElement):
     def with_ecu_extract(self, value: Optional["System"]) -> "EcucValueCollection":
         """
         Set ecuExtract and return self for chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_extract("value")
         """
@@ -677,9 +677,9 @@ class EcucValueCollection(ARElement):
 class EcucIndexableValue(ARObject, ABC):
     """
     Used to support the specification of ordering of parameter values.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucIndexableValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 110, Classic Platform R23-11)
     """
@@ -701,10 +701,10 @@ class EcucIndexableValue(ARObject, ABC):
     def index(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -723,10 +723,10 @@ class EcucIndexableValue(ARObject, ABC):
     def getIndex(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -735,13 +735,13 @@ class EcucIndexableValue(ARObject, ABC):
     def setIndex(self, value: "PositiveInteger") -> "EcucIndexableValue":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -753,13 +753,13 @@ class EcucIndexableValue(ARObject, ABC):
     def with_index(self, value: Optional["PositiveInteger"]) -> "EcucIndexableValue":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """
@@ -771,9 +771,9 @@ class EcucIndexableValue(ARObject, ABC):
 class EcucContainerValue(Identifiable):
     """
     Represents a Container definition in the ECU Configuration Description.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucContainerValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 119, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2021, Classic Platform R23-11)
@@ -797,10 +797,10 @@ class EcucContainerValue(Identifiable):
     def definition(self, value: Optional["EcucContainerDef"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -841,10 +841,10 @@ class EcucContainerValue(Identifiable):
     def getDefinition(self) -> "EcucContainerDef":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -853,13 +853,13 @@ class EcucContainerValue(Identifiable):
     def setDefinition(self, value: "EcucContainerDef") -> "EcucContainerValue":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -869,10 +869,10 @@ class EcucContainerValue(Identifiable):
     def getParameterValue(self) -> List["EcucParameterValue"]:
         """
         AUTOSAR-compliant getter for parameterValue.
-        
+
         Returns:
             The parameterValue value
-        
+
         Note:
             Delegates to parameter_value property (CODING_RULE_V2_00017)
         """
@@ -881,10 +881,10 @@ class EcucContainerValue(Identifiable):
     def getReferenceValue(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for referenceValue.
-        
+
         Returns:
             The referenceValue value
-        
+
         Note:
             Delegates to reference_value property (CODING_RULE_V2_00017)
         """
@@ -893,10 +893,10 @@ class EcucContainerValue(Identifiable):
     def getSubContainer(self) -> List["EcucContainerValue"]:
         """
         AUTOSAR-compliant getter for subContainer.
-        
+
         Returns:
             The subContainer value
-        
+
         Note:
             Delegates to sub_container property (CODING_RULE_V2_00017)
         """
@@ -907,13 +907,13 @@ class EcucContainerValue(Identifiable):
     def with_definition(self, value: Optional["EcucContainerDef"]) -> "EcucContainerValue":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """
@@ -925,9 +925,9 @@ class EcucContainerValue(Identifiable):
 class EcucParameterValue(EcucIndexableValue, ABC):
     """
     Common class to all types of configuration values.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucParameterValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 124, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 442, Foundation
@@ -963,10 +963,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def definition(self, value: Optional["EcucParameterDef"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -995,10 +995,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def is_auto_value(self, value: Optional["Boolean"]) -> None:
         """
         Set isAutoValue with validation.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1017,10 +1017,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -1029,10 +1029,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def getDefinition(self) -> "EcucParameterDef":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -1041,13 +1041,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def setDefinition(self, value: "EcucParameterDef") -> "EcucParameterValue":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -1057,10 +1057,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def getIsAutoValue(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isAutoValue.
-        
+
         Returns:
             The isAutoValue value
-        
+
         Note:
             Delegates to is_auto_value property (CODING_RULE_V2_00017)
         """
@@ -1069,13 +1069,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def setIsAutoValue(self, value: "Boolean") -> "EcucParameterValue":
         """
         AUTOSAR-compliant setter for isAutoValue with method chaining.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_auto_value property setter (gets validation automatically)
         """
@@ -1087,13 +1087,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def with_definition(self, value: Optional["EcucParameterDef"]) -> "EcucParameterValue":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """
@@ -1103,13 +1103,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def with_is_auto_value(self, value: Optional["Boolean"]) -> "EcucParameterValue":
         """
         Set isAutoValue and return self for chaining.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_auto_value("value")
         """
@@ -1122,9 +1122,9 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     """
     Abstract class to be used as common parent for all reference values in the
     ECU Configuration Description.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucAbstractReferenceValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 131, Classic Platform R23-11)
     """
@@ -1157,10 +1157,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def definition(self, value: Optional["RefType"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1185,10 +1185,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def is_auto_value(self, value: Optional["Boolean"]) -> None:
         """
         Set isAutoValue with validation.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1207,10 +1207,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -1219,10 +1219,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def getDefinition(self) -> "RefType":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -1231,13 +1231,13 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def setDefinition(self, value: "RefType") -> "EcucAbstractReferenceValue":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -1247,10 +1247,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def getIsAutoValue(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isAutoValue.
-        
+
         Returns:
             The isAutoValue value
-        
+
         Note:
             Delegates to is_auto_value property (CODING_RULE_V2_00017)
         """
@@ -1259,13 +1259,13 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def setIsAutoValue(self, value: "Boolean") -> "EcucAbstractReferenceValue":
         """
         AUTOSAR-compliant setter for isAutoValue with method chaining.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_auto_value property setter (gets validation automatically)
         """
@@ -1277,13 +1277,13 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def with_definition(self, value: Optional[RefType]) -> "EcucAbstractReferenceValue":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """
@@ -1293,13 +1293,13 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def with_is_auto_value(self, value: Optional["Boolean"]) -> "EcucAbstractReferenceValue":
         """
         Set isAutoValue and return self for chaining.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_auto_value("value")
         """
@@ -1311,9 +1311,9 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
 class EcucTextualParamValue(EcucParameterValue):
     """
     Holding a value which is not subject to variation.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucTextualParamValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 127, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 443, Foundation
@@ -1336,10 +1336,10 @@ class EcucTextualParamValue(EcucParameterValue):
     def value(self, value: Optional["VerbatimString"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1358,10 +1358,10 @@ class EcucTextualParamValue(EcucParameterValue):
     def getValue(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -1370,13 +1370,13 @@ class EcucTextualParamValue(EcucParameterValue):
     def setValue(self, value: "VerbatimString") -> "EcucTextualParamValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1388,13 +1388,13 @@ class EcucTextualParamValue(EcucParameterValue):
     def with_value(self, value: Optional["VerbatimString"]) -> "EcucTextualParamValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -1406,9 +1406,9 @@ class EcucTextualParamValue(EcucParameterValue):
 class EcucNumericalParamValue(EcucParameterValue):
     """
     Holding the value which is subject to variant handling.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucNumericalParamValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 128, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 442, Foundation
@@ -1431,10 +1431,10 @@ class EcucNumericalParamValue(EcucParameterValue):
     def value(self, value: Optional["Numerical"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1453,10 +1453,10 @@ class EcucNumericalParamValue(EcucParameterValue):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -1465,13 +1465,13 @@ class EcucNumericalParamValue(EcucParameterValue):
     def setValue(self, value: "Numerical") -> "EcucNumericalParamValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1483,13 +1483,13 @@ class EcucNumericalParamValue(EcucParameterValue):
     def with_value(self, value: Optional["Numerical"]) -> "EcucNumericalParamValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -1501,9 +1501,9 @@ class EcucNumericalParamValue(EcucParameterValue):
 class EcucAddInfoParamValue(EcucParameterValue):
     """
     This parameter corresponds to EcucAddInfoParamDef.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucAddInfoParamValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 129, Classic Platform R23-11)
     """
@@ -1523,10 +1523,10 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def value(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1545,10 +1545,10 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def getValue(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -1557,13 +1557,13 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def setValue(self, value: "DocumentationBlock") -> "EcucAddInfoParamValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1575,13 +1575,13 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def with_value(self, value: Optional["DocumentationBlock"]) -> "EcucAddInfoParamValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -1595,9 +1595,9 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     Used to represent a configuration value that has a parameter definition of
     type EcucAbstractReference Def (used for all of its specializations
     excluding EcucInstanceReferenceDef).
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucReferenceValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 132, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 443, Foundation
@@ -1619,10 +1619,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def value(self, value: Optional["RefType"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1637,10 +1637,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def getValue(self) -> "RefType":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -1649,13 +1649,13 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def setValue(self, value: "RefType") -> "EcucReferenceValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1667,13 +1667,13 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def with_value(self, value: Optional[RefType]) -> "EcucReferenceValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -1685,9 +1685,9 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     """
     InstanceReference representation in the ECU Configuration.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucInstanceReferenceValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 134, Classic Platform R23-11)
     """
@@ -1707,10 +1707,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def value(self, value: Optional["AtpFeature"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1729,10 +1729,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def getValue(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -1741,13 +1741,13 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def setValue(self, value: "AtpFeature") -> "EcucInstanceReferenceValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1759,13 +1759,13 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def with_value(self, value: Optional["AtpFeature"]) -> "EcucInstanceReferenceValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

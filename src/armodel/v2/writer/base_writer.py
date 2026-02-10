@@ -3,7 +3,7 @@ ARXML Writer for V2 models.
 """
 import sys
 import xml.etree.ElementTree as ET
-from typing import Any, Optional
+from typing import Any, Optional, cast
 
 from armodel.v2.models.models import (
     AUTOSAR,
@@ -39,7 +39,7 @@ class ARXMLWriter:
 
         # Check if it's an AUTOSAR primitive type (has getValue method or value property)
         if hasattr(value, 'getValue'):
-            return value.getValue()
+            return cast(Optional[str], value.getValue())
         elif hasattr(value, 'value'):
             return str(value.value) if value.value is not None else None
         else:

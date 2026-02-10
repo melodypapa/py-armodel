@@ -42,9 +42,9 @@ class EthernetPhysicalChannel(PhysicalChannel):
     The EthernetPhysicalChannel represents a VLAN or an untagged channel. An
     untagged channel is modeled as an EthernetPhysicalChannel without an
     aggregated VLAN.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 314, Classic Platform
       R23-11)
@@ -74,10 +74,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def so_ad_config(self, value: Optional["SoAdConfig"]) -> None:
         """
         Set soAdConfig with validation.
-        
+
         Args:
             value: The soAdConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +101,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def vlan(self, value: Optional["VlanConfig"]) -> None:
         """
         Set vlan with validation.
-        
+
         Args:
             value: The vlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -491,10 +491,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getNetwork(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -503,10 +503,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getSoAdConfig(self) -> "SoAdConfig":
         """
         AUTOSAR-compliant getter for soAdConfig.
-        
+
         Returns:
             The soAdConfig value
-        
+
         Note:
             Delegates to so_ad_config property (CODING_RULE_V2_00017)
         """
@@ -515,13 +515,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def setSoAdConfig(self, value: "SoAdConfig") -> "EthernetPhysicalChannel":
         """
         AUTOSAR-compliant setter for soAdConfig with method chaining.
-        
+
         Args:
             value: The soAdConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to so_ad_config property setter (gets validation automatically)
         """
@@ -531,10 +531,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getVlan(self) -> "VlanConfig":
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -543,13 +543,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def setVlan(self, value: "VlanConfig") -> "EthernetPhysicalChannel":
         """
         AUTOSAR-compliant setter for vlan with method chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan property setter (gets validation automatically)
         """
@@ -561,13 +561,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def with_so_ad_config(self, value: Optional["SoAdConfig"]) -> "EthernetPhysicalChannel":
         """
         Set soAdConfig and return self for chaining.
-        
+
         Args:
             value: The soAdConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_so_ad_config("value")
         """
@@ -577,13 +577,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def with_vlan(self, value: Optional["VlanConfig"]) -> "EthernetPhysicalChannel":
         """
         Set vlan and return self for chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan("value")
         """
@@ -595,9 +595,9 @@ class EthernetPhysicalChannel(PhysicalChannel):
 class EthernetCluster(ARObject):
     """
     Ethernet-specific cluster attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 103, Classic Platform R23-11)
     """
@@ -622,10 +622,10 @@ class EthernetCluster(ARObject):
     def coupling_port(self, value: Optional["TimeValue"]) -> None:
         """
         Set couplingPort with validation.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -650,10 +650,10 @@ class EthernetCluster(ARObject):
     def getCouplingPort(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -662,13 +662,13 @@ class EthernetCluster(ARObject):
     def setCouplingPort(self, value: "TimeValue") -> "EthernetCluster":
         """
         AUTOSAR-compliant setter for couplingPort with method chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_port property setter (gets validation automatically)
         """
@@ -678,10 +678,10 @@ class EthernetCluster(ARObject):
     def getMacMulticast(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for macMulticast.
-        
+
         Returns:
             The macMulticast value
-        
+
         Note:
             Delegates to mac_multicast property (CODING_RULE_V2_00017)
         """
@@ -692,13 +692,13 @@ class EthernetCluster(ARObject):
     def with_coupling_port(self, value: Optional["TimeValue"]) -> "EthernetCluster":
         """
         Set couplingPort and return self for chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_port("value")
         """
@@ -713,9 +713,9 @@ class MacMulticastGroup(Identifiable):
     handle many receivers simultaneously if the receivers have all the same
     macMulticastAddress. The addresses need to be unique for the particular
     EthernetCluster.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::MacMulticastGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 103, Classic Platform R23-11)
     """
@@ -736,10 +736,10 @@ class MacMulticastGroup(Identifiable):
     def mac_multicast(self, value: Optional["MacAddressString"]) -> None:
         """
         Set macMulticast with validation.
-        
+
         Args:
             value: The macMulticast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -758,10 +758,10 @@ class MacMulticastGroup(Identifiable):
     def getMacMulticast(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for macMulticast.
-        
+
         Returns:
             The macMulticast value
-        
+
         Note:
             Delegates to mac_multicast property (CODING_RULE_V2_00017)
         """
@@ -770,13 +770,13 @@ class MacMulticastGroup(Identifiable):
     def setMacMulticast(self, value: "MacAddressString") -> "MacMulticastGroup":
         """
         AUTOSAR-compliant setter for macMulticast with method chaining.
-        
+
         Args:
             value: The macMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_multicast property setter (gets validation automatically)
         """
@@ -788,13 +788,13 @@ class MacMulticastGroup(Identifiable):
     def with_mac_multicast(self, value: Optional["MacAddressString"]) -> "MacMulticastGroup":
         """
         Set macMulticast and return self for chaining.
-        
+
         Args:
             value: The macMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_multicast("value")
         """
@@ -806,9 +806,9 @@ class MacMulticastGroup(Identifiable):
 class VlanConfig(Identifiable):
     """
     VLAN Configuration attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::VlanConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 106, Classic Platform R23-11)
     """
@@ -830,10 +830,10 @@ class VlanConfig(Identifiable):
     def vlan_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanIdentifier with validation.
-        
+
         Args:
             value: The vlanIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -852,10 +852,10 @@ class VlanConfig(Identifiable):
     def getVlanIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanIdentifier.
-        
+
         Returns:
             The vlanIdentifier value
-        
+
         Note:
             Delegates to vlan_identifier property (CODING_RULE_V2_00017)
         """
@@ -864,13 +864,13 @@ class VlanConfig(Identifiable):
     def setVlanIdentifier(self, value: "PositiveInteger") -> "VlanConfig":
         """
         AUTOSAR-compliant setter for vlanIdentifier with method chaining.
-        
+
         Args:
             value: The vlanIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_identifier property setter (gets validation automatically)
         """
@@ -882,13 +882,13 @@ class VlanConfig(Identifiable):
     def with_vlan_identifier(self, value: Optional["PositiveInteger"]) -> "VlanConfig":
         """
         Set vlanIdentifier and return self for chaining.
-        
+
         Args:
             value: The vlanIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_identifier("value")
         """
@@ -904,9 +904,9 @@ class CouplingElement(FibexElement):
     managed switch or even devices with functionalities in higher layers. A
     CouplingElement that is not related to an EcuInstance occurs as a dedicated
     single device.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 107, Classic Platform R23-11)
     """
@@ -926,10 +926,10 @@ class CouplingElement(FibexElement):
     def communication(self, value: Optional["EthernetCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -955,10 +955,10 @@ class CouplingElement(FibexElement):
     def coupling(self, value: Optional["CouplingElement"]) -> None:
         """
         Set coupling with validation.
-        
+
         Args:
             value: The coupling to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -990,10 +990,10 @@ class CouplingElement(FibexElement):
     def coupling_type(self, value: Optional["CouplingElementEnum"]) -> None:
         """
         Set couplingType with validation.
-        
+
         Args:
             value: The couplingType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1017,10 +1017,10 @@ class CouplingElement(FibexElement):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1045,10 +1045,10 @@ class CouplingElement(FibexElement):
     def getCommunication(self) -> "EthernetCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -1057,13 +1057,13 @@ class CouplingElement(FibexElement):
     def setCommunication(self, value: "EthernetCluster") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -1073,10 +1073,10 @@ class CouplingElement(FibexElement):
     def getCoupling(self) -> "CouplingElement":
         """
         AUTOSAR-compliant getter for coupling.
-        
+
         Returns:
             The coupling value
-        
+
         Note:
             Delegates to coupling property (CODING_RULE_V2_00017)
         """
@@ -1085,13 +1085,13 @@ class CouplingElement(FibexElement):
     def setCoupling(self, value: "CouplingElement") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for coupling with method chaining.
-        
+
         Args:
             value: The coupling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling property setter (gets validation automatically)
         """
@@ -1101,10 +1101,10 @@ class CouplingElement(FibexElement):
     def getCouplingPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -1113,10 +1113,10 @@ class CouplingElement(FibexElement):
     def getCouplingType(self) -> "CouplingElementEnum":
         """
         AUTOSAR-compliant getter for couplingType.
-        
+
         Returns:
             The couplingType value
-        
+
         Note:
             Delegates to coupling_type property (CODING_RULE_V2_00017)
         """
@@ -1125,13 +1125,13 @@ class CouplingElement(FibexElement):
     def setCouplingType(self, value: "CouplingElementEnum") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for couplingType with method chaining.
-        
+
         Args:
             value: The couplingType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_type property setter (gets validation automatically)
         """
@@ -1141,10 +1141,10 @@ class CouplingElement(FibexElement):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -1153,13 +1153,13 @@ class CouplingElement(FibexElement):
     def setEcuInstance(self, value: "EcuInstance") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -1169,10 +1169,10 @@ class CouplingElement(FibexElement):
     def getFirewallRule(self) -> List["StateDependentFirewall"]:
         """
         AUTOSAR-compliant getter for firewallRule.
-        
+
         Returns:
             The firewallRule value
-        
+
         Note:
             Delegates to firewall_rule property (CODING_RULE_V2_00017)
         """
@@ -1183,13 +1183,13 @@ class CouplingElement(FibexElement):
     def with_communication(self, value: Optional["EthernetCluster"]) -> "CouplingElement":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -1199,13 +1199,13 @@ class CouplingElement(FibexElement):
     def with_coupling(self, value: Optional["CouplingElement"]) -> "CouplingElement":
         """
         Set coupling and return self for chaining.
-        
+
         Args:
             value: The coupling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling("value")
         """
@@ -1215,13 +1215,13 @@ class CouplingElement(FibexElement):
     def with_coupling_type(self, value: Optional["CouplingElementEnum"]) -> "CouplingElement":
         """
         Set couplingType and return self for chaining.
-        
+
         Args:
             value: The couplingType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_type("value")
         """
@@ -1231,13 +1231,13 @@ class CouplingElement(FibexElement):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "CouplingElement":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -1252,9 +1252,9 @@ class CouplingPort(Identifiable):
     two CouplingElements with each other via a CouplingPortConnection.
     Optionally, the CouplingPort may also have a reference to a
     macMulticastGroup and a defaultVLAN.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 109, Classic Platform R23-11)
     """
@@ -1274,10 +1274,10 @@ class CouplingPort(Identifiable):
     def connection(self, value: Optional["EthernetConnection"]) -> None:
         """
         Set connection with validation.
-        
+
         Args:
             value: The connection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1301,10 +1301,10 @@ class CouplingPort(Identifiable):
     def coupling_port(self, value: Optional["CouplingPortRoleEnum"]) -> None:
         """
         Set couplingPort with validation.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1335,10 +1335,10 @@ class CouplingPort(Identifiable):
     def default_vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set defaultVlan with validation.
-        
+
         Args:
             value: The defaultVlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1362,10 +1362,10 @@ class CouplingPort(Identifiable):
     def mac_layer_type_enum(self, value: Optional["EthernetMacLayerType"]) -> None:
         """
         Set macLayerTypeEnum with validation.
-        
+
         Args:
             value: The macLayerTypeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1405,10 +1405,10 @@ class CouplingPort(Identifiable):
     def physical_layer(self, value: Optional["EthernetPhysicalLayer"]) -> None:
         """
         Set physicalLayer with validation.
-        
+
         Args:
             value: The physicalLayer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1433,10 +1433,10 @@ class CouplingPort(Identifiable):
     def plca_props(self, value: Optional["PlcaProps"]) -> None:
         """
         Set plcaProps with validation.
-        
+
         Args:
             value: The plcaProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1467,10 +1467,10 @@ class CouplingPort(Identifiable):
     def receive_activity(self, value: Optional["EthernetSwitchVlan"]) -> None:
         """
         Set receiveActivity with validation.
-        
+
         Args:
             value: The receiveActivity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1506,10 +1506,10 @@ class CouplingPort(Identifiable):
     def vlan_modifier(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlanModifier with validation.
-        
+
         Args:
             value: The vlanModifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1533,10 +1533,10 @@ class CouplingPort(Identifiable):
     def wakeup_sleep(self, value: Optional["EthernetWakeupSleep"]) -> None:
         """
         Set wakeupSleep with validation.
-        
+
         Args:
             value: The wakeupSleep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1555,10 +1555,10 @@ class CouplingPort(Identifiable):
     def getConnection(self) -> "EthernetConnection":
         """
         AUTOSAR-compliant getter for connection.
-        
+
         Returns:
             The connection value
-        
+
         Note:
             Delegates to connection property (CODING_RULE_V2_00017)
         """
@@ -1567,13 +1567,13 @@ class CouplingPort(Identifiable):
     def setConnection(self, value: "EthernetConnection") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for connection with method chaining.
-        
+
         Args:
             value: The connection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connection property setter (gets validation automatically)
         """
@@ -1583,10 +1583,10 @@ class CouplingPort(Identifiable):
     def getCouplingPort(self) -> "CouplingPortRoleEnum":
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -1595,13 +1595,13 @@ class CouplingPort(Identifiable):
     def setCouplingPort(self, value: "CouplingPortRoleEnum") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for couplingPort with method chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_port property setter (gets validation automatically)
         """
@@ -1611,10 +1611,10 @@ class CouplingPort(Identifiable):
     def getDefaultVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for defaultVlan.
-        
+
         Returns:
             The defaultVlan value
-        
+
         Note:
             Delegates to default_vlan property (CODING_RULE_V2_00017)
         """
@@ -1623,13 +1623,13 @@ class CouplingPort(Identifiable):
     def setDefaultVlan(self, value: "EthernetPhysical") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for defaultVlan with method chaining.
-        
+
         Args:
             value: The defaultVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_vlan property setter (gets validation automatically)
         """
@@ -1639,10 +1639,10 @@ class CouplingPort(Identifiable):
     def getMacLayerTypeEnum(self) -> "EthernetMacLayerType":
         """
         AUTOSAR-compliant getter for macLayerTypeEnum.
-        
+
         Returns:
             The macLayerTypeEnum value
-        
+
         Note:
             Delegates to mac_layer_type_enum property (CODING_RULE_V2_00017)
         """
@@ -1651,13 +1651,13 @@ class CouplingPort(Identifiable):
     def setMacLayerTypeEnum(self, value: "EthernetMacLayerType") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for macLayerTypeEnum with method chaining.
-        
+
         Args:
             value: The macLayerTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_layer_type_enum property setter (gets validation automatically)
         """
@@ -1667,10 +1667,10 @@ class CouplingPort(Identifiable):
     def getMacMulticast(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for macMulticast.
-        
+
         Returns:
             The macMulticast value
-        
+
         Note:
             Delegates to mac_multicast property (CODING_RULE_V2_00017)
         """
@@ -1679,10 +1679,10 @@ class CouplingPort(Identifiable):
     def getMacSecProps(self) -> List["MacSecProps"]:
         """
         AUTOSAR-compliant getter for macSecProps.
-        
+
         Returns:
             The macSecProps value
-        
+
         Note:
             Delegates to mac_sec_props property (CODING_RULE_V2_00017)
         """
@@ -1691,10 +1691,10 @@ class CouplingPort(Identifiable):
     def getPhysicalLayer(self) -> "EthernetPhysicalLayer":
         """
         AUTOSAR-compliant getter for physicalLayer.
-        
+
         Returns:
             The physicalLayer value
-        
+
         Note:
             Delegates to physical_layer property (CODING_RULE_V2_00017)
         """
@@ -1703,13 +1703,13 @@ class CouplingPort(Identifiable):
     def setPhysicalLayer(self, value: "EthernetPhysicalLayer") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for physicalLayer with method chaining.
-        
+
         Args:
             value: The physicalLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical_layer property setter (gets validation automatically)
         """
@@ -1719,10 +1719,10 @@ class CouplingPort(Identifiable):
     def getPlcaProps(self) -> "PlcaProps":
         """
         AUTOSAR-compliant getter for plcaProps.
-        
+
         Returns:
             The plcaProps value
-        
+
         Note:
             Delegates to plca_props property (CODING_RULE_V2_00017)
         """
@@ -1731,13 +1731,13 @@ class CouplingPort(Identifiable):
     def setPlcaProps(self, value: "PlcaProps") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for plcaProps with method chaining.
-        
+
         Args:
             value: The plcaProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_props property setter (gets validation automatically)
         """
@@ -1747,10 +1747,10 @@ class CouplingPort(Identifiable):
     def getPncMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for pncMapping.
-        
+
         Returns:
             The pncMapping value
-        
+
         Note:
             Delegates to pnc_mapping property (CODING_RULE_V2_00017)
         """
@@ -1759,10 +1759,10 @@ class CouplingPort(Identifiable):
     def getReceiveActivity(self) -> "EthernetSwitchVlan":
         """
         AUTOSAR-compliant getter for receiveActivity.
-        
+
         Returns:
             The receiveActivity value
-        
+
         Note:
             Delegates to receive_activity property (CODING_RULE_V2_00017)
         """
@@ -1771,13 +1771,13 @@ class CouplingPort(Identifiable):
     def setReceiveActivity(self, value: "EthernetSwitchVlan") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for receiveActivity with method chaining.
-        
+
         Args:
             value: The receiveActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to receive_activity property setter (gets validation automatically)
         """
@@ -1787,10 +1787,10 @@ class CouplingPort(Identifiable):
     def getVlan(self) -> List["VlanMembership"]:
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -1799,10 +1799,10 @@ class CouplingPort(Identifiable):
     def getVlanModifier(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlanModifier.
-        
+
         Returns:
             The vlanModifier value
-        
+
         Note:
             Delegates to vlan_modifier property (CODING_RULE_V2_00017)
         """
@@ -1811,13 +1811,13 @@ class CouplingPort(Identifiable):
     def setVlanModifier(self, value: "EthernetPhysical") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for vlanModifier with method chaining.
-        
+
         Args:
             value: The vlanModifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_modifier property setter (gets validation automatically)
         """
@@ -1827,10 +1827,10 @@ class CouplingPort(Identifiable):
     def getWakeupSleep(self) -> "EthernetWakeupSleep":
         """
         AUTOSAR-compliant getter for wakeupSleep.
-        
+
         Returns:
             The wakeupSleep value
-        
+
         Note:
             Delegates to wakeup_sleep property (CODING_RULE_V2_00017)
         """
@@ -1839,13 +1839,13 @@ class CouplingPort(Identifiable):
     def setWakeupSleep(self, value: "EthernetWakeupSleep") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for wakeupSleep with method chaining.
-        
+
         Args:
             value: The wakeupSleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_sleep property setter (gets validation automatically)
         """
@@ -1857,13 +1857,13 @@ class CouplingPort(Identifiable):
     def with_connection(self, value: Optional["EthernetConnection"]) -> "CouplingPort":
         """
         Set connection and return self for chaining.
-        
+
         Args:
             value: The connection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connection("value")
         """
@@ -1873,13 +1873,13 @@ class CouplingPort(Identifiable):
     def with_coupling_port(self, value: Optional["CouplingPortRoleEnum"]) -> "CouplingPort":
         """
         Set couplingPort and return self for chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_port("value")
         """
@@ -1889,13 +1889,13 @@ class CouplingPort(Identifiable):
     def with_default_vlan(self, value: Optional["EthernetPhysical"]) -> "CouplingPort":
         """
         Set defaultVlan and return self for chaining.
-        
+
         Args:
             value: The defaultVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_vlan("value")
         """
@@ -1905,13 +1905,13 @@ class CouplingPort(Identifiable):
     def with_mac_layer_type_enum(self, value: Optional["EthernetMacLayerType"]) -> "CouplingPort":
         """
         Set macLayerTypeEnum and return self for chaining.
-        
+
         Args:
             value: The macLayerTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_layer_type_enum("value")
         """
@@ -1921,13 +1921,13 @@ class CouplingPort(Identifiable):
     def with_physical_layer(self, value: Optional["EthernetPhysicalLayer"]) -> "CouplingPort":
         """
         Set physicalLayer and return self for chaining.
-        
+
         Args:
             value: The physicalLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical_layer("value")
         """
@@ -1937,13 +1937,13 @@ class CouplingPort(Identifiable):
     def with_plca_props(self, value: Optional["PlcaProps"]) -> "CouplingPort":
         """
         Set plcaProps and return self for chaining.
-        
+
         Args:
             value: The plcaProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_props("value")
         """
@@ -1953,13 +1953,13 @@ class CouplingPort(Identifiable):
     def with_receive_activity(self, value: Optional["EthernetSwitchVlan"]) -> "CouplingPort":
         """
         Set receiveActivity and return self for chaining.
-        
+
         Args:
             value: The receiveActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_receive_activity("value")
         """
@@ -1969,13 +1969,13 @@ class CouplingPort(Identifiable):
     def with_vlan_modifier(self, value: Optional["EthernetPhysical"]) -> "CouplingPort":
         """
         Set vlanModifier and return self for chaining.
-        
+
         Args:
             value: The vlanModifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_modifier("value")
         """
@@ -1985,13 +1985,13 @@ class CouplingPort(Identifiable):
     def with_wakeup_sleep(self, value: Optional["EthernetWakeupSleep"]) -> "CouplingPort":
         """
         Set wakeupSleep and return self for chaining.
-        
+
         Args:
             value: The wakeupSleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_sleep("value")
         """
@@ -2006,9 +2006,9 @@ class VlanMembership(ARObject):
     EthernetPhysicalChannel without a VLAN defined represents the handling of
     untagged frames. (cid:53) 111 of 2090 Document ID 63:
     AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::VlanMembership
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 111, Classic Platform R23-11)
     """
@@ -2032,10 +2032,10 @@ class VlanMembership(ARObject):
     def default_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set defaultPriority with validation.
-        
+
         Args:
             value: The defaultPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2062,10 +2062,10 @@ class VlanMembership(ARObject):
     def dhcp_address(self, value: Optional["DhcpServer"]) -> None:
         """
         Set dhcpAddress with validation.
-        
+
         Args:
             value: The dhcpAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2091,10 +2091,10 @@ class VlanMembership(ARObject):
     def send_activity(self, value: Optional["EthernetSwitchVlan"]) -> None:
         """
         Set sendActivity with validation.
-        
+
         Args:
             value: The sendActivity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2118,10 +2118,10 @@ class VlanMembership(ARObject):
     def vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlan with validation.
-        
+
         Args:
             value: The vlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2140,10 +2140,10 @@ class VlanMembership(ARObject):
     def getDefaultPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for defaultPriority.
-        
+
         Returns:
             The defaultPriority value
-        
+
         Note:
             Delegates to default_priority property (CODING_RULE_V2_00017)
         """
@@ -2152,13 +2152,13 @@ class VlanMembership(ARObject):
     def setDefaultPriority(self, value: "PositiveInteger") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for defaultPriority with method chaining.
-        
+
         Args:
             value: The defaultPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_priority property setter (gets validation automatically)
         """
@@ -2168,10 +2168,10 @@ class VlanMembership(ARObject):
     def getDhcpAddress(self) -> "DhcpServer":
         """
         AUTOSAR-compliant getter for dhcpAddress.
-        
+
         Returns:
             The dhcpAddress value
-        
+
         Note:
             Delegates to dhcp_address property (CODING_RULE_V2_00017)
         """
@@ -2180,13 +2180,13 @@ class VlanMembership(ARObject):
     def setDhcpAddress(self, value: "DhcpServer") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for dhcpAddress with method chaining.
-        
+
         Args:
             value: The dhcpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dhcp_address property setter (gets validation automatically)
         """
@@ -2196,10 +2196,10 @@ class VlanMembership(ARObject):
     def getSendActivity(self) -> "EthernetSwitchVlan":
         """
         AUTOSAR-compliant getter for sendActivity.
-        
+
         Returns:
             The sendActivity value
-        
+
         Note:
             Delegates to send_activity property (CODING_RULE_V2_00017)
         """
@@ -2208,13 +2208,13 @@ class VlanMembership(ARObject):
     def setSendActivity(self, value: "EthernetSwitchVlan") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for sendActivity with method chaining.
-        
+
         Args:
             value: The sendActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to send_activity property setter (gets validation automatically)
         """
@@ -2224,10 +2224,10 @@ class VlanMembership(ARObject):
     def getVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -2236,13 +2236,13 @@ class VlanMembership(ARObject):
     def setVlan(self, value: "EthernetPhysical") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for vlan with method chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan property setter (gets validation automatically)
         """
@@ -2254,13 +2254,13 @@ class VlanMembership(ARObject):
     def with_default_priority(self, value: Optional["PositiveInteger"]) -> "VlanMembership":
         """
         Set defaultPriority and return self for chaining.
-        
+
         Args:
             value: The defaultPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_priority("value")
         """
@@ -2270,13 +2270,13 @@ class VlanMembership(ARObject):
     def with_dhcp_address(self, value: Optional["DhcpServer"]) -> "VlanMembership":
         """
         Set dhcpAddress and return self for chaining.
-        
+
         Args:
             value: The dhcpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dhcp_address("value")
         """
@@ -2286,13 +2286,13 @@ class VlanMembership(ARObject):
     def with_send_activity(self, value: Optional["EthernetSwitchVlan"]) -> "VlanMembership":
         """
         Set sendActivity and return self for chaining.
-        
+
         Args:
             value: The sendActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_send_activity("value")
         """
@@ -2302,13 +2302,13 @@ class VlanMembership(ARObject):
     def with_vlan(self, value: Optional["EthernetPhysical"]) -> "VlanMembership":
         """
         Set vlan and return self for chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan("value")
         """
@@ -2321,9 +2321,9 @@ class CouplingPortConnection(ARObject):
     """
     Connection between two CouplingPorts (firstPort and secondPort) or between a
     collection of Ports that are all referenced by the portCollection reference.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 112, Classic Platform R23-11)
     """
@@ -2344,10 +2344,10 @@ class CouplingPortConnection(ARObject):
     def first_port(self, value: Optional["CouplingPort"]) -> None:
         """
         Set firstPort with validation.
-        
+
         Args:
             value: The firstPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2381,10 +2381,10 @@ class CouplingPortConnection(ARObject):
     def plca_local_node(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaLocalNode with validation.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2409,10 +2409,10 @@ class CouplingPortConnection(ARObject):
     def plca_transmit(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaTransmit with validation.
-        
+
         Args:
             value: The plcaTransmit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2437,10 +2437,10 @@ class CouplingPortConnection(ARObject):
     def second_port(self, value: Optional["CouplingPort"]) -> None:
         """
         Set secondPort with validation.
-        
+
         Args:
             value: The secondPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2459,10 +2459,10 @@ class CouplingPortConnection(ARObject):
     def getFirstPort(self) -> "CouplingPort":
         """
         AUTOSAR-compliant getter for firstPort.
-        
+
         Returns:
             The firstPort value
-        
+
         Note:
             Delegates to first_port property (CODING_RULE_V2_00017)
         """
@@ -2471,13 +2471,13 @@ class CouplingPortConnection(ARObject):
     def setFirstPort(self, value: "CouplingPort") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for firstPort with method chaining.
-        
+
         Args:
             value: The firstPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_port property setter (gets validation automatically)
         """
@@ -2487,10 +2487,10 @@ class CouplingPortConnection(ARObject):
     def getNodePort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for nodePort.
-        
+
         Returns:
             The nodePort value
-        
+
         Note:
             Delegates to node_port property (CODING_RULE_V2_00017)
         """
@@ -2499,10 +2499,10 @@ class CouplingPortConnection(ARObject):
     def getPlcaLocalNode(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaLocalNode.
-        
+
         Returns:
             The plcaLocalNode value
-        
+
         Note:
             Delegates to plca_local_node property (CODING_RULE_V2_00017)
         """
@@ -2511,13 +2511,13 @@ class CouplingPortConnection(ARObject):
     def setPlcaLocalNode(self, value: "PositiveInteger") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for plcaLocalNode with method chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_local_node property setter (gets validation automatically)
         """
@@ -2527,10 +2527,10 @@ class CouplingPortConnection(ARObject):
     def getPlcaTransmit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaTransmit.
-        
+
         Returns:
             The plcaTransmit value
-        
+
         Note:
             Delegates to plca_transmit property (CODING_RULE_V2_00017)
         """
@@ -2539,13 +2539,13 @@ class CouplingPortConnection(ARObject):
     def setPlcaTransmit(self, value: "PositiveInteger") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for plcaTransmit with method chaining.
-        
+
         Args:
             value: The plcaTransmit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_transmit property setter (gets validation automatically)
         """
@@ -2555,10 +2555,10 @@ class CouplingPortConnection(ARObject):
     def getSecondPort(self) -> "CouplingPort":
         """
         AUTOSAR-compliant getter for secondPort.
-        
+
         Returns:
             The secondPort value
-        
+
         Note:
             Delegates to second_port property (CODING_RULE_V2_00017)
         """
@@ -2567,13 +2567,13 @@ class CouplingPortConnection(ARObject):
     def setSecondPort(self, value: "CouplingPort") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for secondPort with method chaining.
-        
+
         Args:
             value: The secondPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_port property setter (gets validation automatically)
         """
@@ -2585,13 +2585,13 @@ class CouplingPortConnection(ARObject):
     def with_first_port(self, value: Optional["CouplingPort"]) -> "CouplingPortConnection":
         """
         Set firstPort and return self for chaining.
-        
+
         Args:
             value: The firstPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_port("value")
         """
@@ -2601,13 +2601,13 @@ class CouplingPortConnection(ARObject):
     def with_plca_local_node(self, value: Optional["PositiveInteger"]) -> "CouplingPortConnection":
         """
         Set plcaLocalNode and return self for chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_local_node("value")
         """
@@ -2617,13 +2617,13 @@ class CouplingPortConnection(ARObject):
     def with_plca_transmit(self, value: Optional["PositiveInteger"]) -> "CouplingPortConnection":
         """
         Set plcaTransmit and return self for chaining.
-        
+
         Args:
             value: The plcaTransmit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_transmit("value")
         """
@@ -2633,13 +2633,13 @@ class CouplingPortConnection(ARObject):
     def with_second_port(self, value: Optional["CouplingPort"]) -> "CouplingPortConnection":
         """
         Set secondPort and return self for chaining.
-        
+
         Args:
             value: The secondPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_port("value")
         """
@@ -2651,9 +2651,9 @@ class CouplingPortConnection(ARObject):
 class EthernetCommunicationController(ARObject):
     """
     Ethernet specific communication port attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetCommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 115, Classic Platform R23-11)
     """
@@ -2675,10 +2675,10 @@ class EthernetCommunicationController(ARObject):
     def can_xl_config(self, value: Optional["AbstractCan"]) -> None:
         """
         Set canXlConfig with validation.
-        
+
         Args:
             value: The canXlConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2711,10 +2711,10 @@ class EthernetCommunicationController(ARObject):
     def mac_layer_type(self, value: Optional["EthernetMacLayerType"]) -> None:
         """
         Set macLayerType with validation.
-        
+
         Args:
             value: The macLayerType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2739,10 +2739,10 @@ class EthernetCommunicationController(ARObject):
     def mac_unicast(self, value: Optional["MacAddressString"]) -> None:
         """
         Set macUnicast with validation.
-        
+
         Args:
             value: The macUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2767,10 +2767,10 @@ class EthernetCommunicationController(ARObject):
     def maximum(self, value: Optional["Integer"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2798,10 +2798,10 @@ class EthernetCommunicationController(ARObject):
     def slave_act_as(self, value: Optional["Boolean"]) -> None:
         """
         Set slaveActAs with validation.
-        
+
         Args:
             value: The slaveActAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2826,10 +2826,10 @@ class EthernetCommunicationController(ARObject):
     def slave_qualified(self, value: Optional["TimeValue"]) -> None:
         """
         Set slaveQualified with validation.
-        
+
         Args:
             value: The slaveQualified to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2848,10 +2848,10 @@ class EthernetCommunicationController(ARObject):
     def getCanXlConfig(self) -> "AbstractCan":
         """
         AUTOSAR-compliant getter for canXlConfig.
-        
+
         Returns:
             The canXlConfig value
-        
+
         Note:
             Delegates to can_xl_config property (CODING_RULE_V2_00017)
         """
@@ -2860,13 +2860,13 @@ class EthernetCommunicationController(ARObject):
     def setCanXlConfig(self, value: "AbstractCan") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for canXlConfig with method chaining.
-        
+
         Args:
             value: The canXlConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_xl_config property setter (gets validation automatically)
         """
@@ -2876,10 +2876,10 @@ class EthernetCommunicationController(ARObject):
     def getCouplingPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -2888,10 +2888,10 @@ class EthernetCommunicationController(ARObject):
     def getMacLayerType(self) -> "EthernetMacLayerType":
         """
         AUTOSAR-compliant getter for macLayerType.
-        
+
         Returns:
             The macLayerType value
-        
+
         Note:
             Delegates to mac_layer_type property (CODING_RULE_V2_00017)
         """
@@ -2900,13 +2900,13 @@ class EthernetCommunicationController(ARObject):
     def setMacLayerType(self, value: "EthernetMacLayerType") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for macLayerType with method chaining.
-        
+
         Args:
             value: The macLayerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_layer_type property setter (gets validation automatically)
         """
@@ -2916,10 +2916,10 @@ class EthernetCommunicationController(ARObject):
     def getMacUnicast(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for macUnicast.
-        
+
         Returns:
             The macUnicast value
-        
+
         Note:
             Delegates to mac_unicast property (CODING_RULE_V2_00017)
         """
@@ -2928,13 +2928,13 @@ class EthernetCommunicationController(ARObject):
     def setMacUnicast(self, value: "MacAddressString") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for macUnicast with method chaining.
-        
+
         Args:
             value: The macUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_unicast property setter (gets validation automatically)
         """
@@ -2944,10 +2944,10 @@ class EthernetCommunicationController(ARObject):
     def getMaximum(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -2956,13 +2956,13 @@ class EthernetCommunicationController(ARObject):
     def setMaximum(self, value: "Integer") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -2972,10 +2972,10 @@ class EthernetCommunicationController(ARObject):
     def getSlaveActAs(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for slaveActAs.
-        
+
         Returns:
             The slaveActAs value
-        
+
         Note:
             Delegates to slave_act_as property (CODING_RULE_V2_00017)
         """
@@ -2984,13 +2984,13 @@ class EthernetCommunicationController(ARObject):
     def setSlaveActAs(self, value: "Boolean") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for slaveActAs with method chaining.
-        
+
         Args:
             value: The slaveActAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slave_act_as property setter (gets validation automatically)
         """
@@ -3000,10 +3000,10 @@ class EthernetCommunicationController(ARObject):
     def getSlaveQualified(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for slaveQualified.
-        
+
         Returns:
             The slaveQualified value
-        
+
         Note:
             Delegates to slave_qualified property (CODING_RULE_V2_00017)
         """
@@ -3012,13 +3012,13 @@ class EthernetCommunicationController(ARObject):
     def setSlaveQualified(self, value: "TimeValue") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for slaveQualified with method chaining.
-        
+
         Args:
             value: The slaveQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slave_qualified property setter (gets validation automatically)
         """
@@ -3030,13 +3030,13 @@ class EthernetCommunicationController(ARObject):
     def with_can_xl_config(self, value: Optional["AbstractCan"]) -> "EthernetCommunicationController":
         """
         Set canXlConfig and return self for chaining.
-        
+
         Args:
             value: The canXlConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_xl_config("value")
         """
@@ -3046,13 +3046,13 @@ class EthernetCommunicationController(ARObject):
     def with_mac_layer_type(self, value: Optional["EthernetMacLayerType"]) -> "EthernetCommunicationController":
         """
         Set macLayerType and return self for chaining.
-        
+
         Args:
             value: The macLayerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_layer_type("value")
         """
@@ -3062,13 +3062,13 @@ class EthernetCommunicationController(ARObject):
     def with_mac_unicast(self, value: Optional["MacAddressString"]) -> "EthernetCommunicationController":
         """
         Set macUnicast and return self for chaining.
-        
+
         Args:
             value: The macUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_unicast("value")
         """
@@ -3078,13 +3078,13 @@ class EthernetCommunicationController(ARObject):
     def with_maximum(self, value: Optional["Integer"]) -> "EthernetCommunicationController":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -3094,13 +3094,13 @@ class EthernetCommunicationController(ARObject):
     def with_slave_act_as(self, value: Optional["Boolean"]) -> "EthernetCommunicationController":
         """
         Set slaveActAs and return self for chaining.
-        
+
         Args:
             value: The slaveActAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slave_act_as("value")
         """
@@ -3110,13 +3110,13 @@ class EthernetCommunicationController(ARObject):
     def with_slave_qualified(self, value: Optional["TimeValue"]) -> "EthernetCommunicationController":
         """
         Set slaveQualified and return self for chaining.
-        
+
         Args:
             value: The slaveQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slave_qualified("value")
         """
@@ -3128,9 +3128,9 @@ class EthernetCommunicationController(ARObject):
 class EthernetCommunicationConnector(CommunicationConnector):
     """
     Ethernet specific attributes to the CommunicationConnector.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 117, Classic Platform R23-11)
     """
@@ -3150,10 +3150,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def eth_ip_props(self, value: Optional["EthIpProps"]) -> None:
         """
         Set ethIpProps with validation.
-        
+
         Args:
             value: The ethIpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3177,10 +3177,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def maximum(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3205,10 +3205,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def neighbor_cache(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set neighborCache with validation.
-        
+
         Args:
             value: The neighborCache to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3233,10 +3233,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def path_mtu(self, value: Optional["Boolean"]) -> None:
         """
         Set pathMtu with validation.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3261,10 +3261,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def path_mtu_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set pathMtuTimeout with validation.
-        
+
         Args:
             value: The pathMtuTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3283,10 +3283,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getEthIpProps(self) -> "EthIpProps":
         """
         AUTOSAR-compliant getter for ethIpProps.
-        
+
         Returns:
             The ethIpProps value
-        
+
         Note:
             Delegates to eth_ip_props property (CODING_RULE_V2_00017)
         """
@@ -3295,13 +3295,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setEthIpProps(self, value: "EthIpProps") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for ethIpProps with method chaining.
-        
+
         Args:
             value: The ethIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to eth_ip_props property setter (gets validation automatically)
         """
@@ -3311,10 +3311,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getMaximum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -3323,13 +3323,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setMaximum(self, value: "PositiveInteger") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -3339,10 +3339,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getNeighborCache(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for neighborCache.
-        
+
         Returns:
             The neighborCache value
-        
+
         Note:
             Delegates to neighbor_cache property (CODING_RULE_V2_00017)
         """
@@ -3351,13 +3351,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setNeighborCache(self, value: "PositiveInteger") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for neighborCache with method chaining.
-        
+
         Args:
             value: The neighborCache to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to neighbor_cache property setter (gets validation automatically)
         """
@@ -3367,10 +3367,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getPathMtu(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pathMtu.
-        
+
         Returns:
             The pathMtu value
-        
+
         Note:
             Delegates to path_mtu property (CODING_RULE_V2_00017)
         """
@@ -3379,13 +3379,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setPathMtu(self, value: "Boolean") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for pathMtu with method chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to path_mtu property setter (gets validation automatically)
         """
@@ -3395,10 +3395,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getPathMtuTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pathMtuTimeout.
-        
+
         Returns:
             The pathMtuTimeout value
-        
+
         Note:
             Delegates to path_mtu_timeout property (CODING_RULE_V2_00017)
         """
@@ -3407,13 +3407,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setPathMtuTimeout(self, value: "TimeValue") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for pathMtuTimeout with method chaining.
-        
+
         Args:
             value: The pathMtuTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to path_mtu_timeout property setter (gets validation automatically)
         """
@@ -3425,13 +3425,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_eth_ip_props(self, value: Optional["EthIpProps"]) -> "EthernetCommunicationConnector":
         """
         Set ethIpProps and return self for chaining.
-        
+
         Args:
             value: The ethIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_eth_ip_props("value")
         """
@@ -3441,13 +3441,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_maximum(self, value: Optional["PositiveInteger"]) -> "EthernetCommunicationConnector":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -3457,13 +3457,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_neighbor_cache(self, value: Optional["PositiveInteger"]) -> "EthernetCommunicationConnector":
         """
         Set neighborCache and return self for chaining.
-        
+
         Args:
             value: The neighborCache to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_neighbor_cache("value")
         """
@@ -3473,13 +3473,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_path_mtu(self, value: Optional["Boolean"]) -> "EthernetCommunicationConnector":
         """
         Set pathMtu and return self for chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_path_mtu("value")
         """
@@ -3489,13 +3489,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_path_mtu_timeout(self, value: Optional["TimeValue"]) -> "EthernetCommunicationConnector":
         """
         Set pathMtuTimeout and return self for chaining.
-        
+
         Args:
             value: The pathMtuTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_path_mtu_timeout("value")
         """
@@ -3508,9 +3508,9 @@ class CouplingPortDetails(ARObject):
     """
     Defines details of a CouplingPort. May be used to configure the structures
     of a switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortDetails
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 121, Classic Platform R23-11)
     """
@@ -3538,10 +3538,10 @@ class CouplingPortDetails(ARObject):
     def ethernet_priority(self, value: "EthernetPriority") -> None:
         """
         Set ethernetPriority with validation.
-        
+
         Args:
             value: The ethernetPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3560,10 +3560,10 @@ class CouplingPortDetails(ARObject):
     def ethernet_traffic(self, value: "CouplingPortTraffic") -> None:
         """
         Set ethernetTraffic with validation.
-        
+
         Args:
             value: The ethernetTraffic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3585,10 +3585,10 @@ class CouplingPortDetails(ARObject):
     def global_time(self, value: Optional["GlobalTimeCoupling"]) -> None:
         """
         Set globalTime with validation.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3612,10 +3612,10 @@ class CouplingPortDetails(ARObject):
     def last_egress(self, value: Optional["CouplingPortScheduler"]) -> None:
         """
         Set lastEgress with validation.
-        
+
         Args:
             value: The lastEgress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3640,10 +3640,10 @@ class CouplingPortDetails(ARObject):
     def getCouplingPort(self) -> List["CouplingPortStructural"]:
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -3652,10 +3652,10 @@ class CouplingPortDetails(ARObject):
     def getEthernetPriority(self) -> "EthernetPriority":
         """
         AUTOSAR-compliant getter for ethernetPriority.
-        
+
         Returns:
             The ethernetPriority value
-        
+
         Note:
             Delegates to ethernet_priority property (CODING_RULE_V2_00017)
         """
@@ -3664,13 +3664,13 @@ class CouplingPortDetails(ARObject):
     def setEthernetPriority(self, value: "EthernetPriority") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for ethernetPriority with method chaining.
-        
+
         Args:
             value: The ethernetPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ethernet_priority property setter (gets validation automatically)
         """
@@ -3680,10 +3680,10 @@ class CouplingPortDetails(ARObject):
     def getEthernetTraffic(self) -> "CouplingPortTraffic":
         """
         AUTOSAR-compliant getter for ethernetTraffic.
-        
+
         Returns:
             The ethernetTraffic value
-        
+
         Note:
             Delegates to ethernet_traffic property (CODING_RULE_V2_00017)
         """
@@ -3692,13 +3692,13 @@ class CouplingPortDetails(ARObject):
     def setEthernetTraffic(self, value: "CouplingPortTraffic") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for ethernetTraffic with method chaining.
-        
+
         Args:
             value: The ethernetTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ethernet_traffic property setter (gets validation automatically)
         """
@@ -3708,10 +3708,10 @@ class CouplingPortDetails(ARObject):
     def getGlobalTime(self) -> "GlobalTimeCoupling":
         """
         AUTOSAR-compliant getter for globalTime.
-        
+
         Returns:
             The globalTime value
-        
+
         Note:
             Delegates to global_time property (CODING_RULE_V2_00017)
         """
@@ -3720,13 +3720,13 @@ class CouplingPortDetails(ARObject):
     def setGlobalTime(self, value: "GlobalTimeCoupling") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for globalTime with method chaining.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_time property setter (gets validation automatically)
         """
@@ -3736,10 +3736,10 @@ class CouplingPortDetails(ARObject):
     def getLastEgress(self) -> "CouplingPortScheduler":
         """
         AUTOSAR-compliant getter for lastEgress.
-        
+
         Returns:
             The lastEgress value
-        
+
         Note:
             Delegates to last_egress property (CODING_RULE_V2_00017)
         """
@@ -3748,13 +3748,13 @@ class CouplingPortDetails(ARObject):
     def setLastEgress(self, value: "CouplingPortScheduler") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for lastEgress with method chaining.
-        
+
         Args:
             value: The lastEgress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to last_egress property setter (gets validation automatically)
         """
@@ -3764,10 +3764,10 @@ class CouplingPortDetails(ARObject):
     def getRatePolicy(self) -> List["CouplingPortRatePolicy"]:
         """
         AUTOSAR-compliant getter for ratePolicy.
-        
+
         Returns:
             The ratePolicy value
-        
+
         Note:
             Delegates to rate_policy property (CODING_RULE_V2_00017)
         """
@@ -3778,13 +3778,13 @@ class CouplingPortDetails(ARObject):
     def with_ethernet_priority(self, value: "EthernetPriority") -> "CouplingPortDetails":
         """
         Set ethernetPriority and return self for chaining.
-        
+
         Args:
             value: The ethernetPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ethernet_priority("value")
         """
@@ -3794,13 +3794,13 @@ class CouplingPortDetails(ARObject):
     def with_ethernet_traffic(self, value: "CouplingPortTraffic") -> "CouplingPortDetails":
         """
         Set ethernetTraffic and return self for chaining.
-        
+
         Args:
             value: The ethernetTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ethernet_traffic("value")
         """
@@ -3810,13 +3810,13 @@ class CouplingPortDetails(ARObject):
     def with_global_time(self, value: Optional["GlobalTimeCoupling"]) -> "CouplingPortDetails":
         """
         Set globalTime and return self for chaining.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_time("value")
         """
@@ -3826,13 +3826,13 @@ class CouplingPortDetails(ARObject):
     def with_last_egress(self, value: Optional["CouplingPortScheduler"]) -> "CouplingPortDetails":
         """
         Set lastEgress and return self for chaining.
-        
+
         Args:
             value: The lastEgress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_last_egress("value")
         """
@@ -3844,9 +3844,9 @@ class CouplingPortDetails(ARObject):
 class CouplingPortStructuralElement(Identifiable, ABC):
     """
     General class to define structural elements a CouplingPort may consist of.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortStructuralElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 122, Classic Platform R23-11)
     """
@@ -3866,9 +3866,9 @@ class CouplingPortStructuralElement(Identifiable, ABC):
 class CouplingPortRatePolicy(ARObject):
     """
     Defines a rate policy on a CouplingPort.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortRatePolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 124, Classic Platform R23-11)
     """
@@ -3889,10 +3889,10 @@ class CouplingPortRatePolicy(ARObject):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3916,10 +3916,10 @@ class CouplingPortRatePolicy(ARObject):
     def policy_action(self, value: Optional["CouplingPortRatePolicy"]) -> None:
         """
         Set policyAction with validation.
-        
+
         Args:
             value: The policyAction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3944,10 +3944,10 @@ class CouplingPortRatePolicy(ARObject):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3971,10 +3971,10 @@ class CouplingPortRatePolicy(ARObject):
     def time_interval(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeInterval with validation.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4000,10 +4000,10 @@ class CouplingPortRatePolicy(ARObject):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -4012,13 +4012,13 @@ class CouplingPortRatePolicy(ARObject):
     def setDataLength(self, value: "PositiveInteger") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -4028,10 +4028,10 @@ class CouplingPortRatePolicy(ARObject):
     def getPolicyAction(self) -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant getter for policyAction.
-        
+
         Returns:
             The policyAction value
-        
+
         Note:
             Delegates to policy_action property (CODING_RULE_V2_00017)
         """
@@ -4040,13 +4040,13 @@ class CouplingPortRatePolicy(ARObject):
     def setPolicyAction(self, value: "CouplingPortRatePolicy") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for policyAction with method chaining.
-        
+
         Args:
             value: The policyAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to policy_action property setter (gets validation automatically)
         """
@@ -4056,10 +4056,10 @@ class CouplingPortRatePolicy(ARObject):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -4068,13 +4068,13 @@ class CouplingPortRatePolicy(ARObject):
     def setPriority(self, value: "PositiveInteger") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -4084,10 +4084,10 @@ class CouplingPortRatePolicy(ARObject):
     def getTimeInterval(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeInterval.
-        
+
         Returns:
             The timeInterval value
-        
+
         Note:
             Delegates to time_interval property (CODING_RULE_V2_00017)
         """
@@ -4096,13 +4096,13 @@ class CouplingPortRatePolicy(ARObject):
     def setTimeInterval(self, value: "TimeValue") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for timeInterval with method chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_interval property setter (gets validation automatically)
         """
@@ -4112,10 +4112,10 @@ class CouplingPortRatePolicy(ARObject):
     def getVLan(self) -> List["EthernetPhysical"]:
         """
         AUTOSAR-compliant getter for vLan.
-        
+
         Returns:
             The vLan value
-        
+
         Note:
             Delegates to v_lan property (CODING_RULE_V2_00017)
         """
@@ -4126,13 +4126,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "CouplingPortRatePolicy":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -4142,13 +4142,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_policy_action(self, value: Optional["CouplingPortRatePolicy"]) -> "CouplingPortRatePolicy":
         """
         Set policyAction and return self for chaining.
-        
+
         Args:
             value: The policyAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_policy_action("value")
         """
@@ -4158,13 +4158,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "CouplingPortRatePolicy":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -4174,13 +4174,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_time_interval(self, value: Optional["TimeValue"]) -> "CouplingPortRatePolicy":
         """
         Set timeInterval and return self for chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_interval("value")
         """
@@ -4196,9 +4196,9 @@ class EthernetPriorityRegeneration(Referrable):
     priority regeneration shall be performed. In case a
     ethernetPriorityRegeneration is defined it shall have 8 mappings, one for
     each priority.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetPriorityRegeneration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 128, Classic Platform R23-11)
     """
@@ -4218,10 +4218,10 @@ class EthernetPriorityRegeneration(Referrable):
     def ingress_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ingressPriority with validation.
-        
+
         Args:
             value: The ingressPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4246,10 +4246,10 @@ class EthernetPriorityRegeneration(Referrable):
     def regenerated(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set regenerated with validation.
-        
+
         Args:
             value: The regenerated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4268,10 +4268,10 @@ class EthernetPriorityRegeneration(Referrable):
     def getIngressPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ingressPriority.
-        
+
         Returns:
             The ingressPriority value
-        
+
         Note:
             Delegates to ingress_priority property (CODING_RULE_V2_00017)
         """
@@ -4280,13 +4280,13 @@ class EthernetPriorityRegeneration(Referrable):
     def setIngressPriority(self, value: "PositiveInteger") -> "EthernetPriorityRegeneration":
         """
         AUTOSAR-compliant setter for ingressPriority with method chaining.
-        
+
         Args:
             value: The ingressPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ingress_priority property setter (gets validation automatically)
         """
@@ -4296,10 +4296,10 @@ class EthernetPriorityRegeneration(Referrable):
     def getRegenerated(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for regenerated.
-        
+
         Returns:
             The regenerated value
-        
+
         Note:
             Delegates to regenerated property (CODING_RULE_V2_00017)
         """
@@ -4308,13 +4308,13 @@ class EthernetPriorityRegeneration(Referrable):
     def setRegenerated(self, value: "PositiveInteger") -> "EthernetPriorityRegeneration":
         """
         AUTOSAR-compliant setter for regenerated with method chaining.
-        
+
         Args:
             value: The regenerated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to regenerated property setter (gets validation automatically)
         """
@@ -4326,13 +4326,13 @@ class EthernetPriorityRegeneration(Referrable):
     def with_ingress_priority(self, value: Optional["PositiveInteger"]) -> "EthernetPriorityRegeneration":
         """
         Set ingressPriority and return self for chaining.
-        
+
         Args:
             value: The ingressPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ingress_priority("value")
         """
@@ -4342,13 +4342,13 @@ class EthernetPriorityRegeneration(Referrable):
     def with_regenerated(self, value: Optional["PositiveInteger"]) -> "EthernetPriorityRegeneration":
         """
         Set regenerated and return self for chaining.
-        
+
         Args:
             value: The regenerated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_regenerated("value")
         """
@@ -4360,9 +4360,9 @@ class EthernetPriorityRegeneration(Referrable):
 class CouplingPortTrafficClassAssignment(Referrable):
     """
     Defines the assignment of Traffic Class to a frame.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortTrafficClassAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 128, Classic Platform R23-11)
     """
@@ -4381,10 +4381,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def priority(self, value: "PositiveInteger") -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4404,10 +4404,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def traffic_class(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set trafficClass with validation.
-        
+
         Args:
             value: The trafficClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4426,10 +4426,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -4438,13 +4438,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def setPriority(self, value: "PositiveInteger") -> "CouplingPortTrafficClassAssignment":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -4454,10 +4454,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def getTrafficClass(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for trafficClass.
-        
+
         Returns:
             The trafficClass value
-        
+
         Note:
             Delegates to traffic_class property (CODING_RULE_V2_00017)
         """
@@ -4466,13 +4466,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def setTrafficClass(self, value: "PositiveInteger") -> "CouplingPortTrafficClassAssignment":
         """
         AUTOSAR-compliant setter for trafficClass with method chaining.
-        
+
         Args:
             value: The trafficClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to traffic_class property setter (gets validation automatically)
         """
@@ -4484,13 +4484,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def with_priority(self, value: "PositiveInteger") -> "CouplingPortTrafficClassAssignment":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -4500,13 +4500,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def with_traffic_class(self, value: Optional["PositiveInteger"]) -> "CouplingPortTrafficClassAssignment":
         """
         Set trafficClass and return self for chaining.
-        
+
         Args:
             value: The trafficClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_traffic_class("value")
         """
@@ -4520,9 +4520,9 @@ class DhcpServerConfiguration(ARObject):
     Defines the configuration of DHCP servers that are running on the network
     endpoint. It is possible that an Ipv4DhcpServer and an Ipv6DhcpServer run on
     the same Ecu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::DhcpServerConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 131, Classic Platform R23-11)
     """
@@ -4542,10 +4542,10 @@ class DhcpServerConfiguration(ARObject):
     def ipv4_dhcp_server(self, value: Optional["Ipv4DhcpServer"]) -> None:
         """
         Set ipv4DhcpServer with validation.
-        
+
         Args:
             value: The ipv4DhcpServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4570,10 +4570,10 @@ class DhcpServerConfiguration(ARObject):
     def ipv6_dhcp_server(self, value: Optional["Ipv6DhcpServer"]) -> None:
         """
         Set ipv6DhcpServer with validation.
-        
+
         Args:
             value: The ipv6DhcpServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4592,10 +4592,10 @@ class DhcpServerConfiguration(ARObject):
     def getIpv4DhcpServer(self) -> "Ipv4DhcpServer":
         """
         AUTOSAR-compliant getter for ipv4DhcpServer.
-        
+
         Returns:
             The ipv4DhcpServer value
-        
+
         Note:
             Delegates to ipv4_dhcp_server property (CODING_RULE_V2_00017)
         """
@@ -4604,13 +4604,13 @@ class DhcpServerConfiguration(ARObject):
     def setIpv4DhcpServer(self, value: "Ipv4DhcpServer") -> "DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for ipv4DhcpServer with method chaining.
-        
+
         Args:
             value: The ipv4DhcpServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv4_dhcp_server property setter (gets validation automatically)
         """
@@ -4620,10 +4620,10 @@ class DhcpServerConfiguration(ARObject):
     def getIpv6DhcpServer(self) -> "Ipv6DhcpServer":
         """
         AUTOSAR-compliant getter for ipv6DhcpServer.
-        
+
         Returns:
             The ipv6DhcpServer value
-        
+
         Note:
             Delegates to ipv6_dhcp_server property (CODING_RULE_V2_00017)
         """
@@ -4632,13 +4632,13 @@ class DhcpServerConfiguration(ARObject):
     def setIpv6DhcpServer(self, value: "Ipv6DhcpServer") -> "DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for ipv6DhcpServer with method chaining.
-        
+
         Args:
             value: The ipv6DhcpServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv6_dhcp_server property setter (gets validation automatically)
         """
@@ -4650,13 +4650,13 @@ class DhcpServerConfiguration(ARObject):
     def with_ipv4_dhcp_server(self, value: Optional["Ipv4DhcpServer"]) -> "DhcpServerConfiguration":
         """
         Set ipv4DhcpServer and return self for chaining.
-        
+
         Args:
             value: The ipv4DhcpServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv4_dhcp_server("value")
         """
@@ -4666,13 +4666,13 @@ class DhcpServerConfiguration(ARObject):
     def with_ipv6_dhcp_server(self, value: Optional["Ipv6DhcpServer"]) -> "DhcpServerConfiguration":
         """
         Set ipv6DhcpServer and return self for chaining.
-        
+
         Args:
             value: The ipv6DhcpServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv6_dhcp_server("value")
         """
@@ -4685,9 +4685,9 @@ class Ipv4DhcpServerConfiguration(Describable):
     """
     Defines the configuration of a IPv4 DHCP server that runs on the network
     endpoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4DhcpServerConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 131, Classic Platform R23-11)
     """
@@ -4711,10 +4711,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def address_range(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set addressRange with validation.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4739,10 +4739,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def default_gateway(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set defaultGateway with validation.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4766,10 +4766,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def default_lease(self, value: Optional["TimeValue"]) -> None:
         """
         Set defaultLease with validation.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4801,10 +4801,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def network_mask(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set networkMask with validation.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4823,10 +4823,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getAddressRange(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for addressRange.
-        
+
         Returns:
             The addressRange value
-        
+
         Note:
             Delegates to address_range property (CODING_RULE_V2_00017)
         """
@@ -4835,13 +4835,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setAddressRange(self, value: "Ip4AddressString") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for addressRange with method chaining.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address_range property setter (gets validation automatically)
         """
@@ -4851,10 +4851,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getDefaultGateway(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for defaultGateway.
-        
+
         Returns:
             The defaultGateway value
-        
+
         Note:
             Delegates to default_gateway property (CODING_RULE_V2_00017)
         """
@@ -4863,13 +4863,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setDefaultGateway(self, value: "Ip4AddressString") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for defaultGateway with method chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_gateway property setter (gets validation automatically)
         """
@@ -4879,10 +4879,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getDefaultLease(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for defaultLease.
-        
+
         Returns:
             The defaultLease value
-        
+
         Note:
             Delegates to default_lease property (CODING_RULE_V2_00017)
         """
@@ -4891,13 +4891,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setDefaultLease(self, value: "TimeValue") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for defaultLease with method chaining.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_lease property setter (gets validation automatically)
         """
@@ -4907,10 +4907,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getDnsServer(self) -> List["Ip4AddressString"]:
         """
         AUTOSAR-compliant getter for dnsServer.
-        
+
         Returns:
             The dnsServer value
-        
+
         Note:
             Delegates to dns_server property (CODING_RULE_V2_00017)
         """
@@ -4919,10 +4919,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getNetworkMask(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for networkMask.
-        
+
         Returns:
             The networkMask value
-        
+
         Note:
             Delegates to network_mask property (CODING_RULE_V2_00017)
         """
@@ -4931,13 +4931,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setNetworkMask(self, value: "Ip4AddressString") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for networkMask with method chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_mask property setter (gets validation automatically)
         """
@@ -4949,13 +4949,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_address_range(self, value: Optional["Ip4AddressString"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set addressRange and return self for chaining.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address_range("value")
         """
@@ -4965,13 +4965,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_default_gateway(self, value: Optional["Ip4AddressString"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set defaultGateway and return self for chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_gateway("value")
         """
@@ -4981,13 +4981,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_default_lease(self, value: Optional["TimeValue"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set defaultLease and return self for chaining.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_lease("value")
         """
@@ -4997,13 +4997,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_network_mask(self, value: Optional["Ip4AddressString"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set networkMask and return self for chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_mask("value")
         """
@@ -5016,9 +5016,9 @@ class Ipv6DhcpServerConfiguration(Describable):
     """
     Defines the configuration of a IPv6 DHCP server that runs on the network
     endpoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6DhcpServerConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 132, Classic Platform R23-11)
     """
@@ -5040,10 +5040,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def address_range(self, value: Optional["Ip6AddressString"]) -> None:
         """
         Set addressRange with validation.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5068,10 +5068,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def default_gateway(self, value: Optional["Ip6AddressString"]) -> None:
         """
         Set defaultGateway with validation.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5095,10 +5095,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def default_lease(self, value: Optional["TimeValue"]) -> None:
         """
         Set defaultLease with validation.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5130,10 +5130,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def network_mask(self, value: Optional["Ip6AddressString"]) -> None:
         """
         Set networkMask with validation.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5152,10 +5152,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def getAddressRange(self) -> "Ip6AddressString":
         """
         AUTOSAR-compliant getter for addressRange.
-        
+
         Returns:
             The addressRange value
-        
+
         Note:
             Delegates to address_range property (CODING_RULE_V2_00017)
         """
@@ -5164,13 +5164,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def setAddressRange(self, value: "Ip6AddressString") -> "Ipv6DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for addressRange with method chaining.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address_range property setter (gets validation automatically)
         """
@@ -5180,10 +5180,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def getDefaultGateway(self) -> "Ip6AddressString":
         """
         AUTOSAR-compliant getter for defaultGateway.
-        
+
         Returns:
             The defaultGateway value
-        
+
         Note:
             Delegates to default_gateway property (CODING_RULE_V2_00017)
         """
@@ -5192,13 +5192,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def setDefaultGateway(self, value: "Ip6AddressString") -> "Ipv6DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for defaultGateway with method chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_gateway property setter (gets validation automatically)
         """
@@ -5208,10 +5208,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def getDefaultLease(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for defaultLease.
-        
+
         Returns:
             The defaultLease value
-        
+
         Note:
             Delegates to default_lease property (CODING_RULE_V2_00017)
         """
@@ -5220,13 +5220,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def setDefaultLease(self, value: "TimeValue") -> "Ipv6DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for defaultLease with method chaining.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_lease property setter (gets validation automatically)
         """
@@ -5236,10 +5236,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def getDnsServer(self) -> List["Ip6AddressString"]:
         """
         AUTOSAR-compliant getter for dnsServer.
-        
+
         Returns:
             The dnsServer value
-        
+
         Note:
             Delegates to dns_server property (CODING_RULE_V2_00017)
         """
@@ -5248,10 +5248,10 @@ class Ipv6DhcpServerConfiguration(Describable):
     def getNetworkMask(self) -> "Ip6AddressString":
         """
         AUTOSAR-compliant getter for networkMask.
-        
+
         Returns:
             The networkMask value
-        
+
         Note:
             Delegates to network_mask property (CODING_RULE_V2_00017)
         """
@@ -5260,13 +5260,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def setNetworkMask(self, value: "Ip6AddressString") -> "Ipv6DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for networkMask with method chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_mask property setter (gets validation automatically)
         """
@@ -5278,13 +5278,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def with_address_range(self, value: Optional["Ip6AddressString"]) -> "Ipv6DhcpServerConfiguration":
         """
         Set addressRange and return self for chaining.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address_range("value")
         """
@@ -5294,13 +5294,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def with_default_gateway(self, value: Optional["Ip6AddressString"]) -> "Ipv6DhcpServerConfiguration":
         """
         Set defaultGateway and return self for chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_gateway("value")
         """
@@ -5310,13 +5310,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def with_default_lease(self, value: Optional["TimeValue"]) -> "Ipv6DhcpServerConfiguration":
         """
         Set defaultLease and return self for chaining.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_lease("value")
         """
@@ -5326,13 +5326,13 @@ class Ipv6DhcpServerConfiguration(Describable):
     def with_network_mask(self, value: Optional["Ip6AddressString"]) -> "Ipv6DhcpServerConfiguration":
         """
         Set networkMask and return self for chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_mask("value")
         """
@@ -5344,9 +5344,9 @@ class Ipv6DhcpServerConfiguration(Describable):
 class CouplingElementAbstractDetails(Identifiable, ABC):
     """
     Collection of specific details for the CouplingElement.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingElementAbstractDetails
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 133, Classic Platform R23-11)
     """
@@ -5366,9 +5366,9 @@ class CouplingElementAbstractDetails(Identifiable, ABC):
 class SwitchStreamIdentification(Identifiable):
     """
     SwitchStreamIdentification
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamIdentification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 135, Classic Platform R23-11)
     """
@@ -5398,10 +5398,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_block(self, value: Optional["Boolean"]) -> None:
         """
         Set filterActionBlock with validation.
-        
+
         Args:
             value: The filterActionBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5426,10 +5426,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_dest(self, value: Optional["SwitchStreamFilter"]) -> None:
         """
         Set filterActionDest with validation.
-        
+
         Args:
             value: The filterActionDest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5455,10 +5455,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_drop(self, value: Optional["Boolean"]) -> None:
         """
         Set filterActionDrop with validation.
-        
+
         Args:
             value: The filterActionDrop to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5482,10 +5482,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_vlan(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set filterActionVlan with validation.
-        
+
         Args:
             value: The filterActionVlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5517,10 +5517,10 @@ class SwitchStreamIdentification(Identifiable):
     def stream_filter(self, value: Optional["SwitchStreamFilterRule"]) -> None:
         """
         Set streamFilter with validation.
-        
+
         Args:
             value: The streamFilter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5539,10 +5539,10 @@ class SwitchStreamIdentification(Identifiable):
     def getEgressPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for egressPort.
-        
+
         Returns:
             The egressPort value
-        
+
         Note:
             Delegates to egress_port property (CODING_RULE_V2_00017)
         """
@@ -5551,10 +5551,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionBlock(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for filterActionBlock.
-        
+
         Returns:
             The filterActionBlock value
-        
+
         Note:
             Delegates to filter_action_block property (CODING_RULE_V2_00017)
         """
@@ -5563,13 +5563,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionBlock(self, value: "Boolean") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionBlock with method chaining.
-        
+
         Args:
             value: The filterActionBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_block property setter (gets validation automatically)
         """
@@ -5579,10 +5579,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionDest(self) -> "SwitchStreamFilter":
         """
         AUTOSAR-compliant getter for filterActionDest.
-        
+
         Returns:
             The filterActionDest value
-        
+
         Note:
             Delegates to filter_action_dest property (CODING_RULE_V2_00017)
         """
@@ -5591,13 +5591,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionDest(self, value: "SwitchStreamFilter") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionDest with method chaining.
-        
+
         Args:
             value: The filterActionDest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_dest property setter (gets validation automatically)
         """
@@ -5607,10 +5607,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionDrop(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for filterActionDrop.
-        
+
         Returns:
             The filterActionDrop value
-        
+
         Note:
             Delegates to filter_action_drop property (CODING_RULE_V2_00017)
         """
@@ -5619,13 +5619,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionDrop(self, value: "Boolean") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionDrop with method chaining.
-        
+
         Args:
             value: The filterActionDrop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_drop property setter (gets validation automatically)
         """
@@ -5635,10 +5635,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionVlan(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for filterActionVlan.
-        
+
         Returns:
             The filterActionVlan value
-        
+
         Note:
             Delegates to filter_action_vlan property (CODING_RULE_V2_00017)
         """
@@ -5647,13 +5647,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionVlan(self, value: "PositiveInteger") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionVlan with method chaining.
-        
+
         Args:
             value: The filterActionVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_vlan property setter (gets validation automatically)
         """
@@ -5663,10 +5663,10 @@ class SwitchStreamIdentification(Identifiable):
     def getIngressPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for ingressPort.
-        
+
         Returns:
             The ingressPort value
-        
+
         Note:
             Delegates to ingress_port property (CODING_RULE_V2_00017)
         """
@@ -5675,10 +5675,10 @@ class SwitchStreamIdentification(Identifiable):
     def getStreamFilter(self) -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant getter for streamFilter.
-        
+
         Returns:
             The streamFilter value
-        
+
         Note:
             Delegates to stream_filter property (CODING_RULE_V2_00017)
         """
@@ -5687,13 +5687,13 @@ class SwitchStreamIdentification(Identifiable):
     def setStreamFilter(self, value: "SwitchStreamFilterRule") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for streamFilter with method chaining.
-        
+
         Args:
             value: The streamFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_filter property setter (gets validation automatically)
         """
@@ -5705,13 +5705,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_block(self, value: Optional["Boolean"]) -> "SwitchStreamIdentification":
         """
         Set filterActionBlock and return self for chaining.
-        
+
         Args:
             value: The filterActionBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_block("value")
         """
@@ -5721,13 +5721,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_dest(self, value: Optional["SwitchStreamFilter"]) -> "SwitchStreamIdentification":
         """
         Set filterActionDest and return self for chaining.
-        
+
         Args:
             value: The filterActionDest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_dest("value")
         """
@@ -5737,13 +5737,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_drop(self, value: Optional["Boolean"]) -> "SwitchStreamIdentification":
         """
         Set filterActionDrop and return self for chaining.
-        
+
         Args:
             value: The filterActionDrop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_drop("value")
         """
@@ -5753,13 +5753,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_vlan(self, value: Optional["PositiveInteger"]) -> "SwitchStreamIdentification":
         """
         Set filterActionVlan and return self for chaining.
-        
+
         Args:
             value: The filterActionVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_vlan("value")
         """
@@ -5769,13 +5769,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_stream_filter(self, value: Optional["SwitchStreamFilterRule"]) -> "SwitchStreamIdentification":
         """
         Set streamFilter and return self for chaining.
-        
+
         Args:
             value: The streamFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_filter("value")
         """
@@ -5787,9 +5787,9 @@ class SwitchStreamIdentification(Identifiable):
 class SwitchStreamFilterRule(Identifiable):
     """
     SwitchStreamIdentification
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterRule
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 136, Classic Platform R23-11)
     """
@@ -5811,10 +5811,10 @@ class SwitchStreamFilterRule(Identifiable):
     def data_link_layer(self, value: Optional["StreamFilterRuleData"]) -> None:
         """
         Set dataLinkLayer with validation.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5840,10 +5840,10 @@ class SwitchStreamFilterRule(Identifiable):
     def ieee1722_tp(self, value: Optional["StreamFilterIEEE1722"]) -> None:
         """
         Set ieee1722Tp with validation.
-        
+
         Args:
             value: The ieee1722Tp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5868,10 +5868,10 @@ class SwitchStreamFilterRule(Identifiable):
     def ip_tp_rule(self, value: Optional["StreamFilterRuleIpTp"]) -> None:
         """
         Set ipTpRule with validation.
-        
+
         Args:
             value: The ipTpRule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5890,10 +5890,10 @@ class SwitchStreamFilterRule(Identifiable):
     def getDataLinkLayer(self) -> "StreamFilterRuleData":
         """
         AUTOSAR-compliant getter for dataLinkLayer.
-        
+
         Returns:
             The dataLinkLayer value
-        
+
         Note:
             Delegates to data_link_layer property (CODING_RULE_V2_00017)
         """
@@ -5902,13 +5902,13 @@ class SwitchStreamFilterRule(Identifiable):
     def setDataLinkLayer(self, value: "StreamFilterRuleData") -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant setter for dataLinkLayer with method chaining.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_link_layer property setter (gets validation automatically)
         """
@@ -5918,10 +5918,10 @@ class SwitchStreamFilterRule(Identifiable):
     def getIeee1722Tp(self) -> "StreamFilterIEEE1722":
         """
         AUTOSAR-compliant getter for ieee1722Tp.
-        
+
         Returns:
             The ieee1722Tp value
-        
+
         Note:
             Delegates to ieee1722_tp property (CODING_RULE_V2_00017)
         """
@@ -5930,13 +5930,13 @@ class SwitchStreamFilterRule(Identifiable):
     def setIeee1722Tp(self, value: "StreamFilterIEEE1722") -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant setter for ieee1722Tp with method chaining.
-        
+
         Args:
             value: The ieee1722Tp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ieee1722_tp property setter (gets validation automatically)
         """
@@ -5946,10 +5946,10 @@ class SwitchStreamFilterRule(Identifiable):
     def getIpTpRule(self) -> "StreamFilterRuleIpTp":
         """
         AUTOSAR-compliant getter for ipTpRule.
-        
+
         Returns:
             The ipTpRule value
-        
+
         Note:
             Delegates to ip_tp_rule property (CODING_RULE_V2_00017)
         """
@@ -5958,13 +5958,13 @@ class SwitchStreamFilterRule(Identifiable):
     def setIpTpRule(self, value: "StreamFilterRuleIpTp") -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant setter for ipTpRule with method chaining.
-        
+
         Args:
             value: The ipTpRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_tp_rule property setter (gets validation automatically)
         """
@@ -5976,13 +5976,13 @@ class SwitchStreamFilterRule(Identifiable):
     def with_data_link_layer(self, value: Optional["StreamFilterRuleData"]) -> "SwitchStreamFilterRule":
         """
         Set dataLinkLayer and return self for chaining.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_link_layer("value")
         """
@@ -5992,13 +5992,13 @@ class SwitchStreamFilterRule(Identifiable):
     def with_ieee1722_tp(self, value: Optional["StreamFilterIEEE1722"]) -> "SwitchStreamFilterRule":
         """
         Set ieee1722Tp and return self for chaining.
-        
+
         Args:
             value: The ieee1722Tp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ieee1722_tp("value")
         """
@@ -6008,13 +6008,13 @@ class SwitchStreamFilterRule(Identifiable):
     def with_ip_tp_rule(self, value: Optional["StreamFilterRuleIpTp"]) -> "SwitchStreamFilterRule":
         """
         Set ipTpRule and return self for chaining.
-        
+
         Args:
             value: The ipTpRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_tp_rule("value")
         """
@@ -6026,9 +6026,9 @@ class SwitchStreamFilterRule(Identifiable):
 class StreamFilterRuleDataLinkLayer(ARObject):
     """
     Configuration of filter rules on the DataLink layer
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterRuleDataLinkLayer
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 137, Classic Platform R23-11)
     """
@@ -6048,10 +6048,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def destination_mac(self, value: Optional["StreamFilterMAC"]) -> None:
         """
         Set destinationMac with validation.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6075,10 +6075,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def ether_type(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set etherType with validation.
-        
+
         Args:
             value: The etherType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6102,10 +6102,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def source_mac(self, value: Optional["StreamFilterMAC"]) -> None:
         """
         Set sourceMac with validation.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6129,10 +6129,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def vlan_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanId with validation.
-        
+
         Args:
             value: The vlanId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6156,10 +6156,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def vlan_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanPriority with validation.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6178,10 +6178,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getDestinationMac(self) -> "StreamFilterMAC":
         """
         AUTOSAR-compliant getter for destinationMac.
-        
+
         Returns:
             The destinationMac value
-        
+
         Note:
             Delegates to destination_mac property (CODING_RULE_V2_00017)
         """
@@ -6190,13 +6190,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setDestinationMac(self, value: "StreamFilterMAC") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_mac property setter (gets validation automatically)
         """
@@ -6206,10 +6206,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getEtherType(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for etherType.
-        
+
         Returns:
             The etherType value
-        
+
         Note:
             Delegates to ether_type property (CODING_RULE_V2_00017)
         """
@@ -6218,13 +6218,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setEtherType(self, value: "PositiveInteger") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for etherType with method chaining.
-        
+
         Args:
             value: The etherType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ether_type property setter (gets validation automatically)
         """
@@ -6234,10 +6234,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getSourceMac(self) -> "StreamFilterMAC":
         """
         AUTOSAR-compliant getter for sourceMac.
-        
+
         Returns:
             The sourceMac value
-        
+
         Note:
             Delegates to source_mac property (CODING_RULE_V2_00017)
         """
@@ -6246,13 +6246,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setSourceMac(self, value: "StreamFilterMAC") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for sourceMac with method chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_mac property setter (gets validation automatically)
         """
@@ -6262,10 +6262,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getVlanId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanId.
-        
+
         Returns:
             The vlanId value
-        
+
         Note:
             Delegates to vlan_id property (CODING_RULE_V2_00017)
         """
@@ -6274,13 +6274,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setVlanId(self, value: "PositiveInteger") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for vlanId with method chaining.
-        
+
         Args:
             value: The vlanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_id property setter (gets validation automatically)
         """
@@ -6290,10 +6290,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getVlanPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanPriority.
-        
+
         Returns:
             The vlanPriority value
-        
+
         Note:
             Delegates to vlan_priority property (CODING_RULE_V2_00017)
         """
@@ -6302,13 +6302,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setVlanPriority(self, value: "PositiveInteger") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for vlanPriority with method chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_priority property setter (gets validation automatically)
         """
@@ -6320,13 +6320,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_destination_mac(self, value: Optional["StreamFilterMAC"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set destinationMac and return self for chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_mac("value")
         """
@@ -6336,13 +6336,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_ether_type(self, value: Optional["PositiveInteger"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set etherType and return self for chaining.
-        
+
         Args:
             value: The etherType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ether_type("value")
         """
@@ -6352,13 +6352,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_source_mac(self, value: Optional["StreamFilterMAC"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set sourceMac and return self for chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_mac("value")
         """
@@ -6368,13 +6368,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_vlan_id(self, value: Optional["PositiveInteger"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set vlanId and return self for chaining.
-        
+
         Args:
             value: The vlanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_id("value")
         """
@@ -6384,13 +6384,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_vlan_priority(self, value: Optional["PositiveInteger"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set vlanPriority and return self for chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_priority("value")
         """
@@ -6402,9 +6402,9 @@ class StreamFilterRuleDataLinkLayer(ARObject):
 class StreamFilterMACAddress(ARObject):
     """
     Configuration of filter rules on the DataLink layer
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterMACAddress
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 137, Classic Platform R23-11)
     """
@@ -6426,10 +6426,10 @@ class StreamFilterMACAddress(ARObject):
     def mac_address(self, value: Optional["MacAddressString"]) -> None:
         """
         Set macAddress with validation.
-        
+
         Args:
             value: The macAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6448,10 +6448,10 @@ class StreamFilterMACAddress(ARObject):
     def getMacAddress(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for macAddress.
-        
+
         Returns:
             The macAddress value
-        
+
         Note:
             Delegates to mac_address property (CODING_RULE_V2_00017)
         """
@@ -6460,13 +6460,13 @@ class StreamFilterMACAddress(ARObject):
     def setMacAddress(self, value: "MacAddressString") -> "StreamFilterMACAddress":
         """
         AUTOSAR-compliant setter for macAddress with method chaining.
-        
+
         Args:
             value: The macAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_address property setter (gets validation automatically)
         """
@@ -6478,13 +6478,13 @@ class StreamFilterMACAddress(ARObject):
     def with_mac_address(self, value: Optional["MacAddressString"]) -> "StreamFilterMACAddress":
         """
         Set macAddress and return self for chaining.
-        
+
         Args:
             value: The macAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_address("value")
         """
@@ -6496,9 +6496,9 @@ class StreamFilterMACAddress(ARObject):
 class StreamFilterRuleIpTp(ARObject):
     """
     Configuration of filter rules for IP and TP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterRuleIpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 137, Classic Platform R23-11)
     """
@@ -6518,10 +6518,10 @@ class StreamFilterRuleIpTp(ARObject):
     def destination(self, value: Optional["StreamFilterIpv6"]) -> None:
         """
         Set destination with validation.
-        
+
         Args:
             value: The destination to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6552,10 +6552,10 @@ class StreamFilterRuleIpTp(ARObject):
     def source(self, value: Optional["StreamFilterIpv6"]) -> None:
         """
         Set source with validation.
-        
+
         Args:
             value: The source to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6580,10 +6580,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getDestination(self) -> "StreamFilterIpv6":
         """
         AUTOSAR-compliant getter for destination.
-        
+
         Returns:
             The destination value
-        
+
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """
@@ -6592,13 +6592,13 @@ class StreamFilterRuleIpTp(ARObject):
     def setDestination(self, value: "StreamFilterIpv6") -> "StreamFilterRuleIpTp":
         """
         AUTOSAR-compliant setter for destination with method chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination property setter (gets validation automatically)
         """
@@ -6608,10 +6608,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getDestinationPort(self) -> List["StreamFilterPortRange"]:
         """
         AUTOSAR-compliant getter for destinationPort.
-        
+
         Returns:
             The destinationPort value
-        
+
         Note:
             Delegates to destination_port property (CODING_RULE_V2_00017)
         """
@@ -6620,10 +6620,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getSource(self) -> "StreamFilterIpv6":
         """
         AUTOSAR-compliant getter for source.
-        
+
         Returns:
             The source value
-        
+
         Note:
             Delegates to source property (CODING_RULE_V2_00017)
         """
@@ -6632,13 +6632,13 @@ class StreamFilterRuleIpTp(ARObject):
     def setSource(self, value: "StreamFilterIpv6") -> "StreamFilterRuleIpTp":
         """
         AUTOSAR-compliant setter for source with method chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source property setter (gets validation automatically)
         """
@@ -6648,10 +6648,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getSourcePort(self) -> List["StreamFilterPortRange"]:
         """
         AUTOSAR-compliant getter for sourcePort.
-        
+
         Returns:
             The sourcePort value
-        
+
         Note:
             Delegates to source_port property (CODING_RULE_V2_00017)
         """
@@ -6662,13 +6662,13 @@ class StreamFilterRuleIpTp(ARObject):
     def with_destination(self, value: Optional["StreamFilterIpv6"]) -> "StreamFilterRuleIpTp":
         """
         Set destination and return self for chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination("value")
         """
@@ -6678,13 +6678,13 @@ class StreamFilterRuleIpTp(ARObject):
     def with_source(self, value: Optional["StreamFilterIpv6"]) -> "StreamFilterRuleIpTp":
         """
         Set source and return self for chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source("value")
         """
@@ -6696,9 +6696,9 @@ class StreamFilterRuleIpTp(ARObject):
 class StreamFilterIpv4Address(ARObject):
     """
     IPv4 address range definition.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterIpv4Address
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 138, Classic Platform R23-11)
     """
@@ -6720,10 +6720,10 @@ class StreamFilterIpv4Address(ARObject):
     def ipv4_address(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set ipv4Address with validation.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6742,10 +6742,10 @@ class StreamFilterIpv4Address(ARObject):
     def getIpv4Address(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for ipv4Address.
-        
+
         Returns:
             The ipv4Address value
-        
+
         Note:
             Delegates to ipv4_address property (CODING_RULE_V2_00017)
         """
@@ -6754,13 +6754,13 @@ class StreamFilterIpv4Address(ARObject):
     def setIpv4Address(self, value: "Ip4AddressString") -> "StreamFilterIpv4Address":
         """
         AUTOSAR-compliant setter for ipv4Address with method chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv4_address property setter (gets validation automatically)
         """
@@ -6772,13 +6772,13 @@ class StreamFilterIpv4Address(ARObject):
     def with_ipv4_address(self, value: Optional["Ip4AddressString"]) -> "StreamFilterIpv4Address":
         """
         Set ipv4Address and return self for chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv4_address("value")
         """
@@ -6790,9 +6790,9 @@ class StreamFilterIpv4Address(ARObject):
 class StreamFilterIpv6Address(ARObject):
     """
     IPv6 address range definition.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterIpv6Address
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 138, Classic Platform R23-11)
     """
@@ -6814,10 +6814,10 @@ class StreamFilterIpv6Address(ARObject):
     def ipv6_address(self, value: Optional["Ip6AddressString"]) -> None:
         """
         Set ipv6Address with validation.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6836,10 +6836,10 @@ class StreamFilterIpv6Address(ARObject):
     def getIpv6Address(self) -> "Ip6AddressString":
         """
         AUTOSAR-compliant getter for ipv6Address.
-        
+
         Returns:
             The ipv6Address value
-        
+
         Note:
             Delegates to ipv6_address property (CODING_RULE_V2_00017)
         """
@@ -6848,13 +6848,13 @@ class StreamFilterIpv6Address(ARObject):
     def setIpv6Address(self, value: "Ip6AddressString") -> "StreamFilterIpv6Address":
         """
         AUTOSAR-compliant setter for ipv6Address with method chaining.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv6_address property setter (gets validation automatically)
         """
@@ -6866,13 +6866,13 @@ class StreamFilterIpv6Address(ARObject):
     def with_ipv6_address(self, value: Optional["Ip6AddressString"]) -> "StreamFilterIpv6Address":
         """
         Set ipv6Address and return self for chaining.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv6_address("value")
         """
@@ -6884,9 +6884,9 @@ class StreamFilterIpv6Address(ARObject):
 class StreamFilterPortRange(ARObject):
     """
     Configuration of filter rules for IP and TP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterPortRange
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 139, Classic Platform R23-11)
     """
@@ -6906,10 +6906,10 @@ class StreamFilterPortRange(ARObject):
     def max(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set max with validation.
-        
+
         Args:
             value: The max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6933,10 +6933,10 @@ class StreamFilterPortRange(ARObject):
     def min(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set min with validation.
-        
+
         Args:
             value: The min to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6955,10 +6955,10 @@ class StreamFilterPortRange(ARObject):
     def getMax(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for max.
-        
+
         Returns:
             The max value
-        
+
         Note:
             Delegates to max property (CODING_RULE_V2_00017)
         """
@@ -6967,13 +6967,13 @@ class StreamFilterPortRange(ARObject):
     def setMax(self, value: "PositiveInteger") -> "StreamFilterPortRange":
         """
         AUTOSAR-compliant setter for max with method chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max property setter (gets validation automatically)
         """
@@ -6983,10 +6983,10 @@ class StreamFilterPortRange(ARObject):
     def getMin(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for min.
-        
+
         Returns:
             The min value
-        
+
         Note:
             Delegates to min property (CODING_RULE_V2_00017)
         """
@@ -6995,13 +6995,13 @@ class StreamFilterPortRange(ARObject):
     def setMin(self, value: "PositiveInteger") -> "StreamFilterPortRange":
         """
         AUTOSAR-compliant setter for min with method chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min property setter (gets validation automatically)
         """
@@ -7013,13 +7013,13 @@ class StreamFilterPortRange(ARObject):
     def with_max(self, value: Optional["PositiveInteger"]) -> "StreamFilterPortRange":
         """
         Set max and return self for chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max("value")
         """
@@ -7029,13 +7029,13 @@ class StreamFilterPortRange(ARObject):
     def with_min(self, value: Optional["PositiveInteger"]) -> "StreamFilterPortRange":
         """
         Set min and return self for chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min("value")
         """
@@ -7047,9 +7047,9 @@ class StreamFilterPortRange(ARObject):
 class StreamFilterIEEE1722Tp(ARObject):
     """
     Configuration of filter rules for IP and TP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterIEEE1722Tp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 139, Classic Platform R23-11)
     """
@@ -7069,10 +7069,10 @@ class StreamFilterIEEE1722Tp(ARObject):
     def stream_id(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set streamId with validation.
-        
+
         Args:
             value: The streamId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7091,10 +7091,10 @@ class StreamFilterIEEE1722Tp(ARObject):
     def getStreamId(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for streamId.
-        
+
         Returns:
             The streamId value
-        
+
         Note:
             Delegates to stream_id property (CODING_RULE_V2_00017)
         """
@@ -7103,13 +7103,13 @@ class StreamFilterIEEE1722Tp(ARObject):
     def setStreamId(self, value: "PositiveUnlimitedInteger") -> "StreamFilterIEEE1722Tp":
         """
         AUTOSAR-compliant setter for streamId with method chaining.
-        
+
         Args:
             value: The streamId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_id property setter (gets validation automatically)
         """
@@ -7121,13 +7121,13 @@ class StreamFilterIEEE1722Tp(ARObject):
     def with_stream_id(self, value: Optional["PositiveUnlimitedInteger"]) -> "StreamFilterIEEE1722Tp":
         """
         Set streamId and return self for chaining.
-        
+
         Args:
             value: The streamId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_id("value")
         """
@@ -7141,9 +7141,9 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     Defines the action to modify the destination port(s) determined by the frame
     forwarding process for an particular Ethernet frame. Either the egress
     destination of an Ethernet frame is extended or overwritten.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterActionDestPortModification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 140, Classic Platform R23-11)
     """
@@ -7174,10 +7174,10 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def modification(self, value: Optional["SwitchStreamFilter"]) -> None:
         """
         Set modification with validation.
-        
+
         Args:
             value: The modification to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7196,10 +7196,10 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def getEgressPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for egressPort.
-        
+
         Returns:
             The egressPort value
-        
+
         Note:
             Delegates to egress_port property (CODING_RULE_V2_00017)
         """
@@ -7208,10 +7208,10 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def getModification(self) -> "SwitchStreamFilter":
         """
         AUTOSAR-compliant getter for modification.
-        
+
         Returns:
             The modification value
-        
+
         Note:
             Delegates to modification property (CODING_RULE_V2_00017)
         """
@@ -7220,13 +7220,13 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def setModification(self, value: "SwitchStreamFilter") -> "SwitchStreamFilterActionDestPortModification":
         """
         AUTOSAR-compliant setter for modification with method chaining.
-        
+
         Args:
             value: The modification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to modification property setter (gets validation automatically)
         """
@@ -7238,13 +7238,13 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def with_modification(self, value: Optional["SwitchStreamFilter"]) -> "SwitchStreamFilterActionDestPortModification":
         """
         Set modification and return self for chaining.
-        
+
         Args:
             value: The modification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_modification("value")
         """
@@ -7256,9 +7256,9 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
 class SwitchStreamFilterEntry(Identifiable):
     """
     Defines a Stream Filter Entry.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 141, Classic Platform R23-11)
     """
@@ -7280,10 +7280,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def asynchronous(self, value: Optional["CouplingPort"]) -> None:
         """
         Set asynchronous with validation.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7307,10 +7307,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def filter_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set filterPriority with validation.
-        
+
         Args:
             value: The filterPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7336,10 +7336,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def flow_metering(self, value: Optional["SwitchFlowMetering"]) -> None:
         """
         Set flowMetering with validation.
-        
+
         Args:
             value: The flowMetering to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7364,10 +7364,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def max_sdu_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSduSize with validation.
-        
+
         Args:
             value: The maxSduSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7391,10 +7391,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def stream_gate(self, value: Optional["SwitchStreamGateEntry"]) -> None:
         """
         Set streamGate with validation.
-        
+
         Args:
             value: The streamGate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7421,10 +7421,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def stream(self, value: Optional["Boolean"]) -> None:
         """
         Set stream with validation.
-        
+
         Args:
             value: The stream to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7443,10 +7443,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getAsynchronous(self) -> "CouplingPort":
         """
         AUTOSAR-compliant getter for asynchronous.
-        
+
         Returns:
             The asynchronous value
-        
+
         Note:
             Delegates to asynchronous property (CODING_RULE_V2_00017)
         """
@@ -7455,13 +7455,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setAsynchronous(self, value: "CouplingPort") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for asynchronous with method chaining.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to asynchronous property setter (gets validation automatically)
         """
@@ -7471,10 +7471,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getFilterPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for filterPriority.
-        
+
         Returns:
             The filterPriority value
-        
+
         Note:
             Delegates to filter_priority property (CODING_RULE_V2_00017)
         """
@@ -7483,13 +7483,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setFilterPriority(self, value: "PositiveInteger") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for filterPriority with method chaining.
-        
+
         Args:
             value: The filterPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_priority property setter (gets validation automatically)
         """
@@ -7499,10 +7499,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getFlowMetering(self) -> "SwitchFlowMetering":
         """
         AUTOSAR-compliant getter for flowMetering.
-        
+
         Returns:
             The flowMetering value
-        
+
         Note:
             Delegates to flow_metering property (CODING_RULE_V2_00017)
         """
@@ -7511,13 +7511,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setFlowMetering(self, value: "SwitchFlowMetering") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for flowMetering with method chaining.
-        
+
         Args:
             value: The flowMetering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flow_metering property setter (gets validation automatically)
         """
@@ -7527,10 +7527,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getMaxSduSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSduSize.
-        
+
         Returns:
             The maxSduSize value
-        
+
         Note:
             Delegates to max_sdu_size property (CODING_RULE_V2_00017)
         """
@@ -7539,13 +7539,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setMaxSduSize(self, value: "PositiveInteger") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for maxSduSize with method chaining.
-        
+
         Args:
             value: The maxSduSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_sdu_size property setter (gets validation automatically)
         """
@@ -7555,10 +7555,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getStreamGate(self) -> "SwitchStreamGateEntry":
         """
         AUTOSAR-compliant getter for streamGate.
-        
+
         Returns:
             The streamGate value
-        
+
         Note:
             Delegates to stream_gate property (CODING_RULE_V2_00017)
         """
@@ -7567,13 +7567,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setStreamGate(self, value: "SwitchStreamGateEntry") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for streamGate with method chaining.
-        
+
         Args:
             value: The streamGate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_gate property setter (gets validation automatically)
         """
@@ -7583,10 +7583,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getStream(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for stream.
-        
+
         Returns:
             The stream value
-        
+
         Note:
             Delegates to stream property (CODING_RULE_V2_00017)
         """
@@ -7595,13 +7595,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setStream(self, value: "Boolean") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for stream with method chaining.
-        
+
         Args:
             value: The stream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream property setter (gets validation automatically)
         """
@@ -7613,13 +7613,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_asynchronous(self, value: Optional["CouplingPort"]) -> "SwitchStreamFilterEntry":
         """
         Set asynchronous and return self for chaining.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_asynchronous("value")
         """
@@ -7629,13 +7629,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_filter_priority(self, value: Optional["PositiveInteger"]) -> "SwitchStreamFilterEntry":
         """
         Set filterPriority and return self for chaining.
-        
+
         Args:
             value: The filterPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_priority("value")
         """
@@ -7645,13 +7645,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_flow_metering(self, value: Optional["SwitchFlowMetering"]) -> "SwitchStreamFilterEntry":
         """
         Set flowMetering and return self for chaining.
-        
+
         Args:
             value: The flowMetering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flow_metering("value")
         """
@@ -7661,13 +7661,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_max_sdu_size(self, value: Optional["PositiveInteger"]) -> "SwitchStreamFilterEntry":
         """
         Set maxSduSize and return self for chaining.
-        
+
         Args:
             value: The maxSduSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_sdu_size("value")
         """
@@ -7677,13 +7677,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_stream_gate(self, value: Optional["SwitchStreamGateEntry"]) -> "SwitchStreamFilterEntry":
         """
         Set streamGate and return self for chaining.
-        
+
         Args:
             value: The streamGate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_gate("value")
         """
@@ -7693,13 +7693,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_stream(self, value: Optional["Boolean"]) -> "SwitchStreamFilterEntry":
         """
         Set stream and return self for chaining.
-        
+
         Args:
             value: The stream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream("value")
         """
@@ -7711,9 +7711,9 @@ class SwitchStreamFilterEntry(Identifiable):
 class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     """
     Defines an Asynchronous Traffic Shapter (ATS) Group for a switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchAsynchronousTrafficShaperGroupEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 142, Classic Platform R23-11)
     """
@@ -7734,10 +7734,10 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def maximum(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7756,10 +7756,10 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def getMaximum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -7768,13 +7768,13 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def setMaximum(self, value: "PositiveInteger") -> "SwitchAsynchronousTrafficShaperGroupEntry":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -7786,13 +7786,13 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def with_maximum(self, value: Optional["PositiveInteger"]) -> "SwitchAsynchronousTrafficShaperGroupEntry":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -7804,9 +7804,9 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
 class SwitchStreamGateEntry(Identifiable):
     """
     Defines a Asynchronous Traffic Shapter (ATS) Group for a switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamGateEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 142, Classic Platform R23-11)
     """
@@ -7827,10 +7827,10 @@ class SwitchStreamGateEntry(Identifiable):
     def internal_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set internalPriority with validation.
-        
+
         Args:
             value: The internalPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7849,10 +7849,10 @@ class SwitchStreamGateEntry(Identifiable):
     def getInternalPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for internalPriority.
-        
+
         Returns:
             The internalPriority value
-        
+
         Note:
             Delegates to internal_priority property (CODING_RULE_V2_00017)
         """
@@ -7861,13 +7861,13 @@ class SwitchStreamGateEntry(Identifiable):
     def setInternalPriority(self, value: "PositiveInteger") -> "SwitchStreamGateEntry":
         """
         AUTOSAR-compliant setter for internalPriority with method chaining.
-        
+
         Args:
             value: The internalPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to internal_priority property setter (gets validation automatically)
         """
@@ -7879,13 +7879,13 @@ class SwitchStreamGateEntry(Identifiable):
     def with_internal_priority(self, value: Optional["PositiveInteger"]) -> "SwitchStreamGateEntry":
         """
         Set internalPriority and return self for chaining.
-        
+
         Args:
             value: The internalPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_internal_priority("value")
         """
@@ -7897,9 +7897,9 @@ class SwitchStreamGateEntry(Identifiable):
 class SwitchFlowMeteringEntry(Identifiable):
     """
     Defines a Flow Metering Entry for a switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchFlowMeteringEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 143, Classic Platform R23-11)
     """
@@ -7919,10 +7919,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def color_mode(self, value: Optional["FlowMeteringColor"]) -> None:
         """
         Set colorMode with validation.
-        
+
         Args:
             value: The colorMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7946,10 +7946,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def committed_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committedBurst with validation.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7974,10 +7974,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def committed(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committed with validation.
-        
+
         Args:
             value: The committed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8002,10 +8002,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def coupling_flag(self, value: Optional["Boolean"]) -> None:
         """
         Set couplingFlag with validation.
-        
+
         Args:
             value: The couplingFlag to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8029,10 +8029,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def excess_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set excessBurst with validation.
-        
+
         Args:
             value: The excessBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8057,10 +8057,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def excess(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set excess with validation.
-        
+
         Args:
             value: The excess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8079,10 +8079,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getColorMode(self) -> "FlowMeteringColor":
         """
         AUTOSAR-compliant getter for colorMode.
-        
+
         Returns:
             The colorMode value
-        
+
         Note:
             Delegates to color_mode property (CODING_RULE_V2_00017)
         """
@@ -8091,13 +8091,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setColorMode(self, value: "FlowMeteringColor") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for colorMode with method chaining.
-        
+
         Args:
             value: The colorMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to color_mode property setter (gets validation automatically)
         """
@@ -8107,10 +8107,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getCommittedBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committedBurst.
-        
+
         Returns:
             The committedBurst value
-        
+
         Note:
             Delegates to committed_burst property (CODING_RULE_V2_00017)
         """
@@ -8119,13 +8119,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setCommittedBurst(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for committedBurst with method chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed_burst property setter (gets validation automatically)
         """
@@ -8135,10 +8135,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getCommitted(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committed.
-        
+
         Returns:
             The committed value
-        
+
         Note:
             Delegates to committed property (CODING_RULE_V2_00017)
         """
@@ -8147,13 +8147,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setCommitted(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for committed with method chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed property setter (gets validation automatically)
         """
@@ -8163,10 +8163,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getCouplingFlag(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for couplingFlag.
-        
+
         Returns:
             The couplingFlag value
-        
+
         Note:
             Delegates to coupling_flag property (CODING_RULE_V2_00017)
         """
@@ -8175,13 +8175,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setCouplingFlag(self, value: "Boolean") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for couplingFlag with method chaining.
-        
+
         Args:
             value: The couplingFlag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_flag property setter (gets validation automatically)
         """
@@ -8191,10 +8191,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getExcessBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for excessBurst.
-        
+
         Returns:
             The excessBurst value
-        
+
         Note:
             Delegates to excess_burst property (CODING_RULE_V2_00017)
         """
@@ -8203,13 +8203,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setExcessBurst(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for excessBurst with method chaining.
-        
+
         Args:
             value: The excessBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to excess_burst property setter (gets validation automatically)
         """
@@ -8219,10 +8219,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getExcess(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for excess.
-        
+
         Returns:
             The excess value
-        
+
         Note:
             Delegates to excess property (CODING_RULE_V2_00017)
         """
@@ -8231,13 +8231,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setExcess(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for excess with method chaining.
-        
+
         Args:
             value: The excess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to excess property setter (gets validation automatically)
         """
@@ -8249,13 +8249,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_color_mode(self, value: Optional["FlowMeteringColor"]) -> "SwitchFlowMeteringEntry":
         """
         Set colorMode and return self for chaining.
-        
+
         Args:
             value: The colorMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_color_mode("value")
         """
@@ -8265,13 +8265,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_committed_burst(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set committedBurst and return self for chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed_burst("value")
         """
@@ -8281,13 +8281,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_committed(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set committed and return self for chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed("value")
         """
@@ -8297,13 +8297,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_coupling_flag(self, value: Optional["Boolean"]) -> "SwitchFlowMeteringEntry":
         """
         Set couplingFlag and return self for chaining.
-        
+
         Args:
             value: The couplingFlag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_flag("value")
         """
@@ -8313,13 +8313,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_excess_burst(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set excessBurst and return self for chaining.
-        
+
         Args:
             value: The excessBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_excess_burst("value")
         """
@@ -8329,13 +8329,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_excess(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set excess and return self for chaining.
-        
+
         Args:
             value: The excess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_excess("value")
         """
@@ -8347,9 +8347,9 @@ class SwitchFlowMeteringEntry(Identifiable):
 class EthIpProps(ARElement):
     """
     This meta-class is used to configure the EcuInstance specific IP attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthIpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 146, Classic Platform R23-11)
     """
@@ -8369,10 +8369,10 @@ class EthIpProps(ARElement):
     def ipv4_props(self, value: Optional["Ipv4Props"]) -> None:
         """
         Set ipv4Props with validation.
-        
+
         Args:
             value: The ipv4Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8397,10 +8397,10 @@ class EthIpProps(ARElement):
     def ipv6_props(self, value: Optional["Ipv6Props"]) -> None:
         """
         Set ipv6Props with validation.
-        
+
         Args:
             value: The ipv6Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8419,10 +8419,10 @@ class EthIpProps(ARElement):
     def getIpv4Props(self) -> "Ipv4Props":
         """
         AUTOSAR-compliant getter for ipv4Props.
-        
+
         Returns:
             The ipv4Props value
-        
+
         Note:
             Delegates to ipv4_props property (CODING_RULE_V2_00017)
         """
@@ -8431,13 +8431,13 @@ class EthIpProps(ARElement):
     def setIpv4Props(self, value: "Ipv4Props") -> "EthIpProps":
         """
         AUTOSAR-compliant setter for ipv4Props with method chaining.
-        
+
         Args:
             value: The ipv4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv4_props property setter (gets validation automatically)
         """
@@ -8447,10 +8447,10 @@ class EthIpProps(ARElement):
     def getIpv6Props(self) -> "Ipv6Props":
         """
         AUTOSAR-compliant getter for ipv6Props.
-        
+
         Returns:
             The ipv6Props value
-        
+
         Note:
             Delegates to ipv6_props property (CODING_RULE_V2_00017)
         """
@@ -8459,13 +8459,13 @@ class EthIpProps(ARElement):
     def setIpv6Props(self, value: "Ipv6Props") -> "EthIpProps":
         """
         AUTOSAR-compliant setter for ipv6Props with method chaining.
-        
+
         Args:
             value: The ipv6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv6_props property setter (gets validation automatically)
         """
@@ -8477,13 +8477,13 @@ class EthIpProps(ARElement):
     def with_ipv4_props(self, value: Optional["Ipv4Props"]) -> "EthIpProps":
         """
         Set ipv4Props and return self for chaining.
-        
+
         Args:
             value: The ipv4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv4_props("value")
         """
@@ -8493,13 +8493,13 @@ class EthIpProps(ARElement):
     def with_ipv6_props(self, value: Optional["Ipv6Props"]) -> "EthIpProps":
         """
         Set ipv6Props and return self for chaining.
-        
+
         Args:
             value: The ipv6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv6_props("value")
         """
@@ -8511,9 +8511,9 @@ class EthIpProps(ARElement):
 class Ipv4Props(ARObject):
     """
     This meta-class specifies the configuration options for IPv4.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 146, Classic Platform R23-11)
     """
@@ -8533,10 +8533,10 @@ class Ipv4Props(ARObject):
     def arp_props(self, value: Optional["Ipv4ArpProps"]) -> None:
         """
         Set arpProps with validation.
-        
+
         Args:
             value: The arpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8560,10 +8560,10 @@ class Ipv4Props(ARObject):
     def auto_ip_props(self, value: Optional["Ipv4AutoIpProps"]) -> None:
         """
         Set autoIpProps with validation.
-        
+
         Args:
             value: The autoIpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8587,10 +8587,10 @@ class Ipv4Props(ARObject):
     def fragmentation(self, value: Optional["Ipv4Fragmentation"]) -> None:
         """
         Set fragmentation with validation.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8609,10 +8609,10 @@ class Ipv4Props(ARObject):
     def getArpProps(self) -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant getter for arpProps.
-        
+
         Returns:
             The arpProps value
-        
+
         Note:
             Delegates to arp_props property (CODING_RULE_V2_00017)
         """
@@ -8621,13 +8621,13 @@ class Ipv4Props(ARObject):
     def setArpProps(self, value: "Ipv4ArpProps") -> "Ipv4Props":
         """
         AUTOSAR-compliant setter for arpProps with method chaining.
-        
+
         Args:
             value: The arpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to arp_props property setter (gets validation automatically)
         """
@@ -8637,10 +8637,10 @@ class Ipv4Props(ARObject):
     def getAutoIpProps(self) -> "Ipv4AutoIpProps":
         """
         AUTOSAR-compliant getter for autoIpProps.
-        
+
         Returns:
             The autoIpProps value
-        
+
         Note:
             Delegates to auto_ip_props property (CODING_RULE_V2_00017)
         """
@@ -8649,13 +8649,13 @@ class Ipv4Props(ARObject):
     def setAutoIpProps(self, value: "Ipv4AutoIpProps") -> "Ipv4Props":
         """
         AUTOSAR-compliant setter for autoIpProps with method chaining.
-        
+
         Args:
             value: The autoIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_ip_props property setter (gets validation automatically)
         """
@@ -8665,10 +8665,10 @@ class Ipv4Props(ARObject):
     def getFragmentation(self) -> "Ipv4Fragmentation":
         """
         AUTOSAR-compliant getter for fragmentation.
-        
+
         Returns:
             The fragmentation value
-        
+
         Note:
             Delegates to fragmentation property (CODING_RULE_V2_00017)
         """
@@ -8677,13 +8677,13 @@ class Ipv4Props(ARObject):
     def setFragmentation(self, value: "Ipv4Fragmentation") -> "Ipv4Props":
         """
         AUTOSAR-compliant setter for fragmentation with method chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fragmentation property setter (gets validation automatically)
         """
@@ -8695,13 +8695,13 @@ class Ipv4Props(ARObject):
     def with_arp_props(self, value: Optional["Ipv4ArpProps"]) -> "Ipv4Props":
         """
         Set arpProps and return self for chaining.
-        
+
         Args:
             value: The arpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_arp_props("value")
         """
@@ -8711,13 +8711,13 @@ class Ipv4Props(ARObject):
     def with_auto_ip_props(self, value: Optional["Ipv4AutoIpProps"]) -> "Ipv4Props":
         """
         Set autoIpProps and return self for chaining.
-        
+
         Args:
             value: The autoIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_ip_props("value")
         """
@@ -8727,13 +8727,13 @@ class Ipv4Props(ARObject):
     def with_fragmentation(self, value: Optional["Ipv4Fragmentation"]) -> "Ipv4Props":
         """
         Set fragmentation and return self for chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fragmentation("value")
         """
@@ -8746,9 +8746,9 @@ class Ipv4ArpProps(ARObject):
     """
     Specifies the configuration options for the ARP (Address Resolution
     Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4ArpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 146, Classic Platform R23-11)
     """
@@ -8769,10 +8769,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp_num(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpArpNum with validation.
-        
+
         Args:
             value: The tcpIpArpNum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8800,10 +8800,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp_packet(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpArpPacket with validation.
-        
+
         Args:
             value: The tcpIpArpPacket to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8833,10 +8833,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpArp with validation.
-        
+
         Args:
             value: The tcpIpArp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8861,10 +8861,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp_table(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpArpTable with validation.
-        
+
         Args:
             value: The tcpIpArpTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8883,10 +8883,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArpNum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpArpNum.
-        
+
         Returns:
             The tcpIpArpNum value
-        
+
         Note:
             Delegates to tcp_ip_arp_num property (CODING_RULE_V2_00017)
         """
@@ -8895,13 +8895,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArpNum(self, value: "PositiveInteger") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArpNum with method chaining.
-        
+
         Args:
             value: The tcpIpArpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp_num property setter (gets validation automatically)
         """
@@ -8911,10 +8911,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArpPacket(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpArpPacket.
-        
+
         Returns:
             The tcpIpArpPacket value
-        
+
         Note:
             Delegates to tcp_ip_arp_packet property (CODING_RULE_V2_00017)
         """
@@ -8923,13 +8923,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArpPacket(self, value: "Boolean") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArpPacket with method chaining.
-        
+
         Args:
             value: The tcpIpArpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp_packet property setter (gets validation automatically)
         """
@@ -8939,10 +8939,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpArp.
-        
+
         Returns:
             The tcpIpArp value
-        
+
         Note:
             Delegates to tcp_ip_arp property (CODING_RULE_V2_00017)
         """
@@ -8951,13 +8951,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArp(self, value: "TimeValue") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArp with method chaining.
-        
+
         Args:
             value: The tcpIpArp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp property setter (gets validation automatically)
         """
@@ -8967,10 +8967,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArpTable(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpArpTable.
-        
+
         Returns:
             The tcpIpArpTable value
-        
+
         Note:
             Delegates to tcp_ip_arp_table property (CODING_RULE_V2_00017)
         """
@@ -8979,13 +8979,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArpTable(self, value: "TimeValue") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArpTable with method chaining.
-        
+
         Args:
             value: The tcpIpArpTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp_table property setter (gets validation automatically)
         """
@@ -8997,13 +8997,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp_num(self, value: Optional["PositiveInteger"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArpNum and return self for chaining.
-        
+
         Args:
             value: The tcpIpArpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp_num("value")
         """
@@ -9013,13 +9013,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp_packet(self, value: Optional["Boolean"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArpPacket and return self for chaining.
-        
+
         Args:
             value: The tcpIpArpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp_packet("value")
         """
@@ -9029,13 +9029,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp(self, value: Optional["TimeValue"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArp and return self for chaining.
-        
+
         Args:
             value: The tcpIpArp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp("value")
         """
@@ -9045,13 +9045,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp_table(self, value: Optional["TimeValue"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArpTable and return self for chaining.
-        
+
         Args:
             value: The tcpIpArpTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp_table("value")
         """
@@ -9064,9 +9064,9 @@ class Ipv4AutoIpProps(ARObject):
     """
     Specifies the configuration options for Auto-IP (automatic private IP
     addressing).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4AutoIpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 147, Classic Platform R23-11)
     """
@@ -9088,10 +9088,10 @@ class Ipv4AutoIpProps(ARObject):
     def tcp_ip_auto_ip_init(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpAutoIpInit with validation.
-        
+
         Args:
             value: The tcpIpAutoIpInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9110,10 +9110,10 @@ class Ipv4AutoIpProps(ARObject):
     def getTcpIpAutoIpInit(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpAutoIpInit.
-        
+
         Returns:
             The tcpIpAutoIpInit value
-        
+
         Note:
             Delegates to tcp_ip_auto_ip_init property (CODING_RULE_V2_00017)
         """
@@ -9122,13 +9122,13 @@ class Ipv4AutoIpProps(ARObject):
     def setTcpIpAutoIpInit(self, value: "TimeValue") -> "Ipv4AutoIpProps":
         """
         AUTOSAR-compliant setter for tcpIpAutoIpInit with method chaining.
-        
+
         Args:
             value: The tcpIpAutoIpInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_auto_ip_init property setter (gets validation automatically)
         """
@@ -9140,13 +9140,13 @@ class Ipv4AutoIpProps(ARObject):
     def with_tcp_ip_auto_ip_init(self, value: Optional["TimeValue"]) -> "Ipv4AutoIpProps":
         """
         Set tcpIpAutoIpInit and return self for chaining.
-        
+
         Args:
             value: The tcpIpAutoIpInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_auto_ip_init("value")
         """
@@ -9159,9 +9159,9 @@ class Ipv4FragmentationProps(ARObject):
     """
     Specifies the configuration options for IPv4 packet
     fragmentation/reassembly.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4FragmentationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 147, Classic Platform R23-11)
     """
@@ -9182,10 +9182,10 @@ class Ipv4FragmentationProps(ARObject):
     def tcp_ip_ip(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpIp with validation.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9210,10 +9210,10 @@ class Ipv4FragmentationProps(ARObject):
     def tcp_ip_ip_num(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpNum with validation.
-        
+
         Args:
             value: The tcpIpIpNum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9237,10 +9237,10 @@ class Ipv4FragmentationProps(ARObject):
     def tcp_ip_ip_reass(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpIpReass with validation.
-        
+
         Args:
             value: The tcpIpIpReass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9259,10 +9259,10 @@ class Ipv4FragmentationProps(ARObject):
     def getTcpIpIp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpIp.
-        
+
         Returns:
             The tcpIpIp value
-        
+
         Note:
             Delegates to tcp_ip_ip property (CODING_RULE_V2_00017)
         """
@@ -9271,13 +9271,13 @@ class Ipv4FragmentationProps(ARObject):
     def setTcpIpIp(self, value: "Boolean") -> "Ipv4FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIp with method chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip property setter (gets validation automatically)
         """
@@ -9287,10 +9287,10 @@ class Ipv4FragmentationProps(ARObject):
     def getTcpIpIpNum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpNum.
-        
+
         Returns:
             The tcpIpIpNum value
-        
+
         Note:
             Delegates to tcp_ip_ip_num property (CODING_RULE_V2_00017)
         """
@@ -9299,13 +9299,13 @@ class Ipv4FragmentationProps(ARObject):
     def setTcpIpIpNum(self, value: "PositiveInteger") -> "Ipv4FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpNum with method chaining.
-        
+
         Args:
             value: The tcpIpIpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_num property setter (gets validation automatically)
         """
@@ -9315,10 +9315,10 @@ class Ipv4FragmentationProps(ARObject):
     def getTcpIpIpReass(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpIpReass.
-        
+
         Returns:
             The tcpIpIpReass value
-        
+
         Note:
             Delegates to tcp_ip_ip_reass property (CODING_RULE_V2_00017)
         """
@@ -9327,13 +9327,13 @@ class Ipv4FragmentationProps(ARObject):
     def setTcpIpIpReass(self, value: "TimeValue") -> "Ipv4FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpReass with method chaining.
-        
+
         Args:
             value: The tcpIpIpReass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_reass property setter (gets validation automatically)
         """
@@ -9345,13 +9345,13 @@ class Ipv4FragmentationProps(ARObject):
     def with_tcp_ip_ip(self, value: Optional["Boolean"]) -> "Ipv4FragmentationProps":
         """
         Set tcpIpIp and return self for chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip("value")
         """
@@ -9361,13 +9361,13 @@ class Ipv4FragmentationProps(ARObject):
     def with_tcp_ip_ip_num(self, value: Optional["PositiveInteger"]) -> "Ipv4FragmentationProps":
         """
         Set tcpIpIpNum and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_num("value")
         """
@@ -9377,13 +9377,13 @@ class Ipv4FragmentationProps(ARObject):
     def with_tcp_ip_ip_reass(self, value: Optional["TimeValue"]) -> "Ipv4FragmentationProps":
         """
         Set tcpIpIpReass and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpReass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_reass("value")
         """
@@ -9395,9 +9395,9 @@ class Ipv4FragmentationProps(ARObject):
 class Ipv6Props(ARObject):
     """
     This meta-class specifies the configuration options for IPv6.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 147, Classic Platform R23-11)
     """
@@ -9417,10 +9417,10 @@ class Ipv6Props(ARObject):
     def dhcp_props(self, value: Optional["Dhcpv6Props"]) -> None:
         """
         Set dhcpProps with validation.
-        
+
         Args:
             value: The dhcpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9444,10 +9444,10 @@ class Ipv6Props(ARObject):
     def fragmentation(self, value: Optional["Ipv6Fragmentation"]) -> None:
         """
         Set fragmentation with validation.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9471,10 +9471,10 @@ class Ipv6Props(ARObject):
     def ndp_props(self, value: Optional["Ipv6NdpProps"]) -> None:
         """
         Set ndpProps with validation.
-        
+
         Args:
             value: The ndpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9493,10 +9493,10 @@ class Ipv6Props(ARObject):
     def getDhcpProps(self) -> "Dhcpv6Props":
         """
         AUTOSAR-compliant getter for dhcpProps.
-        
+
         Returns:
             The dhcpProps value
-        
+
         Note:
             Delegates to dhcp_props property (CODING_RULE_V2_00017)
         """
@@ -9505,13 +9505,13 @@ class Ipv6Props(ARObject):
     def setDhcpProps(self, value: "Dhcpv6Props") -> "Ipv6Props":
         """
         AUTOSAR-compliant setter for dhcpProps with method chaining.
-        
+
         Args:
             value: The dhcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dhcp_props property setter (gets validation automatically)
         """
@@ -9521,10 +9521,10 @@ class Ipv6Props(ARObject):
     def getFragmentation(self) -> "Ipv6Fragmentation":
         """
         AUTOSAR-compliant getter for fragmentation.
-        
+
         Returns:
             The fragmentation value
-        
+
         Note:
             Delegates to fragmentation property (CODING_RULE_V2_00017)
         """
@@ -9533,13 +9533,13 @@ class Ipv6Props(ARObject):
     def setFragmentation(self, value: "Ipv6Fragmentation") -> "Ipv6Props":
         """
         AUTOSAR-compliant setter for fragmentation with method chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fragmentation property setter (gets validation automatically)
         """
@@ -9549,10 +9549,10 @@ class Ipv6Props(ARObject):
     def getNdpProps(self) -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant getter for ndpProps.
-        
+
         Returns:
             The ndpProps value
-        
+
         Note:
             Delegates to ndp_props property (CODING_RULE_V2_00017)
         """
@@ -9561,13 +9561,13 @@ class Ipv6Props(ARObject):
     def setNdpProps(self, value: "Ipv6NdpProps") -> "Ipv6Props":
         """
         AUTOSAR-compliant setter for ndpProps with method chaining.
-        
+
         Args:
             value: The ndpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ndp_props property setter (gets validation automatically)
         """
@@ -9579,13 +9579,13 @@ class Ipv6Props(ARObject):
     def with_dhcp_props(self, value: Optional["Dhcpv6Props"]) -> "Ipv6Props":
         """
         Set dhcpProps and return self for chaining.
-        
+
         Args:
             value: The dhcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dhcp_props("value")
         """
@@ -9595,13 +9595,13 @@ class Ipv6Props(ARObject):
     def with_fragmentation(self, value: Optional["Ipv6Fragmentation"]) -> "Ipv6Props":
         """
         Set fragmentation and return self for chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fragmentation("value")
         """
@@ -9611,13 +9611,13 @@ class Ipv6Props(ARObject):
     def with_ndp_props(self, value: Optional["Ipv6NdpProps"]) -> "Ipv6Props":
         """
         Set ndpProps and return self for chaining.
-        
+
         Args:
             value: The ndpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ndp_props("value")
         """
@@ -9630,9 +9630,9 @@ class Ipv6FragmentationProps(ARObject):
     """
     This meta-class specifies the configuration options for IPv6 packet
     fragmentation/reassembly.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6FragmentationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 148, Classic Platform R23-11)
     """
@@ -9652,10 +9652,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpIp with validation.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9679,10 +9679,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip_reassembly_buffer_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpReassemblyBufferSize with validation.
-        
+
         Args:
             value: The tcpIpIpReassemblyBufferSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9708,10 +9708,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip_tx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpTx with validation.
-        
+
         Args:
             value: The tcpIpIpTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9735,10 +9735,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip_tx_fragment_buffer_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpTxFragmentBufferSize with validation.
-        
+
         Args:
             value: The tcpIpIpTxFragmentBufferSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9757,10 +9757,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpIp.
-        
+
         Returns:
             The tcpIpIp value
-        
+
         Note:
             Delegates to tcp_ip_ip property (CODING_RULE_V2_00017)
         """
@@ -9769,13 +9769,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIp(self, value: "TimeValue") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIp with method chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip property setter (gets validation automatically)
         """
@@ -9785,10 +9785,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIpReassemblyBufferSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpReassemblyBufferSize.
-        
+
         Returns:
             The tcpIpIpReassemblyBufferSize value
-        
+
         Note:
             Delegates to tcp_ip_ip_reassembly_buffer_size property (CODING_RULE_V2_00017)
         """
@@ -9797,13 +9797,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIpReassemblyBufferSize(self, value: "PositiveInteger") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpReassemblyBufferSize with method chaining.
-        
+
         Args:
             value: The tcpIpIpReassemblyBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_reassembly_buffer_size property setter (gets validation automatically)
         """
@@ -9813,10 +9813,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIpTx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpTx.
-        
+
         Returns:
             The tcpIpIpTx value
-        
+
         Note:
             Delegates to tcp_ip_ip_tx property (CODING_RULE_V2_00017)
         """
@@ -9825,13 +9825,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIpTx(self, value: "PositiveInteger") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpTx with method chaining.
-        
+
         Args:
             value: The tcpIpIpTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_tx property setter (gets validation automatically)
         """
@@ -9841,10 +9841,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIpTxFragmentBufferSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpTxFragmentBufferSize.
-        
+
         Returns:
             The tcpIpIpTxFragmentBufferSize value
-        
+
         Note:
             Delegates to tcp_ip_ip_tx_fragment_buffer_size property (CODING_RULE_V2_00017)
         """
@@ -9853,13 +9853,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIpTxFragmentBufferSize(self, value: "PositiveInteger") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpTxFragmentBufferSize with method chaining.
-        
+
         Args:
             value: The tcpIpIpTxFragmentBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_tx_fragment_buffer_size property setter (gets validation automatically)
         """
@@ -9871,13 +9871,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip(self, value: Optional["TimeValue"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIp and return self for chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip("value")
         """
@@ -9887,13 +9887,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip_reassembly_buffer_size(self, value: Optional["PositiveInteger"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIpReassemblyBufferSize and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpReassemblyBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_reassembly_buffer_size("value")
         """
@@ -9903,13 +9903,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip_tx(self, value: Optional["PositiveInteger"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIpTx and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_tx("value")
         """
@@ -9919,13 +9919,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip_tx_fragment_buffer_size(self, value: Optional["PositiveInteger"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIpTxFragmentBufferSize and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpTxFragmentBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_tx_fragment_buffer_size("value")
         """
@@ -9937,9 +9937,9 @@ class Ipv6FragmentationProps(ARObject):
 class Dhcpv6Props(ARObject):
     """
     This meta-class specifies the configuration options for DHCPv6.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Dhcpv6Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 149, Classic Platform R23-11)
     """
@@ -9959,10 +9959,10 @@ class Dhcpv6Props(ARObject):
     def tcp_ip_dhcp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpDhcp with validation.
-        
+
         Args:
             value: The tcpIpDhcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9986,10 +9986,10 @@ class Dhcpv6Props(ARObject):
     def tcp_ip_dhcp_v6_inf(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpDhcpV6Inf with validation.
-        
+
         Args:
             value: The tcpIpDhcpV6Inf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10014,10 +10014,10 @@ class Dhcpv6Props(ARObject):
     def tcp_ip_dhcp_v6_sol(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpDhcpV6Sol with validation.
-        
+
         Args:
             value: The tcpIpDhcpV6Sol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10036,10 +10036,10 @@ class Dhcpv6Props(ARObject):
     def getTcpIpDhcp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpDhcp.
-        
+
         Returns:
             The tcpIpDhcp value
-        
+
         Note:
             Delegates to tcp_ip_dhcp property (CODING_RULE_V2_00017)
         """
@@ -10048,13 +10048,13 @@ class Dhcpv6Props(ARObject):
     def setTcpIpDhcp(self, value: "TimeValue") -> "Dhcpv6Props":
         """
         AUTOSAR-compliant setter for tcpIpDhcp with method chaining.
-        
+
         Args:
             value: The tcpIpDhcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_dhcp property setter (gets validation automatically)
         """
@@ -10064,10 +10064,10 @@ class Dhcpv6Props(ARObject):
     def getTcpIpDhcpV6Inf(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpDhcpV6Inf.
-        
+
         Returns:
             The tcpIpDhcpV6Inf value
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_inf property (CODING_RULE_V2_00017)
         """
@@ -10076,13 +10076,13 @@ class Dhcpv6Props(ARObject):
     def setTcpIpDhcpV6Inf(self, value: "TimeValue") -> "Dhcpv6Props":
         """
         AUTOSAR-compliant setter for tcpIpDhcpV6Inf with method chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Inf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_inf property setter (gets validation automatically)
         """
@@ -10092,10 +10092,10 @@ class Dhcpv6Props(ARObject):
     def getTcpIpDhcpV6Sol(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpDhcpV6Sol.
-        
+
         Returns:
             The tcpIpDhcpV6Sol value
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_sol property (CODING_RULE_V2_00017)
         """
@@ -10104,13 +10104,13 @@ class Dhcpv6Props(ARObject):
     def setTcpIpDhcpV6Sol(self, value: "TimeValue") -> "Dhcpv6Props":
         """
         AUTOSAR-compliant setter for tcpIpDhcpV6Sol with method chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Sol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_sol property setter (gets validation automatically)
         """
@@ -10122,13 +10122,13 @@ class Dhcpv6Props(ARObject):
     def with_tcp_ip_dhcp(self, value: Optional["TimeValue"]) -> "Dhcpv6Props":
         """
         Set tcpIpDhcp and return self for chaining.
-        
+
         Args:
             value: The tcpIpDhcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_dhcp("value")
         """
@@ -10138,13 +10138,13 @@ class Dhcpv6Props(ARObject):
     def with_tcp_ip_dhcp_v6_inf(self, value: Optional["TimeValue"]) -> "Dhcpv6Props":
         """
         Set tcpIpDhcpV6Inf and return self for chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Inf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_dhcp_v6_inf("value")
         """
@@ -10154,13 +10154,13 @@ class Dhcpv6Props(ARObject):
     def with_tcp_ip_dhcp_v6_sol(self, value: Optional["TimeValue"]) -> "Dhcpv6Props":
         """
         Set tcpIpDhcpV6Sol and return self for chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Sol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_dhcp_v6_sol("value")
         """
@@ -10173,9 +10173,9 @@ class Ipv6NdpProps(ARObject):
     """
     This meta-class specifies the configuration options for the Neighbor
     Discovery Protocol for IPv6.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6NdpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 150, Classic Platform R23-11)
     """
@@ -10199,10 +10199,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_default(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpNdpDefault with validation.
-        
+
         Args:
             value: The tcpIpNdpDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10226,10 +10226,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_default_router_list_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpDefaultRouterListSize with validation.
-        
+
         Args:
             value: The tcpIpNdpDefaultRouterListSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10255,10 +10255,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdp with validation.
-        
+
         Args:
             value: The tcpIpNdp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10282,10 +10282,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_delay_first_probe_time_value(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpNdpDelayFirstProbeTimeValue with validation.
-        
+
         Args:
             value: The tcpIpNdpDelayFirstProbeTimeValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10309,10 +10309,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_max_random_factor(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpMaxRandomFactor with validation.
-        
+
         Args:
             value: The tcpIpNdpMaxRandomFactor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10337,10 +10337,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_max_rtr(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpMaxRtr with validation.
-        
+
         Args:
             value: The tcpIpNdpMaxRtr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10364,10 +10364,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_min_random_factor(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpMinRandomFactor with validation.
-        
+
         Args:
             value: The tcpIpNdpMinRandomFactor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10392,10 +10392,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_num(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpNum with validation.
-        
+
         Args:
             value: The tcpIpNdpNum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10420,10 +10420,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_packet(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdpPacket with validation.
-        
+
         Args:
             value: The tcpIpNdpPacket to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10447,10 +10447,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_prefix(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpPrefix with validation.
-        
+
         Args:
             value: The tcpIpNdpPrefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10476,10 +10476,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_rnd_rtr(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdpRndRtr with validation.
-        
+
         Args:
             value: The tcpIpNdpRndRtr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10503,10 +10503,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_rtr(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpNdpRtr with validation.
-        
+
         Args:
             value: The tcpIpNdpRtr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10530,10 +10530,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_slaac(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdpSlaac with validation.
-        
+
         Args:
             value: The tcpIpNdpSlaac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -10552,10 +10552,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpDefault(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpNdpDefault.
-        
+
         Returns:
             The tcpIpNdpDefault value
-        
+
         Note:
             Delegates to tcp_ip_ndp_default property (CODING_RULE_V2_00017)
         """
@@ -10564,13 +10564,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpDefault(self, value: "TimeValue") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpDefault with method chaining.
-        
+
         Args:
             value: The tcpIpNdpDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_default property setter (gets validation automatically)
         """
@@ -10580,10 +10580,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpDefaultRouterListSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpDefaultRouterListSize.
-        
+
         Returns:
             The tcpIpNdpDefaultRouterListSize value
-        
+
         Note:
             Delegates to tcp_ip_ndp_default_router_list_size property (CODING_RULE_V2_00017)
         """
@@ -10592,13 +10592,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpDefaultRouterListSize(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpDefaultRouterListSize with method chaining.
-        
+
         Args:
             value: The tcpIpNdpDefaultRouterListSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_default_router_list_size property setter (gets validation automatically)
         """
@@ -10608,10 +10608,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdp.
-        
+
         Returns:
             The tcpIpNdp value
-        
+
         Note:
             Delegates to tcp_ip_ndp property (CODING_RULE_V2_00017)
         """
@@ -10620,13 +10620,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdp(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdp with method chaining.
-        
+
         Args:
             value: The tcpIpNdp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp property setter (gets validation automatically)
         """
@@ -10636,10 +10636,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpDelayFirstProbeTimeValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpNdpDelayFirstProbeTimeValue.
-        
+
         Returns:
             The tcpIpNdpDelayFirstProbeTimeValue value
-        
+
         Note:
             Delegates to tcp_ip_ndp_delay_first_probe_time_value property (CODING_RULE_V2_00017)
         """
@@ -10648,13 +10648,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpDelayFirstProbeTimeValue(self, value: "TimeValue") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpDelayFirstProbeTimeValue with method chaining.
-        
+
         Args:
             value: The tcpIpNdpDelayFirstProbeTimeValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_delay_first_probe_time_value property setter (gets validation automatically)
         """
@@ -10664,10 +10664,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpMaxRandomFactor(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpMaxRandomFactor.
-        
+
         Returns:
             The tcpIpNdpMaxRandomFactor value
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_random_factor property (CODING_RULE_V2_00017)
         """
@@ -10676,13 +10676,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpMaxRandomFactor(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpMaxRandomFactor with method chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_random_factor property setter (gets validation automatically)
         """
@@ -10692,10 +10692,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpMaxRtr(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpMaxRtr.
-        
+
         Returns:
             The tcpIpNdpMaxRtr value
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_rtr property (CODING_RULE_V2_00017)
         """
@@ -10704,13 +10704,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpMaxRtr(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpMaxRtr with method chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_rtr property setter (gets validation automatically)
         """
@@ -10720,10 +10720,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpMinRandomFactor(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpMinRandomFactor.
-        
+
         Returns:
             The tcpIpNdpMinRandomFactor value
-        
+
         Note:
             Delegates to tcp_ip_ndp_min_random_factor property (CODING_RULE_V2_00017)
         """
@@ -10732,13 +10732,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpMinRandomFactor(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpMinRandomFactor with method chaining.
-        
+
         Args:
             value: The tcpIpNdpMinRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_min_random_factor property setter (gets validation automatically)
         """
@@ -10748,10 +10748,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpNum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpNum.
-        
+
         Returns:
             The tcpIpNdpNum value
-        
+
         Note:
             Delegates to tcp_ip_ndp_num property (CODING_RULE_V2_00017)
         """
@@ -10760,13 +10760,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpNum(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpNum with method chaining.
-        
+
         Args:
             value: The tcpIpNdpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_num property setter (gets validation automatically)
         """
@@ -10776,10 +10776,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpPacket(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdpPacket.
-        
+
         Returns:
             The tcpIpNdpPacket value
-        
+
         Note:
             Delegates to tcp_ip_ndp_packet property (CODING_RULE_V2_00017)
         """
@@ -10788,13 +10788,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpPacket(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpPacket with method chaining.
-        
+
         Args:
             value: The tcpIpNdpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_packet property setter (gets validation automatically)
         """
@@ -10804,10 +10804,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpPrefix(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpPrefix.
-        
+
         Returns:
             The tcpIpNdpPrefix value
-        
+
         Note:
             Delegates to tcp_ip_ndp_prefix property (CODING_RULE_V2_00017)
         """
@@ -10816,13 +10816,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpPrefix(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpPrefix with method chaining.
-        
+
         Args:
             value: The tcpIpNdpPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_prefix property setter (gets validation automatically)
         """
@@ -10832,10 +10832,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpRndRtr(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdpRndRtr.
-        
+
         Returns:
             The tcpIpNdpRndRtr value
-        
+
         Note:
             Delegates to tcp_ip_ndp_rnd_rtr property (CODING_RULE_V2_00017)
         """
@@ -10844,13 +10844,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpRndRtr(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpRndRtr with method chaining.
-        
+
         Args:
             value: The tcpIpNdpRndRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_rnd_rtr property setter (gets validation automatically)
         """
@@ -10860,10 +10860,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpRtr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpNdpRtr.
-        
+
         Returns:
             The tcpIpNdpRtr value
-        
+
         Note:
             Delegates to tcp_ip_ndp_rtr property (CODING_RULE_V2_00017)
         """
@@ -10872,13 +10872,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpRtr(self, value: "TimeValue") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpRtr with method chaining.
-        
+
         Args:
             value: The tcpIpNdpRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_rtr property setter (gets validation automatically)
         """
@@ -10888,10 +10888,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpSlaac(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdpSlaac.
-        
+
         Returns:
             The tcpIpNdpSlaac value
-        
+
         Note:
             Delegates to tcp_ip_ndp_slaac property (CODING_RULE_V2_00017)
         """
@@ -10900,13 +10900,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpSlaac(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpSlaac with method chaining.
-        
+
         Args:
             value: The tcpIpNdpSlaac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_slaac property setter (gets validation automatically)
         """
@@ -10918,13 +10918,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_default(self, value: Optional["TimeValue"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpDefault and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_default("value")
         """
@@ -10934,13 +10934,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_default_router_list_size(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpDefaultRouterListSize and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpDefaultRouterListSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_default_router_list_size("value")
         """
@@ -10950,13 +10950,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdp and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp("value")
         """
@@ -10966,13 +10966,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_delay_first_probe_time_value(self, value: Optional["TimeValue"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpDelayFirstProbeTimeValue and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpDelayFirstProbeTimeValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_delay_first_probe_time_value("value")
         """
@@ -10982,13 +10982,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_max_random_factor(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpMaxRandomFactor and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_max_random_factor("value")
         """
@@ -10998,13 +10998,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_max_rtr(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpMaxRtr and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_max_rtr("value")
         """
@@ -11014,13 +11014,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_min_random_factor(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpMinRandomFactor and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpMinRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_min_random_factor("value")
         """
@@ -11030,13 +11030,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_num(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpNum and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_num("value")
         """
@@ -11046,13 +11046,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_packet(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpPacket and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_packet("value")
         """
@@ -11062,13 +11062,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_prefix(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpPrefix and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_prefix("value")
         """
@@ -11078,13 +11078,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_rnd_rtr(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpRndRtr and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpRndRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_rnd_rtr("value")
         """
@@ -11094,13 +11094,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_rtr(self, value: Optional["TimeValue"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpRtr and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_rtr("value")
         """
@@ -11110,13 +11110,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_slaac(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpSlaac and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpSlaac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_slaac("value")
         """
@@ -11129,9 +11129,9 @@ class EthTcpIpProps(ARElement):
     """
     This meta-class is used to configure the EcuInstance specific TcpIp Stack
     attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthTcpIpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 153, Classic Platform R23-11)
     """
@@ -11151,10 +11151,10 @@ class EthTcpIpProps(ARElement):
     def tcp_props(self, value: Optional["TcpProps"]) -> None:
         """
         Set tcpProps with validation.
-        
+
         Args:
             value: The tcpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11178,10 +11178,10 @@ class EthTcpIpProps(ARElement):
     def udp_props(self, value: Optional["UdpProps"]) -> None:
         """
         Set udpProps with validation.
-        
+
         Args:
             value: The udpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11200,10 +11200,10 @@ class EthTcpIpProps(ARElement):
     def getTcpProps(self) -> "TcpProps":
         """
         AUTOSAR-compliant getter for tcpProps.
-        
+
         Returns:
             The tcpProps value
-        
+
         Note:
             Delegates to tcp_props property (CODING_RULE_V2_00017)
         """
@@ -11212,13 +11212,13 @@ class EthTcpIpProps(ARElement):
     def setTcpProps(self, value: "TcpProps") -> "EthTcpIpProps":
         """
         AUTOSAR-compliant setter for tcpProps with method chaining.
-        
+
         Args:
             value: The tcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_props property setter (gets validation automatically)
         """
@@ -11228,10 +11228,10 @@ class EthTcpIpProps(ARElement):
     def getUdpProps(self) -> "UdpProps":
         """
         AUTOSAR-compliant getter for udpProps.
-        
+
         Returns:
             The udpProps value
-        
+
         Note:
             Delegates to udp_props property (CODING_RULE_V2_00017)
         """
@@ -11240,13 +11240,13 @@ class EthTcpIpProps(ARElement):
     def setUdpProps(self, value: "UdpProps") -> "EthTcpIpProps":
         """
         AUTOSAR-compliant setter for udpProps with method chaining.
-        
+
         Args:
             value: The udpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_props property setter (gets validation automatically)
         """
@@ -11258,13 +11258,13 @@ class EthTcpIpProps(ARElement):
     def with_tcp_props(self, value: Optional["TcpProps"]) -> "EthTcpIpProps":
         """
         Set tcpProps and return self for chaining.
-        
+
         Args:
             value: The tcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_props("value")
         """
@@ -11274,13 +11274,13 @@ class EthTcpIpProps(ARElement):
     def with_udp_props(self, value: Optional["UdpProps"]) -> "EthTcpIpProps":
         """
         Set udpProps and return self for chaining.
-        
+
         Args:
             value: The udpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_props("value")
         """
@@ -11293,9 +11293,9 @@ class UdpProps(ARObject):
     """
     This meta-class specifies the configuration options for UDP (User Datagram
     Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::UdpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 154, Classic Platform R23-11)
     """
@@ -11315,10 +11315,10 @@ class UdpProps(ARObject):
     def udp_ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set udpTtl with validation.
-        
+
         Args:
             value: The udpTtl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11337,10 +11337,10 @@ class UdpProps(ARObject):
     def getUdpTtl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for udpTtl.
-        
+
         Returns:
             The udpTtl value
-        
+
         Note:
             Delegates to udp_ttl property (CODING_RULE_V2_00017)
         """
@@ -11349,13 +11349,13 @@ class UdpProps(ARObject):
     def setUdpTtl(self, value: "PositiveInteger") -> "UdpProps":
         """
         AUTOSAR-compliant setter for udpTtl with method chaining.
-        
+
         Args:
             value: The udpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_ttl property setter (gets validation automatically)
         """
@@ -11367,13 +11367,13 @@ class UdpProps(ARObject):
     def with_udp_ttl(self, value: Optional["PositiveInteger"]) -> "UdpProps":
         """
         Set udpTtl and return self for chaining.
-        
+
         Args:
             value: The udpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_ttl("value")
         """
@@ -11386,9 +11386,9 @@ class TcpProps(ARObject):
     """
     This meta-class specifies the configuration options for TCP (Transmission
     Control Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 154, Classic Platform R23-11)
     """
@@ -11409,10 +11409,10 @@ class TcpProps(ARObject):
     def tcp_congestion(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpCongestion with validation.
-        
+
         Args:
             value: The tcpCongestion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11436,10 +11436,10 @@ class TcpProps(ARObject):
     def tcp_delayed_ack(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpDelayedAck with validation.
-        
+
         Args:
             value: The tcpDelayedAck to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11464,10 +11464,10 @@ class TcpProps(ARObject):
     def tcp_fast(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpFast with validation.
-        
+
         Args:
             value: The tcpFast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11494,10 +11494,10 @@ class TcpProps(ARObject):
     def tcp_fin(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpFin with validation.
-        
+
         Args:
             value: The tcpFin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11522,10 +11522,10 @@ class TcpProps(ARObject):
     def tcp_keep_alive(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpKeepAlive with validation.
-        
+
         Args:
             value: The tcpKeepAlive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11551,10 +11551,10 @@ class TcpProps(ARObject):
     def tcp_max_rtx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpMaxRtx with validation.
-        
+
         Args:
             value: The tcpMaxRtx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11579,10 +11579,10 @@ class TcpProps(ARObject):
     def tcp_msl(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpMsl with validation.
-        
+
         Args:
             value: The tcpMsl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11613,10 +11613,10 @@ class TcpProps(ARObject):
     def tcp_nagle(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpNagle with validation.
-        
+
         Args:
             value: The tcpNagle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11640,10 +11640,10 @@ class TcpProps(ARObject):
     def tcp_receive_window_max(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpReceiveWindowMax with validation.
-        
+
         Args:
             value: The tcpReceiveWindowMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11668,10 +11668,10 @@ class TcpProps(ARObject):
     def tcp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcp with validation.
-        
+
         Args:
             value: The tcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11696,10 +11696,10 @@ class TcpProps(ARObject):
     def tcp_slow_start(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpSlowStart with validation.
-        
+
         Args:
             value: The tcpSlowStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11723,10 +11723,10 @@ class TcpProps(ARObject):
     def tcp_syn_max_rtx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpSynMaxRtx with validation.
-        
+
         Args:
             value: The tcpSynMaxRtx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11753,10 +11753,10 @@ class TcpProps(ARObject):
     def tcp_syn_received(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpSynReceived with validation.
-        
+
         Args:
             value: The tcpSynReceived to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11780,10 +11780,10 @@ class TcpProps(ARObject):
     def tcp_ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpTtl with validation.
-        
+
         Args:
             value: The tcpTtl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -11802,10 +11802,10 @@ class TcpProps(ARObject):
     def getTcpCongestion(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpCongestion.
-        
+
         Returns:
             The tcpCongestion value
-        
+
         Note:
             Delegates to tcp_congestion property (CODING_RULE_V2_00017)
         """
@@ -11814,13 +11814,13 @@ class TcpProps(ARObject):
     def setTcpCongestion(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpCongestion with method chaining.
-        
+
         Args:
             value: The tcpCongestion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_congestion property setter (gets validation automatically)
         """
@@ -11830,10 +11830,10 @@ class TcpProps(ARObject):
     def getTcpDelayedAck(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpDelayedAck.
-        
+
         Returns:
             The tcpDelayedAck value
-        
+
         Note:
             Delegates to tcp_delayed_ack property (CODING_RULE_V2_00017)
         """
@@ -11842,13 +11842,13 @@ class TcpProps(ARObject):
     def setTcpDelayedAck(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpDelayedAck with method chaining.
-        
+
         Args:
             value: The tcpDelayedAck to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_delayed_ack property setter (gets validation automatically)
         """
@@ -11858,10 +11858,10 @@ class TcpProps(ARObject):
     def getTcpFast(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpFast.
-        
+
         Returns:
             The tcpFast value
-        
+
         Note:
             Delegates to tcp_fast property (CODING_RULE_V2_00017)
         """
@@ -11870,13 +11870,13 @@ class TcpProps(ARObject):
     def setTcpFast(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpFast with method chaining.
-        
+
         Args:
             value: The tcpFast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_fast property setter (gets validation automatically)
         """
@@ -11886,10 +11886,10 @@ class TcpProps(ARObject):
     def getTcpFin(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpFin.
-        
+
         Returns:
             The tcpFin value
-        
+
         Note:
             Delegates to tcp_fin property (CODING_RULE_V2_00017)
         """
@@ -11898,13 +11898,13 @@ class TcpProps(ARObject):
     def setTcpFin(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpFin with method chaining.
-        
+
         Args:
             value: The tcpFin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_fin property setter (gets validation automatically)
         """
@@ -11914,10 +11914,10 @@ class TcpProps(ARObject):
     def getTcpKeepAlive(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpKeepAlive.
-        
+
         Returns:
             The tcpKeepAlive value
-        
+
         Note:
             Delegates to tcp_keep_alive property (CODING_RULE_V2_00017)
         """
@@ -11926,13 +11926,13 @@ class TcpProps(ARObject):
     def setTcpKeepAlive(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpKeepAlive with method chaining.
-        
+
         Args:
             value: The tcpKeepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_keep_alive property setter (gets validation automatically)
         """
@@ -11942,10 +11942,10 @@ class TcpProps(ARObject):
     def getTcpMaxRtx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpMaxRtx.
-        
+
         Returns:
             The tcpMaxRtx value
-        
+
         Note:
             Delegates to tcp_max_rtx property (CODING_RULE_V2_00017)
         """
@@ -11954,13 +11954,13 @@ class TcpProps(ARObject):
     def setTcpMaxRtx(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpMaxRtx with method chaining.
-        
+
         Args:
             value: The tcpMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_max_rtx property setter (gets validation automatically)
         """
@@ -11970,10 +11970,10 @@ class TcpProps(ARObject):
     def getTcpMsl(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpMsl.
-        
+
         Returns:
             The tcpMsl value
-        
+
         Note:
             Delegates to tcp_msl property (CODING_RULE_V2_00017)
         """
@@ -11982,13 +11982,13 @@ class TcpProps(ARObject):
     def setTcpMsl(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpMsl with method chaining.
-        
+
         Args:
             value: The tcpMsl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_msl property setter (gets validation automatically)
         """
@@ -11998,10 +11998,10 @@ class TcpProps(ARObject):
     def getTcpNagle(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpNagle.
-        
+
         Returns:
             The tcpNagle value
-        
+
         Note:
             Delegates to tcp_nagle property (CODING_RULE_V2_00017)
         """
@@ -12010,13 +12010,13 @@ class TcpProps(ARObject):
     def setTcpNagle(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpNagle with method chaining.
-        
+
         Args:
             value: The tcpNagle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_nagle property setter (gets validation automatically)
         """
@@ -12026,10 +12026,10 @@ class TcpProps(ARObject):
     def getTcpReceiveWindowMax(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpReceiveWindowMax.
-        
+
         Returns:
             The tcpReceiveWindowMax value
-        
+
         Note:
             Delegates to tcp_receive_window_max property (CODING_RULE_V2_00017)
         """
@@ -12038,13 +12038,13 @@ class TcpProps(ARObject):
     def setTcpReceiveWindowMax(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpReceiveWindowMax with method chaining.
-        
+
         Args:
             value: The tcpReceiveWindowMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_receive_window_max property setter (gets validation automatically)
         """
@@ -12054,10 +12054,10 @@ class TcpProps(ARObject):
     def getTcp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcp.
-        
+
         Returns:
             The tcp value
-        
+
         Note:
             Delegates to tcp property (CODING_RULE_V2_00017)
         """
@@ -12066,13 +12066,13 @@ class TcpProps(ARObject):
     def setTcp(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcp with method chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp property setter (gets validation automatically)
         """
@@ -12082,10 +12082,10 @@ class TcpProps(ARObject):
     def getTcpSlowStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpSlowStart.
-        
+
         Returns:
             The tcpSlowStart value
-        
+
         Note:
             Delegates to tcp_slow_start property (CODING_RULE_V2_00017)
         """
@@ -12094,13 +12094,13 @@ class TcpProps(ARObject):
     def setTcpSlowStart(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpSlowStart with method chaining.
-        
+
         Args:
             value: The tcpSlowStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_slow_start property setter (gets validation automatically)
         """
@@ -12110,10 +12110,10 @@ class TcpProps(ARObject):
     def getTcpSynMaxRtx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpSynMaxRtx.
-        
+
         Returns:
             The tcpSynMaxRtx value
-        
+
         Note:
             Delegates to tcp_syn_max_rtx property (CODING_RULE_V2_00017)
         """
@@ -12122,13 +12122,13 @@ class TcpProps(ARObject):
     def setTcpSynMaxRtx(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpSynMaxRtx with method chaining.
-        
+
         Args:
             value: The tcpSynMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_syn_max_rtx property setter (gets validation automatically)
         """
@@ -12138,10 +12138,10 @@ class TcpProps(ARObject):
     def getTcpSynReceived(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpSynReceived.
-        
+
         Returns:
             The tcpSynReceived value
-        
+
         Note:
             Delegates to tcp_syn_received property (CODING_RULE_V2_00017)
         """
@@ -12150,13 +12150,13 @@ class TcpProps(ARObject):
     def setTcpSynReceived(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpSynReceived with method chaining.
-        
+
         Args:
             value: The tcpSynReceived to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_syn_received property setter (gets validation automatically)
         """
@@ -12166,10 +12166,10 @@ class TcpProps(ARObject):
     def getTcpTtl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpTtl.
-        
+
         Returns:
             The tcpTtl value
-        
+
         Note:
             Delegates to tcp_ttl property (CODING_RULE_V2_00017)
         """
@@ -12178,13 +12178,13 @@ class TcpProps(ARObject):
     def setTcpTtl(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpTtl with method chaining.
-        
+
         Args:
             value: The tcpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ttl property setter (gets validation automatically)
         """
@@ -12196,13 +12196,13 @@ class TcpProps(ARObject):
     def with_tcp_congestion(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpCongestion and return self for chaining.
-        
+
         Args:
             value: The tcpCongestion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_congestion("value")
         """
@@ -12212,13 +12212,13 @@ class TcpProps(ARObject):
     def with_tcp_delayed_ack(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpDelayedAck and return self for chaining.
-        
+
         Args:
             value: The tcpDelayedAck to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_delayed_ack("value")
         """
@@ -12228,13 +12228,13 @@ class TcpProps(ARObject):
     def with_tcp_fast(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpFast and return self for chaining.
-        
+
         Args:
             value: The tcpFast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_fast("value")
         """
@@ -12244,13 +12244,13 @@ class TcpProps(ARObject):
     def with_tcp_fin(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpFin and return self for chaining.
-        
+
         Args:
             value: The tcpFin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_fin("value")
         """
@@ -12260,13 +12260,13 @@ class TcpProps(ARObject):
     def with_tcp_keep_alive(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpKeepAlive and return self for chaining.
-        
+
         Args:
             value: The tcpKeepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_keep_alive("value")
         """
@@ -12276,13 +12276,13 @@ class TcpProps(ARObject):
     def with_tcp_max_rtx(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpMaxRtx and return self for chaining.
-        
+
         Args:
             value: The tcpMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_max_rtx("value")
         """
@@ -12292,13 +12292,13 @@ class TcpProps(ARObject):
     def with_tcp_msl(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpMsl and return self for chaining.
-        
+
         Args:
             value: The tcpMsl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_msl("value")
         """
@@ -12308,13 +12308,13 @@ class TcpProps(ARObject):
     def with_tcp_nagle(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpNagle and return self for chaining.
-        
+
         Args:
             value: The tcpNagle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_nagle("value")
         """
@@ -12324,13 +12324,13 @@ class TcpProps(ARObject):
     def with_tcp_receive_window_max(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpReceiveWindowMax and return self for chaining.
-        
+
         Args:
             value: The tcpReceiveWindowMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_receive_window_max("value")
         """
@@ -12340,13 +12340,13 @@ class TcpProps(ARObject):
     def with_tcp(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcp and return self for chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp("value")
         """
@@ -12356,13 +12356,13 @@ class TcpProps(ARObject):
     def with_tcp_slow_start(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpSlowStart and return self for chaining.
-        
+
         Args:
             value: The tcpSlowStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_slow_start("value")
         """
@@ -12372,13 +12372,13 @@ class TcpProps(ARObject):
     def with_tcp_syn_max_rtx(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpSynMaxRtx and return self for chaining.
-        
+
         Args:
             value: The tcpSynMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_syn_max_rtx("value")
         """
@@ -12388,13 +12388,13 @@ class TcpProps(ARObject):
     def with_tcp_syn_received(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpSynReceived and return self for chaining.
-        
+
         Args:
             value: The tcpSynReceived to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_syn_received("value")
         """
@@ -12404,13 +12404,13 @@ class TcpProps(ARObject):
     def with_tcp_ttl(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpTtl and return self for chaining.
-        
+
         Args:
             value: The tcpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ttl("value")
         """
@@ -12423,9 +12423,9 @@ class EthTcpIpIcmpProps(ARElement):
     """
     This meta-class is used to configure the EcuInstance specific ICMP (Internet
     Control Message Protocol) attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthTcpIpIcmpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 156, Classic Platform R23-11)
     """
@@ -12445,10 +12445,10 @@ class EthTcpIpIcmpProps(ARElement):
     def icmp_v4_props(self, value: Optional["TcpIpIcmpv4Props"]) -> None:
         """
         Set icmpV4Props with validation.
-        
+
         Args:
             value: The icmpV4Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12473,10 +12473,10 @@ class EthTcpIpIcmpProps(ARElement):
     def icmp_v6_props(self, value: Optional["TcpIpIcmpv6Props"]) -> None:
         """
         Set icmpV6Props with validation.
-        
+
         Args:
             value: The icmpV6Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12495,10 +12495,10 @@ class EthTcpIpIcmpProps(ARElement):
     def getIcmpV4Props(self) -> "TcpIpIcmpv4Props":
         """
         AUTOSAR-compliant getter for icmpV4Props.
-        
+
         Returns:
             The icmpV4Props value
-        
+
         Note:
             Delegates to icmp_v4_props property (CODING_RULE_V2_00017)
         """
@@ -12507,13 +12507,13 @@ class EthTcpIpIcmpProps(ARElement):
     def setIcmpV4Props(self, value: "TcpIpIcmpv4Props") -> "EthTcpIpIcmpProps":
         """
         AUTOSAR-compliant setter for icmpV4Props with method chaining.
-        
+
         Args:
             value: The icmpV4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to icmp_v4_props property setter (gets validation automatically)
         """
@@ -12523,10 +12523,10 @@ class EthTcpIpIcmpProps(ARElement):
     def getIcmpV6Props(self) -> "TcpIpIcmpv6Props":
         """
         AUTOSAR-compliant getter for icmpV6Props.
-        
+
         Returns:
             The icmpV6Props value
-        
+
         Note:
             Delegates to icmp_v6_props property (CODING_RULE_V2_00017)
         """
@@ -12535,13 +12535,13 @@ class EthTcpIpIcmpProps(ARElement):
     def setIcmpV6Props(self, value: "TcpIpIcmpv6Props") -> "EthTcpIpIcmpProps":
         """
         AUTOSAR-compliant setter for icmpV6Props with method chaining.
-        
+
         Args:
             value: The icmpV6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to icmp_v6_props property setter (gets validation automatically)
         """
@@ -12553,13 +12553,13 @@ class EthTcpIpIcmpProps(ARElement):
     def with_icmp_v4_props(self, value: Optional["TcpIpIcmpv4Props"]) -> "EthTcpIpIcmpProps":
         """
         Set icmpV4Props and return self for chaining.
-        
+
         Args:
             value: The icmpV4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_icmp_v4_props("value")
         """
@@ -12569,13 +12569,13 @@ class EthTcpIpIcmpProps(ARElement):
     def with_icmp_v6_props(self, value: Optional["TcpIpIcmpv6Props"]) -> "EthTcpIpIcmpProps":
         """
         Set icmpV6Props and return self for chaining.
-        
+
         Args:
             value: The icmpV6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_icmp_v6_props("value")
         """
@@ -12588,9 +12588,9 @@ class TcpIpIcmpv4Props(ARObject):
     """
     This meta-class specifies the configuration options for ICMPv4 (Internet
     Control Message Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpIpIcmpv4Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 156, Classic Platform R23-11)
     """
@@ -12611,10 +12611,10 @@ class TcpIpIcmpv4Props(ARObject):
     def tcp_ip_icmp(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpIcmp with validation.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12640,10 +12640,10 @@ class TcpIpIcmpv4Props(ARObject):
     def tcp_ip_icmp_v4_ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIcmpV4Ttl with validation.
-        
+
         Args:
             value: The tcpIpIcmpV4Ttl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12662,10 +12662,10 @@ class TcpIpIcmpv4Props(ARObject):
     def getTcpIpIcmp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpIcmp.
-        
+
         Returns:
             The tcpIpIcmp value
-        
+
         Note:
             Delegates to tcp_ip_icmp property (CODING_RULE_V2_00017)
         """
@@ -12674,13 +12674,13 @@ class TcpIpIcmpv4Props(ARObject):
     def setTcpIpIcmp(self, value: "Boolean") -> "TcpIpIcmpv4Props":
         """
         AUTOSAR-compliant setter for tcpIpIcmp with method chaining.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_icmp property setter (gets validation automatically)
         """
@@ -12690,10 +12690,10 @@ class TcpIpIcmpv4Props(ARObject):
     def getTcpIpIcmpV4Ttl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIcmpV4Ttl.
-        
+
         Returns:
             The tcpIpIcmpV4Ttl value
-        
+
         Note:
             Delegates to tcp_ip_icmp_v4_ttl property (CODING_RULE_V2_00017)
         """
@@ -12702,13 +12702,13 @@ class TcpIpIcmpv4Props(ARObject):
     def setTcpIpIcmpV4Ttl(self, value: "PositiveInteger") -> "TcpIpIcmpv4Props":
         """
         AUTOSAR-compliant setter for tcpIpIcmpV4Ttl with method chaining.
-        
+
         Args:
             value: The tcpIpIcmpV4Ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_icmp_v4_ttl property setter (gets validation automatically)
         """
@@ -12720,13 +12720,13 @@ class TcpIpIcmpv4Props(ARObject):
     def with_tcp_ip_icmp(self, value: Optional["Boolean"]) -> "TcpIpIcmpv4Props":
         """
         Set tcpIpIcmp and return self for chaining.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_icmp("value")
         """
@@ -12736,13 +12736,13 @@ class TcpIpIcmpv4Props(ARObject):
     def with_tcp_ip_icmp_v4_ttl(self, value: Optional["PositiveInteger"]) -> "TcpIpIcmpv4Props":
         """
         Set tcpIpIcmpV4Ttl and return self for chaining.
-        
+
         Args:
             value: The tcpIpIcmpV4Ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_icmp_v4_ttl("value")
         """
@@ -12755,9 +12755,9 @@ class TcpIpIcmpv6Props(ARObject):
     """
     This meta-class specifies the configuration options for ICMPv6 (Internet
     Control Message Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpIpIcmpv6Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 156, Classic Platform R23-11)
     """
@@ -12778,10 +12778,10 @@ class TcpIpIcmpv6Props(ARObject):
     def tcp_ip_icmp(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpIcmp with validation.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12800,10 +12800,10 @@ class TcpIpIcmpv6Props(ARObject):
     def getTcpIpIcmp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpIcmp.
-        
+
         Returns:
             The tcpIpIcmp value
-        
+
         Note:
             Delegates to tcp_ip_icmp property (CODING_RULE_V2_00017)
         """
@@ -12812,13 +12812,13 @@ class TcpIpIcmpv6Props(ARObject):
     def setTcpIpIcmp(self, value: "Boolean") -> "TcpIpIcmpv6Props":
         """
         AUTOSAR-compliant setter for tcpIpIcmp with method chaining.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_icmp property setter (gets validation automatically)
         """
@@ -12830,13 +12830,13 @@ class TcpIpIcmpv6Props(ARObject):
     def with_tcp_ip_icmp(self, value: Optional["Boolean"]) -> "TcpIpIcmpv6Props":
         """
         Set tcpIpIcmp and return self for chaining.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_icmp("value")
         """
@@ -12852,9 +12852,9 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     EthernetWakeupSleepOnDatalineConfigSet could aggregate multiple different
     configurations regarding the wakeup and sleep on dataline
     (EthernetWakeupSleepOnDatalineConfig).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetWakeupSleepOnDatalineConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 158, Classic Platform R23-11)
     """
@@ -12879,10 +12879,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def sleep_mode(self, value: Optional["TimeValue"]) -> None:
         """
         Set sleepMode with validation.
-        
+
         Args:
             value: The sleepMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12908,10 +12908,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def sleep_repetition(self, value: Optional["TimeValue"]) -> None:
         """
         Set sleepRepetition with validation.
-        
+
         Args:
             value: The sleepRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12939,10 +12939,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def sleep(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sleep with validation.
-        
+
         Args:
             value: The sleep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -12969,10 +12969,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup_forward(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeupForward with validation.
-        
+
         Args:
             value: The wakeupForward to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13000,10 +13000,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup_local(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeupLocal with validation.
-        
+
         Args:
             value: The wakeupLocal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13030,10 +13030,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup_remote(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeupRemote with validation.
-        
+
         Args:
             value: The wakeupRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13060,10 +13060,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set wakeup with validation.
-        
+
         Args:
             value: The wakeup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13082,10 +13082,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getSleepMode(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sleepMode.
-        
+
         Returns:
             The sleepMode value
-        
+
         Note:
             Delegates to sleep_mode property (CODING_RULE_V2_00017)
         """
@@ -13094,13 +13094,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setSleepMode(self, value: "TimeValue") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for sleepMode with method chaining.
-        
+
         Args:
             value: The sleepMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sleep_mode property setter (gets validation automatically)
         """
@@ -13110,10 +13110,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getSleepRepetition(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sleepRepetition.
-        
+
         Returns:
             The sleepRepetition value
-        
+
         Note:
             Delegates to sleep_repetition property (CODING_RULE_V2_00017)
         """
@@ -13122,13 +13122,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setSleepRepetition(self, value: "TimeValue") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for sleepRepetition with method chaining.
-        
+
         Args:
             value: The sleepRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sleep_repetition property setter (gets validation automatically)
         """
@@ -13138,10 +13138,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getSleep(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sleep.
-        
+
         Returns:
             The sleep value
-        
+
         Note:
             Delegates to sleep property (CODING_RULE_V2_00017)
         """
@@ -13150,13 +13150,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setSleep(self, value: "PositiveInteger") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for sleep with method chaining.
-        
+
         Args:
             value: The sleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sleep property setter (gets validation automatically)
         """
@@ -13166,10 +13166,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeupForward(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeupForward.
-        
+
         Returns:
             The wakeupForward value
-        
+
         Note:
             Delegates to wakeup_forward property (CODING_RULE_V2_00017)
         """
@@ -13178,13 +13178,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeupForward(self, value: "Boolean") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeupForward with method chaining.
-        
+
         Args:
             value: The wakeupForward to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_forward property setter (gets validation automatically)
         """
@@ -13194,10 +13194,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeupLocal(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeupLocal.
-        
+
         Returns:
             The wakeupLocal value
-        
+
         Note:
             Delegates to wakeup_local property (CODING_RULE_V2_00017)
         """
@@ -13206,13 +13206,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeupLocal(self, value: "Boolean") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeupLocal with method chaining.
-        
+
         Args:
             value: The wakeupLocal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_local property setter (gets validation automatically)
         """
@@ -13222,10 +13222,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeupRemote(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeupRemote.
-        
+
         Returns:
             The wakeupRemote value
-        
+
         Note:
             Delegates to wakeup_remote property (CODING_RULE_V2_00017)
         """
@@ -13234,13 +13234,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeupRemote(self, value: "Boolean") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeupRemote with method chaining.
-        
+
         Args:
             value: The wakeupRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_remote property setter (gets validation automatically)
         """
@@ -13250,10 +13250,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeup(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for wakeup.
-        
+
         Returns:
             The wakeup value
-        
+
         Note:
             Delegates to wakeup property (CODING_RULE_V2_00017)
         """
@@ -13262,13 +13262,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeup(self, value: "PositiveInteger") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeup with method chaining.
-        
+
         Args:
             value: The wakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup property setter (gets validation automatically)
         """
@@ -13280,13 +13280,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_sleep_mode(self, value: Optional["TimeValue"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set sleepMode and return self for chaining.
-        
+
         Args:
             value: The sleepMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sleep_mode("value")
         """
@@ -13296,13 +13296,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_sleep_repetition(self, value: Optional["TimeValue"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set sleepRepetition and return self for chaining.
-        
+
         Args:
             value: The sleepRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sleep_repetition("value")
         """
@@ -13312,13 +13312,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_sleep(self, value: Optional["PositiveInteger"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set sleep and return self for chaining.
-        
+
         Args:
             value: The sleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sleep("value")
         """
@@ -13328,13 +13328,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup_forward(self, value: Optional["Boolean"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeupForward and return self for chaining.
-        
+
         Args:
             value: The wakeupForward to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_forward("value")
         """
@@ -13344,13 +13344,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup_local(self, value: Optional["Boolean"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeupLocal and return self for chaining.
-        
+
         Args:
             value: The wakeupLocal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_local("value")
         """
@@ -13360,13 +13360,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup_remote(self, value: Optional["Boolean"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeupRemote and return self for chaining.
-        
+
         Args:
             value: The wakeupRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_remote("value")
         """
@@ -13376,13 +13376,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup(self, value: Optional["PositiveInteger"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeup and return self for chaining.
-        
+
         Args:
             value: The wakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup("value")
         """
@@ -13395,9 +13395,9 @@ class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
     """
     This meta-class is the main element that aggregates different config set
     regarding the ethernet wakeup and sleep on data line.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetWakeupSleepOnDatalineConfigSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 159, Classic Platform R23-11)
     """
@@ -13419,10 +13419,10 @@ class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
     def getEthernet(self) -> List["EthernetWakeupSleep"]:
         """
         AUTOSAR-compliant getter for ethernet.
-        
+
         Returns:
             The ethernet value
-        
+
         Note:
             Delegates to ethernet property (CODING_RULE_V2_00017)
         """
@@ -13437,9 +13437,9 @@ class PlcaProps(ARObject):
     This meta-class allows to configure the PLCA (Physical Layer Collision
     Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the
     CouplingPort (PHY).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::PlcaProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 169, Classic Platform R23-11)
     """
@@ -13459,10 +13459,10 @@ class PlcaProps(ARObject):
     def plca_local_node(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaLocalNode with validation.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13488,10 +13488,10 @@ class PlcaProps(ARObject):
     def plca_max_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaMaxBurst with validation.
-        
+
         Args:
             value: The plcaMaxBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13510,10 +13510,10 @@ class PlcaProps(ARObject):
     def getPlcaLocalNode(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaLocalNode.
-        
+
         Returns:
             The plcaLocalNode value
-        
+
         Note:
             Delegates to plca_local_node property (CODING_RULE_V2_00017)
         """
@@ -13522,13 +13522,13 @@ class PlcaProps(ARObject):
     def setPlcaLocalNode(self, value: "PositiveInteger") -> "PlcaProps":
         """
         AUTOSAR-compliant setter for plcaLocalNode with method chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_local_node property setter (gets validation automatically)
         """
@@ -13538,10 +13538,10 @@ class PlcaProps(ARObject):
     def getPlcaMaxBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaMaxBurst.
-        
+
         Returns:
             The plcaMaxBurst value
-        
+
         Note:
             Delegates to plca_max_burst property (CODING_RULE_V2_00017)
         """
@@ -13550,13 +13550,13 @@ class PlcaProps(ARObject):
     def setPlcaMaxBurst(self, value: "PositiveInteger") -> "PlcaProps":
         """
         AUTOSAR-compliant setter for plcaMaxBurst with method chaining.
-        
+
         Args:
             value: The plcaMaxBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_max_burst property setter (gets validation automatically)
         """
@@ -13568,13 +13568,13 @@ class PlcaProps(ARObject):
     def with_plca_local_node(self, value: Optional["PositiveInteger"]) -> "PlcaProps":
         """
         Set plcaLocalNode and return self for chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_local_node("value")
         """
@@ -13584,13 +13584,13 @@ class PlcaProps(ARObject):
     def with_plca_max_burst(self, value: Optional["PositiveInteger"]) -> "PlcaProps":
         """
         Set plcaMaxBurst and return self for chaining.
-        
+
         Args:
             value: The plcaMaxBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_max_burst("value")
         """
@@ -13604,9 +13604,9 @@ class ApplicationEndpoint(Identifiable):
     An application endpoint is the endpoint on an Ecu in terms of application
     addressing (e.g. socket). The application endpoint represents e.g. the
     listen socket in client-server-based communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::ApplicationEndpoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 457, Classic Platform R23-11)
     """
@@ -13637,10 +13637,10 @@ class ApplicationEndpoint(Identifiable):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13664,10 +13664,10 @@ class ApplicationEndpoint(Identifiable):
     def network_endpoint(self, value: Optional["NetworkEndpoint"]) -> None:
         """
         Set networkEndpoint with validation.
-        
+
         Args:
             value: The networkEndpoint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13691,10 +13691,10 @@ class ApplicationEndpoint(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13728,10 +13728,10 @@ class ApplicationEndpoint(Identifiable):
     def tls_crypto(self, value: Optional["TlsCryptoService"]) -> None:
         """
         Set tlsCrypto with validation.
-        
+
         Args:
             value: The tlsCrypto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13755,10 +13755,10 @@ class ApplicationEndpoint(Identifiable):
     def tp_configuration_configuration(self, value: Optional["TransportProtocol"]) -> None:
         """
         Set tpConfigurationConfiguration with validation.
-        
+
         Args:
             value: The tpConfigurationConfiguration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -13777,10 +13777,10 @@ class ApplicationEndpoint(Identifiable):
     def getConsumed(self) -> List["ConsumedService"]:
         """
         AUTOSAR-compliant getter for consumed.
-        
+
         Returns:
             The consumed value
-        
+
         Note:
             Delegates to consumed property (CODING_RULE_V2_00017)
         """
@@ -13789,10 +13789,10 @@ class ApplicationEndpoint(Identifiable):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -13801,13 +13801,13 @@ class ApplicationEndpoint(Identifiable):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -13817,10 +13817,10 @@ class ApplicationEndpoint(Identifiable):
     def getNetworkEndpoint(self) -> "NetworkEndpoint":
         """
         AUTOSAR-compliant getter for networkEndpoint.
-        
+
         Returns:
             The networkEndpoint value
-        
+
         Note:
             Delegates to network_endpoint property (CODING_RULE_V2_00017)
         """
@@ -13829,13 +13829,13 @@ class ApplicationEndpoint(Identifiable):
     def setNetworkEndpoint(self, value: "NetworkEndpoint") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for networkEndpoint with method chaining.
-        
+
         Args:
             value: The networkEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_endpoint property setter (gets validation automatically)
         """
@@ -13845,10 +13845,10 @@ class ApplicationEndpoint(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -13857,13 +13857,13 @@ class ApplicationEndpoint(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -13873,10 +13873,10 @@ class ApplicationEndpoint(Identifiable):
     def getProvidedService(self) -> List["ProvidedService"]:
         """
         AUTOSAR-compliant getter for providedService.
-        
+
         Returns:
             The providedService value
-        
+
         Note:
             Delegates to provided_service property (CODING_RULE_V2_00017)
         """
@@ -13885,10 +13885,10 @@ class ApplicationEndpoint(Identifiable):
     def getTlsCrypto(self) -> "TlsCryptoService":
         """
         AUTOSAR-compliant getter for tlsCrypto.
-        
+
         Returns:
             The tlsCrypto value
-        
+
         Note:
             Delegates to tls_crypto property (CODING_RULE_V2_00017)
         """
@@ -13897,13 +13897,13 @@ class ApplicationEndpoint(Identifiable):
     def setTlsCrypto(self, value: "TlsCryptoService") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for tlsCrypto with method chaining.
-        
+
         Args:
             value: The tlsCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tls_crypto property setter (gets validation automatically)
         """
@@ -13913,10 +13913,10 @@ class ApplicationEndpoint(Identifiable):
     def getTpConfigurationConfiguration(self) -> "TransportProtocol":
         """
         AUTOSAR-compliant getter for tpConfigurationConfiguration.
-        
+
         Returns:
             The tpConfigurationConfiguration value
-        
+
         Note:
             Delegates to tp_configuration_configuration property (CODING_RULE_V2_00017)
         """
@@ -13925,13 +13925,13 @@ class ApplicationEndpoint(Identifiable):
     def setTpConfigurationConfiguration(self, value: "TransportProtocol") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for tpConfigurationConfiguration with method chaining.
-        
+
         Args:
             value: The tpConfigurationConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_configuration_configuration property setter (gets validation automatically)
         """
@@ -13943,13 +13943,13 @@ class ApplicationEndpoint(Identifiable):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "ApplicationEndpoint":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -13959,13 +13959,13 @@ class ApplicationEndpoint(Identifiable):
     def with_network_endpoint(self, value: Optional["NetworkEndpoint"]) -> "ApplicationEndpoint":
         """
         Set networkEndpoint and return self for chaining.
-        
+
         Args:
             value: The networkEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_endpoint("value")
         """
@@ -13975,13 +13975,13 @@ class ApplicationEndpoint(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "ApplicationEndpoint":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -13991,13 +13991,13 @@ class ApplicationEndpoint(Identifiable):
     def with_tls_crypto(self, value: Optional["TlsCryptoService"]) -> "ApplicationEndpoint":
         """
         Set tlsCrypto and return self for chaining.
-        
+
         Args:
             value: The tlsCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tls_crypto("value")
         """
@@ -14007,13 +14007,13 @@ class ApplicationEndpoint(Identifiable):
     def with_tp_configuration_configuration(self, value: Optional["TransportProtocol"]) -> "ApplicationEndpoint":
         """
         Set tpConfigurationConfiguration and return self for chaining.
-        
+
         Args:
             value: The tpConfigurationConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_configuration_configuration("value")
         """
@@ -14025,9 +14025,9 @@ class ApplicationEndpoint(Identifiable):
 class TransportProtocolConfiguration(ARObject, ABC):
     """
     Transport Protocol configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TransportProtocolConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 459, Classic Platform R23-11)
     """
@@ -14047,9 +14047,9 @@ class TransportProtocolConfiguration(ARObject, ABC):
 class TpPort(ARObject):
     """
     Dynamic or direct assignment of a PortNumber.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TpPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 461, Classic Platform R23-11)
     """
@@ -14069,10 +14069,10 @@ class TpPort(ARObject):
     def dynamically(self, value: Optional["Boolean"]) -> None:
         """
         Set dynamically with validation.
-        
+
         Args:
             value: The dynamically to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14096,10 +14096,10 @@ class TpPort(ARObject):
     def port_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set portNumber with validation.
-        
+
         Args:
             value: The portNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14118,10 +14118,10 @@ class TpPort(ARObject):
     def getDynamically(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dynamically.
-        
+
         Returns:
             The dynamically value
-        
+
         Note:
             Delegates to dynamically property (CODING_RULE_V2_00017)
         """
@@ -14130,13 +14130,13 @@ class TpPort(ARObject):
     def setDynamically(self, value: "Boolean") -> "TpPort":
         """
         AUTOSAR-compliant setter for dynamically with method chaining.
-        
+
         Args:
             value: The dynamically to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamically property setter (gets validation automatically)
         """
@@ -14146,10 +14146,10 @@ class TpPort(ARObject):
     def getPortNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for portNumber.
-        
+
         Returns:
             The portNumber value
-        
+
         Note:
             Delegates to port_number property (CODING_RULE_V2_00017)
         """
@@ -14158,13 +14158,13 @@ class TpPort(ARObject):
     def setPortNumber(self, value: "PositiveInteger") -> "TpPort":
         """
         AUTOSAR-compliant setter for portNumber with method chaining.
-        
+
         Args:
             value: The portNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_number property setter (gets validation automatically)
         """
@@ -14176,13 +14176,13 @@ class TpPort(ARObject):
     def with_dynamically(self, value: Optional["Boolean"]) -> "TpPort":
         """
         Set dynamically and return self for chaining.
-        
+
         Args:
             value: The dynamically to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamically("value")
         """
@@ -14192,13 +14192,13 @@ class TpPort(ARObject):
     def with_port_number(self, value: Optional["PositiveInteger"]) -> "TpPort":
         """
         Set portNumber and return self for chaining.
-        
+
         Args:
             value: The portNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_number("value")
         """
@@ -14211,9 +14211,9 @@ class NetworkEndpoint(Identifiable):
     """
     The network endpoint defines the network addressing (e.g. IP-Address or MAC
     multicast address).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::NetworkEndpoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 463, Classic Platform R23-11)
     """
@@ -14234,10 +14234,10 @@ class NetworkEndpoint(Identifiable):
     def fully_qualified(self, value: Optional["String"]) -> None:
         """
         Set fullyQualified with validation.
-        
+
         Args:
             value: The fullyQualified to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14261,10 +14261,10 @@ class NetworkEndpoint(Identifiable):
     def infrastructure(self, value: Optional["InfrastructureServices"]) -> None:
         """
         Set infrastructure with validation.
-        
+
         Args:
             value: The infrastructure to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14288,10 +14288,10 @@ class NetworkEndpoint(Identifiable):
     def ip_sec_config(self, value: Optional["IPSecConfig"]) -> None:
         """
         Set ipSecConfig with validation.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14324,10 +14324,10 @@ class NetworkEndpoint(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14346,10 +14346,10 @@ class NetworkEndpoint(Identifiable):
     def getFullyQualified(self) -> "String":
         """
         AUTOSAR-compliant getter for fullyQualified.
-        
+
         Returns:
             The fullyQualified value
-        
+
         Note:
             Delegates to fully_qualified property (CODING_RULE_V2_00017)
         """
@@ -14358,13 +14358,13 @@ class NetworkEndpoint(Identifiable):
     def setFullyQualified(self, value: "String") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for fullyQualified with method chaining.
-        
+
         Args:
             value: The fullyQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fully_qualified property setter (gets validation automatically)
         """
@@ -14374,10 +14374,10 @@ class NetworkEndpoint(Identifiable):
     def getInfrastructure(self) -> "InfrastructureServices":
         """
         AUTOSAR-compliant getter for infrastructure.
-        
+
         Returns:
             The infrastructure value
-        
+
         Note:
             Delegates to infrastructure property (CODING_RULE_V2_00017)
         """
@@ -14386,13 +14386,13 @@ class NetworkEndpoint(Identifiable):
     def setInfrastructure(self, value: "InfrastructureServices") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for infrastructure with method chaining.
-        
+
         Args:
             value: The infrastructure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to infrastructure property setter (gets validation automatically)
         """
@@ -14402,10 +14402,10 @@ class NetworkEndpoint(Identifiable):
     def getIpSecConfig(self) -> "IPSecConfig":
         """
         AUTOSAR-compliant getter for ipSecConfig.
-        
+
         Returns:
             The ipSecConfig value
-        
+
         Note:
             Delegates to ip_sec_config property (CODING_RULE_V2_00017)
         """
@@ -14414,13 +14414,13 @@ class NetworkEndpoint(Identifiable):
     def setIpSecConfig(self, value: "IPSecConfig") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for ipSecConfig with method chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_sec_config property setter (gets validation automatically)
         """
@@ -14430,10 +14430,10 @@ class NetworkEndpoint(Identifiable):
     def getNetwork(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -14442,10 +14442,10 @@ class NetworkEndpoint(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -14454,13 +14454,13 @@ class NetworkEndpoint(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -14472,13 +14472,13 @@ class NetworkEndpoint(Identifiable):
     def with_fully_qualified(self, value: Optional["String"]) -> "NetworkEndpoint":
         """
         Set fullyQualified and return self for chaining.
-        
+
         Args:
             value: The fullyQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fully_qualified("value")
         """
@@ -14488,13 +14488,13 @@ class NetworkEndpoint(Identifiable):
     def with_infrastructure(self, value: Optional["InfrastructureServices"]) -> "NetworkEndpoint":
         """
         Set infrastructure and return self for chaining.
-        
+
         Args:
             value: The infrastructure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_infrastructure("value")
         """
@@ -14504,13 +14504,13 @@ class NetworkEndpoint(Identifiable):
     def with_ip_sec_config(self, value: Optional["IPSecConfig"]) -> "NetworkEndpoint":
         """
         Set ipSecConfig and return self for chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_sec_config("value")
         """
@@ -14520,13 +14520,13 @@ class NetworkEndpoint(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "NetworkEndpoint":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -14539,9 +14539,9 @@ class NetworkEndpointAddress(ARObject, ABC):
     """
     To build a valid network endpoint address there has to be either one MAC
     multicast group reference or an ipv4 configuration or an ipv6 configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::NetworkEndpointAddress
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 464, Classic Platform R23-11)
     """
@@ -14561,9 +14561,9 @@ class NetworkEndpointAddress(ARObject, ABC):
 class InfrastructureServices(ARObject):
     """
     Defines the network infrastructure services provided or consumed.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::InfrastructureServices
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 469, Classic Platform R23-11)
     """
@@ -14583,10 +14583,10 @@ class InfrastructureServices(ARObject):
     def do_ip_entity(self, value: Optional["DoIpEntity"]) -> None:
         """
         Set doIpEntity with validation.
-        
+
         Args:
             value: The doIpEntity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14610,10 +14610,10 @@ class InfrastructureServices(ARObject):
     def time(self, value: Optional["TimeSynchronization"]) -> None:
         """
         Set time with validation.
-        
+
         Args:
             value: The time to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14632,10 +14632,10 @@ class InfrastructureServices(ARObject):
     def getDoIpEntity(self) -> "DoIpEntity":
         """
         AUTOSAR-compliant getter for doIpEntity.
-        
+
         Returns:
             The doIpEntity value
-        
+
         Note:
             Delegates to do_ip_entity property (CODING_RULE_V2_00017)
         """
@@ -14644,13 +14644,13 @@ class InfrastructureServices(ARObject):
     def setDoIpEntity(self, value: "DoIpEntity") -> "InfrastructureServices":
         """
         AUTOSAR-compliant setter for doIpEntity with method chaining.
-        
+
         Args:
             value: The doIpEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_entity property setter (gets validation automatically)
         """
@@ -14660,10 +14660,10 @@ class InfrastructureServices(ARObject):
     def getTime(self) -> "TimeSynchronization":
         """
         AUTOSAR-compliant getter for time.
-        
+
         Returns:
             The time value
-        
+
         Note:
             Delegates to time property (CODING_RULE_V2_00017)
         """
@@ -14672,13 +14672,13 @@ class InfrastructureServices(ARObject):
     def setTime(self, value: "TimeSynchronization") -> "InfrastructureServices":
         """
         AUTOSAR-compliant setter for time with method chaining.
-        
+
         Args:
             value: The time to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time property setter (gets validation automatically)
         """
@@ -14690,13 +14690,13 @@ class InfrastructureServices(ARObject):
     def with_do_ip_entity(self, value: Optional["DoIpEntity"]) -> "InfrastructureServices":
         """
         Set doIpEntity and return self for chaining.
-        
+
         Args:
             value: The doIpEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_entity("value")
         """
@@ -14706,13 +14706,13 @@ class InfrastructureServices(ARObject):
     def with_time(self, value: Optional["TimeSynchronization"]) -> "InfrastructureServices":
         """
         Set time and return self for chaining.
-        
+
         Args:
             value: The time to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time("value")
         """
@@ -14724,9 +14724,9 @@ class InfrastructureServices(ARObject):
 class TimeSynchronization(ARObject):
     """
     Defines the servers / clients in a time synchronised network.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TimeSynchronization
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 469, Classic Platform R23-11)
     """
@@ -14746,10 +14746,10 @@ class TimeSynchronization(ARObject):
     def time_sync_client_configuration(self, value: Optional["TimeSyncClient"]) -> None:
         """
         Set timeSyncClientConfiguration with validation.
-        
+
         Args:
             value: The timeSyncClientConfiguration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14773,10 +14773,10 @@ class TimeSynchronization(ARObject):
     def time_sync_server_configuration(self, value: Optional["TimeSyncServer"]) -> None:
         """
         Set timeSyncServerConfiguration with validation.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14795,10 +14795,10 @@ class TimeSynchronization(ARObject):
     def getTimeSyncClientConfiguration(self) -> "TimeSyncClient":
         """
         AUTOSAR-compliant getter for timeSyncClientConfiguration.
-        
+
         Returns:
             The timeSyncClientConfiguration value
-        
+
         Note:
             Delegates to time_sync_client_configuration property (CODING_RULE_V2_00017)
         """
@@ -14807,13 +14807,13 @@ class TimeSynchronization(ARObject):
     def setTimeSyncClientConfiguration(self, value: "TimeSyncClient") -> "TimeSynchronization":
         """
         AUTOSAR-compliant setter for timeSyncClientConfiguration with method chaining.
-        
+
         Args:
             value: The timeSyncClientConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync_client_configuration property setter (gets validation automatically)
         """
@@ -14823,10 +14823,10 @@ class TimeSynchronization(ARObject):
     def getTimeSyncServerConfiguration(self) -> "TimeSyncServer":
         """
         AUTOSAR-compliant getter for timeSyncServerConfiguration.
-        
+
         Returns:
             The timeSyncServerConfiguration value
-        
+
         Note:
             Delegates to time_sync_server_configuration property (CODING_RULE_V2_00017)
         """
@@ -14835,13 +14835,13 @@ class TimeSynchronization(ARObject):
     def setTimeSyncServerConfiguration(self, value: "TimeSyncServer") -> "TimeSynchronization":
         """
         AUTOSAR-compliant setter for timeSyncServerConfiguration with method chaining.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync_server_configuration property setter (gets validation automatically)
         """
@@ -14853,13 +14853,13 @@ class TimeSynchronization(ARObject):
     def with_time_sync_client_configuration(self, value: Optional["TimeSyncClient"]) -> "TimeSynchronization":
         """
         Set timeSyncClientConfiguration and return self for chaining.
-        
+
         Args:
             value: The timeSyncClientConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync_client_configuration("value")
         """
@@ -14869,13 +14869,13 @@ class TimeSynchronization(ARObject):
     def with_time_sync_server_configuration(self, value: Optional["TimeSyncServer"]) -> "TimeSynchronization":
         """
         Set timeSyncServerConfiguration and return self for chaining.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync_server_configuration("value")
         """
@@ -14887,9 +14887,9 @@ class TimeSynchronization(ARObject):
 class TimeSyncClientConfiguration(ARObject):
     """
     Defines the configuration of the time synchronisation client.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TimeSyncClientConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 469, Classic Platform R23-11)
     """
@@ -14918,10 +14918,10 @@ class TimeSyncClientConfiguration(ARObject):
     def time_sync(self, value: Optional["TimeSyncTechnology"]) -> None:
         """
         Set timeSync with validation.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -14940,10 +14940,10 @@ class TimeSyncClientConfiguration(ARObject):
     def getOrderedMaster(self) -> List["OrderedMaster"]:
         """
         AUTOSAR-compliant getter for orderedMaster.
-        
+
         Returns:
             The orderedMaster value
-        
+
         Note:
             Delegates to ordered_master property (CODING_RULE_V2_00017)
         """
@@ -14952,10 +14952,10 @@ class TimeSyncClientConfiguration(ARObject):
     def getTimeSync(self) -> "TimeSyncTechnology":
         """
         AUTOSAR-compliant getter for timeSync.
-        
+
         Returns:
             The timeSync value
-        
+
         Note:
             Delegates to time_sync property (CODING_RULE_V2_00017)
         """
@@ -14964,13 +14964,13 @@ class TimeSyncClientConfiguration(ARObject):
     def setTimeSync(self, value: "TimeSyncTechnology") -> "TimeSyncClientConfiguration":
         """
         AUTOSAR-compliant setter for timeSync with method chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync property setter (gets validation automatically)
         """
@@ -14982,13 +14982,13 @@ class TimeSyncClientConfiguration(ARObject):
     def with_time_sync(self, value: Optional["TimeSyncTechnology"]) -> "TimeSyncClientConfiguration":
         """
         Set timeSync and return self for chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync("value")
         """
@@ -15000,9 +15000,9 @@ class TimeSyncClientConfiguration(ARObject):
 class TimeSyncServerConfiguration(Referrable):
     """
     Defines the configuration of the time synchronisation server.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TimeSyncServerConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 470, Classic Platform R23-11)
     """
@@ -15022,10 +15022,10 @@ class TimeSyncServerConfiguration(Referrable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15049,10 +15049,10 @@ class TimeSyncServerConfiguration(Referrable):
     def sync_interval(self, value: Optional["TimeValue"]) -> None:
         """
         Set syncInterval with validation.
-        
+
         Args:
             value: The syncInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15076,10 +15076,10 @@ class TimeSyncServerConfiguration(Referrable):
     def time_sync_server_identifier(self, value: Optional["String"]) -> None:
         """
         Set timeSyncServerIdentifier with validation.
-        
+
         Args:
             value: The timeSyncServerIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15104,10 +15104,10 @@ class TimeSyncServerConfiguration(Referrable):
     def time_sync(self, value: Optional["TimeSyncTechnology"]) -> None:
         """
         Set timeSync with validation.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15126,10 +15126,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -15138,13 +15138,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setPriority(self, value: "PositiveInteger") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -15154,10 +15154,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getSyncInterval(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for syncInterval.
-        
+
         Returns:
             The syncInterval value
-        
+
         Note:
             Delegates to sync_interval property (CODING_RULE_V2_00017)
         """
@@ -15166,13 +15166,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setSyncInterval(self, value: "TimeValue") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for syncInterval with method chaining.
-        
+
         Args:
             value: The syncInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_interval property setter (gets validation automatically)
         """
@@ -15182,10 +15182,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getTimeSyncServerIdentifier(self) -> "String":
         """
         AUTOSAR-compliant getter for timeSyncServerIdentifier.
-        
+
         Returns:
             The timeSyncServerIdentifier value
-        
+
         Note:
             Delegates to time_sync_server_identifier property (CODING_RULE_V2_00017)
         """
@@ -15194,13 +15194,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setTimeSyncServerIdentifier(self, value: "String") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for timeSyncServerIdentifier with method chaining.
-        
+
         Args:
             value: The timeSyncServerIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync_server_identifier property setter (gets validation automatically)
         """
@@ -15210,10 +15210,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getTimeSync(self) -> "TimeSyncTechnology":
         """
         AUTOSAR-compliant getter for timeSync.
-        
+
         Returns:
             The timeSync value
-        
+
         Note:
             Delegates to time_sync property (CODING_RULE_V2_00017)
         """
@@ -15222,13 +15222,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setTimeSync(self, value: "TimeSyncTechnology") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for timeSync with method chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync property setter (gets validation automatically)
         """
@@ -15240,13 +15240,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "TimeSyncServerConfiguration":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -15256,13 +15256,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_sync_interval(self, value: Optional["TimeValue"]) -> "TimeSyncServerConfiguration":
         """
         Set syncInterval and return self for chaining.
-        
+
         Args:
             value: The syncInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_interval("value")
         """
@@ -15272,13 +15272,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_time_sync_server_identifier(self, value: Optional["String"]) -> "TimeSyncServerConfiguration":
         """
         Set timeSyncServerIdentifier and return self for chaining.
-        
+
         Args:
             value: The timeSyncServerIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync_server_identifier("value")
         """
@@ -15288,13 +15288,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_time_sync(self, value: Optional["TimeSyncTechnology"]) -> "TimeSyncServerConfiguration":
         """
         Set timeSync and return self for chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync("value")
         """
@@ -15306,9 +15306,9 @@ class TimeSyncServerConfiguration(Referrable):
 class OrderedMaster(ARObject):
     """
     Element in the network endpoint list.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::OrderedMaster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 470, Classic Platform R23-11)
     """
@@ -15330,10 +15330,10 @@ class OrderedMaster(ARObject):
     def index(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15357,10 +15357,10 @@ class OrderedMaster(ARObject):
     def time_sync_server_configuration(self, value: Optional["TimeSyncServer"]) -> None:
         """
         Set timeSyncServerConfiguration with validation.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15379,10 +15379,10 @@ class OrderedMaster(ARObject):
     def getIndex(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -15391,13 +15391,13 @@ class OrderedMaster(ARObject):
     def setIndex(self, value: "PositiveInteger") -> "OrderedMaster":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -15407,10 +15407,10 @@ class OrderedMaster(ARObject):
     def getTimeSyncServerConfiguration(self) -> "TimeSyncServer":
         """
         AUTOSAR-compliant getter for timeSyncServerConfiguration.
-        
+
         Returns:
             The timeSyncServerConfiguration value
-        
+
         Note:
             Delegates to time_sync_server_configuration property (CODING_RULE_V2_00017)
         """
@@ -15419,13 +15419,13 @@ class OrderedMaster(ARObject):
     def setTimeSyncServerConfiguration(self, value: "TimeSyncServer") -> "OrderedMaster":
         """
         AUTOSAR-compliant setter for timeSyncServerConfiguration with method chaining.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync_server_configuration property setter (gets validation automatically)
         """
@@ -15437,13 +15437,13 @@ class OrderedMaster(ARObject):
     def with_index(self, value: Optional["PositiveInteger"]) -> "OrderedMaster":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """
@@ -15453,13 +15453,13 @@ class OrderedMaster(ARObject):
     def with_time_sync_server_configuration(self, value: Optional["TimeSyncServer"]) -> "OrderedMaster":
         """
         Set timeSyncServerConfiguration and return self for chaining.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync_server_configuration("value")
         """
@@ -15471,9 +15471,9 @@ class OrderedMaster(ARObject):
 class DoIpEntity(ARObject):
     """
     ECU providing this infrastructure service is a DoIP-Entity.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::DoIpEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 471, Classic Platform R23-11)
     """
@@ -15493,10 +15493,10 @@ class DoIpEntity(ARObject):
     def do_ip_entity_role(self, value: Optional["DoIpEntityRoleEnum"]) -> None:
         """
         Set doIpEntityRole with validation.
-        
+
         Args:
             value: The doIpEntityRole to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15515,10 +15515,10 @@ class DoIpEntity(ARObject):
     def getDoIpEntityRole(self) -> "DoIpEntityRoleEnum":
         """
         AUTOSAR-compliant getter for doIpEntityRole.
-        
+
         Returns:
             The doIpEntityRole value
-        
+
         Note:
             Delegates to do_ip_entity_role property (CODING_RULE_V2_00017)
         """
@@ -15527,13 +15527,13 @@ class DoIpEntity(ARObject):
     def setDoIpEntityRole(self, value: "DoIpEntityRoleEnum") -> "DoIpEntity":
         """
         AUTOSAR-compliant setter for doIpEntityRole with method chaining.
-        
+
         Args:
             value: The doIpEntityRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_entity_role property setter (gets validation automatically)
         """
@@ -15545,13 +15545,13 @@ class DoIpEntity(ARObject):
     def with_do_ip_entity_role(self, value: Optional["DoIpEntityRoleEnum"]) -> "DoIpEntity":
         """
         Set doIpEntityRole and return self for chaining.
-        
+
         Args:
             value: The doIpEntityRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_entity_role("value")
         """
@@ -15564,9 +15564,9 @@ class GlobalTimeCouplingPortProps(ARObject):
     """
     Defines properties for the usage of the CouplingPort in the scope of Global
     Time Sync.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::GlobalTimeCouplingPortProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 875, Classic Platform R23-11)
     """
@@ -15589,10 +15589,10 @@ class GlobalTimeCouplingPortProps(ARObject):
     def propagation(self, value: Optional["TimeValue"]) -> None:
         """
         Set propagation with validation.
-        
+
         Args:
             value: The propagation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15611,10 +15611,10 @@ class GlobalTimeCouplingPortProps(ARObject):
     def getPropagation(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for propagation.
-        
+
         Returns:
             The propagation value
-        
+
         Note:
             Delegates to propagation property (CODING_RULE_V2_00017)
         """
@@ -15623,13 +15623,13 @@ class GlobalTimeCouplingPortProps(ARObject):
     def setPropagation(self, value: "TimeValue") -> "GlobalTimeCouplingPortProps":
         """
         AUTOSAR-compliant setter for propagation with method chaining.
-        
+
         Args:
             value: The propagation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to propagation property setter (gets validation automatically)
         """
@@ -15641,13 +15641,13 @@ class GlobalTimeCouplingPortProps(ARObject):
     def with_propagation(self, value: Optional["TimeValue"]) -> "GlobalTimeCouplingPortProps":
         """
         Set propagation and return self for chaining.
-        
+
         Args:
             value: The propagation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_propagation("value")
         """
@@ -15660,9 +15660,9 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     """
     Defines an Asynchronous Traffic Shaper (ATS) for the CouplingPort egress
     structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortAsynchronousTrafficShaper
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2012, Classic Platform R23-11)
     """
@@ -15684,10 +15684,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def committed_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committedBurst with validation.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15712,10 +15712,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def committed(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committed with validation.
-        
+
         Args:
             value: The committed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15742,10 +15742,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def traffic_shaper(self, value: Optional["SwitchAsynchronous"]) -> None:
         """
         Set trafficShaper with validation.
-        
+
         Args:
             value: The trafficShaper to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15764,10 +15764,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def getCommittedBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committedBurst.
-        
+
         Returns:
             The committedBurst value
-        
+
         Note:
             Delegates to committed_burst property (CODING_RULE_V2_00017)
         """
@@ -15776,13 +15776,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def setCommittedBurst(self, value: "PositiveInteger") -> "CouplingPortAsynchronousTrafficShaper":
         """
         AUTOSAR-compliant setter for committedBurst with method chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed_burst property setter (gets validation automatically)
         """
@@ -15792,10 +15792,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def getCommitted(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committed.
-        
+
         Returns:
             The committed value
-        
+
         Note:
             Delegates to committed property (CODING_RULE_V2_00017)
         """
@@ -15804,13 +15804,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def setCommitted(self, value: "PositiveInteger") -> "CouplingPortAsynchronousTrafficShaper":
         """
         AUTOSAR-compliant setter for committed with method chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed property setter (gets validation automatically)
         """
@@ -15820,10 +15820,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def getTrafficShaper(self) -> "SwitchAsynchronous":
         """
         AUTOSAR-compliant getter for trafficShaper.
-        
+
         Returns:
             The trafficShaper value
-        
+
         Note:
             Delegates to traffic_shaper property (CODING_RULE_V2_00017)
         """
@@ -15832,13 +15832,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def setTrafficShaper(self, value: "SwitchAsynchronous") -> "CouplingPortAsynchronousTrafficShaper":
         """
         AUTOSAR-compliant setter for trafficShaper with method chaining.
-        
+
         Args:
             value: The trafficShaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to traffic_shaper property setter (gets validation automatically)
         """
@@ -15850,13 +15850,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def with_committed_burst(self, value: Optional["PositiveInteger"]) -> "CouplingPortAsynchronousTrafficShaper":
         """
         Set committedBurst and return self for chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed_burst("value")
         """
@@ -15866,13 +15866,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def with_committed(self, value: Optional["PositiveInteger"]) -> "CouplingPortAsynchronousTrafficShaper":
         """
         Set committed and return self for chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed("value")
         """
@@ -15882,13 +15882,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def with_traffic_shaper(self, value: Optional["SwitchAsynchronous"]) -> "CouplingPortAsynchronousTrafficShaper":
         """
         Set trafficShaper and return self for chaining.
-        
+
         Args:
             value: The trafficShaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_traffic_shaper("value")
         """
@@ -15900,9 +15900,9 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
 class CouplingPortCreditBasedShaper(Identifiable):
     """
     Defines a Credit Based Shaper (CBS) for the CouplingPort egress structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortCreditBasedShaper
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2013, Classic Platform R23-11)
     """
@@ -15922,10 +15922,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def idle_slope(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set idleSlope with validation.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15949,10 +15949,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def lower_boundary(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set lowerBoundary with validation.
-        
+
         Args:
             value: The lowerBoundary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15976,10 +15976,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def upper_boundary(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set upperBoundary with validation.
-        
+
         Args:
             value: The upperBoundary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -15998,10 +15998,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def getIdleSlope(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for idleSlope.
-        
+
         Returns:
             The idleSlope value
-        
+
         Note:
             Delegates to idle_slope property (CODING_RULE_V2_00017)
         """
@@ -16010,13 +16010,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def setIdleSlope(self, value: "PositiveInteger") -> "CouplingPortCreditBasedShaper":
         """
         AUTOSAR-compliant setter for idleSlope with method chaining.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idle_slope property setter (gets validation automatically)
         """
@@ -16026,10 +16026,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def getLowerBoundary(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for lowerBoundary.
-        
+
         Returns:
             The lowerBoundary value
-        
+
         Note:
             Delegates to lower_boundary property (CODING_RULE_V2_00017)
         """
@@ -16038,13 +16038,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def setLowerBoundary(self, value: "PositiveInteger") -> "CouplingPortCreditBasedShaper":
         """
         AUTOSAR-compliant setter for lowerBoundary with method chaining.
-        
+
         Args:
             value: The lowerBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_boundary property setter (gets validation automatically)
         """
@@ -16054,10 +16054,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def getUpperBoundary(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for upperBoundary.
-        
+
         Returns:
             The upperBoundary value
-        
+
         Note:
             Delegates to upper_boundary property (CODING_RULE_V2_00017)
         """
@@ -16066,13 +16066,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def setUpperBoundary(self, value: "PositiveInteger") -> "CouplingPortCreditBasedShaper":
         """
         AUTOSAR-compliant setter for upperBoundary with method chaining.
-        
+
         Args:
             value: The upperBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_boundary property setter (gets validation automatically)
         """
@@ -16084,13 +16084,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def with_idle_slope(self, value: Optional["PositiveInteger"]) -> "CouplingPortCreditBasedShaper":
         """
         Set idleSlope and return self for chaining.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idle_slope("value")
         """
@@ -16100,13 +16100,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def with_lower_boundary(self, value: Optional["PositiveInteger"]) -> "CouplingPortCreditBasedShaper":
         """
         Set lowerBoundary and return self for chaining.
-        
+
         Args:
             value: The lowerBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_boundary("value")
         """
@@ -16116,13 +16116,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def with_upper_boundary(self, value: Optional["PositiveInteger"]) -> "CouplingPortCreditBasedShaper":
         """
         Set upperBoundary and return self for chaining.
-        
+
         Args:
             value: The upperBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_boundary("value")
         """
@@ -16134,9 +16134,9 @@ class CouplingPortCreditBasedShaper(Identifiable):
 class CouplingPortScheduler(CouplingPortStructuralElement):
     """
     Defines a scheduler for the CouplingPort egress structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortScheduler
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 123, Classic Platform R23-11)
     """
@@ -16156,10 +16156,10 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def port_scheduler_scheduler_enum(self, value: Optional["EthernetCouplingPort"]) -> None:
         """
         Set portSchedulerSchedulerEnum with validation.
-        
+
         Args:
             value: The portSchedulerSchedulerEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16186,10 +16186,10 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def getPortSchedulerSchedulerEnum(self) -> "EthernetCouplingPort":
         """
         AUTOSAR-compliant getter for portSchedulerSchedulerEnum.
-        
+
         Returns:
             The portSchedulerSchedulerEnum value
-        
+
         Note:
             Delegates to port_scheduler_scheduler_enum property (CODING_RULE_V2_00017)
         """
@@ -16198,13 +16198,13 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def setPortSchedulerSchedulerEnum(self, value: "EthernetCouplingPort") -> "CouplingPortScheduler":
         """
         AUTOSAR-compliant setter for portSchedulerSchedulerEnum with method chaining.
-        
+
         Args:
             value: The portSchedulerSchedulerEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_scheduler_scheduler_enum property setter (gets validation automatically)
         """
@@ -16214,10 +16214,10 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def getPredecessor(self) -> List["CouplingPortStructural"]:
         """
         AUTOSAR-compliant getter for predecessor.
-        
+
         Returns:
             The predecessor value
-        
+
         Note:
             Delegates to predecessor property (CODING_RULE_V2_00017)
         """
@@ -16228,13 +16228,13 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def with_port_scheduler_scheduler_enum(self, value: Optional["EthernetCouplingPort"]) -> "CouplingPortScheduler":
         """
         Set portSchedulerSchedulerEnum and return self for chaining.
-        
+
         Args:
             value: The portSchedulerSchedulerEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_scheduler_scheduler_enum("value")
         """
@@ -16246,9 +16246,9 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
 class CouplingPortShaper(CouplingPortStructuralElement):
     """
     Defines a shaper for the CouplingPort egress structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortShaper
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 123, Classic Platform R23-11)
     """
@@ -16268,10 +16268,10 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def idle_slope(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set idleSlope with validation.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16295,10 +16295,10 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def predecessor_fifo(self, value: "CouplingPortFifo") -> None:
         """
         Set predecessorFifo with validation.
-        
+
         Args:
             value: The predecessorFifo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16313,10 +16313,10 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def getIdleSlope(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for idleSlope.
-        
+
         Returns:
             The idleSlope value
-        
+
         Note:
             Delegates to idle_slope property (CODING_RULE_V2_00017)
         """
@@ -16325,13 +16325,13 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def setIdleSlope(self, value: "PositiveInteger") -> "CouplingPortShaper":
         """
         AUTOSAR-compliant setter for idleSlope with method chaining.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idle_slope property setter (gets validation automatically)
         """
@@ -16341,10 +16341,10 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def getPredecessorFifo(self) -> "CouplingPortFifo":
         """
         AUTOSAR-compliant getter for predecessorFifo.
-        
+
         Returns:
             The predecessorFifo value
-        
+
         Note:
             Delegates to predecessor_fifo property (CODING_RULE_V2_00017)
         """
@@ -16353,13 +16353,13 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def setPredecessorFifo(self, value: "CouplingPortFifo") -> "CouplingPortShaper":
         """
         AUTOSAR-compliant setter for predecessorFifo with method chaining.
-        
+
         Args:
             value: The predecessorFifo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to predecessor_fifo property setter (gets validation automatically)
         """
@@ -16371,13 +16371,13 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def with_idle_slope(self, value: Optional["PositiveInteger"]) -> "CouplingPortShaper":
         """
         Set idleSlope and return self for chaining.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idle_slope("value")
         """
@@ -16387,13 +16387,13 @@ class CouplingPortShaper(CouplingPortStructuralElement):
     def with_predecessor_fifo(self, value: "CouplingPortFifo") -> "CouplingPortShaper":
         """
         Set predecessorFifo and return self for chaining.
-        
+
         Args:
             value: The predecessorFifo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_predecessor_fifo("value")
         """
@@ -16405,9 +16405,9 @@ class CouplingPortShaper(CouplingPortStructuralElement):
 class CouplingPortFifo(CouplingPortStructuralElement):
     """
     Defines a FIFO for the CouplingPort egress structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortFifo
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 124, Classic Platform R23-11)
     """
@@ -16426,10 +16426,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def assigned_traffic(self, value: "PositiveInteger") -> None:
         """
         Set assignedTraffic with validation.
-        
+
         Args:
             value: The assignedTraffic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16450,10 +16450,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def minimum_fifo(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minimumFifo with validation.
-        
+
         Args:
             value: The minimumFifo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16477,10 +16477,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def shaper(self, value: Optional["CouplingPortAbstract"]) -> None:
         """
         Set shaper with validation.
-        
+
         Args:
             value: The shaper to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16499,10 +16499,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def getAssignedTraffic(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for assignedTraffic.
-        
+
         Returns:
             The assignedTraffic value
-        
+
         Note:
             Delegates to assigned_traffic property (CODING_RULE_V2_00017)
         """
@@ -16511,13 +16511,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def setAssignedTraffic(self, value: "PositiveInteger") -> "CouplingPortFifo":
         """
         AUTOSAR-compliant setter for assignedTraffic with method chaining.
-        
+
         Args:
             value: The assignedTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned_traffic property setter (gets validation automatically)
         """
@@ -16527,10 +16527,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def getMinimumFifo(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minimumFifo.
-        
+
         Returns:
             The minimumFifo value
-        
+
         Note:
             Delegates to minimum_fifo property (CODING_RULE_V2_00017)
         """
@@ -16539,13 +16539,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def setMinimumFifo(self, value: "PositiveInteger") -> "CouplingPortFifo":
         """
         AUTOSAR-compliant setter for minimumFifo with method chaining.
-        
+
         Args:
             value: The minimumFifo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_fifo property setter (gets validation automatically)
         """
@@ -16555,10 +16555,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def getShaper(self) -> "CouplingPortAbstract":
         """
         AUTOSAR-compliant getter for shaper.
-        
+
         Returns:
             The shaper value
-        
+
         Note:
             Delegates to shaper property (CODING_RULE_V2_00017)
         """
@@ -16567,13 +16567,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def setShaper(self, value: "CouplingPortAbstract") -> "CouplingPortFifo":
         """
         AUTOSAR-compliant setter for shaper with method chaining.
-        
+
         Args:
             value: The shaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to shaper property setter (gets validation automatically)
         """
@@ -16585,13 +16585,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def with_assigned_traffic(self, value: "PositiveInteger") -> "CouplingPortFifo":
         """
         Set assignedTraffic and return self for chaining.
-        
+
         Args:
             value: The assignedTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned_traffic("value")
         """
@@ -16601,13 +16601,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def with_minimum_fifo(self, value: Optional["PositiveInteger"]) -> "CouplingPortFifo":
         """
         Set minimumFifo and return self for chaining.
-        
+
         Args:
             value: The minimumFifo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_fifo("value")
         """
@@ -16617,13 +16617,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def with_shaper(self, value: Optional["CouplingPortAbstract"]) -> "CouplingPortFifo":
         """
         Set shaper and return self for chaining.
-        
+
         Args:
             value: The shaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_shaper("value")
         """
@@ -16636,9 +16636,9 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     """
     Collection of specific details for the CouplingElement of couplingType
     switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingElementSwitchDetails
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 133, Classic Platform R23-11)
     """
@@ -16695,10 +16695,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getFlowMetering(self) -> List["SwitchFlowMetering"]:
         """
         AUTOSAR-compliant getter for flowMetering.
-        
+
         Returns:
             The flowMetering value
-        
+
         Note:
             Delegates to flow_metering property (CODING_RULE_V2_00017)
         """
@@ -16707,10 +16707,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getStreamFilter(self) -> List["SwitchStreamFilterEntry"]:
         """
         AUTOSAR-compliant getter for streamFilter.
-        
+
         Returns:
             The streamFilter value
-        
+
         Note:
             Delegates to stream_filter property (CODING_RULE_V2_00017)
         """
@@ -16719,10 +16719,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getStreamGate(self) -> List["SwitchStreamGateEntry"]:
         """
         AUTOSAR-compliant getter for streamGate.
-        
+
         Returns:
             The streamGate value
-        
+
         Note:
             Delegates to stream_gate property (CODING_RULE_V2_00017)
         """
@@ -16731,10 +16731,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getSwitchStream(self) -> List["SwitchStream"]:
         """
         AUTOSAR-compliant getter for switchStream.
-        
+
         Returns:
             The switchStream value
-        
+
         Note:
             Delegates to switch_stream property (CODING_RULE_V2_00017)
         """
@@ -16743,10 +16743,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getTrafficShaper(self) -> List["SwitchAsynchronous"]:
         """
         AUTOSAR-compliant getter for trafficShaper.
-        
+
         Returns:
             The trafficShaper value
-        
+
         Note:
             Delegates to traffic_shaper property (CODING_RULE_V2_00017)
         """
@@ -16759,9 +16759,9 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
 class GenericTp(TransportProtocolConfiguration):
     """
     Content Model for a generic transport protocol.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::GenericTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 459, Classic Platform R23-11)
     """
@@ -16781,10 +16781,10 @@ class GenericTp(TransportProtocolConfiguration):
     def tp_address(self, value: Optional["String"]) -> None:
         """
         Set tpAddress with validation.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16808,10 +16808,10 @@ class GenericTp(TransportProtocolConfiguration):
     def tp_technology(self, value: Optional["String"]) -> None:
         """
         Set tpTechnology with validation.
-        
+
         Args:
             value: The tpTechnology to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16830,10 +16830,10 @@ class GenericTp(TransportProtocolConfiguration):
     def getTpAddress(self) -> "String":
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -16842,13 +16842,13 @@ class GenericTp(TransportProtocolConfiguration):
     def setTpAddress(self, value: "String") -> "GenericTp":
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_address property setter (gets validation automatically)
         """
@@ -16858,10 +16858,10 @@ class GenericTp(TransportProtocolConfiguration):
     def getTpTechnology(self) -> "String":
         """
         AUTOSAR-compliant getter for tpTechnology.
-        
+
         Returns:
             The tpTechnology value
-        
+
         Note:
             Delegates to tp_technology property (CODING_RULE_V2_00017)
         """
@@ -16870,13 +16870,13 @@ class GenericTp(TransportProtocolConfiguration):
     def setTpTechnology(self, value: "String") -> "GenericTp":
         """
         AUTOSAR-compliant setter for tpTechnology with method chaining.
-        
+
         Args:
             value: The tpTechnology to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_technology property setter (gets validation automatically)
         """
@@ -16888,13 +16888,13 @@ class GenericTp(TransportProtocolConfiguration):
     def with_tp_address(self, value: Optional["String"]) -> "GenericTp":
         """
         Set tpAddress and return self for chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_address("value")
         """
@@ -16904,13 +16904,13 @@ class GenericTp(TransportProtocolConfiguration):
     def with_tp_technology(self, value: Optional["String"]) -> "GenericTp":
         """
         Set tpTechnology and return self for chaining.
-        
+
         Args:
             value: The tpTechnology to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_technology("value")
         """
@@ -16922,9 +16922,9 @@ class GenericTp(TransportProtocolConfiguration):
 class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     """
     Tcp or Udp Transport Protocol Configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpUdpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 459, Classic Platform R23-11)
     """
@@ -16944,9 +16944,9 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
 class RtpTp(TransportProtocolConfiguration):
     """
     RTP over UDP or over TCP as transport protocol.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::RtpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 460, Classic Platform R23-11)
     """
@@ -16967,10 +16967,10 @@ class RtpTp(TransportProtocolConfiguration):
     def ssrc(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ssrc with validation.
-        
+
         Args:
             value: The ssrc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -16994,10 +16994,10 @@ class RtpTp(TransportProtocolConfiguration):
     def tcp_udp_config(self, value: Optional["TcpUdpConfig"]) -> None:
         """
         Set tcpUdpConfig with validation.
-        
+
         Args:
             value: The tcpUdpConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17016,10 +17016,10 @@ class RtpTp(TransportProtocolConfiguration):
     def getSsrc(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ssrc.
-        
+
         Returns:
             The ssrc value
-        
+
         Note:
             Delegates to ssrc property (CODING_RULE_V2_00017)
         """
@@ -17028,13 +17028,13 @@ class RtpTp(TransportProtocolConfiguration):
     def setSsrc(self, value: "PositiveInteger") -> "RtpTp":
         """
         AUTOSAR-compliant setter for ssrc with method chaining.
-        
+
         Args:
             value: The ssrc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ssrc property setter (gets validation automatically)
         """
@@ -17044,10 +17044,10 @@ class RtpTp(TransportProtocolConfiguration):
     def getTcpUdpConfig(self) -> "TcpUdpConfig":
         """
         AUTOSAR-compliant getter for tcpUdpConfig.
-        
+
         Returns:
             The tcpUdpConfig value
-        
+
         Note:
             Delegates to tcp_udp_config property (CODING_RULE_V2_00017)
         """
@@ -17056,13 +17056,13 @@ class RtpTp(TransportProtocolConfiguration):
     def setTcpUdpConfig(self, value: "TcpUdpConfig") -> "RtpTp":
         """
         AUTOSAR-compliant setter for tcpUdpConfig with method chaining.
-        
+
         Args:
             value: The tcpUdpConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_udp_config property setter (gets validation automatically)
         """
@@ -17074,13 +17074,13 @@ class RtpTp(TransportProtocolConfiguration):
     def with_ssrc(self, value: Optional["PositiveInteger"]) -> "RtpTp":
         """
         Set ssrc and return self for chaining.
-        
+
         Args:
             value: The ssrc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ssrc("value")
         """
@@ -17090,13 +17090,13 @@ class RtpTp(TransportProtocolConfiguration):
     def with_tcp_udp_config(self, value: Optional["TcpUdpConfig"]) -> "RtpTp":
         """
         Set tcpUdpConfig and return self for chaining.
-        
+
         Args:
             value: The tcpUdpConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_udp_config("value")
         """
@@ -17108,9 +17108,9 @@ class RtpTp(TransportProtocolConfiguration):
 class Ieee1722Tp(TransportProtocolConfiguration):
     """
     Content Model for IEEE 1722 configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ieee1722Tp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 460, Classic Platform R23-11)
     """
@@ -17132,10 +17132,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def relative(self, value: Optional["TimeValue"]) -> None:
         """
         Set relative with validation.
-        
+
         Args:
             value: The relative to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17159,10 +17159,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def stream_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set streamIdentifier with validation.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17186,10 +17186,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def sub_type(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set subType with validation.
-        
+
         Args:
             value: The subType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17213,10 +17213,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set version with validation.
-        
+
         Args:
             value: The version to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17235,10 +17235,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getRelative(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for relative.
-        
+
         Returns:
             The relative value
-        
+
         Note:
             Delegates to relative property (CODING_RULE_V2_00017)
         """
@@ -17247,13 +17247,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setRelative(self, value: "TimeValue") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for relative with method chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to relative property setter (gets validation automatically)
         """
@@ -17263,10 +17263,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getStreamIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for streamIdentifier.
-        
+
         Returns:
             The streamIdentifier value
-        
+
         Note:
             Delegates to stream_identifier property (CODING_RULE_V2_00017)
         """
@@ -17275,13 +17275,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setStreamIdentifier(self, value: "PositiveInteger") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for streamIdentifier with method chaining.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_identifier property setter (gets validation automatically)
         """
@@ -17291,10 +17291,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getSubType(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for subType.
-        
+
         Returns:
             The subType value
-        
+
         Note:
             Delegates to sub_type property (CODING_RULE_V2_00017)
         """
@@ -17303,13 +17303,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setSubType(self, value: "PositiveInteger") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for subType with method chaining.
-        
+
         Args:
             value: The subType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_type property setter (gets validation automatically)
         """
@@ -17319,10 +17319,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for version.
-        
+
         Returns:
             The version value
-        
+
         Note:
             Delegates to version property (CODING_RULE_V2_00017)
         """
@@ -17331,13 +17331,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setVersion(self, value: "PositiveInteger") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for version with method chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version property setter (gets validation automatically)
         """
@@ -17349,13 +17349,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_relative(self, value: Optional["TimeValue"]) -> "Ieee1722Tp":
         """
         Set relative and return self for chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_relative("value")
         """
@@ -17365,13 +17365,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_stream_identifier(self, value: Optional["PositiveInteger"]) -> "Ieee1722Tp":
         """
         Set streamIdentifier and return self for chaining.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_identifier("value")
         """
@@ -17381,13 +17381,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_sub_type(self, value: Optional["PositiveInteger"]) -> "Ieee1722Tp":
         """
         Set subType and return self for chaining.
-        
+
         Args:
             value: The subType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_type("value")
         """
@@ -17397,13 +17397,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_version(self, value: Optional["PositiveInteger"]) -> "Ieee1722Tp":
         """
         Set version and return self for chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version("value")
         """
@@ -17415,9 +17415,9 @@ class Ieee1722Tp(TransportProtocolConfiguration):
 class HttpTp(TransportProtocolConfiguration):
     """
     Http over TCP as transport protocol.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::HttpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 461, Classic Platform R23-11)
     """
@@ -17437,10 +17437,10 @@ class HttpTp(TransportProtocolConfiguration):
     def content_type(self, value: Optional["String"]) -> None:
         """
         Set contentType with validation.
-        
+
         Args:
             value: The contentType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17467,10 +17467,10 @@ class HttpTp(TransportProtocolConfiguration):
     def protocol_version(self, value: Optional["String"]) -> None:
         """
         Set protocolVersion with validation.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17494,10 +17494,10 @@ class HttpTp(TransportProtocolConfiguration):
     def request_method(self, value: Optional["RequestMethodEnum"]) -> None:
         """
         Set requestMethod with validation.
-        
+
         Args:
             value: The requestMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17521,10 +17521,10 @@ class HttpTp(TransportProtocolConfiguration):
     def tcp_tp_config(self, value: Optional["TcpTp"]) -> None:
         """
         Set tcpTpConfig with validation.
-        
+
         Args:
             value: The tcpTpConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17548,10 +17548,10 @@ class HttpTp(TransportProtocolConfiguration):
     def uri(self, value: Optional["UriString"]) -> None:
         """
         Set uri with validation.
-        
+
         Args:
             value: The uri to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17570,10 +17570,10 @@ class HttpTp(TransportProtocolConfiguration):
     def getContentType(self) -> "String":
         """
         AUTOSAR-compliant getter for contentType.
-        
+
         Returns:
             The contentType value
-        
+
         Note:
             Delegates to content_type property (CODING_RULE_V2_00017)
         """
@@ -17582,13 +17582,13 @@ class HttpTp(TransportProtocolConfiguration):
     def setContentType(self, value: "String") -> "HttpTp":
         """
         AUTOSAR-compliant setter for contentType with method chaining.
-        
+
         Args:
             value: The contentType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to content_type property setter (gets validation automatically)
         """
@@ -17598,10 +17598,10 @@ class HttpTp(TransportProtocolConfiguration):
     def getProtocolVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for protocolVersion.
-        
+
         Returns:
             The protocolVersion value
-        
+
         Note:
             Delegates to protocol_version property (CODING_RULE_V2_00017)
         """
@@ -17610,13 +17610,13 @@ class HttpTp(TransportProtocolConfiguration):
     def setProtocolVersion(self, value: "String") -> "HttpTp":
         """
         AUTOSAR-compliant setter for protocolVersion with method chaining.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to protocol_version property setter (gets validation automatically)
         """
@@ -17626,10 +17626,10 @@ class HttpTp(TransportProtocolConfiguration):
     def getRequestMethod(self) -> "RequestMethodEnum":
         """
         AUTOSAR-compliant getter for requestMethod.
-        
+
         Returns:
             The requestMethod value
-        
+
         Note:
             Delegates to request_method property (CODING_RULE_V2_00017)
         """
@@ -17638,13 +17638,13 @@ class HttpTp(TransportProtocolConfiguration):
     def setRequestMethod(self, value: "RequestMethodEnum") -> "HttpTp":
         """
         AUTOSAR-compliant setter for requestMethod with method chaining.
-        
+
         Args:
             value: The requestMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_method property setter (gets validation automatically)
         """
@@ -17654,10 +17654,10 @@ class HttpTp(TransportProtocolConfiguration):
     def getTcpTpConfig(self) -> "TcpTp":
         """
         AUTOSAR-compliant getter for tcpTpConfig.
-        
+
         Returns:
             The tcpTpConfig value
-        
+
         Note:
             Delegates to tcp_tp_config property (CODING_RULE_V2_00017)
         """
@@ -17666,13 +17666,13 @@ class HttpTp(TransportProtocolConfiguration):
     def setTcpTpConfig(self, value: "TcpTp") -> "HttpTp":
         """
         AUTOSAR-compliant setter for tcpTpConfig with method chaining.
-        
+
         Args:
             value: The tcpTpConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_tp_config property setter (gets validation automatically)
         """
@@ -17682,10 +17682,10 @@ class HttpTp(TransportProtocolConfiguration):
     def getUri(self) -> "UriString":
         """
         AUTOSAR-compliant getter for uri.
-        
+
         Returns:
             The uri value
-        
+
         Note:
             Delegates to uri property (CODING_RULE_V2_00017)
         """
@@ -17694,13 +17694,13 @@ class HttpTp(TransportProtocolConfiguration):
     def setUri(self, value: "UriString") -> "HttpTp":
         """
         AUTOSAR-compliant setter for uri with method chaining.
-        
+
         Args:
             value: The uri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uri property setter (gets validation automatically)
         """
@@ -17712,13 +17712,13 @@ class HttpTp(TransportProtocolConfiguration):
     def with_content_type(self, value: Optional["String"]) -> "HttpTp":
         """
         Set contentType and return self for chaining.
-        
+
         Args:
             value: The contentType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_content_type("value")
         """
@@ -17728,13 +17728,13 @@ class HttpTp(TransportProtocolConfiguration):
     def with_protocol_version(self, value: Optional["String"]) -> "HttpTp":
         """
         Set protocolVersion and return self for chaining.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_protocol_version("value")
         """
@@ -17744,13 +17744,13 @@ class HttpTp(TransportProtocolConfiguration):
     def with_request_method(self, value: Optional["RequestMethodEnum"]) -> "HttpTp":
         """
         Set requestMethod and return self for chaining.
-        
+
         Args:
             value: The requestMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_method("value")
         """
@@ -17760,13 +17760,13 @@ class HttpTp(TransportProtocolConfiguration):
     def with_tcp_tp_config(self, value: Optional["TcpTp"]) -> "HttpTp":
         """
         Set tcpTpConfig and return self for chaining.
-        
+
         Args:
             value: The tcpTpConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_tp_config("value")
         """
@@ -17776,13 +17776,13 @@ class HttpTp(TransportProtocolConfiguration):
     def with_uri(self, value: Optional["UriString"]) -> "HttpTp":
         """
         Set uri and return self for chaining.
-        
+
         Args:
             value: The uri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uri("value")
         """
@@ -17794,9 +17794,9 @@ class HttpTp(TransportProtocolConfiguration):
 class Ipv4Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 4 (IPv4) configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4Configuration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 465, Classic Platform R23-11)
     """
@@ -17818,10 +17818,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def assignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set assignment with validation.
-        
+
         Args:
             value: The assignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17845,10 +17845,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def default_gateway(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set defaultGateway with validation.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17881,10 +17881,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> None:
         """
         Set ipAddressKeep with validation.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17908,10 +17908,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def ipv4_address(self, value: Optional["Ipv4AddressSource"]) -> None:
         """
         Set ipv4Address with validation.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17940,10 +17940,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def network_mask(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set networkMask with validation.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17970,10 +17970,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ttl with validation.
-        
+
         Args:
             value: The ttl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -17992,10 +17992,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getAssignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for assignment.
-        
+
         Returns:
             The assignment value
-        
+
         Note:
             Delegates to assignment property (CODING_RULE_V2_00017)
         """
@@ -18004,13 +18004,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setAssignment(self, value: "PositiveInteger") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for assignment with method chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assignment property setter (gets validation automatically)
         """
@@ -18020,10 +18020,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getDefaultGateway(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for defaultGateway.
-        
+
         Returns:
             The defaultGateway value
-        
+
         Note:
             Delegates to default_gateway property (CODING_RULE_V2_00017)
         """
@@ -18032,13 +18032,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setDefaultGateway(self, value: "Ip4AddressString") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for defaultGateway with method chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_gateway property setter (gets validation automatically)
         """
@@ -18048,10 +18048,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getDnsServer(self) -> List["Ip4AddressString"]:
         """
         AUTOSAR-compliant getter for dnsServer.
-        
+
         Returns:
             The dnsServer value
-        
+
         Note:
             Delegates to dns_server property (CODING_RULE_V2_00017)
         """
@@ -18060,10 +18060,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getIpAddressKeep(self) -> "IpAddressKeepEnum":
         """
         AUTOSAR-compliant getter for ipAddressKeep.
-        
+
         Returns:
             The ipAddressKeep value
-        
+
         Note:
             Delegates to ip_address_keep property (CODING_RULE_V2_00017)
         """
@@ -18072,13 +18072,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setIpAddressKeep(self, value: "IpAddressKeepEnum") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for ipAddressKeep with method chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_address_keep property setter (gets validation automatically)
         """
@@ -18088,10 +18088,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getIpv4Address(self) -> "Ipv4AddressSource":
         """
         AUTOSAR-compliant getter for ipv4Address.
-        
+
         Returns:
             The ipv4Address value
-        
+
         Note:
             Delegates to ipv4_address property (CODING_RULE_V2_00017)
         """
@@ -18100,13 +18100,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setIpv4Address(self, value: "Ipv4AddressSource") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for ipv4Address with method chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv4_address property setter (gets validation automatically)
         """
@@ -18116,10 +18116,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getNetworkMask(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for networkMask.
-        
+
         Returns:
             The networkMask value
-        
+
         Note:
             Delegates to network_mask property (CODING_RULE_V2_00017)
         """
@@ -18128,13 +18128,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setNetworkMask(self, value: "Ip4AddressString") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for networkMask with method chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_mask property setter (gets validation automatically)
         """
@@ -18144,10 +18144,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getTtl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ttl.
-        
+
         Returns:
             The ttl value
-        
+
         Note:
             Delegates to ttl property (CODING_RULE_V2_00017)
         """
@@ -18156,13 +18156,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setTtl(self, value: "PositiveInteger") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for ttl with method chaining.
-        
+
         Args:
             value: The ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ttl property setter (gets validation automatically)
         """
@@ -18174,13 +18174,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_assignment(self, value: Optional["PositiveInteger"]) -> "Ipv4Configuration":
         """
         Set assignment and return self for chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assignment("value")
         """
@@ -18190,13 +18190,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_default_gateway(self, value: Optional["Ip4AddressString"]) -> "Ipv4Configuration":
         """
         Set defaultGateway and return self for chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_gateway("value")
         """
@@ -18206,13 +18206,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> "Ipv4Configuration":
         """
         Set ipAddressKeep and return self for chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_address_keep("value")
         """
@@ -18222,13 +18222,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_ipv4_address(self, value: Optional["Ipv4AddressSource"]) -> "Ipv4Configuration":
         """
         Set ipv4Address and return self for chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv4_address("value")
         """
@@ -18238,13 +18238,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_network_mask(self, value: Optional["Ip4AddressString"]) -> "Ipv4Configuration":
         """
         Set networkMask and return self for chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_mask("value")
         """
@@ -18254,13 +18254,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_ttl(self, value: Optional["PositiveInteger"]) -> "Ipv4Configuration":
         """
         Set ttl and return self for chaining.
-        
+
         Args:
             value: The ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ttl("value")
         """
@@ -18272,9 +18272,9 @@ class Ipv4Configuration(NetworkEndpointAddress):
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 6 (IPv6) configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6Configuration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 466, Classic Platform R23-11)
     """
@@ -18296,10 +18296,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def assignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set assignment with validation.
-        
+
         Args:
             value: The assignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18323,10 +18323,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def default_router(self, value: Optional["Ip6AddressString"]) -> None:
         """
         Set defaultRouter with validation.
-        
+
         Args:
             value: The defaultRouter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18361,10 +18361,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def enable_anycast(self, value: Optional["Boolean"]) -> None:
         """
         Set enableAnycast with validation.
-        
+
         Args:
             value: The enableAnycast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18390,10 +18390,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def hop_count(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set hopCount with validation.
-        
+
         Args:
             value: The hopCount to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18417,10 +18417,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> None:
         """
         Set ipAddressKeep with validation.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18445,10 +18445,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def ip_address_prefix(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ipAddressPrefix with validation.
-        
+
         Args:
             value: The ipAddressPrefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18472,10 +18472,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def ipv6_address(self, value: Optional["Ipv6AddressSource"]) -> None:
         """
         Set ipv6Address with validation.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18494,10 +18494,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getAssignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for assignment.
-        
+
         Returns:
             The assignment value
-        
+
         Note:
             Delegates to assignment property (CODING_RULE_V2_00017)
         """
@@ -18506,13 +18506,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setAssignment(self, value: "PositiveInteger") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for assignment with method chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assignment property setter (gets validation automatically)
         """
@@ -18522,10 +18522,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getDefaultRouter(self) -> "Ip6AddressString":
         """
         AUTOSAR-compliant getter for defaultRouter.
-        
+
         Returns:
             The defaultRouter value
-        
+
         Note:
             Delegates to default_router property (CODING_RULE_V2_00017)
         """
@@ -18534,13 +18534,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setDefaultRouter(self, value: "Ip6AddressString") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for defaultRouter with method chaining.
-        
+
         Args:
             value: The defaultRouter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_router property setter (gets validation automatically)
         """
@@ -18550,10 +18550,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getDnsServer(self) -> List["Ip6AddressString"]:
         """
         AUTOSAR-compliant getter for dnsServer.
-        
+
         Returns:
             The dnsServer value
-        
+
         Note:
             Delegates to dns_server property (CODING_RULE_V2_00017)
         """
@@ -18562,10 +18562,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getEnableAnycast(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enableAnycast.
-        
+
         Returns:
             The enableAnycast value
-        
+
         Note:
             Delegates to enable_anycast property (CODING_RULE_V2_00017)
         """
@@ -18574,13 +18574,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setEnableAnycast(self, value: "Boolean") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for enableAnycast with method chaining.
-        
+
         Args:
             value: The enableAnycast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_anycast property setter (gets validation automatically)
         """
@@ -18590,10 +18590,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getHopCount(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for hopCount.
-        
+
         Returns:
             The hopCount value
-        
+
         Note:
             Delegates to hop_count property (CODING_RULE_V2_00017)
         """
@@ -18602,13 +18602,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setHopCount(self, value: "PositiveInteger") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for hopCount with method chaining.
-        
+
         Args:
             value: The hopCount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hop_count property setter (gets validation automatically)
         """
@@ -18618,10 +18618,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getIpAddressKeep(self) -> "IpAddressKeepEnum":
         """
         AUTOSAR-compliant getter for ipAddressKeep.
-        
+
         Returns:
             The ipAddressKeep value
-        
+
         Note:
             Delegates to ip_address_keep property (CODING_RULE_V2_00017)
         """
@@ -18630,13 +18630,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpAddressKeep(self, value: "IpAddressKeepEnum") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for ipAddressKeep with method chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_address_keep property setter (gets validation automatically)
         """
@@ -18646,10 +18646,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getIpAddressPrefix(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ipAddressPrefix.
-        
+
         Returns:
             The ipAddressPrefix value
-        
+
         Note:
             Delegates to ip_address_prefix property (CODING_RULE_V2_00017)
         """
@@ -18658,13 +18658,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpAddressPrefix(self, value: "PositiveInteger") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for ipAddressPrefix with method chaining.
-        
+
         Args:
             value: The ipAddressPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_address_prefix property setter (gets validation automatically)
         """
@@ -18674,10 +18674,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getIpv6Address(self) -> "Ipv6AddressSource":
         """
         AUTOSAR-compliant getter for ipv6Address.
-        
+
         Returns:
             The ipv6Address value
-        
+
         Note:
             Delegates to ipv6_address property (CODING_RULE_V2_00017)
         """
@@ -18686,13 +18686,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpv6Address(self, value: "Ipv6AddressSource") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for ipv6Address with method chaining.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv6_address property setter (gets validation automatically)
         """
@@ -18704,13 +18704,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_assignment(self, value: Optional["PositiveInteger"]) -> "Ipv6Configuration":
         """
         Set assignment and return self for chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assignment("value")
         """
@@ -18720,13 +18720,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_default_router(self, value: Optional["Ip6AddressString"]) -> "Ipv6Configuration":
         """
         Set defaultRouter and return self for chaining.
-        
+
         Args:
             value: The defaultRouter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_router("value")
         """
@@ -18736,13 +18736,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_enable_anycast(self, value: Optional["Boolean"]) -> "Ipv6Configuration":
         """
         Set enableAnycast and return self for chaining.
-        
+
         Args:
             value: The enableAnycast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_anycast("value")
         """
@@ -18752,13 +18752,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_hop_count(self, value: Optional["PositiveInteger"]) -> "Ipv6Configuration":
         """
         Set hopCount and return self for chaining.
-        
+
         Args:
             value: The hopCount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hop_count("value")
         """
@@ -18768,13 +18768,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> "Ipv6Configuration":
         """
         Set ipAddressKeep and return self for chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_address_keep("value")
         """
@@ -18784,13 +18784,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_ip_address_prefix(self, value: Optional["PositiveInteger"]) -> "Ipv6Configuration":
         """
         Set ipAddressPrefix and return self for chaining.
-        
+
         Args:
             value: The ipAddressPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_address_prefix("value")
         """
@@ -18800,13 +18800,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_ipv6_address(self, value: Optional["Ipv6AddressSource"]) -> "Ipv6Configuration":
         """
         Set ipv6Address and return self for chaining.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv6_address("value")
         """
@@ -18818,9 +18818,9 @@ class Ipv6Configuration(NetworkEndpointAddress):
 class MacMulticastConfiguration(NetworkEndpointAddress):
     """
     References a per cluster globally defined MAC-Multicast-Group.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::MacMulticastConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 467, Classic Platform R23-11)
     """
@@ -18840,10 +18840,10 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def mac_multicast_group(self, value: Optional["RefType"]) -> None:
         """
         Set macMulticastGroup with validation.
-        
+
         Args:
             value: The macMulticastGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18858,10 +18858,10 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def getMacMulticastGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for macMulticastGroup.
-        
+
         Returns:
             The macMulticastGroup value
-        
+
         Note:
             Delegates to mac_multicast_group property (CODING_RULE_V2_00017)
         """
@@ -18870,13 +18870,13 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def setMacMulticastGroup(self, value: "RefType") -> "MacMulticastConfiguration":
         """
         AUTOSAR-compliant setter for macMulticastGroup with method chaining.
-        
+
         Args:
             value: The macMulticastGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_multicast_group property setter (gets validation automatically)
         """
@@ -18888,13 +18888,13 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def with_mac_multicast_group(self, value: Optional[RefType]) -> "MacMulticastConfiguration":
         """
         Set macMulticastGroup and return self for chaining.
-        
+
         Args:
             value: The macMulticastGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_multicast_group("value")
         """
@@ -18906,9 +18906,9 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
 class UdpTp(TcpUdpConfig):
     """
     Content Model for UDP configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::UdpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 459, Classic Platform R23-11)
     """
@@ -18928,10 +18928,10 @@ class UdpTp(TcpUdpConfig):
     def udp_tp_port(self, value: Optional["TpPort"]) -> None:
         """
         Set udpTpPort with validation.
-        
+
         Args:
             value: The udpTpPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -18950,10 +18950,10 @@ class UdpTp(TcpUdpConfig):
     def getUdpTpPort(self) -> "TpPort":
         """
         AUTOSAR-compliant getter for udpTpPort.
-        
+
         Returns:
             The udpTpPort value
-        
+
         Note:
             Delegates to udp_tp_port property (CODING_RULE_V2_00017)
         """
@@ -18962,13 +18962,13 @@ class UdpTp(TcpUdpConfig):
     def setUdpTpPort(self, value: "TpPort") -> "UdpTp":
         """
         AUTOSAR-compliant setter for udpTpPort with method chaining.
-        
+
         Args:
             value: The udpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_tp_port property setter (gets validation automatically)
         """
@@ -18980,13 +18980,13 @@ class UdpTp(TcpUdpConfig):
     def with_udp_tp_port(self, value: Optional["TpPort"]) -> "UdpTp":
         """
         Set udpTpPort and return self for chaining.
-        
+
         Args:
             value: The udpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_tp_port("value")
         """
@@ -18998,9 +18998,9 @@ class UdpTp(TcpUdpConfig):
 class TcpTp(TcpUdpConfig):
     """
     Content Model for TCP configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 460, Classic Platform R23-11)
     """
@@ -19021,10 +19021,10 @@ class TcpTp(TcpUdpConfig):
     def keep_alive(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set keepAlive with validation.
-        
+
         Args:
             value: The keepAlive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -19048,10 +19048,10 @@ class TcpTp(TcpUdpConfig):
     def keep_alives(self, value: Optional["Boolean"]) -> None:
         """
         Set keepAlives with validation.
-        
+
         Args:
             value: The keepAlives to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -19076,10 +19076,10 @@ class TcpTp(TcpUdpConfig):
     def keep_alive_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set keepAliveTime with validation.
-        
+
         Args:
             value: The keepAliveTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -19103,10 +19103,10 @@ class TcpTp(TcpUdpConfig):
     def nagles_algorithm(self, value: Optional["Boolean"]) -> None:
         """
         Set naglesAlgorithm with validation.
-        
+
         Args:
             value: The naglesAlgorithm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -19130,10 +19130,10 @@ class TcpTp(TcpUdpConfig):
     def receive_window_min(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set receiveWindowMin with validation.
-        
+
         Args:
             value: The receiveWindowMin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -19158,10 +19158,10 @@ class TcpTp(TcpUdpConfig):
     def tcp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcp with validation.
-        
+
         Args:
             value: The tcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -19185,10 +19185,10 @@ class TcpTp(TcpUdpConfig):
     def tcp_tp_port(self, value: Optional["TpPort"]) -> None:
         """
         Set tcpTpPort with validation.
-        
+
         Args:
             value: The tcpTpPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -19207,10 +19207,10 @@ class TcpTp(TcpUdpConfig):
     def getKeepAlive(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for keepAlive.
-        
+
         Returns:
             The keepAlive value
-        
+
         Note:
             Delegates to keep_alive property (CODING_RULE_V2_00017)
         """
@@ -19219,13 +19219,13 @@ class TcpTp(TcpUdpConfig):
     def setKeepAlive(self, value: "PositiveInteger") -> "TcpTp":
         """
         AUTOSAR-compliant setter for keepAlive with method chaining.
-        
+
         Args:
             value: The keepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_alive property setter (gets validation automatically)
         """
@@ -19235,10 +19235,10 @@ class TcpTp(TcpUdpConfig):
     def getKeepAlives(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for keepAlives.
-        
+
         Returns:
             The keepAlives value
-        
+
         Note:
             Delegates to keep_alives property (CODING_RULE_V2_00017)
         """
@@ -19247,13 +19247,13 @@ class TcpTp(TcpUdpConfig):
     def setKeepAlives(self, value: "Boolean") -> "TcpTp":
         """
         AUTOSAR-compliant setter for keepAlives with method chaining.
-        
+
         Args:
             value: The keepAlives to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_alives property setter (gets validation automatically)
         """
@@ -19263,10 +19263,10 @@ class TcpTp(TcpUdpConfig):
     def getKeepAliveTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for keepAliveTime.
-        
+
         Returns:
             The keepAliveTime value
-        
+
         Note:
             Delegates to keep_alive_time property (CODING_RULE_V2_00017)
         """
@@ -19275,13 +19275,13 @@ class TcpTp(TcpUdpConfig):
     def setKeepAliveTime(self, value: "TimeValue") -> "TcpTp":
         """
         AUTOSAR-compliant setter for keepAliveTime with method chaining.
-        
+
         Args:
             value: The keepAliveTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_alive_time property setter (gets validation automatically)
         """
@@ -19291,10 +19291,10 @@ class TcpTp(TcpUdpConfig):
     def getNaglesAlgorithm(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for naglesAlgorithm.
-        
+
         Returns:
             The naglesAlgorithm value
-        
+
         Note:
             Delegates to nagles_algorithm property (CODING_RULE_V2_00017)
         """
@@ -19303,13 +19303,13 @@ class TcpTp(TcpUdpConfig):
     def setNaglesAlgorithm(self, value: "Boolean") -> "TcpTp":
         """
         AUTOSAR-compliant setter for naglesAlgorithm with method chaining.
-        
+
         Args:
             value: The naglesAlgorithm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nagles_algorithm property setter (gets validation automatically)
         """
@@ -19319,10 +19319,10 @@ class TcpTp(TcpUdpConfig):
     def getReceiveWindowMin(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for receiveWindowMin.
-        
+
         Returns:
             The receiveWindowMin value
-        
+
         Note:
             Delegates to receive_window_min property (CODING_RULE_V2_00017)
         """
@@ -19331,13 +19331,13 @@ class TcpTp(TcpUdpConfig):
     def setReceiveWindowMin(self, value: "PositiveInteger") -> "TcpTp":
         """
         AUTOSAR-compliant setter for receiveWindowMin with method chaining.
-        
+
         Args:
             value: The receiveWindowMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to receive_window_min property setter (gets validation automatically)
         """
@@ -19347,10 +19347,10 @@ class TcpTp(TcpUdpConfig):
     def getTcp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcp.
-        
+
         Returns:
             The tcp value
-        
+
         Note:
             Delegates to tcp property (CODING_RULE_V2_00017)
         """
@@ -19359,13 +19359,13 @@ class TcpTp(TcpUdpConfig):
     def setTcp(self, value: "TimeValue") -> "TcpTp":
         """
         AUTOSAR-compliant setter for tcp with method chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp property setter (gets validation automatically)
         """
@@ -19375,10 +19375,10 @@ class TcpTp(TcpUdpConfig):
     def getTcpTpPort(self) -> "TpPort":
         """
         AUTOSAR-compliant getter for tcpTpPort.
-        
+
         Returns:
             The tcpTpPort value
-        
+
         Note:
             Delegates to tcp_tp_port property (CODING_RULE_V2_00017)
         """
@@ -19387,13 +19387,13 @@ class TcpTp(TcpUdpConfig):
     def setTcpTpPort(self, value: "TpPort") -> "TcpTp":
         """
         AUTOSAR-compliant setter for tcpTpPort with method chaining.
-        
+
         Args:
             value: The tcpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_tp_port property setter (gets validation automatically)
         """
@@ -19405,13 +19405,13 @@ class TcpTp(TcpUdpConfig):
     def with_keep_alive(self, value: Optional["PositiveInteger"]) -> "TcpTp":
         """
         Set keepAlive and return self for chaining.
-        
+
         Args:
             value: The keepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_alive("value")
         """
@@ -19421,13 +19421,13 @@ class TcpTp(TcpUdpConfig):
     def with_keep_alives(self, value: Optional["Boolean"]) -> "TcpTp":
         """
         Set keepAlives and return self for chaining.
-        
+
         Args:
             value: The keepAlives to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_alives("value")
         """
@@ -19437,13 +19437,13 @@ class TcpTp(TcpUdpConfig):
     def with_keep_alive_time(self, value: Optional["TimeValue"]) -> "TcpTp":
         """
         Set keepAliveTime and return self for chaining.
-        
+
         Args:
             value: The keepAliveTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_alive_time("value")
         """
@@ -19453,13 +19453,13 @@ class TcpTp(TcpUdpConfig):
     def with_nagles_algorithm(self, value: Optional["Boolean"]) -> "TcpTp":
         """
         Set naglesAlgorithm and return self for chaining.
-        
+
         Args:
             value: The naglesAlgorithm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nagles_algorithm("value")
         """
@@ -19469,13 +19469,13 @@ class TcpTp(TcpUdpConfig):
     def with_receive_window_min(self, value: Optional["PositiveInteger"]) -> "TcpTp":
         """
         Set receiveWindowMin and return self for chaining.
-        
+
         Args:
             value: The receiveWindowMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_receive_window_min("value")
         """
@@ -19485,13 +19485,13 @@ class TcpTp(TcpUdpConfig):
     def with_tcp(self, value: Optional["TimeValue"]) -> "TcpTp":
         """
         Set tcp and return self for chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp("value")
         """
@@ -19501,13 +19501,13 @@ class TcpTp(TcpUdpConfig):
     def with_tcp_tp_port(self, value: Optional["TpPort"]) -> "TcpTp":
         """
         Set tcpTpPort and return self for chaining.
-        
+
         Args:
             value: The tcpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_tp_port("value")
         """

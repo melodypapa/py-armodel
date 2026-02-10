@@ -19,9 +19,9 @@ class SwComponentDocumentation(ARObject):
     vh.latestBindingTime=postBuild (cid:53) 337 of 381 Document ID 89:
     AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module
     Description Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation::SwComponentDocumentation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 337, Classic
       Platform R23-11)
@@ -55,10 +55,10 @@ class SwComponentDocumentation(ARObject):
     def sw_calibration(self, value: Optional["Chapter"]) -> None:
         """
         Set swCalibration with validation.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class SwComponentDocumentation(ARObject):
     def sw_carb_doc(self, value: Optional["Chapter"]) -> None:
         """
         Set swCarbDoc with validation.
-        
+
         Args:
             value: The swCarbDoc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class SwComponentDocumentation(ARObject):
     def sw_diagnostics(self, value: Optional["Chapter"]) -> None:
         """
         Set swDiagnostics with validation.
-        
+
         Args:
             value: The swDiagnostics to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +137,10 @@ class SwComponentDocumentation(ARObject):
     def sw_feature_def(self, value: Optional["Chapter"]) -> None:
         """
         Set swFeatureDef with validation.
-        
+
         Args:
             value: The swFeatureDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +166,10 @@ class SwComponentDocumentation(ARObject):
     def sw_feature_desc(self, value: Optional["Chapter"]) -> None:
         """
         Set swFeatureDesc with validation.
-        
+
         Args:
             value: The swFeatureDesc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -193,10 +193,10 @@ class SwComponentDocumentation(ARObject):
     def sw_maintenance(self, value: Optional["Chapter"]) -> None:
         """
         Set swMaintenance with validation.
-        
+
         Args:
             value: The swMaintenance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -221,10 +221,10 @@ class SwComponentDocumentation(ARObject):
     def sw_test_desc(self, value: Optional["Chapter"]) -> None:
         """
         Set swTestDesc with validation.
-        
+
         Args:
             value: The swTestDesc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -259,10 +259,10 @@ class SwComponentDocumentation(ARObject):
     def getChapter(self) -> List["Chapter"]:
         """
         AUTOSAR-compliant getter for chapter.
-        
+
         Returns:
             The chapter value
-        
+
         Note:
             Delegates to chapter property (CODING_RULE_V2_00017)
         """
@@ -271,10 +271,10 @@ class SwComponentDocumentation(ARObject):
     def getSwCalibration(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for swCalibration.
-        
+
         Returns:
             The swCalibration value
-        
+
         Note:
             Delegates to sw_calibration property (CODING_RULE_V2_00017)
         """
@@ -283,13 +283,13 @@ class SwComponentDocumentation(ARObject):
     def setSwCalibration(self, value: "Chapter") -> "SwComponentDocumentation":
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calibration property setter (gets validation automatically)
         """
@@ -299,10 +299,10 @@ class SwComponentDocumentation(ARObject):
     def getSwCarbDoc(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for swCarbDoc.
-        
+
         Returns:
             The swCarbDoc value
-        
+
         Note:
             Delegates to sw_carb_doc property (CODING_RULE_V2_00017)
         """
@@ -311,13 +311,13 @@ class SwComponentDocumentation(ARObject):
     def setSwCarbDoc(self, value: "Chapter") -> "SwComponentDocumentation":
         """
         AUTOSAR-compliant setter for swCarbDoc with method chaining.
-        
+
         Args:
             value: The swCarbDoc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_carb_doc property setter (gets validation automatically)
         """
@@ -327,10 +327,10 @@ class SwComponentDocumentation(ARObject):
     def getSwDiagnostics(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for swDiagnostics.
-        
+
         Returns:
             The swDiagnostics value
-        
+
         Note:
             Delegates to sw_diagnostics property (CODING_RULE_V2_00017)
         """
@@ -339,13 +339,13 @@ class SwComponentDocumentation(ARObject):
     def setSwDiagnostics(self, value: "Chapter") -> "SwComponentDocumentation":
         """
         AUTOSAR-compliant setter for swDiagnostics with method chaining.
-        
+
         Args:
             value: The swDiagnostics to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_diagnostics property setter (gets validation automatically)
         """
@@ -355,10 +355,10 @@ class SwComponentDocumentation(ARObject):
     def getSwFeatureDef(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for swFeatureDef.
-        
+
         Returns:
             The swFeatureDef value
-        
+
         Note:
             Delegates to sw_feature_def property (CODING_RULE_V2_00017)
         """
@@ -367,13 +367,13 @@ class SwComponentDocumentation(ARObject):
     def setSwFeatureDef(self, value: "Chapter") -> "SwComponentDocumentation":
         """
         AUTOSAR-compliant setter for swFeatureDef with method chaining.
-        
+
         Args:
             value: The swFeatureDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_feature_def property setter (gets validation automatically)
         """
@@ -383,10 +383,10 @@ class SwComponentDocumentation(ARObject):
     def getSwFeatureDesc(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for swFeatureDesc.
-        
+
         Returns:
             The swFeatureDesc value
-        
+
         Note:
             Delegates to sw_feature_desc property (CODING_RULE_V2_00017)
         """
@@ -395,13 +395,13 @@ class SwComponentDocumentation(ARObject):
     def setSwFeatureDesc(self, value: "Chapter") -> "SwComponentDocumentation":
         """
         AUTOSAR-compliant setter for swFeatureDesc with method chaining.
-        
+
         Args:
             value: The swFeatureDesc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_feature_desc property setter (gets validation automatically)
         """
@@ -411,10 +411,10 @@ class SwComponentDocumentation(ARObject):
     def getSwMaintenance(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for swMaintenance.
-        
+
         Returns:
             The swMaintenance value
-        
+
         Note:
             Delegates to sw_maintenance property (CODING_RULE_V2_00017)
         """
@@ -423,13 +423,13 @@ class SwComponentDocumentation(ARObject):
     def setSwMaintenance(self, value: "Chapter") -> "SwComponentDocumentation":
         """
         AUTOSAR-compliant setter for swMaintenance with method chaining.
-        
+
         Args:
             value: The swMaintenance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_maintenance property setter (gets validation automatically)
         """
@@ -439,10 +439,10 @@ class SwComponentDocumentation(ARObject):
     def getSwTestDesc(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for swTestDesc.
-        
+
         Returns:
             The swTestDesc value
-        
+
         Note:
             Delegates to sw_test_desc property (CODING_RULE_V2_00017)
         """
@@ -451,13 +451,13 @@ class SwComponentDocumentation(ARObject):
     def setSwTestDesc(self, value: "Chapter") -> "SwComponentDocumentation":
         """
         AUTOSAR-compliant setter for swTestDesc with method chaining.
-        
+
         Args:
             value: The swTestDesc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_test_desc property setter (gets validation automatically)
         """
@@ -469,13 +469,13 @@ class SwComponentDocumentation(ARObject):
     def with_sw_calibration(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
         """
         Set swCalibration and return self for chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calibration("value")
         """
@@ -485,13 +485,13 @@ class SwComponentDocumentation(ARObject):
     def with_sw_carb_doc(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
         """
         Set swCarbDoc and return self for chaining.
-        
+
         Args:
             value: The swCarbDoc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_carb_doc("value")
         """
@@ -501,13 +501,13 @@ class SwComponentDocumentation(ARObject):
     def with_sw_diagnostics(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
         """
         Set swDiagnostics and return self for chaining.
-        
+
         Args:
             value: The swDiagnostics to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_diagnostics("value")
         """
@@ -517,13 +517,13 @@ class SwComponentDocumentation(ARObject):
     def with_sw_feature_def(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
         """
         Set swFeatureDef and return self for chaining.
-        
+
         Args:
             value: The swFeatureDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_feature_def("value")
         """
@@ -533,13 +533,13 @@ class SwComponentDocumentation(ARObject):
     def with_sw_feature_desc(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
         """
         Set swFeatureDesc and return self for chaining.
-        
+
         Args:
             value: The swFeatureDesc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_feature_desc("value")
         """
@@ -549,13 +549,13 @@ class SwComponentDocumentation(ARObject):
     def with_sw_maintenance(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
         """
         Set swMaintenance and return self for chaining.
-        
+
         Args:
             value: The swMaintenance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_maintenance("value")
         """
@@ -565,13 +565,13 @@ class SwComponentDocumentation(ARObject):
     def with_sw_test_desc(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
         """
         Set swTestDesc and return self for chaining.
-        
+
         Args:
             value: The swTestDesc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_test_desc("value")
         """

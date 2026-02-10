@@ -20,9 +20,9 @@ class PerInstanceMemory(Identifiable):
     instance of the SW-component. This is typically only useful if
     supportsMultipleInstantiation is set to "true" or if the software-component
     defines NVRAM access via permanent blocks.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PerInstanceMemory::PerInstanceMemory
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 597, Classic Platform
       R23-11)
@@ -43,10 +43,10 @@ class PerInstanceMemory(Identifiable):
     def init_value(self, value: Optional["String"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +71,10 @@ class PerInstanceMemory(Identifiable):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class PerInstanceMemory(Identifiable):
     def type(self, value: Optional["CIdentifier"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +125,10 @@ class PerInstanceMemory(Identifiable):
     def type_definition(self, value: Optional["String"]) -> None:
         """
         Set typeDefinition with validation.
-        
+
         Args:
             value: The typeDefinition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +147,10 @@ class PerInstanceMemory(Identifiable):
     def getInitValue(self) -> "String":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -159,13 +159,13 @@ class PerInstanceMemory(Identifiable):
     def setInitValue(self, value: "String") -> "PerInstanceMemory":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -175,10 +175,10 @@ class PerInstanceMemory(Identifiable):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -187,13 +187,13 @@ class PerInstanceMemory(Identifiable):
     def setSwDataDef(self, value: "SwDataDefProps") -> "PerInstanceMemory":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -203,10 +203,10 @@ class PerInstanceMemory(Identifiable):
     def getType(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -215,13 +215,13 @@ class PerInstanceMemory(Identifiable):
     def setType(self, value: "CIdentifier") -> "PerInstanceMemory":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -231,10 +231,10 @@ class PerInstanceMemory(Identifiable):
     def getTypeDefinition(self) -> "String":
         """
         AUTOSAR-compliant getter for typeDefinition.
-        
+
         Returns:
             The typeDefinition value
-        
+
         Note:
             Delegates to type_definition property (CODING_RULE_V2_00017)
         """
@@ -243,13 +243,13 @@ class PerInstanceMemory(Identifiable):
     def setTypeDefinition(self, value: "String") -> "PerInstanceMemory":
         """
         AUTOSAR-compliant setter for typeDefinition with method chaining.
-        
+
         Args:
             value: The typeDefinition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_definition property setter (gets validation automatically)
         """
@@ -261,13 +261,13 @@ class PerInstanceMemory(Identifiable):
     def with_init_value(self, value: Optional["String"]) -> "PerInstanceMemory":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -277,13 +277,13 @@ class PerInstanceMemory(Identifiable):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "PerInstanceMemory":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -293,13 +293,13 @@ class PerInstanceMemory(Identifiable):
     def with_type(self, value: Optional["CIdentifier"]) -> "PerInstanceMemory":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -309,13 +309,13 @@ class PerInstanceMemory(Identifiable):
     def with_type_definition(self, value: Optional["String"]) -> "PerInstanceMemory":
         """
         Set typeDefinition and return self for chaining.
-        
+
         Args:
             value: The typeDefinition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_definition("value")
         """

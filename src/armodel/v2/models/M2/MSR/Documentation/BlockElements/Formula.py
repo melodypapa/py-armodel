@@ -17,9 +17,9 @@ class MlFormula(Paginateable):
     documentation. The formula can be expressed by various means. If more than
     one representation is available, they need to be consistent. The rendering
     system can use the representation which is most appropriate.
-    
+
     Package: M2::MSR::Documentation::BlockElements::Formula::MlFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 301, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 309, Foundation
@@ -41,10 +41,10 @@ class MlFormula(Paginateable):
     def formula_caption(self, value: Optional["Caption"]) -> None:
         """
         Set formulaCaption with validation.
-        
+
         Args:
             value: The formulaCaption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class MlFormula(Paginateable):
     def generic_math(self, value: Optional["MultiLanguagePlainText"]) -> None:
         """
         Set genericMath with validation.
-        
+
         Args:
             value: The genericMath to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +104,10 @@ class MlFormula(Paginateable):
     def tex_math(self, value: Optional["MultiLanguagePlainText"]) -> None:
         """
         Set texMath with validation.
-        
+
         Args:
             value: The texMath to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -133,10 +133,10 @@ class MlFormula(Paginateable):
     def verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> None:
         """
         Set verbatim with validation.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -171,10 +171,10 @@ class MlFormula(Paginateable):
     def getFormulaCaption(self) -> "Caption":
         """
         AUTOSAR-compliant getter for formulaCaption.
-        
+
         Returns:
             The formulaCaption value
-        
+
         Note:
             Delegates to formula_caption property (CODING_RULE_V2_00017)
         """
@@ -183,13 +183,13 @@ class MlFormula(Paginateable):
     def setFormulaCaption(self, value: "Caption") -> "MlFormula":
         """
         AUTOSAR-compliant setter for formulaCaption with method chaining.
-        
+
         Args:
             value: The formulaCaption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to formula_caption property setter (gets validation automatically)
         """
@@ -199,10 +199,10 @@ class MlFormula(Paginateable):
     def getGenericMath(self) -> "MultiLanguagePlainText":
         """
         AUTOSAR-compliant getter for genericMath.
-        
+
         Returns:
             The genericMath value
-        
+
         Note:
             Delegates to generic_math property (CODING_RULE_V2_00017)
         """
@@ -211,13 +211,13 @@ class MlFormula(Paginateable):
     def setGenericMath(self, value: "MultiLanguagePlainText") -> "MlFormula":
         """
         AUTOSAR-compliant setter for genericMath with method chaining.
-        
+
         Args:
             value: The genericMath to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to generic_math property setter (gets validation automatically)
         """
@@ -227,10 +227,10 @@ class MlFormula(Paginateable):
     def getLGraphic(self) -> List["LGraphic"]:
         """
         AUTOSAR-compliant getter for lGraphic.
-        
+
         Returns:
             The lGraphic value
-        
+
         Note:
             Delegates to l_graphic property (CODING_RULE_V2_00017)
         """
@@ -239,10 +239,10 @@ class MlFormula(Paginateable):
     def getTexMath(self) -> "MultiLanguagePlainText":
         """
         AUTOSAR-compliant getter for texMath.
-        
+
         Returns:
             The texMath value
-        
+
         Note:
             Delegates to tex_math property (CODING_RULE_V2_00017)
         """
@@ -251,13 +251,13 @@ class MlFormula(Paginateable):
     def setTexMath(self, value: "MultiLanguagePlainText") -> "MlFormula":
         """
         AUTOSAR-compliant setter for texMath with method chaining.
-        
+
         Args:
             value: The texMath to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tex_math property setter (gets validation automatically)
         """
@@ -267,10 +267,10 @@ class MlFormula(Paginateable):
     def getVerbatim(self) -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant getter for verbatim.
-        
+
         Returns:
             The verbatim value
-        
+
         Note:
             Delegates to verbatim property (CODING_RULE_V2_00017)
         """
@@ -279,13 +279,13 @@ class MlFormula(Paginateable):
     def setVerbatim(self, value: "MultiLanguageVerbatim") -> "MlFormula":
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to verbatim property setter (gets validation automatically)
         """
@@ -297,13 +297,13 @@ class MlFormula(Paginateable):
     def with_formula_caption(self, value: Optional["Caption"]) -> "MlFormula":
         """
         Set formulaCaption and return self for chaining.
-        
+
         Args:
             value: The formulaCaption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_formula_caption("value")
         """
@@ -313,13 +313,13 @@ class MlFormula(Paginateable):
     def with_generic_math(self, value: Optional["MultiLanguagePlainText"]) -> "MlFormula":
         """
         Set genericMath and return self for chaining.
-        
+
         Args:
             value: The genericMath to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_generic_math("value")
         """
@@ -329,13 +329,13 @@ class MlFormula(Paginateable):
     def with_tex_math(self, value: Optional["MultiLanguagePlainText"]) -> "MlFormula":
         """
         Set texMath and return self for chaining.
-        
+
         Args:
             value: The texMath to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tex_math("value")
         """
@@ -345,13 +345,13 @@ class MlFormula(Paginateable):
     def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> "MlFormula":
         """
         Set verbatim and return self for chaining.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_verbatim("value")
         """
