@@ -1202,6 +1202,540 @@ python scripts/validate_v2.py
 
 ---
 
+---
+
+## Type Hints
+
+### CODING_RULE_TYPE_00001: Mandatory Type Annotations
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: All function parameters and return values in V2 modules MUST have type hints.
+
+**Example:**
+```python
+def get_class(self, name: str) -> Optional[AutosarClass]:
+    """Get a class by name."""
+    for cls in self.classes:
+        if cls.name == name:
+            return cls
+    return None
+
+def add_subpackage(self, pkg: "AutosarPackage") -> None:
+    """Add a subpackage to this package."""
+    pkg_names = {p.name for p in self.subpackages}
+    if pkg.name in pkg_names:
+        raise ValueError(f"Subpackage '{pkg.name}' already exists")
+    self.subpackages.append(pkg)
+```
+
+**Rationale**: Type hints improve code clarity, enable better IDE support, and catch type errors early.
+
+**References**:
+- PEP 484 - Type Hints
+- CODING_RULE_V2_00005: Direct Imports for Non-Self Types
+
+---
+
+### CODING_RULE_TYPE_00002: Union Types (Python 3.7+ Compatibility)
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST use `typing.Union` for Python 3.7+ compatibility (project requires >= 3.7).
+
+**Example:**
+```python
+# Required (Python 3.7+ compatibility):
+from typing import Union, Optional
+
+def get_class(self, name: str) -> Optional[AutosarClass]:
+    """Get a class by name."""
+
+def get_value(self) -> Union[str, int]:
+    """Get value which can be string or int."""
+```
+
+**Note**: The `X | Y` syntax is only available in Python 3.10+ and should NOT be used since the project requires Python >= 3.7.
+
+**Rationale**: Python 3.7 compatibility is a project requirement. Using `typing.Union` ensures all supported Python versions work correctly.
+
+**References**:
+- pyproject.toml: `requires-python = ">=3.7"`
+
+---
+
+### CODING_RULE_TYPE_00003: Collection Types
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST use imported generics from `typing` module for collection types.
+
+**Example:**
+```python
+from typing import List, Set, Tuple, Dict
+
+def parse_pdf(self, pdf_path: str) -> List[AutosarPackage]:
+    """Parse a PDF file."""
+
+def process_names(self, names: Set[str]) -> Tuple[str, int]:
+    """Process unique names."""
+
+def build_map(self) -> Dict[str, AutosarPackage]:
+    """Build a package map."""
+```
+
+**Rationale**: Using typing module generics provides better type checking and IDE support.
+
+**References**:
+- PEP 484 - Type Hints
+
+---
+
+### CODING_RULE_TYPE_00004: Forward References
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST use string literals for circular dependencies (see CODING_RULE_V2_00002 for TYPE_CHECKING usage).
+
+**Example:**
+```python
+from dataclasses import dataclass, field
+
+@dataclass
+class AutosarPackage:
+    name: str
+    subpackages: List["AutosarPackage"] = field(default_factory=list)
+
+def get_subpackage(self, name: str) -> Optional["AutosarPackage"]:
+    """Get a subpackage by name."""
+```
+
+**Rationale**: String annotations allow forward references to avoid circular imports while maintaining type safety.
+
+**References**:
+- PEP 484 - Forward References
+- CODING_RULE_V2_00002: TYPE_CHECKING for Self-Referencing Return Types
+
+---
+
+### CODING_RULE_TYPE_00005: Dataclass Field Types
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST use `field(default_factory=list)` for mutable defaults in dataclasses.
+
+**Example:**
+```python
+from dataclasses import dataclass, field
+
+@dataclass
+class AutosarPackage:
+    name: str
+    classes: List[AutosarClass] = field(default_factory=list)
+    subpackages: List["AutosarPackage"] = field(default_factory=list)
+```
+
+**Rationale**: Using `default_factory` prevents mutable default value sharing between instances.
+
+**References**:
+- PEP 557 - Data Classes
+
+---
+
+## Docstrings
+
+### CODING_RULE_DOC_00001: Google-Style Docstrings
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: All public classes, methods, and functions in V2 modules MUST have Google-style docstrings.
+
+**Example:**
+```python
+class SwComponentType(Identifiable):
+    """Represents a software component type.
+
+    Attributes:
+        short_name: The short name of the component.
+        category: The component category.
+
+    Examples:
+        >>> comp = SwComponentType()
+        >>> comp.short_name = "MyComponent"
+    """
+
+    def get_ports(self) -> List[PPortPrototype]:
+        """Get all ports of this component.
+
+        Returns:
+            List of port prototypes.
+        """
+```
+
+**Rationale**: Google-style docstrings provide consistent, readable documentation format.
+
+**References**:
+- PEP 257 - Docstring Conventions
+- Google Python Style Guide
+
+---
+
+### CODING_RULE_DOC_00002: Class Docstrings
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 class docstrings MUST include: Description, Attributes, Examples
+
+**Example:**
+```python
+@dataclass
+class AutosarClass:
+    """Represents an AUTOSAR class.
+
+    Attributes:
+        name: The name of the class.
+        is_abstract: Whether the class is abstract.
+
+    Examples:
+        >>> cls = AutosarClass("RunnableEntity", False)
+    """
+```
+
+**Rationale**: Complete class documentation helps users understand the purpose and usage of the class.
+
+**References**:
+- PEP 257 - Docstring Conventions
+
+---
+
+### CODING_RULE_DOC_00003: Method Docstrings
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 method docstrings MUST include: Description, Args, Returns, Raises (if applicable)
+
+**Example:**
+```python
+def add_class(self, cls: AutosarClass) -> None:
+    """Add a class to the package.
+
+    Args:
+        cls: The AutosarClass to add.
+
+    Raises:
+        ValueError: If a class with the same name already exists.
+    """
+```
+
+**Rationale**: Complete method documentation helps users understand the method's purpose, parameters, return value, and exceptions.
+
+**References**:
+- PEP 257 - Docstring Conventions
+
+---
+
+### CODING_RULE_DOC_00004: Docstring Language
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: All docstrings in V2 modules MUST be in English.
+
+**Rationale**: English is the universal language for technical documentation, ensuring broad accessibility.
+
+**References**:
+- PEP 257 - Docstring Conventions
+
+---
+
+## Whitespace
+
+### CODING_RULE_WS_00001: Avoid Extraneous Whitespace
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST avoid extraneous whitespace per PEP 8.
+
+**Example:**
+```python
+# Correct
+spam(ham[1], {eggs: 2})
+
+# Wrong
+spam( ham[ 1 ], { eggs: 2 } )
+```
+
+**Rationale**: Proper whitespace improves code readability.
+
+**References**:
+- PEP 8 - Whitespace in Expressions
+
+---
+
+### CODING_RULE_WS_00002: Whitespace Around Operators
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST surround binary operators with single space.
+
+**Example:**
+```python
+# Correct
+i = i + 1
+x = x * 2 - 1
+
+# Wrong
+i=i+1
+x = x * 2 - 1
+```
+
+**Rationale**: Consistent spacing improves readability.
+
+**References**:
+- PEP 8 - Whitespace in Expressions
+
+---
+
+### CODING_RULE_WS_00003: Keyword Arguments
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST NOT use spaces around `=` in keyword arguments.
+
+**Example:**
+```python
+# Correct
+def complex(real, imag=0.0):
+    return magic(r=real, i=imag)
+
+# Wrong
+def complex(real, imag = 0.0):
+    return magic(r = real, i = imag)
+```
+
+**Rationale**: PEP 8 standard for keyword arguments.
+
+**References**:
+- PEP 8 - Other Recommendations
+
+---
+
+### CODING_RULE_WS_00004: Function Annotations
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST use spaces around `->` arrow in function annotations.
+
+**Example:**
+```python
+# Correct
+def munge(input: AnyStr) -> AnyStr:
+    pass
+
+# Wrong
+def munge(input:AnyStr):
+    pass
+```
+
+**Rationale**: PEP 8 standard for function annotations.
+
+**References**:
+- PEP 8 - Function Annotations
+
+---
+
+### CODING_RULE_WS_00005: Trailing Whitespace
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST NOT have trailing whitespace.
+
+**Rationale**: Trailing whitespace can cause issues with version control and is unnecessary.
+
+**References**:
+- PEP 8 - Whitespace in Expressions
+
+---
+
+### CODING_RULE_WS_00006: Compound Statements
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST avoid compound statements (multiple statements on same line).
+
+**Example:**
+```python
+# Correct
+if foo == 'blah':
+    do_blah_thing()
+do_one()
+
+# Wrong
+if foo == 'blah': do_blah_thing()
+do_one(); do_two()
+```
+
+**Rationale**: One statement per line improves readability.
+
+**References**:
+- PEP 8 - Other Recommendations
+
+---
+
+## Error Handling
+
+### CODING_RULE_ERROR_00001: Validation Errors
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST use `ValueError` for invalid arguments.
+
+**Example:**
+```python
+def add_class(self, cls: AutosarClass) -> None:
+    """Add a class to the package."""
+    class_names = {c.name for c in self.classes}
+    if cls.name in class_names:
+        raise ValueError(f"Class '{cls.name}' already exists in package '{self.name}'")
+    self.classes.append(cls)
+```
+
+**Rationale**: ValueError is the appropriate exception for invalid argument values.
+
+**References**:
+- Python Exception Hierarchy
+
+---
+
+### CODING_RULE_ERROR_00002: Immediate Validation
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST validate inputs immediately and raise errors.
+
+**Example:**
+```python
+def __post_init__(self) -> None:
+    """Validate the package fields."""
+    if not self.name or not self.name.strip():
+        raise ValueError("Package name cannot be empty")
+```
+
+**Rationale**: Fail fast - validate inputs as early as possible.
+
+**References**:
+- Python Validation Patterns
+
+---
+
+### CODING_RULE_ERROR_00003: Exception Chaining
+
+**Maturity**: accept
+
+**Scope**: All V2 modules
+
+**Description**: V2 modules MUST use `raise ... from e` to preserve exception context.
+
+**Example:**
+```python
+try:
+    with open(file_path) as f:
+        data = f.read()
+except Exception as e:
+    raise Exception(f"Failed to read file: {e}") from e
+```
+
+**Rationale**: Exception chaining preserves the original exception context for debugging.
+
+**References**:
+- PEP 3134 - Exception Chaining
+
+---
+
+## Testing
+
+### CODING_RULE_TEST_00001: Test Structure
+
+**Maturity**: accept
+
+**Scope**: V2 tests
+
+**Description**: V2 tests MUST mirror source structure in `tests/test_armodel/v2/`.
+
+**Example:**
+```
+tests/test_armodel/v2/
+├── __init__.py
+├── test_model_extensibility.py
+├── integration/
+│   └── test_roundtrip.py
+├── models/
+│   └── test_*.py
+├── reader/
+│   └── test_*.py
+└── writer/
+    └── test_*.py
+```
+
+**Rationale**: Consistent test structure makes tests easy to find and maintain.
+
+**References**:
+- pytest documentation
+
+---
+
+### CODING_RULE_TEST_00002: Test Coverage Goals
+
+**Maturity**: accept
+
+**Scope**: V2 tests
+
+**Description**: V2 tests MUST target high coverage for all V2 modules.
+
+**Requirements:**
+- Test success paths, error paths, and edge cases
+- Test nested structures and complex scenarios
+
+**Rationale**: High coverage ensures code quality and reliability.
+
+**References**:
+- pytest-cov documentation
+
+---
+
 ## V2 Module Structure
 
 ```
