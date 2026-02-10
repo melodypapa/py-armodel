@@ -5,11 +5,11 @@ This package contains common structure classes for AUTOSAR models.
 """
 
 # Import from submodules
-from .Implementation import (
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
     ImplementationProps,
 )
-from .InternalBehavior import (
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     AbstractEvent,
     ApiPrincipleEnum,
     ExclusiveArea,

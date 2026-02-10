@@ -4,18 +4,16 @@ AUTOSAR Package - PaginationAndView
 Package: M2::MSR::Documentation::BlockElements::PaginationAndView
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARLiteral,
-    ARNumerical,
 )
-
-
 
 
 class DocumentViewSelectable(ARObject, ABC):
@@ -205,30 +203,34 @@ class Paginateable(DocumentViewSelectable, ABC):
         self._break: Optional["ChapterEnumBreak"] = None
 
     @property
-    def break(self) -> Optional["ChapterEnumBreak"]:
-        """Get break (Pythonic accessor)."""
-        return self._break
+    def chapter_break(self) -> Optional["ChapterEnumBreak"]:
+        """Get chapter_break (Pythonic accessor) - renamed from AUTOSAR 'break' to avoid Python keyword."""
+        return self._chapterBreak
 
-    @break.setter
-    def break(self, value: Optional["ChapterEnumBreak"]) -> None:
+    @chapter_break.setter
+    def chapter_break(self, value: Optional["ChapterEnumBreak"]) -> None:
         """
-        Set break with validation.
-        
+        Set chapter_break with validation.
+
         Args:
-            value: The break to set
-        
+            value: The chapter_break to set (controls page break behavior)
+
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: AUTOSAR specification attribute 'break'
+            Reason: Renamed to 'chapterBreak' to avoid Python reserved keyword 'break'
         """
         if value is None:
-            self._break = None
+            self._chapterBreak = None
             return
 
         if not isinstance(value, ChapterEnumBreak):
             raise TypeError(
-                f"break must be ChapterEnumBreak or None, got {type(value).__name__}"
+                f"chapterBreak must be ChapterEnumBreak or None, got {type(value).__name__}"
             )
-        self._break = value
+        self._chapterBreak = value
         # In particular it if the containing text block shall be kept together previous
                 # block.
         self._keepWith: Optional["KeepWithPreviousEnum"] = None
@@ -271,7 +273,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         Note:
             Delegates to break property (CODING_RULE_V2_00017)
         """
-        return self.break  # Delegates to property
+        return self.chapter_break  # Delegates to property
 
     def setBreak(self, value: "ChapterEnumBreak") -> "Paginateable":
         """
@@ -286,7 +288,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         Note:
             Delegates to break property setter (gets validation automatically)
         """
-        self.break = value  # Delegates to property setter
+        self.chapter_break = value  # Delegates to property setter
         return self
 
     def getKeepWith(self) -> "KeepWithPreviousEnum":
@@ -332,7 +334,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         Example:
             >>> obj.with_break("value")
         """
-        self.break = value  # Use property setter (gets validation)
+        self.chapter_break = value  # Use property setter (gets validation)
         return self
 
     def with_keep_with(self, value: Optional["KeepWithPreviousEnum"]) -> "Paginateable":
@@ -361,10 +363,10 @@ This allows to specify the page break policy of a paginatable element. Aggregate
 Package: M2::MSR::Documentation::BlockElements::PaginationAndView
     """
     # This indicates the a page break shall be applied before the current block.
-    break = "0"
+    chapter_break = "0"
 
     # This indicates that there is no need to force a page break before this block.
-    noBreak = "1"
+    no_break = "1"
 
 
 
