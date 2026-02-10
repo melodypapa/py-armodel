@@ -25,9 +25,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class PostBuildVariantCriterion(ARElement):
     """
     This class specifies one particular PostBuildVariantSelector.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterion
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 304, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 614, Classic Platform
@@ -54,10 +54,10 @@ class PostBuildVariantCriterion(ARElement):
     def compu_method(self, value: "CompuMethod") -> None:
         """
         Set compuMethod with validation.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -200,10 +200,10 @@ class PostBuildVariantCriterion(ARElement):
     def getCompuMethod(self) -> "CompuMethod":
         """
         AUTOSAR-compliant getter for compuMethod.
-        
+
         Returns:
             The compuMethod value
-        
+
         Note:
             Delegates to compu_method property (CODING_RULE_V2_00017)
         """
@@ -212,13 +212,13 @@ class PostBuildVariantCriterion(ARElement):
     def setCompuMethod(self, value: "CompuMethod") -> "PostBuildVariantCriterion":
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_method property setter (gets validation automatically)
         """
@@ -230,13 +230,13 @@ class PostBuildVariantCriterion(ARElement):
     def with_compu_method(self, value: "CompuMethod") -> "PostBuildVariantCriterion":
         """
         Set compuMethod and return self for chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_method("value")
         """
@@ -251,9 +251,9 @@ class PostBuildVariantCriterionValue(ARObject):
     variant criterion in order to bind the variation point. If multiple
     criterion/value pairs are specified, they all shall match to bind the
     variation point.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterionValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 305, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 77, Foundation
@@ -284,10 +284,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def value(self, value: "Integer") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -308,10 +308,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def variant_criterion(self, value: "PostBuildVariant") -> None:
         """
         Set variantCriterion with validation.
-        
+
         Args:
             value: The variantCriterion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -326,10 +326,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -338,10 +338,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def getValue(self) -> "Integer":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -350,13 +350,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def setValue(self, value: "Integer") -> "PostBuildVariantCriterionValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -366,10 +366,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def getVariantCriterion(self) -> "PostBuildVariant":
         """
         AUTOSAR-compliant getter for variantCriterion.
-        
+
         Returns:
             The variantCriterion value
-        
+
         Note:
             Delegates to variant_criterion property (CODING_RULE_V2_00017)
         """
@@ -378,13 +378,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def setVariantCriterion(self, value: "PostBuildVariant") -> "PostBuildVariantCriterionValue":
         """
         AUTOSAR-compliant setter for variantCriterion with method chaining.
-        
+
         Args:
             value: The variantCriterion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variant_criterion property setter (gets validation automatically)
         """
@@ -396,13 +396,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def with_value(self, value: "Integer") -> "PostBuildVariantCriterionValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -412,13 +412,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def with_variant_criterion(self, value: "PostBuildVariant") -> "PostBuildVariantCriterionValue":
         """
         Set variantCriterion and return self for chaining.
-        
+
         Args:
             value: The variantCriterion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variant_criterion("value")
         """
@@ -433,9 +433,9 @@ class PredefinedVariant(ARElement):
     all system constant values and post-build variant criterion values
     aggregated within all referenced system constant value sets and post build
     variant criterion value sets plus the value sets of the included variants.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PredefinedVariant
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 305, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 77, Foundation
@@ -478,10 +478,10 @@ class PredefinedVariant(ARElement):
     def getIncludedVariant(self) -> List["PredefinedVariant"]:
         """
         AUTOSAR-compliant getter for includedVariant.
-        
+
         Returns:
             The includedVariant value
-        
+
         Note:
             Delegates to included_variant property (CODING_RULE_V2_00017)
         """
@@ -490,10 +490,10 @@ class PredefinedVariant(ARElement):
     def getPostBuildVariant(self) -> List["PostBuildVariant"]:
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -502,10 +502,10 @@ class PredefinedVariant(ARElement):
     def getSw(self) -> List["SwSystemconstant"]:
         """
         AUTOSAR-compliant getter for sw.
-        
+
         Returns:
             The sw value
-        
+
         Note:
             Delegates to sw property (CODING_RULE_V2_00017)
         """
@@ -519,9 +519,9 @@ class SwSystemconstantValueSet(ARElement):
     """
     This meta-class represents the ability to specify a set of system constant
     values.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstantValueSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 313, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1007, Classic
@@ -550,10 +550,10 @@ class SwSystemconstantValueSet(ARElement):
     def getSw(self) -> List["SwSystemconstValue"]:
         """
         AUTOSAR-compliant getter for sw.
-        
+
         Returns:
             The sw value
-        
+
         Note:
             Delegates to sw property (CODING_RULE_V2_00017)
         """
@@ -580,9 +580,9 @@ class VariationPoint(ARObject):
     atpIdentityContributor (cid:53) 315 of 318 Document ID 87:
     AUTOSAR_CP_TPS_ECUConfiguration Specification of ECU Configuration AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::VariationPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 315, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1010, Classic
@@ -611,10 +611,10 @@ class VariationPoint(ARObject):
     def blueprint(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set blueprint with validation.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -641,10 +641,10 @@ class VariationPoint(ARObject):
     def sw_syscond(self, value: Optional["ConditionByFormula"]) -> None:
         """
         Set swSyscond with validation.
-        
+
         Args:
             value: The swSyscond to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -663,10 +663,10 @@ class VariationPoint(ARObject):
     def getBlueprint(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for blueprint.
-        
+
         Returns:
             The blueprint value
-        
+
         Note:
             Delegates to blueprint property (CODING_RULE_V2_00017)
         """
@@ -675,13 +675,13 @@ class VariationPoint(ARObject):
     def setBlueprint(self, value: "DocumentationBlock") -> "VariationPoint":
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint property setter (gets validation automatically)
         """
@@ -691,10 +691,10 @@ class VariationPoint(ARObject):
     def getSwSyscond(self) -> "ConditionByFormula":
         """
         AUTOSAR-compliant getter for swSyscond.
-        
+
         Returns:
             The swSyscond value
-        
+
         Note:
             Delegates to sw_syscond property (CODING_RULE_V2_00017)
         """
@@ -703,13 +703,13 @@ class VariationPoint(ARObject):
     def setSwSyscond(self, value: "ConditionByFormula") -> "VariationPoint":
         """
         AUTOSAR-compliant setter for swSyscond with method chaining.
-        
+
         Args:
             value: The swSyscond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_syscond property setter (gets validation automatically)
         """
@@ -721,13 +721,13 @@ class VariationPoint(ARObject):
     def with_blueprint(self, value: Optional["DocumentationBlock"]) -> "VariationPoint":
         """
         Set blueprint and return self for chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint("value")
         """
@@ -737,13 +737,13 @@ class VariationPoint(ARObject):
     def with_sw_syscond(self, value: Optional["ConditionByFormula"]) -> "VariationPoint":
         """
         Set swSyscond and return self for chaining.
-        
+
         Args:
             value: The swSyscond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_syscond("value")
         """
@@ -759,9 +759,9 @@ class ConditionByFormula(ARObject):
     considered as boolean value. The result of the expression is interpreted as
     a condition. • "0" represents "false"; • a value other than zero is
     considered "true"
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::ConditionByFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 613, Classic Platform
       R23-11)
@@ -789,10 +789,10 @@ class ConditionByFormula(ARObject):
     def binding_time(self, value: "BindingTimeEnum") -> None:
         """
         Set bindingTime with validation.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -807,10 +807,10 @@ class ConditionByFormula(ARObject):
     def getBindingTime(self) -> "BindingTimeEnum":
         """
         AUTOSAR-compliant getter for bindingTime.
-        
+
         Returns:
             The bindingTime value
-        
+
         Note:
             Delegates to binding_time property (CODING_RULE_V2_00017)
         """
@@ -819,13 +819,13 @@ class ConditionByFormula(ARObject):
     def setBindingTime(self, value: "BindingTimeEnum") -> "ConditionByFormula":
         """
         AUTOSAR-compliant setter for bindingTime with method chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to binding_time property setter (gets validation automatically)
         """
@@ -837,13 +837,13 @@ class ConditionByFormula(ARObject):
     def with_binding_time(self, value: "BindingTimeEnum") -> "ConditionByFormula":
         """
         Set bindingTime and return self for chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_binding_time("value")
         """
@@ -859,9 +859,9 @@ class PostBuildVariantCondition(ARObject):
     criterion/value pairs are specified, they shall all match to bind the
     variation point. In other words binding can be represented by (criterion1 ==
     value1) && (condition2 == value2) ...
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 614, Classic Platform
       R23-11)
@@ -887,10 +887,10 @@ class PostBuildVariantCondition(ARObject):
     def matching(self, value: "PostBuildVariant") -> None:
         """
         Set matching with validation.
-        
+
         Args:
             value: The matching to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -911,10 +911,10 @@ class PostBuildVariantCondition(ARObject):
     def value(self, value: "Integer") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -929,10 +929,10 @@ class PostBuildVariantCondition(ARObject):
     def getMatching(self) -> "PostBuildVariant":
         """
         AUTOSAR-compliant getter for matching.
-        
+
         Returns:
             The matching value
-        
+
         Note:
             Delegates to matching property (CODING_RULE_V2_00017)
         """
@@ -941,13 +941,13 @@ class PostBuildVariantCondition(ARObject):
     def setMatching(self, value: "PostBuildVariant") -> "PostBuildVariantCondition":
         """
         AUTOSAR-compliant setter for matching with method chaining.
-        
+
         Args:
             value: The matching to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to matching property setter (gets validation automatically)
         """
@@ -957,10 +957,10 @@ class PostBuildVariantCondition(ARObject):
     def getValue(self) -> "Integer":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -969,13 +969,13 @@ class PostBuildVariantCondition(ARObject):
     def setValue(self, value: "Integer") -> "PostBuildVariantCondition":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -987,13 +987,13 @@ class PostBuildVariantCondition(ARObject):
     def with_matching(self, value: "PostBuildVariant") -> "PostBuildVariantCondition":
         """
         Set matching and return self for chaining.
-        
+
         Args:
             value: The matching to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_matching("value")
         """
@@ -1003,13 +1003,13 @@ class PostBuildVariantCondition(ARObject):
     def with_value(self, value: "Integer") -> "PostBuildVariantCondition":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -1022,9 +1022,9 @@ class PostBuildVariantCriterionValueSet(ARElement):
     """
     This meta-class represents the ability to denote one set of
     postBuildVariantCriterionValues.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterionValueSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1000, Classic
       Platform R23-11)
@@ -1051,10 +1051,10 @@ class PostBuildVariantCriterionValueSet(ARElement):
     def getPostBuildVariant(self) -> List["PostBuildVariant"]:
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -1067,9 +1067,9 @@ class PostBuildVariantCriterionValueSet(ARElement):
 class SwSystemconstDependentFormula(ARObject, ABC):
     """
     This class represents an expression depending on system constants.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstDependentFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1006, Classic
       Platform R23-11)
@@ -1097,10 +1097,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def sysc(self, value: Optional["SwSystemconst"]) -> None:
         """
         Set sysc with validation.
-        
+
         Args:
             value: The sysc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1126,10 +1126,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def sysc_string(self, value: Optional["SwSystemconst"]) -> None:
         """
         Set syscString with validation.
-        
+
         Args:
             value: The syscString to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1148,10 +1148,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def getSysc(self) -> "SwSystemconst":
         """
         AUTOSAR-compliant getter for sysc.
-        
+
         Returns:
             The sysc value
-        
+
         Note:
             Delegates to sysc property (CODING_RULE_V2_00017)
         """
@@ -1160,13 +1160,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def setSysc(self, value: "SwSystemconst") -> "SwSystemconstDependentFormula":
         """
         AUTOSAR-compliant setter for sysc with method chaining.
-        
+
         Args:
             value: The sysc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sysc property setter (gets validation automatically)
         """
@@ -1176,10 +1176,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def getSyscString(self) -> "SwSystemconst":
         """
         AUTOSAR-compliant getter for syscString.
-        
+
         Returns:
             The syscString value
-        
+
         Note:
             Delegates to sysc_string property (CODING_RULE_V2_00017)
         """
@@ -1188,13 +1188,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def setSyscString(self, value: "SwSystemconst") -> "SwSystemconstDependentFormula":
         """
         AUTOSAR-compliant setter for syscString with method chaining.
-        
+
         Args:
             value: The syscString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sysc_string property setter (gets validation automatically)
         """
@@ -1206,13 +1206,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def with_sysc(self, value: Optional["SwSystemconst"]) -> "SwSystemconstDependentFormula":
         """
         Set sysc and return self for chaining.
-        
+
         Args:
             value: The sysc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sysc("value")
         """
@@ -1222,13 +1222,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def with_sysc_string(self, value: Optional["SwSystemconst"]) -> "SwSystemconstDependentFormula":
         """
         Set syscString and return self for chaining.
-        
+
         Args:
             value: The syscString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sysc_string("value")
         """
@@ -1240,9 +1240,9 @@ class SwSystemconstDependentFormula(ARObject, ABC):
 class SwSystemconstValue(ARObject):
     """
     This meta-class assigns a particular value to a system constant.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2068, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 80, Foundation
@@ -1273,10 +1273,10 @@ class SwSystemconstValue(ARObject):
     def sw_systemconst(self, value: "SwSystemconst") -> None:
         """
         Set swSystemconst with validation.
-        
+
         Args:
             value: The swSystemconst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1301,10 +1301,10 @@ class SwSystemconstValue(ARObject):
     def value(self, value: "Numerical") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1319,10 +1319,10 @@ class SwSystemconstValue(ARObject):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -1331,10 +1331,10 @@ class SwSystemconstValue(ARObject):
     def getSwSystemconst(self) -> "SwSystemconst":
         """
         AUTOSAR-compliant getter for swSystemconst.
-        
+
         Returns:
             The swSystemconst value
-        
+
         Note:
             Delegates to sw_systemconst property (CODING_RULE_V2_00017)
         """
@@ -1343,13 +1343,13 @@ class SwSystemconstValue(ARObject):
     def setSwSystemconst(self, value: "SwSystemconst") -> "SwSystemconstValue":
         """
         AUTOSAR-compliant setter for swSystemconst with method chaining.
-        
+
         Args:
             value: The swSystemconst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_systemconst property setter (gets validation automatically)
         """
@@ -1359,10 +1359,10 @@ class SwSystemconstValue(ARObject):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -1371,13 +1371,13 @@ class SwSystemconstValue(ARObject):
     def setValue(self, value: "Numerical") -> "SwSystemconstValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -1389,13 +1389,13 @@ class SwSystemconstValue(ARObject):
     def with_sw_systemconst(self, value: "SwSystemconst") -> "SwSystemconstValue":
         """
         Set swSystemconst and return self for chaining.
-        
+
         Args:
             value: The swSystemconst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_systemconst("value")
         """
@@ -1405,13 +1405,13 @@ class SwSystemconstValue(ARObject):
     def with_value(self, value: "Numerical") -> "SwSystemconstValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -1424,9 +1424,9 @@ class EvaluatedVariantSet(ARElement):
     """
     that the EvaluatedVariantSet is a CollectableElement. This allows to
     establish a hierarchy of EvaluatedVariantSets.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::EvaluatedVariantSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 257, Foundation
       R23-11)
@@ -1451,10 +1451,10 @@ class EvaluatedVariantSet(ARElement):
     def approval_status(self, value: "NameToken") -> None:
         """
         Set approvalStatus with validation.
-        
+
         Args:
             value: The approvalStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1477,10 +1477,10 @@ class EvaluatedVariantSet(ARElement):
     def getApprovalStatus(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for approvalStatus.
-        
+
         Returns:
             The approvalStatus value
-        
+
         Note:
             Delegates to approval_status property (CODING_RULE_V2_00017)
         """
@@ -1489,13 +1489,13 @@ class EvaluatedVariantSet(ARElement):
     def setApprovalStatus(self, value: "NameToken") -> "EvaluatedVariantSet":
         """
         AUTOSAR-compliant setter for approvalStatus with method chaining.
-        
+
         Args:
             value: The approvalStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to approval_status property setter (gets validation automatically)
         """
@@ -1505,10 +1505,10 @@ class EvaluatedVariantSet(ARElement):
     def getEvaluated(self) -> List["PredefinedVariant"]:
         """
         AUTOSAR-compliant getter for evaluated.
-        
+
         Returns:
             The evaluated value
-        
+
         Note:
             Delegates to evaluated property (CODING_RULE_V2_00017)
         """
@@ -1519,13 +1519,13 @@ class EvaluatedVariantSet(ARElement):
     def with_approval_status(self, value: "NameToken") -> "EvaluatedVariantSet":
         """
         Set approvalStatus and return self for chaining.
-        
+
         Args:
             value: The approvalStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_approval_status("value")
         """

@@ -19,9 +19,9 @@ class ConsistencyNeeds(Identifiable):
     """
     This meta-class represents the ability to define requirements on the
     implicit communication behavior.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::ConsistencyNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 221, Classic Platform
       R23-11)
@@ -205,10 +205,10 @@ class ConsistencyNeeds(Identifiable):
     def getDpgDoesNot(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dpgDoesNot.
-        
+
         Returns:
             The dpgDoesNot value
-        
+
         Note:
             Delegates to dpg_does_not property (CODING_RULE_V2_00017)
         """
@@ -217,10 +217,10 @@ class ConsistencyNeeds(Identifiable):
     def getDpgRequires(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dpgRequires.
-        
+
         Returns:
             The dpgRequires value
-        
+
         Note:
             Delegates to dpg_requires property (CODING_RULE_V2_00017)
         """
@@ -229,10 +229,10 @@ class ConsistencyNeeds(Identifiable):
     def getRegDoesNot(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for regDoesNot.
-        
+
         Returns:
             The regDoesNot value
-        
+
         Note:
             Delegates to reg_does_not property (CODING_RULE_V2_00017)
         """
@@ -241,10 +241,10 @@ class ConsistencyNeeds(Identifiable):
     def getRegRequires(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for regRequires.
-        
+
         Returns:
             The regRequires value
-        
+
         Note:
             Delegates to reg_requires property (CODING_RULE_V2_00017)
         """
@@ -258,9 +258,9 @@ class RunnableEntityGroup(Identifiable):
     """
     This meta-class represents the ability to define a collection of
     RunnableEntities. The collection can be nested.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::RunnableEntityGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 222, Classic Platform
       R23-11)
@@ -292,10 +292,10 @@ class RunnableEntityGroup(Identifiable):
     def getRunnableEntity(self) -> List["RunnableEntity"]:
         """
         AUTOSAR-compliant getter for runnableEntity.
-        
+
         Returns:
             The runnableEntity value
-        
+
         Note:
             Delegates to runnable_entity property (CODING_RULE_V2_00017)
         """
@@ -304,10 +304,10 @@ class RunnableEntityGroup(Identifiable):
     def getRunnableEntityGroupInCompositionInstanceRef(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for runnableEntityGroupInCompositionInstanceRef.
-        
+
         Returns:
             The runnableEntityGroupInCompositionInstanceRef value
-        
+
         Note:
             Delegates to runnable_entity_group_in_composition_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -322,9 +322,9 @@ class DataPrototypeGroup(Identifiable):
     This meta-class represents the ability to define a collection of
     DataPrototypes that are subject to the formal definition of implicit
     communication behavior. The definition of the collection can be nested.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::DataPrototypeGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 223, Classic Platform
       R23-11)
@@ -355,10 +355,10 @@ class DataPrototypeGroup(Identifiable):
     def getDataPrototypeGroupInCompositionInstanceRef(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataPrototypeGroupInCompositionInstanceRef.
-        
+
         Returns:
             The dataPrototypeGroupInCompositionInstanceRef value
-        
+
         Note:
             Delegates to data_prototype_group_in_composition_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -367,10 +367,10 @@ class DataPrototypeGroup(Identifiable):
     def getImplicitData(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for implicitData.
-        
+
         Returns:
             The implicitData value
-        
+
         Note:
             Delegates to implicit_data property (CODING_RULE_V2_00017)
         """

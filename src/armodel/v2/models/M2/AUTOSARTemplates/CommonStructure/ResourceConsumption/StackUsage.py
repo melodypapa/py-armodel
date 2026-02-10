@@ -19,9 +19,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class StackUsage(Identifiable, ABC):
     """
     Describes the stack memory usage of a software.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::StackUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 149, Classic
       Platform R23-11)
@@ -45,10 +45,10 @@ class StackUsage(Identifiable, ABC):
     def executable_entity(self, value: Optional["ExecutableEntity"]) -> None:
         """
         Set executableEntity with validation.
-        
+
         Args:
             value: The executableEntity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +72,10 @@ class StackUsage(Identifiable, ABC):
     def hardware(self, value: Optional["HardwareConfiguration"]) -> None:
         """
         Set hardware with validation.
-        
+
         Args:
             value: The hardware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +101,10 @@ class StackUsage(Identifiable, ABC):
     def hw_element(self, value: Optional["HwElement"]) -> None:
         """
         Set hwElement with validation.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -128,10 +128,10 @@ class StackUsage(Identifiable, ABC):
     def software_context(self, value: Optional["SoftwareContext"]) -> None:
         """
         Set softwareContext with validation.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -150,10 +150,10 @@ class StackUsage(Identifiable, ABC):
     def getExecutableEntity(self) -> "ExecutableEntity":
         """
         AUTOSAR-compliant getter for executableEntity.
-        
+
         Returns:
             The executableEntity value
-        
+
         Note:
             Delegates to executable_entity property (CODING_RULE_V2_00017)
         """
@@ -162,13 +162,13 @@ class StackUsage(Identifiable, ABC):
     def setExecutableEntity(self, value: "ExecutableEntity") -> "StackUsage":
         """
         AUTOSAR-compliant setter for executableEntity with method chaining.
-        
+
         Args:
             value: The executableEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to executable_entity property setter (gets validation automatically)
         """
@@ -178,10 +178,10 @@ class StackUsage(Identifiable, ABC):
     def getHardware(self) -> "HardwareConfiguration":
         """
         AUTOSAR-compliant getter for hardware.
-        
+
         Returns:
             The hardware value
-        
+
         Note:
             Delegates to hardware property (CODING_RULE_V2_00017)
         """
@@ -190,13 +190,13 @@ class StackUsage(Identifiable, ABC):
     def setHardware(self, value: "HardwareConfiguration") -> "StackUsage":
         """
         AUTOSAR-compliant setter for hardware with method chaining.
-        
+
         Args:
             value: The hardware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hardware property setter (gets validation automatically)
         """
@@ -206,10 +206,10 @@ class StackUsage(Identifiable, ABC):
     def getHwElement(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -218,13 +218,13 @@ class StackUsage(Identifiable, ABC):
     def setHwElement(self, value: "HwElement") -> "StackUsage":
         """
         AUTOSAR-compliant setter for hwElement with method chaining.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_element property setter (gets validation automatically)
         """
@@ -234,10 +234,10 @@ class StackUsage(Identifiable, ABC):
     def getSoftwareContext(self) -> "SoftwareContext":
         """
         AUTOSAR-compliant getter for softwareContext.
-        
+
         Returns:
             The softwareContext value
-        
+
         Note:
             Delegates to software_context property (CODING_RULE_V2_00017)
         """
@@ -246,13 +246,13 @@ class StackUsage(Identifiable, ABC):
     def setSoftwareContext(self, value: "SoftwareContext") -> "StackUsage":
         """
         AUTOSAR-compliant setter for softwareContext with method chaining.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software_context property setter (gets validation automatically)
         """
@@ -264,13 +264,13 @@ class StackUsage(Identifiable, ABC):
     def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> "StackUsage":
         """
         Set executableEntity and return self for chaining.
-        
+
         Args:
             value: The executableEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_executable_entity("value")
         """
@@ -280,13 +280,13 @@ class StackUsage(Identifiable, ABC):
     def with_hardware(self, value: Optional["HardwareConfiguration"]) -> "StackUsage":
         """
         Set hardware and return self for chaining.
-        
+
         Args:
             value: The hardware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hardware("value")
         """
@@ -296,13 +296,13 @@ class StackUsage(Identifiable, ABC):
     def with_hw_element(self, value: Optional["HwElement"]) -> "StackUsage":
         """
         Set hwElement and return self for chaining.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_element("value")
         """
@@ -312,13 +312,13 @@ class StackUsage(Identifiable, ABC):
     def with_software_context(self, value: Optional["SoftwareContext"]) -> "StackUsage":
         """
         Set softwareContext and return self for chaining.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software_context("value")
         """
@@ -330,9 +330,9 @@ class StackUsage(Identifiable, ABC):
 class WorstCaseStackUsage(StackUsage):
     """
     Provides a formal worst case stack usage.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::WorstCaseStackUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 150, Classic
       Platform R23-11)
@@ -354,10 +354,10 @@ class WorstCaseStackUsage(StackUsage):
     def memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set memoryConsumption with validation.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -376,10 +376,10 @@ class WorstCaseStackUsage(StackUsage):
     def getMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for memoryConsumption.
-        
+
         Returns:
             The memoryConsumption value
-        
+
         Note:
             Delegates to memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -388,13 +388,13 @@ class WorstCaseStackUsage(StackUsage):
     def setMemoryConsumption(self, value: "PositiveInteger") -> "WorstCaseStackUsage":
         """
         AUTOSAR-compliant setter for memoryConsumption with method chaining.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_consumption property setter (gets validation automatically)
         """
@@ -406,13 +406,13 @@ class WorstCaseStackUsage(StackUsage):
     def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> "WorstCaseStackUsage":
         """
         Set memoryConsumption and return self for chaining.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_consumption("value")
         """
@@ -424,9 +424,9 @@ class WorstCaseStackUsage(StackUsage):
 class MeasuredStackUsage(StackUsage):
     """
     The stack usage has been measured.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::MeasuredStackUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 150, Classic
       Platform R23-11)
@@ -448,10 +448,10 @@ class MeasuredStackUsage(StackUsage):
     def average_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set averageMemoryConsumption with validation.
-        
+
         Args:
             value: The averageMemoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -476,10 +476,10 @@ class MeasuredStackUsage(StackUsage):
     def maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximumMemoryConsumption with validation.
-        
+
         Args:
             value: The maximumMemoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -504,10 +504,10 @@ class MeasuredStackUsage(StackUsage):
     def minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minimumMemoryConsumption with validation.
-        
+
         Args:
             value: The minimumMemoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -531,10 +531,10 @@ class MeasuredStackUsage(StackUsage):
     def test_pattern(self, value: Optional["String"]) -> None:
         """
         Set testPattern with validation.
-        
+
         Args:
             value: The testPattern to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -553,10 +553,10 @@ class MeasuredStackUsage(StackUsage):
     def getAverageMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for averageMemoryConsumption.
-        
+
         Returns:
             The averageMemoryConsumption value
-        
+
         Note:
             Delegates to average_memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -565,13 +565,13 @@ class MeasuredStackUsage(StackUsage):
     def setAverageMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for averageMemoryConsumption with method chaining.
-        
+
         Args:
             value: The averageMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to average_memory_consumption property setter (gets validation automatically)
         """
@@ -581,10 +581,10 @@ class MeasuredStackUsage(StackUsage):
     def getMaximumMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximumMemoryConsumption.
-        
+
         Returns:
             The maximumMemoryConsumption value
-        
+
         Note:
             Delegates to maximum_memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -593,13 +593,13 @@ class MeasuredStackUsage(StackUsage):
     def setMaximumMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for maximumMemoryConsumption with method chaining.
-        
+
         Args:
             value: The maximumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum_memory_consumption property setter (gets validation automatically)
         """
@@ -609,10 +609,10 @@ class MeasuredStackUsage(StackUsage):
     def getMinimumMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minimumMemoryConsumption.
-        
+
         Returns:
             The minimumMemoryConsumption value
-        
+
         Note:
             Delegates to minimum_memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -621,13 +621,13 @@ class MeasuredStackUsage(StackUsage):
     def setMinimumMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for minimumMemoryConsumption with method chaining.
-        
+
         Args:
             value: The minimumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_memory_consumption property setter (gets validation automatically)
         """
@@ -637,10 +637,10 @@ class MeasuredStackUsage(StackUsage):
     def getTestPattern(self) -> "String":
         """
         AUTOSAR-compliant getter for testPattern.
-        
+
         Returns:
             The testPattern value
-        
+
         Note:
             Delegates to test_pattern property (CODING_RULE_V2_00017)
         """
@@ -649,13 +649,13 @@ class MeasuredStackUsage(StackUsage):
     def setTestPattern(self, value: "String") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for testPattern with method chaining.
-        
+
         Args:
             value: The testPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to test_pattern property setter (gets validation automatically)
         """
@@ -667,13 +667,13 @@ class MeasuredStackUsage(StackUsage):
     def with_average_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
         """
         Set averageMemoryConsumption and return self for chaining.
-        
+
         Args:
             value: The averageMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_average_memory_consumption("value")
         """
@@ -683,13 +683,13 @@ class MeasuredStackUsage(StackUsage):
     def with_maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
         """
         Set maximumMemoryConsumption and return self for chaining.
-        
+
         Args:
             value: The maximumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum_memory_consumption("value")
         """
@@ -699,13 +699,13 @@ class MeasuredStackUsage(StackUsage):
     def with_minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
         """
         Set minimumMemoryConsumption and return self for chaining.
-        
+
         Args:
             value: The minimumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_memory_consumption("value")
         """
@@ -715,13 +715,13 @@ class MeasuredStackUsage(StackUsage):
     def with_test_pattern(self, value: Optional["String"]) -> "MeasuredStackUsage":
         """
         Set testPattern and return self for chaining.
-        
+
         Args:
             value: The testPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_test_pattern("value")
         """
@@ -733,9 +733,9 @@ class MeasuredStackUsage(StackUsage):
 class RoughEstimateStackUsage(StackUsage):
     """
     Rough estimation of the stack usage.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::RoughEstimateStackUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 151, Classic
       Platform R23-11)
@@ -757,10 +757,10 @@ class RoughEstimateStackUsage(StackUsage):
     def memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set memoryConsumption with validation.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -779,10 +779,10 @@ class RoughEstimateStackUsage(StackUsage):
     def getMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for memoryConsumption.
-        
+
         Returns:
             The memoryConsumption value
-        
+
         Note:
             Delegates to memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -791,13 +791,13 @@ class RoughEstimateStackUsage(StackUsage):
     def setMemoryConsumption(self, value: "PositiveInteger") -> "RoughEstimateStackUsage":
         """
         AUTOSAR-compliant setter for memoryConsumption with method chaining.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_consumption property setter (gets validation automatically)
         """
@@ -809,13 +809,13 @@ class RoughEstimateStackUsage(StackUsage):
     def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> "RoughEstimateStackUsage":
         """
         Set memoryConsumption and return self for chaining.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_consumption("value")
         """

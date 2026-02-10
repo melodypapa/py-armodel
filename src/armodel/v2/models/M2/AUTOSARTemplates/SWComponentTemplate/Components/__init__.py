@@ -34,9 +34,9 @@ class PortPrototype(Identifiable, ABC):
     Base class for the ports of an AUTOSAR software component. The aggregation
     of PortPrototypes is subject to variability with the purpose to support the
     conditional existence of ports.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 326, Classic
       Platform R23-11)
@@ -85,10 +85,10 @@ class PortPrototype(Identifiable, ABC):
     def delegated_port(self, value: Optional["DelegatedPort"]) -> None:
         """
         Set delegatedPort with validation.
-        
+
         Args:
             value: The delegatedPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -517,10 +517,10 @@ class PortPrototype(Identifiable, ABC):
     def getClientServer(self) -> List["ClientServerAnnotation"]:
         """
         AUTOSAR-compliant getter for clientServer.
-        
+
         Returns:
             The clientServer value
-        
+
         Note:
             Delegates to client_server property (CODING_RULE_V2_00017)
         """
@@ -529,10 +529,10 @@ class PortPrototype(Identifiable, ABC):
     def getDelegatedPort(self) -> "DelegatedPort":
         """
         AUTOSAR-compliant getter for delegatedPort.
-        
+
         Returns:
             The delegatedPort value
-        
+
         Note:
             Delegates to delegated_port property (CODING_RULE_V2_00017)
         """
@@ -541,13 +541,13 @@ class PortPrototype(Identifiable, ABC):
     def setDelegatedPort(self, value: "DelegatedPort") -> "PortPrototype":
         """
         AUTOSAR-compliant setter for delegatedPort with method chaining.
-        
+
         Args:
             value: The delegatedPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to delegated_port property setter (gets validation automatically)
         """
@@ -557,10 +557,10 @@ class PortPrototype(Identifiable, ABC):
     def getIoHwAbstractionAnnotation(self) -> List["IoHwAbstractionServer"]:
         """
         AUTOSAR-compliant getter for ioHwAbstractionAnnotation.
-        
+
         Returns:
             The ioHwAbstractionAnnotation value
-        
+
         Note:
             Delegates to io_hw_abstraction_annotation property (CODING_RULE_V2_00017)
         """
@@ -569,10 +569,10 @@ class PortPrototype(Identifiable, ABC):
     def getModePortAnnotation(self) -> List["ModePortAnnotation"]:
         """
         AUTOSAR-compliant getter for modePortAnnotation.
-        
+
         Returns:
             The modePortAnnotation value
-        
+
         Note:
             Delegates to mode_port_annotation property (CODING_RULE_V2_00017)
         """
@@ -581,10 +581,10 @@ class PortPrototype(Identifiable, ABC):
     def getNvDataPortAnnotation(self) -> List["NvDataPortAnnotation"]:
         """
         AUTOSAR-compliant getter for nvDataPortAnnotation.
-        
+
         Returns:
             The nvDataPortAnnotation value
-        
+
         Note:
             Delegates to nv_data_port_annotation property (CODING_RULE_V2_00017)
         """
@@ -593,10 +593,10 @@ class PortPrototype(Identifiable, ABC):
     def getParameterPort(self) -> List["ParameterPort"]:
         """
         AUTOSAR-compliant getter for parameterPort.
-        
+
         Returns:
             The parameterPort value
-        
+
         Note:
             Delegates to parameter_port property (CODING_RULE_V2_00017)
         """
@@ -605,10 +605,10 @@ class PortPrototype(Identifiable, ABC):
     def getSenderReceiver(self) -> List["SenderReceiver"]:
         """
         AUTOSAR-compliant getter for senderReceiver.
-        
+
         Returns:
             The senderReceiver value
-        
+
         Note:
             Delegates to sender_receiver property (CODING_RULE_V2_00017)
         """
@@ -617,10 +617,10 @@ class PortPrototype(Identifiable, ABC):
     def getTriggerPortAnnotation(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for triggerPortAnnotation.
-        
+
         Returns:
             The triggerPortAnnotation value
-        
+
         Note:
             Delegates to trigger_port_annotation property (CODING_RULE_V2_00017)
         """
@@ -631,13 +631,13 @@ class PortPrototype(Identifiable, ABC):
     def with_delegated_port(self, value: Optional["DelegatedPort"]) -> "PortPrototype":
         """
         Set delegatedPort and return self for chaining.
-        
+
         Args:
             value: The delegatedPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_delegated_port("value")
         """
@@ -649,9 +649,9 @@ class PortPrototype(Identifiable, ABC):
 class SwComponentType(ARElement, ABC):
     """
     Base class for AUTOSAR software components.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 330, Classic Platform
       R23-11)
@@ -717,10 +717,10 @@ class SwComponentType(ARElement, ABC):
     def sw_component(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponent with validation.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -747,10 +747,10 @@ class SwComponentType(ARElement, ABC):
     def getConsistency(self) -> List["ConsistencyNeeds"]:
         """
         AUTOSAR-compliant getter for consistency.
-        
+
         Returns:
             The consistency value
-        
+
         Note:
             Delegates to consistency property (CODING_RULE_V2_00017)
         """
@@ -759,10 +759,10 @@ class SwComponentType(ARElement, ABC):
     def getPort(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for port.
-        
+
         Returns:
             The port value
-        
+
         Note:
             Delegates to port property (CODING_RULE_V2_00017)
         """
@@ -771,10 +771,10 @@ class SwComponentType(ARElement, ABC):
     def getPortGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for portGroup.
-        
+
         Returns:
             The portGroup value
-        
+
         Note:
             Delegates to port_group property (CODING_RULE_V2_00017)
         """
@@ -783,10 +783,10 @@ class SwComponentType(ARElement, ABC):
     def getSwcMapping(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for swcMapping.
-        
+
         Returns:
             The swcMapping value
-        
+
         Note:
             Delegates to swc_mapping property (CODING_RULE_V2_00017)
         """
@@ -795,10 +795,10 @@ class SwComponentType(ARElement, ABC):
     def getSwComponent(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponent.
-        
+
         Returns:
             The swComponent value
-        
+
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -807,13 +807,13 @@ class SwComponentType(ARElement, ABC):
     def setSwComponent(self, value: "SwComponent") -> "SwComponentType":
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_component property setter (gets validation automatically)
         """
@@ -823,10 +823,10 @@ class SwComponentType(ARElement, ABC):
     def getUnitGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for unitGroup.
-        
+
         Returns:
             The unitGroup value
-        
+
         Note:
             Delegates to unit_group property (CODING_RULE_V2_00017)
         """
@@ -837,13 +837,13 @@ class SwComponentType(ARElement, ABC):
     def with_sw_component(self, value: Optional["SwComponent"]) -> "SwComponentType":
         """
         Set swComponent and return self for chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_component("value")
         """
@@ -863,9 +863,9 @@ class PortGroup(Identifiable):
     belonging to the group as well as to the "inner" groups which propagate this
     group into the components which are part of a composition. A PortGroup
     within an atomic SWC cannot be linked to inner groups.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PortGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 203, Classic Platform
       R23-11)
@@ -897,10 +897,10 @@ class PortGroup(Identifiable):
     def getInnerGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for innerGroup.
-        
+
         Returns:
             The innerGroup value
-        
+
         Note:
             Delegates to inner_group property (CODING_RULE_V2_00017)
         """
@@ -909,10 +909,10 @@ class PortGroup(Identifiable):
     def getOuterPort(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for outerPort.
-        
+
         Returns:
             The outerPort value
-        
+
         Note:
             Delegates to outer_port property (CODING_RULE_V2_00017)
         """
@@ -928,9 +928,9 @@ class SymbolProps(ImplementationProps):
     symbolic name that is conform to C language requirements to another
     meta-class, e.g. AtomicSwComponentType, that is a potential subject to a
     name clash on the level of RTE source code.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SymbolProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 288, Classic Platform
       R23-11)
@@ -951,9 +951,9 @@ class SymbolProps(ImplementationProps):
 class AbstractRequiredPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a required PortPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AbstractRequiredPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 67, Classic Platform
       R23-11)
@@ -980,10 +980,10 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
     def getRequiredCom(self) -> List["RPortComSpec"]:
         """
         AUTOSAR-compliant getter for requiredCom.
-        
+
         Returns:
             The requiredCom value
-        
+
         Note:
             Delegates to required_com property (CODING_RULE_V2_00017)
         """
@@ -996,9 +996,9 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
 class AbstractProvidedPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a provided PortPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AbstractProvidedPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 67, Classic Platform
       R23-11)
@@ -1023,10 +1023,10 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
     def getProvidedCom(self) -> List["PPortComSpec"]:
         """
         AUTOSAR-compliant getter for providedCom.
-        
+
         Returns:
             The providedCom value
-        
+
         Note:
             Delegates to provided_com property (CODING_RULE_V2_00017)
         """
@@ -1040,9 +1040,9 @@ class AtomicSwComponentType(SwComponentType, ABC):
     """
     An atomic software component is atomic in the sense that it cannot be
     further decomposed and distributed across multiple ECUs.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AtomicSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 304, Classic
       Platform R23-11)
@@ -1077,10 +1077,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set internalBehavior with validation.
-        
+
         Args:
             value: The internalBehavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1105,10 +1105,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def symbol_props(self, value: Optional["SymbolProps"]) -> None:
         """
         Set symbolProps with validation.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1127,10 +1127,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def getInternalBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for internalBehavior.
-        
+
         Returns:
             The internalBehavior value
-        
+
         Note:
             Delegates to internal_behavior property (CODING_RULE_V2_00017)
         """
@@ -1139,13 +1139,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def setInternalBehavior(self, value: "SwcInternalBehavior") -> "AtomicSwComponentType":
         """
         AUTOSAR-compliant setter for internalBehavior with method chaining.
-        
+
         Args:
             value: The internalBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to internal_behavior property setter (gets validation automatically)
         """
@@ -1155,10 +1155,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def getSymbolProps(self) -> "SymbolProps":
         """
         AUTOSAR-compliant getter for symbolProps.
-        
+
         Returns:
             The symbolProps value
-        
+
         Note:
             Delegates to symbol_props property (CODING_RULE_V2_00017)
         """
@@ -1167,13 +1167,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def setSymbolProps(self, value: "SymbolProps") -> "AtomicSwComponentType":
         """
         AUTOSAR-compliant setter for symbolProps with method chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol_props property setter (gets validation automatically)
         """
@@ -1185,13 +1185,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def with_internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> "AtomicSwComponentType":
         """
         Set internalBehavior and return self for chaining.
-        
+
         Args:
             value: The internalBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_internal_behavior("value")
         """
@@ -1201,13 +1201,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def with_symbol_props(self, value: Optional["SymbolProps"]) -> "AtomicSwComponentType":
         """
         Set symbolProps and return self for chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol_props("value")
         """
@@ -1221,9 +1221,9 @@ class ParameterSwComponentType(SwComponentType):
     The ParameterSwComponentType defines parameters and characteristic values
     accessible via provided Ports. The provided values are the same for all
     connected SwComponentPrototypes
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ParameterSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 41, Classic Platform
       R23-11)
@@ -1265,10 +1265,10 @@ class ParameterSwComponentType(SwComponentType):
     def getConstant(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for constant.
-        
+
         Returns:
             The constant value
-        
+
         Note:
             Delegates to constant property (CODING_RULE_V2_00017)
         """
@@ -1277,10 +1277,10 @@ class ParameterSwComponentType(SwComponentType):
     def getDataType(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -1289,10 +1289,10 @@ class ParameterSwComponentType(SwComponentType):
     def getInstantiation(self) -> List["InstantiationDataDef"]:
         """
         AUTOSAR-compliant getter for instantiation.
-        
+
         Returns:
             The instantiation value
-        
+
         Note:
             Delegates to instantiation property (CODING_RULE_V2_00017)
         """
@@ -1306,9 +1306,9 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     """
     This kind of PortPrototype can take the role of both a required and a
     provided PortPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PRPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic
       Platform R23-11)
@@ -1333,10 +1333,10 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def provided(self, value: Optional["PortInterface"]) -> None:
         """
         Set provided with validation.
-        
+
         Args:
             value: The provided to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1355,10 +1355,10 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def getProvided(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for provided.
-        
+
         Returns:
             The provided value
-        
+
         Note:
             Delegates to provided property (CODING_RULE_V2_00017)
         """
@@ -1367,13 +1367,13 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def setProvided(self, value: "PortInterface") -> "PRPortPrototype":
         """
         AUTOSAR-compliant setter for provided with method chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided property setter (gets validation automatically)
         """
@@ -1385,13 +1385,13 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def with_provided(self, value: Optional["PortInterface"]) -> "PRPortPrototype":
         """
         Set provided and return self for chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided("value")
         """
@@ -1403,9 +1403,9 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
 class RPortPrototype(AbstractRequiredPortPrototype):
     """
     Component port requiring a certain port interface.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::RPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 68, Classic Platform
       R23-11)
@@ -1432,10 +1432,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def may_be(self, value: Optional["Boolean"]) -> None:
         """
         Set mayBe with validation.
-        
+
         Args:
             value: The mayBe to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1460,10 +1460,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def required(self, value: Optional["PortInterface"]) -> None:
         """
         Set required with validation.
-        
+
         Args:
             value: The required to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1482,10 +1482,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def getMayBe(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for mayBe.
-        
+
         Returns:
             The mayBe value
-        
+
         Note:
             Delegates to may_be property (CODING_RULE_V2_00017)
         """
@@ -1494,13 +1494,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def setMayBe(self, value: "Boolean") -> "RPortPrototype":
         """
         AUTOSAR-compliant setter for mayBe with method chaining.
-        
+
         Args:
             value: The mayBe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to may_be property setter (gets validation automatically)
         """
@@ -1510,10 +1510,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def getRequired(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for required.
-        
+
         Returns:
             The required value
-        
+
         Note:
             Delegates to required property (CODING_RULE_V2_00017)
         """
@@ -1522,13 +1522,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def setRequired(self, value: "PortInterface") -> "RPortPrototype":
         """
         AUTOSAR-compliant setter for required with method chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required property setter (gets validation automatically)
         """
@@ -1540,13 +1540,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def with_may_be(self, value: Optional["Boolean"]) -> "RPortPrototype":
         """
         Set mayBe and return self for chaining.
-        
+
         Args:
             value: The mayBe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_may_be("value")
         """
@@ -1556,13 +1556,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def with_required(self, value: Optional["PortInterface"]) -> "RPortPrototype":
         """
         Set required and return self for chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required("value")
         """
@@ -1574,9 +1574,9 @@ class RPortPrototype(AbstractRequiredPortPrototype):
 class PPortPrototype(AbstractProvidedPortPrototype):
     """
     Component port providing a certain port interface.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform
       R23-11)
@@ -1602,10 +1602,10 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def provided(self, value: Optional["PortInterface"]) -> None:
         """
         Set provided with validation.
-        
+
         Args:
             value: The provided to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1624,10 +1624,10 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def getProvided(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for provided.
-        
+
         Returns:
             The provided value
-        
+
         Note:
             Delegates to provided property (CODING_RULE_V2_00017)
         """
@@ -1636,13 +1636,13 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def setProvided(self, value: "PortInterface") -> "PPortPrototype":
         """
         AUTOSAR-compliant setter for provided with method chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided property setter (gets validation automatically)
         """
@@ -1654,13 +1654,13 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def with_provided(self, value: Optional["PortInterface"]) -> "PPortPrototype":
         """
         Set provided and return self for chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided("value")
         """
@@ -1677,9 +1677,9 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     ComplexDeviceDriverSwComponentType introduces the possibility to link from
     the software representation to its hardware description provided by the ECU
     Resource Template.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ComplexDeviceDriverSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 310, Classic
       Platform R23-11)
@@ -1706,10 +1706,10 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     def getHardware(self) -> List["HwDescriptionEntity"]:
         """
         AUTOSAR-compliant getter for hardware.
-        
+
         Returns:
             The hardware value
-        
+
         Note:
             Delegates to hardware property (CODING_RULE_V2_00017)
         """
@@ -1726,9 +1726,9 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
     Microcontroller Abstraction. The EcuAbstractionSw ComponentType introduces
     the possibility to link from the software representation to its hardware
     description provided by the ECU Resource Template.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::EcuAbstractionSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 313, Classic
       Platform R23-11)
@@ -1754,10 +1754,10 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
     def getHardware(self) -> List["HwDescriptionEntity"]:
         """
         AUTOSAR-compliant getter for hardware.
-        
+
         Returns:
             The hardware value
-        
+
         Note:
             Delegates to hardware property (CODING_RULE_V2_00017)
         """
@@ -1772,9 +1772,9 @@ class ServiceSwComponentType(AtomicSwComponentType):
     ServiceSwComponentType is used for configuring services for a given ECU.
     Instances of this class are only to be created in ECU Configuration phase
     for the specific purpose of the service configuration.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ServiceSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 336, Classic
       Platform R23-11)
@@ -1798,9 +1798,9 @@ class ApplicationSwComponentType(AtomicSwComponentType):
     """
     The ApplicationSwComponentType is used to represent the application
     software.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ApplicationSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 231, Classic Platform
       R23-11)
@@ -1827,9 +1827,9 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     The SensorActuatorSwComponentType introduces the possibility to link from
     the software representation of a sensor/actuator to its hardware description
     provided by the ECU Resource Template.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SensorActuatorSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 646, Classic Platform
       R23-11)
@@ -1853,10 +1853,10 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def sensor_actuator(self, value: Optional["HwDescriptionEntity"]) -> None:
         """
         Set sensorActuator with validation.
-        
+
         Args:
             value: The sensorActuator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1875,10 +1875,10 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def getSensorActuator(self) -> "HwDescriptionEntity":
         """
         AUTOSAR-compliant getter for sensorActuator.
-        
+
         Returns:
             The sensorActuator value
-        
+
         Note:
             Delegates to sensor_actuator property (CODING_RULE_V2_00017)
         """
@@ -1887,13 +1887,13 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def setSensorActuator(self, value: "HwDescriptionEntity") -> "SensorActuatorSwComponentType":
         """
         AUTOSAR-compliant setter for sensorActuator with method chaining.
-        
+
         Args:
             value: The sensorActuator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sensor_actuator property setter (gets validation automatically)
         """
@@ -1905,13 +1905,13 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def with_sensor_actuator(self, value: Optional["HwDescriptionEntity"]) -> "SensorActuatorSwComponentType":
         """
         Set sensorActuator and return self for chaining.
-        
+
         Args:
             value: The sensorActuator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sensor_actuator("value")
         """
@@ -1940,9 +1940,9 @@ class ServiceProxySwComponentType(AtomicSwComponentType):
     only R-Ports with sender-receiver interfaces and 1:n semantics. • There
     shall be no connectors between two prototypes of any
     ServiceProxySwComponentType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ServiceProxySwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 661, Classic Platform
       R23-11)
@@ -1964,9 +1964,9 @@ class NvBlockSwComponentType(AtomicSwComponentType):
     The NvBlockSwComponentType defines non volatile data which data can be
     shared between Sw ComponentPrototypes. The non volatile data of the
     NvBlockSwComponentType are accessible via provided and required ports.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::NvBlockSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 663, Classic Platform
       R23-11)
@@ -1997,10 +1997,10 @@ class NvBlockSwComponentType(AtomicSwComponentType):
     def getBulkNvData(self) -> List["BulkNvDataDescriptor"]:
         """
         AUTOSAR-compliant getter for bulkNvData.
-        
+
         Returns:
             The bulkNvData value
-        
+
         Note:
             Delegates to bulk_nv_data property (CODING_RULE_V2_00017)
         """
@@ -2009,10 +2009,10 @@ class NvBlockSwComponentType(AtomicSwComponentType):
     def getNvBlock(self) -> List["NvBlockDescriptor"]:
         """
         AUTOSAR-compliant getter for nvBlock.
-        
+
         Returns:
             The nvBlock value
-        
+
         Note:
             Delegates to nv_block property (CODING_RULE_V2_00017)
         """

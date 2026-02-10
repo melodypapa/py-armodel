@@ -22,9 +22,9 @@ class DiagnosticCommonProps(ARObject):
     """
     This meta-class aggregates a number of common properties that are shared
     among a diagnostic extract. Tags: vh.latestBindingTime=codeGenerationTime
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps::DiagnosticCommonProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 64, Classic Platform
       R23-11)
@@ -48,10 +48,10 @@ class DiagnosticCommonProps(ARObject):
     def authentication(self, value: Optional["TimeValue"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class DiagnosticCommonProps(ARObject):
     def default(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set default with validation.
-        
+
         Args:
             value: The default to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class DiagnosticCommonProps(ARObject):
     def event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set event with validation.
-        
+
         Args:
             value: The event to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +146,10 @@ class DiagnosticCommonProps(ARObject):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +174,10 @@ class DiagnosticCommonProps(ARObject):
     def occurrence(self, value: Optional["DiagnosticOccurrence"]) -> None:
         """
         Set occurrence with validation.
-        
+
         Args:
             value: The occurrence to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +202,10 @@ class DiagnosticCommonProps(ARObject):
     def reset_confirmed(self, value: Optional["Boolean"]) -> None:
         """
         Set resetConfirmed with validation.
-        
+
         Args:
             value: The resetConfirmed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -231,10 +231,10 @@ class DiagnosticCommonProps(ARObject):
     def reset_pending_bit(self, value: Optional["Boolean"]) -> None:
         """
         Set resetPendingBit with validation.
-        
+
         Args:
             value: The resetPendingBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -259,10 +259,10 @@ class DiagnosticCommonProps(ARObject):
     def response_on_all(self, value: Optional["Boolean"]) -> None:
         """
         Set responseOnAll with validation.
-        
+
         Args:
             value: The responseOnAll to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -292,10 +292,10 @@ class DiagnosticCommonProps(ARObject):
     def response_on(self, value: Optional["Boolean"]) -> None:
         """
         Set responseOn with validation.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -319,10 +319,10 @@ class DiagnosticCommonProps(ARObject):
     def type_of_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set typeOfEvent with validation.
-        
+
         Args:
             value: The typeOfEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -357,10 +357,10 @@ class DiagnosticCommonProps(ARObject):
     def getAuthentication(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -369,13 +369,13 @@ class DiagnosticCommonProps(ARObject):
     def setAuthentication(self, value: "TimeValue") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -385,10 +385,10 @@ class DiagnosticCommonProps(ARObject):
     def getDebounce(self) -> List["DiagnosticDebounce"]:
         """
         AUTOSAR-compliant getter for debounce.
-        
+
         Returns:
             The debounce value
-        
+
         Note:
             Delegates to debounce property (CODING_RULE_V2_00017)
         """
@@ -397,10 +397,10 @@ class DiagnosticCommonProps(ARObject):
     def getDefault(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for default.
-        
+
         Returns:
             The default value
-        
+
         Note:
             Delegates to default property (CODING_RULE_V2_00017)
         """
@@ -409,13 +409,13 @@ class DiagnosticCommonProps(ARObject):
     def setDefault(self, value: "ByteOrderEnum") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for default with method chaining.
-        
+
         Args:
             value: The default to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default property setter (gets validation automatically)
         """
@@ -425,10 +425,10 @@ class DiagnosticCommonProps(ARObject):
     def getEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -437,13 +437,13 @@ class DiagnosticCommonProps(ARObject):
     def setEvent(self, value: "DiagnosticEvent") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for event with method chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -453,10 +453,10 @@ class DiagnosticCommonProps(ARObject):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -465,13 +465,13 @@ class DiagnosticCommonProps(ARObject):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -481,10 +481,10 @@ class DiagnosticCommonProps(ARObject):
     def getOccurrence(self) -> "DiagnosticOccurrence":
         """
         AUTOSAR-compliant getter for occurrence.
-        
+
         Returns:
             The occurrence value
-        
+
         Note:
             Delegates to occurrence property (CODING_RULE_V2_00017)
         """
@@ -493,13 +493,13 @@ class DiagnosticCommonProps(ARObject):
     def setOccurrence(self, value: "DiagnosticOccurrence") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for occurrence with method chaining.
-        
+
         Args:
             value: The occurrence to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to occurrence property setter (gets validation automatically)
         """
@@ -509,10 +509,10 @@ class DiagnosticCommonProps(ARObject):
     def getResetConfirmed(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for resetConfirmed.
-        
+
         Returns:
             The resetConfirmed value
-        
+
         Note:
             Delegates to reset_confirmed property (CODING_RULE_V2_00017)
         """
@@ -521,13 +521,13 @@ class DiagnosticCommonProps(ARObject):
     def setResetConfirmed(self, value: "Boolean") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for resetConfirmed with method chaining.
-        
+
         Args:
             value: The resetConfirmed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reset_confirmed property setter (gets validation automatically)
         """
@@ -537,10 +537,10 @@ class DiagnosticCommonProps(ARObject):
     def getResetPendingBit(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for resetPendingBit.
-        
+
         Returns:
             The resetPendingBit value
-        
+
         Note:
             Delegates to reset_pending_bit property (CODING_RULE_V2_00017)
         """
@@ -549,13 +549,13 @@ class DiagnosticCommonProps(ARObject):
     def setResetPendingBit(self, value: "Boolean") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for resetPendingBit with method chaining.
-        
+
         Args:
             value: The resetPendingBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reset_pending_bit property setter (gets validation automatically)
         """
@@ -565,10 +565,10 @@ class DiagnosticCommonProps(ARObject):
     def getResponseOnAll(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for responseOnAll.
-        
+
         Returns:
             The responseOnAll value
-        
+
         Note:
             Delegates to response_on_all property (CODING_RULE_V2_00017)
         """
@@ -577,13 +577,13 @@ class DiagnosticCommonProps(ARObject):
     def setResponseOnAll(self, value: "Boolean") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for responseOnAll with method chaining.
-        
+
         Args:
             value: The responseOnAll to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response_on_all property setter (gets validation automatically)
         """
@@ -593,10 +593,10 @@ class DiagnosticCommonProps(ARObject):
     def getResponseOn(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for responseOn.
-        
+
         Returns:
             The responseOn value
-        
+
         Note:
             Delegates to response_on property (CODING_RULE_V2_00017)
         """
@@ -605,13 +605,13 @@ class DiagnosticCommonProps(ARObject):
     def setResponseOn(self, value: "Boolean") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response_on property setter (gets validation automatically)
         """
@@ -621,10 +621,10 @@ class DiagnosticCommonProps(ARObject):
     def getTypeOfEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for typeOfEvent.
-        
+
         Returns:
             The typeOfEvent value
-        
+
         Note:
             Delegates to type_of_event property (CODING_RULE_V2_00017)
         """
@@ -633,13 +633,13 @@ class DiagnosticCommonProps(ARObject):
     def setTypeOfEvent(self, value: "DiagnosticEvent") -> "DiagnosticCommonProps":
         """
         AUTOSAR-compliant setter for typeOfEvent with method chaining.
-        
+
         Args:
             value: The typeOfEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_of_event property setter (gets validation automatically)
         """
@@ -651,13 +651,13 @@ class DiagnosticCommonProps(ARObject):
     def with_authentication(self, value: Optional["TimeValue"]) -> "DiagnosticCommonProps":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -667,13 +667,13 @@ class DiagnosticCommonProps(ARObject):
     def with_default(self, value: Optional["ByteOrderEnum"]) -> "DiagnosticCommonProps":
         """
         Set default and return self for chaining.
-        
+
         Args:
             value: The default to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default("value")
         """
@@ -683,13 +683,13 @@ class DiagnosticCommonProps(ARObject):
     def with_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticCommonProps":
         """
         Set event and return self for chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event("value")
         """
@@ -699,13 +699,13 @@ class DiagnosticCommonProps(ARObject):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "DiagnosticCommonProps":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -715,13 +715,13 @@ class DiagnosticCommonProps(ARObject):
     def with_occurrence(self, value: Optional["DiagnosticOccurrence"]) -> "DiagnosticCommonProps":
         """
         Set occurrence and return self for chaining.
-        
+
         Args:
             value: The occurrence to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_occurrence("value")
         """
@@ -731,13 +731,13 @@ class DiagnosticCommonProps(ARObject):
     def with_reset_confirmed(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
         """
         Set resetConfirmed and return self for chaining.
-        
+
         Args:
             value: The resetConfirmed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reset_confirmed("value")
         """
@@ -747,13 +747,13 @@ class DiagnosticCommonProps(ARObject):
     def with_reset_pending_bit(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
         """
         Set resetPendingBit and return self for chaining.
-        
+
         Args:
             value: The resetPendingBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reset_pending_bit("value")
         """
@@ -763,13 +763,13 @@ class DiagnosticCommonProps(ARObject):
     def with_response_on_all(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
         """
         Set responseOnAll and return self for chaining.
-        
+
         Args:
             value: The responseOnAll to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response_on_all("value")
         """
@@ -779,13 +779,13 @@ class DiagnosticCommonProps(ARObject):
     def with_response_on(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
         """
         Set responseOn and return self for chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response_on("value")
         """
@@ -795,13 +795,13 @@ class DiagnosticCommonProps(ARObject):
     def with_type_of_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticCommonProps":
         """
         Set typeOfEvent and return self for chaining.
-        
+
         Args:
             value: The typeOfEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_of_event("value")
         """

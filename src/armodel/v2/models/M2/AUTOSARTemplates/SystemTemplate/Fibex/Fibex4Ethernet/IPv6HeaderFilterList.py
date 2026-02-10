@@ -21,9 +21,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class IPv6ExtHeaderFilterSet(ARElement):
     """
     Set of IPv6 Extension Header Filters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList::IPv6ExtHeaderFilterSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 455, Classic Platform R23-11)
     """
@@ -77,10 +77,10 @@ class IPv6ExtHeaderFilterSet(ARElement):
     def getExtHeaderFilter(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for extHeaderFilter.
-        
+
         Returns:
             The extHeaderFilter value
-        
+
         Note:
             Delegates to ext_header_filter property (CODING_RULE_V2_00017)
         """
@@ -93,9 +93,9 @@ class IPv6ExtHeaderFilterSet(ARElement):
 class IPv6ExtHeaderFilterList(Identifiable):
     """
     Permitted list for the filtering of IPv6 extension headers.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList::IPv6ExtHeaderFilterList
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 455, Classic Platform R23-11)
     """
@@ -116,10 +116,10 @@ class IPv6ExtHeaderFilterList(Identifiable):
     def getAllowedIPv6Ext(self) -> List["PositiveInteger"]:
         """
         AUTOSAR-compliant getter for allowedIPv6Ext.
-        
+
         Returns:
             The allowedIPv6Ext value
-        
+
         Note:
             Delegates to allowed_i_pv6_ext property (CODING_RULE_V2_00017)
         """

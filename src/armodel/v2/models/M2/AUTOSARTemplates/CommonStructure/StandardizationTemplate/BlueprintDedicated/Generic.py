@@ -13,9 +13,9 @@ class BlueprintMapping(ARObject):
     """
     This meta-class represents the ability to map two an object and its
     blueprint.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic::BlueprintMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 163, Foundation R23-11)
     """
@@ -35,10 +35,10 @@ class BlueprintMapping(ARObject):
     def blueprint(self, value: "AtpBlueprint") -> None:
         """
         Set blueprint with validation.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class BlueprintMapping(ARObject):
     def derived_object(self, value: "AtpBlueprintable") -> None:
         """
         Set derivedObject with validation.
-        
+
         Args:
             value: The derivedObject to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class BlueprintMapping(ARObject):
     def getBlueprint(self) -> "AtpBlueprint":
         """
         AUTOSAR-compliant getter for blueprint.
-        
+
         Returns:
             The blueprint value
-        
+
         Note:
             Delegates to blueprint property (CODING_RULE_V2_00017)
         """
@@ -88,13 +88,13 @@ class BlueprintMapping(ARObject):
     def setBlueprint(self, value: "AtpBlueprint") -> "BlueprintMapping":
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint property setter (gets validation automatically)
         """
@@ -104,10 +104,10 @@ class BlueprintMapping(ARObject):
     def getDerivedObject(self) -> "AtpBlueprintable":
         """
         AUTOSAR-compliant getter for derivedObject.
-        
+
         Returns:
             The derivedObject value
-        
+
         Note:
             Delegates to derived_object property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class BlueprintMapping(ARObject):
     def setDerivedObject(self, value: "AtpBlueprintable") -> "BlueprintMapping":
         """
         AUTOSAR-compliant setter for derivedObject with method chaining.
-        
+
         Args:
             value: The derivedObject to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to derived_object property setter (gets validation automatically)
         """
@@ -134,13 +134,13 @@ class BlueprintMapping(ARObject):
     def with_blueprint(self, value: "AtpBlueprint") -> "BlueprintMapping":
         """
         Set blueprint and return self for chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint("value")
         """
@@ -150,13 +150,13 @@ class BlueprintMapping(ARObject):
     def with_derived_object(self, value: "AtpBlueprintable") -> "BlueprintMapping":
         """
         Set derivedObject and return self for chaining.
-        
+
         Args:
             value: The derivedObject to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_derived_object("value")
         """

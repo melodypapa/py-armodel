@@ -25,9 +25,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class NumericalValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::NumericalValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 302, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 241, Foundation
@@ -65,9 +65,9 @@ class AttributeValueVariationPoint(ARObject, ABC):
     This class represents the ability to derive the value of the Attribute from
     a system constant (by Sw SystemconstDependentFormula). It also provides a
     bindingTime.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::AttributeValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 617, Classic Platform
       R23-11)
@@ -96,10 +96,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def binding_time(self, value: Optional["BindingTimeEnum"]) -> None:
         """
         Set bindingTime with validation.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def blueprint_value(self, value: Optional["String"]) -> None:
         """
         Set blueprintValue with validation.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +152,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def sd(self, value: Optional["String"]) -> None:
         """
         Set sd with validation.
-        
+
         Args:
             value: The sd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -180,10 +180,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def short_label(self, value: Optional["PrimitiveIdentifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +202,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getBindingTime(self) -> "BindingTimeEnum":
         """
         AUTOSAR-compliant getter for bindingTime.
-        
+
         Returns:
             The bindingTime value
-        
+
         Note:
             Delegates to binding_time property (CODING_RULE_V2_00017)
         """
@@ -214,13 +214,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setBindingTime(self, value: "BindingTimeEnum") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for bindingTime with method chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to binding_time property setter (gets validation automatically)
         """
@@ -230,10 +230,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getBlueprintValue(self) -> "String":
         """
         AUTOSAR-compliant getter for blueprintValue.
-        
+
         Returns:
             The blueprintValue value
-        
+
         Note:
             Delegates to blueprint_value property (CODING_RULE_V2_00017)
         """
@@ -242,13 +242,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setBlueprintValue(self, value: "String") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint_value property setter (gets validation automatically)
         """
@@ -258,10 +258,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getSd(self) -> "String":
         """
         AUTOSAR-compliant getter for sd.
-        
+
         Returns:
             The sd value
-        
+
         Note:
             Delegates to sd property (CODING_RULE_V2_00017)
         """
@@ -270,13 +270,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setSd(self, value: "String") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for sd with method chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd property setter (gets validation automatically)
         """
@@ -286,10 +286,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getShortLabel(self) -> "PrimitiveIdentifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -298,13 +298,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setShortLabel(self, value: "PrimitiveIdentifier") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -316,13 +316,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_binding_time(self, value: Optional["BindingTimeEnum"]) -> "AttributeValueVariationPoint":
         """
         Set bindingTime and return self for chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_binding_time("value")
         """
@@ -332,13 +332,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_blueprint_value(self, value: Optional["String"]) -> "AttributeValueVariationPoint":
         """
         Set blueprintValue and return self for chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint_value("value")
         """
@@ -348,13 +348,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_sd(self, value: Optional["String"]) -> "AttributeValueVariationPoint":
         """
         Set sd and return self for chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd("value")
         """
@@ -364,13 +364,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_short_label(self, value: Optional["PrimitiveIdentifier"]) -> "AttributeValueVariationPoint":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -384,9 +384,9 @@ class AbstractNumericalVariationPoint(ARObject, ABC):
     This is an abstract NumericalValueVariationPoint. It is introduced to
     support the case that additional attributes are required for particular
     purposes.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::AbstractNumericalVariationPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 969, Classic Platform
       R23-11)
@@ -409,9 +409,9 @@ class AbstractNumericalVariationPoint(ARObject, ABC):
 class BooleanValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model on
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::BooleanValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 240, Foundation
       R23-11)
@@ -430,9 +430,9 @@ class BooleanValueVariationPoint(ARObject):
 class FloatValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model only
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::FloatValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 240, Foundation
       R23-11)
@@ -451,9 +451,9 @@ class FloatValueVariationPoint(ARObject):
 class IntegerValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::IntegerValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 241, Foundation
       R23-11)
@@ -472,9 +472,9 @@ class IntegerValueVariationPoint(ARObject):
 class LimitValueVariationPoint(ARObject):
     """
     that the xml.name is "LIMIT" for backward compatibility reasons.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::LimitValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 241, Foundation
       R23-11)
@@ -496,10 +496,10 @@ class LimitValueVariationPoint(ARObject):
     def interval_type(self, value: Optional["IntervalTypeEnum"]) -> None:
         """
         Set intervalType with validation.
-        
+
         Args:
             value: The intervalType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -518,10 +518,10 @@ class LimitValueVariationPoint(ARObject):
     def getIntervalType(self) -> "IntervalTypeEnum":
         """
         AUTOSAR-compliant getter for intervalType.
-        
+
         Returns:
             The intervalType value
-        
+
         Note:
             Delegates to interval_type property (CODING_RULE_V2_00017)
         """
@@ -530,13 +530,13 @@ class LimitValueVariationPoint(ARObject):
     def setIntervalType(self, value: "IntervalTypeEnum") -> "LimitValueVariationPoint":
         """
         AUTOSAR-compliant setter for intervalType with method chaining.
-        
+
         Args:
             value: The intervalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interval_type property setter (gets validation automatically)
         """
@@ -548,13 +548,13 @@ class LimitValueVariationPoint(ARObject):
     def with_interval_type(self, value: Optional["IntervalTypeEnum"]) -> "LimitValueVariationPoint":
         """
         Set intervalType and return self for chaining.
-        
+
         Args:
             value: The intervalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interval_type("value")
         """
@@ -566,9 +566,9 @@ class LimitValueVariationPoint(ARObject):
 class PositiveIntegerValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::PositiveIntegerValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 241, Foundation
       R23-11)
@@ -587,9 +587,9 @@ class PositiveIntegerValueVariationPoint(ARObject):
 class UnlimitedIntegerValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::UnlimitedIntegerValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 242, Foundation
       R23-11)
@@ -609,9 +609,9 @@ class TimeValueValueVariationPoint(ARObject):
     """
     This class represents the ability to express a formula for a numerical time
     value.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::TimeValueValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 242, Foundation
       R23-11)
@@ -632,9 +632,9 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     This is an abstract EnumerationValueVariationPoint. It is introduced to
     support the case that additional attributes are required for particular
     purposes.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::AbstractEnumerationValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 421, Foundation
       R23-11)
@@ -657,10 +657,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def base(self, value: Optional["Identifier"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -684,10 +684,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def enum_table(self, value: Optional["RefType"]) -> None:
         """
         Set enumTable with validation.
-        
+
         Args:
             value: The enumTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -702,10 +702,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def getBase(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -714,13 +714,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def setBase(self, value: "Identifier") -> "AbstractEnumerationValueVariationPoint":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -730,10 +730,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def getEnumTable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for enumTable.
-        
+
         Returns:
             The enumTable value
-        
+
         Note:
             Delegates to enum_table property (CODING_RULE_V2_00017)
         """
@@ -742,13 +742,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def setEnumTable(self, value: "RefType") -> "AbstractEnumerationValueVariationPoint":
         """
         AUTOSAR-compliant setter for enumTable with method chaining.
-        
+
         Args:
             value: The enumTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enum_table property setter (gets validation automatically)
         """
@@ -760,13 +760,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def with_base(self, value: Optional["Identifier"]) -> "AbstractEnumerationValueVariationPoint":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -776,13 +776,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def with_enum_table(self, value: Optional[RefType]) -> "AbstractEnumerationValueVariationPoint":
         """
         Set enumTable and return self for chaining.
-        
+
         Args:
             value: The enumTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enum_table("value")
         """
@@ -794,9 +794,9 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
 class EnumerationMappingEntry(ARObject):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::EnumerationMappingEntry
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 443, Foundation
       R23-11)
@@ -819,10 +819,10 @@ class EnumerationMappingEntry(ARObject):
     def enumerator(self, value: "NameToken") -> None:
         """
         Set enumerator with validation.
-        
+
         Args:
             value: The enumerator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -848,10 +848,10 @@ class EnumerationMappingEntry(ARObject):
     def numerical_value(self, value: "PositiveInteger") -> None:
         """
         Set numericalValue with validation.
-        
+
         Args:
             value: The numericalValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -866,10 +866,10 @@ class EnumerationMappingEntry(ARObject):
     def getEnumerator(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for enumerator.
-        
+
         Returns:
             The enumerator value
-        
+
         Note:
             Delegates to enumerator property (CODING_RULE_V2_00017)
         """
@@ -878,13 +878,13 @@ class EnumerationMappingEntry(ARObject):
     def setEnumerator(self, value: "NameToken") -> "EnumerationMappingEntry":
         """
         AUTOSAR-compliant setter for enumerator with method chaining.
-        
+
         Args:
             value: The enumerator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enumerator property setter (gets validation automatically)
         """
@@ -894,10 +894,10 @@ class EnumerationMappingEntry(ARObject):
     def getNumericalValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for numericalValue.
-        
+
         Returns:
             The numericalValue value
-        
+
         Note:
             Delegates to numerical_value property (CODING_RULE_V2_00017)
         """
@@ -906,13 +906,13 @@ class EnumerationMappingEntry(ARObject):
     def setNumericalValue(self, value: "PositiveInteger") -> "EnumerationMappingEntry":
         """
         AUTOSAR-compliant setter for numericalValue with method chaining.
-        
+
         Args:
             value: The numericalValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to numerical_value property setter (gets validation automatically)
         """
@@ -924,13 +924,13 @@ class EnumerationMappingEntry(ARObject):
     def with_enumerator(self, value: "NameToken") -> "EnumerationMappingEntry":
         """
         Set enumerator and return self for chaining.
-        
+
         Args:
             value: The enumerator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enumerator("value")
         """
@@ -940,13 +940,13 @@ class EnumerationMappingEntry(ARObject):
     def with_numerical_value(self, value: "PositiveInteger") -> "EnumerationMappingEntry":
         """
         Set numericalValue and return self for chaining.
-        
+
         Args:
             value: The numericalValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_numerical_value("value")
         """
@@ -958,9 +958,9 @@ class EnumerationMappingEntry(ARObject):
 class EnumerationMappingTable(PackageableElement):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::EnumerationMappingTable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 444, Foundation
       R23-11)
@@ -982,10 +982,10 @@ class EnumerationMappingTable(PackageableElement):
     def getEntry(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for entry.
-        
+
         Returns:
             The entry value
-        
+
         Note:
             Delegates to entry property (CODING_RULE_V2_00017)
         """

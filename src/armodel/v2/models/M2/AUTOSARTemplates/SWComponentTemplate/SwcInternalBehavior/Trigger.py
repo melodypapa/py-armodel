@@ -21,9 +21,9 @@ class ExternalTriggeringPoint(ARObject):
     """
     If a RunnableEntity owns an ExternalTriggeringPoint it is entitled to raise
     an ExternalTriggerOccurred Event.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger::ExternalTriggeringPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 315, Classic
       Platform R23-11)
@@ -50,10 +50,10 @@ class ExternalTriggeringPoint(ARObject):
     def ident(self, value: Optional["RefType"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +73,10 @@ class ExternalTriggeringPoint(ARObject):
     def trigger_type_instance_ref(self, value: Optional["RefType"]) -> None:
         """
         Set triggerTypeInstanceRef with validation.
-        
+
         Args:
             value: The triggerTypeInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class ExternalTriggeringPoint(ARObject):
     def getIdent(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -103,13 +103,13 @@ class ExternalTriggeringPoint(ARObject):
     def setIdent(self, value: "RefType") -> "ExternalTriggeringPoint":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -119,10 +119,10 @@ class ExternalTriggeringPoint(ARObject):
     def getTriggerTypeInstanceRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for triggerTypeInstanceRef.
-        
+
         Returns:
             The triggerTypeInstanceRef value
-        
+
         Note:
             Delegates to trigger_type_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -131,13 +131,13 @@ class ExternalTriggeringPoint(ARObject):
     def setTriggerTypeInstanceRef(self, value: "RefType") -> "ExternalTriggeringPoint":
         """
         AUTOSAR-compliant setter for triggerTypeInstanceRef with method chaining.
-        
+
         Args:
             value: The triggerTypeInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_type_instance_ref property setter (gets validation automatically)
         """
@@ -149,13 +149,13 @@ class ExternalTriggeringPoint(ARObject):
     def with_ident(self, value: Optional[RefType]) -> "ExternalTriggeringPoint":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -165,13 +165,13 @@ class ExternalTriggeringPoint(ARObject):
     def with_trigger_type_instance_ref(self, value: Optional[RefType]) -> "ExternalTriggeringPoint":
         """
         Set triggerTypeInstanceRef and return self for chaining.
-        
+
         Args:
             value: The triggerTypeInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_type_instance_ref("value")
         """
@@ -185,9 +185,9 @@ class InternalTriggeringPoint(AbstractAccessPoint):
     If a RunnableEntity owns an InternalTriggeringPoint it is entitled to
     trigger the execution of Runnable Entities of the corresponding
     software-component.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger::InternalTriggeringPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 322, Classic
       Platform R23-11)
@@ -210,10 +210,10 @@ class InternalTriggeringPoint(AbstractAccessPoint):
     def sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> None:
         """
         Set swImplPolicy with validation.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +232,10 @@ class InternalTriggeringPoint(AbstractAccessPoint):
     def getSwImplPolicy(self) -> "SwImplPolicyEnum":
         """
         AUTOSAR-compliant getter for swImplPolicy.
-        
+
         Returns:
             The swImplPolicy value
-        
+
         Note:
             Delegates to sw_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -244,13 +244,13 @@ class InternalTriggeringPoint(AbstractAccessPoint):
     def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> "InternalTriggeringPoint":
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_impl_policy property setter (gets validation automatically)
         """
@@ -262,13 +262,13 @@ class InternalTriggeringPoint(AbstractAccessPoint):
     def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> "InternalTriggeringPoint":
         """
         Set swImplPolicy and return self for chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_impl_policy("value")
         """

@@ -15,9 +15,9 @@ class SwSystemconst(ARElement):
     """
     that the binding process can only happen if a value was assigned to to the
     referenced system constants.
-    
+
     Package: M2::MSR::DataDictionary::SystemConstant::SwSystemconst
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 343, Classic
       Platform R23-11)
@@ -48,10 +48,10 @@ class SwSystemconst(ARElement):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +70,10 @@ class SwSystemconst(ARElement):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -82,13 +82,13 @@ class SwSystemconst(ARElement):
     def setSwDataDef(self, value: "SwDataDefProps") -> "SwSystemconst":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -100,13 +100,13 @@ class SwSystemconst(ARElement):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "SwSystemconst":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """

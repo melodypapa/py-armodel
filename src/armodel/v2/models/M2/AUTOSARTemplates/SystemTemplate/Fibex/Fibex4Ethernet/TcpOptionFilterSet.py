@@ -21,9 +21,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class TcpOptionFilterSet(ARElement):
     """
     Set of TcpOptionFilterLists.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet::TcpOptionFilterSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 457, Classic Platform R23-11)
     """
@@ -76,10 +76,10 @@ class TcpOptionFilterSet(ARElement):
     def getTcpOptionFilter(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for tcpOptionFilter.
-        
+
         Returns:
             The tcpOptionFilter value
-        
+
         Note:
             Delegates to tcp_option_filter property (CODING_RULE_V2_00017)
         """
@@ -92,9 +92,9 @@ class TcpOptionFilterSet(ARElement):
 class TcpOptionFilterList(Identifiable):
     """
     Permitted list for the filtering of TCP options.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet::TcpOptionFilterList
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 457, Classic Platform R23-11)
     """
@@ -115,10 +115,10 @@ class TcpOptionFilterList(Identifiable):
     def getAllowedTcpOption(self) -> List["PositiveInteger"]:
         """
         AUTOSAR-compliant getter for allowedTcpOption.
-        
+
         Returns:
             The allowedTcpOption value
-        
+
         Note:
             Delegates to allowed_tcp_option property (CODING_RULE_V2_00017)
         """

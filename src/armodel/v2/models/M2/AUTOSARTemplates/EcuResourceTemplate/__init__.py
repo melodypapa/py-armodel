@@ -28,9 +28,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class HwDescriptionEntity(Referrable, ABC):
     """
     This meta-class represents the ability to describe a hardware entity.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwDescriptionEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 15, Classic Platform
       R23-11)
@@ -72,10 +72,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def hw_type(self, value: Optional["HwType"]) -> None:
         """
         Set hwType with validation.
-        
+
         Args:
             value: The hwType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -190,10 +190,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwAttribute(self) -> List["HwAttributeValue"]:
         """
         AUTOSAR-compliant getter for hwAttribute.
-        
+
         Returns:
             The hwAttribute value
-        
+
         Note:
             Delegates to hw_attribute property (CODING_RULE_V2_00017)
         """
@@ -202,10 +202,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwCategory(self) -> List["HwCategory"]:
         """
         AUTOSAR-compliant getter for hwCategory.
-        
+
         Returns:
             The hwCategory value
-        
+
         Note:
             Delegates to hw_category property (CODING_RULE_V2_00017)
         """
@@ -214,10 +214,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwType(self) -> "HwType":
         """
         AUTOSAR-compliant getter for hwType.
-        
+
         Returns:
             The hwType value
-        
+
         Note:
             Delegates to hw_type property (CODING_RULE_V2_00017)
         """
@@ -226,13 +226,13 @@ class HwDescriptionEntity(Referrable, ABC):
     def setHwType(self, value: "HwType") -> "HwDescriptionEntity":
         """
         AUTOSAR-compliant setter for hwType with method chaining.
-        
+
         Args:
             value: The hwType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_type property setter (gets validation automatically)
         """
@@ -244,13 +244,13 @@ class HwDescriptionEntity(Referrable, ABC):
     def with_hw_type(self, value: Optional["HwType"]) -> "HwDescriptionEntity":
         """
         Set hwType and return self for chaining.
-        
+
         Args:
             value: The hwType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_type("value")
         """
@@ -265,9 +265,9 @@ class HwPinGroup(Identifiable):
     used to connect hardware elements. This group acts as a bundle of pins.
     Thereby they allow to describe high level connections. Pin groups can even
     be nested.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 19, Classic Platform
       R23-11)
@@ -289,10 +289,10 @@ class HwPinGroup(Identifiable):
     def hw_pin_group(self, value: Optional["RefType"]) -> None:
         """
         Set hwPinGroup with validation.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -307,10 +307,10 @@ class HwPinGroup(Identifiable):
     def getHwPinGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """
@@ -319,13 +319,13 @@ class HwPinGroup(Identifiable):
     def setHwPinGroup(self, value: "RefType") -> "HwPinGroup":
         """
         AUTOSAR-compliant setter for hwPinGroup with method chaining.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_pin_group property setter (gets validation automatically)
         """
@@ -337,13 +337,13 @@ class HwPinGroup(Identifiable):
     def with_hw_pin_group(self, value: Optional[RefType]) -> "HwPinGroup":
         """
         Set hwPinGroup and return self for chaining.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_pin_group("value")
         """
@@ -355,9 +355,9 @@ class HwPinGroup(Identifiable):
 class HwPinGroupContent(ARObject):
     """
     This meta-class specifies a mixture of hwPins and hwPinGroups.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroupContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 20, Classic Platform
       R23-11)
@@ -378,10 +378,10 @@ class HwPinGroupContent(ARObject):
     def hw_pin(self, value: Optional["HwPin"]) -> None:
         """
         Set hwPin with validation.
-        
+
         Args:
             value: The hwPin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -407,10 +407,10 @@ class HwPinGroupContent(ARObject):
     def hw_pin_group(self, value: Optional["RefType"]) -> None:
         """
         Set hwPinGroup with validation.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -425,10 +425,10 @@ class HwPinGroupContent(ARObject):
     def getHwPin(self) -> "HwPin":
         """
         AUTOSAR-compliant getter for hwPin.
-        
+
         Returns:
             The hwPin value
-        
+
         Note:
             Delegates to hw_pin property (CODING_RULE_V2_00017)
         """
@@ -437,13 +437,13 @@ class HwPinGroupContent(ARObject):
     def setHwPin(self, value: "HwPin") -> "HwPinGroupContent":
         """
         AUTOSAR-compliant setter for hwPin with method chaining.
-        
+
         Args:
             value: The hwPin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_pin property setter (gets validation automatically)
         """
@@ -453,10 +453,10 @@ class HwPinGroupContent(ARObject):
     def getHwPinGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """
@@ -465,13 +465,13 @@ class HwPinGroupContent(ARObject):
     def setHwPinGroup(self, value: "RefType") -> "HwPinGroupContent":
         """
         AUTOSAR-compliant setter for hwPinGroup with method chaining.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_pin_group property setter (gets validation automatically)
         """
@@ -483,13 +483,13 @@ class HwPinGroupContent(ARObject):
     def with_hw_pin(self, value: Optional["HwPin"]) -> "HwPinGroupContent":
         """
         Set hwPin and return self for chaining.
-        
+
         Args:
             value: The hwPin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_pin("value")
         """
@@ -499,13 +499,13 @@ class HwPinGroupContent(ARObject):
     def with_hw_pin_group(self, value: Optional[RefType]) -> "HwPinGroupContent":
         """
         Set hwPinGroup and return self for chaining.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_pin_group("value")
         """
@@ -517,9 +517,9 @@ class HwPinGroupContent(ARObject):
 class HwPin(Identifiable):
     """
     This meta-class represents the possibility to describe a hardware pin.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPin
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 20, Classic Platform
       R23-11)
@@ -552,10 +552,10 @@ class HwPin(Identifiable):
     def packaging_pin(self, value: Optional["String"]) -> None:
         """
         Set packagingPin with validation.
-        
+
         Args:
             value: The packagingPin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -580,10 +580,10 @@ class HwPin(Identifiable):
     def pin_number(self, value: Optional["Integer"]) -> None:
         """
         Set pinNumber with validation.
-        
+
         Args:
             value: The pinNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -602,10 +602,10 @@ class HwPin(Identifiable):
     def getFunctionName(self) -> List["String"]:
         """
         AUTOSAR-compliant getter for functionName.
-        
+
         Returns:
             The functionName value
-        
+
         Note:
             Delegates to function_name property (CODING_RULE_V2_00017)
         """
@@ -614,10 +614,10 @@ class HwPin(Identifiable):
     def getPackagingPin(self) -> "String":
         """
         AUTOSAR-compliant getter for packagingPin.
-        
+
         Returns:
             The packagingPin value
-        
+
         Note:
             Delegates to packaging_pin property (CODING_RULE_V2_00017)
         """
@@ -626,13 +626,13 @@ class HwPin(Identifiable):
     def setPackagingPin(self, value: "String") -> "HwPin":
         """
         AUTOSAR-compliant setter for packagingPin with method chaining.
-        
+
         Args:
             value: The packagingPin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to packaging_pin property setter (gets validation automatically)
         """
@@ -642,10 +642,10 @@ class HwPin(Identifiable):
     def getPinNumber(self) -> "Integer":
         """
         AUTOSAR-compliant getter for pinNumber.
-        
+
         Returns:
             The pinNumber value
-        
+
         Note:
             Delegates to pin_number property (CODING_RULE_V2_00017)
         """
@@ -654,13 +654,13 @@ class HwPin(Identifiable):
     def setPinNumber(self, value: "Integer") -> "HwPin":
         """
         AUTOSAR-compliant setter for pinNumber with method chaining.
-        
+
         Args:
             value: The pinNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pin_number property setter (gets validation automatically)
         """
@@ -672,13 +672,13 @@ class HwPin(Identifiable):
     def with_packaging_pin(self, value: Optional["String"]) -> "HwPin":
         """
         Set packagingPin and return self for chaining.
-        
+
         Args:
             value: The packagingPin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_packaging_pin("value")
         """
@@ -688,13 +688,13 @@ class HwPin(Identifiable):
     def with_pin_number(self, value: Optional["Integer"]) -> "HwPin":
         """
         Set pinNumber and return self for chaining.
-        
+
         Args:
             value: The pinNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pin_number("value")
         """
@@ -707,9 +707,9 @@ class HwElementConnector(Describable):
     """
     This meta-class represents the ability to connect two hardware elements. The
     details of the connection can be refined by hwPinGroupConnection.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 21, Classic Platform
       R23-11)
@@ -750,10 +750,10 @@ class HwElementConnector(Describable):
     def getHwElement(self) -> List["HwElement"]:
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -762,10 +762,10 @@ class HwElementConnector(Describable):
     def getHwPin(self) -> List["HwPinConnector"]:
         """
         AUTOSAR-compliant getter for hwPin.
-        
+
         Returns:
             The hwPin value
-        
+
         Note:
             Delegates to hw_pin property (CODING_RULE_V2_00017)
         """
@@ -774,10 +774,10 @@ class HwElementConnector(Describable):
     def getHwPinGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """
@@ -790,9 +790,9 @@ class HwElementConnector(Describable):
 class HwPinGroupConnector(Describable):
     """
     This meta-class represents the ability to connect two pin groups.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroupConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 22, Classic Platform
       R23-11)
@@ -822,10 +822,10 @@ class HwPinGroupConnector(Describable):
     def getHwPin(self) -> List["HwPinConnector"]:
         """
         AUTOSAR-compliant getter for hwPin.
-        
+
         Returns:
             The hwPin value
-        
+
         Note:
             Delegates to hw_pin property (CODING_RULE_V2_00017)
         """
@@ -834,10 +834,10 @@ class HwPinGroupConnector(Describable):
     def getHwPinGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """
@@ -850,9 +850,9 @@ class HwPinGroupConnector(Describable):
 class HwPinConnector(Describable):
     """
     This meta-class represents the ability to connect two pins.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 22, Classic Platform
       R23-11)
@@ -874,10 +874,10 @@ class HwPinConnector(Describable):
     def getHwPin(self) -> List["HwPin"]:
         """
         AUTOSAR-compliant getter for hwPin.
-        
+
         Returns:
             The hwPin value
-        
+
         Note:
             Delegates to hw_pin property (CODING_RULE_V2_00017)
         """
@@ -893,9 +893,9 @@ class HwElement(HwDescriptionEntity):
     level. The particular types of hardware are distinguished by the category.
     This category determines the applicable attributes. The possible categories
     and attributes are defined in HwCategory.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 296, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 18, Classic Platform
@@ -943,10 +943,10 @@ class HwElement(HwDescriptionEntity):
     def getHwElement(self) -> List["HwElementConnector"]:
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -955,10 +955,10 @@ class HwElement(HwDescriptionEntity):
     def getHwPinGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """
@@ -967,10 +967,10 @@ class HwElement(HwDescriptionEntity):
     def getNestedElement(self) -> List["HwElement"]:
         """
         AUTOSAR-compliant getter for nestedElement.
-        
+
         Returns:
             The nestedElement value
-        
+
         Note:
             Delegates to nested_element property (CODING_RULE_V2_00017)
         """

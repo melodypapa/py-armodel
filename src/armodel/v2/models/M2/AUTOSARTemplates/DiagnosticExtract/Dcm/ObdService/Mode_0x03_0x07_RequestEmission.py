@@ -16,9 +16,9 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x03/0x07 service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x03_0x07_RequestEmission::DiagnosticRequestEmissionRelatedDTC
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 153, Classic Platform
       R23-11)
@@ -42,10 +42,10 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
     def request(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +64,10 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
     def getRequest(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -76,13 +76,13 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
     def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestEmissionRelatedDTC":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -94,13 +94,13 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
     def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestEmissionRelatedDTC":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """
@@ -113,9 +113,9 @@ class DiagnosticRequestEmissionRelatedDTCClass(DiagnosticServiceClass):
     """
     This meta-class represents the ability to define common properties for all
     instances of the "Request Emission Related DTC" OBD diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x03_0x07_RequestEmission::DiagnosticRequestEmissionRelatedDTCClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 154, Classic Platform
       R23-11)

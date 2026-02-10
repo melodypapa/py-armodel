@@ -25,9 +25,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class DltArgument(Identifiable):
     """
     This element defines an Argument in a DltMessage.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltArgument
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 983, Classic Platform
       R23-11)
@@ -57,10 +57,10 @@ class DltArgument(Identifiable):
     def length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class DltArgument(Identifiable):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class DltArgument(Identifiable):
     def optional(self, value: Optional["Boolean"]) -> None:
         """
         Set optional with validation.
-        
+
         Args:
             value: The optional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +139,10 @@ class DltArgument(Identifiable):
     def predefined_text(self, value: Optional["Boolean"]) -> None:
         """
         Set predefinedText with validation.
-        
+
         Args:
             value: The predefinedText to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,10 +167,10 @@ class DltArgument(Identifiable):
     def variable_length(self, value: Optional["Boolean"]) -> None:
         """
         Set variableLength with validation.
-        
+
         Args:
             value: The variableLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -253,10 +253,10 @@ class DltArgument(Identifiable):
     def getDltArgument(self) -> List["DltArgument"]:
         """
         AUTOSAR-compliant getter for dltArgument.
-        
+
         Returns:
             The dltArgument value
-        
+
         Note:
             Delegates to dlt_argument property (CODING_RULE_V2_00017)
         """
@@ -265,10 +265,10 @@ class DltArgument(Identifiable):
     def getLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -277,13 +277,13 @@ class DltArgument(Identifiable):
     def setLength(self, value: "PositiveInteger") -> "DltArgument":
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -293,10 +293,10 @@ class DltArgument(Identifiable):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -305,13 +305,13 @@ class DltArgument(Identifiable):
     def setNetwork(self, value: "SwDataDefProps") -> "DltArgument":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -321,10 +321,10 @@ class DltArgument(Identifiable):
     def getOptional(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for optional.
-        
+
         Returns:
             The optional value
-        
+
         Note:
             Delegates to optional property (CODING_RULE_V2_00017)
         """
@@ -333,13 +333,13 @@ class DltArgument(Identifiable):
     def setOptional(self, value: "Boolean") -> "DltArgument":
         """
         AUTOSAR-compliant setter for optional with method chaining.
-        
+
         Args:
             value: The optional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to optional property setter (gets validation automatically)
         """
@@ -349,10 +349,10 @@ class DltArgument(Identifiable):
     def getPredefinedText(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for predefinedText.
-        
+
         Returns:
             The predefinedText value
-        
+
         Note:
             Delegates to predefined_text property (CODING_RULE_V2_00017)
         """
@@ -361,13 +361,13 @@ class DltArgument(Identifiable):
     def setPredefinedText(self, value: "Boolean") -> "DltArgument":
         """
         AUTOSAR-compliant setter for predefinedText with method chaining.
-        
+
         Args:
             value: The predefinedText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to predefined_text property setter (gets validation automatically)
         """
@@ -377,10 +377,10 @@ class DltArgument(Identifiable):
     def getVariableLength(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for variableLength.
-        
+
         Returns:
             The variableLength value
-        
+
         Note:
             Delegates to variable_length property (CODING_RULE_V2_00017)
         """
@@ -389,13 +389,13 @@ class DltArgument(Identifiable):
     def setVariableLength(self, value: "Boolean") -> "DltArgument":
         """
         AUTOSAR-compliant setter for variableLength with method chaining.
-        
+
         Args:
             value: The variableLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable_length property setter (gets validation automatically)
         """
@@ -407,13 +407,13 @@ class DltArgument(Identifiable):
     def with_length(self, value: Optional["PositiveInteger"]) -> "DltArgument":
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -423,13 +423,13 @@ class DltArgument(Identifiable):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "DltArgument":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -439,13 +439,13 @@ class DltArgument(Identifiable):
     def with_optional(self, value: Optional["Boolean"]) -> "DltArgument":
         """
         Set optional and return self for chaining.
-        
+
         Args:
             value: The optional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_optional("value")
         """
@@ -455,13 +455,13 @@ class DltArgument(Identifiable):
     def with_predefined_text(self, value: Optional["Boolean"]) -> "DltArgument":
         """
         Set predefinedText and return self for chaining.
-        
+
         Args:
             value: The predefinedText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_predefined_text("value")
         """
@@ -471,13 +471,13 @@ class DltArgument(Identifiable):
     def with_variable_length(self, value: Optional["Boolean"]) -> "DltArgument":
         """
         Set variableLength and return self for chaining.
-        
+
         Args:
             value: The variableLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable_length("value")
         """
@@ -490,9 +490,9 @@ class DltApplication(Identifiable):
     """
     This meta-class represents the application from which the log and trace
     message originates.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltApplication
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2017, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 8, Foundation R23-11)
@@ -514,10 +514,10 @@ class DltApplication(Identifiable):
     def application(self, value: Optional["String"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -541,10 +541,10 @@ class DltApplication(Identifiable):
     def application_id(self, value: Optional["String"]) -> None:
         """
         Set applicationId with validation.
-        
+
         Args:
             value: The applicationId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -570,10 +570,10 @@ class DltApplication(Identifiable):
     def getApplication(self) -> "String":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -582,13 +582,13 @@ class DltApplication(Identifiable):
     def setApplication(self, value: "String") -> "DltApplication":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -598,10 +598,10 @@ class DltApplication(Identifiable):
     def getApplicationId(self) -> "String":
         """
         AUTOSAR-compliant getter for applicationId.
-        
+
         Returns:
             The applicationId value
-        
+
         Note:
             Delegates to application_id property (CODING_RULE_V2_00017)
         """
@@ -610,13 +610,13 @@ class DltApplication(Identifiable):
     def setApplicationId(self, value: "String") -> "DltApplication":
         """
         AUTOSAR-compliant setter for applicationId with method chaining.
-        
+
         Args:
             value: The applicationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_id property setter (gets validation automatically)
         """
@@ -626,10 +626,10 @@ class DltApplication(Identifiable):
     def getContext(self) -> List["DltContext"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -640,13 +640,13 @@ class DltApplication(Identifiable):
     def with_application(self, value: Optional["String"]) -> "DltApplication":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -656,13 +656,13 @@ class DltApplication(Identifiable):
     def with_application_id(self, value: Optional["String"]) -> "DltApplication":
         """
         Set applicationId and return self for chaining.
-        
+
         Args:
             value: The applicationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_id("value")
         """
@@ -675,9 +675,9 @@ class DltContext(ARElement):
     """
     This meta-class represents the Context that groups Log and Trace Messages
     that are generated by an application.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltContext
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2017, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 9, Foundation R23-11)
@@ -699,10 +699,10 @@ class DltContext(ARElement):
     def context(self, value: Optional["String"]) -> None:
         """
         Set context with validation.
-        
+
         Args:
             value: The context to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -728,10 +728,10 @@ class DltContext(ARElement):
     def context_id(self, value: Optional["String"]) -> None:
         """
         Set contextId with validation.
-        
+
         Args:
             value: The contextId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -756,10 +756,10 @@ class DltContext(ARElement):
     def getContext(self) -> "String":
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -768,13 +768,13 @@ class DltContext(ARElement):
     def setContext(self, value: "String") -> "DltContext":
         """
         AUTOSAR-compliant setter for context with method chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context property setter (gets validation automatically)
         """
@@ -784,10 +784,10 @@ class DltContext(ARElement):
     def getContextId(self) -> "String":
         """
         AUTOSAR-compliant getter for contextId.
-        
+
         Returns:
             The contextId value
-        
+
         Note:
             Delegates to context_id property (CODING_RULE_V2_00017)
         """
@@ -796,13 +796,13 @@ class DltContext(ARElement):
     def setContextId(self, value: "String") -> "DltContext":
         """
         AUTOSAR-compliant setter for contextId with method chaining.
-        
+
         Args:
             value: The contextId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_id property setter (gets validation automatically)
         """
@@ -812,10 +812,10 @@ class DltContext(ARElement):
     def getDltMessage(self) -> List["DltMessage"]:
         """
         AUTOSAR-compliant getter for dltMessage.
-        
+
         Returns:
             The dltMessage value
-        
+
         Note:
             Delegates to dlt_message property (CODING_RULE_V2_00017)
         """
@@ -826,13 +826,13 @@ class DltContext(ARElement):
     def with_context(self, value: Optional["String"]) -> "DltContext":
         """
         Set context and return self for chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context("value")
         """
@@ -842,13 +842,13 @@ class DltContext(ARElement):
     def with_context_id(self, value: Optional["String"]) -> "DltContext":
         """
         Set contextId and return self for chaining.
-        
+
         Args:
             value: The contextId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_id("value")
         """
@@ -861,9 +861,9 @@ class DltEcu(ARElement):
     """
     This element represents an Ecu or Machine that produces logging and tracing
     information.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2018, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 8, Foundation R23-11)
@@ -892,10 +892,10 @@ class DltEcu(ARElement):
     def ecu_id(self, value: Optional["String"]) -> None:
         """
         Set ecuId with validation.
-        
+
         Args:
             value: The ecuId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -914,10 +914,10 @@ class DltEcu(ARElement):
     def getApplication(self) -> List["DltApplication"]:
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -926,10 +926,10 @@ class DltEcu(ARElement):
     def getEcuId(self) -> "String":
         """
         AUTOSAR-compliant getter for ecuId.
-        
+
         Returns:
             The ecuId value
-        
+
         Note:
             Delegates to ecu_id property (CODING_RULE_V2_00017)
         """
@@ -938,13 +938,13 @@ class DltEcu(ARElement):
     def setEcuId(self, value: "String") -> "DltEcu":
         """
         AUTOSAR-compliant setter for ecuId with method chaining.
-        
+
         Args:
             value: The ecuId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_id property setter (gets validation automatically)
         """
@@ -956,13 +956,13 @@ class DltEcu(ARElement):
     def with_ecu_id(self, value: Optional["String"]) -> "DltEcu":
         """
         Set ecuId and return self for chaining.
-        
+
         Args:
             value: The ecuId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_id("value")
         """
@@ -974,9 +974,9 @@ class DltEcu(ARElement):
 class DltMessage(Identifiable):
     """
     This element defines a DltMessage.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltMessage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2018, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 12, Foundation R23-11)
@@ -1004,10 +1004,10 @@ class DltMessage(Identifiable):
     def message_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageId with validation.
-        
+
         Args:
             value: The messageId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1032,10 +1032,10 @@ class DltMessage(Identifiable):
     def message_line(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageLine with validation.
-        
+
         Args:
             value: The messageLine to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1059,10 +1059,10 @@ class DltMessage(Identifiable):
     def message_source(self, value: Optional["String"]) -> None:
         """
         Set messageSource with validation.
-        
+
         Args:
             value: The messageSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1086,10 +1086,10 @@ class DltMessage(Identifiable):
     def message_type_info(self, value: Optional["String"]) -> None:
         """
         Set messageTypeInfo with validation.
-        
+
         Args:
             value: The messageTypeInfo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1114,10 +1114,10 @@ class DltMessage(Identifiable):
     def privacy_level(self, value: Optional["PrivacyLevel"]) -> None:
         """
         Set privacyLevel with validation.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1136,10 +1136,10 @@ class DltMessage(Identifiable):
     def getDltArgument(self) -> List["DltArgument"]:
         """
         AUTOSAR-compliant getter for dltArgument.
-        
+
         Returns:
             The dltArgument value
-        
+
         Note:
             Delegates to dlt_argument property (CODING_RULE_V2_00017)
         """
@@ -1148,10 +1148,10 @@ class DltMessage(Identifiable):
     def getMessageId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageId.
-        
+
         Returns:
             The messageId value
-        
+
         Note:
             Delegates to message_id property (CODING_RULE_V2_00017)
         """
@@ -1160,13 +1160,13 @@ class DltMessage(Identifiable):
     def setMessageId(self, value: "PositiveInteger") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageId with method chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_id property setter (gets validation automatically)
         """
@@ -1176,10 +1176,10 @@ class DltMessage(Identifiable):
     def getMessageLine(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageLine.
-        
+
         Returns:
             The messageLine value
-        
+
         Note:
             Delegates to message_line property (CODING_RULE_V2_00017)
         """
@@ -1188,13 +1188,13 @@ class DltMessage(Identifiable):
     def setMessageLine(self, value: "PositiveInteger") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageLine with method chaining.
-        
+
         Args:
             value: The messageLine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_line property setter (gets validation automatically)
         """
@@ -1204,10 +1204,10 @@ class DltMessage(Identifiable):
     def getMessageSource(self) -> "String":
         """
         AUTOSAR-compliant getter for messageSource.
-        
+
         Returns:
             The messageSource value
-        
+
         Note:
             Delegates to message_source property (CODING_RULE_V2_00017)
         """
@@ -1216,13 +1216,13 @@ class DltMessage(Identifiable):
     def setMessageSource(self, value: "String") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageSource with method chaining.
-        
+
         Args:
             value: The messageSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_source property setter (gets validation automatically)
         """
@@ -1232,10 +1232,10 @@ class DltMessage(Identifiable):
     def getMessageTypeInfo(self) -> "String":
         """
         AUTOSAR-compliant getter for messageTypeInfo.
-        
+
         Returns:
             The messageTypeInfo value
-        
+
         Note:
             Delegates to message_type_info property (CODING_RULE_V2_00017)
         """
@@ -1244,13 +1244,13 @@ class DltMessage(Identifiable):
     def setMessageTypeInfo(self, value: "String") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageTypeInfo with method chaining.
-        
+
         Args:
             value: The messageTypeInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_type_info property setter (gets validation automatically)
         """
@@ -1260,10 +1260,10 @@ class DltMessage(Identifiable):
     def getPrivacyLevel(self) -> "PrivacyLevel":
         """
         AUTOSAR-compliant getter for privacyLevel.
-        
+
         Returns:
             The privacyLevel value
-        
+
         Note:
             Delegates to privacy_level property (CODING_RULE_V2_00017)
         """
@@ -1272,13 +1272,13 @@ class DltMessage(Identifiable):
     def setPrivacyLevel(self, value: "PrivacyLevel") -> "DltMessage":
         """
         AUTOSAR-compliant setter for privacyLevel with method chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to privacy_level property setter (gets validation automatically)
         """
@@ -1290,13 +1290,13 @@ class DltMessage(Identifiable):
     def with_message_id(self, value: Optional["PositiveInteger"]) -> "DltMessage":
         """
         Set messageId and return self for chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_id("value")
         """
@@ -1306,13 +1306,13 @@ class DltMessage(Identifiable):
     def with_message_line(self, value: Optional["PositiveInteger"]) -> "DltMessage":
         """
         Set messageLine and return self for chaining.
-        
+
         Args:
             value: The messageLine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_line("value")
         """
@@ -1322,13 +1322,13 @@ class DltMessage(Identifiable):
     def with_message_source(self, value: Optional["String"]) -> "DltMessage":
         """
         Set messageSource and return self for chaining.
-        
+
         Args:
             value: The messageSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_source("value")
         """
@@ -1338,13 +1338,13 @@ class DltMessage(Identifiable):
     def with_message_type_info(self, value: Optional["String"]) -> "DltMessage":
         """
         Set messageTypeInfo and return self for chaining.
-        
+
         Args:
             value: The messageTypeInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_type_info("value")
         """
@@ -1354,13 +1354,13 @@ class DltMessage(Identifiable):
     def with_privacy_level(self, value: Optional["PrivacyLevel"]) -> "DltMessage":
         """
         Set privacyLevel and return self for chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_privacy_level("value")
         """
@@ -1372,9 +1372,9 @@ class DltMessage(Identifiable):
 class LogAndTraceMessageCollectionSet(ARElement):
     """
     Collection of DltMessages
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::LogAndTraceMessageCollectionSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 12, Foundation R23-11)
     """
@@ -1395,10 +1395,10 @@ class LogAndTraceMessageCollectionSet(ARElement):
     def getDltMessage(self) -> List["DltMessage"]:
         """
         AUTOSAR-compliant getter for dltMessage.
-        
+
         Returns:
             The dltMessage value
-        
+
         Note:
             Delegates to dlt_message property (CODING_RULE_V2_00017)
         """
@@ -1411,9 +1411,9 @@ class LogAndTraceMessageCollectionSet(ARElement):
 class PrivacyLevel(ARObject):
     """
     This meta-class defines the Privacy Level for a Log and Trace content.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::PrivacyLevel
-    
+
     Sources:
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 18, Foundation R23-11)
     """
@@ -1434,10 +1434,10 @@ class PrivacyLevel(ARObject):
     def compu_method(self, value: Optional["CompuMethod"]) -> None:
         """
         Set compuMethod with validation.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1461,10 +1461,10 @@ class PrivacyLevel(ARObject):
     def privacy_level(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set privacyLevel with validation.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1483,10 +1483,10 @@ class PrivacyLevel(ARObject):
     def getCompuMethod(self) -> "CompuMethod":
         """
         AUTOSAR-compliant getter for compuMethod.
-        
+
         Returns:
             The compuMethod value
-        
+
         Note:
             Delegates to compu_method property (CODING_RULE_V2_00017)
         """
@@ -1495,13 +1495,13 @@ class PrivacyLevel(ARObject):
     def setCompuMethod(self, value: "CompuMethod") -> "PrivacyLevel":
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_method property setter (gets validation automatically)
         """
@@ -1511,10 +1511,10 @@ class PrivacyLevel(ARObject):
     def getPrivacyLevel(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for privacyLevel.
-        
+
         Returns:
             The privacyLevel value
-        
+
         Note:
             Delegates to privacy_level property (CODING_RULE_V2_00017)
         """
@@ -1523,13 +1523,13 @@ class PrivacyLevel(ARObject):
     def setPrivacyLevel(self, value: "PositiveInteger") -> "PrivacyLevel":
         """
         AUTOSAR-compliant setter for privacyLevel with method chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to privacy_level property setter (gets validation automatically)
         """
@@ -1541,13 +1541,13 @@ class PrivacyLevel(ARObject):
     def with_compu_method(self, value: Optional["CompuMethod"]) -> "PrivacyLevel":
         """
         Set compuMethod and return self for chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_method("value")
         """
@@ -1557,13 +1557,13 @@ class PrivacyLevel(ARObject):
     def with_privacy_level(self, value: Optional["PositiveInteger"]) -> "PrivacyLevel":
         """
         Set privacyLevel and return self for chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_privacy_level("value")
         """

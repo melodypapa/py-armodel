@@ -33,9 +33,9 @@ class CompositionSwComponentType(SwComponentType):
     connecting SwComponentPrototypes among each others and towards the surface
     of the CompositionSwComponentType. By this means, a hierarchical structures
     of software-components can be created.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::CompositionSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 307, Classic Platform
       R23-11)
@@ -126,10 +126,10 @@ class CompositionSwComponentType(SwComponentType):
     def physical(self, value: Optional["PhysicalDimension"]) -> None:
         """
         Set physical with validation.
-        
+
         Args:
             value: The physical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -228,10 +228,10 @@ class CompositionSwComponentType(SwComponentType):
     def getComponent(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for component.
-        
+
         Returns:
             The component value
-        
+
         Note:
             Delegates to component property (CODING_RULE_V2_00017)
         """
@@ -240,10 +240,10 @@ class CompositionSwComponentType(SwComponentType):
     def getConnector(self) -> List["SwConnector"]:
         """
         AUTOSAR-compliant getter for connector.
-        
+
         Returns:
             The connector value
-        
+
         Note:
             Delegates to connector property (CODING_RULE_V2_00017)
         """
@@ -252,10 +252,10 @@ class CompositionSwComponentType(SwComponentType):
     def getConstantValue(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for constantValue.
-        
+
         Returns:
             The constantValue value
-        
+
         Note:
             Delegates to constant_value property (CODING_RULE_V2_00017)
         """
@@ -264,10 +264,10 @@ class CompositionSwComponentType(SwComponentType):
     def getDataType(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -276,10 +276,10 @@ class CompositionSwComponentType(SwComponentType):
     def getInstantiation(self) -> List["InstantiationRTEEvent"]:
         """
         AUTOSAR-compliant getter for instantiation.
-        
+
         Returns:
             The instantiation value
-        
+
         Note:
             Delegates to instantiation property (CODING_RULE_V2_00017)
         """
@@ -288,10 +288,10 @@ class CompositionSwComponentType(SwComponentType):
     def getPhysical(self) -> "PhysicalDimension":
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -300,13 +300,13 @@ class CompositionSwComponentType(SwComponentType):
     def setPhysical(self, value: "PhysicalDimension") -> "CompositionSwComponentType":
         """
         AUTOSAR-compliant setter for physical with method chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical property setter (gets validation automatically)
         """
@@ -318,13 +318,13 @@ class CompositionSwComponentType(SwComponentType):
     def with_physical(self, value: Optional["PhysicalDimension"]) -> "CompositionSwComponentType":
         """
         Set physical and return self for chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical("value")
         """
@@ -336,9 +336,9 @@ class CompositionSwComponentType(SwComponentType):
 class SwComponentPrototype(Identifiable):
     """
     Role of a software component within a composition.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::SwComponentPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 330, Classic Platform
       R23-11)
@@ -370,10 +370,10 @@ class SwComponentPrototype(Identifiable):
     def type(self, value: Optional["SwComponentType"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -392,10 +392,10 @@ class SwComponentPrototype(Identifiable):
     def getType(self) -> "SwComponentType":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -404,13 +404,13 @@ class SwComponentPrototype(Identifiable):
     def setType(self, value: "SwComponentType") -> "SwComponentPrototype":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -422,13 +422,13 @@ class SwComponentPrototype(Identifiable):
     def with_type(self, value: Optional["SwComponentType"]) -> "SwComponentPrototype":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -441,9 +441,9 @@ class SwConnector(Identifiable, ABC):
     """
     The base class for connectors between ports. Connectors have to be
     identifiable to allow references from the system constraint template.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::SwConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 307, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 80, Classic Platform
@@ -470,10 +470,10 @@ class SwConnector(Identifiable, ABC):
     def mapping(self, value: Optional["RefType"]) -> None:
         """
         Set mapping with validation.
-        
+
         Args:
             value: The mapping to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -488,10 +488,10 @@ class SwConnector(Identifiable, ABC):
     def getMapping(self) -> "RefType":
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """
@@ -500,13 +500,13 @@ class SwConnector(Identifiable, ABC):
     def setMapping(self, value: "RefType") -> "SwConnector":
         """
         AUTOSAR-compliant setter for mapping with method chaining.
-        
+
         Args:
             value: The mapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapping property setter (gets validation automatically)
         """
@@ -518,13 +518,13 @@ class SwConnector(Identifiable, ABC):
     def with_mapping(self, value: Optional[RefType]) -> "SwConnector":
         """
         Set mapping and return self for chaining.
-        
+
         Args:
             value: The mapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapping("value")
         """
@@ -537,9 +537,9 @@ class InstantiationRTEEventProps(ARObject, ABC):
     """
     This meta-class represents the ability to refine the properties of RTEEvents
     for particular instances of a software component.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstantiationRTEEventProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 85, Classic Platform
       R23-11)
@@ -563,10 +563,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def refined_event(self, value: Optional["RTEEvent"]) -> None:
         """
         Set refinedEvent with validation.
-        
+
         Args:
             value: The refinedEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -592,10 +592,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -614,10 +614,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def getRefinedEvent(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for refinedEvent.
-        
+
         Returns:
             The refinedEvent value
-        
+
         Note:
             Delegates to refined_event property (CODING_RULE_V2_00017)
         """
@@ -626,13 +626,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def setRefinedEvent(self, value: "RTEEvent") -> "InstantiationRTEEventProps":
         """
         AUTOSAR-compliant setter for refinedEvent with method chaining.
-        
+
         Args:
             value: The refinedEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to refined_event property setter (gets validation automatically)
         """
@@ -642,10 +642,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -654,13 +654,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def setShortLabel(self, value: "Identifier") -> "InstantiationRTEEventProps":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -672,13 +672,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def with_refined_event(self, value: Optional["RTEEvent"]) -> "InstantiationRTEEventProps":
         """
         Set refinedEvent and return self for chaining.
-        
+
         Args:
             value: The refinedEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_refined_event("value")
         """
@@ -688,13 +688,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def with_short_label(self, value: Optional["Identifier"]) -> "InstantiationRTEEventProps":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -707,9 +707,9 @@ class AssemblySwConnector(SwConnector):
     """
     AssemblySwConnectors are exclusively used to connect SwComponentPrototypes
     in the context of a CompositionSwComponentType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::AssemblySwConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 289, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 80, Classic Platform
@@ -734,10 +734,10 @@ class AssemblySwConnector(SwConnector):
     def provider_instance_ref(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set providerInstanceRef with validation.
-        
+
         Args:
             value: The providerInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -762,10 +762,10 @@ class AssemblySwConnector(SwConnector):
     def requester_instance_ref(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set requesterInstanceRef with validation.
-        
+
         Args:
             value: The requesterInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -784,10 +784,10 @@ class AssemblySwConnector(SwConnector):
     def getProviderInstanceRef(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for providerInstanceRef.
-        
+
         Returns:
             The providerInstanceRef value
-        
+
         Note:
             Delegates to provider_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -796,13 +796,13 @@ class AssemblySwConnector(SwConnector):
     def setProviderInstanceRef(self, value: "AbstractProvidedPort") -> "AssemblySwConnector":
         """
         AUTOSAR-compliant setter for providerInstanceRef with method chaining.
-        
+
         Args:
             value: The providerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provider_instance_ref property setter (gets validation automatically)
         """
@@ -812,10 +812,10 @@ class AssemblySwConnector(SwConnector):
     def getRequesterInstanceRef(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for requesterInstanceRef.
-        
+
         Returns:
             The requesterInstanceRef value
-        
+
         Note:
             Delegates to requester_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -824,13 +824,13 @@ class AssemblySwConnector(SwConnector):
     def setRequesterInstanceRef(self, value: "AbstractRequiredPort") -> "AssemblySwConnector":
         """
         AUTOSAR-compliant setter for requesterInstanceRef with method chaining.
-        
+
         Args:
             value: The requesterInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to requester_instance_ref property setter (gets validation automatically)
         """
@@ -842,13 +842,13 @@ class AssemblySwConnector(SwConnector):
     def with_provider_instance_ref(self, value: Optional["AbstractProvidedPort"]) -> "AssemblySwConnector":
         """
         Set providerInstanceRef and return self for chaining.
-        
+
         Args:
             value: The providerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provider_instance_ref("value")
         """
@@ -858,13 +858,13 @@ class AssemblySwConnector(SwConnector):
     def with_requester_instance_ref(self, value: Optional["AbstractRequiredPort"]) -> "AssemblySwConnector":
         """
         Set requesterInstanceRef and return self for chaining.
-        
+
         Args:
             value: The requesterInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_requester_instance_ref("value")
         """
@@ -879,9 +879,9 @@ class DelegationSwConnector(SwConnector):
     component that is used inside the composition) to a outer PortPrototype of
     compatible type that belongs directly to the composition (a port that is
     owned by the composition).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::DelegationSwConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 80, Classic Platform
       R23-11)
@@ -903,10 +903,10 @@ class DelegationSwConnector(SwConnector):
     def inner_port_instance_ref(self, value: Optional["RefType"]) -> None:
         """
         Set innerPortInstanceRef with validation.
-        
+
         Args:
             value: The innerPortInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -927,10 +927,10 @@ class DelegationSwConnector(SwConnector):
     def outer_port(self, value: Optional["RefType"]) -> None:
         """
         Set outerPort with validation.
-        
+
         Args:
             value: The outerPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -945,10 +945,10 @@ class DelegationSwConnector(SwConnector):
     def getInnerPortInstanceRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for innerPortInstanceRef.
-        
+
         Returns:
             The innerPortInstanceRef value
-        
+
         Note:
             Delegates to inner_port_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -957,13 +957,13 @@ class DelegationSwConnector(SwConnector):
     def setInnerPortInstanceRef(self, value: "RefType") -> "DelegationSwConnector":
         """
         AUTOSAR-compliant setter for innerPortInstanceRef with method chaining.
-        
+
         Args:
             value: The innerPortInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to inner_port_instance_ref property setter (gets validation automatically)
         """
@@ -973,10 +973,10 @@ class DelegationSwConnector(SwConnector):
     def getOuterPort(self) -> "RefType":
         """
         AUTOSAR-compliant getter for outerPort.
-        
+
         Returns:
             The outerPort value
-        
+
         Note:
             Delegates to outer_port property (CODING_RULE_V2_00017)
         """
@@ -985,13 +985,13 @@ class DelegationSwConnector(SwConnector):
     def setOuterPort(self, value: "RefType") -> "DelegationSwConnector":
         """
         AUTOSAR-compliant setter for outerPort with method chaining.
-        
+
         Args:
             value: The outerPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to outer_port property setter (gets validation automatically)
         """
@@ -1003,13 +1003,13 @@ class DelegationSwConnector(SwConnector):
     def with_inner_port_instance_ref(self, value: Optional[RefType]) -> "DelegationSwConnector":
         """
         Set innerPortInstanceRef and return self for chaining.
-        
+
         Args:
             value: The innerPortInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_inner_port_instance_ref("value")
         """
@@ -1019,13 +1019,13 @@ class DelegationSwConnector(SwConnector):
     def with_outer_port(self, value: Optional[RefType]) -> "DelegationSwConnector":
         """
         Set outerPort and return self for chaining.
-        
+
         Args:
             value: The outerPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_outer_port("value")
         """
@@ -1038,9 +1038,9 @@ class PassThroughSwConnector(SwConnector):
     """
     This kind of SwConnector can be used inside a CompositionSwComponentType to
     connect two delegation PortPrototypes.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::PassThroughSwConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 83, Classic Platform
       R23-11)
@@ -1063,10 +1063,10 @@ class PassThroughSwConnector(SwConnector):
     def provided_outer(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set providedOuter with validation.
-        
+
         Args:
             value: The providedOuter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1092,10 +1092,10 @@ class PassThroughSwConnector(SwConnector):
     def required_outer(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set requiredOuter with validation.
-        
+
         Args:
             value: The requiredOuter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1114,10 +1114,10 @@ class PassThroughSwConnector(SwConnector):
     def getProvidedOuter(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for providedOuter.
-        
+
         Returns:
             The providedOuter value
-        
+
         Note:
             Delegates to provided_outer property (CODING_RULE_V2_00017)
         """
@@ -1126,13 +1126,13 @@ class PassThroughSwConnector(SwConnector):
     def setProvidedOuter(self, value: "AbstractProvidedPort") -> "PassThroughSwConnector":
         """
         AUTOSAR-compliant setter for providedOuter with method chaining.
-        
+
         Args:
             value: The providedOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided_outer property setter (gets validation automatically)
         """
@@ -1142,10 +1142,10 @@ class PassThroughSwConnector(SwConnector):
     def getRequiredOuter(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for requiredOuter.
-        
+
         Returns:
             The requiredOuter value
-        
+
         Note:
             Delegates to required_outer property (CODING_RULE_V2_00017)
         """
@@ -1154,13 +1154,13 @@ class PassThroughSwConnector(SwConnector):
     def setRequiredOuter(self, value: "AbstractRequiredPort") -> "PassThroughSwConnector":
         """
         AUTOSAR-compliant setter for requiredOuter with method chaining.
-        
+
         Args:
             value: The requiredOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required_outer property setter (gets validation automatically)
         """
@@ -1172,13 +1172,13 @@ class PassThroughSwConnector(SwConnector):
     def with_provided_outer(self, value: Optional["AbstractProvidedPort"]) -> "PassThroughSwConnector":
         """
         Set providedOuter and return self for chaining.
-        
+
         Args:
             value: The providedOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided_outer("value")
         """
@@ -1188,13 +1188,13 @@ class PassThroughSwConnector(SwConnector):
     def with_required_outer(self, value: Optional["AbstractRequiredPort"]) -> "PassThroughSwConnector":
         """
         Set requiredOuter and return self for chaining.
-        
+
         Args:
             value: The requiredOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required_outer("value")
         """
@@ -1208,9 +1208,9 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     This meta-class represents the ability to refine a timing event for
     particular instances of a software component. This approach supports an
     instance specific timing.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstantiationTimingEventProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 85, Classic Platform
       R23-11)
@@ -1231,10 +1231,10 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1253,10 +1253,10 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -1265,13 +1265,13 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def setPeriod(self, value: "TimeValue") -> "InstantiationTimingEventProps":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -1283,13 +1283,13 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def with_period(self, value: Optional["TimeValue"]) -> "InstantiationTimingEventProps":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """

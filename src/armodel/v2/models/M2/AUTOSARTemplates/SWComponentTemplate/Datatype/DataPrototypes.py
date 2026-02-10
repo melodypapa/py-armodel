@@ -19,9 +19,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class DataPrototype(Identifiable, ABC):
     """
     Base class for prototypical roles of any data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::DataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 311, Classic
       Platform R23-11)
@@ -50,10 +50,10 @@ class DataPrototype(Identifiable, ABC):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +72,10 @@ class DataPrototype(Identifiable, ABC):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -84,13 +84,13 @@ class DataPrototype(Identifiable, ABC):
     def setSwDataDef(self, value: "SwDataDefProps") -> "DataPrototype":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -102,13 +102,13 @@ class DataPrototype(Identifiable, ABC):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "DataPrototype":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -120,9 +120,9 @@ class DataPrototype(Identifiable, ABC):
 class AutosarDataPrototype(DataPrototype, ABC):
     """
     Base class for prototypical roles of an AutosarDataType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::AutosarDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 305, Classic
       Platform R23-11)
@@ -149,10 +149,10 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def type(self, value: Optional["AutosarDataType"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -171,10 +171,10 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def getType(self) -> "AutosarDataType":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -183,13 +183,13 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def setType(self, value: "AutosarDataType") -> "AutosarDataPrototype":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -201,13 +201,13 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def with_type(self, value: Optional["AutosarDataType"]) -> "AutosarDataPrototype":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -221,9 +221,9 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     This class represents a data prototype which is aggregated within a
     composite application data type (record or array). It is introduced to
     provide a better distinction between target and context in instance Refs.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationCompositeElementDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 306, Classic Platform
       R23-11)
@@ -246,10 +246,10 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def type(self, value: Optional["ApplicationDataType"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -268,10 +268,10 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def getType(self) -> "ApplicationDataType":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -280,13 +280,13 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def setType(self, value: "ApplicationDataType") -> "ApplicationCompositeElementDataPrototype":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -298,13 +298,13 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def with_type(self, value: Optional["ApplicationDataType"]) -> "ApplicationCompositeElementDataPrototype":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -320,9 +320,9 @@ class ParameterDataPrototype(AutosarDataPrototype):
     but mutable by measurement and calibration tools. ParameterDataPrototype is
     used in various contexts and the specific context gives the otherwise
     generic ParameterDataPrototype a dedicated semantics.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ParameterDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 107, Classic
       Platform R23-11)
@@ -348,10 +348,10 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -370,10 +370,10 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -382,13 +382,13 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def setInitValue(self, value: "ValueSpecification") -> "ParameterDataPrototype":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -400,13 +400,13 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "ParameterDataPrototype":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -421,9 +421,9 @@ class VariableDataPrototype(AutosarDataPrototype):
     that is typically mutable by the application software layer.
     VariableDataPrototype is used in various contexts and the specific context
     gives the otherwise generic VariableDataPrototype a dedicated semantics.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::VariableDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 107, Classic
       Platform R23-11)
@@ -451,10 +451,10 @@ class VariableDataPrototype(AutosarDataPrototype):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -473,10 +473,10 @@ class VariableDataPrototype(AutosarDataPrototype):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -485,13 +485,13 @@ class VariableDataPrototype(AutosarDataPrototype):
     def setInitValue(self, value: "ValueSpecification") -> "VariableDataPrototype":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -503,13 +503,13 @@ class VariableDataPrototype(AutosarDataPrototype):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "VariableDataPrototype":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -521,9 +521,9 @@ class VariableDataPrototype(AutosarDataPrototype):
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     """
     Describes the properties of the elements of an application array data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationArrayElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 252, Classic Platform
       R23-11)
@@ -547,10 +547,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -577,10 +577,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def index_data_type(self, value: Optional["ApplicationPrimitive"]) -> None:
         """
         Set indexDataType with validation.
-        
+
         Args:
             value: The indexDataType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -604,10 +604,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -626,10 +626,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getArraySize(self) -> "ArraySizeSemantics":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -638,13 +638,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def setArraySize(self, value: "ArraySizeSemantics") -> "ApplicationArrayElement":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -654,10 +654,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getIndexDataType(self) -> "ApplicationPrimitive":
         """
         AUTOSAR-compliant getter for indexDataType.
-        
+
         Returns:
             The indexDataType value
-        
+
         Note:
             Delegates to index_data_type property (CODING_RULE_V2_00017)
         """
@@ -666,13 +666,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def setIndexDataType(self, value: "ApplicationPrimitive") -> "ApplicationArrayElement":
         """
         AUTOSAR-compliant setter for indexDataType with method chaining.
-        
+
         Args:
             value: The indexDataType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index_data_type property setter (gets validation automatically)
         """
@@ -682,10 +682,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -694,13 +694,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "ApplicationArrayElement":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -712,13 +712,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "ApplicationArrayElement":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -728,13 +728,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def with_index_data_type(self, value: Optional["ApplicationPrimitive"]) -> "ApplicationArrayElement":
         """
         Set indexDataType and return self for chaining.
-        
+
         Args:
             value: The indexDataType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index_data_type("value")
         """
@@ -744,13 +744,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "ApplicationArrayElement":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -763,9 +763,9 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     """
     Describes the properties of one particular element of an application record
     data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationRecordElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 261, Classic Platform
       R23-11)
@@ -793,10 +793,10 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def is_optional(self, value: Optional["Boolean"]) -> None:
         """
         Set isOptional with validation.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -815,10 +815,10 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def getIsOptional(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isOptional.
-        
+
         Returns:
             The isOptional value
-        
+
         Note:
             Delegates to is_optional property (CODING_RULE_V2_00017)
         """
@@ -827,13 +827,13 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def setIsOptional(self, value: "Boolean") -> "ApplicationRecordElement":
         """
         AUTOSAR-compliant setter for isOptional with method chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_optional property setter (gets validation automatically)
         """
@@ -845,13 +845,13 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def with_is_optional(self, value: Optional["Boolean"]) -> "ApplicationRecordElement":
         """
         Set isOptional and return self for chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_optional("value")
         """

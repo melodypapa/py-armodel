@@ -23,9 +23,9 @@ class SoAdRoutingGroup(FibexElement):
     """
     Routing of Pdus in the SoAd can be activated or deactivated. The ShortName
     of this element shall contain the RoutingGroupId.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel::SoAdRoutingGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2057, Classic Platform R23-11)
     """
@@ -51,10 +51,10 @@ class SoAdRoutingGroup(FibexElement):
     def event_group(self, value: Optional["RefType"]) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class SoAdRoutingGroup(FibexElement):
     def getEventGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -97,13 +97,13 @@ class SoAdRoutingGroup(FibexElement):
     def setEventGroup(self, value: "RefType") -> "SoAdRoutingGroup":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -115,13 +115,13 @@ class SoAdRoutingGroup(FibexElement):
     def with_event_group(self, value: Optional[RefType]) -> "SoAdRoutingGroup":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """
@@ -134,9 +134,9 @@ class SocketConnection(Describable):
     """
     The SoAd serves as a (De)Multiplexer between different PDU sources and the
     TCP/IP stack.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel::SocketConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2057, Classic Platform R23-11)
     """
@@ -164,10 +164,10 @@ class SocketConnection(Describable):
     def client_ip_addr(self, value: Optional["Boolean"]) -> None:
         """
         Set clientIpAddr with validation.
-        
+
         Args:
             value: The clientIpAddr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -193,10 +193,10 @@ class SocketConnection(Describable):
     def client_port(self, value: Optional["SocketAddress"]) -> None:
         """
         Set clientPort with validation.
-        
+
         Args:
             value: The clientPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -223,10 +223,10 @@ class SocketConnection(Describable):
     def client_port_from(self, value: Optional["Boolean"]) -> None:
         """
         Set clientPortFrom with validation.
-        
+
         Args:
             value: The clientPortFrom to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -261,10 +261,10 @@ class SocketConnection(Describable):
     def pdu_collection(self, value: Optional["TimeValue"]) -> None:
         """
         Set pduCollection with validation.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -292,10 +292,10 @@ class SocketConnection(Describable):
     def runtime_ip(self, value: Optional["RuntimeAddress"]) -> None:
         """
         Set runtimeIp with validation.
-        
+
         Args:
             value: The runtimeIp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -323,10 +323,10 @@ class SocketConnection(Describable):
     def runtime_port(self, value: Optional["RuntimeAddress"]) -> None:
         """
         Set runtimePort with validation.
-        
+
         Args:
             value: The runtimePort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -351,10 +351,10 @@ class SocketConnection(Describable):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -373,10 +373,10 @@ class SocketConnection(Describable):
     def getClientIpAddr(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for clientIpAddr.
-        
+
         Returns:
             The clientIpAddr value
-        
+
         Note:
             Delegates to client_ip_addr property (CODING_RULE_V2_00017)
         """
@@ -385,13 +385,13 @@ class SocketConnection(Describable):
     def setClientIpAddr(self, value: "Boolean") -> "SocketConnection":
         """
         AUTOSAR-compliant setter for clientIpAddr with method chaining.
-        
+
         Args:
             value: The clientIpAddr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_ip_addr property setter (gets validation automatically)
         """
@@ -401,10 +401,10 @@ class SocketConnection(Describable):
     def getClientPort(self) -> "SocketAddress":
         """
         AUTOSAR-compliant getter for clientPort.
-        
+
         Returns:
             The clientPort value
-        
+
         Note:
             Delegates to client_port property (CODING_RULE_V2_00017)
         """
@@ -413,13 +413,13 @@ class SocketConnection(Describable):
     def setClientPort(self, value: "SocketAddress") -> "SocketConnection":
         """
         AUTOSAR-compliant setter for clientPort with method chaining.
-        
+
         Args:
             value: The clientPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_port property setter (gets validation automatically)
         """
@@ -429,10 +429,10 @@ class SocketConnection(Describable):
     def getClientPortFrom(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for clientPortFrom.
-        
+
         Returns:
             The clientPortFrom value
-        
+
         Note:
             Delegates to client_port_from property (CODING_RULE_V2_00017)
         """
@@ -441,13 +441,13 @@ class SocketConnection(Describable):
     def setClientPortFrom(self, value: "Boolean") -> "SocketConnection":
         """
         AUTOSAR-compliant setter for clientPortFrom with method chaining.
-        
+
         Args:
             value: The clientPortFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_port_from property setter (gets validation automatically)
         """
@@ -457,10 +457,10 @@ class SocketConnection(Describable):
     def getPdu(self) -> List["SocketConnectionIpdu"]:
         """
         AUTOSAR-compliant getter for pdu.
-        
+
         Returns:
             The pdu value
-        
+
         Note:
             Delegates to pdu property (CODING_RULE_V2_00017)
         """
@@ -469,10 +469,10 @@ class SocketConnection(Describable):
     def getPduCollection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pduCollection.
-        
+
         Returns:
             The pduCollection value
-        
+
         Note:
             Delegates to pdu_collection property (CODING_RULE_V2_00017)
         """
@@ -481,13 +481,13 @@ class SocketConnection(Describable):
     def setPduCollection(self, value: "TimeValue") -> "SocketConnection":
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_collection property setter (gets validation automatically)
         """
@@ -497,10 +497,10 @@ class SocketConnection(Describable):
     def getRuntimeIp(self) -> "RuntimeAddress":
         """
         AUTOSAR-compliant getter for runtimeIp.
-        
+
         Returns:
             The runtimeIp value
-        
+
         Note:
             Delegates to runtime_ip property (CODING_RULE_V2_00017)
         """
@@ -509,13 +509,13 @@ class SocketConnection(Describable):
     def setRuntimeIp(self, value: "RuntimeAddress") -> "SocketConnection":
         """
         AUTOSAR-compliant setter for runtimeIp with method chaining.
-        
+
         Args:
             value: The runtimeIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to runtime_ip property setter (gets validation automatically)
         """
@@ -525,10 +525,10 @@ class SocketConnection(Describable):
     def getRuntimePort(self) -> "RuntimeAddress":
         """
         AUTOSAR-compliant getter for runtimePort.
-        
+
         Returns:
             The runtimePort value
-        
+
         Note:
             Delegates to runtime_port property (CODING_RULE_V2_00017)
         """
@@ -537,13 +537,13 @@ class SocketConnection(Describable):
     def setRuntimePort(self, value: "RuntimeAddress") -> "SocketConnection":
         """
         AUTOSAR-compliant setter for runtimePort with method chaining.
-        
+
         Args:
             value: The runtimePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to runtime_port property setter (gets validation automatically)
         """
@@ -553,10 +553,10 @@ class SocketConnection(Describable):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -565,13 +565,13 @@ class SocketConnection(Describable):
     def setShortLabel(self, value: "Identifier") -> "SocketConnection":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -583,13 +583,13 @@ class SocketConnection(Describable):
     def with_client_ip_addr(self, value: Optional["Boolean"]) -> "SocketConnection":
         """
         Set clientIpAddr and return self for chaining.
-        
+
         Args:
             value: The clientIpAddr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_ip_addr("value")
         """
@@ -599,13 +599,13 @@ class SocketConnection(Describable):
     def with_client_port(self, value: Optional["SocketAddress"]) -> "SocketConnection":
         """
         Set clientPort and return self for chaining.
-        
+
         Args:
             value: The clientPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_port("value")
         """
@@ -615,13 +615,13 @@ class SocketConnection(Describable):
     def with_client_port_from(self, value: Optional["Boolean"]) -> "SocketConnection":
         """
         Set clientPortFrom and return self for chaining.
-        
+
         Args:
             value: The clientPortFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_port_from("value")
         """
@@ -631,13 +631,13 @@ class SocketConnection(Describable):
     def with_pdu_collection(self, value: Optional["TimeValue"]) -> "SocketConnection":
         """
         Set pduCollection and return self for chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_collection("value")
         """
@@ -647,13 +647,13 @@ class SocketConnection(Describable):
     def with_runtime_ip(self, value: Optional["RuntimeAddress"]) -> "SocketConnection":
         """
         Set runtimeIp and return self for chaining.
-        
+
         Args:
             value: The runtimeIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_runtime_ip("value")
         """
@@ -663,13 +663,13 @@ class SocketConnection(Describable):
     def with_runtime_port(self, value: Optional["RuntimeAddress"]) -> "SocketConnection":
         """
         Set runtimePort and return self for chaining.
-        
+
         Args:
             value: The runtimePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_runtime_port("value")
         """
@@ -679,13 +679,13 @@ class SocketConnection(Describable):
     def with_short_label(self, value: Optional["Identifier"]) -> "SocketConnection":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

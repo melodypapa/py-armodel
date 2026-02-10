@@ -30,9 +30,9 @@ class DiagnosticCommonElement(ARElement, ABC):
     This meta-class represents a common base class for all diagnostic elements.
     It does not contribute any specific functionality other than the ability to
     become the target of a reference.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticCommonElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 32, Classic Platform
       R23-11)
@@ -182,9 +182,9 @@ class DiagnosticParameterElement(Identifiable):
     """
     This meta-class represents an element of a DiagnosticParameter if the
     DiagnosticParameter represents a structure.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 36, Classic Platform
       R23-11)
@@ -206,10 +206,10 @@ class DiagnosticParameterElement(Identifiable):
     def array_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +234,10 @@ class DiagnosticParameterElement(Identifiable):
     def getArraySize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -246,13 +246,13 @@ class DiagnosticParameterElement(Identifiable):
     def setArraySize(self, value: "PositiveInteger") -> "DiagnosticParameterElement":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -262,10 +262,10 @@ class DiagnosticParameterElement(Identifiable):
     def getSubElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -276,13 +276,13 @@ class DiagnosticParameterElement(Identifiable):
     def with_array_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterElement":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -296,9 +296,9 @@ class DiagnosticParameterIdent(IdentCaption):
     This meta-class has been created to introduce the ability to become
     referenced into the meta-class AbstractDiagnosticParameter without breaking
     backwards compatibility.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterIdent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 37, Classic Platform
       R23-11)
@@ -320,10 +320,10 @@ class DiagnosticParameterIdent(IdentCaption):
     def getSubElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -337,9 +337,9 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     """
     This meta-class represents an abstract base class for modeling a diagnostic
     parameter.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticAbstractParameter
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 37, Classic Platform
       R23-11)
@@ -364,10 +364,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def bit_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitOffset with validation.
-        
+
         Args:
             value: The bitOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -391,10 +391,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def data_element(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -421,10 +421,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def parameter_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set parameterSize with validation.
-        
+
         Args:
             value: The parameterSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -443,10 +443,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def getBitOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitOffset.
-        
+
         Returns:
             The bitOffset value
-        
+
         Note:
             Delegates to bit_offset property (CODING_RULE_V2_00017)
         """
@@ -455,13 +455,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def setBitOffset(self, value: "PositiveInteger") -> "DiagnosticAbstractParameter":
         """
         AUTOSAR-compliant setter for bitOffset with method chaining.
-        
+
         Args:
             value: The bitOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_offset property setter (gets validation automatically)
         """
@@ -471,10 +471,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def getDataElement(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -483,13 +483,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticAbstractParameter":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -499,10 +499,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def getParameterSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for parameterSize.
-        
+
         Returns:
             The parameterSize value
-        
+
         Note:
             Delegates to parameter_size property (CODING_RULE_V2_00017)
         """
@@ -511,13 +511,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def setParameterSize(self, value: "PositiveInteger") -> "DiagnosticAbstractParameter":
         """
         AUTOSAR-compliant setter for parameterSize with method chaining.
-        
+
         Args:
             value: The parameterSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter_size property setter (gets validation automatically)
         """
@@ -529,13 +529,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def with_bit_offset(self, value: Optional["PositiveInteger"]) -> "DiagnosticAbstractParameter":
         """
         Set bitOffset and return self for chaining.
-        
+
         Args:
             value: The bitOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_offset("value")
         """
@@ -545,13 +545,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticAbstractParameter":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -561,13 +561,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def with_parameter_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticAbstractParameter":
         """
         Set parameterSize and return self for chaining.
-        
+
         Args:
             value: The parameterSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter_size("value")
         """
@@ -580,9 +580,9 @@ class DiagnosticDataElement(Identifiable):
     """
     This meta-class represents the ability to describe a concrete piece of data
     to be taken into account for diagnostic purposes.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDataElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 41, Classic Platform
       R23-11)
@@ -605,10 +605,10 @@ class DiagnosticDataElement(Identifiable):
     def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -634,10 +634,10 @@ class DiagnosticDataElement(Identifiable):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -662,10 +662,10 @@ class DiagnosticDataElement(Identifiable):
     def scaling_info_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set scalingInfoSize with validation.
-        
+
         Args:
             value: The scalingInfoSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -692,10 +692,10 @@ class DiagnosticDataElement(Identifiable):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -714,10 +714,10 @@ class DiagnosticDataElement(Identifiable):
     def getArraySize(self) -> "ArraySizeSemantics":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -726,13 +726,13 @@ class DiagnosticDataElement(Identifiable):
     def setArraySize(self, value: "ArraySizeSemantics") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -742,10 +742,10 @@ class DiagnosticDataElement(Identifiable):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -754,13 +754,13 @@ class DiagnosticDataElement(Identifiable):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -770,10 +770,10 @@ class DiagnosticDataElement(Identifiable):
     def getScalingInfoSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for scalingInfoSize.
-        
+
         Returns:
             The scalingInfoSize value
-        
+
         Note:
             Delegates to scaling_info_size property (CODING_RULE_V2_00017)
         """
@@ -782,13 +782,13 @@ class DiagnosticDataElement(Identifiable):
     def setScalingInfoSize(self, value: "PositiveInteger") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for scalingInfoSize with method chaining.
-        
+
         Args:
             value: The scalingInfoSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scaling_info_size property setter (gets validation automatically)
         """
@@ -798,10 +798,10 @@ class DiagnosticDataElement(Identifiable):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -810,13 +810,13 @@ class DiagnosticDataElement(Identifiable):
     def setSwDataDef(self, value: "SwDataDefProps") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -828,13 +828,13 @@ class DiagnosticDataElement(Identifiable):
     def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "DiagnosticDataElement":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -844,13 +844,13 @@ class DiagnosticDataElement(Identifiable):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "DiagnosticDataElement":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -860,13 +860,13 @@ class DiagnosticDataElement(Identifiable):
     def with_scaling_info_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticDataElement":
         """
         Set scalingInfoSize and return self for chaining.
-        
+
         Args:
             value: The scalingInfoSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scaling_info_size("value")
         """
@@ -876,13 +876,13 @@ class DiagnosticDataElement(Identifiable):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "DiagnosticDataElement":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -894,9 +894,9 @@ class DiagnosticDataElement(Identifiable):
 class DiagnosticRoutineSubfunction(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class to routine subfunctions.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRoutineSubfunction
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 121, Classic Platform
       R23-11)
@@ -920,10 +920,10 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def access(self, value: Optional["DiagnosticAccess"]) -> None:
         """
         Set access with validation.
-        
+
         Args:
             value: The access to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -942,10 +942,10 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def getAccess(self) -> "DiagnosticAccess":
         """
         AUTOSAR-compliant getter for access.
-        
+
         Returns:
             The access value
-        
+
         Note:
             Delegates to access property (CODING_RULE_V2_00017)
         """
@@ -954,13 +954,13 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def setAccess(self, value: "DiagnosticAccess") -> "DiagnosticRoutineSubfunction":
         """
         AUTOSAR-compliant setter for access with method chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to access property setter (gets validation automatically)
         """
@@ -972,13 +972,13 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def with_access(self, value: Optional["DiagnosticAccess"]) -> "DiagnosticRoutineSubfunction":
         """
         Set access and return self for chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_access("value")
         """
@@ -991,9 +991,9 @@ class DiagnosticParameterSupportInfo(ARObject):
     """
     This represents a way to define which bit of the supportInfo is representing
     this part of the PID
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterSupportInfo
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 149, Classic Platform
       R23-11)
@@ -1016,10 +1016,10 @@ class DiagnosticParameterSupportInfo(ARObject):
     def support_info_bit(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set supportInfoBit with validation.
-        
+
         Args:
             value: The supportInfoBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1038,10 +1038,10 @@ class DiagnosticParameterSupportInfo(ARObject):
     def getSupportInfoBit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for supportInfoBit.
-        
+
         Returns:
             The supportInfoBit value
-        
+
         Note:
             Delegates to support_info_bit property (CODING_RULE_V2_00017)
         """
@@ -1050,13 +1050,13 @@ class DiagnosticParameterSupportInfo(ARObject):
     def setSupportInfoBit(self, value: "PositiveInteger") -> "DiagnosticParameterSupportInfo":
         """
         AUTOSAR-compliant setter for supportInfoBit with method chaining.
-        
+
         Args:
             value: The supportInfoBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info_bit property setter (gets validation automatically)
         """
@@ -1068,13 +1068,13 @@ class DiagnosticParameterSupportInfo(ARObject):
     def with_support_info_bit(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterSupportInfo":
         """
         Set supportInfoBit and return self for chaining.
-        
+
         Args:
             value: The supportInfoBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info_bit("value")
         """
@@ -1088,9 +1088,9 @@ class DiagnosticSupportInfoByte(ARObject):
     This meta-class defines the support information (typically byte A) to
     declare the usability of the Data Elements within the so-called packeted
     PIDs (e.g. PID$68).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticSupportInfoByte
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 150, Classic Platform
       R23-11)
@@ -1111,10 +1111,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def position(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set position with validation.
-        
+
         Args:
             value: The position to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1138,10 +1138,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set size with validation.
-        
+
         Args:
             value: The size to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1160,10 +1160,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def getPosition(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for position.
-        
+
         Returns:
             The position value
-        
+
         Note:
             Delegates to position property (CODING_RULE_V2_00017)
         """
@@ -1172,13 +1172,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def setPosition(self, value: "PositiveInteger") -> "DiagnosticSupportInfoByte":
         """
         AUTOSAR-compliant setter for position with method chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to position property setter (gets validation automatically)
         """
@@ -1188,10 +1188,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def getSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for size.
-        
+
         Returns:
             The size value
-        
+
         Note:
             Delegates to size property (CODING_RULE_V2_00017)
         """
@@ -1200,13 +1200,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def setSize(self, value: "PositiveInteger") -> "DiagnosticSupportInfoByte":
         """
         AUTOSAR-compliant setter for size with method chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size property setter (gets validation automatically)
         """
@@ -1218,13 +1218,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def with_position(self, value: Optional["PositiveInteger"]) -> "DiagnosticSupportInfoByte":
         """
         Set position and return self for chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_position("value")
         """
@@ -1234,13 +1234,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def with_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticSupportInfoByte":
         """
         Set size and return self for chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size("value")
         """
@@ -1253,9 +1253,9 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     """
     This meta-class represents an abstract base class for the modeling of a
     diagnostic data identifier (DID).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticAbstractDataIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 34, Classic Platform
       R23-11)
@@ -1278,10 +1278,10 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1300,10 +1300,10 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -1312,13 +1312,13 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def setId(self, value: "PositiveInteger") -> "DiagnosticAbstractDataIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -1330,13 +1330,13 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticAbstractDataIdentifier":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -1348,9 +1348,9 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
 class DiagnosticRoutine(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define a diagnostic routine.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRoutine
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 124, Classic Platform
       R23-11)
@@ -1372,10 +1372,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1399,10 +1399,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def request_result(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestResult with validation.
-        
+
         Args:
             value: The requestResult to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1428,10 +1428,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def routine_info(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set routineInfo with validation.
-        
+
         Args:
             value: The routineInfo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1455,10 +1455,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def start(self, value: Optional["DiagnosticStartRoutine"]) -> None:
         """
         Set start with validation.
-        
+
         Args:
             value: The start to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1482,10 +1482,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def stop(self, value: Optional["DiagnosticStopRoutine"]) -> None:
         """
         Set stop with validation.
-        
+
         Args:
             value: The stop to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1504,10 +1504,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -1516,13 +1516,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -1532,10 +1532,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getRequestResult(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestResult.
-        
+
         Returns:
             The requestResult value
-        
+
         Note:
             Delegates to request_result property (CODING_RULE_V2_00017)
         """
@@ -1544,13 +1544,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setRequestResult(self, value: "DiagnosticRequest") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for requestResult with method chaining.
-        
+
         Args:
             value: The requestResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_result property setter (gets validation automatically)
         """
@@ -1560,10 +1560,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getRoutineInfo(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for routineInfo.
-        
+
         Returns:
             The routineInfo value
-        
+
         Note:
             Delegates to routine_info property (CODING_RULE_V2_00017)
         """
@@ -1572,13 +1572,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setRoutineInfo(self, value: "PositiveInteger") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for routineInfo with method chaining.
-        
+
         Args:
             value: The routineInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routine_info property setter (gets validation automatically)
         """
@@ -1588,10 +1588,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getStart(self) -> "DiagnosticStartRoutine":
         """
         AUTOSAR-compliant getter for start.
-        
+
         Returns:
             The start value
-        
+
         Note:
             Delegates to start property (CODING_RULE_V2_00017)
         """
@@ -1600,13 +1600,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setStart(self, value: "DiagnosticStartRoutine") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for start with method chaining.
-        
+
         Args:
             value: The start to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start property setter (gets validation automatically)
         """
@@ -1616,10 +1616,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getStop(self) -> "DiagnosticStopRoutine":
         """
         AUTOSAR-compliant getter for stop.
-        
+
         Returns:
             The stop value
-        
+
         Note:
             Delegates to stop property (CODING_RULE_V2_00017)
         """
@@ -1628,13 +1628,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setStop(self, value: "DiagnosticStopRoutine") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for stop with method chaining.
-        
+
         Args:
             value: The stop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stop property setter (gets validation automatically)
         """
@@ -1646,13 +1646,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticRoutine":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -1662,13 +1662,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_request_result(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRoutine":
         """
         Set requestResult and return self for chaining.
-        
+
         Args:
             value: The requestResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_result("value")
         """
@@ -1678,13 +1678,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_routine_info(self, value: Optional["PositiveInteger"]) -> "DiagnosticRoutine":
         """
         Set routineInfo and return self for chaining.
-        
+
         Args:
             value: The routineInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routine_info("value")
         """
@@ -1694,13 +1694,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_start(self, value: Optional["DiagnosticStartRoutine"]) -> "DiagnosticRoutine":
         """
         Set start and return self for chaining.
-        
+
         Args:
             value: The start to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start("value")
         """
@@ -1710,13 +1710,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_stop(self, value: Optional["DiagnosticStopRoutine"]) -> "DiagnosticRoutine":
         """
         Set stop and return self for chaining.
-        
+
         Args:
             value: The stop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stop("value")
         """
@@ -1729,9 +1729,9 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model a diagnostic parameter
     identifier (PID) for the purpose of executing on-board diagnostics (OBD).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 149, Classic Platform
       R23-11)
@@ -1760,10 +1760,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1788,10 +1788,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def pid_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pidSize with validation.
-        
+
         Args:
             value: The pidSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1816,10 +1816,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> None:
         """
         Set supportInfoByte with validation.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1838,10 +1838,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getDataElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -1850,10 +1850,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -1862,13 +1862,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticParameterIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -1878,10 +1878,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getPidSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pidSize.
-        
+
         Returns:
             The pidSize value
-        
+
         Note:
             Delegates to pid_size property (CODING_RULE_V2_00017)
         """
@@ -1890,13 +1890,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def setPidSize(self, value: "PositiveInteger") -> "DiagnosticParameterIdentifier":
         """
         AUTOSAR-compliant setter for pidSize with method chaining.
-        
+
         Args:
             value: The pidSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pid_size property setter (gets validation automatically)
         """
@@ -1906,10 +1906,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getSupportInfoByte(self) -> "DiagnosticSupportInfo":
         """
         AUTOSAR-compliant getter for supportInfoByte.
-        
+
         Returns:
             The supportInfoByte value
-        
+
         Note:
             Delegates to support_info_byte property (CODING_RULE_V2_00017)
         """
@@ -1918,13 +1918,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def setSupportInfoByte(self, value: "DiagnosticSupportInfo") -> "DiagnosticParameterIdentifier":
         """
         AUTOSAR-compliant setter for supportInfoByte with method chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info_byte property setter (gets validation automatically)
         """
@@ -1936,13 +1936,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterIdentifier":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -1952,13 +1952,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def with_pid_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterIdentifier":
         """
         Set pidSize and return self for chaining.
-        
+
         Args:
             value: The pidSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pid_size("value")
         """
@@ -1968,13 +1968,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def with_support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> "DiagnosticParameterIdentifier":
         """
         Set supportInfoByte and return self for chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info_byte("value")
         """
@@ -1986,9 +1986,9 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
 class DiagnosticInfoType(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model an OBD info type.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticInfoType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 160, Classic Platform
       R23-11)
@@ -2016,10 +2016,10 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2038,10 +2038,10 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def getDataElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -2050,10 +2050,10 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -2062,13 +2062,13 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticInfoType":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -2080,13 +2080,13 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticInfoType":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -2100,9 +2100,9 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     This meta-class represents the ability to describe information relevant for
     the execution of a specific diagnostic service, i.e. it can be taken to
     parameterize the service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameter
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 36, Classic Platform
       R23-11)
@@ -2127,10 +2127,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def ident(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2155,10 +2155,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def support_info(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set supportInfo with validation.
-        
+
         Args:
             value: The supportInfo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2177,10 +2177,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def getIdent(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -2189,13 +2189,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def setIdent(self, value: "DiagnosticParameter") -> "DiagnosticParameter":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -2205,10 +2205,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def getSupportInfo(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for supportInfo.
-        
+
         Returns:
             The supportInfo value
-        
+
         Note:
             Delegates to support_info property (CODING_RULE_V2_00017)
         """
@@ -2217,13 +2217,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def setSupportInfo(self, value: "DiagnosticParameter") -> "DiagnosticParameter":
         """
         AUTOSAR-compliant setter for supportInfo with method chaining.
-        
+
         Args:
             value: The supportInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info property setter (gets validation automatically)
         """
@@ -2235,13 +2235,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def with_ident(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticParameter":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -2251,13 +2251,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def with_support_info(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticParameter":
         """
         Set supportInfo and return self for chaining.
-        
+
         Args:
             value: The supportInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info("value")
         """
@@ -2269,9 +2269,9 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
 class DiagnosticStartRoutine(DiagnosticRoutineSubfunction):
     """
     This represents the ability to start a diagnostic routine.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticStartRoutine
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 124, Classic Platform
       R23-11)
@@ -2300,10 +2300,10 @@ class DiagnosticStartRoutine(DiagnosticRoutineSubfunction):
     def getRequest(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -2312,10 +2312,10 @@ class DiagnosticStartRoutine(DiagnosticRoutineSubfunction):
     def getResponse(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for response.
-        
+
         Returns:
             The response value
-        
+
         Note:
             Delegates to response property (CODING_RULE_V2_00017)
         """
@@ -2328,9 +2328,9 @@ class DiagnosticStartRoutine(DiagnosticRoutineSubfunction):
 class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
     """
     This represents the ability to stop a diagnostic routine.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticStopRoutine
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 125, Classic Platform
       R23-11)
@@ -2359,10 +2359,10 @@ class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
     def getRequest(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -2371,10 +2371,10 @@ class DiagnosticStopRoutine(DiagnosticRoutineSubfunction):
     def getResponse(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for response.
-        
+
         Returns:
             The response value
-        
+
         Note:
             Delegates to response property (CODING_RULE_V2_00017)
         """
@@ -2388,9 +2388,9 @@ class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
     """
     This meta-class represents the ability to define the result of a diagnostic
     routine execution.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRequestRoutineResults
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 125, Classic Platform
       R23-11)
@@ -2419,10 +2419,10 @@ class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
     def getRequest(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -2431,10 +2431,10 @@ class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
     def getResponse(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for response.
-        
+
         Returns:
             The response value
-        
+
         Note:
             Delegates to response property (CODING_RULE_V2_00017)
         """
@@ -2450,9 +2450,9 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     (DID) that is fully specified regarding the payload at configuration-time.
     (cid:53) 33 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate
     Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDataIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 33, Classic Platform
       R23-11)
@@ -2480,10 +2480,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def did_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set didSize with validation.
-        
+
         Args:
             value: The didSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2508,10 +2508,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def represents_vin(self, value: Optional["Boolean"]) -> None:
         """
         Set representsVin with validation.
-        
+
         Args:
             value: The representsVin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2536,10 +2536,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> None:
         """
         Set supportInfoByte with validation.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2558,10 +2558,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getDataElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -2570,10 +2570,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getDidSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for didSize.
-        
+
         Returns:
             The didSize value
-        
+
         Note:
             Delegates to did_size property (CODING_RULE_V2_00017)
         """
@@ -2582,13 +2582,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def setDidSize(self, value: "PositiveInteger") -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant setter for didSize with method chaining.
-        
+
         Args:
             value: The didSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to did_size property setter (gets validation automatically)
         """
@@ -2598,10 +2598,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getRepresentsVin(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for representsVin.
-        
+
         Returns:
             The representsVin value
-        
+
         Note:
             Delegates to represents_vin property (CODING_RULE_V2_00017)
         """
@@ -2610,13 +2610,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def setRepresentsVin(self, value: "Boolean") -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant setter for representsVin with method chaining.
-        
+
         Args:
             value: The representsVin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to represents_vin property setter (gets validation automatically)
         """
@@ -2626,10 +2626,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getSupportInfoByte(self) -> "DiagnosticSupportInfo":
         """
         AUTOSAR-compliant getter for supportInfoByte.
-        
+
         Returns:
             The supportInfoByte value
-        
+
         Note:
             Delegates to support_info_byte property (CODING_RULE_V2_00017)
         """
@@ -2638,13 +2638,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def setSupportInfoByte(self, value: "DiagnosticSupportInfo") -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant setter for supportInfoByte with method chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info_byte property setter (gets validation automatically)
         """
@@ -2656,13 +2656,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def with_did_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticDataIdentifier":
         """
         Set didSize and return self for chaining.
-        
+
         Args:
             value: The didSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_did_size("value")
         """
@@ -2672,13 +2672,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def with_represents_vin(self, value: Optional["Boolean"]) -> "DiagnosticDataIdentifier":
         """
         Set representsVin and return self for chaining.
-        
+
         Args:
             value: The representsVin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_represents_vin("value")
         """
@@ -2688,13 +2688,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def with_support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> "DiagnosticDataIdentifier":
         """
         Set supportInfoByte and return self for chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info_byte("value")
         """
@@ -2707,9 +2707,9 @@ class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
     """
     This meta-class represents the ability to define a diagnostic data
     identifier (DID) at run-time.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDynamicDataIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 34, Classic Platform
       R23-11)

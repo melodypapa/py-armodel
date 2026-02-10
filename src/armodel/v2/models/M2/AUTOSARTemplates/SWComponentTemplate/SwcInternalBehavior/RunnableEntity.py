@@ -15,9 +15,9 @@ class RunnableEntityArgument(ARObject):
     """
     This meta-class represents the ability to provide specific information
     regarding the arguments to a RunnableEntity.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity::RunnableEntityArgument
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 536, Classic Platform
       R23-11)
@@ -39,10 +39,10 @@ class RunnableEntityArgument(ARObject):
     def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class RunnableEntityArgument(ARObject):
     def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -73,13 +73,13 @@ class RunnableEntityArgument(ARObject):
     def setSymbol(self, value: "CIdentifier") -> "RunnableEntityArgument":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -91,13 +91,13 @@ class RunnableEntityArgument(ARObject):
     def with_symbol(self, value: Optional["CIdentifier"]) -> "RunnableEntityArgument":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """

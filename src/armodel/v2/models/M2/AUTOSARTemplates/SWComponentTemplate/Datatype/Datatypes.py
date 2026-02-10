@@ -24,9 +24,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class AutosarDataType(ARElement, ABC):
     """
     Abstract base class for user defined AUTOSAR data types for software.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::AutosarDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 306, Classic
       Platform R23-11)
@@ -57,10 +57,10 @@ class AutosarDataType(ARElement, ABC):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +111,10 @@ class AutosarDataType(ARElement, ABC):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class AutosarDataType(ARElement, ABC):
     def setSwDataDef(self, value: "SwDataDefProps") -> "AutosarDataType":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -141,13 +141,13 @@ class AutosarDataType(ARElement, ABC):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "AutosarDataType":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -161,9 +161,9 @@ class DataTypeMappingSet(ARElement):
     This class represents a list of mappings between ApplicationDataTypes and
     ImplementationDataTypes. In addition, it can contain mappings between
     ImplementationDataTypes and ModeDeclarationGroups.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::DataTypeMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 311, Classic
       Platform R23-11)
@@ -198,10 +198,10 @@ class DataTypeMappingSet(ARElement):
     def getDataTypeMap(self) -> List["DataTypeMap"]:
         """
         AUTOSAR-compliant getter for dataTypeMap.
-        
+
         Returns:
             The dataTypeMap value
-        
+
         Note:
             Delegates to data_type_map property (CODING_RULE_V2_00017)
         """
@@ -210,10 +210,10 @@ class DataTypeMappingSet(ARElement):
     def getModeRequest(self) -> List["ModeRequestTypeMap"]:
         """
         AUTOSAR-compliant getter for modeRequest.
-        
+
         Returns:
             The modeRequest value
-        
+
         Note:
             Delegates to mode_request property (CODING_RULE_V2_00017)
         """
@@ -227,9 +227,9 @@ class DataTypeMap(ARObject):
     """
     This class represents the relationship between ApplicationDataType and its
     implementing Abstract ImplementationDataType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::DataTypeMap
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 232, Classic Platform
       R23-11)
@@ -251,10 +251,10 @@ class DataTypeMap(ARObject):
     def application_data_type(self, value: Optional["ApplicationDataType"]) -> None:
         """
         Set applicationDataType with validation.
-        
+
         Args:
             value: The applicationDataType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -278,10 +278,10 @@ class DataTypeMap(ARObject):
     def implementation(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -300,10 +300,10 @@ class DataTypeMap(ARObject):
     def getApplicationDataType(self) -> "ApplicationDataType":
         """
         AUTOSAR-compliant getter for applicationDataType.
-        
+
         Returns:
             The applicationDataType value
-        
+
         Note:
             Delegates to application_data_type property (CODING_RULE_V2_00017)
         """
@@ -312,13 +312,13 @@ class DataTypeMap(ARObject):
     def setApplicationDataType(self, value: "ApplicationDataType") -> "DataTypeMap":
         """
         AUTOSAR-compliant setter for applicationDataType with method chaining.
-        
+
         Args:
             value: The applicationDataType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_data_type property setter (gets validation automatically)
         """
@@ -328,10 +328,10 @@ class DataTypeMap(ARObject):
     def getImplementation(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -340,13 +340,13 @@ class DataTypeMap(ARObject):
     def setImplementation(self, value: "AbstractImplementation") -> "DataTypeMap":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -358,13 +358,13 @@ class DataTypeMap(ARObject):
     def with_application_data_type(self, value: Optional["ApplicationDataType"]) -> "DataTypeMap":
         """
         Set applicationDataType and return self for chaining.
-        
+
         Args:
             value: The applicationDataType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_data_type("value")
         """
@@ -374,13 +374,13 @@ class DataTypeMap(ARObject):
     def with_implementation(self, value: Optional["AbstractImplementation"]) -> "DataTypeMap":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -398,9 +398,9 @@ class ApplicationDataType(AutosarDataType, ABC):
     details such as bit-size, endianess, etc. It should be possible to model the
     application level aspects of a VFB system by using ApplicationData Types
     only.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 302, Classic
       Platform R23-11)
@@ -429,9 +429,9 @@ class ApplicationDataType(AutosarDataType, ABC):
 class ApplicationPrimitiveDataType(ApplicationDataType):
     """
     A primitive data type defines a set of allowed values.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationPrimitiveDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 230, Classic Platform
       R23-11)
@@ -456,9 +456,9 @@ class ApplicationCompositeDataType(ApplicationDataType, ABC):
     """
     Abstract base class for all application data types composed of other data
     types.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationCompositeDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 241, Classic Platform
       R23-11)
@@ -483,9 +483,9 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     """
     An application data type which is an array, each element is of the same
     application data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationArrayDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 252, Classic Platform
       R23-11)
@@ -509,10 +509,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def dynamic_array(self, value: Optional["String"]) -> None:
         """
         Set dynamicArray with validation.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -539,10 +539,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def element(self, value: Optional["ApplicationArray"]) -> None:
         """
         Set element with validation.
-        
+
         Args:
             value: The element to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -561,10 +561,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def getDynamicArray(self) -> "String":
         """
         AUTOSAR-compliant getter for dynamicArray.
-        
+
         Returns:
             The dynamicArray value
-        
+
         Note:
             Delegates to dynamic_array property (CODING_RULE_V2_00017)
         """
@@ -573,13 +573,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def setDynamicArray(self, value: "String") -> "ApplicationArrayDataType":
         """
         AUTOSAR-compliant setter for dynamicArray with method chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_array property setter (gets validation automatically)
         """
@@ -589,10 +589,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def getElement(self) -> "ApplicationArray":
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -601,13 +601,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def setElement(self, value: "ApplicationArray") -> "ApplicationArrayDataType":
         """
         AUTOSAR-compliant setter for element with method chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to element property setter (gets validation automatically)
         """
@@ -619,13 +619,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def with_dynamic_array(self, value: Optional["String"]) -> "ApplicationArrayDataType":
         """
         Set dynamicArray and return self for chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_array("value")
         """
@@ -635,13 +635,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def with_element(self, value: Optional["ApplicationArray"]) -> "ApplicationArrayDataType":
         """
         Set element and return self for chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_element("value")
         """
@@ -654,9 +654,9 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     """
     An application data type which can be decomposed into prototypes of other
     application data types.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationRecordDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 261, Classic Platform
       R23-11)
@@ -683,10 +683,10 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     def getElement(self) -> List["ApplicationRecord"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """

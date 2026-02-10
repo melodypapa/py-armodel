@@ -1,7 +1,6 @@
 """
 V2 ARXML reader - deserializes ARXML to model objects using reflection.
 """
-import inspect
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import (
@@ -10,7 +9,6 @@ from typing import (
     Optional,
     Union,
     cast,
-    get_type_hints,
 )
 
 from armodel.v2.models.models import AUTOSAR

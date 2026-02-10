@@ -23,9 +23,9 @@ class AbstractValueRestriction(ARObject, ABC):
     """
     Restricts primitive values. A value is valid if all rules that are defined
     by this restriction evaluate to true.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractValueRestriction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 103, Foundation
       R23-11)
@@ -49,10 +49,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def max(self, value: Optional["Limit"]) -> None:
         """
         Set max with validation.
-        
+
         Args:
             value: The max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def max_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxLength with validation.
-        
+
         Args:
             value: The maxLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +103,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def min(self, value: Optional["Limit"]) -> None:
         """
         Set min with validation.
-        
+
         Args:
             value: The min to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +130,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def min_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minLength with validation.
-        
+
         Args:
             value: The minLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -157,10 +157,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def pattern(self, value: Optional["RegularExpression"]) -> None:
         """
         Set pattern with validation.
-        
+
         Args:
             value: The pattern to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -195,10 +195,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def getMax(self) -> "Limit":
         """
         AUTOSAR-compliant getter for max.
-        
+
         Returns:
             The max value
-        
+
         Note:
             Delegates to max property (CODING_RULE_V2_00017)
         """
@@ -207,13 +207,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def setMax(self, value: "Limit") -> "AbstractValueRestriction":
         """
         AUTOSAR-compliant setter for max with method chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max property setter (gets validation automatically)
         """
@@ -223,10 +223,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def getMaxLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxLength.
-        
+
         Returns:
             The maxLength value
-        
+
         Note:
             Delegates to max_length property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def setMaxLength(self, value: "PositiveInteger") -> "AbstractValueRestriction":
         """
         AUTOSAR-compliant setter for maxLength with method chaining.
-        
+
         Args:
             value: The maxLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_length property setter (gets validation automatically)
         """
@@ -251,10 +251,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def getMin(self) -> "Limit":
         """
         AUTOSAR-compliant getter for min.
-        
+
         Returns:
             The min value
-        
+
         Note:
             Delegates to min property (CODING_RULE_V2_00017)
         """
@@ -263,13 +263,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def setMin(self, value: "Limit") -> "AbstractValueRestriction":
         """
         AUTOSAR-compliant setter for min with method chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min property setter (gets validation automatically)
         """
@@ -279,10 +279,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def getMinLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minLength.
-        
+
         Returns:
             The minLength value
-        
+
         Note:
             Delegates to min_length property (CODING_RULE_V2_00017)
         """
@@ -291,13 +291,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def setMinLength(self, value: "PositiveInteger") -> "AbstractValueRestriction":
         """
         AUTOSAR-compliant setter for minLength with method chaining.
-        
+
         Args:
             value: The minLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_length property setter (gets validation automatically)
         """
@@ -307,10 +307,10 @@ class AbstractValueRestriction(ARObject, ABC):
     def getPattern(self) -> "RegularExpression":
         """
         AUTOSAR-compliant getter for pattern.
-        
+
         Returns:
             The pattern value
-        
+
         Note:
             Delegates to pattern property (CODING_RULE_V2_00017)
         """
@@ -319,13 +319,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def setPattern(self, value: "RegularExpression") -> "AbstractValueRestriction":
         """
         AUTOSAR-compliant setter for pattern with method chaining.
-        
+
         Args:
             value: The pattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pattern property setter (gets validation automatically)
         """
@@ -337,13 +337,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def with_max(self, value: Optional["Limit"]) -> "AbstractValueRestriction":
         """
         Set max and return self for chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max("value")
         """
@@ -353,13 +353,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def with_max_length(self, value: Optional["PositiveInteger"]) -> "AbstractValueRestriction":
         """
         Set maxLength and return self for chaining.
-        
+
         Args:
             value: The maxLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_length("value")
         """
@@ -369,13 +369,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def with_min(self, value: Optional["Limit"]) -> "AbstractValueRestriction":
         """
         Set min and return self for chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min("value")
         """
@@ -385,13 +385,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def with_min_length(self, value: Optional["PositiveInteger"]) -> "AbstractValueRestriction":
         """
         Set minLength and return self for chaining.
-        
+
         Args:
             value: The minLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_length("value")
         """
@@ -401,13 +401,13 @@ class AbstractValueRestriction(ARObject, ABC):
     def with_pattern(self, value: Optional["RegularExpression"]) -> "AbstractValueRestriction":
         """
         Set pattern and return self for chaining.
-        
+
         Args:
             value: The pattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pattern("value")
         """
@@ -420,9 +420,9 @@ class AbstractVariationRestriction(ARObject, ABC):
     """
     Defines constraints on the usage of variation and on the valid binding
     times.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractVariationRestriction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 104, Foundation
       R23-11)
@@ -455,10 +455,10 @@ class AbstractVariationRestriction(ARObject, ABC):
     def variation(self, value: Optional["Boolean"]) -> None:
         """
         Set variation with validation.
-        
+
         Args:
             value: The variation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -477,10 +477,10 @@ class AbstractVariationRestriction(ARObject, ABC):
     def getValidBinding(self) -> List["FullBindingTimeEnum"]:
         """
         AUTOSAR-compliant getter for validBinding.
-        
+
         Returns:
             The validBinding value
-        
+
         Note:
             Delegates to valid_binding property (CODING_RULE_V2_00017)
         """
@@ -489,10 +489,10 @@ class AbstractVariationRestriction(ARObject, ABC):
     def getVariation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for variation.
-        
+
         Returns:
             The variation value
-        
+
         Note:
             Delegates to variation property (CODING_RULE_V2_00017)
         """
@@ -501,13 +501,13 @@ class AbstractVariationRestriction(ARObject, ABC):
     def setVariation(self, value: "Boolean") -> "AbstractVariationRestriction":
         """
         AUTOSAR-compliant setter for variation with method chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variation property setter (gets validation automatically)
         """
@@ -519,13 +519,13 @@ class AbstractVariationRestriction(ARObject, ABC):
     def with_variation(self, value: Optional["Boolean"]) -> "AbstractVariationRestriction":
         """
         Set variation and return self for chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variation("value")
         """
@@ -538,9 +538,9 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     """
     Restriction that specifies the valid number of occurrences of an element in
     the current context.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractMultiplicityRestriction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 422, Foundation
       R23-11)
@@ -565,10 +565,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def lower_multiplicity(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set lowerMultiplicity with validation.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -593,10 +593,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def upper_multiplicity(self, value: Optional["Boolean"]) -> None:
         """
         Set upperMultiplicity with validation.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -615,10 +615,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def getLowerMultiplicity(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for lowerMultiplicity.
-        
+
         Returns:
             The lowerMultiplicity value
-        
+
         Note:
             Delegates to lower_multiplicity property (CODING_RULE_V2_00017)
         """
@@ -627,13 +627,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def setLowerMultiplicity(self, value: "PositiveInteger") -> "AbstractMultiplicityRestriction":
         """
         AUTOSAR-compliant setter for lowerMultiplicity with method chaining.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_multiplicity property setter (gets validation automatically)
         """
@@ -643,10 +643,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def getUpperMultiplicity(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for upperMultiplicity.
-        
+
         Returns:
             The upperMultiplicity value
-        
+
         Note:
             Delegates to upper_multiplicity property (CODING_RULE_V2_00017)
         """
@@ -655,13 +655,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def setUpperMultiplicity(self, value: "Boolean") -> "AbstractMultiplicityRestriction":
         """
         AUTOSAR-compliant setter for upperMultiplicity with method chaining.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_multiplicity property setter (gets validation automatically)
         """
@@ -673,13 +673,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def with_lower_multiplicity(self, value: Optional["PositiveInteger"]) -> "AbstractMultiplicityRestriction":
         """
         Set lowerMultiplicity and return self for chaining.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_multiplicity("value")
         """
@@ -689,13 +689,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def with_upper_multiplicity(self, value: Optional["Boolean"]) -> "AbstractMultiplicityRestriction":
         """
         Set upperMultiplicity and return self for chaining.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_multiplicity("value")
         """

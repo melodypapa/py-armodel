@@ -21,9 +21,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class RTEEvent(AbstractEvent, ABC):
     """
     Abstract base class for all RTE-related events
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::RTEEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 327, Classic
       Platform R23-11)
@@ -57,10 +57,10 @@ class RTEEvent(AbstractEvent, ABC):
     def start_on_event(self, value: Optional["RunnableEntity"]) -> None:
         """
         Set startOnEvent with validation.
-        
+
         Args:
             value: The startOnEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class RTEEvent(AbstractEvent, ABC):
     def getDisabledModeInstanceRef(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for disabledModeInstanceRef.
-        
+
         Returns:
             The disabledModeInstanceRef value
-        
+
         Note:
             Delegates to disabled_mode_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -107,10 +107,10 @@ class RTEEvent(AbstractEvent, ABC):
     def getStartOnEvent(self) -> "RunnableEntity":
         """
         AUTOSAR-compliant getter for startOnEvent.
-        
+
         Returns:
             The startOnEvent value
-        
+
         Note:
             Delegates to start_on_event property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class RTEEvent(AbstractEvent, ABC):
     def setStartOnEvent(self, value: "RunnableEntity") -> "RTEEvent":
         """
         AUTOSAR-compliant setter for startOnEvent with method chaining.
-        
+
         Args:
             value: The startOnEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start_on_event property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class RTEEvent(AbstractEvent, ABC):
     def with_start_on_event(self, value: Optional["RunnableEntity"]) -> "RTEEvent":
         """
         Set startOnEvent and return self for chaining.
-        
+
         Args:
             value: The startOnEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start_on_event("value")
         """
@@ -155,9 +155,9 @@ class RTEEvent(AbstractEvent, ABC):
 class WaitPoint(Identifiable):
     """
     This defines a wait-point for which the RunnableEntity can wait.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::WaitPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 550, Classic Platform
       R23-11)
@@ -179,10 +179,10 @@ class WaitPoint(Identifiable):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -206,10 +206,10 @@ class WaitPoint(Identifiable):
     def trigger(self, value: Optional["RTEEvent"]) -> None:
         """
         Set trigger with validation.
-        
+
         Args:
             value: The trigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -228,10 +228,10 @@ class WaitPoint(Identifiable):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -240,13 +240,13 @@ class WaitPoint(Identifiable):
     def setTimeout(self, value: "TimeValue") -> "WaitPoint":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -256,10 +256,10 @@ class WaitPoint(Identifiable):
     def getTrigger(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -268,13 +268,13 @@ class WaitPoint(Identifiable):
     def setTrigger(self, value: "RTEEvent") -> "WaitPoint":
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -286,13 +286,13 @@ class WaitPoint(Identifiable):
     def with_timeout(self, value: Optional["TimeValue"]) -> "WaitPoint":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -302,13 +302,13 @@ class WaitPoint(Identifiable):
     def with_trigger(self, value: Optional["RTEEvent"]) -> "WaitPoint":
         """
         Set trigger and return self for chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger("value")
         """
@@ -321,9 +321,9 @@ class OperationInvokedEvent(RTEEvent):
     """
     This event is raised when the ClientServerOperation referenced in
     OperationInvokedEvent.operation shall be invoked.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::OperationInvokedEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic
       Platform R23-11)
@@ -346,10 +346,10 @@ class OperationInvokedEvent(RTEEvent):
     def operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operationInstanceRef with validation.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -368,10 +368,10 @@ class OperationInvokedEvent(RTEEvent):
     def getOperationInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operationInstanceRef.
-        
+
         Returns:
             The operationInstanceRef value
-        
+
         Note:
             Delegates to operation_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -380,13 +380,13 @@ class OperationInvokedEvent(RTEEvent):
     def setOperationInstanceRef(self, value: "ClientServerOperation") -> "OperationInvokedEvent":
         """
         AUTOSAR-compliant setter for operationInstanceRef with method chaining.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_instance_ref property setter (gets validation automatically)
         """
@@ -398,13 +398,13 @@ class OperationInvokedEvent(RTEEvent):
     def with_operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> "OperationInvokedEvent":
         """
         Set operationInstanceRef and return self for chaining.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_instance_ref("value")
         """
@@ -417,9 +417,9 @@ class TimingEvent(RTEEvent):
     """
     This event is used to start RunnableEntities that shall be executed
     periodically.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::TimingEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 532, Classic Platform
       R23-11)
@@ -444,10 +444,10 @@ class TimingEvent(RTEEvent):
     def offset(self, value: Optional["TimeValue"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -472,10 +472,10 @@ class TimingEvent(RTEEvent):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -494,10 +494,10 @@ class TimingEvent(RTEEvent):
     def getOffset(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -506,13 +506,13 @@ class TimingEvent(RTEEvent):
     def setOffset(self, value: "TimeValue") -> "TimingEvent":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -522,10 +522,10 @@ class TimingEvent(RTEEvent):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -534,13 +534,13 @@ class TimingEvent(RTEEvent):
     def setPeriod(self, value: "TimeValue") -> "TimingEvent":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -552,13 +552,13 @@ class TimingEvent(RTEEvent):
     def with_offset(self, value: Optional["TimeValue"]) -> "TimingEvent":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -568,13 +568,13 @@ class TimingEvent(RTEEvent):
     def with_period(self, value: Optional["TimeValue"]) -> "TimingEvent":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """
@@ -586,9 +586,9 @@ class TimingEvent(RTEEvent):
 class AsynchronousServerCallReturnsEvent(RTEEvent):
     """
     This event is raised when an asynchronous server call is finished.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::AsynchronousServerCallReturnsEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 541, Classic Platform
       R23-11)
@@ -610,10 +610,10 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def event_source(self, value: Optional["AsynchronousServer"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -632,10 +632,10 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def getEventSource(self) -> "AsynchronousServer":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -644,13 +644,13 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def setEventSource(self, value: "AsynchronousServer") -> "AsynchronousServerCallReturnsEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -662,13 +662,13 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def with_event_source(self, value: Optional["AsynchronousServer"]) -> "AsynchronousServerCallReturnsEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """
@@ -681,9 +681,9 @@ class DataSendCompletedEvent(RTEEvent):
     """
     This event is raised when the referenced explicit data element has been sent
     or an error occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::DataSendCompletedEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 542, Classic Platform
       R23-11)
@@ -705,10 +705,10 @@ class DataSendCompletedEvent(RTEEvent):
     def event_source(self, value: Optional["VariableAccess"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -727,10 +727,10 @@ class DataSendCompletedEvent(RTEEvent):
     def getEventSource(self) -> "VariableAccess":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -739,13 +739,13 @@ class DataSendCompletedEvent(RTEEvent):
     def setEventSource(self, value: "VariableAccess") -> "DataSendCompletedEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -757,13 +757,13 @@ class DataSendCompletedEvent(RTEEvent):
     def with_event_source(self, value: Optional["VariableAccess"]) -> "DataSendCompletedEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """
@@ -776,9 +776,9 @@ class DataWriteCompletedEvent(RTEEvent):
     """
     This event is raised when an implicit write access was successful or an
     error occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::DataWriteCompletedEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 542, Classic Platform
       R23-11)
@@ -800,10 +800,10 @@ class DataWriteCompletedEvent(RTEEvent):
     def event_source(self, value: Optional["VariableAccess"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -822,10 +822,10 @@ class DataWriteCompletedEvent(RTEEvent):
     def getEventSource(self) -> "VariableAccess":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -834,13 +834,13 @@ class DataWriteCompletedEvent(RTEEvent):
     def setEventSource(self, value: "VariableAccess") -> "DataWriteCompletedEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -852,13 +852,13 @@ class DataWriteCompletedEvent(RTEEvent):
     def with_event_source(self, value: Optional["VariableAccess"]) -> "DataWriteCompletedEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """
@@ -870,9 +870,9 @@ class DataWriteCompletedEvent(RTEEvent):
 class DataReceivedEvent(RTEEvent):
     """
     This event is raised when the referenced data element is received.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::DataReceivedEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 542, Classic Platform
       R23-11)
@@ -894,10 +894,10 @@ class DataReceivedEvent(RTEEvent):
     def data(self, value: Optional["RefType"]) -> None:
         """
         Set data with validation.
-        
+
         Args:
             value: The data to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -912,10 +912,10 @@ class DataReceivedEvent(RTEEvent):
     def getData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -924,13 +924,13 @@ class DataReceivedEvent(RTEEvent):
     def setData(self, value: "RefType") -> "DataReceivedEvent":
         """
         AUTOSAR-compliant setter for data with method chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data property setter (gets validation automatically)
         """
@@ -942,13 +942,13 @@ class DataReceivedEvent(RTEEvent):
     def with_data(self, value: Optional[RefType]) -> "DataReceivedEvent":
         """
         Set data and return self for chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data("value")
         """
@@ -961,9 +961,9 @@ class DataReceiveErrorEvent(RTEEvent):
     """
     This event is raised when the Com layer detects and notifies an error
     concerning the reception of the referenced VariableDataPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::DataReceiveErrorEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 543, Classic Platform
       R23-11)
@@ -984,10 +984,10 @@ class DataReceiveErrorEvent(RTEEvent):
     def data(self, value: Optional["RefType"]) -> None:
         """
         Set data with validation.
-        
+
         Args:
             value: The data to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1002,10 +1002,10 @@ class DataReceiveErrorEvent(RTEEvent):
     def getData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -1014,13 +1014,13 @@ class DataReceiveErrorEvent(RTEEvent):
     def setData(self, value: "RefType") -> "DataReceiveErrorEvent":
         """
         AUTOSAR-compliant setter for data with method chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data property setter (gets validation automatically)
         """
@@ -1032,13 +1032,13 @@ class DataReceiveErrorEvent(RTEEvent):
     def with_data(self, value: Optional[RefType]) -> "DataReceiveErrorEvent":
         """
         Set data and return self for chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data("value")
         """
@@ -1051,9 +1051,9 @@ class BackgroundEvent(RTEEvent):
     """
     This event is used to start RunnableEntities that are supposed to be
     executed in the background.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::BackgroundEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 544, Classic Platform
       R23-11)
@@ -1072,9 +1072,9 @@ class BackgroundEvent(RTEEvent):
 class SwcModeSwitchEvent(RTEEvent):
     """
     This event is raised when the specified mode change occurs.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::SwcModeSwitchEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 544, Classic Platform
       R23-11)
@@ -1099,10 +1099,10 @@ class SwcModeSwitchEvent(RTEEvent):
     def activation(self, value: Optional["ModeActivationKind"]) -> None:
         """
         Set activation with validation.
-        
+
         Args:
             value: The activation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1121,10 +1121,10 @@ class SwcModeSwitchEvent(RTEEvent):
     def getActivation(self) -> "ModeActivationKind":
         """
         AUTOSAR-compliant getter for activation.
-        
+
         Returns:
             The activation value
-        
+
         Note:
             Delegates to activation property (CODING_RULE_V2_00017)
         """
@@ -1133,13 +1133,13 @@ class SwcModeSwitchEvent(RTEEvent):
     def setActivation(self, value: "ModeActivationKind") -> "SwcModeSwitchEvent":
         """
         AUTOSAR-compliant setter for activation with method chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to activation property setter (gets validation automatically)
         """
@@ -1151,13 +1151,13 @@ class SwcModeSwitchEvent(RTEEvent):
     def with_activation(self, value: Optional["ModeActivationKind"]) -> "SwcModeSwitchEvent":
         """
         Set activation and return self for chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_activation("value")
         """
@@ -1170,9 +1170,9 @@ class ModeSwitchedAckEvent(RTEEvent):
     """
     This event is raised when the referenced ModeSwitchPoint has been processed
     or an error occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::ModeSwitchedAckEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 545, Classic Platform
       R23-11)
@@ -1193,10 +1193,10 @@ class ModeSwitchedAckEvent(RTEEvent):
     def event_source(self, value: Optional["ModeSwitchPoint"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1215,10 +1215,10 @@ class ModeSwitchedAckEvent(RTEEvent):
     def getEventSource(self) -> "ModeSwitchPoint":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -1227,13 +1227,13 @@ class ModeSwitchedAckEvent(RTEEvent):
     def setEventSource(self, value: "ModeSwitchPoint") -> "ModeSwitchedAckEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -1245,13 +1245,13 @@ class ModeSwitchedAckEvent(RTEEvent):
     def with_event_source(self, value: Optional["ModeSwitchPoint"]) -> "ModeSwitchedAckEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """
@@ -1263,9 +1263,9 @@ class ModeSwitchedAckEvent(RTEEvent):
 class ExternalTriggerOccurredEvent(RTEEvent):
     """
     This event is raised when the referenced Trigger has occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::ExternalTriggerOccurredEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 545, Classic Platform
       R23-11)
@@ -1286,10 +1286,10 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def trigger_instance_ref(self, value: Optional["RefType"]) -> None:
         """
         Set triggerInstanceRef with validation.
-        
+
         Args:
             value: The triggerInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1304,10 +1304,10 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def getTriggerInstanceRef(self) -> "RefType":
         """
         AUTOSAR-compliant getter for triggerInstanceRef.
-        
+
         Returns:
             The triggerInstanceRef value
-        
+
         Note:
             Delegates to trigger_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -1316,13 +1316,13 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def setTriggerInstanceRef(self, value: "RefType") -> "ExternalTriggerOccurredEvent":
         """
         AUTOSAR-compliant setter for triggerInstanceRef with method chaining.
-        
+
         Args:
             value: The triggerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_instance_ref property setter (gets validation automatically)
         """
@@ -1334,13 +1334,13 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def with_trigger_instance_ref(self, value: Optional[RefType]) -> "ExternalTriggerOccurredEvent":
         """
         Set triggerInstanceRef and return self for chaining.
-        
+
         Args:
             value: The triggerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_instance_ref("value")
         """
@@ -1353,9 +1353,9 @@ class InternalTriggerOccurredEvent(RTEEvent):
     """
     This event is raised when the referenced InternalTriggeringPoint has
     occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::InternalTriggerOccurredEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform
       R23-11)
@@ -1376,10 +1376,10 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def event_source(self, value: Optional["RefType"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1394,10 +1394,10 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def getEventSource(self) -> "RefType":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -1406,13 +1406,13 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def setEventSource(self, value: "RefType") -> "InternalTriggerOccurredEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -1424,13 +1424,13 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def with_event_source(self, value: Optional[RefType]) -> "InternalTriggerOccurredEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """
@@ -1446,9 +1446,9 @@ class InitEvent(RTEEvent):
     RunnableEntities referenced by this InitEvent are executed before the
     ’regular’ RunnableEntities are executed for the first time. The execution
     order depends on the task mapping.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::InitEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform
       R23-11)
@@ -1469,9 +1469,9 @@ class TransformerHardErrorEvent(RTEEvent):
     This event is raised when data are received which should trigger a
     Client/Server operation or an external Trigger but during transformation of
     the data a hard transformer error occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::TransformerHardErrorEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform
       R23-11)
@@ -1493,10 +1493,10 @@ class TransformerHardErrorEvent(RTEEvent):
     def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1521,10 +1521,10 @@ class TransformerHardErrorEvent(RTEEvent):
     def required_trigger(self, value: Optional["RefType"]) -> None:
         """
         Set requiredTrigger with validation.
-        
+
         Args:
             value: The requiredTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1539,10 +1539,10 @@ class TransformerHardErrorEvent(RTEEvent):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -1551,13 +1551,13 @@ class TransformerHardErrorEvent(RTEEvent):
     def setOperation(self, value: "ClientServerOperation") -> "TransformerHardErrorEvent":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -1567,10 +1567,10 @@ class TransformerHardErrorEvent(RTEEvent):
     def getRequiredTrigger(self) -> "RefType":
         """
         AUTOSAR-compliant getter for requiredTrigger.
-        
+
         Returns:
             The requiredTrigger value
-        
+
         Note:
             Delegates to required_trigger property (CODING_RULE_V2_00017)
         """
@@ -1579,13 +1579,13 @@ class TransformerHardErrorEvent(RTEEvent):
     def setRequiredTrigger(self, value: "RefType") -> "TransformerHardErrorEvent":
         """
         AUTOSAR-compliant setter for requiredTrigger with method chaining.
-        
+
         Args:
             value: The requiredTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required_trigger property setter (gets validation automatically)
         """
@@ -1597,13 +1597,13 @@ class TransformerHardErrorEvent(RTEEvent):
     def with_operation(self, value: Optional["ClientServerOperation"]) -> "TransformerHardErrorEvent":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """
@@ -1613,13 +1613,13 @@ class TransformerHardErrorEvent(RTEEvent):
     def with_required_trigger(self, value: Optional[RefType]) -> "TransformerHardErrorEvent":
         """
         Set requiredTrigger and return self for chaining.
-        
+
         Args:
             value: The requiredTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required_trigger("value")
         """
@@ -1635,9 +1635,9 @@ class OsTaskExecutionEvent(RTEEvent):
     raised whenever the OsTask on which it is mapped is executed. The main use
     case for this event is scheduling of Runnables of Complex Drivers which have
     to react on task executions.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::OsTaskExecutionEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 547, Classic Platform
       R23-11)
@@ -1657,9 +1657,9 @@ class SwcModeManagerErrorEvent(RTEEvent):
     """
     This event is raised when an error occurred during the handling of the
     referenced ModeDeclarationGroup Prototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::SwcModeManagerErrorEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 637, Classic Platform
       R23-11)
@@ -1681,10 +1681,10 @@ class SwcModeManagerErrorEvent(RTEEvent):
     def mode_group(self, value: Optional["RefType"]) -> None:
         """
         Set modeGroup with validation.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1699,10 +1699,10 @@ class SwcModeManagerErrorEvent(RTEEvent):
     def getModeGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for modeGroup.
-        
+
         Returns:
             The modeGroup value
-        
+
         Note:
             Delegates to mode_group property (CODING_RULE_V2_00017)
         """
@@ -1711,13 +1711,13 @@ class SwcModeManagerErrorEvent(RTEEvent):
     def setModeGroup(self, value: "RefType") -> "SwcModeManagerErrorEvent":
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_group property setter (gets validation automatically)
         """
@@ -1729,13 +1729,13 @@ class SwcModeManagerErrorEvent(RTEEvent):
     def with_mode_group(self, value: Optional[RefType]) -> "SwcModeManagerErrorEvent":
         """
         Set modeGroup and return self for chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_group("value")
         """

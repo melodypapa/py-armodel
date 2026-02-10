@@ -21,9 +21,9 @@ class Keyword(Identifiable):
     """
     that such names is not only shortName. It could be symbol, or even longName.
     Application of keywords is not limited to particular names.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword::Keyword
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 454, Foundation
       R23-11)
@@ -52,10 +52,10 @@ class Keyword(Identifiable):
     def abbr_name(self, value: "NameToken") -> None:
         """
         Set abbrName with validation.
-        
+
         Args:
             value: The abbrName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class Keyword(Identifiable):
     def getAbbrName(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for abbrName.
-        
+
         Returns:
             The abbrName value
-        
+
         Note:
             Delegates to abbr_name property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class Keyword(Identifiable):
     def setAbbrName(self, value: "NameToken") -> "Keyword":
         """
         AUTOSAR-compliant setter for abbrName with method chaining.
-        
+
         Args:
             value: The abbrName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to abbr_name property setter (gets validation automatically)
         """
@@ -137,10 +137,10 @@ class Keyword(Identifiable):
     def getClassification(self) -> List["NameToken"]:
         """
         AUTOSAR-compliant getter for classification.
-        
+
         Returns:
             The classification value
-        
+
         Note:
             Delegates to classification property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class Keyword(Identifiable):
     def with_abbr_name(self, value: "NameToken") -> "Keyword":
         """
         Set abbrName and return self for chaining.
-        
+
         Args:
             value: The abbrName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_abbr_name("value")
         """
@@ -170,9 +170,9 @@ class KeywordSet(ARElement):
     """
     This meta–class represents the ability to collect a set of predefined
     keywords.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword::KeywordSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 194, Foundation R23-11)
     """
@@ -193,10 +193,10 @@ class KeywordSet(ARElement):
     def getKeyword(self) -> List["Keyword"]:
         """
         AUTOSAR-compliant getter for keyword.
-        
+
         Returns:
             The keyword value
-        
+
         Note:
             Delegates to keyword property (CODING_RULE_V2_00017)
         """

@@ -25,9 +25,9 @@ class AtpInstanceRef(ARObject, ABC):
     instances which act as features under that node. An instance ref specifies a
     navigation path from any M0 tree-instance of the base (which is a
     classifier) to a leaf (which is an instance of the target).
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 301, Classic Platform
       R23-11)
@@ -57,10 +57,10 @@ class AtpInstanceRef(ARObject, ABC):
     def atp_base(self, value: "AtpClassifier") -> None:
         """
         Set atpBase with validation.
-        
+
         Args:
             value: The atpBase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class AtpInstanceRef(ARObject, ABC):
     def atp_target(self, value: "AtpFeature") -> None:
         """
         Set atpTarget with validation.
-        
+
         Args:
             value: The atpTarget to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +139,10 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpBase(self) -> "AtpClassifier":
         """
         AUTOSAR-compliant getter for atpBase.
-        
+
         Returns:
             The atpBase value
-        
+
         Note:
             Delegates to atp_base property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class AtpInstanceRef(ARObject, ABC):
     def setAtpBase(self, value: "AtpClassifier") -> "AtpInstanceRef":
         """
         AUTOSAR-compliant setter for atpBase with method chaining.
-        
+
         Args:
             value: The atpBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_base property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpContext(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for atpContext.
-        
+
         Returns:
             The atpContext value
-        
+
         Note:
             Delegates to atp_context property (CODING_RULE_V2_00017)
         """
@@ -179,10 +179,10 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpTarget(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for atpTarget.
-        
+
         Returns:
             The atpTarget value
-        
+
         Note:
             Delegates to atp_target property (CODING_RULE_V2_00017)
         """
@@ -191,13 +191,13 @@ class AtpInstanceRef(ARObject, ABC):
     def setAtpTarget(self, value: "AtpFeature") -> "AtpInstanceRef":
         """
         AUTOSAR-compliant setter for atpTarget with method chaining.
-        
+
         Args:
             value: The atpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_target property setter (gets validation automatically)
         """
@@ -209,13 +209,13 @@ class AtpInstanceRef(ARObject, ABC):
     def with_atp_base(self, value: "AtpClassifier") -> "AtpInstanceRef":
         """
         Set atpBase and return self for chaining.
-        
+
         Args:
             value: The atpBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_base("value")
         """
@@ -225,13 +225,13 @@ class AtpInstanceRef(ARObject, ABC):
     def with_atp_target(self, value: "AtpFeature") -> "AtpInstanceRef":
         """
         Set atpTarget and return self for chaining.
-        
+
         Args:
             value: The atpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_target("value")
         """
@@ -245,9 +245,9 @@ class AtpClassifier(Identifiable, ABC):
     A classifier classifies M0 instances according to their features. Or: a
     classifier is something that has instances - an M1 classifier has M0
     instances.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpClassifier
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 173, Foundation
       R23-11)
@@ -271,10 +271,10 @@ class AtpClassifier(Identifiable, ABC):
     def getAtpFeature(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for atpFeature.
-        
+
         Returns:
             The atpFeature value
-        
+
         Note:
             Delegates to atp_feature property (CODING_RULE_V2_00017)
         """
@@ -289,9 +289,9 @@ class AtpFeature(Identifiable, ABC):
     Features are properties via which a classifier classifies instances. Or: a
     classifier has features and every M0 instance of it will have those
     features.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpFeature
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 173, Foundation
       R23-11)
@@ -316,9 +316,9 @@ class AtpPrototype(Identifiable, ABC):
     feature is given by the its type. An instance of that type will play the
     role indicated by the feature in the owning classifier. A feature is not an
     instance but an indication of an instance-to-be.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpPrototype
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 175, Foundation
       R23-11)
@@ -341,10 +341,10 @@ class AtpPrototype(Identifiable, ABC):
     def atp_type(self, value: "AtpType") -> None:
         """
         Set atpType with validation.
-        
+
         Args:
             value: The atpType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -359,10 +359,10 @@ class AtpPrototype(Identifiable, ABC):
     def getAtpType(self) -> "AtpType":
         """
         AUTOSAR-compliant getter for atpType.
-        
+
         Returns:
             The atpType value
-        
+
         Note:
             Delegates to atp_type property (CODING_RULE_V2_00017)
         """
@@ -371,13 +371,13 @@ class AtpPrototype(Identifiable, ABC):
     def setAtpType(self, value: "AtpType") -> "AtpPrototype":
         """
         AUTOSAR-compliant setter for atpType with method chaining.
-        
+
         Args:
             value: The atpType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_type property setter (gets validation automatically)
         """
@@ -389,13 +389,13 @@ class AtpPrototype(Identifiable, ABC):
     def with_atp_type(self, value: "AtpType") -> "AtpPrototype":
         """
         Set atpType and return self for chaining.
-        
+
         Args:
             value: The atpType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_type("value")
         """
@@ -408,9 +408,9 @@ class AtpStructureElement(Identifiable, ABC):
     """
     A structure element is both a classifier and a feature. As a feature, its
     structure is given by the feature it owns as a classifier.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpStructureElement
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 175, Foundation
       R23-11)
@@ -432,9 +432,9 @@ class AtpType(Identifiable, ABC):
     """
     A type is a classifier that may serve to type prototypes. It is a reusable
     classifier.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpType
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 175, Foundation
       R23-11)

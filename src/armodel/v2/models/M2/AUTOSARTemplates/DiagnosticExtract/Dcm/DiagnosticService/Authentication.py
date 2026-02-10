@@ -24,9 +24,9 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     """
     This meta-class represents the ability to configure the usage of the UDS
     service Authentication in the Diagnostic extract.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthentication
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 98, Classic Platform
       R23-11)
@@ -52,10 +52,10 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def authentication(self, value: Optional["Diagnostic"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +90,10 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def getAuthentication(self) -> "Diagnostic":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -102,13 +102,13 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def setAuthentication(self, value: "Diagnostic") -> "DiagnosticAuthentication":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -120,13 +120,13 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def with_authentication(self, value: Optional["Diagnostic"]) -> "DiagnosticAuthentication":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -139,9 +139,9 @@ class DiagnosticAuthenticationClass(DiagnosticServiceClass):
     """
     This meta-class contains configuration shared by all instances of the
     Authentication diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthenticationClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 99, Classic Platform
       R23-11)
@@ -161,9 +161,9 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     """
     This meta-class represents the ability to configure a certificate evaluation
     in the context of a diagnostic authentication.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthTransmitCertificateEvaluation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 101, Classic Platform
       R23-11)
@@ -184,10 +184,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def evaluation_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set evaluationId with validation.
-        
+
         Args:
             value: The evaluationId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -212,10 +212,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def function(self, value: Optional["String"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +234,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def getEvaluationId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for evaluationId.
-        
+
         Returns:
             The evaluationId value
-        
+
         Note:
             Delegates to evaluation_id property (CODING_RULE_V2_00017)
         """
@@ -246,13 +246,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def setEvaluationId(self, value: "PositiveInteger") -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         AUTOSAR-compliant setter for evaluationId with method chaining.
-        
+
         Args:
             value: The evaluationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to evaluation_id property setter (gets validation automatically)
         """
@@ -262,10 +262,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def getFunction(self) -> "String":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -274,13 +274,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def setFunction(self, value: "String") -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -292,13 +292,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def with_evaluation_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         Set evaluationId and return self for chaining.
-        
+
         Args:
             value: The evaluationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_evaluation_id("value")
         """
@@ -308,13 +308,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def with_function(self, value: Optional["String"]) -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """
@@ -326,9 +326,9 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
 class DiagnosticAuthenticationConfiguration(DiagnosticAuthentication):
     """
     This meta-class represents the subfunction to configure the authentication.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthenticationConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 99, Classic Platform
       R23-11)
@@ -348,9 +348,9 @@ class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
     """
     This meta-class represents the subfunction to do a bidirectional
     verification of the certificate.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticVerifyCertificateBidirectional
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 99, Classic Platform
       R23-11)
@@ -370,9 +370,9 @@ class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):
     """
     This meta-class represents the subfunction to do a unidirectional
     verification of the certificate.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticVerifyCertificateUnidirectional
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 100, Classic Platform
       R23-11)
@@ -391,9 +391,9 @@ class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):
 class DiagnosticDeAuthentication(DiagnosticAuthentication):
     """
     This meta-class represents the subfunction to remove the authentication
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticDeAuthentication
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 100, Classic Platform
       R23-11)
@@ -412,9 +412,9 @@ class DiagnosticDeAuthentication(DiagnosticAuthentication):
 class DiagnosticProofOfOwnership(DiagnosticAuthentication):
     """
     This meta-class represents the subfunction to provide proof of ownership.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticProofOfOwnership
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 100, Classic Platform
       R23-11)
@@ -433,9 +433,9 @@ class DiagnosticProofOfOwnership(DiagnosticAuthentication):
 class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
     """
     This meta-class represents the sub-function to transmit a certificate
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthTransmitCertificate
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 100, Classic Platform
       R23-11)
@@ -458,10 +458,10 @@ class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
     def getCertificate(self) -> List["DiagnosticAuthTransmit"]:
         """
         AUTOSAR-compliant getter for certificate.
-        
+
         Returns:
             The certificate value
-        
+
         Note:
             Delegates to certificate property (CODING_RULE_V2_00017)
         """

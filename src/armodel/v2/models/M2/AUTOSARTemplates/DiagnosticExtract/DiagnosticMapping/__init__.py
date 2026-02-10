@@ -19,9 +19,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping._
 class DiagnosticMapping(DiagnosticCommonElement, ABC):
     """
     Abstract element for different kinds of diagnostic mappings.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 223, Classic Platform
       R23-11)
@@ -45,10 +45,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def provider(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set provider with validation.
-        
+
         Args:
             value: The provider to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +74,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def requester(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set requester with validation.
-        
+
         Args:
             value: The requester to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -128,10 +128,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def getProvider(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for provider.
-        
+
         Returns:
             The provider value
-        
+
         Note:
             Delegates to provider property (CODING_RULE_V2_00017)
         """
@@ -140,13 +140,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def setProvider(self, value: "CpSoftwareCluster") -> "DiagnosticMapping":
         """
         AUTOSAR-compliant setter for provider with method chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provider property setter (gets validation automatically)
         """
@@ -156,10 +156,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def getRequester(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for requester.
-        
+
         Returns:
             The requester value
-        
+
         Note:
             Delegates to requester property (CODING_RULE_V2_00017)
         """
@@ -168,13 +168,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def setRequester(self, value: "CpSoftwareCluster") -> "DiagnosticMapping":
         """
         AUTOSAR-compliant setter for requester with method chaining.
-        
+
         Args:
             value: The requester to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to requester property setter (gets validation automatically)
         """
@@ -186,13 +186,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def with_provider(self, value: Optional["CpSoftwareCluster"]) -> "DiagnosticMapping":
         """
         Set provider and return self for chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provider("value")
         """
@@ -202,13 +202,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def with_requester(self, value: Optional["CpSoftwareCluster"]) -> "DiagnosticMapping":
         """
         Set requester and return self for chaining.
-        
+
         Args:
             value: The requester to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_requester("value")
         """
@@ -221,9 +221,9 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     """
     This meta-class represents the ability to associate a UDS trouble code to an
     OBD trouble code.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticTroubleCodeUdsToTroubleCodeObdMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 188, Classic Platform
       R23-11)
@@ -245,10 +245,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCode with validation.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -273,10 +273,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCodeUds with validation.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -295,10 +295,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def getTroubleCode(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCode.
-        
+
         Returns:
             The troubleCode value
-        
+
         Note:
             Delegates to trouble_code property (CODING_RULE_V2_00017)
         """
@@ -307,13 +307,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def setTroubleCode(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         AUTOSAR-compliant setter for troubleCode with method chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code property setter (gets validation automatically)
         """
@@ -323,10 +323,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def getTroubleCodeUds(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCodeUds.
-        
+
         Returns:
             The troubleCodeUds value
-        
+
         Note:
             Delegates to trouble_code_uds property (CODING_RULE_V2_00017)
         """
@@ -335,13 +335,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def setTroubleCodeUds(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         AUTOSAR-compliant setter for troubleCodeUds with method chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code_uds property setter (gets validation automatically)
         """
@@ -353,13 +353,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def with_trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         Set troubleCode and return self for chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code("value")
         """
@@ -369,13 +369,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def with_trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         Set troubleCodeUds and return self for chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code_uds("value")
         """
@@ -389,9 +389,9 @@ class DiagnosticSwMapping(DiagnosticMapping, ABC):
     This represents the ability to define a mapping between a diagnostic
     information (at this point there is no way to become more specific about the
     semantics) to a software-component.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticSwMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 238, Classic Platform
       R23-11)
@@ -414,9 +414,9 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     This meta-class represents the ability to associate a
     CryptoServiceCertificate with a DiagnosticAuth CertificateEvaluation with
     the purpose to configure the evaluation of the certificate.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticAuthTransmitCertificateMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 242, Classic Platform
       R23-11)
@@ -446,10 +446,10 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def service_instance(self, value: Optional["DiagnosticAuthTransmit"]) -> None:
         """
         Set serviceInstance with validation.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -468,10 +468,10 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def getCryptoService(self) -> List["CryptoService"]:
         """
         AUTOSAR-compliant getter for cryptoService.
-        
+
         Returns:
             The cryptoService value
-        
+
         Note:
             Delegates to crypto_service property (CODING_RULE_V2_00017)
         """
@@ -480,10 +480,10 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def getServiceInstance(self) -> "DiagnosticAuthTransmit":
         """
         AUTOSAR-compliant getter for serviceInstance.
-        
+
         Returns:
             The serviceInstance value
-        
+
         Note:
             Delegates to service_instance property (CODING_RULE_V2_00017)
         """
@@ -492,13 +492,13 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def setServiceInstance(self, value: "DiagnosticAuthTransmit") -> "DiagnosticAuthTransmitCertificateMapping":
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_instance property setter (gets validation automatically)
         """
@@ -510,13 +510,13 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def with_service_instance(self, value: Optional["DiagnosticAuthTransmit"]) -> "DiagnosticAuthTransmitCertificateMapping":
         """
         Set serviceInstance and return self for chaining.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_instance("value")
         """
@@ -529,9 +529,9 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     """
     Defines which UDS Diagnostic Trouble Code is applicable for a
     DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToTroubleCodeUdsMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 245, Classic Platform
       R23-11)
@@ -552,10 +552,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -580,10 +580,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCodeUds with validation.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -602,10 +602,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -614,13 +614,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -630,10 +630,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def getTroubleCodeUds(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCodeUds.
-        
+
         Returns:
             The troubleCodeUds value
-        
+
         Note:
             Delegates to trouble_code_uds property (CODING_RULE_V2_00017)
         """
@@ -642,13 +642,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def setTroubleCodeUds(self, value: "DiagnosticTroubleCode") -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         AUTOSAR-compliant setter for troubleCodeUds with method chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code_uds property setter (gets validation automatically)
         """
@@ -660,13 +660,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -676,13 +676,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def with_trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         Set troubleCodeUds and return self for chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code_uds("value")
         """
@@ -694,9 +694,9 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
 class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     """
     Defines which OperationCycle is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToOperationCycleMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 245, Classic Platform
       R23-11)
@@ -717,10 +717,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -745,10 +745,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def operation_cycle(self, value: Optional["DiagnosticOperation"]) -> None:
         """
         Set operationCycle with validation.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -767,10 +767,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -779,13 +779,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToOperationCycleMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -795,10 +795,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def getOperationCycle(self) -> "DiagnosticOperation":
         """
         AUTOSAR-compliant getter for operationCycle.
-        
+
         Returns:
             The operationCycle value
-        
+
         Note:
             Delegates to operation_cycle property (CODING_RULE_V2_00017)
         """
@@ -807,13 +807,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def setOperationCycle(self, value: "DiagnosticOperation") -> "DiagnosticEventToOperationCycleMapping":
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_cycle property setter (gets validation automatically)
         """
@@ -825,13 +825,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToOperationCycleMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -841,13 +841,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def with_operation_cycle(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticEventToOperationCycleMapping":
         """
         Set operationCycle and return self for chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_cycle("value")
         """
@@ -859,9 +859,9 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
 class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     """
     Defines which Debounce Algorithm is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToDebounceAlgorithmMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 246, Classic Platform
       R23-11)
@@ -882,10 +882,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def debounce(self, value: Optional["DiagnosticDebounce"]) -> None:
         """
         Set debounce with validation.
-        
+
         Args:
             value: The debounce to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -910,10 +910,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -932,10 +932,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def getDebounce(self) -> "DiagnosticDebounce":
         """
         AUTOSAR-compliant getter for debounce.
-        
+
         Returns:
             The debounce value
-        
+
         Note:
             Delegates to debounce property (CODING_RULE_V2_00017)
         """
@@ -944,13 +944,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def setDebounce(self, value: "DiagnosticDebounce") -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         AUTOSAR-compliant setter for debounce with method chaining.
-        
+
         Args:
             value: The debounce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to debounce property setter (gets validation automatically)
         """
@@ -960,10 +960,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -972,13 +972,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -990,13 +990,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def with_debounce(self, value: Optional["DiagnosticDebounce"]) -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         Set debounce and return self for chaining.
-        
+
         Args:
             value: The debounce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_debounce("value")
         """
@@ -1006,13 +1006,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -1024,9 +1024,9 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
 class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     """
     Defines which EnableConditionGroup is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToEnableConditionGroupMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 247, Classic Platform
       R23-11)
@@ -1047,10 +1047,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1075,10 +1075,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def enable_condition(self, value: Optional["DiagnosticEnable"]) -> None:
         """
         Set enableCondition with validation.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1097,10 +1097,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -1109,13 +1109,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -1125,10 +1125,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def getEnableCondition(self) -> "DiagnosticEnable":
         """
         AUTOSAR-compliant getter for enableCondition.
-        
+
         Returns:
             The enableCondition value
-        
+
         Note:
             Delegates to enable_condition property (CODING_RULE_V2_00017)
         """
@@ -1137,13 +1137,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def setEnableCondition(self, value: "DiagnosticEnable") -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         AUTOSAR-compliant setter for enableCondition with method chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_condition property setter (gets validation automatically)
         """
@@ -1155,13 +1155,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -1171,13 +1171,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def with_enable_condition(self, value: Optional["DiagnosticEnable"]) -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         Set enableCondition and return self for chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_condition("value")
         """
@@ -1189,9 +1189,9 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
 class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     """
     Defines which StorageConditionGroup is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToStorageConditionGroupMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 248, Classic Platform
       R23-11)
@@ -1212,10 +1212,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1240,10 +1240,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def storage(self, value: Optional["DiagnosticStorage"]) -> None:
         """
         Set storage with validation.
-        
+
         Args:
             value: The storage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1262,10 +1262,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -1274,13 +1274,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -1290,10 +1290,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def getStorage(self) -> "DiagnosticStorage":
         """
         AUTOSAR-compliant getter for storage.
-        
+
         Returns:
             The storage value
-        
+
         Note:
             Delegates to storage property (CODING_RULE_V2_00017)
         """
@@ -1302,13 +1302,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def setStorage(self, value: "DiagnosticStorage") -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         AUTOSAR-compliant setter for storage with method chaining.
-        
+
         Args:
             value: The storage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to storage property setter (gets validation automatically)
         """
@@ -1320,13 +1320,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -1336,13 +1336,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def with_storage(self, value: Optional["DiagnosticStorage"]) -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         Set storage and return self for chaining.
-        
+
         Args:
             value: The storage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_storage("value")
         """
@@ -1356,9 +1356,9 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     This meta-class provides the ability to map a master diagnostic event with a
     slave diagnostic event such that reporting of the master event with a given
     value also reports the slave event with the same value
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticMasterToSlaveEventMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 256, Classic Platform
       R23-11)
@@ -1379,10 +1379,10 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def master_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set masterEvent with validation.
-        
+
         Args:
             value: The masterEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1407,10 +1407,10 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def slave_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set slaveEvent with validation.
-        
+
         Args:
             value: The slaveEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1429,10 +1429,10 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def getMasterEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for masterEvent.
-        
+
         Returns:
             The masterEvent value
-        
+
         Note:
             Delegates to master_event property (CODING_RULE_V2_00017)
         """
@@ -1441,13 +1441,13 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def setMasterEvent(self, value: "DiagnosticEvent") -> "DiagnosticMasterToSlaveEventMapping":
         """
         AUTOSAR-compliant setter for masterEvent with method chaining.
-        
+
         Args:
             value: The masterEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to master_event property setter (gets validation automatically)
         """
@@ -1457,10 +1457,10 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def getSlaveEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for slaveEvent.
-        
+
         Returns:
             The slaveEvent value
-        
+
         Note:
             Delegates to slave_event property (CODING_RULE_V2_00017)
         """
@@ -1469,13 +1469,13 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def setSlaveEvent(self, value: "DiagnosticEvent") -> "DiagnosticMasterToSlaveEventMapping":
         """
         AUTOSAR-compliant setter for slaveEvent with method chaining.
-        
+
         Args:
             value: The slaveEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slave_event property setter (gets validation automatically)
         """
@@ -1487,13 +1487,13 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def with_master_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticMasterToSlaveEventMapping":
         """
         Set masterEvent and return self for chaining.
-        
+
         Args:
             value: The masterEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_master_event("value")
         """
@@ -1503,13 +1503,13 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     def with_slave_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticMasterToSlaveEventMapping":
         """
         Set slaveEvent and return self for chaining.
-        
+
         Args:
             value: The slaveEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slave_event("value")
         """
@@ -1523,9 +1523,9 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     This meta-class represents the ability to map a security event that is
     defined in the context of the Security Extract to a diagnostic event defined
     on the context of the DiagnosticExtract.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToSecurityEventMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 257, Classic Platform
       R23-11)
@@ -1546,10 +1546,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1574,10 +1574,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def security_event(self, value: Optional["SecurityEventContext"]) -> None:
         """
         Set securityEvent with validation.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1596,10 +1596,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -1608,13 +1608,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToSecurityEventMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -1624,10 +1624,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def getSecurityEvent(self) -> "SecurityEventContext":
         """
         AUTOSAR-compliant getter for securityEvent.
-        
+
         Returns:
             The securityEvent value
-        
+
         Note:
             Delegates to security_event property (CODING_RULE_V2_00017)
         """
@@ -1636,13 +1636,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def setSecurityEvent(self, value: "SecurityEventContext") -> "DiagnosticEventToSecurityEventMapping":
         """
         AUTOSAR-compliant setter for securityEvent with method chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_event property setter (gets validation automatically)
         """
@@ -1654,13 +1654,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToSecurityEventMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -1670,13 +1670,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def with_security_event(self, value: Optional["SecurityEventContext"]) -> "DiagnosticEventToSecurityEventMapping":
         """
         Set securityEvent and return self for chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_event("value")
         """
@@ -1689,9 +1689,9 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     """
     This meta-class represents the ability to associate a
     DiagnosticFunctionIdentifier with a DiagnosticIumpr.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticIumprToFunctionIdentifierMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 265, Classic Platform
       R23-11)
@@ -1712,10 +1712,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def function(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1740,10 +1740,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def iumpr(self, value: Optional["DiagnosticIumpr"]) -> None:
         """
         Set iumpr with validation.
-        
+
         Args:
             value: The iumpr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1762,10 +1762,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def getFunction(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -1774,13 +1774,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def setFunction(self, value: "DiagnosticFunction") -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -1790,10 +1790,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def getIumpr(self) -> "DiagnosticIumpr":
         """
         AUTOSAR-compliant getter for iumpr.
-        
+
         Returns:
             The iumpr value
-        
+
         Note:
             Delegates to iumpr property (CODING_RULE_V2_00017)
         """
@@ -1802,13 +1802,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def setIumpr(self, value: "DiagnosticIumpr") -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         AUTOSAR-compliant setter for iumpr with method chaining.
-        
+
         Args:
             value: The iumpr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iumpr property setter (gets validation automatically)
         """
@@ -1820,13 +1820,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def with_function(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """
@@ -1836,13 +1836,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def with_iumpr(self, value: Optional["DiagnosticIumpr"]) -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         Set iumpr and return self for chaining.
-        
+
         Args:
             value: The iumpr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iumpr("value")
         """
@@ -1861,9 +1861,9 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     secure coding and this class references a diagnostic routine control that is
     used to provide the signature and to persist the data in non-volatile
     memory.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticSecureCodingMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 312, Classic Platform
       R23-11)
@@ -1893,10 +1893,10 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def validation(self, value: Optional["DiagnosticStartRoutine"]) -> None:
         """
         Set validation with validation.
-        
+
         Args:
             value: The validation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1915,10 +1915,10 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def getDataIdentifier(self) -> List["DiagnosticWriteDataBy"]:
         """
         AUTOSAR-compliant getter for dataIdentifier.
-        
+
         Returns:
             The dataIdentifier value
-        
+
         Note:
             Delegates to data_identifier property (CODING_RULE_V2_00017)
         """
@@ -1927,10 +1927,10 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def getValidation(self) -> "DiagnosticStartRoutine":
         """
         AUTOSAR-compliant getter for validation.
-        
+
         Returns:
             The validation value
-        
+
         Note:
             Delegates to validation property (CODING_RULE_V2_00017)
         """
@@ -1939,13 +1939,13 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def setValidation(self, value: "DiagnosticStartRoutine") -> "DiagnosticSecureCodingMapping":
         """
         AUTOSAR-compliant setter for validation with method chaining.
-        
+
         Args:
             value: The validation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to validation property setter (gets validation automatically)
         """
@@ -1957,13 +1957,13 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def with_validation(self, value: Optional["DiagnosticStartRoutine"]) -> "DiagnosticSecureCodingMapping":
         """
         Set validation and return self for chaining.
-        
+
         Args:
             value: The validation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_validation("value")
         """
@@ -1975,9 +1975,9 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
 class DiagnosticEventPortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports the DiagnosticEvent is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventPortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 249, Classic Platform
       R23-11)
@@ -1999,10 +1999,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def bsw_service(self, value: Optional["BswService"]) -> None:
         """
         Set bswService with validation.
-        
+
         Args:
             value: The bswService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2027,10 +2027,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2056,10 +2056,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2085,10 +2085,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2107,10 +2107,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getBswService(self) -> "BswService":
         """
         AUTOSAR-compliant getter for bswService.
-        
+
         Returns:
             The bswService value
-        
+
         Note:
             Delegates to bsw_service property (CODING_RULE_V2_00017)
         """
@@ -2119,13 +2119,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setBswService(self, value: "BswService") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for bswService with method chaining.
-        
+
         Args:
             value: The bswService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_service property setter (gets validation automatically)
         """
@@ -2135,10 +2135,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -2147,13 +2147,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -2163,10 +2163,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -2175,13 +2175,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -2191,10 +2191,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -2203,13 +2203,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -2221,13 +2221,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_bsw_service(self, value: Optional["BswService"]) -> "DiagnosticEventPortMapping":
         """
         Set bswService and return self for chaining.
-        
+
         Args:
             value: The bswService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_service("value")
         """
@@ -2237,13 +2237,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventPortMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -2253,13 +2253,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticEventPortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -2269,13 +2269,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticEventPortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """
@@ -2287,9 +2287,9 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
 class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports the DiagnosticOperationCycle is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticOperationCyclePortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 250, Classic Platform
       R23-11)
@@ -2310,10 +2310,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def operation_cycle(self, value: Optional["DiagnosticOperation"]) -> None:
         """
         Set operationCycle with validation.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2339,10 +2339,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2368,10 +2368,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2390,10 +2390,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def getOperationCycle(self) -> "DiagnosticOperation":
         """
         AUTOSAR-compliant getter for operationCycle.
-        
+
         Returns:
             The operationCycle value
-        
+
         Note:
             Delegates to operation_cycle property (CODING_RULE_V2_00017)
         """
@@ -2402,13 +2402,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def setOperationCycle(self, value: "DiagnosticOperation") -> "DiagnosticOperationCyclePortMapping":
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_cycle property setter (gets validation automatically)
         """
@@ -2418,10 +2418,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -2430,13 +2430,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticOperationCyclePortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -2446,10 +2446,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -2458,13 +2458,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticOperationCyclePortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -2476,13 +2476,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def with_operation_cycle(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticOperationCyclePortMapping":
         """
         Set operationCycle and return self for chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_cycle("value")
         """
@@ -2492,13 +2492,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticOperationCyclePortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -2508,13 +2508,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticOperationCyclePortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """
@@ -2526,9 +2526,9 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
 class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports the DiagnosticEnableCondition is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEnableConditionPortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 251, Classic Platform
       R23-11)
@@ -2549,10 +2549,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def enable_condition(self, value: Optional["DiagnosticEnable"]) -> None:
         """
         Set enableCondition with validation.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2580,10 +2580,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2609,10 +2609,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2631,10 +2631,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def getEnableCondition(self) -> "DiagnosticEnable":
         """
         AUTOSAR-compliant getter for enableCondition.
-        
+
         Returns:
             The enableCondition value
-        
+
         Note:
             Delegates to enable_condition property (CODING_RULE_V2_00017)
         """
@@ -2643,13 +2643,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def setEnableCondition(self, value: "DiagnosticEnable") -> "DiagnosticEnableConditionPortMapping":
         """
         AUTOSAR-compliant setter for enableCondition with method chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_condition property setter (gets validation automatically)
         """
@@ -2659,10 +2659,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -2671,13 +2671,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticEnableConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -2687,10 +2687,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -2699,13 +2699,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticEnableConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -2717,13 +2717,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def with_enable_condition(self, value: Optional["DiagnosticEnable"]) -> "DiagnosticEnableConditionPortMapping":
         """
         Set enableCondition and return self for chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_condition("value")
         """
@@ -2733,13 +2733,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticEnableConditionPortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -2749,13 +2749,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticEnableConditionPortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """
@@ -2768,9 +2768,9 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports with DiagnosticStorageConditionNeeds the
     DiagnosticStorage Condition is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticStorageConditionPortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 253, Classic Platform
       R23-11)
@@ -2792,10 +2792,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def diagnostic(self, value: Optional["DiagnosticStorage"]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2821,10 +2821,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2850,10 +2850,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2872,10 +2872,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def getDiagnostic(self) -> "DiagnosticStorage":
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -2884,13 +2884,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def setDiagnostic(self, value: "DiagnosticStorage") -> "DiagnosticStorageConditionPortMapping":
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -2900,10 +2900,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -2912,13 +2912,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticStorageConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -2928,10 +2928,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -2940,13 +2940,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticStorageConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -2958,13 +2958,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def with_diagnostic(self, value: Optional["DiagnosticStorage"]) -> "DiagnosticStorageConditionPortMapping":
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -2974,13 +2974,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticStorageConditionPortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -2990,13 +2990,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticStorageConditionPortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """

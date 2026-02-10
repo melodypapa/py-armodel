@@ -26,9 +26,9 @@ class Br(ARObject):
     """
     This element is the same as function here as in a HTML document i.e. it
     forces a line break.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Br
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 316, Foundation
       R23-11)
@@ -48,9 +48,9 @@ class EmphasisText(ARObject):
     """
     This is an emphasized text. As a compromise it contains some rendering
     oriented attributes such as color and font.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::EmphasisText
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 316, Foundation
       R23-11)
@@ -72,10 +72,10 @@ class EmphasisText(ARObject):
     def color(self, value: Optional["String"]) -> None:
         """
         Set color with validation.
-        
+
         Args:
             value: The color to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +99,10 @@ class EmphasisText(ARObject):
     def font(self, value: Optional["EEnumFont"]) -> None:
         """
         Set font with validation.
-        
+
         Args:
             value: The font to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +126,10 @@ class EmphasisText(ARObject):
     def sub(self, value: "Superscript") -> None:
         """
         Set sub with validation.
-        
+
         Args:
             value: The sub to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -149,10 +149,10 @@ class EmphasisText(ARObject):
     def sup(self, value: "Superscript") -> None:
         """
         Set sup with validation.
-        
+
         Args:
             value: The sup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +172,10 @@ class EmphasisText(ARObject):
     def tt(self, value: Optional["Tt"]) -> None:
         """
         Set tt with validation.
-        
+
         Args:
             value: The tt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +201,10 @@ class EmphasisText(ARObject):
     def type(self, value: Optional["EEnum"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -223,10 +223,10 @@ class EmphasisText(ARObject):
     def getColor(self) -> "String":
         """
         AUTOSAR-compliant getter for color.
-        
+
         Returns:
             The color value
-        
+
         Note:
             Delegates to color property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class EmphasisText(ARObject):
     def setColor(self, value: "String") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for color with method chaining.
-        
+
         Args:
             value: The color to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to color property setter (gets validation automatically)
         """
@@ -251,10 +251,10 @@ class EmphasisText(ARObject):
     def getFont(self) -> "EEnumFont":
         """
         AUTOSAR-compliant getter for font.
-        
+
         Returns:
             The font value
-        
+
         Note:
             Delegates to font property (CODING_RULE_V2_00017)
         """
@@ -263,13 +263,13 @@ class EmphasisText(ARObject):
     def setFont(self, value: "EEnumFont") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for font with method chaining.
-        
+
         Args:
             value: The font to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to font property setter (gets validation automatically)
         """
@@ -279,10 +279,10 @@ class EmphasisText(ARObject):
     def getSub(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sub.
-        
+
         Returns:
             The sub value
-        
+
         Note:
             Delegates to sub property (CODING_RULE_V2_00017)
         """
@@ -291,13 +291,13 @@ class EmphasisText(ARObject):
     def setSub(self, value: "Superscript") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for sub with method chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub property setter (gets validation automatically)
         """
@@ -307,10 +307,10 @@ class EmphasisText(ARObject):
     def getSup(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sup.
-        
+
         Returns:
             The sup value
-        
+
         Note:
             Delegates to sup property (CODING_RULE_V2_00017)
         """
@@ -319,13 +319,13 @@ class EmphasisText(ARObject):
     def setSup(self, value: "Superscript") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for sup with method chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sup property setter (gets validation automatically)
         """
@@ -335,10 +335,10 @@ class EmphasisText(ARObject):
     def getTt(self) -> "Tt":
         """
         AUTOSAR-compliant getter for tt.
-        
+
         Returns:
             The tt value
-        
+
         Note:
             Delegates to tt property (CODING_RULE_V2_00017)
         """
@@ -347,13 +347,13 @@ class EmphasisText(ARObject):
     def setTt(self, value: "Tt") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for tt with method chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tt property setter (gets validation automatically)
         """
@@ -363,10 +363,10 @@ class EmphasisText(ARObject):
     def getType(self) -> "EEnum":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -375,13 +375,13 @@ class EmphasisText(ARObject):
     def setType(self, value: "EEnum") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -393,13 +393,13 @@ class EmphasisText(ARObject):
     def with_color(self, value: Optional["String"]) -> "EmphasisText":
         """
         Set color and return self for chaining.
-        
+
         Args:
             value: The color to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_color("value")
         """
@@ -409,13 +409,13 @@ class EmphasisText(ARObject):
     def with_font(self, value: Optional["EEnumFont"]) -> "EmphasisText":
         """
         Set font and return self for chaining.
-        
+
         Args:
             value: The font to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_font("value")
         """
@@ -425,13 +425,13 @@ class EmphasisText(ARObject):
     def with_sub(self, value: "Superscript") -> "EmphasisText":
         """
         Set sub and return self for chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub("value")
         """
@@ -441,13 +441,13 @@ class EmphasisText(ARObject):
     def with_sup(self, value: "Superscript") -> "EmphasisText":
         """
         Set sup and return self for chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sup("value")
         """
@@ -457,13 +457,13 @@ class EmphasisText(ARObject):
     def with_tt(self, value: Optional["Tt"]) -> "EmphasisText":
         """
         Set tt and return self for chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tt("value")
         """
@@ -473,13 +473,13 @@ class EmphasisText(ARObject):
     def with_type(self, value: Optional["EEnum"]) -> "EmphasisText":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -491,9 +491,9 @@ class EmphasisText(ARObject):
 class IndexEntry(ARObject):
     """
     This class represents an index entry.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::IndexEntry
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 317, Foundation
       R23-11)
@@ -514,10 +514,10 @@ class IndexEntry(ARObject):
     def sub(self, value: "Superscript") -> None:
         """
         Set sub with validation.
-        
+
         Args:
             value: The sub to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -537,10 +537,10 @@ class IndexEntry(ARObject):
     def sup(self, value: "Superscript") -> None:
         """
         Set sup with validation.
-        
+
         Args:
             value: The sup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -555,10 +555,10 @@ class IndexEntry(ARObject):
     def getSub(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sub.
-        
+
         Returns:
             The sub value
-        
+
         Note:
             Delegates to sub property (CODING_RULE_V2_00017)
         """
@@ -567,13 +567,13 @@ class IndexEntry(ARObject):
     def setSub(self, value: "Superscript") -> "IndexEntry":
         """
         AUTOSAR-compliant setter for sub with method chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub property setter (gets validation automatically)
         """
@@ -583,10 +583,10 @@ class IndexEntry(ARObject):
     def getSup(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sup.
-        
+
         Returns:
             The sup value
-        
+
         Note:
             Delegates to sup property (CODING_RULE_V2_00017)
         """
@@ -595,13 +595,13 @@ class IndexEntry(ARObject):
     def setSup(self, value: "Superscript") -> "IndexEntry":
         """
         AUTOSAR-compliant setter for sup with method chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sup property setter (gets validation automatically)
         """
@@ -613,13 +613,13 @@ class IndexEntry(ARObject):
     def with_sub(self, value: "Superscript") -> "IndexEntry":
         """
         Set sub and return self for chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub("value")
         """
@@ -629,13 +629,13 @@ class IndexEntry(ARObject):
     def with_sup(self, value: "Superscript") -> "IndexEntry":
         """
         Set sup and return self for chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sup("value")
         """
@@ -647,9 +647,9 @@ class IndexEntry(ARObject):
 class Std(SingleLanguageReferrable):
     """
     This represents a reference to external standards.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Std
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 318, Foundation
       R23-11)
@@ -670,10 +670,10 @@ class Std(SingleLanguageReferrable):
     def date(self, value: Optional["DateTime"]) -> None:
         """
         Set date with validation.
-        
+
         Args:
             value: The date to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -697,10 +697,10 @@ class Std(SingleLanguageReferrable):
     def position(self, value: Optional["String"]) -> None:
         """
         Set position with validation.
-        
+
         Args:
             value: The position to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -725,10 +725,10 @@ class Std(SingleLanguageReferrable):
     def state(self, value: Optional["String"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -752,10 +752,10 @@ class Std(SingleLanguageReferrable):
     def subtitle(self, value: Optional["String"]) -> None:
         """
         Set subtitle with validation.
-        
+
         Args:
             value: The subtitle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -779,10 +779,10 @@ class Std(SingleLanguageReferrable):
     def url(self, value: Optional["Url"]) -> None:
         """
         Set url with validation.
-        
+
         Args:
             value: The url to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -801,10 +801,10 @@ class Std(SingleLanguageReferrable):
     def getDate(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for date.
-        
+
         Returns:
             The date value
-        
+
         Note:
             Delegates to date property (CODING_RULE_V2_00017)
         """
@@ -813,13 +813,13 @@ class Std(SingleLanguageReferrable):
     def setDate(self, value: "DateTime") -> "Std":
         """
         AUTOSAR-compliant setter for date with method chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to date property setter (gets validation automatically)
         """
@@ -829,10 +829,10 @@ class Std(SingleLanguageReferrable):
     def getPosition(self) -> "String":
         """
         AUTOSAR-compliant getter for position.
-        
+
         Returns:
             The position value
-        
+
         Note:
             Delegates to position property (CODING_RULE_V2_00017)
         """
@@ -841,13 +841,13 @@ class Std(SingleLanguageReferrable):
     def setPosition(self, value: "String") -> "Std":
         """
         AUTOSAR-compliant setter for position with method chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to position property setter (gets validation automatically)
         """
@@ -857,10 +857,10 @@ class Std(SingleLanguageReferrable):
     def getState(self) -> "String":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -869,13 +869,13 @@ class Std(SingleLanguageReferrable):
     def setState(self, value: "String") -> "Std":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -885,10 +885,10 @@ class Std(SingleLanguageReferrable):
     def getSubtitle(self) -> "String":
         """
         AUTOSAR-compliant getter for subtitle.
-        
+
         Returns:
             The subtitle value
-        
+
         Note:
             Delegates to subtitle property (CODING_RULE_V2_00017)
         """
@@ -897,13 +897,13 @@ class Std(SingleLanguageReferrable):
     def setSubtitle(self, value: "String") -> "Std":
         """
         AUTOSAR-compliant setter for subtitle with method chaining.
-        
+
         Args:
             value: The subtitle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to subtitle property setter (gets validation automatically)
         """
@@ -913,10 +913,10 @@ class Std(SingleLanguageReferrable):
     def getUrl(self) -> "Url":
         """
         AUTOSAR-compliant getter for url.
-        
+
         Returns:
             The url value
-        
+
         Note:
             Delegates to url property (CODING_RULE_V2_00017)
         """
@@ -925,13 +925,13 @@ class Std(SingleLanguageReferrable):
     def setUrl(self, value: "Url") -> "Std":
         """
         AUTOSAR-compliant setter for url with method chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to url property setter (gets validation automatically)
         """
@@ -943,13 +943,13 @@ class Std(SingleLanguageReferrable):
     def with_date(self, value: Optional["DateTime"]) -> "Std":
         """
         Set date and return self for chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_date("value")
         """
@@ -959,13 +959,13 @@ class Std(SingleLanguageReferrable):
     def with_position(self, value: Optional["String"]) -> "Std":
         """
         Set position and return self for chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_position("value")
         """
@@ -975,13 +975,13 @@ class Std(SingleLanguageReferrable):
     def with_state(self, value: Optional["String"]) -> "Std":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """
@@ -991,13 +991,13 @@ class Std(SingleLanguageReferrable):
     def with_subtitle(self, value: Optional["String"]) -> "Std":
         """
         Set subtitle and return self for chaining.
-        
+
         Args:
             value: The subtitle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_subtitle("value")
         """
@@ -1007,13 +1007,13 @@ class Std(SingleLanguageReferrable):
     def with_url(self, value: Optional["Url"]) -> "Std":
         """
         Set url and return self for chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_url("value")
         """
@@ -1026,9 +1026,9 @@ class Tt(ARObject):
     """
     This meta-class represents the ability to express specific technical terms.
     The kind of term is denoted in the attribute "type".
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Tt
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 318, Foundation
       R23-11)
@@ -1050,10 +1050,10 @@ class Tt(ARObject):
     def term(self, value: "String") -> None:
         """
         Set term with validation.
-        
+
         Args:
             value: The term to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1077,10 +1077,10 @@ class Tt(ARObject):
     def tex_render(self, value: Optional["String"]) -> None:
         """
         Set texRender with validation.
-        
+
         Args:
             value: The texRender to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1106,10 +1106,10 @@ class Tt(ARObject):
     def type(self, value: "NameToken") -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1124,10 +1124,10 @@ class Tt(ARObject):
     def getTerm(self) -> "String":
         """
         AUTOSAR-compliant getter for term.
-        
+
         Returns:
             The term value
-        
+
         Note:
             Delegates to term property (CODING_RULE_V2_00017)
         """
@@ -1136,13 +1136,13 @@ class Tt(ARObject):
     def setTerm(self, value: "String") -> "Tt":
         """
         AUTOSAR-compliant setter for term with method chaining.
-        
+
         Args:
             value: The term to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to term property setter (gets validation automatically)
         """
@@ -1152,10 +1152,10 @@ class Tt(ARObject):
     def getTexRender(self) -> "String":
         """
         AUTOSAR-compliant getter for texRender.
-        
+
         Returns:
             The texRender value
-        
+
         Note:
             Delegates to tex_render property (CODING_RULE_V2_00017)
         """
@@ -1164,13 +1164,13 @@ class Tt(ARObject):
     def setTexRender(self, value: "String") -> "Tt":
         """
         AUTOSAR-compliant setter for texRender with method chaining.
-        
+
         Args:
             value: The texRender to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tex_render property setter (gets validation automatically)
         """
@@ -1180,10 +1180,10 @@ class Tt(ARObject):
     def getType(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -1192,13 +1192,13 @@ class Tt(ARObject):
     def setType(self, value: "NameToken") -> "Tt":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -1210,13 +1210,13 @@ class Tt(ARObject):
     def with_term(self, value: "String") -> "Tt":
         """
         Set term and return self for chaining.
-        
+
         Args:
             value: The term to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_term("value")
         """
@@ -1226,13 +1226,13 @@ class Tt(ARObject):
     def with_tex_render(self, value: Optional["String"]) -> "Tt":
         """
         Set texRender and return self for chaining.
-        
+
         Args:
             value: The texRender to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tex_render("value")
         """
@@ -1242,13 +1242,13 @@ class Tt(ARObject):
     def with_type(self, value: "NameToken") -> "Tt":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -1261,9 +1261,9 @@ class Xdoc(SingleLanguageReferrable):
     """
     This meta-class represents the ability to refer to an external document
     which can be rendered as printed matter.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xdoc
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 319, Foundation
       R23-11)
@@ -1284,10 +1284,10 @@ class Xdoc(SingleLanguageReferrable):
     def date(self, value: Optional["DateTime"]) -> None:
         """
         Set date with validation.
-        
+
         Args:
             value: The date to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1312,10 +1312,10 @@ class Xdoc(SingleLanguageReferrable):
     def number(self, value: Optional["String"]) -> None:
         """
         Set number with validation.
-        
+
         Args:
             value: The number to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1339,10 +1339,10 @@ class Xdoc(SingleLanguageReferrable):
     def position(self, value: Optional["String"]) -> None:
         """
         Set position with validation.
-        
+
         Args:
             value: The position to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1367,10 +1367,10 @@ class Xdoc(SingleLanguageReferrable):
     def publisher(self, value: Optional["String"]) -> None:
         """
         Set publisher with validation.
-        
+
         Args:
             value: The publisher to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1394,10 +1394,10 @@ class Xdoc(SingleLanguageReferrable):
     def state(self, value: Optional["String"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1421,10 +1421,10 @@ class Xdoc(SingleLanguageReferrable):
     def url(self, value: Optional["Url"]) -> None:
         """
         Set url with validation.
-        
+
         Args:
             value: The url to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1443,10 +1443,10 @@ class Xdoc(SingleLanguageReferrable):
     def getDate(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for date.
-        
+
         Returns:
             The date value
-        
+
         Note:
             Delegates to date property (CODING_RULE_V2_00017)
         """
@@ -1455,13 +1455,13 @@ class Xdoc(SingleLanguageReferrable):
     def setDate(self, value: "DateTime") -> "Xdoc":
         """
         AUTOSAR-compliant setter for date with method chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to date property setter (gets validation automatically)
         """
@@ -1471,10 +1471,10 @@ class Xdoc(SingleLanguageReferrable):
     def getNumber(self) -> "String":
         """
         AUTOSAR-compliant getter for number.
-        
+
         Returns:
             The number value
-        
+
         Note:
             Delegates to number property (CODING_RULE_V2_00017)
         """
@@ -1483,13 +1483,13 @@ class Xdoc(SingleLanguageReferrable):
     def setNumber(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for number with method chaining.
-        
+
         Args:
             value: The number to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number property setter (gets validation automatically)
         """
@@ -1499,10 +1499,10 @@ class Xdoc(SingleLanguageReferrable):
     def getPosition(self) -> "String":
         """
         AUTOSAR-compliant getter for position.
-        
+
         Returns:
             The position value
-        
+
         Note:
             Delegates to position property (CODING_RULE_V2_00017)
         """
@@ -1511,13 +1511,13 @@ class Xdoc(SingleLanguageReferrable):
     def setPosition(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for position with method chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to position property setter (gets validation automatically)
         """
@@ -1527,10 +1527,10 @@ class Xdoc(SingleLanguageReferrable):
     def getPublisher(self) -> "String":
         """
         AUTOSAR-compliant getter for publisher.
-        
+
         Returns:
             The publisher value
-        
+
         Note:
             Delegates to publisher property (CODING_RULE_V2_00017)
         """
@@ -1539,13 +1539,13 @@ class Xdoc(SingleLanguageReferrable):
     def setPublisher(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for publisher with method chaining.
-        
+
         Args:
             value: The publisher to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to publisher property setter (gets validation automatically)
         """
@@ -1555,10 +1555,10 @@ class Xdoc(SingleLanguageReferrable):
     def getState(self) -> "String":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -1567,13 +1567,13 @@ class Xdoc(SingleLanguageReferrable):
     def setState(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -1583,10 +1583,10 @@ class Xdoc(SingleLanguageReferrable):
     def getUrl(self) -> "Url":
         """
         AUTOSAR-compliant getter for url.
-        
+
         Returns:
             The url value
-        
+
         Note:
             Delegates to url property (CODING_RULE_V2_00017)
         """
@@ -1595,13 +1595,13 @@ class Xdoc(SingleLanguageReferrable):
     def setUrl(self, value: "Url") -> "Xdoc":
         """
         AUTOSAR-compliant setter for url with method chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to url property setter (gets validation automatically)
         """
@@ -1613,13 +1613,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_date(self, value: Optional["DateTime"]) -> "Xdoc":
         """
         Set date and return self for chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_date("value")
         """
@@ -1629,13 +1629,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_number(self, value: Optional["String"]) -> "Xdoc":
         """
         Set number and return self for chaining.
-        
+
         Args:
             value: The number to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number("value")
         """
@@ -1645,13 +1645,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_position(self, value: Optional["String"]) -> "Xdoc":
         """
         Set position and return self for chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_position("value")
         """
@@ -1661,13 +1661,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_publisher(self, value: Optional["String"]) -> "Xdoc":
         """
         Set publisher and return self for chaining.
-        
+
         Args:
             value: The publisher to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_publisher("value")
         """
@@ -1677,13 +1677,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_state(self, value: Optional["String"]) -> "Xdoc":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """
@@ -1693,13 +1693,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_url(self, value: Optional["Url"]) -> "Xdoc":
         """
         Set url and return self for chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_url("value")
         """
@@ -1711,9 +1711,9 @@ class Xdoc(SingleLanguageReferrable):
 class Xfile(SingleLanguageReferrable):
     """
     This represents to reference an external file within a documentation.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xfile
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 319, Foundation
       R23-11)
@@ -1735,10 +1735,10 @@ class Xfile(SingleLanguageReferrable):
     def tool(self, value: Optional["String"]) -> None:
         """
         Set tool with validation.
-        
+
         Args:
             value: The tool to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1764,10 +1764,10 @@ class Xfile(SingleLanguageReferrable):
     def tool_version(self, value: Optional["String"]) -> None:
         """
         Set toolVersion with validation.
-        
+
         Args:
             value: The toolVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1791,10 +1791,10 @@ class Xfile(SingleLanguageReferrable):
     def url(self, value: Optional["Url"]) -> None:
         """
         Set url with validation.
-        
+
         Args:
             value: The url to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1813,10 +1813,10 @@ class Xfile(SingleLanguageReferrable):
     def getTool(self) -> "String":
         """
         AUTOSAR-compliant getter for tool.
-        
+
         Returns:
             The tool value
-        
+
         Note:
             Delegates to tool property (CODING_RULE_V2_00017)
         """
@@ -1825,13 +1825,13 @@ class Xfile(SingleLanguageReferrable):
     def setTool(self, value: "String") -> "Xfile":
         """
         AUTOSAR-compliant setter for tool with method chaining.
-        
+
         Args:
             value: The tool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tool property setter (gets validation automatically)
         """
@@ -1841,10 +1841,10 @@ class Xfile(SingleLanguageReferrable):
     def getToolVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for toolVersion.
-        
+
         Returns:
             The toolVersion value
-        
+
         Note:
             Delegates to tool_version property (CODING_RULE_V2_00017)
         """
@@ -1853,13 +1853,13 @@ class Xfile(SingleLanguageReferrable):
     def setToolVersion(self, value: "String") -> "Xfile":
         """
         AUTOSAR-compliant setter for toolVersion with method chaining.
-        
+
         Args:
             value: The toolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tool_version property setter (gets validation automatically)
         """
@@ -1869,10 +1869,10 @@ class Xfile(SingleLanguageReferrable):
     def getUrl(self) -> "Url":
         """
         AUTOSAR-compliant getter for url.
-        
+
         Returns:
             The url value
-        
+
         Note:
             Delegates to url property (CODING_RULE_V2_00017)
         """
@@ -1881,13 +1881,13 @@ class Xfile(SingleLanguageReferrable):
     def setUrl(self, value: "Url") -> "Xfile":
         """
         AUTOSAR-compliant setter for url with method chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to url property setter (gets validation automatically)
         """
@@ -1899,13 +1899,13 @@ class Xfile(SingleLanguageReferrable):
     def with_tool(self, value: Optional["String"]) -> "Xfile":
         """
         Set tool and return self for chaining.
-        
+
         Args:
             value: The tool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tool("value")
         """
@@ -1915,13 +1915,13 @@ class Xfile(SingleLanguageReferrable):
     def with_tool_version(self, value: Optional["String"]) -> "Xfile":
         """
         Set toolVersion and return self for chaining.
-        
+
         Args:
             value: The toolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tool_version("value")
         """
@@ -1931,13 +1931,13 @@ class Xfile(SingleLanguageReferrable):
     def with_url(self, value: Optional["Url"]) -> "Xfile":
         """
         Set url and return self for chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_url("value")
         """
@@ -1949,9 +1949,9 @@ class Xfile(SingleLanguageReferrable):
 class Xref(ARObject):
     """
     This represents a cross-reference within documentation.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xref
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 320, Foundation
       R23-11)
@@ -1973,10 +1973,10 @@ class Xref(ARObject):
     def label1(self, value: Optional["SingleLanguageLong"]) -> None:
         """
         Set label1 with validation.
-        
+
         Args:
             value: The label1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2001,10 +2001,10 @@ class Xref(ARObject):
     def referrable(self, value: Optional["RefType"]) -> None:
         """
         Set referrable with validation.
-        
+
         Args:
             value: The referrable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2026,10 +2026,10 @@ class Xref(ARObject):
     def resolution_policy(self, value: Optional["ResolutionPolicyEnum"]) -> None:
         """
         Set resolutionPolicy with validation.
-        
+
         Args:
             value: The resolutionPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2054,10 +2054,10 @@ class Xref(ARObject):
     def show_content(self, value: Optional["ShowContentEnum"]) -> None:
         """
         Set showContent with validation.
-        
+
         Args:
             value: The showContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2082,10 +2082,10 @@ class Xref(ARObject):
     def show_resource(self, value: Optional["ShowResourceType"]) -> None:
         """
         Set showResource with validation.
-        
+
         Args:
             value: The showResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2110,10 +2110,10 @@ class Xref(ARObject):
     def show_see(self, value: Optional["ShowSeeEnum"]) -> None:
         """
         Set showSee with validation.
-        
+
         Args:
             value: The showSee to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2132,10 +2132,10 @@ class Xref(ARObject):
     def getLabel1(self) -> "SingleLanguageLong":
         """
         AUTOSAR-compliant getter for label1.
-        
+
         Returns:
             The label1 value
-        
+
         Note:
             Delegates to label1 property (CODING_RULE_V2_00017)
         """
@@ -2144,13 +2144,13 @@ class Xref(ARObject):
     def setLabel1(self, value: "SingleLanguageLong") -> "Xref":
         """
         AUTOSAR-compliant setter for label1 with method chaining.
-        
+
         Args:
             value: The label1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to label1 property setter (gets validation automatically)
         """
@@ -2160,10 +2160,10 @@ class Xref(ARObject):
     def getReferrable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for referrable.
-        
+
         Returns:
             The referrable value
-        
+
         Note:
             Delegates to referrable property (CODING_RULE_V2_00017)
         """
@@ -2172,13 +2172,13 @@ class Xref(ARObject):
     def setReferrable(self, value: "RefType") -> "Xref":
         """
         AUTOSAR-compliant setter for referrable with method chaining.
-        
+
         Args:
             value: The referrable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to referrable property setter (gets validation automatically)
         """
@@ -2188,10 +2188,10 @@ class Xref(ARObject):
     def getResolutionPolicy(self) -> "ResolutionPolicyEnum":
         """
         AUTOSAR-compliant getter for resolutionPolicy.
-        
+
         Returns:
             The resolutionPolicy value
-        
+
         Note:
             Delegates to resolution_policy property (CODING_RULE_V2_00017)
         """
@@ -2200,13 +2200,13 @@ class Xref(ARObject):
     def setResolutionPolicy(self, value: "ResolutionPolicyEnum") -> "Xref":
         """
         AUTOSAR-compliant setter for resolutionPolicy with method chaining.
-        
+
         Args:
             value: The resolutionPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resolution_policy property setter (gets validation automatically)
         """
@@ -2216,10 +2216,10 @@ class Xref(ARObject):
     def getShowContent(self) -> "ShowContentEnum":
         """
         AUTOSAR-compliant getter for showContent.
-        
+
         Returns:
             The showContent value
-        
+
         Note:
             Delegates to show_content property (CODING_RULE_V2_00017)
         """
@@ -2228,13 +2228,13 @@ class Xref(ARObject):
     def setShowContent(self, value: "ShowContentEnum") -> "Xref":
         """
         AUTOSAR-compliant setter for showContent with method chaining.
-        
+
         Args:
             value: The showContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to show_content property setter (gets validation automatically)
         """
@@ -2244,10 +2244,10 @@ class Xref(ARObject):
     def getShowResource(self) -> "ShowResourceType":
         """
         AUTOSAR-compliant getter for showResource.
-        
+
         Returns:
             The showResource value
-        
+
         Note:
             Delegates to show_resource property (CODING_RULE_V2_00017)
         """
@@ -2256,13 +2256,13 @@ class Xref(ARObject):
     def setShowResource(self, value: "ShowResourceType") -> "Xref":
         """
         AUTOSAR-compliant setter for showResource with method chaining.
-        
+
         Args:
             value: The showResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to show_resource property setter (gets validation automatically)
         """
@@ -2272,10 +2272,10 @@ class Xref(ARObject):
     def getShowSee(self) -> "ShowSeeEnum":
         """
         AUTOSAR-compliant getter for showSee.
-        
+
         Returns:
             The showSee value
-        
+
         Note:
             Delegates to show_see property (CODING_RULE_V2_00017)
         """
@@ -2284,13 +2284,13 @@ class Xref(ARObject):
     def setShowSee(self, value: "ShowSeeEnum") -> "Xref":
         """
         AUTOSAR-compliant setter for showSee with method chaining.
-        
+
         Args:
             value: The showSee to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to show_see property setter (gets validation automatically)
         """
@@ -2302,13 +2302,13 @@ class Xref(ARObject):
     def with_label1(self, value: Optional["SingleLanguageLong"]) -> "Xref":
         """
         Set label1 and return self for chaining.
-        
+
         Args:
             value: The label1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_label1("value")
         """
@@ -2318,13 +2318,13 @@ class Xref(ARObject):
     def with_referrable(self, value: Optional[RefType]) -> "Xref":
         """
         Set referrable and return self for chaining.
-        
+
         Args:
             value: The referrable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_referrable("value")
         """
@@ -2334,13 +2334,13 @@ class Xref(ARObject):
     def with_resolution_policy(self, value: Optional["ResolutionPolicyEnum"]) -> "Xref":
         """
         Set resolutionPolicy and return self for chaining.
-        
+
         Args:
             value: The resolutionPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resolution_policy("value")
         """
@@ -2350,13 +2350,13 @@ class Xref(ARObject):
     def with_show_content(self, value: Optional["ShowContentEnum"]) -> "Xref":
         """
         Set showContent and return self for chaining.
-        
+
         Args:
             value: The showContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_show_content("value")
         """
@@ -2366,13 +2366,13 @@ class Xref(ARObject):
     def with_show_resource(self, value: Optional["ShowResourceType"]) -> "Xref":
         """
         Set showResource and return self for chaining.
-        
+
         Args:
             value: The showResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_show_resource("value")
         """
@@ -2382,13 +2382,13 @@ class Xref(ARObject):
     def with_show_see(self, value: Optional["ShowSeeEnum"]) -> "Xref":
         """
         Set showSee and return self for chaining.
-        
+
         Args:
             value: The showSee to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_show_see("value")
         """
@@ -2401,9 +2401,9 @@ class XrefTarget(SingleLanguageReferrable):
     """
     This element specifies a reference target which can be scattered throughout
     the text.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::XrefTarget
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 321, Foundation
       R23-11)

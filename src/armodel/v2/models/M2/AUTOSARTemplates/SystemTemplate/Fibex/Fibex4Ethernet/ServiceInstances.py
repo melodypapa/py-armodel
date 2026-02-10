@@ -34,9 +34,9 @@ class ConsumedEventGroup(Identifiable):
     """
     This element represents an event-group to which the service consumer wants
     to subscribe.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ConsumedEventGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 978, Classic Platform
       R23-11)
@@ -61,10 +61,10 @@ class ConsumedEventGroup(Identifiable):
     def application(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +92,10 @@ class ConsumedEventGroup(Identifiable):
     def auto_require(self, value: Optional["Boolean"]) -> None:
         """
         Set autoRequire with validation.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +120,10 @@ class ConsumedEventGroup(Identifiable):
     def event_group(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +175,10 @@ class ConsumedEventGroup(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -213,10 +213,10 @@ class ConsumedEventGroup(Identifiable):
     def sd_client_config(self, value: Optional["SdClientConfig"]) -> None:
         """
         Set sdClientConfig with validation.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -241,10 +241,10 @@ class ConsumedEventGroup(Identifiable):
     def sd_client_timer(self, value: Optional["SomeipSdClientEvent"]) -> None:
         """
         Set sdClientTimer with validation.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -599,10 +599,10 @@ class ConsumedEventGroup(Identifiable):
     def getApplication(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -611,13 +611,13 @@ class ConsumedEventGroup(Identifiable):
     def setApplication(self, value: "ApplicationEndpoint") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -627,10 +627,10 @@ class ConsumedEventGroup(Identifiable):
     def getAutoRequire(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoRequire.
-        
+
         Returns:
             The autoRequire value
-        
+
         Note:
             Delegates to auto_require property (CODING_RULE_V2_00017)
         """
@@ -639,13 +639,13 @@ class ConsumedEventGroup(Identifiable):
     def setAutoRequire(self, value: "Boolean") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for autoRequire with method chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_require property setter (gets validation automatically)
         """
@@ -655,10 +655,10 @@ class ConsumedEventGroup(Identifiable):
     def getEventGroup(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -667,13 +667,13 @@ class ConsumedEventGroup(Identifiable):
     def setEventGroup(self, value: "PositiveInteger") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -683,10 +683,10 @@ class ConsumedEventGroup(Identifiable):
     def getEventMulticast(self) -> List["ApplicationEndpoint"]:
         """
         AUTOSAR-compliant getter for eventMulticast.
-        
+
         Returns:
             The eventMulticast value
-        
+
         Note:
             Delegates to event_multicast property (CODING_RULE_V2_00017)
         """
@@ -695,10 +695,10 @@ class ConsumedEventGroup(Identifiable):
     def getPduActivation(self) -> List["PduActivationRouting"]:
         """
         AUTOSAR-compliant getter for pduActivation.
-        
+
         Returns:
             The pduActivation value
-        
+
         Note:
             Delegates to pdu_activation property (CODING_RULE_V2_00017)
         """
@@ -707,10 +707,10 @@ class ConsumedEventGroup(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -719,13 +719,13 @@ class ConsumedEventGroup(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -735,10 +735,10 @@ class ConsumedEventGroup(Identifiable):
     def getRoutingGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for routingGroup.
-        
+
         Returns:
             The routingGroup value
-        
+
         Note:
             Delegates to routing_group property (CODING_RULE_V2_00017)
         """
@@ -747,10 +747,10 @@ class ConsumedEventGroup(Identifiable):
     def getSdClientConfig(self) -> "SdClientConfig":
         """
         AUTOSAR-compliant getter for sdClientConfig.
-        
+
         Returns:
             The sdClientConfig value
-        
+
         Note:
             Delegates to sd_client_config property (CODING_RULE_V2_00017)
         """
@@ -759,13 +759,13 @@ class ConsumedEventGroup(Identifiable):
     def setSdClientConfig(self, value: "SdClientConfig") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for sdClientConfig with method chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_config property setter (gets validation automatically)
         """
@@ -775,10 +775,10 @@ class ConsumedEventGroup(Identifiable):
     def getSdClientTimer(self) -> "SomeipSdClientEvent":
         """
         AUTOSAR-compliant getter for sdClientTimer.
-        
+
         Returns:
             The sdClientTimer value
-        
+
         Note:
             Delegates to sd_client_timer property (CODING_RULE_V2_00017)
         """
@@ -787,13 +787,13 @@ class ConsumedEventGroup(Identifiable):
     def setSdClientTimer(self, value: "SomeipSdClientEvent") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for sdClientTimer with method chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_timer property setter (gets validation automatically)
         """
@@ -805,13 +805,13 @@ class ConsumedEventGroup(Identifiable):
     def with_application(self, value: Optional["ApplicationEndpoint"]) -> "ConsumedEventGroup":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -821,13 +821,13 @@ class ConsumedEventGroup(Identifiable):
     def with_auto_require(self, value: Optional["Boolean"]) -> "ConsumedEventGroup":
         """
         Set autoRequire and return self for chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_require("value")
         """
@@ -837,13 +837,13 @@ class ConsumedEventGroup(Identifiable):
     def with_event_group(self, value: Optional["PositiveInteger"]) -> "ConsumedEventGroup":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """
@@ -853,13 +853,13 @@ class ConsumedEventGroup(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "ConsumedEventGroup":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -869,13 +869,13 @@ class ConsumedEventGroup(Identifiable):
     def with_sd_client_config(self, value: Optional["SdClientConfig"]) -> "ConsumedEventGroup":
         """
         Set sdClientConfig and return self for chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_config("value")
         """
@@ -885,13 +885,13 @@ class ConsumedEventGroup(Identifiable):
     def with_sd_client_timer(self, value: Optional["SomeipSdClientEvent"]) -> "ConsumedEventGroup":
         """
         Set sdClientTimer and return self for chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_timer("value")
         """
@@ -903,9 +903,9 @@ class ConsumedEventGroup(Identifiable):
 class SoAdConfig(ARObject):
     """
     SoAd Configuration for one specific Physical Channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SoAdConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 451, Classic Platform R23-11)
     """
@@ -936,10 +936,10 @@ class SoAdConfig(ARObject):
     def getConnection(self) -> List["SocketConnection"]:
         """
         AUTOSAR-compliant getter for connection.
-        
+
         Returns:
             The connection value
-        
+
         Note:
             Delegates to connection property (CODING_RULE_V2_00017)
         """
@@ -948,10 +948,10 @@ class SoAdConfig(ARObject):
     def getSocketAddress(self) -> List["SocketAddress"]:
         """
         AUTOSAR-compliant getter for socketAddress.
-        
+
         Returns:
             The socketAddress value
-        
+
         Note:
             Delegates to socket_address property (CODING_RULE_V2_00017)
         """
@@ -966,9 +966,9 @@ class SocketAddress(Identifiable):
     This meta-class represents a socket address towards the rest of the
     meta-model. The actual semantics of the represented socket address, however,
     is contributed by aggregation of an ApplicationEndpoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SocketAddress
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 452, Classic Platform R23-11)
     """
@@ -989,10 +989,10 @@ class SocketAddress(Identifiable):
     def allowed_i_pv6_ext(self, value: Optional["RefType"]) -> None:
         """
         Set allowedIPv6Ext with validation.
-        
+
         Args:
             value: The allowedIPv6Ext to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1013,10 +1013,10 @@ class SocketAddress(Identifiable):
     def allowed_tcp(self, value: Optional["RefType"]) -> None:
         """
         Set allowedTcp with validation.
-        
+
         Args:
             value: The allowedTcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1036,10 +1036,10 @@ class SocketAddress(Identifiable):
     def application_endpoint(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set applicationEndpoint with validation.
-        
+
         Args:
             value: The applicationEndpoint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1065,10 +1065,10 @@ class SocketAddress(Identifiable):
     def connector(self, value: Optional["EthernetCommunication"]) -> None:
         """
         Set connector with validation.
-        
+
         Args:
             value: The connector to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1094,10 +1094,10 @@ class SocketAddress(Identifiable):
     def differentiated(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set differentiated with validation.
-        
+
         Args:
             value: The differentiated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1125,10 +1125,10 @@ class SocketAddress(Identifiable):
     def flow_label(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set flowLabel with validation.
-        
+
         Args:
             value: The flowLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1165,10 +1165,10 @@ class SocketAddress(Identifiable):
     def path_mtu(self, value: Optional["Boolean"]) -> None:
         """
         Set pathMtu with validation.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1194,10 +1194,10 @@ class SocketAddress(Identifiable):
     def pdu_collection(self, value: Optional["TimeValue"]) -> None:
         """
         Set pduCollection with validation.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1230,10 +1230,10 @@ class SocketAddress(Identifiable):
     def udp_checksum(self, value: Optional["UdpChecksum"]) -> None:
         """
         Set udpChecksum with validation.
-        
+
         Args:
             value: The udpChecksum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1252,10 +1252,10 @@ class SocketAddress(Identifiable):
     def getAllowedIPv6Ext(self) -> "RefType":
         """
         AUTOSAR-compliant getter for allowedIPv6Ext.
-        
+
         Returns:
             The allowedIPv6Ext value
-        
+
         Note:
             Delegates to allowed_i_pv6_ext property (CODING_RULE_V2_00017)
         """
@@ -1264,13 +1264,13 @@ class SocketAddress(Identifiable):
     def setAllowedIPv6Ext(self, value: "RefType") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for allowedIPv6Ext with method chaining.
-        
+
         Args:
             value: The allowedIPv6Ext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allowed_i_pv6_ext property setter (gets validation automatically)
         """
@@ -1280,10 +1280,10 @@ class SocketAddress(Identifiable):
     def getAllowedTcp(self) -> "RefType":
         """
         AUTOSAR-compliant getter for allowedTcp.
-        
+
         Returns:
             The allowedTcp value
-        
+
         Note:
             Delegates to allowed_tcp property (CODING_RULE_V2_00017)
         """
@@ -1292,13 +1292,13 @@ class SocketAddress(Identifiable):
     def setAllowedTcp(self, value: "RefType") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for allowedTcp with method chaining.
-        
+
         Args:
             value: The allowedTcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allowed_tcp property setter (gets validation automatically)
         """
@@ -1308,10 +1308,10 @@ class SocketAddress(Identifiable):
     def getApplicationEndpoint(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for applicationEndpoint.
-        
+
         Returns:
             The applicationEndpoint value
-        
+
         Note:
             Delegates to application_endpoint property (CODING_RULE_V2_00017)
         """
@@ -1320,13 +1320,13 @@ class SocketAddress(Identifiable):
     def setApplicationEndpoint(self, value: "ApplicationEndpoint") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for applicationEndpoint with method chaining.
-        
+
         Args:
             value: The applicationEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_endpoint property setter (gets validation automatically)
         """
@@ -1336,10 +1336,10 @@ class SocketAddress(Identifiable):
     def getConnector(self) -> "EthernetCommunication":
         """
         AUTOSAR-compliant getter for connector.
-        
+
         Returns:
             The connector value
-        
+
         Note:
             Delegates to connector property (CODING_RULE_V2_00017)
         """
@@ -1348,13 +1348,13 @@ class SocketAddress(Identifiable):
     def setConnector(self, value: "EthernetCommunication") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for connector with method chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connector property setter (gets validation automatically)
         """
@@ -1364,10 +1364,10 @@ class SocketAddress(Identifiable):
     def getDifferentiated(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for differentiated.
-        
+
         Returns:
             The differentiated value
-        
+
         Note:
             Delegates to differentiated property (CODING_RULE_V2_00017)
         """
@@ -1376,13 +1376,13 @@ class SocketAddress(Identifiable):
     def setDifferentiated(self, value: "PositiveInteger") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for differentiated with method chaining.
-        
+
         Args:
             value: The differentiated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to differentiated property setter (gets validation automatically)
         """
@@ -1392,10 +1392,10 @@ class SocketAddress(Identifiable):
     def getFlowLabel(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for flowLabel.
-        
+
         Returns:
             The flowLabel value
-        
+
         Note:
             Delegates to flow_label property (CODING_RULE_V2_00017)
         """
@@ -1404,13 +1404,13 @@ class SocketAddress(Identifiable):
     def setFlowLabel(self, value: "PositiveInteger") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for flowLabel with method chaining.
-        
+
         Args:
             value: The flowLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flow_label property setter (gets validation automatically)
         """
@@ -1420,10 +1420,10 @@ class SocketAddress(Identifiable):
     def getMulticast(self) -> List["EthernetCommunication"]:
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -1432,10 +1432,10 @@ class SocketAddress(Identifiable):
     def getPathMtu(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pathMtu.
-        
+
         Returns:
             The pathMtu value
-        
+
         Note:
             Delegates to path_mtu property (CODING_RULE_V2_00017)
         """
@@ -1444,13 +1444,13 @@ class SocketAddress(Identifiable):
     def setPathMtu(self, value: "Boolean") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for pathMtu with method chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to path_mtu property setter (gets validation automatically)
         """
@@ -1460,10 +1460,10 @@ class SocketAddress(Identifiable):
     def getPduCollection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pduCollection.
-        
+
         Returns:
             The pduCollection value
-        
+
         Note:
             Delegates to pdu_collection property (CODING_RULE_V2_00017)
         """
@@ -1472,13 +1472,13 @@ class SocketAddress(Identifiable):
     def setPduCollection(self, value: "TimeValue") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_collection property setter (gets validation automatically)
         """
@@ -1488,10 +1488,10 @@ class SocketAddress(Identifiable):
     def getStaticSocket(self) -> List["StaticSocketConnection"]:
         """
         AUTOSAR-compliant getter for staticSocket.
-        
+
         Returns:
             The staticSocket value
-        
+
         Note:
             Delegates to static_socket property (CODING_RULE_V2_00017)
         """
@@ -1500,10 +1500,10 @@ class SocketAddress(Identifiable):
     def getUdpChecksum(self) -> "UdpChecksum":
         """
         AUTOSAR-compliant getter for udpChecksum.
-        
+
         Returns:
             The udpChecksum value
-        
+
         Note:
             Delegates to udp_checksum property (CODING_RULE_V2_00017)
         """
@@ -1512,13 +1512,13 @@ class SocketAddress(Identifiable):
     def setUdpChecksum(self, value: "UdpChecksum") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for udpChecksum with method chaining.
-        
+
         Args:
             value: The udpChecksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_checksum property setter (gets validation automatically)
         """
@@ -1530,13 +1530,13 @@ class SocketAddress(Identifiable):
     def with_allowed_i_pv6_ext(self, value: Optional[RefType]) -> "SocketAddress":
         """
         Set allowedIPv6Ext and return self for chaining.
-        
+
         Args:
             value: The allowedIPv6Ext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allowed_i_pv6_ext("value")
         """
@@ -1546,13 +1546,13 @@ class SocketAddress(Identifiable):
     def with_allowed_tcp(self, value: Optional[RefType]) -> "SocketAddress":
         """
         Set allowedTcp and return self for chaining.
-        
+
         Args:
             value: The allowedTcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allowed_tcp("value")
         """
@@ -1562,13 +1562,13 @@ class SocketAddress(Identifiable):
     def with_application_endpoint(self, value: Optional["ApplicationEndpoint"]) -> "SocketAddress":
         """
         Set applicationEndpoint and return self for chaining.
-        
+
         Args:
             value: The applicationEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_endpoint("value")
         """
@@ -1578,13 +1578,13 @@ class SocketAddress(Identifiable):
     def with_connector(self, value: Optional["EthernetCommunication"]) -> "SocketAddress":
         """
         Set connector and return self for chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connector("value")
         """
@@ -1594,13 +1594,13 @@ class SocketAddress(Identifiable):
     def with_differentiated(self, value: Optional["PositiveInteger"]) -> "SocketAddress":
         """
         Set differentiated and return self for chaining.
-        
+
         Args:
             value: The differentiated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_differentiated("value")
         """
@@ -1610,13 +1610,13 @@ class SocketAddress(Identifiable):
     def with_flow_label(self, value: Optional["PositiveInteger"]) -> "SocketAddress":
         """
         Set flowLabel and return self for chaining.
-        
+
         Args:
             value: The flowLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flow_label("value")
         """
@@ -1626,13 +1626,13 @@ class SocketAddress(Identifiable):
     def with_path_mtu(self, value: Optional["Boolean"]) -> "SocketAddress":
         """
         Set pathMtu and return self for chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_path_mtu("value")
         """
@@ -1642,13 +1642,13 @@ class SocketAddress(Identifiable):
     def with_pdu_collection(self, value: Optional["TimeValue"]) -> "SocketAddress":
         """
         Set pduCollection and return self for chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_collection("value")
         """
@@ -1658,13 +1658,13 @@ class SocketAddress(Identifiable):
     def with_udp_checksum(self, value: Optional["UdpChecksum"]) -> "SocketAddress":
         """
         Set udpChecksum and return self for chaining.
-        
+
         Args:
             value: The udpChecksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_checksum("value")
         """
@@ -1676,9 +1676,9 @@ class SocketAddress(Identifiable):
 class ServiceInstanceCollectionSet(FibexElement):
     """
     Collection of ServiceInstances
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ServiceInstanceCollectionSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 476, Classic Platform R23-11)
     """
@@ -1700,10 +1700,10 @@ class ServiceInstanceCollectionSet(FibexElement):
     def getServiceInstance(self) -> List["AbstractService"]:
         """
         AUTOSAR-compliant getter for serviceInstance.
-        
+
         Returns:
             The serviceInstance value
-        
+
         Note:
             Delegates to service_instance property (CODING_RULE_V2_00017)
         """
@@ -1717,9 +1717,9 @@ class AbstractServiceInstance(Identifiable, ABC):
     """
     Provided and Consumed Ethernet Service Instances that are available at the
     ApplicationEndpoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::AbstractServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 476, Classic Platform R23-11)
     """
@@ -1750,10 +1750,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def major_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set majorVersion with validation.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1779,10 +1779,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def method(self, value: Optional["PduActivationRouting"]) -> None:
         """
         Set method with validation.
-        
+
         Args:
             value: The method to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1808,10 +1808,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getCapability(self) -> List["TagWithOptionalValue"]:
         """
         AUTOSAR-compliant getter for capability.
-        
+
         Returns:
             The capability value
-        
+
         Note:
             Delegates to capability property (CODING_RULE_V2_00017)
         """
@@ -1820,10 +1820,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getMajorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for majorVersion.
-        
+
         Returns:
             The majorVersion value
-        
+
         Note:
             Delegates to major_version property (CODING_RULE_V2_00017)
         """
@@ -1832,13 +1832,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def setMajorVersion(self, value: "PositiveInteger") -> "AbstractServiceInstance":
         """
         AUTOSAR-compliant setter for majorVersion with method chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to major_version property setter (gets validation automatically)
         """
@@ -1848,10 +1848,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getMethod(self) -> "PduActivationRouting":
         """
         AUTOSAR-compliant getter for method.
-        
+
         Returns:
             The method value
-        
+
         Note:
             Delegates to method property (CODING_RULE_V2_00017)
         """
@@ -1860,13 +1860,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def setMethod(self, value: "PduActivationRouting") -> "AbstractServiceInstance":
         """
         AUTOSAR-compliant setter for method with method chaining.
-        
+
         Args:
             value: The method to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to method property setter (gets validation automatically)
         """
@@ -1876,10 +1876,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getRoutingGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for routingGroup.
-        
+
         Returns:
             The routingGroup value
-        
+
         Note:
             Delegates to routing_group property (CODING_RULE_V2_00017)
         """
@@ -1890,13 +1890,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def with_major_version(self, value: Optional["PositiveInteger"]) -> "AbstractServiceInstance":
         """
         Set majorVersion and return self for chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_major_version("value")
         """
@@ -1906,13 +1906,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def with_method(self, value: Optional["PduActivationRouting"]) -> "AbstractServiceInstance":
         """
         Set method and return self for chaining.
-        
+
         Args:
             value: The method to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_method("value")
         """
@@ -1925,9 +1925,9 @@ class PduActivationRoutingGroup(Identifiable):
     """
     Group of Pdus that can be activated or deactivated for transmission over a
     socket connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::PduActivationRoutingGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 488, Classic Platform R23-11)
     """
@@ -1953,10 +1953,10 @@ class PduActivationRoutingGroup(Identifiable):
     def event_group(self, value: Optional["RefType"]) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1978,10 +1978,10 @@ class PduActivationRoutingGroup(Identifiable):
     def getEventGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -1990,13 +1990,13 @@ class PduActivationRoutingGroup(Identifiable):
     def setEventGroup(self, value: "RefType") -> "PduActivationRoutingGroup":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -2006,10 +2006,10 @@ class PduActivationRoutingGroup(Identifiable):
     def getIPduIdentifier(self) -> List["SoConIPduIdentifier"]:
         """
         AUTOSAR-compliant getter for iPduIdentifier.
-        
+
         Returns:
             The iPduIdentifier value
-        
+
         Note:
             Delegates to i_pdu_identifier property (CODING_RULE_V2_00017)
         """
@@ -2020,13 +2020,13 @@ class PduActivationRoutingGroup(Identifiable):
     def with_event_group(self, value: Optional[RefType]) -> "PduActivationRoutingGroup":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """
@@ -2040,9 +2040,9 @@ class SoConIPduIdentifier(Referrable):
     Identification of Pdu content on a socket connection. This Identifier is
     required in case that multiple Pdus are transmitted over the same socket
     connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SoConIPduIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 489, Classic Platform R23-11)
     """
@@ -2064,10 +2064,10 @@ class SoConIPduIdentifier(Referrable):
     def header_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set headerId with validation.
-        
+
         Args:
             value: The headerId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2092,10 +2092,10 @@ class SoConIPduIdentifier(Referrable):
     def pdu_collection(self, value: Optional["RefType"]) -> None:
         """
         Set pduCollection with validation.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2115,10 +2115,10 @@ class SoConIPduIdentifier(Referrable):
     def pdu_triggering(self, value: Optional["RefType"]) -> None:
         """
         Set pduTriggering with validation.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2133,10 +2133,10 @@ class SoConIPduIdentifier(Referrable):
     def getHeaderId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for headerId.
-        
+
         Returns:
             The headerId value
-        
+
         Note:
             Delegates to header_id property (CODING_RULE_V2_00017)
         """
@@ -2145,13 +2145,13 @@ class SoConIPduIdentifier(Referrable):
     def setHeaderId(self, value: "PositiveInteger") -> "SoConIPduIdentifier":
         """
         AUTOSAR-compliant setter for headerId with method chaining.
-        
+
         Args:
             value: The headerId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_id property setter (gets validation automatically)
         """
@@ -2161,10 +2161,10 @@ class SoConIPduIdentifier(Referrable):
     def getPduCollection(self) -> "RefType":
         """
         AUTOSAR-compliant getter for pduCollection.
-        
+
         Returns:
             The pduCollection value
-        
+
         Note:
             Delegates to pdu_collection property (CODING_RULE_V2_00017)
         """
@@ -2173,13 +2173,13 @@ class SoConIPduIdentifier(Referrable):
     def setPduCollection(self, value: "RefType") -> "SoConIPduIdentifier":
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_collection property setter (gets validation automatically)
         """
@@ -2189,10 +2189,10 @@ class SoConIPduIdentifier(Referrable):
     def getPduTriggering(self) -> "RefType":
         """
         AUTOSAR-compliant getter for pduTriggering.
-        
+
         Returns:
             The pduTriggering value
-        
+
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """
@@ -2201,13 +2201,13 @@ class SoConIPduIdentifier(Referrable):
     def setPduTriggering(self, value: "RefType") -> "SoConIPduIdentifier":
         """
         AUTOSAR-compliant setter for pduTriggering with method chaining.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_triggering property setter (gets validation automatically)
         """
@@ -2219,13 +2219,13 @@ class SoConIPduIdentifier(Referrable):
     def with_header_id(self, value: Optional["PositiveInteger"]) -> "SoConIPduIdentifier":
         """
         Set headerId and return self for chaining.
-        
+
         Args:
             value: The headerId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_id("value")
         """
@@ -2235,13 +2235,13 @@ class SoConIPduIdentifier(Referrable):
     def with_pdu_collection(self, value: Optional[RefType]) -> "SoConIPduIdentifier":
         """
         Set pduCollection and return self for chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_collection("value")
         """
@@ -2251,13 +2251,13 @@ class SoConIPduIdentifier(Referrable):
     def with_pdu_triggering(self, value: Optional[RefType]) -> "SoConIPduIdentifier":
         """
         Set pduTriggering and return self for chaining.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_triggering("value")
         """
@@ -2270,9 +2270,9 @@ class SocketConnectionIpduIdentifierSet(FibexElement):
     """
     Collection of PduIdentifiers used for transmission over a Socket Connection
     with the header option.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SocketConnectionIpduIdentifierSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 490, Classic Platform R23-11)
     """
@@ -2293,10 +2293,10 @@ class SocketConnectionIpduIdentifierSet(FibexElement):
     def getIPduIdentifier(self) -> List["SoConIPduIdentifier"]:
         """
         AUTOSAR-compliant getter for iPduIdentifier.
-        
+
         Returns:
             The iPduIdentifier value
-        
+
         Note:
             Delegates to i_pdu_identifier property (CODING_RULE_V2_00017)
         """
@@ -2310,9 +2310,9 @@ class EventHandler(Identifiable):
     """
     This element represents an event group as part of the Provided Service
     Instance.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::EventHandler
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 492, Classic Platform R23-11)
     """
@@ -2342,10 +2342,10 @@ class EventHandler(Identifiable):
     def event_group(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2373,10 +2373,10 @@ class EventHandler(Identifiable):
     def event_multicast(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set eventMulticast with validation.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2406,10 +2406,10 @@ class EventHandler(Identifiable):
     def multicast(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set multicast with validation.
-        
+
         Args:
             value: The multicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2448,10 +2448,10 @@ class EventHandler(Identifiable):
     def sd_server_config(self, value: Optional["SdServerConfig"]) -> None:
         """
         Set sdServerConfig with validation.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2476,10 +2476,10 @@ class EventHandler(Identifiable):
     def sd_server_eg(self, value: Optional["SomeipSdServerEvent"]) -> None:
         """
         Set sdServerEg with validation.
-        
+
         Args:
             value: The sdServerEg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2498,10 +2498,10 @@ class EventHandler(Identifiable):
     def getConsumedEvent(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for consumedEvent.
-        
+
         Returns:
             The consumedEvent value
-        
+
         Note:
             Delegates to consumed_event property (CODING_RULE_V2_00017)
         """
@@ -2510,10 +2510,10 @@ class EventHandler(Identifiable):
     def getEventGroup(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -2522,13 +2522,13 @@ class EventHandler(Identifiable):
     def setEventGroup(self, value: "PositiveInteger") -> "EventHandler":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -2538,10 +2538,10 @@ class EventHandler(Identifiable):
     def getEventMulticast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for eventMulticast.
-        
+
         Returns:
             The eventMulticast value
-        
+
         Note:
             Delegates to event_multicast property (CODING_RULE_V2_00017)
         """
@@ -2550,13 +2550,13 @@ class EventHandler(Identifiable):
     def setEventMulticast(self, value: "ApplicationEndpoint") -> "EventHandler":
         """
         AUTOSAR-compliant setter for eventMulticast with method chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_multicast property setter (gets validation automatically)
         """
@@ -2566,10 +2566,10 @@ class EventHandler(Identifiable):
     def getMulticast(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -2578,13 +2578,13 @@ class EventHandler(Identifiable):
     def setMulticast(self, value: "PositiveInteger") -> "EventHandler":
         """
         AUTOSAR-compliant setter for multicast with method chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multicast property setter (gets validation automatically)
         """
@@ -2594,10 +2594,10 @@ class EventHandler(Identifiable):
     def getPduActivation(self) -> List["PduActivationRouting"]:
         """
         AUTOSAR-compliant getter for pduActivation.
-        
+
         Returns:
             The pduActivation value
-        
+
         Note:
             Delegates to pdu_activation property (CODING_RULE_V2_00017)
         """
@@ -2606,10 +2606,10 @@ class EventHandler(Identifiable):
     def getRoutingGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for routingGroup.
-        
+
         Returns:
             The routingGroup value
-        
+
         Note:
             Delegates to routing_group property (CODING_RULE_V2_00017)
         """
@@ -2618,10 +2618,10 @@ class EventHandler(Identifiable):
     def getSdServerConfig(self) -> "SdServerConfig":
         """
         AUTOSAR-compliant getter for sdServerConfig.
-        
+
         Returns:
             The sdServerConfig value
-        
+
         Note:
             Delegates to sd_server_config property (CODING_RULE_V2_00017)
         """
@@ -2630,13 +2630,13 @@ class EventHandler(Identifiable):
     def setSdServerConfig(self, value: "SdServerConfig") -> "EventHandler":
         """
         AUTOSAR-compliant setter for sdServerConfig with method chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_config property setter (gets validation automatically)
         """
@@ -2646,10 +2646,10 @@ class EventHandler(Identifiable):
     def getSdServerEg(self) -> "SomeipSdServerEvent":
         """
         AUTOSAR-compliant getter for sdServerEg.
-        
+
         Returns:
             The sdServerEg value
-        
+
         Note:
             Delegates to sd_server_eg property (CODING_RULE_V2_00017)
         """
@@ -2658,13 +2658,13 @@ class EventHandler(Identifiable):
     def setSdServerEg(self, value: "SomeipSdServerEvent") -> "EventHandler":
         """
         AUTOSAR-compliant setter for sdServerEg with method chaining.
-        
+
         Args:
             value: The sdServerEg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_eg property setter (gets validation automatically)
         """
@@ -2676,13 +2676,13 @@ class EventHandler(Identifiable):
     def with_event_group(self, value: Optional["PositiveInteger"]) -> "EventHandler":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """
@@ -2692,13 +2692,13 @@ class EventHandler(Identifiable):
     def with_event_multicast(self, value: Optional["ApplicationEndpoint"]) -> "EventHandler":
         """
         Set eventMulticast and return self for chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_multicast("value")
         """
@@ -2708,13 +2708,13 @@ class EventHandler(Identifiable):
     def with_multicast(self, value: Optional["PositiveInteger"]) -> "EventHandler":
         """
         Set multicast and return self for chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multicast("value")
         """
@@ -2724,13 +2724,13 @@ class EventHandler(Identifiable):
     def with_sd_server_config(self, value: Optional["SdServerConfig"]) -> "EventHandler":
         """
         Set sdServerConfig and return self for chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_config("value")
         """
@@ -2740,13 +2740,13 @@ class EventHandler(Identifiable):
     def with_sd_server_eg(self, value: Optional["SomeipSdServerEvent"]) -> "EventHandler":
         """
         Set sdServerEg and return self for chaining.
-        
+
         Args:
             value: The sdServerEg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_eg("value")
         """
@@ -2759,9 +2759,9 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     """
     Server specific settings that are relevant for the configuration of SOME/IP
     Service-Discovery.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdServerServiceInstanceConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 513, Classic Platform R23-11)
     """
@@ -2781,10 +2781,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def initial_offer_behavior(self, value: Optional["InitialSdDelayConfig"]) -> None:
         """
         Set initialOfferBehavior with validation.
-        
+
         Args:
             value: The initialOfferBehavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2809,10 +2809,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def offer_cyclic_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set offerCyclicDelay with validation.
-        
+
         Args:
             value: The offerCyclicDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2839,10 +2839,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2870,10 +2870,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def request(self, value: Optional["RequestResponseDelay"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2897,10 +2897,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def service_offer(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceOffer with validation.
-        
+
         Args:
             value: The serviceOffer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2919,10 +2919,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getInitialOfferBehavior(self) -> "InitialSdDelayConfig":
         """
         AUTOSAR-compliant getter for initialOfferBehavior.
-        
+
         Returns:
             The initialOfferBehavior value
-        
+
         Note:
             Delegates to initial_offer_behavior property (CODING_RULE_V2_00017)
         """
@@ -2931,13 +2931,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setInitialOfferBehavior(self, value: "InitialSdDelayConfig") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for initialOfferBehavior with method chaining.
-        
+
         Args:
             value: The initialOfferBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_offer_behavior property setter (gets validation automatically)
         """
@@ -2947,10 +2947,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getOfferCyclicDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for offerCyclicDelay.
-        
+
         Returns:
             The offerCyclicDelay value
-        
+
         Note:
             Delegates to offer_cyclic_delay property (CODING_RULE_V2_00017)
         """
@@ -2959,13 +2959,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setOfferCyclicDelay(self, value: "TimeValue") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for offerCyclicDelay with method chaining.
-        
+
         Args:
             value: The offerCyclicDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offer_cyclic_delay property setter (gets validation automatically)
         """
@@ -2975,10 +2975,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -2987,13 +2987,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setPriority(self, value: "PositiveInteger") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -3003,10 +3003,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getRequest(self) -> "RequestResponseDelay":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -3015,13 +3015,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setRequest(self, value: "RequestResponseDelay") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -3031,10 +3031,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getServiceOffer(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceOffer.
-        
+
         Returns:
             The serviceOffer value
-        
+
         Note:
             Delegates to service_offer property (CODING_RULE_V2_00017)
         """
@@ -3043,13 +3043,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setServiceOffer(self, value: "PositiveInteger") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for serviceOffer with method chaining.
-        
+
         Args:
             value: The serviceOffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_offer property setter (gets validation automatically)
         """
@@ -3061,13 +3061,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_initial_offer_behavior(self, value: Optional["InitialSdDelayConfig"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set initialOfferBehavior and return self for chaining.
-        
+
         Args:
             value: The initialOfferBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_offer_behavior("value")
         """
@@ -3077,13 +3077,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_offer_cyclic_delay(self, value: Optional["TimeValue"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set offerCyclicDelay and return self for chaining.
-        
+
         Args:
             value: The offerCyclicDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offer_cyclic_delay("value")
         """
@@ -3093,13 +3093,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -3109,13 +3109,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_request(self, value: Optional["RequestResponseDelay"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """
@@ -3125,13 +3125,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_service_offer(self, value: Optional["PositiveInteger"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set serviceOffer and return self for chaining.
-        
+
         Args:
             value: The serviceOffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_offer("value")
         """
@@ -3144,9 +3144,9 @@ class InitialSdDelayConfig(ARObject):
     """
     This element is used to configure the offer behavior of the server and the
     find behavior on the client.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::InitialSdDelayConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 514, Classic Platform R23-11)
     """
@@ -3167,10 +3167,10 @@ class InitialSdDelayConfig(ARObject):
     def initial_delay_max(self, value: Optional["TimeValue"]) -> None:
         """
         Set initialDelayMax with validation.
-        
+
         Args:
             value: The initialDelayMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3195,10 +3195,10 @@ class InitialSdDelayConfig(ARObject):
     def initial_delay_min(self, value: Optional["TimeValue"]) -> None:
         """
         Set initialDelayMin with validation.
-        
+
         Args:
             value: The initialDelayMin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3223,10 +3223,10 @@ class InitialSdDelayConfig(ARObject):
     def initial(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set initial with validation.
-        
+
         Args:
             value: The initial to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3245,10 +3245,10 @@ class InitialSdDelayConfig(ARObject):
     def getInitialDelayMax(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for initialDelayMax.
-        
+
         Returns:
             The initialDelayMax value
-        
+
         Note:
             Delegates to initial_delay_max property (CODING_RULE_V2_00017)
         """
@@ -3257,13 +3257,13 @@ class InitialSdDelayConfig(ARObject):
     def setInitialDelayMax(self, value: "TimeValue") -> "InitialSdDelayConfig":
         """
         AUTOSAR-compliant setter for initialDelayMax with method chaining.
-        
+
         Args:
             value: The initialDelayMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_delay_max property setter (gets validation automatically)
         """
@@ -3273,10 +3273,10 @@ class InitialSdDelayConfig(ARObject):
     def getInitialDelayMin(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for initialDelayMin.
-        
+
         Returns:
             The initialDelayMin value
-        
+
         Note:
             Delegates to initial_delay_min property (CODING_RULE_V2_00017)
         """
@@ -3285,13 +3285,13 @@ class InitialSdDelayConfig(ARObject):
     def setInitialDelayMin(self, value: "TimeValue") -> "InitialSdDelayConfig":
         """
         AUTOSAR-compliant setter for initialDelayMin with method chaining.
-        
+
         Args:
             value: The initialDelayMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_delay_min property setter (gets validation automatically)
         """
@@ -3301,10 +3301,10 @@ class InitialSdDelayConfig(ARObject):
     def getInitial(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for initial.
-        
+
         Returns:
             The initial value
-        
+
         Note:
             Delegates to initial property (CODING_RULE_V2_00017)
         """
@@ -3313,13 +3313,13 @@ class InitialSdDelayConfig(ARObject):
     def setInitial(self, value: "PositiveInteger") -> "InitialSdDelayConfig":
         """
         AUTOSAR-compliant setter for initial with method chaining.
-        
+
         Args:
             value: The initial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial property setter (gets validation automatically)
         """
@@ -3331,13 +3331,13 @@ class InitialSdDelayConfig(ARObject):
     def with_initial_delay_max(self, value: Optional["TimeValue"]) -> "InitialSdDelayConfig":
         """
         Set initialDelayMax and return self for chaining.
-        
+
         Args:
             value: The initialDelayMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_delay_max("value")
         """
@@ -3347,13 +3347,13 @@ class InitialSdDelayConfig(ARObject):
     def with_initial_delay_min(self, value: Optional["TimeValue"]) -> "InitialSdDelayConfig":
         """
         Set initialDelayMin and return self for chaining.
-        
+
         Args:
             value: The initialDelayMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_delay_min("value")
         """
@@ -3363,13 +3363,13 @@ class InitialSdDelayConfig(ARObject):
     def with_initial(self, value: Optional["PositiveInteger"]) -> "InitialSdDelayConfig":
         """
         Set initial and return self for chaining.
-        
+
         Args:
             value: The initial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial("value")
         """
@@ -3381,9 +3381,9 @@ class InitialSdDelayConfig(ARObject):
 class RequestResponseDelay(ARObject):
     """
     Time to wait before answering the query.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::RequestResponseDelay
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 515, Classic Platform R23-11)
     """
@@ -3403,10 +3403,10 @@ class RequestResponseDelay(ARObject):
     def max_value(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxValue with validation.
-        
+
         Args:
             value: The maxValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3430,10 +3430,10 @@ class RequestResponseDelay(ARObject):
     def min_value(self, value: Optional["TimeValue"]) -> None:
         """
         Set minValue with validation.
-        
+
         Args:
             value: The minValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3452,10 +3452,10 @@ class RequestResponseDelay(ARObject):
     def getMaxValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxValue.
-        
+
         Returns:
             The maxValue value
-        
+
         Note:
             Delegates to max_value property (CODING_RULE_V2_00017)
         """
@@ -3464,13 +3464,13 @@ class RequestResponseDelay(ARObject):
     def setMaxValue(self, value: "TimeValue") -> "RequestResponseDelay":
         """
         AUTOSAR-compliant setter for maxValue with method chaining.
-        
+
         Args:
             value: The maxValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_value property setter (gets validation automatically)
         """
@@ -3480,10 +3480,10 @@ class RequestResponseDelay(ARObject):
     def getMinValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minValue.
-        
+
         Returns:
             The minValue value
-        
+
         Note:
             Delegates to min_value property (CODING_RULE_V2_00017)
         """
@@ -3492,13 +3492,13 @@ class RequestResponseDelay(ARObject):
     def setMinValue(self, value: "TimeValue") -> "RequestResponseDelay":
         """
         AUTOSAR-compliant setter for minValue with method chaining.
-        
+
         Args:
             value: The minValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_value property setter (gets validation automatically)
         """
@@ -3510,13 +3510,13 @@ class RequestResponseDelay(ARObject):
     def with_max_value(self, value: Optional["TimeValue"]) -> "RequestResponseDelay":
         """
         Set maxValue and return self for chaining.
-        
+
         Args:
             value: The maxValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_value("value")
         """
@@ -3526,13 +3526,13 @@ class RequestResponseDelay(ARObject):
     def with_min_value(self, value: Optional["TimeValue"]) -> "RequestResponseDelay":
         """
         Set minValue and return self for chaining.
-        
+
         Args:
             value: The minValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_value("value")
         """
@@ -3544,9 +3544,9 @@ class RequestResponseDelay(ARObject):
 class SomeipSdServerEventGroupTimingConfig(ARElement):
     """
     EventGroup specific timing configuration settings.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdServerEventGroupTimingConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 517, Classic Platform R23-11)
     """
@@ -3569,10 +3569,10 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def request(self, value: Optional["RequestResponseDelay"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3591,10 +3591,10 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def getRequest(self) -> "RequestResponseDelay":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -3603,13 +3603,13 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def setRequest(self, value: "RequestResponseDelay") -> "SomeipSdServerEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -3621,13 +3621,13 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def with_request(self, value: Optional["RequestResponseDelay"]) -> "SomeipSdServerEventGroupTimingConfig":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """
@@ -3640,9 +3640,9 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     """
     This meta-class is used to specify configuration related to service
     discovery in the context of an event group on SOME/IP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdClientEventGroupTimingConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 521, Classic Platform R23-11)
     """
@@ -3665,10 +3665,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def request(self, value: Optional["RequestResponseDelay"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3695,10 +3695,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def subscribe(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set subscribe with validation.
-        
+
         Args:
             value: The subscribe to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3723,10 +3723,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def time_to_live(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timeToLive with validation.
-        
+
         Args:
             value: The timeToLive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3745,10 +3745,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def getRequest(self) -> "RequestResponseDelay":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -3757,13 +3757,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def setRequest(self, value: "RequestResponseDelay") -> "SomeipSdClientEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -3773,10 +3773,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def getSubscribe(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for subscribe.
-        
+
         Returns:
             The subscribe value
-        
+
         Note:
             Delegates to subscribe property (CODING_RULE_V2_00017)
         """
@@ -3785,13 +3785,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def setSubscribe(self, value: "PositiveInteger") -> "SomeipSdClientEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for subscribe with method chaining.
-        
+
         Args:
             value: The subscribe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to subscribe property setter (gets validation automatically)
         """
@@ -3801,10 +3801,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def getTimeToLive(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timeToLive.
-        
+
         Returns:
             The timeToLive value
-        
+
         Note:
             Delegates to time_to_live property (CODING_RULE_V2_00017)
         """
@@ -3813,13 +3813,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def setTimeToLive(self, value: "PositiveInteger") -> "SomeipSdClientEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for timeToLive with method chaining.
-        
+
         Args:
             value: The timeToLive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_to_live property setter (gets validation automatically)
         """
@@ -3831,13 +3831,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def with_request(self, value: Optional["RequestResponseDelay"]) -> "SomeipSdClientEventGroupTimingConfig":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """
@@ -3847,13 +3847,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def with_subscribe(self, value: Optional["PositiveInteger"]) -> "SomeipSdClientEventGroupTimingConfig":
         """
         Set subscribe and return self for chaining.
-        
+
         Args:
             value: The subscribe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_subscribe("value")
         """
@@ -3863,13 +3863,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def with_time_to_live(self, value: Optional["PositiveInteger"]) -> "SomeipSdClientEventGroupTimingConfig":
         """
         Set timeToLive and return self for chaining.
-        
+
         Args:
             value: The timeToLive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_to_live("value")
         """
@@ -3883,9 +3883,9 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
     The AUTOSAR ServiceDiscovery is able to start and to stop ClientServices and
     Server Services,respectively, at runtime. A SdServiceGroup contains several
     ClientServices and Server Services, respectively.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ConsumedProvidedServiceInstanceGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 523, Classic Platform R23-11)
     """
@@ -3916,10 +3916,10 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
     def getConsumed(self) -> List["ConsumedService"]:
         """
         AUTOSAR-compliant getter for consumed.
-        
+
         Returns:
             The consumed value
-        
+
         Note:
             Delegates to consumed property (CODING_RULE_V2_00017)
         """
@@ -3928,10 +3928,10 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
     def getProvidedService(self) -> List["ProvidedService"]:
         """
         AUTOSAR-compliant getter for providedService.
-        
+
         Returns:
             The providedService value
-        
+
         Note:
             Delegates to provided_service property (CODING_RULE_V2_00017)
         """
@@ -3945,9 +3945,9 @@ class StaticSocketConnection(Identifiable):
     """
     Definition of static SocketConnection between the Socket that is defined by
     the aggregating Socket Address and the remoteAddress.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::StaticSocketConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 543, Classic Platform R23-11)
     """
@@ -3976,10 +3976,10 @@ class StaticSocketConnection(Identifiable):
     def remote_address(self, value: Optional["SocketAddress"]) -> None:
         """
         Set remoteAddress with validation.
-        
+
         Args:
             value: The remoteAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4006,10 +4006,10 @@ class StaticSocketConnection(Identifiable):
     def tcp_connect(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpConnect with validation.
-        
+
         Args:
             value: The tcpConnect to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4034,10 +4034,10 @@ class StaticSocketConnection(Identifiable):
     def tcp_role(self, value: Optional["TcpRoleEnum"]) -> None:
         """
         Set tcpRole with validation.
-        
+
         Args:
             value: The tcpRole to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4056,10 +4056,10 @@ class StaticSocketConnection(Identifiable):
     def getIPduIdentifier(self) -> List["SoConIPduIdentifier"]:
         """
         AUTOSAR-compliant getter for iPduIdentifier.
-        
+
         Returns:
             The iPduIdentifier value
-        
+
         Note:
             Delegates to i_pdu_identifier property (CODING_RULE_V2_00017)
         """
@@ -4068,10 +4068,10 @@ class StaticSocketConnection(Identifiable):
     def getRemoteAddress(self) -> "SocketAddress":
         """
         AUTOSAR-compliant getter for remoteAddress.
-        
+
         Returns:
             The remoteAddress value
-        
+
         Note:
             Delegates to remote_address property (CODING_RULE_V2_00017)
         """
@@ -4080,13 +4080,13 @@ class StaticSocketConnection(Identifiable):
     def setRemoteAddress(self, value: "SocketAddress") -> "StaticSocketConnection":
         """
         AUTOSAR-compliant setter for remoteAddress with method chaining.
-        
+
         Args:
             value: The remoteAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_address property setter (gets validation automatically)
         """
@@ -4096,10 +4096,10 @@ class StaticSocketConnection(Identifiable):
     def getTcpConnect(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpConnect.
-        
+
         Returns:
             The tcpConnect value
-        
+
         Note:
             Delegates to tcp_connect property (CODING_RULE_V2_00017)
         """
@@ -4108,13 +4108,13 @@ class StaticSocketConnection(Identifiable):
     def setTcpConnect(self, value: "TimeValue") -> "StaticSocketConnection":
         """
         AUTOSAR-compliant setter for tcpConnect with method chaining.
-        
+
         Args:
             value: The tcpConnect to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_connect property setter (gets validation automatically)
         """
@@ -4124,10 +4124,10 @@ class StaticSocketConnection(Identifiable):
     def getTcpRole(self) -> "TcpRoleEnum":
         """
         AUTOSAR-compliant getter for tcpRole.
-        
+
         Returns:
             The tcpRole value
-        
+
         Note:
             Delegates to tcp_role property (CODING_RULE_V2_00017)
         """
@@ -4136,13 +4136,13 @@ class StaticSocketConnection(Identifiable):
     def setTcpRole(self, value: "TcpRoleEnum") -> "StaticSocketConnection":
         """
         AUTOSAR-compliant setter for tcpRole with method chaining.
-        
+
         Args:
             value: The tcpRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_role property setter (gets validation automatically)
         """
@@ -4154,13 +4154,13 @@ class StaticSocketConnection(Identifiable):
     def with_remote_address(self, value: Optional["SocketAddress"]) -> "StaticSocketConnection":
         """
         Set remoteAddress and return self for chaining.
-        
+
         Args:
             value: The remoteAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_address("value")
         """
@@ -4170,13 +4170,13 @@ class StaticSocketConnection(Identifiable):
     def with_tcp_connect(self, value: Optional["TimeValue"]) -> "StaticSocketConnection":
         """
         Set tcpConnect and return self for chaining.
-        
+
         Args:
             value: The tcpConnect to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_connect("value")
         """
@@ -4186,13 +4186,13 @@ class StaticSocketConnection(Identifiable):
     def with_tcp_role(self, value: Optional["TcpRoleEnum"]) -> "StaticSocketConnection":
         """
         Set tcpRole and return self for chaining.
-        
+
         Args:
             value: The tcpRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_role("value")
         """
@@ -4205,9 +4205,9 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     """
     Client specific settings that are relevant for the configuration of SOME/IP
     Service-Discovery.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdClientServiceInstanceConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2058, Classic Platform R23-11)
     """
@@ -4227,10 +4227,10 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def initial_find_behavior(self, value: Optional["InitialSdDelayConfig"]) -> None:
         """
         Set initialFindBehavior with validation.
-        
+
         Args:
             value: The initialFindBehavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4256,10 +4256,10 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4286,10 +4286,10 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def service_find(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceFind with validation.
-        
+
         Args:
             value: The serviceFind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4308,10 +4308,10 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def getInitialFindBehavior(self) -> "InitialSdDelayConfig":
         """
         AUTOSAR-compliant getter for initialFindBehavior.
-        
+
         Returns:
             The initialFindBehavior value
-        
+
         Note:
             Delegates to initial_find_behavior property (CODING_RULE_V2_00017)
         """
@@ -4320,13 +4320,13 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def setInitialFindBehavior(self, value: "InitialSdDelayConfig") -> "SomeipSdClientServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for initialFindBehavior with method chaining.
-        
+
         Args:
             value: The initialFindBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_find_behavior property setter (gets validation automatically)
         """
@@ -4336,10 +4336,10 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -4348,13 +4348,13 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def setPriority(self, value: "PositiveInteger") -> "SomeipSdClientServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -4364,10 +4364,10 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def getServiceFind(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceFind.
-        
+
         Returns:
             The serviceFind value
-        
+
         Note:
             Delegates to service_find property (CODING_RULE_V2_00017)
         """
@@ -4376,13 +4376,13 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def setServiceFind(self, value: "PositiveInteger") -> "SomeipSdClientServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for serviceFind with method chaining.
-        
+
         Args:
             value: The serviceFind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_find property setter (gets validation automatically)
         """
@@ -4394,13 +4394,13 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def with_initial_find_behavior(self, value: Optional["InitialSdDelayConfig"]) -> "SomeipSdClientServiceInstanceConfig":
         """
         Set initialFindBehavior and return self for chaining.
-        
+
         Args:
             value: The initialFindBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_find_behavior("value")
         """
@@ -4410,13 +4410,13 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "SomeipSdClientServiceInstanceConfig":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -4426,13 +4426,13 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     def with_service_find(self, value: Optional["PositiveInteger"]) -> "SomeipSdClientServiceInstanceConfig":
         """
         Set serviceFind and return self for chaining.
-        
+
         Args:
             value: The serviceFind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_find("value")
         """
@@ -4445,9 +4445,9 @@ class SomeipServiceVersion(ARObject):
     """
     This meta-class represents the ability to describe a version of a SOME/IP
     Service.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipServiceVersion
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2059, Classic Platform R23-11)
     """
@@ -4467,10 +4467,10 @@ class SomeipServiceVersion(ARObject):
     def major_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set majorVersion with validation.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4494,10 +4494,10 @@ class SomeipServiceVersion(ARObject):
     def minor_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minorVersion with validation.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4516,10 +4516,10 @@ class SomeipServiceVersion(ARObject):
     def getMajorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for majorVersion.
-        
+
         Returns:
             The majorVersion value
-        
+
         Note:
             Delegates to major_version property (CODING_RULE_V2_00017)
         """
@@ -4528,13 +4528,13 @@ class SomeipServiceVersion(ARObject):
     def setMajorVersion(self, value: "PositiveInteger") -> "SomeipServiceVersion":
         """
         AUTOSAR-compliant setter for majorVersion with method chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to major_version property setter (gets validation automatically)
         """
@@ -4544,10 +4544,10 @@ class SomeipServiceVersion(ARObject):
     def getMinorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minorVersion.
-        
+
         Returns:
             The minorVersion value
-        
+
         Note:
             Delegates to minor_version property (CODING_RULE_V2_00017)
         """
@@ -4556,13 +4556,13 @@ class SomeipServiceVersion(ARObject):
     def setMinorVersion(self, value: "PositiveInteger") -> "SomeipServiceVersion":
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minor_version property setter (gets validation automatically)
         """
@@ -4574,13 +4574,13 @@ class SomeipServiceVersion(ARObject):
     def with_major_version(self, value: Optional["PositiveInteger"]) -> "SomeipServiceVersion":
         """
         Set majorVersion and return self for chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_major_version("value")
         """
@@ -4590,13 +4590,13 @@ class SomeipServiceVersion(ARObject):
     def with_minor_version(self, value: Optional["PositiveInteger"]) -> "SomeipServiceVersion":
         """
         Set minorVersion and return self for chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minor_version("value")
         """
@@ -4609,9 +4609,9 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     """
     Service instances that are consumed by the ECU that is connected via the
     ApplicationEndpoint to a CommunicationConnector.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ConsumedServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 980, Classic Platform
       R23-11)
@@ -4644,10 +4644,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def auto_require(self, value: Optional["Boolean"]) -> None:
         """
         Set autoRequire with validation.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4688,10 +4688,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def event_multicast(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set eventMulticast with validation.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4715,10 +4715,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def instance(self, value: Optional["AnyServiceInstanceId"]) -> None:
         """
         Set instance with validation.
-        
+
         Args:
             value: The instance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4743,10 +4743,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def local_unicast(self, value: "ApplicationEndpoint") -> None:
         """
         Set localUnicast with validation.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4767,10 +4767,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def minor_version(self, value: Optional["AnyVersionString"]) -> None:
         """
         Set minorVersion with validation.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4796,10 +4796,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def provided_service(self, value: Optional["ProvidedService"]) -> None:
         """
         Set providedService with validation.
-        
+
         Args:
             value: The providedService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4825,10 +4825,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def remote_unicast(self, value: "ApplicationEndpoint") -> None:
         """
         Set remoteUnicast with validation.
-        
+
         Args:
             value: The remoteUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4848,10 +4848,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def sd_client_config(self, value: Optional["SdClientConfig"]) -> None:
         """
         Set sdClientConfig with validation.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4877,10 +4877,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def sd_client_timer(self, value: Optional["SomeipSdClientService"]) -> None:
         """
         Set sdClientTimer with validation.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4905,10 +4905,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def service_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceIdentifier with validation.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4934,10 +4934,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def version_driven(self, value: Optional["ServiceVersion"]) -> None:
         """
         Set versionDriven with validation.
-        
+
         Args:
             value: The versionDriven to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4956,10 +4956,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getAllowedService(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for allowedService.
-        
+
         Returns:
             The allowedService value
-        
+
         Note:
             Delegates to allowed_service property (CODING_RULE_V2_00017)
         """
@@ -4968,10 +4968,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getAutoRequire(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoRequire.
-        
+
         Returns:
             The autoRequire value
-        
+
         Note:
             Delegates to auto_require property (CODING_RULE_V2_00017)
         """
@@ -4980,13 +4980,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setAutoRequire(self, value: "Boolean") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for autoRequire with method chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_require property setter (gets validation automatically)
         """
@@ -4996,10 +4996,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getBlocklisted(self) -> List["SomeipServiceVersion"]:
         """
         AUTOSAR-compliant getter for blocklisted.
-        
+
         Returns:
             The blocklisted value
-        
+
         Note:
             Delegates to blocklisted property (CODING_RULE_V2_00017)
         """
@@ -5008,10 +5008,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getConsumedEvent(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for consumedEvent.
-        
+
         Returns:
             The consumedEvent value
-        
+
         Note:
             Delegates to consumed_event property (CODING_RULE_V2_00017)
         """
@@ -5020,10 +5020,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getEventMulticast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for eventMulticast.
-        
+
         Returns:
             The eventMulticast value
-        
+
         Note:
             Delegates to event_multicast property (CODING_RULE_V2_00017)
         """
@@ -5032,13 +5032,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setEventMulticast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for eventMulticast with method chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_multicast property setter (gets validation automatically)
         """
@@ -5048,10 +5048,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getInstance(self) -> "AnyServiceInstanceId":
         """
         AUTOSAR-compliant getter for instance.
-        
+
         Returns:
             The instance value
-        
+
         Note:
             Delegates to instance property (CODING_RULE_V2_00017)
         """
@@ -5060,13 +5060,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setInstance(self, value: "AnyServiceInstanceId") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for instance with method chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to instance property setter (gets validation automatically)
         """
@@ -5076,10 +5076,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getLocalUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for localUnicast.
-        
+
         Returns:
             The localUnicast value
-        
+
         Note:
             Delegates to local_unicast property (CODING_RULE_V2_00017)
         """
@@ -5088,13 +5088,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setLocalUnicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_unicast property setter (gets validation automatically)
         """
@@ -5104,10 +5104,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getMinorVersion(self) -> "AnyVersionString":
         """
         AUTOSAR-compliant getter for minorVersion.
-        
+
         Returns:
             The minorVersion value
-        
+
         Note:
             Delegates to minor_version property (CODING_RULE_V2_00017)
         """
@@ -5116,13 +5116,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setMinorVersion(self, value: "AnyVersionString") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minor_version property setter (gets validation automatically)
         """
@@ -5132,10 +5132,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getProvidedService(self) -> "ProvidedService":
         """
         AUTOSAR-compliant getter for providedService.
-        
+
         Returns:
             The providedService value
-        
+
         Note:
             Delegates to provided_service property (CODING_RULE_V2_00017)
         """
@@ -5144,13 +5144,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setProvidedService(self, value: "ProvidedService") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for providedService with method chaining.
-        
+
         Args:
             value: The providedService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided_service property setter (gets validation automatically)
         """
@@ -5160,10 +5160,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getRemoteUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for remoteUnicast.
-        
+
         Returns:
             The remoteUnicast value
-        
+
         Note:
             Delegates to remote_unicast property (CODING_RULE_V2_00017)
         """
@@ -5172,13 +5172,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setRemoteUnicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for remoteUnicast with method chaining.
-        
+
         Args:
             value: The remoteUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_unicast property setter (gets validation automatically)
         """
@@ -5188,10 +5188,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getSdClientConfig(self) -> "SdClientConfig":
         """
         AUTOSAR-compliant getter for sdClientConfig.
-        
+
         Returns:
             The sdClientConfig value
-        
+
         Note:
             Delegates to sd_client_config property (CODING_RULE_V2_00017)
         """
@@ -5200,13 +5200,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setSdClientConfig(self, value: "SdClientConfig") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for sdClientConfig with method chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_config property setter (gets validation automatically)
         """
@@ -5216,10 +5216,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getSdClientTimer(self) -> "SomeipSdClientService":
         """
         AUTOSAR-compliant getter for sdClientTimer.
-        
+
         Returns:
             The sdClientTimer value
-        
+
         Note:
             Delegates to sd_client_timer property (CODING_RULE_V2_00017)
         """
@@ -5228,13 +5228,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setSdClientTimer(self, value: "SomeipSdClientService") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for sdClientTimer with method chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_timer property setter (gets validation automatically)
         """
@@ -5244,10 +5244,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getServiceIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceIdentifier.
-        
+
         Returns:
             The serviceIdentifier value
-        
+
         Note:
             Delegates to service_identifier property (CODING_RULE_V2_00017)
         """
@@ -5256,13 +5256,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setServiceIdentifier(self, value: "PositiveInteger") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for serviceIdentifier with method chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_identifier property setter (gets validation automatically)
         """
@@ -5272,10 +5272,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getVersionDriven(self) -> "ServiceVersion":
         """
         AUTOSAR-compliant getter for versionDriven.
-        
+
         Returns:
             The versionDriven value
-        
+
         Note:
             Delegates to version_driven property (CODING_RULE_V2_00017)
         """
@@ -5284,13 +5284,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setVersionDriven(self, value: "ServiceVersion") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for versionDriven with method chaining.
-        
+
         Args:
             value: The versionDriven to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version_driven property setter (gets validation automatically)
         """
@@ -5302,13 +5302,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_auto_require(self, value: Optional["Boolean"]) -> "ConsumedServiceInstance":
         """
         Set autoRequire and return self for chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_require("value")
         """
@@ -5318,13 +5318,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_event_multicast(self, value: Optional["ApplicationEndpoint"]) -> "ConsumedServiceInstance":
         """
         Set eventMulticast and return self for chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_multicast("value")
         """
@@ -5334,13 +5334,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_instance(self, value: Optional["AnyServiceInstanceId"]) -> "ConsumedServiceInstance":
         """
         Set instance and return self for chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_instance("value")
         """
@@ -5350,13 +5350,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_local_unicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         Set localUnicast and return self for chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_unicast("value")
         """
@@ -5366,13 +5366,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_minor_version(self, value: Optional["AnyVersionString"]) -> "ConsumedServiceInstance":
         """
         Set minorVersion and return self for chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minor_version("value")
         """
@@ -5382,13 +5382,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_provided_service(self, value: Optional["ProvidedService"]) -> "ConsumedServiceInstance":
         """
         Set providedService and return self for chaining.
-        
+
         Args:
             value: The providedService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided_service("value")
         """
@@ -5398,13 +5398,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_remote_unicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         Set remoteUnicast and return self for chaining.
-        
+
         Args:
             value: The remoteUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_unicast("value")
         """
@@ -5414,13 +5414,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_sd_client_config(self, value: Optional["SdClientConfig"]) -> "ConsumedServiceInstance":
         """
         Set sdClientConfig and return self for chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_config("value")
         """
@@ -5430,13 +5430,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_sd_client_timer(self, value: Optional["SomeipSdClientService"]) -> "ConsumedServiceInstance":
         """
         Set sdClientTimer and return self for chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_timer("value")
         """
@@ -5446,13 +5446,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_service_identifier(self, value: Optional["PositiveInteger"]) -> "ConsumedServiceInstance":
         """
         Set serviceIdentifier and return self for chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_identifier("value")
         """
@@ -5462,13 +5462,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_version_driven(self, value: Optional["ServiceVersion"]) -> "ConsumedServiceInstance":
         """
         Set versionDriven and return self for chaining.
-        
+
         Args:
             value: The versionDriven to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version_driven("value")
         """
@@ -5481,9 +5481,9 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     """
     Service instances that are provided by the ECU that is connected via the
     ApplicationEndpoint to a CommunicationConnector.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ProvidedServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1000, Classic
       Platform R23-11)
@@ -5516,10 +5516,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def auto_available(self, value: Optional["Boolean"]) -> None:
         """
         Set autoAvailable with validation.
-        
+
         Args:
             value: The autoAvailable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5553,10 +5553,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def instance(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set instance with validation.
-        
+
         Args:
             value: The instance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5581,10 +5581,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def load_balancing(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set loadBalancing with validation.
-        
+
         Args:
             value: The loadBalancing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5609,10 +5609,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def local_unicast(self, value: "ApplicationEndpoint") -> None:
         """
         Set localUnicast with validation.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5632,10 +5632,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def minor_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minorVersion with validation.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5659,10 +5659,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5706,10 +5706,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def sd_server_config(self, value: Optional["SdServerConfig"]) -> None:
         """
         Set sdServerConfig with validation.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5735,10 +5735,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def sd_server_timer(self, value: Optional["SomeipSdServer"]) -> None:
         """
         Set sdServerTimer with validation.
-        
+
         Args:
             value: The sdServerTimer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5763,10 +5763,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def service_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceIdentifier with validation.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5785,10 +5785,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getAllowedService(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for allowedService.
-        
+
         Returns:
             The allowedService value
-        
+
         Note:
             Delegates to allowed_service property (CODING_RULE_V2_00017)
         """
@@ -5797,10 +5797,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getAutoAvailable(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoAvailable.
-        
+
         Returns:
             The autoAvailable value
-        
+
         Note:
             Delegates to auto_available property (CODING_RULE_V2_00017)
         """
@@ -5809,13 +5809,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setAutoAvailable(self, value: "Boolean") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for autoAvailable with method chaining.
-        
+
         Args:
             value: The autoAvailable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_available property setter (gets validation automatically)
         """
@@ -5825,10 +5825,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getEventHandler(self) -> List["EventHandler"]:
         """
         AUTOSAR-compliant getter for eventHandler.
-        
+
         Returns:
             The eventHandler value
-        
+
         Note:
             Delegates to event_handler property (CODING_RULE_V2_00017)
         """
@@ -5837,10 +5837,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getInstance(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for instance.
-        
+
         Returns:
             The instance value
-        
+
         Note:
             Delegates to instance property (CODING_RULE_V2_00017)
         """
@@ -5849,13 +5849,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setInstance(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for instance with method chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to instance property setter (gets validation automatically)
         """
@@ -5865,10 +5865,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getLoadBalancing(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for loadBalancing.
-        
+
         Returns:
             The loadBalancing value
-        
+
         Note:
             Delegates to load_balancing property (CODING_RULE_V2_00017)
         """
@@ -5877,13 +5877,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setLoadBalancing(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for loadBalancing with method chaining.
-        
+
         Args:
             value: The loadBalancing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to load_balancing property setter (gets validation automatically)
         """
@@ -5893,10 +5893,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getLocalUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for localUnicast.
-        
+
         Returns:
             The localUnicast value
-        
+
         Note:
             Delegates to local_unicast property (CODING_RULE_V2_00017)
         """
@@ -5905,13 +5905,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setLocalUnicast(self, value: "ApplicationEndpoint") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_unicast property setter (gets validation automatically)
         """
@@ -5921,10 +5921,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getMinorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minorVersion.
-        
+
         Returns:
             The minorVersion value
-        
+
         Note:
             Delegates to minor_version property (CODING_RULE_V2_00017)
         """
@@ -5933,13 +5933,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setMinorVersion(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minor_version property setter (gets validation automatically)
         """
@@ -5949,10 +5949,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -5961,13 +5961,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setPriority(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -5977,10 +5977,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getRemoteMulticast(self) -> List["ApplicationEndpoint"]:
         """
         AUTOSAR-compliant getter for remoteMulticast.
-        
+
         Returns:
             The remoteMulticast value
-        
+
         Note:
             Delegates to remote_multicast property (CODING_RULE_V2_00017)
         """
@@ -5989,10 +5989,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getRemoteUnicast(self) -> List["ApplicationEndpoint"]:
         """
         AUTOSAR-compliant getter for remoteUnicast.
-        
+
         Returns:
             The remoteUnicast value
-        
+
         Note:
             Delegates to remote_unicast property (CODING_RULE_V2_00017)
         """
@@ -6001,10 +6001,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getSdServerConfig(self) -> "SdServerConfig":
         """
         AUTOSAR-compliant getter for sdServerConfig.
-        
+
         Returns:
             The sdServerConfig value
-        
+
         Note:
             Delegates to sd_server_config property (CODING_RULE_V2_00017)
         """
@@ -6013,13 +6013,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setSdServerConfig(self, value: "SdServerConfig") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for sdServerConfig with method chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_config property setter (gets validation automatically)
         """
@@ -6029,10 +6029,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getSdServerTimer(self) -> "SomeipSdServer":
         """
         AUTOSAR-compliant getter for sdServerTimer.
-        
+
         Returns:
             The sdServerTimer value
-        
+
         Note:
             Delegates to sd_server_timer property (CODING_RULE_V2_00017)
         """
@@ -6041,13 +6041,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setSdServerTimer(self, value: "SomeipSdServer") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for sdServerTimer with method chaining.
-        
+
         Args:
             value: The sdServerTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_timer property setter (gets validation automatically)
         """
@@ -6057,10 +6057,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getServiceIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceIdentifier.
-        
+
         Returns:
             The serviceIdentifier value
-        
+
         Note:
             Delegates to service_identifier property (CODING_RULE_V2_00017)
         """
@@ -6069,13 +6069,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setServiceIdentifier(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for serviceIdentifier with method chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_identifier property setter (gets validation automatically)
         """
@@ -6087,13 +6087,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_auto_available(self, value: Optional["Boolean"]) -> "ProvidedServiceInstance":
         """
         Set autoAvailable and return self for chaining.
-        
+
         Args:
             value: The autoAvailable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_available("value")
         """
@@ -6103,13 +6103,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_instance(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set instance and return self for chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_instance("value")
         """
@@ -6119,13 +6119,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_load_balancing(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set loadBalancing and return self for chaining.
-        
+
         Args:
             value: The loadBalancing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_load_balancing("value")
         """
@@ -6135,13 +6135,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_local_unicast(self, value: "ApplicationEndpoint") -> "ProvidedServiceInstance":
         """
         Set localUnicast and return self for chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_unicast("value")
         """
@@ -6151,13 +6151,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_minor_version(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set minorVersion and return self for chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minor_version("value")
         """
@@ -6167,13 +6167,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -6183,13 +6183,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_sd_server_config(self, value: Optional["SdServerConfig"]) -> "ProvidedServiceInstance":
         """
         Set sdServerConfig and return self for chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_config("value")
         """
@@ -6199,13 +6199,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_sd_server_timer(self, value: Optional["SomeipSdServer"]) -> "ProvidedServiceInstance":
         """
         Set sdServerTimer and return self for chaining.
-        
+
         Args:
             value: The sdServerTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_timer("value")
         """
@@ -6215,13 +6215,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_service_identifier(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set serviceIdentifier and return self for chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_identifier("value")
         """

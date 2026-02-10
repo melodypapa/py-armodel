@@ -6,9 +6,15 @@ Package: M2::MSR::Documentation::MsrQuery
 
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     String,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
+    Paginateable,
 )
 from armodel.v2.models.M2.MSR.Documentation.Chapter import (
     Chapter,
@@ -16,35 +22,11 @@ from armodel.v2.models.M2.MSR.Documentation.Chapter import (
 from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
     DocumentationBlock,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFigure import (
-    MlFigure,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFormula import (
-    MlFormula,
-)
 from armodel.v2.models.M2.MSR.Documentation.MsrQueryP2 import (
     MsrQueryP2,
 )
-from armodel.v2.models.M2.MSR.Documentation.TextModel.MultiLanguageVerbatim import (
-    MultiLanguageVerbatim,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.Note import (
-    Note,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.StructuredReq import (
-    StructuredReq,
-)
 from armodel.v2.models.M2.MSR.Documentation.TopicContent import (
     TopicContent,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.TraceableText import (
-    TraceableText,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
-    Paginateable,
 )
 
 
@@ -52,9 +34,9 @@ class MsrQueryP1(Paginateable):
     """
     This meta-class represents the ability to express a query which yields the
     content of a topic as a result.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryP1
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 343, Foundation
       R23-11)
@@ -75,10 +57,10 @@ class MsrQueryP1(Paginateable):
     def msr_query_props(self, value: "MsrQueryProps") -> None:
         """
         Set msrQueryProps with validation.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +82,10 @@ class MsrQueryP1(Paginateable):
     def msr_query_result(self, value: Optional["TopicContent"]) -> None:
         """
         Set msrQueryResult with validation.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +136,10 @@ class MsrQueryP1(Paginateable):
     def getMsrQueryProps(self) -> "MsrQueryProps":
         """
         AUTOSAR-compliant getter for msrQueryProps.
-        
+
         Returns:
             The msrQueryProps value
-        
+
         Note:
             Delegates to msr_query_props property (CODING_RULE_V2_00017)
         """
@@ -166,13 +148,13 @@ class MsrQueryP1(Paginateable):
     def setMsrQueryProps(self, value: "MsrQueryProps") -> "MsrQueryP1":
         """
         AUTOSAR-compliant setter for msrQueryProps with method chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_props property setter (gets validation automatically)
         """
@@ -182,10 +164,10 @@ class MsrQueryP1(Paginateable):
     def getMsrQueryResult(self) -> "TopicContent":
         """
         AUTOSAR-compliant getter for msrQueryResult.
-        
+
         Returns:
             The msrQueryResult value
-        
+
         Note:
             Delegates to msr_query_result property (CODING_RULE_V2_00017)
         """
@@ -194,13 +176,13 @@ class MsrQueryP1(Paginateable):
     def setMsrQueryResult(self, value: "TopicContent") -> "MsrQueryP1":
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_result property setter (gets validation automatically)
         """
@@ -212,13 +194,13 @@ class MsrQueryP1(Paginateable):
     def with_msr_query_props(self, value: "MsrQueryProps") -> "MsrQueryP1":
         """
         Set msrQueryProps and return self for chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_props("value")
         """
@@ -228,13 +210,13 @@ class MsrQueryP1(Paginateable):
     def with_msr_query_result(self, value: Optional["TopicContent"]) -> "MsrQueryP1":
         """
         Set msrQueryResult and return self for chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_result("value")
         """
@@ -247,9 +229,9 @@ class MsrQueryTopic1(Paginateable):
     """
     This meta-class represents the ability to specify a query which yields a set
     of topics as a result.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryTopic1
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 343, Foundation
       R23-11)
@@ -270,10 +252,10 @@ class MsrQueryTopic1(Paginateable):
     def msr_query_props(self, value: "MsrQueryProps") -> None:
         """
         Set msrQueryProps with validation.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -295,10 +277,10 @@ class MsrQueryTopic1(Paginateable):
     def msr_query_result(self, value: Optional["MsrQueryResultTopic1"]) -> None:
         """
         Set msrQueryResult with validation.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -317,10 +299,10 @@ class MsrQueryTopic1(Paginateable):
     def getMsrQueryProps(self) -> "MsrQueryProps":
         """
         AUTOSAR-compliant getter for msrQueryProps.
-        
+
         Returns:
             The msrQueryProps value
-        
+
         Note:
             Delegates to msr_query_props property (CODING_RULE_V2_00017)
         """
@@ -329,13 +311,13 @@ class MsrQueryTopic1(Paginateable):
     def setMsrQueryProps(self, value: "MsrQueryProps") -> "MsrQueryTopic1":
         """
         AUTOSAR-compliant setter for msrQueryProps with method chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_props property setter (gets validation automatically)
         """
@@ -345,10 +327,10 @@ class MsrQueryTopic1(Paginateable):
     def getMsrQueryResult(self) -> "MsrQueryResultTopic1":
         """
         AUTOSAR-compliant getter for msrQueryResult.
-        
+
         Returns:
             The msrQueryResult value
-        
+
         Note:
             Delegates to msr_query_result property (CODING_RULE_V2_00017)
         """
@@ -357,13 +339,13 @@ class MsrQueryTopic1(Paginateable):
     def setMsrQueryResult(self, value: "MsrQueryResultTopic1") -> "MsrQueryTopic1":
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_result property setter (gets validation automatically)
         """
@@ -375,13 +357,13 @@ class MsrQueryTopic1(Paginateable):
     def with_msr_query_props(self, value: "MsrQueryProps") -> "MsrQueryTopic1":
         """
         Set msrQueryProps and return self for chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_props("value")
         """
@@ -391,13 +373,13 @@ class MsrQueryTopic1(Paginateable):
     def with_msr_query_result(self, value: Optional["MsrQueryResultTopic1"]) -> "MsrQueryTopic1":
         """
         Set msrQueryResult and return self for chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_result("value")
         """
@@ -410,9 +392,9 @@ class MsrQueryChapter(Paginateable):
     """
     This meta-class represents the ability to express a query which yields a set
     of chapters as a result.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryChapter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 343, Foundation
       R23-11)
@@ -433,10 +415,10 @@ class MsrQueryChapter(Paginateable):
     def msr_query_props(self, value: "MsrQueryProps") -> None:
         """
         Set msrQueryProps with validation.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -458,10 +440,10 @@ class MsrQueryChapter(Paginateable):
     def msr_query_result(self, value: Optional["MsrQueryResult"]) -> None:
         """
         Set msrQueryResult with validation.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -480,10 +462,10 @@ class MsrQueryChapter(Paginateable):
     def getMsrQueryProps(self) -> "MsrQueryProps":
         """
         AUTOSAR-compliant getter for msrQueryProps.
-        
+
         Returns:
             The msrQueryProps value
-        
+
         Note:
             Delegates to msr_query_props property (CODING_RULE_V2_00017)
         """
@@ -492,13 +474,13 @@ class MsrQueryChapter(Paginateable):
     def setMsrQueryProps(self, value: "MsrQueryProps") -> "MsrQueryChapter":
         """
         AUTOSAR-compliant setter for msrQueryProps with method chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_props property setter (gets validation automatically)
         """
@@ -508,10 +490,10 @@ class MsrQueryChapter(Paginateable):
     def getMsrQueryResult(self) -> "MsrQueryResult":
         """
         AUTOSAR-compliant getter for msrQueryResult.
-        
+
         Returns:
             The msrQueryResult value
-        
+
         Note:
             Delegates to msr_query_result property (CODING_RULE_V2_00017)
         """
@@ -520,13 +502,13 @@ class MsrQueryChapter(Paginateable):
     def setMsrQueryResult(self, value: "MsrQueryResult") -> "MsrQueryChapter":
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_result property setter (gets validation automatically)
         """
@@ -538,13 +520,13 @@ class MsrQueryChapter(Paginateable):
     def with_msr_query_props(self, value: "MsrQueryProps") -> "MsrQueryChapter":
         """
         Set msrQueryProps and return self for chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_props("value")
         """
@@ -554,13 +536,13 @@ class MsrQueryChapter(Paginateable):
     def with_msr_query_result(self, value: Optional["MsrQueryResult"]) -> "MsrQueryChapter":
         """
         Set msrQueryResult and return self for chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_result("value")
         """
@@ -574,9 +556,9 @@ class MsrQueryProps(ARObject):
     This metaclass represents the ability to specificy a query which yields some
     documentation text. The qualities of the result are determined by the
     context in which the query is used.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryProps
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation
       R23-11)
@@ -597,10 +579,10 @@ class MsrQueryProps(ARObject):
     def comment(self, value: Optional["String"]) -> None:
         """
         Set comment with validation.
-        
+
         Args:
             value: The comment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -631,10 +613,10 @@ class MsrQueryProps(ARObject):
     def msr_query_name(self, value: "String") -> None:
         """
         Set msrQueryName with validation.
-        
+
         Args:
             value: The msrQueryName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -649,10 +631,10 @@ class MsrQueryProps(ARObject):
     def getComment(self) -> "String":
         """
         AUTOSAR-compliant getter for comment.
-        
+
         Returns:
             The comment value
-        
+
         Note:
             Delegates to comment property (CODING_RULE_V2_00017)
         """
@@ -661,13 +643,13 @@ class MsrQueryProps(ARObject):
     def setComment(self, value: "String") -> "MsrQueryProps":
         """
         AUTOSAR-compliant setter for comment with method chaining.
-        
+
         Args:
             value: The comment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to comment property setter (gets validation automatically)
         """
@@ -677,10 +659,10 @@ class MsrQueryProps(ARObject):
     def getMsrQueryArg(self) -> List["MsrQueryArg"]:
         """
         AUTOSAR-compliant getter for msrQueryArg.
-        
+
         Returns:
             The msrQueryArg value
-        
+
         Note:
             Delegates to msr_query_arg property (CODING_RULE_V2_00017)
         """
@@ -689,10 +671,10 @@ class MsrQueryProps(ARObject):
     def getMsrQueryName(self) -> "String":
         """
         AUTOSAR-compliant getter for msrQueryName.
-        
+
         Returns:
             The msrQueryName value
-        
+
         Note:
             Delegates to msr_query_name property (CODING_RULE_V2_00017)
         """
@@ -701,13 +683,13 @@ class MsrQueryProps(ARObject):
     def setMsrQueryName(self, value: "String") -> "MsrQueryProps":
         """
         AUTOSAR-compliant setter for msrQueryName with method chaining.
-        
+
         Args:
             value: The msrQueryName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_name property setter (gets validation automatically)
         """
@@ -719,13 +701,13 @@ class MsrQueryProps(ARObject):
     def with_comment(self, value: Optional["String"]) -> "MsrQueryProps":
         """
         Set comment and return self for chaining.
-        
+
         Args:
             value: The comment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_comment("value")
         """
@@ -735,13 +717,13 @@ class MsrQueryProps(ARObject):
     def with_msr_query_name(self, value: "String") -> "MsrQueryProps":
         """
         Set msrQueryName and return self for chaining.
-        
+
         Args:
             value: The msrQueryName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_name("value")
         """
@@ -754,9 +736,9 @@ class MsrQueryArg(ARObject):
     """
     This represents an argument to the query. Note that the arguments are not
     standardized and therefore subject to mutual agreement.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryArg
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation
       R23-11)
@@ -777,10 +759,10 @@ class MsrQueryArg(ARObject):
     def arg(self, value: "String") -> None:
         """
         Set arg with validation.
-        
+
         Args:
             value: The arg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -800,10 +782,10 @@ class MsrQueryArg(ARObject):
     def si(self, value: "NameToken") -> None:
         """
         Set si with validation.
-        
+
         Args:
             value: The si to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -818,10 +800,10 @@ class MsrQueryArg(ARObject):
     def getArg(self) -> "String":
         """
         AUTOSAR-compliant getter for arg.
-        
+
         Returns:
             The arg value
-        
+
         Note:
             Delegates to arg property (CODING_RULE_V2_00017)
         """
@@ -830,13 +812,13 @@ class MsrQueryArg(ARObject):
     def setArg(self, value: "String") -> "MsrQueryArg":
         """
         AUTOSAR-compliant setter for arg with method chaining.
-        
+
         Args:
             value: The arg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to arg property setter (gets validation automatically)
         """
@@ -846,10 +828,10 @@ class MsrQueryArg(ARObject):
     def getSi(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for si.
-        
+
         Returns:
             The si value
-        
+
         Note:
             Delegates to si property (CODING_RULE_V2_00017)
         """
@@ -858,13 +840,13 @@ class MsrQueryArg(ARObject):
     def setSi(self, value: "NameToken") -> "MsrQueryArg":
         """
         AUTOSAR-compliant setter for si with method chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to si property setter (gets validation automatically)
         """
@@ -876,13 +858,13 @@ class MsrQueryArg(ARObject):
     def with_arg(self, value: "String") -> "MsrQueryArg":
         """
         Set arg and return self for chaining.
-        
+
         Args:
             value: The arg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_arg("value")
         """
@@ -892,13 +874,13 @@ class MsrQueryArg(ARObject):
     def with_si(self, value: "NameToken") -> "MsrQueryArg":
         """
         Set si and return self for chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_si("value")
         """
@@ -911,9 +893,9 @@ class MsrQueryResultChapter(ARObject):
     """
     This metaclass represents the result of an msrquery which is a set of
     chapters.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryResultChapter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation
       R23-11)
@@ -935,10 +917,10 @@ class MsrQueryResultChapter(ARObject):
     def getChapter(self) -> List["Chapter"]:
         """
         AUTOSAR-compliant getter for chapter.
-        
+
         Returns:
             The chapter value
-        
+
         Note:
             Delegates to chapter property (CODING_RULE_V2_00017)
         """
@@ -952,9 +934,9 @@ class MsrQueryResultTopic1(ARObject):
     """
     This metaclass represents the ability to express the result of a query which
     is a set of topics.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryResultTopic1
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 345, Foundation
       R23-11)
@@ -974,9 +956,9 @@ class MsrQueryP2(ARObject):
     """
     This meta-class represents the ability to express a query which yields the
     content of a Documentation Block as a result.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryP2
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 456, Foundation
       R23-11)
@@ -997,10 +979,10 @@ class MsrQueryP2(ARObject):
     def msr_query_props(self, value: "MsrQueryProps") -> None:
         """
         Set msrQueryProps with validation.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1022,10 +1004,10 @@ class MsrQueryP2(ARObject):
     def msr_query_result(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set msrQueryResult with validation.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1044,10 +1026,10 @@ class MsrQueryP2(ARObject):
     def getMsrQueryProps(self) -> "MsrQueryProps":
         """
         AUTOSAR-compliant getter for msrQueryProps.
-        
+
         Returns:
             The msrQueryProps value
-        
+
         Note:
             Delegates to msr_query_props property (CODING_RULE_V2_00017)
         """
@@ -1056,13 +1038,13 @@ class MsrQueryP2(ARObject):
     def setMsrQueryProps(self, value: "MsrQueryProps") -> "MsrQueryP2":
         """
         AUTOSAR-compliant setter for msrQueryProps with method chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_props property setter (gets validation automatically)
         """
@@ -1072,10 +1054,10 @@ class MsrQueryP2(ARObject):
     def getMsrQueryResult(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for msrQueryResult.
-        
+
         Returns:
             The msrQueryResult value
-        
+
         Note:
             Delegates to msr_query_result property (CODING_RULE_V2_00017)
         """
@@ -1084,13 +1066,13 @@ class MsrQueryP2(ARObject):
     def setMsrQueryResult(self, value: "DocumentationBlock") -> "MsrQueryP2":
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_result property setter (gets validation automatically)
         """
@@ -1102,13 +1084,13 @@ class MsrQueryP2(ARObject):
     def with_msr_query_props(self, value: "MsrQueryProps") -> "MsrQueryP2":
         """
         Set msrQueryProps and return self for chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_props("value")
         """
@@ -1118,13 +1100,13 @@ class MsrQueryP2(ARObject):
     def with_msr_query_result(self, value: Optional["DocumentationBlock"]) -> "MsrQueryP2":
         """
         Set msrQueryResult and return self for chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_result("value")
         """

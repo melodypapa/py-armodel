@@ -22,9 +22,9 @@ class DataFilter(ARObject):
     Base class for data filters. The type of the filter is specified in
     attribute dataFilterType. Some of the filter types require additional
     arguments which are specified as attributes of this class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Filter::DataFilter
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 182, Classic Platform
       R23-11)
@@ -46,10 +46,10 @@ class DataFilter(ARObject):
     def data_filter_type(self, value: Optional["DataFilterTypeEnum"]) -> None:
         """
         Set dataFilterType with validation.
-        
+
         Args:
             value: The dataFilterType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +73,10 @@ class DataFilter(ARObject):
     def mask(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set mask with validation.
-        
+
         Args:
             value: The mask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +100,10 @@ class DataFilter(ARObject):
     def max(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set max with validation.
-        
+
         Args:
             value: The max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -127,10 +127,10 @@ class DataFilter(ARObject):
     def min(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set min with validation.
-        
+
         Args:
             value: The min to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +154,10 @@ class DataFilter(ARObject):
     def offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -181,10 +181,10 @@ class DataFilter(ARObject):
     def period(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -208,10 +208,10 @@ class DataFilter(ARObject):
     def x(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set x with validation.
-        
+
         Args:
             value: The x to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -230,10 +230,10 @@ class DataFilter(ARObject):
     def getDataFilterType(self) -> "DataFilterTypeEnum":
         """
         AUTOSAR-compliant getter for dataFilterType.
-        
+
         Returns:
             The dataFilterType value
-        
+
         Note:
             Delegates to data_filter_type property (CODING_RULE_V2_00017)
         """
@@ -242,13 +242,13 @@ class DataFilter(ARObject):
     def setDataFilterType(self, value: "DataFilterTypeEnum") -> "DataFilter":
         """
         AUTOSAR-compliant setter for dataFilterType with method chaining.
-        
+
         Args:
             value: The dataFilterType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_filter_type property setter (gets validation automatically)
         """
@@ -258,10 +258,10 @@ class DataFilter(ARObject):
     def getMask(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for mask.
-        
+
         Returns:
             The mask value
-        
+
         Note:
             Delegates to mask property (CODING_RULE_V2_00017)
         """
@@ -270,13 +270,13 @@ class DataFilter(ARObject):
     def setMask(self, value: "UnlimitedInteger") -> "DataFilter":
         """
         AUTOSAR-compliant setter for mask with method chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mask property setter (gets validation automatically)
         """
@@ -286,10 +286,10 @@ class DataFilter(ARObject):
     def getMax(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for max.
-        
+
         Returns:
             The max value
-        
+
         Note:
             Delegates to max property (CODING_RULE_V2_00017)
         """
@@ -298,13 +298,13 @@ class DataFilter(ARObject):
     def setMax(self, value: "UnlimitedInteger") -> "DataFilter":
         """
         AUTOSAR-compliant setter for max with method chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max property setter (gets validation automatically)
         """
@@ -314,10 +314,10 @@ class DataFilter(ARObject):
     def getMin(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for min.
-        
+
         Returns:
             The min value
-        
+
         Note:
             Delegates to min property (CODING_RULE_V2_00017)
         """
@@ -326,13 +326,13 @@ class DataFilter(ARObject):
     def setMin(self, value: "UnlimitedInteger") -> "DataFilter":
         """
         AUTOSAR-compliant setter for min with method chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min property setter (gets validation automatically)
         """
@@ -342,10 +342,10 @@ class DataFilter(ARObject):
     def getOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -354,13 +354,13 @@ class DataFilter(ARObject):
     def setOffset(self, value: "PositiveInteger") -> "DataFilter":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -370,10 +370,10 @@ class DataFilter(ARObject):
     def getPeriod(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -382,13 +382,13 @@ class DataFilter(ARObject):
     def setPeriod(self, value: "PositiveInteger") -> "DataFilter":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -398,10 +398,10 @@ class DataFilter(ARObject):
     def getX(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for x.
-        
+
         Returns:
             The x value
-        
+
         Note:
             Delegates to x property (CODING_RULE_V2_00017)
         """
@@ -410,13 +410,13 @@ class DataFilter(ARObject):
     def setX(self, value: "UnlimitedInteger") -> "DataFilter":
         """
         AUTOSAR-compliant setter for x with method chaining.
-        
+
         Args:
             value: The x to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to x property setter (gets validation automatically)
         """
@@ -428,13 +428,13 @@ class DataFilter(ARObject):
     def with_data_filter_type(self, value: Optional["DataFilterTypeEnum"]) -> "DataFilter":
         """
         Set dataFilterType and return self for chaining.
-        
+
         Args:
             value: The dataFilterType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_filter_type("value")
         """
@@ -444,13 +444,13 @@ class DataFilter(ARObject):
     def with_mask(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
         """
         Set mask and return self for chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mask("value")
         """
@@ -460,13 +460,13 @@ class DataFilter(ARObject):
     def with_max(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
         """
         Set max and return self for chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max("value")
         """
@@ -476,13 +476,13 @@ class DataFilter(ARObject):
     def with_min(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
         """
         Set min and return self for chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min("value")
         """
@@ -492,13 +492,13 @@ class DataFilter(ARObject):
     def with_offset(self, value: Optional["PositiveInteger"]) -> "DataFilter":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -508,13 +508,13 @@ class DataFilter(ARObject):
     def with_period(self, value: Optional["PositiveInteger"]) -> "DataFilter":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """
@@ -524,13 +524,13 @@ class DataFilter(ARObject):
     def with_x(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
         """
         Set x and return self for chaining.
-        
+
         Args:
             value: The x to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_x("value")
         """

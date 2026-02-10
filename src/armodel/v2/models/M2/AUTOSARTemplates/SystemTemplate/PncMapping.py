@@ -23,9 +23,9 @@ class PncMapping(Describable):
     Describes a mapping between one or several Virtual Function Clusters onto
     Partial Network Clusters. A Virtual Function Cluster is realized by a
     PortGroup. A Partial Network Cluster is realized by one or more IPduGroups.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::PncMapping::PncMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 264, Classic Platform R23-11)
     """
@@ -54,10 +54,10 @@ class PncMapping(Describable):
     def ident(self, value: Optional["RefType"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +105,10 @@ class PncMapping(Describable):
     def pnc_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncIdentifier with validation.
-        
+
         Args:
             value: The pncIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class PncMapping(Describable):
     def pnc_wakeup(self, value: Optional["Boolean"]) -> None:
         """
         Set pncWakeup with validation.
-        
+
         Args:
             value: The pncWakeup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -181,10 +181,10 @@ class PncMapping(Describable):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -350,10 +350,10 @@ class PncMapping(Describable):
     def getDynamicPnc(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for dynamicPnc.
-        
+
         Returns:
             The dynamicPnc value
-        
+
         Note:
             Delegates to dynamic_pnc property (CODING_RULE_V2_00017)
         """
@@ -362,10 +362,10 @@ class PncMapping(Describable):
     def getIdent(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -374,13 +374,13 @@ class PncMapping(Describable):
     def setIdent(self, value: "RefType") -> "PncMapping":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -390,10 +390,10 @@ class PncMapping(Describable):
     def getPhysical(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -402,10 +402,10 @@ class PncMapping(Describable):
     def getPncConsumed(self) -> List["ConsumedProvided"]:
         """
         AUTOSAR-compliant getter for pncConsumed.
-        
+
         Returns:
             The pncConsumed value
-        
+
         Note:
             Delegates to pnc_consumed property (CODING_RULE_V2_00017)
         """
@@ -414,10 +414,10 @@ class PncMapping(Describable):
     def getPncGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for pncGroup.
-        
+
         Returns:
             The pncGroup value
-        
+
         Note:
             Delegates to pnc_group property (CODING_RULE_V2_00017)
         """
@@ -426,10 +426,10 @@ class PncMapping(Describable):
     def getPncIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncIdentifier.
-        
+
         Returns:
             The pncIdentifier value
-        
+
         Note:
             Delegates to pnc_identifier property (CODING_RULE_V2_00017)
         """
@@ -438,13 +438,13 @@ class PncMapping(Describable):
     def setPncIdentifier(self, value: "PositiveInteger") -> "PncMapping":
         """
         AUTOSAR-compliant setter for pncIdentifier with method chaining.
-        
+
         Args:
             value: The pncIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_identifier property setter (gets validation automatically)
         """
@@ -454,10 +454,10 @@ class PncMapping(Describable):
     def getPncPdurGroup(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for pncPdurGroup.
-        
+
         Returns:
             The pncPdurGroup value
-        
+
         Note:
             Delegates to pnc_pdur_group property (CODING_RULE_V2_00017)
         """
@@ -466,10 +466,10 @@ class PncMapping(Describable):
     def getPncWakeup(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pncWakeup.
-        
+
         Returns:
             The pncWakeup value
-        
+
         Note:
             Delegates to pnc_wakeup property (CODING_RULE_V2_00017)
         """
@@ -478,13 +478,13 @@ class PncMapping(Describable):
     def setPncWakeup(self, value: "Boolean") -> "PncMapping":
         """
         AUTOSAR-compliant setter for pncWakeup with method chaining.
-        
+
         Args:
             value: The pncWakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_wakeup property setter (gets validation automatically)
         """
@@ -494,10 +494,10 @@ class PncMapping(Describable):
     def getRelevantFor(self) -> List["EcuInstance"]:
         """
         AUTOSAR-compliant getter for relevantFor.
-        
+
         Returns:
             The relevantFor value
-        
+
         Note:
             Delegates to relevant_for property (CODING_RULE_V2_00017)
         """
@@ -506,10 +506,10 @@ class PncMapping(Describable):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -518,13 +518,13 @@ class PncMapping(Describable):
     def setShortLabel(self, value: "Identifier") -> "PncMapping":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -534,10 +534,10 @@ class PncMapping(Describable):
     def getVfc(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for vfc.
-        
+
         Returns:
             The vfc value
-        
+
         Note:
             Delegates to vfc property (CODING_RULE_V2_00017)
         """
@@ -546,10 +546,10 @@ class PncMapping(Describable):
     def getWakeupFrame(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for wakeupFrame.
-        
+
         Returns:
             The wakeupFrame value
-        
+
         Note:
             Delegates to wakeup_frame property (CODING_RULE_V2_00017)
         """
@@ -560,13 +560,13 @@ class PncMapping(Describable):
     def with_ident(self, value: Optional[RefType]) -> "PncMapping":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -576,13 +576,13 @@ class PncMapping(Describable):
     def with_pnc_identifier(self, value: Optional["PositiveInteger"]) -> "PncMapping":
         """
         Set pncIdentifier and return self for chaining.
-        
+
         Args:
             value: The pncIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_identifier("value")
         """
@@ -592,13 +592,13 @@ class PncMapping(Describable):
     def with_pnc_wakeup(self, value: Optional["Boolean"]) -> "PncMapping":
         """
         Set pncWakeup and return self for chaining.
-        
+
         Args:
             value: The pncWakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_wakeup("value")
         """
@@ -608,13 +608,13 @@ class PncMapping(Describable):
     def with_short_label(self, value: Optional["Identifier"]) -> "PncMapping":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -627,9 +627,9 @@ class PncMappingIdent(Referrable):
     """
     This meta-class is created to add the ability to become the target of a
     reference to the non-Referrable PncMapping.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::PncMapping::PncMappingIdent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2044, Classic Platform R23-11)
     """

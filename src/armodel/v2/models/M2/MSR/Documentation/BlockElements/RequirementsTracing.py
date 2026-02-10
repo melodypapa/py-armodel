@@ -21,9 +21,9 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView impo
 class StructuredReq(Paginateable):
     """
     that this can be rendered as a labeled list.
-    
+
     Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::StructuredReq
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 168, Classic Platform
       R23-11)
@@ -57,10 +57,10 @@ class StructuredReq(Paginateable):
     def conflicts(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set conflicts with validation.
-        
+
         Args:
             value: The conflicts to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class StructuredReq(Paginateable):
     def date(self, value: "DateTime") -> None:
         """
         Set date with validation.
-        
+
         Args:
             value: The date to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +108,10 @@ class StructuredReq(Paginateable):
     def dependencies(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set dependencies with validation.
-        
+
         Args:
             value: The dependencies to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -135,10 +135,10 @@ class StructuredReq(Paginateable):
     def description(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set description with validation.
-        
+
         Args:
             value: The description to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -162,10 +162,10 @@ class StructuredReq(Paginateable):
     def importance(self, value: "String") -> None:
         """
         Set importance with validation.
-        
+
         Args:
             value: The importance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -185,10 +185,10 @@ class StructuredReq(Paginateable):
     def issued_by(self, value: "String") -> None:
         """
         Set issuedBy with validation.
-        
+
         Args:
             value: The issuedBy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -208,10 +208,10 @@ class StructuredReq(Paginateable):
     def rationale(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set rationale with validation.
-        
+
         Args:
             value: The rationale to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -237,10 +237,10 @@ class StructuredReq(Paginateable):
     def remark(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set remark with validation.
-        
+
         Args:
             value: The remark to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -264,10 +264,10 @@ class StructuredReq(Paginateable):
     def supporting(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set supporting with validation.
-        
+
         Args:
             value: The supporting to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -300,10 +300,10 @@ class StructuredReq(Paginateable):
     def type(self, value: "String") -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -324,10 +324,10 @@ class StructuredReq(Paginateable):
     def use_case(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set useCase with validation.
-        
+
         Args:
             value: The useCase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -394,10 +394,10 @@ class StructuredReq(Paginateable):
     def getAppliesTo(self) -> List["StandardNameEnum"]:
         """
         AUTOSAR-compliant getter for appliesTo.
-        
+
         Returns:
             The appliesTo value
-        
+
         Note:
             Delegates to applies_to property (CODING_RULE_V2_00017)
         """
@@ -406,10 +406,10 @@ class StructuredReq(Paginateable):
     def getConflicts(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for conflicts.
-        
+
         Returns:
             The conflicts value
-        
+
         Note:
             Delegates to conflicts property (CODING_RULE_V2_00017)
         """
@@ -418,13 +418,13 @@ class StructuredReq(Paginateable):
     def setConflicts(self, value: "DocumentationBlock") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for conflicts with method chaining.
-        
+
         Args:
             value: The conflicts to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to conflicts property setter (gets validation automatically)
         """
@@ -434,10 +434,10 @@ class StructuredReq(Paginateable):
     def getDate(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for date.
-        
+
         Returns:
             The date value
-        
+
         Note:
             Delegates to date property (CODING_RULE_V2_00017)
         """
@@ -446,13 +446,13 @@ class StructuredReq(Paginateable):
     def setDate(self, value: "DateTime") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for date with method chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to date property setter (gets validation automatically)
         """
@@ -462,10 +462,10 @@ class StructuredReq(Paginateable):
     def getDependencies(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for dependencies.
-        
+
         Returns:
             The dependencies value
-        
+
         Note:
             Delegates to dependencies property (CODING_RULE_V2_00017)
         """
@@ -474,13 +474,13 @@ class StructuredReq(Paginateable):
     def setDependencies(self, value: "DocumentationBlock") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for dependencies with method chaining.
-        
+
         Args:
             value: The dependencies to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dependencies property setter (gets validation automatically)
         """
@@ -490,10 +490,10 @@ class StructuredReq(Paginateable):
     def getDescription(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for description.
-        
+
         Returns:
             The description value
-        
+
         Note:
             Delegates to description property (CODING_RULE_V2_00017)
         """
@@ -502,13 +502,13 @@ class StructuredReq(Paginateable):
     def setDescription(self, value: "DocumentationBlock") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for description with method chaining.
-        
+
         Args:
             value: The description to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to description property setter (gets validation automatically)
         """
@@ -518,10 +518,10 @@ class StructuredReq(Paginateable):
     def getImportance(self) -> "String":
         """
         AUTOSAR-compliant getter for importance.
-        
+
         Returns:
             The importance value
-        
+
         Note:
             Delegates to importance property (CODING_RULE_V2_00017)
         """
@@ -530,13 +530,13 @@ class StructuredReq(Paginateable):
     def setImportance(self, value: "String") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for importance with method chaining.
-        
+
         Args:
             value: The importance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to importance property setter (gets validation automatically)
         """
@@ -546,10 +546,10 @@ class StructuredReq(Paginateable):
     def getIssuedBy(self) -> "String":
         """
         AUTOSAR-compliant getter for issuedBy.
-        
+
         Returns:
             The issuedBy value
-        
+
         Note:
             Delegates to issued_by property (CODING_RULE_V2_00017)
         """
@@ -558,13 +558,13 @@ class StructuredReq(Paginateable):
     def setIssuedBy(self, value: "String") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for issuedBy with method chaining.
-        
+
         Args:
             value: The issuedBy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to issued_by property setter (gets validation automatically)
         """
@@ -574,10 +574,10 @@ class StructuredReq(Paginateable):
     def getRationale(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for rationale.
-        
+
         Returns:
             The rationale value
-        
+
         Note:
             Delegates to rationale property (CODING_RULE_V2_00017)
         """
@@ -586,13 +586,13 @@ class StructuredReq(Paginateable):
     def setRationale(self, value: "DocumentationBlock") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for rationale with method chaining.
-        
+
         Args:
             value: The rationale to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rationale property setter (gets validation automatically)
         """
@@ -602,10 +602,10 @@ class StructuredReq(Paginateable):
     def getRemark(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for remark.
-        
+
         Returns:
             The remark value
-        
+
         Note:
             Delegates to remark property (CODING_RULE_V2_00017)
         """
@@ -614,13 +614,13 @@ class StructuredReq(Paginateable):
     def setRemark(self, value: "DocumentationBlock") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for remark with method chaining.
-        
+
         Args:
             value: The remark to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remark property setter (gets validation automatically)
         """
@@ -630,10 +630,10 @@ class StructuredReq(Paginateable):
     def getSupporting(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for supporting.
-        
+
         Returns:
             The supporting value
-        
+
         Note:
             Delegates to supporting property (CODING_RULE_V2_00017)
         """
@@ -642,13 +642,13 @@ class StructuredReq(Paginateable):
     def setSupporting(self, value: "DocumentationBlock") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for supporting with method chaining.
-        
+
         Args:
             value: The supporting to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to supporting property setter (gets validation automatically)
         """
@@ -658,10 +658,10 @@ class StructuredReq(Paginateable):
     def getTestedItem(self) -> List["Traceable"]:
         """
         AUTOSAR-compliant getter for testedItem.
-        
+
         Returns:
             The testedItem value
-        
+
         Note:
             Delegates to tested_item property (CODING_RULE_V2_00017)
         """
@@ -670,10 +670,10 @@ class StructuredReq(Paginateable):
     def getType(self) -> "String":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -682,13 +682,13 @@ class StructuredReq(Paginateable):
     def setType(self, value: "String") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -698,10 +698,10 @@ class StructuredReq(Paginateable):
     def getUseCase(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for useCase.
-        
+
         Returns:
             The useCase value
-        
+
         Note:
             Delegates to use_case property (CODING_RULE_V2_00017)
         """
@@ -710,13 +710,13 @@ class StructuredReq(Paginateable):
     def setUseCase(self, value: "DocumentationBlock") -> "StructuredReq":
         """
         AUTOSAR-compliant setter for useCase with method chaining.
-        
+
         Args:
             value: The useCase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_case property setter (gets validation automatically)
         """
@@ -728,13 +728,13 @@ class StructuredReq(Paginateable):
     def with_conflicts(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
         Set conflicts and return self for chaining.
-        
+
         Args:
             value: The conflicts to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_conflicts("value")
         """
@@ -744,13 +744,13 @@ class StructuredReq(Paginateable):
     def with_date(self, value: "DateTime") -> "StructuredReq":
         """
         Set date and return self for chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_date("value")
         """
@@ -760,13 +760,13 @@ class StructuredReq(Paginateable):
     def with_dependencies(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
         Set dependencies and return self for chaining.
-        
+
         Args:
             value: The dependencies to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dependencies("value")
         """
@@ -776,13 +776,13 @@ class StructuredReq(Paginateable):
     def with_description(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
         Set description and return self for chaining.
-        
+
         Args:
             value: The description to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_description("value")
         """
@@ -792,13 +792,13 @@ class StructuredReq(Paginateable):
     def with_importance(self, value: "String") -> "StructuredReq":
         """
         Set importance and return self for chaining.
-        
+
         Args:
             value: The importance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_importance("value")
         """
@@ -808,13 +808,13 @@ class StructuredReq(Paginateable):
     def with_issued_by(self, value: "String") -> "StructuredReq":
         """
         Set issuedBy and return self for chaining.
-        
+
         Args:
             value: The issuedBy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_issued_by("value")
         """
@@ -824,13 +824,13 @@ class StructuredReq(Paginateable):
     def with_rationale(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
         Set rationale and return self for chaining.
-        
+
         Args:
             value: The rationale to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rationale("value")
         """
@@ -840,13 +840,13 @@ class StructuredReq(Paginateable):
     def with_remark(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
         Set remark and return self for chaining.
-        
+
         Args:
             value: The remark to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remark("value")
         """
@@ -856,13 +856,13 @@ class StructuredReq(Paginateable):
     def with_supporting(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
         Set supporting and return self for chaining.
-        
+
         Args:
             value: The supporting to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_supporting("value")
         """
@@ -872,13 +872,13 @@ class StructuredReq(Paginateable):
     def with_type(self, value: "String") -> "StructuredReq":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -888,13 +888,13 @@ class StructuredReq(Paginateable):
     def with_use_case(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
         Set useCase and return self for chaining.
-        
+
         Args:
             value: The useCase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_case("value")
         """
@@ -909,9 +909,9 @@ class TraceableText(Paginateable):
     as requirements etc. The following approach applies: • shortName represents
     the tag for tracing • longName represents the head line • category
     represents the kind of the tagged text (see [constr_2540])
-    
+
     Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::TraceableText
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 178, Classic Platform
       R23-11)
@@ -935,10 +935,10 @@ class TraceableText(Paginateable):
     def text(self, value: "DocumentationBlock") -> None:
         """
         Set text with validation.
-        
+
         Args:
             value: The text to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -953,10 +953,10 @@ class TraceableText(Paginateable):
     def getText(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for text.
-        
+
         Returns:
             The text value
-        
+
         Note:
             Delegates to text property (CODING_RULE_V2_00017)
         """
@@ -965,13 +965,13 @@ class TraceableText(Paginateable):
     def setText(self, value: "DocumentationBlock") -> "TraceableText":
         """
         AUTOSAR-compliant setter for text with method chaining.
-        
+
         Args:
             value: The text to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to text property setter (gets validation automatically)
         """
@@ -983,13 +983,13 @@ class TraceableText(Paginateable):
     def with_text(self, value: "DocumentationBlock") -> "TraceableText":
         """
         Set text and return self for chaining.
-        
+
         Args:
             value: The text to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_text("value")
         """
@@ -1004,9 +1004,9 @@ class Traceable(MultilanguageReferrable, ABC):
     MultilanguageReferrable or from Identifiable. Nevertheless it also inherits
     from MultilanguageReferrable in order to provide a common reference target
     for all Traceables.
-    
+
     Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::Traceable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 312, Foundation
       R23-11)
@@ -1032,10 +1032,10 @@ class Traceable(MultilanguageReferrable, ABC):
     def getTrace(self) -> List["Traceable"]:
         """
         AUTOSAR-compliant getter for trace.
-        
+
         Returns:
             The trace value
-        
+
         Note:
             Delegates to trace property (CODING_RULE_V2_00017)
         """

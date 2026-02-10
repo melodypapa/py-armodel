@@ -17,9 +17,9 @@ class UserDefinedCluster(ARObject):
     """
     This element allows the modeling of arbitrary Communication Clusters (e.g.
     bus systems that are not supported by AUTOSAR).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)
     """
@@ -37,9 +37,9 @@ class UserDefinedCluster(ARObject):
 class UserDefinedPhysicalChannel(PhysicalChannel):
     """
     This element allows the modeling of arbitrary Physical Channels.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)
     """
@@ -57,9 +57,9 @@ class UserDefinedPhysicalChannel(PhysicalChannel):
 class UserDefinedCommunicationConnector(CommunicationConnector):
     """
     This element allows the modeling of arbitrary Communication Connectors.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)
     """
@@ -77,9 +77,9 @@ class UserDefinedCommunicationConnector(CommunicationConnector):
 class UserDefinedCommunicationController(ARObject):
     """
     This element allows the modeling of arbitrary Communication Controllers.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 180, Classic Platform R23-11)
     """

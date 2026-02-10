@@ -24,9 +24,9 @@ class IncludedDataTypeSet(ARObject):
     constants shall be generated with a literalPrefix. The optional
     literalPrefix is used to add a common prefix on enumeration literals,
     lowerLimit and upper Limit constants created by the RTE.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes::IncludedDataTypeSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 600, Classic Platform
       R23-11)
@@ -56,10 +56,10 @@ class IncludedDataTypeSet(ARObject):
     def literal_prefix(self, value: Optional["Identifier"]) -> None:
         """
         Set literalPrefix with validation.
-        
+
         Args:
             value: The literalPrefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class IncludedDataTypeSet(ARObject):
     def getDataType(self) -> List["AutosarDataType"]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -106,10 +106,10 @@ class IncludedDataTypeSet(ARObject):
     def getLiteralPrefix(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for literalPrefix.
-        
+
         Returns:
             The literalPrefix value
-        
+
         Note:
             Delegates to literal_prefix property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class IncludedDataTypeSet(ARObject):
     def setLiteralPrefix(self, value: "Identifier") -> "IncludedDataTypeSet":
         """
         AUTOSAR-compliant setter for literalPrefix with method chaining.
-        
+
         Args:
             value: The literalPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to literal_prefix property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class IncludedDataTypeSet(ARObject):
     def with_literal_prefix(self, value: Optional["Identifier"]) -> "IncludedDataTypeSet":
         """
         Set literalPrefix and return self for chaining.
-        
+
         Args:
             value: The literalPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_literal_prefix("value")
         """

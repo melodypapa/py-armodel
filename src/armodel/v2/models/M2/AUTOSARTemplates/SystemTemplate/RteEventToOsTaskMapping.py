@@ -24,9 +24,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class OsTaskProxy(ARElement):
     """
     This meta-class represents a proxy for an OsTask in the System Description.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::OsTaskProxy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 208, Classic Platform R23-11)
     """
@@ -50,10 +50,10 @@ class OsTaskProxy(ARElement):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class OsTaskProxy(ARElement):
     def preemptability(self, value: Optional["OsTaskPreemptability"]) -> None:
         """
         Set preemptability with validation.
-        
+
         Args:
             value: The preemptability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +105,10 @@ class OsTaskProxy(ARElement):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -127,10 +127,10 @@ class OsTaskProxy(ARElement):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -139,13 +139,13 @@ class OsTaskProxy(ARElement):
     def setPeriod(self, value: "TimeValue") -> "OsTaskProxy":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -155,10 +155,10 @@ class OsTaskProxy(ARElement):
     def getPreemptability(self) -> "OsTaskPreemptability":
         """
         AUTOSAR-compliant getter for preemptability.
-        
+
         Returns:
             The preemptability value
-        
+
         Note:
             Delegates to preemptability property (CODING_RULE_V2_00017)
         """
@@ -167,13 +167,13 @@ class OsTaskProxy(ARElement):
     def setPreemptability(self, value: "OsTaskPreemptability") -> "OsTaskProxy":
         """
         AUTOSAR-compliant setter for preemptability with method chaining.
-        
+
         Args:
             value: The preemptability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to preemptability property setter (gets validation automatically)
         """
@@ -183,10 +183,10 @@ class OsTaskProxy(ARElement):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -195,13 +195,13 @@ class OsTaskProxy(ARElement):
     def setPriority(self, value: "PositiveInteger") -> "OsTaskProxy":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -213,13 +213,13 @@ class OsTaskProxy(ARElement):
     def with_period(self, value: Optional["TimeValue"]) -> "OsTaskProxy":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """
@@ -229,13 +229,13 @@ class OsTaskProxy(ARElement):
     def with_preemptability(self, value: Optional["OsTaskPreemptability"]) -> "OsTaskProxy":
         """
         Set preemptability and return self for chaining.
-        
+
         Args:
             value: The preemptability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_preemptability("value")
         """
@@ -245,13 +245,13 @@ class OsTaskProxy(ARElement):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "OsTaskProxy":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -265,9 +265,9 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     This meta-class is used to map an OsTaskProxy that was created in the
     context of a SwComponent to an OsTaskProxy that was created in the context
     of an Ecu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::AppOsTaskProxyToEcuTaskProxyMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 209, Classic Platform R23-11)
     """
@@ -287,10 +287,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def app_task_proxy(self, value: Optional["OsTaskProxy"]) -> None:
         """
         Set appTaskProxy with validation.
-        
+
         Args:
             value: The appTaskProxy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -314,10 +314,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def ecu_task_proxy(self, value: Optional["OsTaskProxy"]) -> None:
         """
         Set ecuTaskProxy with validation.
-        
+
         Args:
             value: The ecuTaskProxy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -344,10 +344,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def offset(self, value: Optional["Integer"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -366,10 +366,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def getAppTaskProxy(self) -> "OsTaskProxy":
         """
         AUTOSAR-compliant getter for appTaskProxy.
-        
+
         Returns:
             The appTaskProxy value
-        
+
         Note:
             Delegates to app_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -378,13 +378,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def setAppTaskProxy(self, value: "OsTaskProxy") -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         AUTOSAR-compliant setter for appTaskProxy with method chaining.
-        
+
         Args:
             value: The appTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to app_task_proxy property setter (gets validation automatically)
         """
@@ -394,10 +394,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def getEcuTaskProxy(self) -> "OsTaskProxy":
         """
         AUTOSAR-compliant getter for ecuTaskProxy.
-        
+
         Returns:
             The ecuTaskProxy value
-        
+
         Note:
             Delegates to ecu_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -406,13 +406,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def setEcuTaskProxy(self, value: "OsTaskProxy") -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         AUTOSAR-compliant setter for ecuTaskProxy with method chaining.
-        
+
         Args:
             value: The ecuTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_task_proxy property setter (gets validation automatically)
         """
@@ -422,10 +422,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def getOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -434,13 +434,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def setOffset(self, value: "Integer") -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -452,13 +452,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def with_app_task_proxy(self, value: Optional["OsTaskProxy"]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         Set appTaskProxy and return self for chaining.
-        
+
         Args:
             value: The appTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_app_task_proxy("value")
         """
@@ -468,13 +468,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def with_ecu_task_proxy(self, value: Optional["OsTaskProxy"]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         Set ecuTaskProxy and return self for chaining.
-        
+
         Args:
             value: The ecuTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_task_proxy("value")
         """
@@ -484,13 +484,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def with_offset(self, value: Optional["Integer"]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -506,9 +506,9 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     be used to define a pairing constraint that describes which RteEvents shall
     be mapped together into an OsTask. Optionally the relative position of the
     RteEvents in the OsTask can be defined in the mapping.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInCompositionToOsTaskProxyMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 211, Classic Platform R23-11)
     """
@@ -531,10 +531,10 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -558,10 +558,10 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def os_task_proxy(self, value: Optional["OsTaskProxy"]) -> None:
         """
         Set osTaskProxy with validation.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -585,10 +585,10 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> None:
         """
         Set rteEventInstanceRef with validation.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -607,10 +607,10 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def getOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -619,13 +619,13 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def setOffset(self, value: "PositiveInteger") -> "RteEventInCompositionToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -635,10 +635,10 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def getOsTaskProxy(self) -> "OsTaskProxy":
         """
         AUTOSAR-compliant getter for osTaskProxy.
-        
+
         Returns:
             The osTaskProxy value
-        
+
         Note:
             Delegates to os_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -647,13 +647,13 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def setOsTaskProxy(self, value: "OsTaskProxy") -> "RteEventInCompositionToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for osTaskProxy with method chaining.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to os_task_proxy property setter (gets validation automatically)
         """
@@ -663,10 +663,10 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def getRteEventInstanceRef(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
-        
+
         Returns:
             The rteEventInstanceRef value
-        
+
         Note:
             Delegates to rte_event_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -675,13 +675,13 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def setRteEventInstanceRef(self, value: "RTEEvent") -> "RteEventInCompositionToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for rteEventInstanceRef with method chaining.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rte_event_instance_ref property setter (gets validation automatically)
         """
@@ -693,13 +693,13 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def with_offset(self, value: Optional["PositiveInteger"]) -> "RteEventInCompositionToOsTaskProxyMapping":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -709,13 +709,13 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def with_os_task_proxy(self, value: Optional["OsTaskProxy"]) -> "RteEventInCompositionToOsTaskProxyMapping":
         """
         Set osTaskProxy and return self for chaining.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_os_task_proxy("value")
         """
@@ -725,13 +725,13 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     def with_rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> "RteEventInCompositionToOsTaskProxyMapping":
         """
         Set rteEventInstanceRef and return self for chaining.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rte_event_instance_ref("value")
         """
@@ -745,9 +745,9 @@ class RteEventInCompositionSeparation(Identifiable):
     This meta-class is used to define a separation constraint in the context of
     a SwComposition. The referenced RteEvents are not allowed to be mapped into
     the same OsTask.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInCompositionSeparation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 212, Classic Platform R23-11)
     """
@@ -769,10 +769,10 @@ class RteEventInCompositionSeparation(Identifiable):
     def getRteEventInstanceRef(self) -> List["RTEEvent"]:
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
-        
+
         Returns:
             The rteEventInstanceRef value
-        
+
         Note:
             Delegates to rte_event_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -789,9 +789,9 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     a pairing constraint that describes which Rte Events shall be mapped
     together into an OsTask. Optionally the position of the RteEvents in the
     OsTask can be defined.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInSystemToOsTaskProxyMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 213, Classic Platform R23-11)
     """
@@ -814,10 +814,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def offset(self, value: Optional["Integer"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -842,10 +842,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def os_task_proxy(self, value: Optional["OsTaskProxy"]) -> None:
         """
         Set osTaskProxy with validation.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -869,10 +869,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> None:
         """
         Set rteEventInstanceRef with validation.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -891,10 +891,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def getOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -903,13 +903,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def setOffset(self, value: "Integer") -> "RteEventInSystemToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -919,10 +919,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def getOsTaskProxy(self) -> "OsTaskProxy":
         """
         AUTOSAR-compliant getter for osTaskProxy.
-        
+
         Returns:
             The osTaskProxy value
-        
+
         Note:
             Delegates to os_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -931,13 +931,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def setOsTaskProxy(self, value: "OsTaskProxy") -> "RteEventInSystemToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for osTaskProxy with method chaining.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to os_task_proxy property setter (gets validation automatically)
         """
@@ -947,10 +947,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def getRteEventInstanceRef(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
-        
+
         Returns:
             The rteEventInstanceRef value
-        
+
         Note:
             Delegates to rte_event_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -959,13 +959,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def setRteEventInstanceRef(self, value: "RTEEvent") -> "RteEventInSystemToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for rteEventInstanceRef with method chaining.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rte_event_instance_ref property setter (gets validation automatically)
         """
@@ -977,13 +977,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def with_offset(self, value: Optional["Integer"]) -> "RteEventInSystemToOsTaskProxyMapping":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -993,13 +993,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def with_os_task_proxy(self, value: Optional["OsTaskProxy"]) -> "RteEventInSystemToOsTaskProxyMapping":
         """
         Set osTaskProxy and return self for chaining.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_os_task_proxy("value")
         """
@@ -1009,13 +1009,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def with_rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> "RteEventInSystemToOsTaskProxyMapping":
         """
         Set rteEventInstanceRef and return self for chaining.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rte_event_instance_ref("value")
         """
@@ -1029,9 +1029,9 @@ class RteEventInSystemSeparation(Identifiable):
     This meta-class is used to define a separation constraint in the context of
     the System. The referenced RteEvents are not allowed to be mapped into the
     same OsTask.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInSystemSeparation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 214, Classic Platform R23-11)
     """
@@ -1053,10 +1053,10 @@ class RteEventInSystemSeparation(Identifiable):
     def getRteEventInstanceRef(self) -> List["RTEEvent"]:
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
-        
+
         Returns:
             The rteEventInstanceRef value
-        
+
         Note:
             Delegates to rte_event_instance_ref property (CODING_RULE_V2_00017)
         """

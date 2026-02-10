@@ -24,9 +24,9 @@ class CompuMethod(ARElement):
     that this is still independent of the technical implementation in data
     types. It only specifies the formula how the internal value corresponds to
     its physical pendant.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuMethod
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 310, Classic
       Platform R23-11)
@@ -56,10 +56,10 @@ class CompuMethod(ARElement):
     def compu_internal(self, value: Optional["Compu"]) -> None:
         """
         Set compuInternal with validation.
-        
+
         Args:
             value: The compuInternal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class CompuMethod(ARElement):
     def compu_phys_to(self, value: Optional["Compu"]) -> None:
         """
         Set compuPhysTo with validation.
-        
+
         Args:
             value: The compuPhysTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +111,10 @@ class CompuMethod(ARElement):
     def display_format(self, value: Optional["DisplayFormatString"]) -> None:
         """
         Set displayFormat with validation.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -138,10 +138,10 @@ class CompuMethod(ARElement):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -160,10 +160,10 @@ class CompuMethod(ARElement):
     def getCompuInternal(self) -> "Compu":
         """
         AUTOSAR-compliant getter for compuInternal.
-        
+
         Returns:
             The compuInternal value
-        
+
         Note:
             Delegates to compu_internal property (CODING_RULE_V2_00017)
         """
@@ -172,13 +172,13 @@ class CompuMethod(ARElement):
     def setCompuInternal(self, value: "Compu") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for compuInternal with method chaining.
-        
+
         Args:
             value: The compuInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_internal property setter (gets validation automatically)
         """
@@ -188,10 +188,10 @@ class CompuMethod(ARElement):
     def getCompuPhysTo(self) -> "Compu":
         """
         AUTOSAR-compliant getter for compuPhysTo.
-        
+
         Returns:
             The compuPhysTo value
-        
+
         Note:
             Delegates to compu_phys_to property (CODING_RULE_V2_00017)
         """
@@ -200,13 +200,13 @@ class CompuMethod(ARElement):
     def setCompuPhysTo(self, value: "Compu") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for compuPhysTo with method chaining.
-        
+
         Args:
             value: The compuPhysTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_phys_to property setter (gets validation automatically)
         """
@@ -216,10 +216,10 @@ class CompuMethod(ARElement):
     def getDisplayFormat(self) -> "DisplayFormatString":
         """
         AUTOSAR-compliant getter for displayFormat.
-        
+
         Returns:
             The displayFormat value
-        
+
         Note:
             Delegates to display_format property (CODING_RULE_V2_00017)
         """
@@ -228,13 +228,13 @@ class CompuMethod(ARElement):
     def setDisplayFormat(self, value: "DisplayFormatString") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for displayFormat with method chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to display_format property setter (gets validation automatically)
         """
@@ -244,10 +244,10 @@ class CompuMethod(ARElement):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -256,13 +256,13 @@ class CompuMethod(ARElement):
     def setUnit(self, value: "Unit") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -274,13 +274,13 @@ class CompuMethod(ARElement):
     def with_compu_internal(self, value: Optional["Compu"]) -> "CompuMethod":
         """
         Set compuInternal and return self for chaining.
-        
+
         Args:
             value: The compuInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_internal("value")
         """
@@ -290,13 +290,13 @@ class CompuMethod(ARElement):
     def with_compu_phys_to(self, value: Optional["Compu"]) -> "CompuMethod":
         """
         Set compuPhysTo and return self for chaining.
-        
+
         Args:
             value: The compuPhysTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_phys_to("value")
         """
@@ -306,13 +306,13 @@ class CompuMethod(ARElement):
     def with_display_format(self, value: Optional["DisplayFormatString"]) -> "CompuMethod":
         """
         Set displayFormat and return self for chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_display_format("value")
         """
@@ -322,13 +322,13 @@ class CompuMethod(ARElement):
     def with_unit(self, value: Optional["Unit"]) -> "CompuMethod":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """
@@ -341,9 +341,9 @@ class CompuGenericMath(ARObject):
     """
     This meta-class represents the ability to specify a generic formula
     expression.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuGenericMath
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 374, Classic Platform
       R23-11)
@@ -367,10 +367,10 @@ class CompuGenericMath(ARObject):
     def level(self, value: Optional["PrimitiveIdentifier"]) -> None:
         """
         Set level with validation.
-        
+
         Args:
             value: The level to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -389,10 +389,10 @@ class CompuGenericMath(ARObject):
     def getLevel(self) -> "PrimitiveIdentifier":
         """
         AUTOSAR-compliant getter for level.
-        
+
         Returns:
             The level value
-        
+
         Note:
             Delegates to level property (CODING_RULE_V2_00017)
         """
@@ -401,13 +401,13 @@ class CompuGenericMath(ARObject):
     def setLevel(self, value: "PrimitiveIdentifier") -> "CompuGenericMath":
         """
         AUTOSAR-compliant setter for level with method chaining.
-        
+
         Args:
             value: The level to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to level property setter (gets validation automatically)
         """
@@ -419,13 +419,13 @@ class CompuGenericMath(ARObject):
     def with_level(self, value: Optional["PrimitiveIdentifier"]) -> "CompuGenericMath":
         """
         Set level and return self for chaining.
-        
+
         Args:
             value: The level to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_level("value")
         """
@@ -438,9 +438,9 @@ class Compu(ARObject):
     """
     This meta-class represents the ability to express one particular
     computation.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::Compu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 386, Classic Platform
       R23-11)
@@ -461,10 +461,10 @@ class Compu(ARObject):
     def compu_content(self, value: Optional["CompuContent"]) -> None:
         """
         Set compuContent with validation.
-        
+
         Args:
             value: The compuContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -491,10 +491,10 @@ class Compu(ARObject):
     def compu_default(self, value: Optional["CompuConst"]) -> None:
         """
         Set compuDefault with validation.
-        
+
         Args:
             value: The compuDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -513,10 +513,10 @@ class Compu(ARObject):
     def getCompuContent(self) -> "CompuContent":
         """
         AUTOSAR-compliant getter for compuContent.
-        
+
         Returns:
             The compuContent value
-        
+
         Note:
             Delegates to compu_content property (CODING_RULE_V2_00017)
         """
@@ -525,13 +525,13 @@ class Compu(ARObject):
     def setCompuContent(self, value: "CompuContent") -> "Compu":
         """
         AUTOSAR-compliant setter for compuContent with method chaining.
-        
+
         Args:
             value: The compuContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_content property setter (gets validation automatically)
         """
@@ -541,10 +541,10 @@ class Compu(ARObject):
     def getCompuDefault(self) -> "CompuConst":
         """
         AUTOSAR-compliant getter for compuDefault.
-        
+
         Returns:
             The compuDefault value
-        
+
         Note:
             Delegates to compu_default property (CODING_RULE_V2_00017)
         """
@@ -553,13 +553,13 @@ class Compu(ARObject):
     def setCompuDefault(self, value: "CompuConst") -> "Compu":
         """
         AUTOSAR-compliant setter for compuDefault with method chaining.
-        
+
         Args:
             value: The compuDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_default property setter (gets validation automatically)
         """
@@ -571,13 +571,13 @@ class Compu(ARObject):
     def with_compu_content(self, value: Optional["CompuContent"]) -> "Compu":
         """
         Set compuContent and return self for chaining.
-        
+
         Args:
             value: The compuContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_content("value")
         """
@@ -587,13 +587,13 @@ class Compu(ARObject):
     def with_compu_default(self, value: Optional["CompuConst"]) -> "Compu":
         """
         Set compuDefault and return self for chaining.
-        
+
         Args:
             value: The compuDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_default("value")
         """
@@ -606,9 +606,9 @@ class CompuContent(ARObject, ABC):
     """
     This abstract meta-class represents the various definition means of a
     computation method.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 386, Classic Platform
       R23-11)
@@ -630,9 +630,9 @@ class CompuScale(ARObject):
     """
     This meta-class represents the ability to specify one segment of a segmented
     computation method.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScale
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 387, Classic Platform
       R23-11)
@@ -656,10 +656,10 @@ class CompuScale(ARObject):
     def a2l_display_text(self, value: Optional["String"]) -> None:
         """
         Set a2lDisplayText with validation.
-        
+
         Args:
             value: The a2lDisplayText to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -685,10 +685,10 @@ class CompuScale(ARObject):
     def compu_inverse(self, value: Optional["CompuConst"]) -> None:
         """
         Set compuInverse with validation.
-        
+
         Args:
             value: The compuInverse to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -712,10 +712,10 @@ class CompuScale(ARObject):
     def compu_scale(self, value: Optional["CompuScaleContents"]) -> None:
         """
         Set compuScale with validation.
-        
+
         Args:
             value: The compuScale to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -739,10 +739,10 @@ class CompuScale(ARObject):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -766,10 +766,10 @@ class CompuScale(ARObject):
     def lower_limit(self, value: Optional["Limit"]) -> None:
         """
         Set lowerLimit with validation.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -799,10 +799,10 @@ class CompuScale(ARObject):
     def mask(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set mask with validation.
-        
+
         Args:
             value: The mask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -827,10 +827,10 @@ class CompuScale(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -859,10 +859,10 @@ class CompuScale(ARObject):
     def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -886,10 +886,10 @@ class CompuScale(ARObject):
     def upper_limit(self, value: Optional["Limit"]) -> None:
         """
         Set upperLimit with validation.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -908,10 +908,10 @@ class CompuScale(ARObject):
     def getA2lDisplayText(self) -> "String":
         """
         AUTOSAR-compliant getter for a2lDisplayText.
-        
+
         Returns:
             The a2lDisplayText value
-        
+
         Note:
             Delegates to a2l_display_text property (CODING_RULE_V2_00017)
         """
@@ -920,13 +920,13 @@ class CompuScale(ARObject):
     def setA2lDisplayText(self, value: "String") -> "CompuScale":
         """
         AUTOSAR-compliant setter for a2lDisplayText with method chaining.
-        
+
         Args:
             value: The a2lDisplayText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to a2l_display_text property setter (gets validation automatically)
         """
@@ -936,10 +936,10 @@ class CompuScale(ARObject):
     def getCompuInverse(self) -> "CompuConst":
         """
         AUTOSAR-compliant getter for compuInverse.
-        
+
         Returns:
             The compuInverse value
-        
+
         Note:
             Delegates to compu_inverse property (CODING_RULE_V2_00017)
         """
@@ -948,13 +948,13 @@ class CompuScale(ARObject):
     def setCompuInverse(self, value: "CompuConst") -> "CompuScale":
         """
         AUTOSAR-compliant setter for compuInverse with method chaining.
-        
+
         Args:
             value: The compuInverse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_inverse property setter (gets validation automatically)
         """
@@ -964,10 +964,10 @@ class CompuScale(ARObject):
     def getCompuScale(self) -> "CompuScaleContents":
         """
         AUTOSAR-compliant getter for compuScale.
-        
+
         Returns:
             The compuScale value
-        
+
         Note:
             Delegates to compu_scale property (CODING_RULE_V2_00017)
         """
@@ -976,13 +976,13 @@ class CompuScale(ARObject):
     def setCompuScale(self, value: "CompuScaleContents") -> "CompuScale":
         """
         AUTOSAR-compliant setter for compuScale with method chaining.
-        
+
         Args:
             value: The compuScale to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_scale property setter (gets validation automatically)
         """
@@ -992,10 +992,10 @@ class CompuScale(ARObject):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -1004,13 +1004,13 @@ class CompuScale(ARObject):
     def setDesc(self, value: "MultiLanguageOverview") -> "CompuScale":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -1020,10 +1020,10 @@ class CompuScale(ARObject):
     def getLowerLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for lowerLimit.
-        
+
         Returns:
             The lowerLimit value
-        
+
         Note:
             Delegates to lower_limit property (CODING_RULE_V2_00017)
         """
@@ -1032,13 +1032,13 @@ class CompuScale(ARObject):
     def setLowerLimit(self, value: "Limit") -> "CompuScale":
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_limit property setter (gets validation automatically)
         """
@@ -1048,10 +1048,10 @@ class CompuScale(ARObject):
     def getMask(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for mask.
-        
+
         Returns:
             The mask value
-        
+
         Note:
             Delegates to mask property (CODING_RULE_V2_00017)
         """
@@ -1060,13 +1060,13 @@ class CompuScale(ARObject):
     def setMask(self, value: "PositiveUnlimitedInteger") -> "CompuScale":
         """
         AUTOSAR-compliant setter for mask with method chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mask property setter (gets validation automatically)
         """
@@ -1076,10 +1076,10 @@ class CompuScale(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -1088,13 +1088,13 @@ class CompuScale(ARObject):
     def setShortLabel(self, value: "Identifier") -> "CompuScale":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -1104,10 +1104,10 @@ class CompuScale(ARObject):
     def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -1116,13 +1116,13 @@ class CompuScale(ARObject):
     def setSymbol(self, value: "CIdentifier") -> "CompuScale":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -1132,10 +1132,10 @@ class CompuScale(ARObject):
     def getUpperLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for upperLimit.
-        
+
         Returns:
             The upperLimit value
-        
+
         Note:
             Delegates to upper_limit property (CODING_RULE_V2_00017)
         """
@@ -1144,13 +1144,13 @@ class CompuScale(ARObject):
     def setUpperLimit(self, value: "Limit") -> "CompuScale":
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_limit property setter (gets validation automatically)
         """
@@ -1162,13 +1162,13 @@ class CompuScale(ARObject):
     def with_a2l_display_text(self, value: Optional["String"]) -> "CompuScale":
         """
         Set a2lDisplayText and return self for chaining.
-        
+
         Args:
             value: The a2lDisplayText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_a2l_display_text("value")
         """
@@ -1178,13 +1178,13 @@ class CompuScale(ARObject):
     def with_compu_inverse(self, value: Optional["CompuConst"]) -> "CompuScale":
         """
         Set compuInverse and return self for chaining.
-        
+
         Args:
             value: The compuInverse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_inverse("value")
         """
@@ -1194,13 +1194,13 @@ class CompuScale(ARObject):
     def with_compu_scale(self, value: Optional["CompuScaleContents"]) -> "CompuScale":
         """
         Set compuScale and return self for chaining.
-        
+
         Args:
             value: The compuScale to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_scale("value")
         """
@@ -1210,13 +1210,13 @@ class CompuScale(ARObject):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "CompuScale":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -1226,13 +1226,13 @@ class CompuScale(ARObject):
     def with_lower_limit(self, value: Optional["Limit"]) -> "CompuScale":
         """
         Set lowerLimit and return self for chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_limit("value")
         """
@@ -1242,13 +1242,13 @@ class CompuScale(ARObject):
     def with_mask(self, value: Optional["PositiveUnlimitedInteger"]) -> "CompuScale":
         """
         Set mask and return self for chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mask("value")
         """
@@ -1258,13 +1258,13 @@ class CompuScale(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "CompuScale":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -1274,13 +1274,13 @@ class CompuScale(ARObject):
     def with_symbol(self, value: Optional["CIdentifier"]) -> "CompuScale":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """
@@ -1290,13 +1290,13 @@ class CompuScale(ARObject):
     def with_upper_limit(self, value: Optional["Limit"]) -> "CompuScale":
         """
         Set upperLimit and return self for chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_limit("value")
         """
@@ -1308,9 +1308,9 @@ class CompuScale(ARObject):
 class CompuScaleContents(ARObject, ABC):
     """
     This abstract meta-class represents the content of one particular scale.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScaleContents
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform
       R23-11)
@@ -1332,9 +1332,9 @@ class CompuRationalCoeffs(ARObject):
     """
     This meta-class represents the ability to express a rational function by
     specifying the coefficients of nominator and denominator.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuRationalCoeffs
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 389, Classic Platform
       R23-11)
@@ -1357,10 +1357,10 @@ class CompuRationalCoeffs(ARObject):
     def compu(self, value: Optional["CompuNominator"]) -> None:
         """
         Set compu with validation.
-        
+
         Args:
             value: The compu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1379,10 +1379,10 @@ class CompuRationalCoeffs(ARObject):
     def getCompu(self) -> "CompuNominator":
         """
         AUTOSAR-compliant getter for compu.
-        
+
         Returns:
             The compu value
-        
+
         Note:
             Delegates to compu property (CODING_RULE_V2_00017)
         """
@@ -1391,13 +1391,13 @@ class CompuRationalCoeffs(ARObject):
     def setCompu(self, value: "CompuNominator") -> "CompuRationalCoeffs":
         """
         AUTOSAR-compliant setter for compu with method chaining.
-        
+
         Args:
             value: The compu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu property setter (gets validation automatically)
         """
@@ -1409,13 +1409,13 @@ class CompuRationalCoeffs(ARObject):
     def with_compu(self, value: Optional["CompuNominator"]) -> "CompuRationalCoeffs":
         """
         Set compu and return self for chaining.
-        
+
         Args:
             value: The compu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu("value")
         """
@@ -1428,9 +1428,9 @@ class CompuConst(ARObject):
     """
     This meta-class represents the fact that the value of a computation method
     scale is constant.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConst
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform
       R23-11)
@@ -1451,10 +1451,10 @@ class CompuConst(ARObject):
     def compu_const(self, value: Optional["CompuConstContent"]) -> None:
         """
         Set compuConst with validation.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1473,10 +1473,10 @@ class CompuConst(ARObject):
     def getCompuConst(self) -> "CompuConstContent":
         """
         AUTOSAR-compliant getter for compuConst.
-        
+
         Returns:
             The compuConst value
-        
+
         Note:
             Delegates to compu_const property (CODING_RULE_V2_00017)
         """
@@ -1485,13 +1485,13 @@ class CompuConst(ARObject):
     def setCompuConst(self, value: "CompuConstContent") -> "CompuConst":
         """
         AUTOSAR-compliant setter for compuConst with method chaining.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_const property setter (gets validation automatically)
         """
@@ -1503,13 +1503,13 @@ class CompuConst(ARObject):
     def with_compu_const(self, value: Optional["CompuConstContent"]) -> "CompuConst":
         """
         Set compuConst and return self for chaining.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_const("value")
         """
@@ -1522,9 +1522,9 @@ class CompuConstContent(ARObject, ABC):
     """
     This meta-class represents the fact that the constant value of the
     computation method can be numerical or textual.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform
       R23-11)
@@ -1546,9 +1546,9 @@ class CompuNominatorDenominator(ARObject):
     """
     This class represents the ability to express a polynomial either as
     Nominator or as Denominator.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuNominatorDenominator
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 391, Classic Platform
       R23-11)
@@ -1568,9 +1568,9 @@ class CompuScales(CompuContent):
     """
     This meta-class represents the ability to stepwise express a computation
     method.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScales
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform
       R23-11)
@@ -1594,10 +1594,10 @@ class CompuScales(CompuContent):
     def getCompuScale(self) -> List["CompuScale"]:
         """
         AUTOSAR-compliant getter for compuScale.
-        
+
         Returns:
             The compuScale value
-        
+
         Note:
             Delegates to compu_scale property (CODING_RULE_V2_00017)
         """
@@ -1611,9 +1611,9 @@ class CompuScaleRationalFormula(CompuScaleContents):
     """
     This meta-class represents the fact that the computation in this scale is
     represented as rational term.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScaleRationalFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform
       R23-11)
@@ -1636,10 +1636,10 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def compu_rational(self, value: Optional["CompuRationalCoeffs"]) -> None:
         """
         Set compuRational with validation.
-        
+
         Args:
             value: The compuRational to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1658,10 +1658,10 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def getCompuRational(self) -> "CompuRationalCoeffs":
         """
         AUTOSAR-compliant getter for compuRational.
-        
+
         Returns:
             The compuRational value
-        
+
         Note:
             Delegates to compu_rational property (CODING_RULE_V2_00017)
         """
@@ -1670,13 +1670,13 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def setCompuRational(self, value: "CompuRationalCoeffs") -> "CompuScaleRationalFormula":
         """
         AUTOSAR-compliant setter for compuRational with method chaining.
-        
+
         Args:
             value: The compuRational to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_rational property setter (gets validation automatically)
         """
@@ -1688,13 +1688,13 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def with_compu_rational(self, value: Optional["CompuRationalCoeffs"]) -> "CompuScaleRationalFormula":
         """
         Set compuRational and return self for chaining.
-        
+
         Args:
             value: The compuRational to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_rational("value")
         """
@@ -1707,9 +1707,9 @@ class CompuScaleConstantContents(CompuScaleContents):
     """
     This meta-class represents the fact that a particular scale of the
     computation method is constant.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScaleConstantContents
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform
       R23-11)
@@ -1733,10 +1733,10 @@ class CompuScaleConstantContents(CompuScaleContents):
     def compu_const(self, value: Optional["CompuConst"]) -> None:
         """
         Set compuConst with validation.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1755,10 +1755,10 @@ class CompuScaleConstantContents(CompuScaleContents):
     def getCompuConst(self) -> "CompuConst":
         """
         AUTOSAR-compliant getter for compuConst.
-        
+
         Returns:
             The compuConst value
-        
+
         Note:
             Delegates to compu_const property (CODING_RULE_V2_00017)
         """
@@ -1767,13 +1767,13 @@ class CompuScaleConstantContents(CompuScaleContents):
     def setCompuConst(self, value: "CompuConst") -> "CompuScaleConstantContents":
         """
         AUTOSAR-compliant setter for compuConst with method chaining.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_const property setter (gets validation automatically)
         """
@@ -1785,13 +1785,13 @@ class CompuScaleConstantContents(CompuScaleContents):
     def with_compu_const(self, value: Optional["CompuConst"]) -> "CompuScaleConstantContents":
         """
         Set compuConst and return self for chaining.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_const("value")
         """
@@ -1803,9 +1803,9 @@ class CompuScaleConstantContents(CompuScaleContents):
 class CompuConstTextContent(CompuConstContent):
     """
     This meta-class represents the textual content of a scale.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstTextContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform
       R23-11)
@@ -1827,10 +1827,10 @@ class CompuConstTextContent(CompuConstContent):
     def vt(self, value: Optional["VerbatimString"]) -> None:
         """
         Set vt with validation.
-        
+
         Args:
             value: The vt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1849,10 +1849,10 @@ class CompuConstTextContent(CompuConstContent):
     def getVt(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for vt.
-        
+
         Returns:
             The vt value
-        
+
         Note:
             Delegates to vt property (CODING_RULE_V2_00017)
         """
@@ -1861,13 +1861,13 @@ class CompuConstTextContent(CompuConstContent):
     def setVt(self, value: "VerbatimString") -> "CompuConstTextContent":
         """
         AUTOSAR-compliant setter for vt with method chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vt property setter (gets validation automatically)
         """
@@ -1879,13 +1879,13 @@ class CompuConstTextContent(CompuConstContent):
     def with_vt(self, value: Optional["VerbatimString"]) -> "CompuConstTextContent":
         """
         Set vt and return self for chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vt("value")
         """
@@ -1899,9 +1899,9 @@ class CompuConstNumericContent(CompuConstContent):
     This meta-class represents the fact that the constant value of the
     computation method is a numerical value. It is separated from
     CompuConstFormulaContent to support compatibility with ASAM HDO.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstNumericContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 389, Classic Platform
       R23-11)
@@ -1922,10 +1922,10 @@ class CompuConstNumericContent(CompuConstContent):
     def v(self, value: Optional["Numerical"]) -> None:
         """
         Set v with validation.
-        
+
         Args:
             value: The v to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1944,10 +1944,10 @@ class CompuConstNumericContent(CompuConstContent):
     def getV(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for v.
-        
+
         Returns:
             The v value
-        
+
         Note:
             Delegates to v property (CODING_RULE_V2_00017)
         """
@@ -1956,13 +1956,13 @@ class CompuConstNumericContent(CompuConstContent):
     def setV(self, value: "Numerical") -> "CompuConstNumericContent":
         """
         AUTOSAR-compliant setter for v with method chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to v property setter (gets validation automatically)
         """
@@ -1974,13 +1974,13 @@ class CompuConstNumericContent(CompuConstContent):
     def with_v(self, value: Optional["Numerical"]) -> "CompuConstNumericContent":
         """
         Set v and return self for chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_v("value")
         """
@@ -1994,9 +1994,9 @@ class CompuConstFormulaContent(CompuConstContent):
     This meta-class represents the fact that the constant value of the
     computation method is represented by a variation point. This difference is
     due to compatibility with ASAM HDO.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstFormulaContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 900, Classic Platform
       R23-11)
@@ -2020,10 +2020,10 @@ class CompuConstFormulaContent(CompuConstContent):
     def vf(self, value: "Numerical") -> None:
         """
         Set vf with validation.
-        
+
         Args:
             value: The vf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2038,10 +2038,10 @@ class CompuConstFormulaContent(CompuConstContent):
     def getVf(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for vf.
-        
+
         Returns:
             The vf value
-        
+
         Note:
             Delegates to vf property (CODING_RULE_V2_00017)
         """
@@ -2050,13 +2050,13 @@ class CompuConstFormulaContent(CompuConstContent):
     def setVf(self, value: "Numerical") -> "CompuConstFormulaContent":
         """
         AUTOSAR-compliant setter for vf with method chaining.
-        
+
         Args:
             value: The vf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vf property setter (gets validation automatically)
         """
@@ -2068,13 +2068,13 @@ class CompuConstFormulaContent(CompuConstContent):
     def with_vf(self, value: "Numerical") -> "CompuConstFormulaContent":
         """
         Set vf and return self for chaining.
-        
+
         Args:
             value: The vf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vf("value")
         """

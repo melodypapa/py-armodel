@@ -26,9 +26,9 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     used to model a reference to the AutosarDataPrototype as a target itself,
     even if the AutosarDataPrototype is typed by an ImplementationDataType and
     even if that ImplementationDataType represents a composite data type.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::ImplementationDataTypeElementInPortInterfaceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 789, Classic Platform R23-11)
     """
@@ -61,10 +61,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def root_data(self, value: Optional["RefType"]) -> None:
         """
         Set rootData with validation.
-        
+
         Args:
             value: The rootData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def target(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set target with validation.
-        
+
         Args:
             value: The target to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +174,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def getContext(self) -> List["AbstractImplementation"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -186,10 +186,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def getRootData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for rootData.
-        
+
         Returns:
             The rootData value
-        
+
         Note:
             Delegates to root_data property (CODING_RULE_V2_00017)
         """
@@ -198,13 +198,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def setRootData(self, value: "RefType") -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         AUTOSAR-compliant setter for rootData with method chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data property setter (gets validation automatically)
         """
@@ -214,10 +214,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def getTarget(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for target.
-        
+
         Returns:
             The target value
-        
+
         Note:
             Delegates to target property (CODING_RULE_V2_00017)
         """
@@ -226,13 +226,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def setTarget(self, value: "AbstractImplementation") -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         AUTOSAR-compliant setter for target with method chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target property setter (gets validation automatically)
         """
@@ -244,13 +244,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def with_root_data(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         Set rootData and return self for chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data("value")
         """
@@ -260,13 +260,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def with_target(self, value: Optional["AbstractImplementation"]) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         Set target and return self for chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target("value")
         """
@@ -281,9 +281,9 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     context of a PortInterface. • refer to the internal structure of a
     DataPrototype which is typed by an ApplicationDatatype in the context of a
     PortInterface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInPortInterfaceInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1009, Classic Platform R23-11)
     """
@@ -305,10 +305,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def abstract_base(self, value: Optional["PortInterface"]) -> None:
         """
         Set abstractBase with validation.
-        
+
         Args:
             value: The abstractBase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -341,10 +341,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def root_data(self, value: Optional["RefType"]) -> None:
         """
         Set rootData with validation.
-        
+
         Args:
             value: The rootData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -365,10 +365,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def target_data(self, value: "RefType") -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -379,10 +379,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getAbstractBase(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for abstractBase.
-        
+
         Returns:
             The abstractBase value
-        
+
         Note:
             Delegates to abstract_base property (CODING_RULE_V2_00017)
         """
@@ -391,13 +391,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def setAbstractBase(self, value: "PortInterface") -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for abstractBase with method chaining.
-        
+
         Args:
             value: The abstractBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to abstract_base property setter (gets validation automatically)
         """
@@ -407,10 +407,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -419,10 +419,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getRootData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for rootData.
-        
+
         Returns:
             The rootData value
-        
+
         Note:
             Delegates to root_data property (CODING_RULE_V2_00017)
         """
@@ -431,13 +431,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def setRootData(self, value: "RefType") -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for rootData with method chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data property setter (gets validation automatically)
         """
@@ -447,10 +447,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getTargetData(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -459,13 +459,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def setTargetData(self, value: "RefType") -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -477,13 +477,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def with_abstract_base(self, value: Optional["PortInterface"]) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         Set abstractBase and return self for chaining.
-        
+
         Args:
             value: The abstractBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_abstract_base("value")
         """
@@ -493,13 +493,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def with_root_data(self, value: Optional[RefType]) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         Set rootData and return self for chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data("value")
         """
@@ -509,13 +509,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def with_target_data(self, value: RefType) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """
@@ -526,9 +526,9 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
 
 class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInterfaceInstanceRef):
     """
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInSenderReceiverInterfaceInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 788, Classic Platform R23-11)
     """
@@ -548,10 +548,10 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def base_interface(self, value: Optional["SenderReceiver"]) -> None:
         """
         Set baseInterface with validation.
-        
+
         Args:
             value: The baseInterface to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -584,10 +584,10 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def root_data_prototype_in_sr(self, value: Optional["RefType"]) -> None:
         """
         Set rootDataPrototypeInSr with validation.
-        
+
         Args:
             value: The rootDataPrototypeInSr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -608,10 +608,10 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def target_data_prototype_in_sr(self, value: Optional["RefType"]) -> None:
         """
         Set targetDataPrototypeInSr with validation.
-        
+
         Args:
             value: The targetDataPrototypeInSr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -626,10 +626,10 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def getBaseInterface(self) -> "SenderReceiver":
         """
         AUTOSAR-compliant getter for baseInterface.
-        
+
         Returns:
             The baseInterface value
-        
+
         Note:
             Delegates to base_interface property (CODING_RULE_V2_00017)
         """
@@ -638,13 +638,13 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def setBaseInterface(self, value: "SenderReceiver") -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for baseInterface with method chaining.
-        
+
         Args:
             value: The baseInterface to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_interface property setter (gets validation automatically)
         """
@@ -654,10 +654,10 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -666,10 +666,10 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def getRootDataPrototypeInSr(self) -> "RefType":
         """
         AUTOSAR-compliant getter for rootDataPrototypeInSr.
-        
+
         Returns:
             The rootDataPrototypeInSr value
-        
+
         Note:
             Delegates to root_data_prototype_in_sr property (CODING_RULE_V2_00017)
         """
@@ -678,13 +678,13 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def setRootDataPrototypeInSr(self, value: "RefType") -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for rootDataPrototypeInSr with method chaining.
-        
+
         Args:
             value: The rootDataPrototypeInSr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data_prototype_in_sr property setter (gets validation automatically)
         """
@@ -694,10 +694,10 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def getTargetDataPrototypeInSr(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetDataPrototypeInSr.
-        
+
         Returns:
             The targetDataPrototypeInSr value
-        
+
         Note:
             Delegates to target_data_prototype_in_sr property (CODING_RULE_V2_00017)
         """
@@ -706,13 +706,13 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def setTargetDataPrototypeInSr(self, value: "RefType") -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for targetDataPrototypeInSr with method chaining.
-        
+
         Args:
             value: The targetDataPrototypeInSr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data_prototype_in_sr property setter (gets validation automatically)
         """
@@ -724,13 +724,13 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def with_base_interface(self, value: Optional["SenderReceiver"]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         Set baseInterface and return self for chaining.
-        
+
         Args:
             value: The baseInterface to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_interface("value")
         """
@@ -740,13 +740,13 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def with_root_data_prototype_in_sr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         Set rootDataPrototypeInSr and return self for chaining.
-        
+
         Args:
             value: The rootDataPrototypeInSr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data_prototype_in_sr("value")
         """
@@ -756,13 +756,13 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
     def with_target_data_prototype_in_sr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         Set targetDataPrototypeInSr and return self for chaining.
-        
+
         Args:
             value: The targetDataPrototypeInSr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data_prototype_in_sr("value")
         """
@@ -773,9 +773,9 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
 
 class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfaceInstanceRef):
     """
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInClientServerInterfaceInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 788, Classic Platform R23-11)
     """
@@ -795,10 +795,10 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def base(self, value: Optional["ClientServerInterface"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -831,10 +831,10 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def root_data_prototype_in_cs(self, value: Optional["RefType"]) -> None:
         """
         Set rootDataPrototypeInCs with validation.
-        
+
         Args:
             value: The rootDataPrototypeInCs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -855,10 +855,10 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def target_data_prototype_in_cs(self, value: Optional["RefType"]) -> None:
         """
         Set targetDataPrototypeInCs with validation.
-        
+
         Args:
             value: The targetDataPrototypeInCs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -873,10 +873,10 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def getBase(self) -> "ClientServerInterface":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -885,13 +885,13 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def setBase(self, value: "ClientServerInterface") -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -901,10 +901,10 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -913,10 +913,10 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def getRootDataPrototypeInCs(self) -> "RefType":
         """
         AUTOSAR-compliant getter for rootDataPrototypeInCs.
-        
+
         Returns:
             The rootDataPrototypeInCs value
-        
+
         Note:
             Delegates to root_data_prototype_in_cs property (CODING_RULE_V2_00017)
         """
@@ -925,13 +925,13 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def setRootDataPrototypeInCs(self, value: "RefType") -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for rootDataPrototypeInCs with method chaining.
-        
+
         Args:
             value: The rootDataPrototypeInCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data_prototype_in_cs property setter (gets validation automatically)
         """
@@ -941,10 +941,10 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def getTargetDataPrototypeInCs(self) -> "RefType":
         """
         AUTOSAR-compliant getter for targetDataPrototypeInCs.
-        
+
         Returns:
             The targetDataPrototypeInCs value
-        
+
         Note:
             Delegates to target_data_prototype_in_cs property (CODING_RULE_V2_00017)
         """
@@ -953,13 +953,13 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def setTargetDataPrototypeInCs(self, value: "RefType") -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for targetDataPrototypeInCs with method chaining.
-        
+
         Args:
             value: The targetDataPrototypeInCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data_prototype_in_cs property setter (gets validation automatically)
         """
@@ -971,13 +971,13 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def with_base(self, value: Optional["ClientServerInterface"]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -987,13 +987,13 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def with_root_data_prototype_in_cs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         Set rootDataPrototypeInCs and return self for chaining.
-        
+
         Args:
             value: The rootDataPrototypeInCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data_prototype_in_cs("value")
         """
@@ -1003,13 +1003,13 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
     def with_target_data_prototype_in_cs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         Set targetDataPrototypeInCs and return self for chaining.
-        
+
         Args:
             value: The targetDataPrototypeInCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data_prototype_in_cs("value")
         """

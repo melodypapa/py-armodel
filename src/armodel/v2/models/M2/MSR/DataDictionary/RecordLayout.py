@@ -28,9 +28,9 @@ class SwRecordLayout(ARElement):
     be stored in the ECU memory. As an example, this definition specifies the
     sequence of axis points in the ECU memory. Iterations through axis values
     are stored within the sub-elements swRecordLayoutGroup.
-    
+
     Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayout
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 421, Classic Platform
       R23-11)
@@ -52,10 +52,10 @@ class SwRecordLayout(ARElement):
     def sw_record(self, value: Optional["RefType"]) -> None:
         """
         Set swRecord with validation.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +70,10 @@ class SwRecordLayout(ARElement):
     def getSwRecord(self) -> "RefType":
         """
         AUTOSAR-compliant getter for swRecord.
-        
+
         Returns:
             The swRecord value
-        
+
         Note:
             Delegates to sw_record property (CODING_RULE_V2_00017)
         """
@@ -82,13 +82,13 @@ class SwRecordLayout(ARElement):
     def setSwRecord(self, value: "RefType") -> "SwRecordLayout":
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_record property setter (gets validation automatically)
         """
@@ -100,13 +100,13 @@ class SwRecordLayout(ARElement):
     def with_sw_record(self, value: Optional[RefType]) -> "SwRecordLayout":
         """
         Set swRecord and return self for chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_record("value")
         """
@@ -123,9 +123,9 @@ class SwRecordLayoutV(ARObject):
     swRecordLayoutVAxis gives the axis of the values which shall be stored in
     accordance with the current record layout SwRecordLayoutGroup. In
     swRecordLayoutVProp one can specify the information which shall be stored.
-    
+
     Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutV
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 421, Classic Platform
       R23-11)
@@ -148,10 +148,10 @@ class SwRecordLayoutV(ARObject):
     def base_type(self, value: Optional["SwBaseType"]) -> None:
         """
         Set baseType with validation.
-        
+
         Args:
             value: The baseType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -177,10 +177,10 @@ class SwRecordLayoutV(ARObject):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -206,10 +206,10 @@ class SwRecordLayoutV(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -237,10 +237,10 @@ class SwRecordLayoutV(ARObject):
     def sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> None:
         """
         Set swGenericAxis with validation.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -266,10 +266,10 @@ class SwRecordLayoutV(ARObject):
     def sw_record(self, value: Optional["NameToken"]) -> None:
         """
         Set swRecord with validation.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -288,10 +288,10 @@ class SwRecordLayoutV(ARObject):
     def getBaseType(self) -> "SwBaseType":
         """
         AUTOSAR-compliant getter for baseType.
-        
+
         Returns:
             The baseType value
-        
+
         Note:
             Delegates to base_type property (CODING_RULE_V2_00017)
         """
@@ -300,13 +300,13 @@ class SwRecordLayoutV(ARObject):
     def setBaseType(self, value: "SwBaseType") -> "SwRecordLayoutV":
         """
         AUTOSAR-compliant setter for baseType with method chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_type property setter (gets validation automatically)
         """
@@ -316,10 +316,10 @@ class SwRecordLayoutV(ARObject):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -328,13 +328,13 @@ class SwRecordLayoutV(ARObject):
     def setDesc(self, value: "MultiLanguageOverview") -> "SwRecordLayoutV":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -344,10 +344,10 @@ class SwRecordLayoutV(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -356,13 +356,13 @@ class SwRecordLayoutV(ARObject):
     def setShortLabel(self, value: "Identifier") -> "SwRecordLayoutV":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -372,10 +372,10 @@ class SwRecordLayoutV(ARObject):
     def getSwGenericAxis(self) -> "SwGenericAxisParam":
         """
         AUTOSAR-compliant getter for swGenericAxis.
-        
+
         Returns:
             The swGenericAxis value
-        
+
         Note:
             Delegates to sw_generic_axis property (CODING_RULE_V2_00017)
         """
@@ -384,13 +384,13 @@ class SwRecordLayoutV(ARObject):
     def setSwGenericAxis(self, value: "SwGenericAxisParam") -> "SwRecordLayoutV":
         """
         AUTOSAR-compliant setter for swGenericAxis with method chaining.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_generic_axis property setter (gets validation automatically)
         """
@@ -400,10 +400,10 @@ class SwRecordLayoutV(ARObject):
     def getSwRecord(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for swRecord.
-        
+
         Returns:
             The swRecord value
-        
+
         Note:
             Delegates to sw_record property (CODING_RULE_V2_00017)
         """
@@ -412,13 +412,13 @@ class SwRecordLayoutV(ARObject):
     def setSwRecord(self, value: "NameToken") -> "SwRecordLayoutV":
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_record property setter (gets validation automatically)
         """
@@ -430,13 +430,13 @@ class SwRecordLayoutV(ARObject):
     def with_base_type(self, value: Optional["SwBaseType"]) -> "SwRecordLayoutV":
         """
         Set baseType and return self for chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_type("value")
         """
@@ -446,13 +446,13 @@ class SwRecordLayoutV(ARObject):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "SwRecordLayoutV":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -462,13 +462,13 @@ class SwRecordLayoutV(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "SwRecordLayoutV":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -478,13 +478,13 @@ class SwRecordLayoutV(ARObject):
     def with_sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> "SwRecordLayoutV":
         """
         Set swGenericAxis and return self for chaining.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_generic_axis("value")
         """
@@ -494,13 +494,13 @@ class SwRecordLayoutV(ARObject):
     def with_sw_record(self, value: Optional["NameToken"]) -> "SwRecordLayoutV":
         """
         Set swRecord and return self for chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_record("value")
         """
@@ -513,9 +513,9 @@ class SwRecordLayoutGroup(ARObject):
     """
     that depending on the arraySizeSemantics of Sw TextProps the iteration ends
     at the value specified in sw MaxTextSize. Table 5.99: SwRecordLayoutGroup
-    
+
     Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 422, Classic Platform
       R23-11)
@@ -543,10 +543,10 @@ class SwRecordLayoutGroup(ARObject):
     def category(self, value: Optional["AsamRecordLayout"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -572,10 +572,10 @@ class SwRecordLayoutGroup(ARObject):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -601,10 +601,10 @@ class SwRecordLayoutGroup(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -633,10 +633,10 @@ class SwRecordLayoutGroup(ARObject):
     def sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> None:
         """
         Set swGenericAxis with validation.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -664,10 +664,10 @@ class SwRecordLayoutGroup(ARObject):
     def sw_record(self, value: Optional["RecordLayoutIterator"]) -> None:
         """
         Set swRecord with validation.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -686,10 +686,10 @@ class SwRecordLayoutGroup(ARObject):
     def getCategory(self) -> "AsamRecordLayout":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -698,13 +698,13 @@ class SwRecordLayoutGroup(ARObject):
     def setCategory(self, value: "AsamRecordLayout") -> "SwRecordLayoutGroup":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -714,10 +714,10 @@ class SwRecordLayoutGroup(ARObject):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -726,13 +726,13 @@ class SwRecordLayoutGroup(ARObject):
     def setDesc(self, value: "MultiLanguageOverview") -> "SwRecordLayoutGroup":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -742,10 +742,10 @@ class SwRecordLayoutGroup(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -754,13 +754,13 @@ class SwRecordLayoutGroup(ARObject):
     def setShortLabel(self, value: "Identifier") -> "SwRecordLayoutGroup":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -770,10 +770,10 @@ class SwRecordLayoutGroup(ARObject):
     def getSwGenericAxis(self) -> "SwGenericAxisParam":
         """
         AUTOSAR-compliant getter for swGenericAxis.
-        
+
         Returns:
             The swGenericAxis value
-        
+
         Note:
             Delegates to sw_generic_axis property (CODING_RULE_V2_00017)
         """
@@ -782,13 +782,13 @@ class SwRecordLayoutGroup(ARObject):
     def setSwGenericAxis(self, value: "SwGenericAxisParam") -> "SwRecordLayoutGroup":
         """
         AUTOSAR-compliant setter for swGenericAxis with method chaining.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_generic_axis property setter (gets validation automatically)
         """
@@ -798,10 +798,10 @@ class SwRecordLayoutGroup(ARObject):
     def getSwRecord(self) -> "RecordLayoutIterator":
         """
         AUTOSAR-compliant getter for swRecord.
-        
+
         Returns:
             The swRecord value
-        
+
         Note:
             Delegates to sw_record property (CODING_RULE_V2_00017)
         """
@@ -810,13 +810,13 @@ class SwRecordLayoutGroup(ARObject):
     def setSwRecord(self, value: "RecordLayoutIterator") -> "SwRecordLayoutGroup":
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_record property setter (gets validation automatically)
         """
@@ -828,13 +828,13 @@ class SwRecordLayoutGroup(ARObject):
     def with_category(self, value: Optional["AsamRecordLayout"]) -> "SwRecordLayoutGroup":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -844,13 +844,13 @@ class SwRecordLayoutGroup(ARObject):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "SwRecordLayoutGroup":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -860,13 +860,13 @@ class SwRecordLayoutGroup(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "SwRecordLayoutGroup":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -876,13 +876,13 @@ class SwRecordLayoutGroup(ARObject):
     def with_sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> "SwRecordLayoutGroup":
         """
         Set swGenericAxis and return self for chaining.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_generic_axis("value")
         """
@@ -892,13 +892,13 @@ class SwRecordLayoutGroup(ARObject):
     def with_sw_record(self, value: Optional["RecordLayoutIterator"]) -> "SwRecordLayoutGroup":
         """
         Set swRecord and return self for chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_record("value")
         """
@@ -912,9 +912,9 @@ class SwRecordLayoutGroupContent(ARObject):
     This is the contents of a RecordLayout which is inserted for every
     iteration. Note that since this is atp Mixed, multiple properties can be
     inserted for each iteration.
-    
+
     Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutGroupContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 424, Classic Platform
       R23-11)
@@ -937,10 +937,10 @@ class SwRecordLayoutGroupContent(ARObject):
     def sw_record(self, value: Optional["SwRecordLayoutV"]) -> None:
         """
         Set swRecord with validation.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -959,10 +959,10 @@ class SwRecordLayoutGroupContent(ARObject):
     def getSwRecord(self) -> "SwRecordLayoutV":
         """
         AUTOSAR-compliant getter for swRecord.
-        
+
         Returns:
             The swRecord value
-        
+
         Note:
             Delegates to sw_record property (CODING_RULE_V2_00017)
         """
@@ -971,13 +971,13 @@ class SwRecordLayoutGroupContent(ARObject):
     def setSwRecord(self, value: "SwRecordLayoutV") -> "SwRecordLayoutGroupContent":
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_record property setter (gets validation automatically)
         """
@@ -989,13 +989,13 @@ class SwRecordLayoutGroupContent(ARObject):
     def with_sw_record(self, value: Optional["SwRecordLayoutV"]) -> "SwRecordLayoutGroupContent":
         """
         Set swRecord and return self for chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_record("value")
         """

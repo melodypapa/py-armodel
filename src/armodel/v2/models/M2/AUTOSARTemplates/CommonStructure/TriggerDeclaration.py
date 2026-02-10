@@ -21,9 +21,9 @@ class Trigger(Identifiable):
     """
     A trigger which is provided (i.e. released) or required (i.e. used to
     activate something) in the given context.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration::Trigger
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 45, Classic
       Platform R23-11)
@@ -48,10 +48,10 @@ class Trigger(Identifiable):
     def sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> None:
         """
         Set swImplPolicy with validation.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class Trigger(Identifiable):
     def trigger_period(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set triggerPeriod with validation.
-        
+
         Args:
             value: The triggerPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class Trigger(Identifiable):
     def getSwImplPolicy(self) -> "SwImplPolicyEnum":
         """
         AUTOSAR-compliant getter for swImplPolicy.
-        
+
         Returns:
             The swImplPolicy value
-        
+
         Note:
             Delegates to sw_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -110,13 +110,13 @@ class Trigger(Identifiable):
     def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> "Trigger":
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_impl_policy property setter (gets validation automatically)
         """
@@ -126,10 +126,10 @@ class Trigger(Identifiable):
     def getTriggerPeriod(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for triggerPeriod.
-        
+
         Returns:
             The triggerPeriod value
-        
+
         Note:
             Delegates to trigger_period property (CODING_RULE_V2_00017)
         """
@@ -138,13 +138,13 @@ class Trigger(Identifiable):
     def setTriggerPeriod(self, value: "MultidimensionalTime") -> "Trigger":
         """
         AUTOSAR-compliant setter for triggerPeriod with method chaining.
-        
+
         Args:
             value: The triggerPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_period property setter (gets validation automatically)
         """
@@ -156,13 +156,13 @@ class Trigger(Identifiable):
     def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> "Trigger":
         """
         Set swImplPolicy and return self for chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_impl_policy("value")
         """
@@ -172,13 +172,13 @@ class Trigger(Identifiable):
     def with_trigger_period(self, value: Optional["MultidimensionalTime"]) -> "Trigger":
         """
         Set triggerPeriod and return self for chaining.
-        
+
         Args:
             value: The triggerPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_period("value")
         """
@@ -191,9 +191,9 @@ class TriggerMapping(ARObject):
     """
     Defines the mapping of two particular unequally named Triggers in the given
     context.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration::TriggerMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 134, Classic Platform
       R23-11)
@@ -214,10 +214,10 @@ class TriggerMapping(ARObject):
     def first_trigger(self, value: Optional["RefType"]) -> None:
         """
         Set firstTrigger with validation.
-        
+
         Args:
             value: The firstTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -237,10 +237,10 @@ class TriggerMapping(ARObject):
     def second_trigger(self, value: Optional["RefType"]) -> None:
         """
         Set secondTrigger with validation.
-        
+
         Args:
             value: The secondTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -255,10 +255,10 @@ class TriggerMapping(ARObject):
     def getFirstTrigger(self) -> "RefType":
         """
         AUTOSAR-compliant getter for firstTrigger.
-        
+
         Returns:
             The firstTrigger value
-        
+
         Note:
             Delegates to first_trigger property (CODING_RULE_V2_00017)
         """
@@ -267,13 +267,13 @@ class TriggerMapping(ARObject):
     def setFirstTrigger(self, value: "RefType") -> "TriggerMapping":
         """
         AUTOSAR-compliant setter for firstTrigger with method chaining.
-        
+
         Args:
             value: The firstTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_trigger property setter (gets validation automatically)
         """
@@ -283,10 +283,10 @@ class TriggerMapping(ARObject):
     def getSecondTrigger(self) -> "RefType":
         """
         AUTOSAR-compliant getter for secondTrigger.
-        
+
         Returns:
             The secondTrigger value
-        
+
         Note:
             Delegates to second_trigger property (CODING_RULE_V2_00017)
         """
@@ -295,13 +295,13 @@ class TriggerMapping(ARObject):
     def setSecondTrigger(self, value: "RefType") -> "TriggerMapping":
         """
         AUTOSAR-compliant setter for secondTrigger with method chaining.
-        
+
         Args:
             value: The secondTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_trigger property setter (gets validation automatically)
         """
@@ -313,13 +313,13 @@ class TriggerMapping(ARObject):
     def with_first_trigger(self, value: Optional[RefType]) -> "TriggerMapping":
         """
         Set firstTrigger and return self for chaining.
-        
+
         Args:
             value: The firstTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_trigger("value")
         """
@@ -329,13 +329,13 @@ class TriggerMapping(ARObject):
     def with_second_trigger(self, value: Optional[RefType]) -> "TriggerMapping":
         """
         Set secondTrigger and return self for chaining.
-        
+
         Args:
             value: The secondTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_trigger("value")
         """

@@ -20,9 +20,9 @@ class DiagnosticWriteDataByIdentifierClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Write
     Data by Identifier" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticWriteDataByIdentifierClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -42,9 +42,9 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     """
     This represents an abstract base class for all diagnostic services that
     access data by identifier.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -67,10 +67,10 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def data_identifier(self, value: Optional["DiagnosticAbstractData"]) -> None:
         """
         Set dataIdentifier with validation.
-        
+
         Args:
             value: The dataIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def getDataIdentifier(self) -> "DiagnosticAbstractData":
         """
         AUTOSAR-compliant getter for dataIdentifier.
-        
+
         Returns:
             The dataIdentifier value
-        
+
         Note:
             Delegates to data_identifier property (CODING_RULE_V2_00017)
         """
@@ -101,13 +101,13 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def setDataIdentifier(self, value: "DiagnosticAbstractData") -> "DiagnosticDataByIdentifier":
         """
         AUTOSAR-compliant setter for dataIdentifier with method chaining.
-        
+
         Args:
             value: The dataIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_identifier property setter (gets validation automatically)
         """
@@ -119,13 +119,13 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def with_data_identifier(self, value: Optional["DiagnosticAbstractData"]) -> "DiagnosticDataByIdentifier":
         """
         Set dataIdentifier and return self for chaining.
-        
+
         Args:
             value: The dataIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_identifier("value")
         """
@@ -140,9 +140,9 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     Data by Identifier" diagnostic service. (cid:53) 113 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadDataByIdentifierClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -164,10 +164,10 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def max_did_to_read(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxDidToRead with validation.
-        
+
         Args:
             value: The maxDidToRead to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -186,10 +186,10 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def getMaxDidToRead(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxDidToRead.
-        
+
         Returns:
             The maxDidToRead value
-        
+
         Note:
             Delegates to max_did_to_read property (CODING_RULE_V2_00017)
         """
@@ -198,13 +198,13 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def setMaxDidToRead(self, value: "PositiveInteger") -> "DiagnosticReadDataByIdentifierClass":
         """
         AUTOSAR-compliant setter for maxDidToRead with method chaining.
-        
+
         Args:
             value: The maxDidToRead to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_did_to_read property setter (gets validation automatically)
         """
@@ -216,13 +216,13 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def with_max_did_to_read(self, value: Optional["PositiveInteger"]) -> "DiagnosticReadDataByIdentifierClass":
         """
         Set maxDidToRead and return self for chaining.
-        
+
         Args:
             value: The maxDidToRead to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_did_to_read("value")
         """
@@ -235,9 +235,9 @@ class DiagnosticReadScalingDataByIdentifierClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Read
     Scaling Data by Identifier" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadScalingDataByIdentifierClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 116, Classic Platform
       R23-11)
@@ -257,9 +257,9 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     """
     This represents an instance of the "Read Data by Identifier" diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 112, Classic Platform
       R23-11)
@@ -283,10 +283,10 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def read_class(self, value: Optional["DiagnosticReadDataBy"]) -> None:
         """
         Set readClass with validation.
-        
+
         Args:
             value: The readClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -305,10 +305,10 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def getReadClass(self) -> "DiagnosticReadDataBy":
         """
         AUTOSAR-compliant getter for readClass.
-        
+
         Returns:
             The readClass value
-        
+
         Note:
             Delegates to read_class property (CODING_RULE_V2_00017)
         """
@@ -317,13 +317,13 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def setReadClass(self, value: "DiagnosticReadDataBy") -> "DiagnosticReadDataByIdentifier":
         """
         AUTOSAR-compliant setter for readClass with method chaining.
-        
+
         Args:
             value: The readClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to read_class property setter (gets validation automatically)
         """
@@ -335,13 +335,13 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def with_read_class(self, value: Optional["DiagnosticReadDataBy"]) -> "DiagnosticReadDataByIdentifier":
         """
         Set readClass and return self for chaining.
-        
+
         Args:
             value: The readClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_read_class("value")
         """
@@ -354,9 +354,9 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     """
     This represents an instance of the "Write Data by Identifier" diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticWriteDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -380,10 +380,10 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def write_class(self, value: Optional["DiagnosticWriteDataBy"]) -> None:
         """
         Set writeClass with validation.
-        
+
         Args:
             value: The writeClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -402,10 +402,10 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def getWriteClass(self) -> "DiagnosticWriteDataBy":
         """
         AUTOSAR-compliant getter for writeClass.
-        
+
         Returns:
             The writeClass value
-        
+
         Note:
             Delegates to write_class property (CODING_RULE_V2_00017)
         """
@@ -414,13 +414,13 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def setWriteClass(self, value: "DiagnosticWriteDataBy") -> "DiagnosticWriteDataByIdentifier":
         """
         AUTOSAR-compliant setter for writeClass with method chaining.
-        
+
         Args:
             value: The writeClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to write_class property setter (gets validation automatically)
         """
@@ -432,13 +432,13 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def with_write_class(self, value: Optional["DiagnosticWriteDataBy"]) -> "DiagnosticWriteDataByIdentifier":
         """
         Set writeClass and return self for chaining.
-        
+
         Args:
             value: The writeClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_write_class("value")
         """
@@ -451,9 +451,9 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     """
     This represents an instance of the "Read Scaling Data by Identifier"
     diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadScalingDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 116, Classic Platform
       R23-11)
@@ -477,10 +477,10 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def read_scaling(self, value: Optional["DiagnosticReadScaling"]) -> None:
         """
         Set readScaling with validation.
-        
+
         Args:
             value: The readScaling to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -499,10 +499,10 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def getReadScaling(self) -> "DiagnosticReadScaling":
         """
         AUTOSAR-compliant getter for readScaling.
-        
+
         Returns:
             The readScaling value
-        
+
         Note:
             Delegates to read_scaling property (CODING_RULE_V2_00017)
         """
@@ -511,13 +511,13 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def setReadScaling(self, value: "DiagnosticReadScaling") -> "DiagnosticReadScalingDataByIdentifier":
         """
         AUTOSAR-compliant setter for readScaling with method chaining.
-        
+
         Args:
             value: The readScaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to read_scaling property setter (gets validation automatically)
         """
@@ -529,13 +529,13 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def with_read_scaling(self, value: Optional["DiagnosticReadScaling"]) -> "DiagnosticReadScalingDataByIdentifier":
         """
         Set readScaling and return self for chaining.
-        
+
         Args:
             value: The readScaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_read_scaling("value")
         """

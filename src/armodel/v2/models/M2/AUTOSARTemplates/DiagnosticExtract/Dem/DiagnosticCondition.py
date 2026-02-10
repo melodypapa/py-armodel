@@ -18,9 +18,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics i
 class DiagnosticCondition(DiagnosticCommonElement, ABC):
     """
     Abstract element for StorageConditions and EnableConditions.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition::DiagnosticCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 194, Classic Platform
       R23-11)
@@ -46,10 +46,10 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
     def init_value(self, value: Optional["Boolean"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +68,10 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
     def getInitValue(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -80,13 +80,13 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
     def setInitValue(self, value: "Boolean") -> "DiagnosticCondition":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -98,13 +98,13 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
     def with_init_value(self, value: Optional["Boolean"]) -> "DiagnosticCondition":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -116,9 +116,9 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
 class DiagnosticEnableCondition(DiagnosticCondition):
     """
     Specification of an enable condition.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition::DiagnosticEnableCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 194, Classic Platform
       R23-11)
@@ -137,9 +137,9 @@ class DiagnosticEnableCondition(DiagnosticCondition):
 class DiagnosticStorageCondition(DiagnosticCondition):
     """
     Specification of a storage condition.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition::DiagnosticStorageCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 194, Classic Platform
       R23-11)

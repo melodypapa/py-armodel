@@ -21,9 +21,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class ResourceConsumption(Identifiable):
     """
     Description of consumed resources by one implementation of a software.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ResourceConsumption
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 137, Classic
       Platform R23-11)
@@ -186,10 +186,10 @@ class ResourceConsumption(Identifiable):
     def getAccessCount(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for accessCount.
-        
+
         Returns:
             The accessCount value
-        
+
         Note:
             Delegates to access_count property (CODING_RULE_V2_00017)
         """
@@ -198,10 +198,10 @@ class ResourceConsumption(Identifiable):
     def getExecutionTime(self) -> List["ExecutionTime"]:
         """
         AUTOSAR-compliant getter for executionTime.
-        
+
         Returns:
             The executionTime value
-        
+
         Note:
             Delegates to execution_time property (CODING_RULE_V2_00017)
         """
@@ -210,10 +210,10 @@ class ResourceConsumption(Identifiable):
     def getHeapUsage(self) -> List["HeapUsage"]:
         """
         AUTOSAR-compliant getter for heapUsage.
-        
+
         Returns:
             The heapUsage value
-        
+
         Note:
             Delegates to heap_usage property (CODING_RULE_V2_00017)
         """
@@ -222,10 +222,10 @@ class ResourceConsumption(Identifiable):
     def getMemorySection(self) -> List["MemorySection"]:
         """
         AUTOSAR-compliant getter for memorySection.
-        
+
         Returns:
             The memorySection value
-        
+
         Note:
             Delegates to memory_section property (CODING_RULE_V2_00017)
         """
@@ -234,10 +234,10 @@ class ResourceConsumption(Identifiable):
     def getSectionName(self) -> List["SectionNamePrefix"]:
         """
         AUTOSAR-compliant getter for sectionName.
-        
+
         Returns:
             The sectionName value
-        
+
         Note:
             Delegates to section_name property (CODING_RULE_V2_00017)
         """
@@ -246,10 +246,10 @@ class ResourceConsumption(Identifiable):
     def getStackUsage(self) -> List["StackUsage"]:
         """
         AUTOSAR-compliant getter for stackUsage.
-        
+
         Returns:
             The stackUsage value
-        
+
         Note:
             Delegates to stack_usage property (CODING_RULE_V2_00017)
         """
@@ -263,9 +263,9 @@ class HardwareConfiguration(ARObject):
     """
     Describes in which mode the hardware is operating while needing this
     resource consumption.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HardwareConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 161, Classic
       Platform R23-11)
@@ -286,10 +286,10 @@ class HardwareConfiguration(ARObject):
     def additional(self, value: Optional["String"]) -> None:
         """
         Set additional with validation.
-        
+
         Args:
             value: The additional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -313,10 +313,10 @@ class HardwareConfiguration(ARObject):
     def processor_mode(self, value: Optional["String"]) -> None:
         """
         Set processorMode with validation.
-        
+
         Args:
             value: The processorMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -340,10 +340,10 @@ class HardwareConfiguration(ARObject):
     def processor_speed(self, value: Optional["String"]) -> None:
         """
         Set processorSpeed with validation.
-        
+
         Args:
             value: The processorSpeed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -362,10 +362,10 @@ class HardwareConfiguration(ARObject):
     def getAdditional(self) -> "String":
         """
         AUTOSAR-compliant getter for additional.
-        
+
         Returns:
             The additional value
-        
+
         Note:
             Delegates to additional property (CODING_RULE_V2_00017)
         """
@@ -374,13 +374,13 @@ class HardwareConfiguration(ARObject):
     def setAdditional(self, value: "String") -> "HardwareConfiguration":
         """
         AUTOSAR-compliant setter for additional with method chaining.
-        
+
         Args:
             value: The additional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to additional property setter (gets validation automatically)
         """
@@ -390,10 +390,10 @@ class HardwareConfiguration(ARObject):
     def getProcessorMode(self) -> "String":
         """
         AUTOSAR-compliant getter for processorMode.
-        
+
         Returns:
             The processorMode value
-        
+
         Note:
             Delegates to processor_mode property (CODING_RULE_V2_00017)
         """
@@ -402,13 +402,13 @@ class HardwareConfiguration(ARObject):
     def setProcessorMode(self, value: "String") -> "HardwareConfiguration":
         """
         AUTOSAR-compliant setter for processorMode with method chaining.
-        
+
         Args:
             value: The processorMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to processor_mode property setter (gets validation automatically)
         """
@@ -418,10 +418,10 @@ class HardwareConfiguration(ARObject):
     def getProcessorSpeed(self) -> "String":
         """
         AUTOSAR-compliant getter for processorSpeed.
-        
+
         Returns:
             The processorSpeed value
-        
+
         Note:
             Delegates to processor_speed property (CODING_RULE_V2_00017)
         """
@@ -430,13 +430,13 @@ class HardwareConfiguration(ARObject):
     def setProcessorSpeed(self, value: "String") -> "HardwareConfiguration":
         """
         AUTOSAR-compliant setter for processorSpeed with method chaining.
-        
+
         Args:
             value: The processorSpeed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to processor_speed property setter (gets validation automatically)
         """
@@ -448,13 +448,13 @@ class HardwareConfiguration(ARObject):
     def with_additional(self, value: Optional["String"]) -> "HardwareConfiguration":
         """
         Set additional and return self for chaining.
-        
+
         Args:
             value: The additional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_additional("value")
         """
@@ -464,13 +464,13 @@ class HardwareConfiguration(ARObject):
     def with_processor_mode(self, value: Optional["String"]) -> "HardwareConfiguration":
         """
         Set processorMode and return self for chaining.
-        
+
         Args:
             value: The processorMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_processor_mode("value")
         """
@@ -480,13 +480,13 @@ class HardwareConfiguration(ARObject):
     def with_processor_speed(self, value: Optional["String"]) -> "HardwareConfiguration":
         """
         Set processorSpeed and return self for chaining.
-        
+
         Args:
             value: The processorSpeed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_processor_speed("value")
         """
@@ -498,9 +498,9 @@ class HardwareConfiguration(ARObject):
 class SoftwareContext(ARObject):
     """
     Specifies the context of the software for this resource consumption.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::SoftwareContext
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 163, Classic
       Platform R23-11)
@@ -521,10 +521,10 @@ class SoftwareContext(ARObject):
     def input(self, value: Optional["String"]) -> None:
         """
         Set input with validation.
-        
+
         Args:
             value: The input to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -548,10 +548,10 @@ class SoftwareContext(ARObject):
     def state(self, value: Optional["String"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -570,10 +570,10 @@ class SoftwareContext(ARObject):
     def getInput(self) -> "String":
         """
         AUTOSAR-compliant getter for input.
-        
+
         Returns:
             The input value
-        
+
         Note:
             Delegates to input property (CODING_RULE_V2_00017)
         """
@@ -582,13 +582,13 @@ class SoftwareContext(ARObject):
     def setInput(self, value: "String") -> "SoftwareContext":
         """
         AUTOSAR-compliant setter for input with method chaining.
-        
+
         Args:
             value: The input to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to input property setter (gets validation automatically)
         """
@@ -598,10 +598,10 @@ class SoftwareContext(ARObject):
     def getState(self) -> "String":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -610,13 +610,13 @@ class SoftwareContext(ARObject):
     def setState(self, value: "String") -> "SoftwareContext":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -628,13 +628,13 @@ class SoftwareContext(ARObject):
     def with_input(self, value: Optional["String"]) -> "SoftwareContext":
         """
         Set input and return self for chaining.
-        
+
         Args:
             value: The input to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_input("value")
         """
@@ -644,13 +644,13 @@ class SoftwareContext(ARObject):
     def with_state(self, value: Optional["String"]) -> "SoftwareContext":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """

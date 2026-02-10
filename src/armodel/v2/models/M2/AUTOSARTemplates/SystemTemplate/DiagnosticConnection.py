@@ -25,9 +25,9 @@ class DiagnosticConnection(ARElement):
     """
     DiagnosticConncection that is used to describe the relationship between
     several TP connections.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::DiagnosticConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 60, Classic Platform
       R23-11)
@@ -65,10 +65,10 @@ class DiagnosticConnection(ARElement):
     def physical_request(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set physicalRequest with validation.
-        
+
         Args:
             value: The physicalRequest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +93,10 @@ class DiagnosticConnection(ARElement):
     def response(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set response with validation.
-        
+
         Args:
             value: The response to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +122,10 @@ class DiagnosticConnection(ARElement):
     def response_on(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set responseOn with validation.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +176,10 @@ class DiagnosticConnection(ARElement):
     def getFunctionalRequest(self) -> List["TpConnectionIdent"]:
         """
         AUTOSAR-compliant getter for functionalRequest.
-        
+
         Returns:
             The functionalRequest value
-        
+
         Note:
             Delegates to functional_request property (CODING_RULE_V2_00017)
         """
@@ -188,10 +188,10 @@ class DiagnosticConnection(ARElement):
     def getPeriodicResponseUudt(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for periodicResponseUudt.
-        
+
         Returns:
             The periodicResponseUudt value
-        
+
         Note:
             Delegates to periodic_response_uudt property (CODING_RULE_V2_00017)
         """
@@ -200,10 +200,10 @@ class DiagnosticConnection(ARElement):
     def getPhysicalRequest(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for physicalRequest.
-        
+
         Returns:
             The physicalRequest value
-        
+
         Note:
             Delegates to physical_request property (CODING_RULE_V2_00017)
         """
@@ -212,13 +212,13 @@ class DiagnosticConnection(ARElement):
     def setPhysicalRequest(self, value: "TpConnectionIdent") -> "DiagnosticConnection":
         """
         AUTOSAR-compliant setter for physicalRequest with method chaining.
-        
+
         Args:
             value: The physicalRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical_request property setter (gets validation automatically)
         """
@@ -228,10 +228,10 @@ class DiagnosticConnection(ARElement):
     def getResponse(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for response.
-        
+
         Returns:
             The response value
-        
+
         Note:
             Delegates to response property (CODING_RULE_V2_00017)
         """
@@ -240,13 +240,13 @@ class DiagnosticConnection(ARElement):
     def setResponse(self, value: "TpConnectionIdent") -> "DiagnosticConnection":
         """
         AUTOSAR-compliant setter for response with method chaining.
-        
+
         Args:
             value: The response to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response property setter (gets validation automatically)
         """
@@ -256,10 +256,10 @@ class DiagnosticConnection(ARElement):
     def getResponseOn(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for responseOn.
-        
+
         Returns:
             The responseOn value
-        
+
         Note:
             Delegates to response_on property (CODING_RULE_V2_00017)
         """
@@ -268,13 +268,13 @@ class DiagnosticConnection(ARElement):
     def setResponseOn(self, value: "TpConnectionIdent") -> "DiagnosticConnection":
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response_on property setter (gets validation automatically)
         """
@@ -286,13 +286,13 @@ class DiagnosticConnection(ARElement):
     def with_physical_request(self, value: Optional["TpConnectionIdent"]) -> "DiagnosticConnection":
         """
         Set physicalRequest and return self for chaining.
-        
+
         Args:
             value: The physicalRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical_request("value")
         """
@@ -302,13 +302,13 @@ class DiagnosticConnection(ARElement):
     def with_response(self, value: Optional["TpConnectionIdent"]) -> "DiagnosticConnection":
         """
         Set response and return self for chaining.
-        
+
         Args:
             value: The response to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response("value")
         """
@@ -318,13 +318,13 @@ class DiagnosticConnection(ARElement):
     def with_response_on(self, value: Optional["TpConnectionIdent"]) -> "DiagnosticConnection":
         """
         Set responseOn and return self for chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response_on("value")
         """
@@ -337,9 +337,9 @@ class TpConnectionIdent(Referrable):
     """
     This meta-class is created to add the ability to become the target of a
     reference to the non-Referrable Tp Connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::TpConnectionIdent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 61, Classic Platform
       R23-11)
@@ -359,9 +359,9 @@ class TpConnectionIdent(Referrable):
 class TpConnection(ARObject, ABC):
     """
     TpConnection Base Class.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::TpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 633, Classic Platform R23-11)
     """
@@ -383,10 +383,10 @@ class TpConnection(ARObject, ABC):
     def ident(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -405,10 +405,10 @@ class TpConnection(ARObject, ABC):
     def getIdent(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -417,13 +417,13 @@ class TpConnection(ARObject, ABC):
     def setIdent(self, value: "TpConnectionIdent") -> "TpConnection":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -435,13 +435,13 @@ class TpConnection(ARObject, ABC):
     def with_ident(self, value: Optional["TpConnectionIdent"]) -> "TpConnection":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -454,9 +454,9 @@ class DoIpTpConnection(TpConnection):
     """
     A connection identifies the sender and the receiver of this particular
     communication. The DoIp module routes a tpSdu through this connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::DoIpTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 555, Classic Platform R23-11)
     """
@@ -476,10 +476,10 @@ class DoIpTpConnection(TpConnection):
     def do_ip_source(self, value: Optional["DoIpLogicAddress"]) -> None:
         """
         Set doIpSource with validation.
-        
+
         Args:
             value: The doIpSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -503,10 +503,10 @@ class DoIpTpConnection(TpConnection):
     def do_ip_target(self, value: Optional["DoIpLogicAddress"]) -> None:
         """
         Set doIpTarget with validation.
-        
+
         Args:
             value: The doIpTarget to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -530,10 +530,10 @@ class DoIpTpConnection(TpConnection):
     def tp_sdu(self, value: Optional["RefType"]) -> None:
         """
         Set tpSdu with validation.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -548,10 +548,10 @@ class DoIpTpConnection(TpConnection):
     def getDoIpSource(self) -> "DoIpLogicAddress":
         """
         AUTOSAR-compliant getter for doIpSource.
-        
+
         Returns:
             The doIpSource value
-        
+
         Note:
             Delegates to do_ip_source property (CODING_RULE_V2_00017)
         """
@@ -560,13 +560,13 @@ class DoIpTpConnection(TpConnection):
     def setDoIpSource(self, value: "DoIpLogicAddress") -> "DoIpTpConnection":
         """
         AUTOSAR-compliant setter for doIpSource with method chaining.
-        
+
         Args:
             value: The doIpSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_source property setter (gets validation automatically)
         """
@@ -576,10 +576,10 @@ class DoIpTpConnection(TpConnection):
     def getDoIpTarget(self) -> "DoIpLogicAddress":
         """
         AUTOSAR-compliant getter for doIpTarget.
-        
+
         Returns:
             The doIpTarget value
-        
+
         Note:
             Delegates to do_ip_target property (CODING_RULE_V2_00017)
         """
@@ -588,13 +588,13 @@ class DoIpTpConnection(TpConnection):
     def setDoIpTarget(self, value: "DoIpLogicAddress") -> "DoIpTpConnection":
         """
         AUTOSAR-compliant setter for doIpTarget with method chaining.
-        
+
         Args:
             value: The doIpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_target property setter (gets validation automatically)
         """
@@ -604,10 +604,10 @@ class DoIpTpConnection(TpConnection):
     def getTpSdu(self) -> "RefType":
         """
         AUTOSAR-compliant getter for tpSdu.
-        
+
         Returns:
             The tpSdu value
-        
+
         Note:
             Delegates to tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -616,13 +616,13 @@ class DoIpTpConnection(TpConnection):
     def setTpSdu(self, value: "RefType") -> "DoIpTpConnection":
         """
         AUTOSAR-compliant setter for tpSdu with method chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_sdu property setter (gets validation automatically)
         """
@@ -634,13 +634,13 @@ class DoIpTpConnection(TpConnection):
     def with_do_ip_source(self, value: Optional["DoIpLogicAddress"]) -> "DoIpTpConnection":
         """
         Set doIpSource and return self for chaining.
-        
+
         Args:
             value: The doIpSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_source("value")
         """
@@ -650,13 +650,13 @@ class DoIpTpConnection(TpConnection):
     def with_do_ip_target(self, value: Optional["DoIpLogicAddress"]) -> "DoIpTpConnection":
         """
         Set doIpTarget and return self for chaining.
-        
+
         Args:
             value: The doIpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_target("value")
         """
@@ -666,13 +666,13 @@ class DoIpTpConnection(TpConnection):
     def with_tp_sdu(self, value: Optional[RefType]) -> "DoIpTpConnection":
         """
         Set tpSdu and return self for chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_sdu("value")
         """

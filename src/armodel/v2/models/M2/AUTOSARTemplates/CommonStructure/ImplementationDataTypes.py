@@ -27,9 +27,9 @@ class AbstractImplementationDataType(AutosarDataType, ABC):
     """
     This meta-class represents an abstract base class for different flavors of
     ImplementationDataType.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::AbstractImplementationDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 267, Classic Platform
       R23-11)
@@ -86,9 +86,9 @@ class AbstractImplementationDataTypeElement(Identifiable, ABC):
     This meta-class represents the ability to act as an abstract base class for
     specific derived meta-classes that support the modeling of
     ImplementationDataTypes for a particular language binding.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::AbstractImplementationDataTypeElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 269, Classic Platform
       R23-11)
@@ -110,9 +110,9 @@ class ImplementationDataType(AbstractImplementationDataType):
     """
     Describes a reusable data type on the implementation level. This will
     typically correspond to a typedef in C-code.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::ImplementationDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 320, Classic
       Platform R23-11)
@@ -145,10 +145,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def dynamic_array(self, value: Optional["String"]) -> None:
         """
         Set dynamicArray with validation.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -182,10 +182,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def symbol_props(self, value: Optional["SymbolProps"]) -> None:
         """
         Set symbolProps with validation.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -210,10 +210,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def type_emitter(self, value: Optional["NameToken"]) -> None:
         """
         Set typeEmitter with validation.
-        
+
         Args:
             value: The typeEmitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +232,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getDynamicArray(self) -> "String":
         """
         AUTOSAR-compliant getter for dynamicArray.
-        
+
         Returns:
             The dynamicArray value
-        
+
         Note:
             Delegates to dynamic_array property (CODING_RULE_V2_00017)
         """
@@ -244,13 +244,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def setDynamicArray(self, value: "String") -> "ImplementationDataType":
         """
         AUTOSAR-compliant setter for dynamicArray with method chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_array property setter (gets validation automatically)
         """
@@ -260,10 +260,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getSubElement(self) -> List["ImplementationData"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -272,10 +272,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getSymbolProps(self) -> "SymbolProps":
         """
         AUTOSAR-compliant getter for symbolProps.
-        
+
         Returns:
             The symbolProps value
-        
+
         Note:
             Delegates to symbol_props property (CODING_RULE_V2_00017)
         """
@@ -284,13 +284,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def setSymbolProps(self, value: "SymbolProps") -> "ImplementationDataType":
         """
         AUTOSAR-compliant setter for symbolProps with method chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol_props property setter (gets validation automatically)
         """
@@ -300,10 +300,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getTypeEmitter(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for typeEmitter.
-        
+
         Returns:
             The typeEmitter value
-        
+
         Note:
             Delegates to type_emitter property (CODING_RULE_V2_00017)
         """
@@ -312,13 +312,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def setTypeEmitter(self, value: "NameToken") -> "ImplementationDataType":
         """
         AUTOSAR-compliant setter for typeEmitter with method chaining.
-        
+
         Args:
             value: The typeEmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_emitter property setter (gets validation automatically)
         """
@@ -330,13 +330,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def with_dynamic_array(self, value: Optional["String"]) -> "ImplementationDataType":
         """
         Set dynamicArray and return self for chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_array("value")
         """
@@ -346,13 +346,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def with_symbol_props(self, value: Optional["SymbolProps"]) -> "ImplementationDataType":
         """
         Set symbolProps and return self for chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol_props("value")
         """
@@ -362,13 +362,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def with_type_emitter(self, value: Optional["NameToken"]) -> "ImplementationDataType":
         """
         Set typeEmitter and return self for chaining.
-        
+
         Args:
             value: The typeEmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_emitter("value")
         """
@@ -387,9 +387,9 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     elements of an array, defining the element type and array size • It can
     represent an element of a struct, defining its type • It can be the local
     declaration of a debug element.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::ImplementationDataTypeElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 321, Classic
       Platform R23-11)
@@ -418,10 +418,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def array_impl_policy(self, value: Optional["ArrayImplPolicyEnum"]) -> None:
         """
         Set arrayImplPolicy with validation.
-        
+
         Args:
             value: The arrayImplPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -445,10 +445,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -476,10 +476,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def is_optional(self, value: Optional["Boolean"]) -> None:
         """
         Set isOptional with validation.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -516,10 +516,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -538,10 +538,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def getArrayImplPolicy(self) -> "ArrayImplPolicyEnum":
         """
         AUTOSAR-compliant getter for arrayImplPolicy.
-        
+
         Returns:
             The arrayImplPolicy value
-        
+
         Note:
             Delegates to array_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -550,13 +550,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def setArrayImplPolicy(self, value: "ArrayImplPolicyEnum") -> "ImplementationDataTypeElement":
         """
         AUTOSAR-compliant setter for arrayImplPolicy with method chaining.
-        
+
         Args:
             value: The arrayImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_impl_policy property setter (gets validation automatically)
         """
@@ -566,10 +566,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def getArraySize(self) -> "ArraySizeSemantics":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -578,13 +578,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def setArraySize(self, value: "ArraySizeSemantics") -> "ImplementationDataTypeElement":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -594,10 +594,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def getIsOptional(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isOptional.
-        
+
         Returns:
             The isOptional value
-        
+
         Note:
             Delegates to is_optional property (CODING_RULE_V2_00017)
         """
@@ -606,13 +606,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def setIsOptional(self, value: "Boolean") -> "ImplementationDataTypeElement":
         """
         AUTOSAR-compliant setter for isOptional with method chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_optional property setter (gets validation automatically)
         """
@@ -622,10 +622,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def getSubElement(self) -> List["ImplementationData"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -634,10 +634,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -646,13 +646,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def setSwDataDef(self, value: "SwDataDefProps") -> "ImplementationDataTypeElement":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -664,13 +664,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def with_array_impl_policy(self, value: Optional["ArrayImplPolicyEnum"]) -> "ImplementationDataTypeElement":
         """
         Set arrayImplPolicy and return self for chaining.
-        
+
         Args:
             value: The arrayImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_impl_policy("value")
         """
@@ -680,13 +680,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "ImplementationDataTypeElement":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -696,13 +696,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def with_is_optional(self, value: Optional["Boolean"]) -> "ImplementationDataTypeElement":
         """
         Set isOptional and return self for chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_optional("value")
         """
@@ -712,13 +712,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "ImplementationDataTypeElement":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """

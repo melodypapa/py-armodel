@@ -25,9 +25,9 @@ class SignalServiceTranslationProps(Identifiable):
     """
     This element allows to define the properties which are applicable for the
     signal/service translation service.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 336, Classic
       Platform R23-11)
@@ -74,10 +74,10 @@ class SignalServiceTranslationProps(Identifiable):
     def service_control(self, value: Optional["SignalService"]) -> None:
         """
         Set serviceControl with validation.
-        
+
         Args:
             value: The serviceControl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -198,10 +198,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getControl(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for control.
-        
+
         Returns:
             The control value
-        
+
         Note:
             Delegates to control property (CODING_RULE_V2_00017)
         """
@@ -210,10 +210,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getControlPnc(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for controlPnc.
-        
+
         Returns:
             The controlPnc value
-        
+
         Note:
             Delegates to control_pnc property (CODING_RULE_V2_00017)
         """
@@ -222,10 +222,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getControlProvided(self) -> List["EventHandler"]:
         """
         AUTOSAR-compliant getter for controlProvided.
-        
+
         Returns:
             The controlProvided value
-        
+
         Note:
             Delegates to control_provided property (CODING_RULE_V2_00017)
         """
@@ -234,10 +234,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getServiceControl(self) -> "SignalService":
         """
         AUTOSAR-compliant getter for serviceControl.
-        
+
         Returns:
             The serviceControl value
-        
+
         Note:
             Delegates to service_control property (CODING_RULE_V2_00017)
         """
@@ -246,13 +246,13 @@ class SignalServiceTranslationProps(Identifiable):
     def setServiceControl(self, value: "SignalService") -> "SignalServiceTranslationProps":
         """
         AUTOSAR-compliant setter for serviceControl with method chaining.
-        
+
         Args:
             value: The serviceControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_control property setter (gets validation automatically)
         """
@@ -262,10 +262,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getSignalServiceEventProps(self) -> List["SignalService"]:
         """
         AUTOSAR-compliant getter for signalServiceEventProps.
-        
+
         Returns:
             The signalServiceEventProps value
-        
+
         Note:
             Delegates to signal_service_event_props property (CODING_RULE_V2_00017)
         """
@@ -276,13 +276,13 @@ class SignalServiceTranslationProps(Identifiable):
     def with_service_control(self, value: Optional["SignalService"]) -> "SignalServiceTranslationProps":
         """
         Set serviceControl and return self for chaining.
-        
+
         Args:
             value: The serviceControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_control("value")
         """
@@ -294,9 +294,9 @@ class SignalServiceTranslationProps(Identifiable):
 class SignalServiceTranslationPropsSet(ARElement):
     """
     Collection of SignalServiceTranslationProps.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationPropsSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 730, Classic Platform R23-11)
     """
@@ -317,10 +317,10 @@ class SignalServiceTranslationPropsSet(ARElement):
     def getSignalServiceProps(self) -> List["SignalService"]:
         """
         AUTOSAR-compliant getter for signalServiceProps.
-        
+
         Returns:
             The signalServiceProps value
-        
+
         Note:
             Delegates to signal_service_props property (CODING_RULE_V2_00017)
         """
@@ -334,9 +334,9 @@ class SignalServiceTranslationEventProps(Identifiable):
     """
     This element allows to define the properties which are applicable for the
     signal/service translation event.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationEventProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 731, Classic Platform R23-11)
     """
@@ -363,10 +363,10 @@ class SignalServiceTranslationEventProps(Identifiable):
     def safe_translation(self, value: Optional["Boolean"]) -> None:
         """
         Set safeTranslation with validation.
-        
+
         Args:
             value: The safeTranslation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -390,10 +390,10 @@ class SignalServiceTranslationEventProps(Identifiable):
     def secure(self, value: Optional["Boolean"]) -> None:
         """
         Set secure with validation.
-        
+
         Args:
             value: The secure to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -418,10 +418,10 @@ class SignalServiceTranslationEventProps(Identifiable):
     def translation(self, value: Optional["RefType"]) -> None:
         """
         Set translation with validation.
-        
+
         Args:
             value: The translation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -436,10 +436,10 @@ class SignalServiceTranslationEventProps(Identifiable):
     def getElementProps(self) -> List["SignalService"]:
         """
         AUTOSAR-compliant getter for elementProps.
-        
+
         Returns:
             The elementProps value
-        
+
         Note:
             Delegates to element_props property (CODING_RULE_V2_00017)
         """
@@ -448,10 +448,10 @@ class SignalServiceTranslationEventProps(Identifiable):
     def getSafeTranslation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for safeTranslation.
-        
+
         Returns:
             The safeTranslation value
-        
+
         Note:
             Delegates to safe_translation property (CODING_RULE_V2_00017)
         """
@@ -460,13 +460,13 @@ class SignalServiceTranslationEventProps(Identifiable):
     def setSafeTranslation(self, value: "Boolean") -> "SignalServiceTranslationEventProps":
         """
         AUTOSAR-compliant setter for safeTranslation with method chaining.
-        
+
         Args:
             value: The safeTranslation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to safe_translation property setter (gets validation automatically)
         """
@@ -476,10 +476,10 @@ class SignalServiceTranslationEventProps(Identifiable):
     def getSecure(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for secure.
-        
+
         Returns:
             The secure value
-        
+
         Note:
             Delegates to secure property (CODING_RULE_V2_00017)
         """
@@ -488,13 +488,13 @@ class SignalServiceTranslationEventProps(Identifiable):
     def setSecure(self, value: "Boolean") -> "SignalServiceTranslationEventProps":
         """
         AUTOSAR-compliant setter for secure with method chaining.
-        
+
         Args:
             value: The secure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to secure property setter (gets validation automatically)
         """
@@ -504,10 +504,10 @@ class SignalServiceTranslationEventProps(Identifiable):
     def getTranslation(self) -> "RefType":
         """
         AUTOSAR-compliant getter for translation.
-        
+
         Returns:
             The translation value
-        
+
         Note:
             Delegates to translation property (CODING_RULE_V2_00017)
         """
@@ -516,13 +516,13 @@ class SignalServiceTranslationEventProps(Identifiable):
     def setTranslation(self, value: "RefType") -> "SignalServiceTranslationEventProps":
         """
         AUTOSAR-compliant setter for translation with method chaining.
-        
+
         Args:
             value: The translation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to translation property setter (gets validation automatically)
         """
@@ -534,13 +534,13 @@ class SignalServiceTranslationEventProps(Identifiable):
     def with_safe_translation(self, value: Optional["Boolean"]) -> "SignalServiceTranslationEventProps":
         """
         Set safeTranslation and return self for chaining.
-        
+
         Args:
             value: The safeTranslation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_safe_translation("value")
         """
@@ -550,13 +550,13 @@ class SignalServiceTranslationEventProps(Identifiable):
     def with_secure(self, value: Optional["Boolean"]) -> "SignalServiceTranslationEventProps":
         """
         Set secure and return self for chaining.
-        
+
         Args:
             value: The secure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_secure("value")
         """
@@ -566,13 +566,13 @@ class SignalServiceTranslationEventProps(Identifiable):
     def with_translation(self, value: Optional[RefType]) -> "SignalServiceTranslationEventProps":
         """
         Set translation and return self for chaining.
-        
+
         Args:
             value: The translation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_translation("value")
         """
@@ -584,9 +584,9 @@ class SignalServiceTranslationEventProps(Identifiable):
 class SignalServiceTranslationElementProps(Identifiable):
     """
     Defined translation properties for individual mapped elements.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationElementProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 735, Classic Platform R23-11)
     """
@@ -606,10 +606,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def element(self, value: Optional["RefType"]) -> None:
         """
         Set element with validation.
-        
+
         Args:
             value: The element to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -629,10 +629,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set filter with validation.
-        
+
         Args:
             value: The filter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -657,10 +657,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def transmission(self, value: Optional["Boolean"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -679,10 +679,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def getElement(self) -> "RefType":
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -691,13 +691,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def setElement(self, value: "RefType") -> "SignalServiceTranslationElementProps":
         """
         AUTOSAR-compliant setter for element with method chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to element property setter (gets validation automatically)
         """
@@ -707,10 +707,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def getFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for filter.
-        
+
         Returns:
             The filter value
-        
+
         Note:
             Delegates to filter property (CODING_RULE_V2_00017)
         """
@@ -719,13 +719,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def setFilter(self, value: "DataFilter") -> "SignalServiceTranslationElementProps":
         """
         AUTOSAR-compliant setter for filter with method chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter property setter (gets validation automatically)
         """
@@ -735,10 +735,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def getTransmission(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -747,13 +747,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def setTransmission(self, value: "Boolean") -> "SignalServiceTranslationElementProps":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -765,13 +765,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def with_element(self, value: Optional[RefType]) -> "SignalServiceTranslationElementProps":
         """
         Set element and return self for chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_element("value")
         """
@@ -781,13 +781,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def with_filter(self, value: Optional["DataFilter"]) -> "SignalServiceTranslationElementProps":
         """
         Set filter and return self for chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter("value")
         """
@@ -797,13 +797,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def with_transmission(self, value: Optional["Boolean"]) -> "SignalServiceTranslationElementProps":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """

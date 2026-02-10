@@ -19,9 +19,9 @@ class Field(AutosarDataPrototype):
     This meta-class represents the ability to define a piece of data that can be
     accessed with read and/or write semantics. It is also possible to generate a
     notification if the value of the data changes.
-    
+
     Package: M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface::Field
-    
+
     Sources:
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 45, Foundation
       R23-11)
@@ -42,10 +42,10 @@ class Field(AutosarDataPrototype):
     def has_getter(self, value: Optional["Boolean"]) -> None:
         """
         Set hasGetter with validation.
-        
+
         Args:
             value: The hasGetter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class Field(AutosarDataPrototype):
     def has_notifier(self, value: Optional["Boolean"]) -> None:
         """
         Set hasNotifier with validation.
-        
+
         Args:
             value: The hasNotifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +96,10 @@ class Field(AutosarDataPrototype):
     def has_setter(self, value: Optional["Boolean"]) -> None:
         """
         Set hasSetter with validation.
-        
+
         Args:
             value: The hasSetter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +118,10 @@ class Field(AutosarDataPrototype):
     def getHasGetter(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for hasGetter.
-        
+
         Returns:
             The hasGetter value
-        
+
         Note:
             Delegates to has_getter property (CODING_RULE_V2_00017)
         """
@@ -130,13 +130,13 @@ class Field(AutosarDataPrototype):
     def setHasGetter(self, value: "Boolean") -> "Field":
         """
         AUTOSAR-compliant setter for hasGetter with method chaining.
-        
+
         Args:
             value: The hasGetter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to has_getter property setter (gets validation automatically)
         """
@@ -146,10 +146,10 @@ class Field(AutosarDataPrototype):
     def getHasNotifier(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for hasNotifier.
-        
+
         Returns:
             The hasNotifier value
-        
+
         Note:
             Delegates to has_notifier property (CODING_RULE_V2_00017)
         """
@@ -158,13 +158,13 @@ class Field(AutosarDataPrototype):
     def setHasNotifier(self, value: "Boolean") -> "Field":
         """
         AUTOSAR-compliant setter for hasNotifier with method chaining.
-        
+
         Args:
             value: The hasNotifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to has_notifier property setter (gets validation automatically)
         """
@@ -174,10 +174,10 @@ class Field(AutosarDataPrototype):
     def getHasSetter(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for hasSetter.
-        
+
         Returns:
             The hasSetter value
-        
+
         Note:
             Delegates to has_setter property (CODING_RULE_V2_00017)
         """
@@ -186,13 +186,13 @@ class Field(AutosarDataPrototype):
     def setHasSetter(self, value: "Boolean") -> "Field":
         """
         AUTOSAR-compliant setter for hasSetter with method chaining.
-        
+
         Args:
             value: The hasSetter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to has_setter property setter (gets validation automatically)
         """
@@ -204,13 +204,13 @@ class Field(AutosarDataPrototype):
     def with_has_getter(self, value: Optional["Boolean"]) -> "Field":
         """
         Set hasGetter and return self for chaining.
-        
+
         Args:
             value: The hasGetter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_has_getter("value")
         """
@@ -220,13 +220,13 @@ class Field(AutosarDataPrototype):
     def with_has_notifier(self, value: Optional["Boolean"]) -> "Field":
         """
         Set hasNotifier and return self for chaining.
-        
+
         Args:
             value: The hasNotifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_has_notifier("value")
         """
@@ -236,13 +236,13 @@ class Field(AutosarDataPrototype):
     def with_has_setter(self, value: Optional["Boolean"]) -> "Field":
         """
         Set hasSetter and return self for chaining.
-        
+
         Args:
             value: The hasSetter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_has_setter("value")
         """

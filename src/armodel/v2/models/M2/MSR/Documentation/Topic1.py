@@ -3,33 +3,6 @@ from typing import Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFigure import (
-    MlFigure,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFormula import (
-    MlFormula,
-)
-from armodel.v2.models.M2.MSR.Documentation.MsrQueryP1 import (
-    MsrQueryP1,
-)
-from armodel.v2.models.M2.MSR.Documentation.MsrQueryP2 import (
-    MsrQueryP2,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.MultiLanguageVerbatim import (
-    MultiLanguageVerbatim,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.Note import (
-    Note,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.StructuredReq import (
-    StructuredReq,
-)
-from armodel.v2.models.M2.MSR.Documentation.TopicContent import (
-    TopicContent,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.TraceableText import (
-    TraceableText,
-)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Paginateable import (
     Paginateable,
 )

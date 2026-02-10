@@ -25,9 +25,9 @@ class ViewMap(Identifiable):
     imply this generality. This mapping allows to trace transformations of
     artifacts within the AUTOSAR environment. The references to the mapped
     elements can be plain references and/or InstanceRefs.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet::ViewMap
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2079, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 401, Foundation
@@ -57,10 +57,10 @@ class ViewMap(Identifiable):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +134,10 @@ class ViewMap(Identifiable):
     def getFirstElement(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for firstElement.
-        
+
         Returns:
             The firstElement value
-        
+
         Note:
             Delegates to first_element property (CODING_RULE_V2_00017)
         """
@@ -146,10 +146,10 @@ class ViewMap(Identifiable):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -158,13 +158,13 @@ class ViewMap(Identifiable):
     def setRole(self, value: "Identifier") -> "ViewMap":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -174,10 +174,10 @@ class ViewMap(Identifiable):
     def getSecondElement(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for secondElement.
-        
+
         Returns:
             The secondElement value
-        
+
         Note:
             Delegates to second_element property (CODING_RULE_V2_00017)
         """
@@ -188,13 +188,13 @@ class ViewMap(Identifiable):
     def with_role(self, value: Optional["Identifier"]) -> "ViewMap":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -207,9 +207,9 @@ class ViewMapSet(ARElement):
     """
     Collection of ViewMaps that are used to establish relationships between
     different AUTOSAR artifacts.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet::ViewMapSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2079, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 401, Foundation
@@ -232,10 +232,10 @@ class ViewMapSet(ARElement):
     def getViewMap(self) -> List["ViewMap"]:
         """
         AUTOSAR-compliant getter for viewMap.
-        
+
         Returns:
             The viewMap value
-        
+
         Note:
             Delegates to view_map property (CODING_RULE_V2_00017)
         """

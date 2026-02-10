@@ -21,9 +21,9 @@ class TimingExtension(ARElement, ABC):
     extensions. Depending on the specific timing extension the timing
     descriptions and timing constraints, that can be used to specify the timing
     behavior, are restricted.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::TimingExtension
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 254, Classic Platform R23-11)
     """
@@ -74,10 +74,10 @@ class TimingExtension(ARElement, ABC):
     def timing_resource(self, value: Optional["TimingExtension"]) -> None:
         """
         Set timingResource with validation.
-        
+
         Args:
             value: The timingResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -160,10 +160,10 @@ class TimingExtension(ARElement, ABC):
     def getTimingClock(self) -> List["TimingClockSync"]:
         """
         AUTOSAR-compliant getter for timingClock.
-        
+
         Returns:
             The timingClock value
-        
+
         Note:
             Delegates to timing_clock property (CODING_RULE_V2_00017)
         """
@@ -172,10 +172,10 @@ class TimingExtension(ARElement, ABC):
     def getTimingCondition(self) -> List["TimingCondition"]:
         """
         AUTOSAR-compliant getter for timingCondition.
-        
+
         Returns:
             The timingCondition value
-        
+
         Note:
             Delegates to timing_condition property (CODING_RULE_V2_00017)
         """
@@ -184,10 +184,10 @@ class TimingExtension(ARElement, ABC):
     def getTiming(self) -> List["TimingConstraint"]:
         """
         AUTOSAR-compliant getter for timing.
-        
+
         Returns:
             The timing value
-        
+
         Note:
             Delegates to timing property (CODING_RULE_V2_00017)
         """
@@ -196,10 +196,10 @@ class TimingExtension(ARElement, ABC):
     def getTimingResource(self) -> "TimingExtension":
         """
         AUTOSAR-compliant getter for timingResource.
-        
+
         Returns:
             The timingResource value
-        
+
         Note:
             Delegates to timing_resource property (CODING_RULE_V2_00017)
         """
@@ -208,13 +208,13 @@ class TimingExtension(ARElement, ABC):
     def setTimingResource(self, value: "TimingExtension") -> "TimingExtension":
         """
         AUTOSAR-compliant setter for timingResource with method chaining.
-        
+
         Args:
             value: The timingResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_resource property setter (gets validation automatically)
         """
@@ -226,13 +226,13 @@ class TimingExtension(ARElement, ABC):
     def with_timing_resource(self, value: Optional["TimingExtension"]) -> "TimingExtension":
         """
         Set timingResource and return self for chaining.
-        
+
         Args:
             value: The timingResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_resource("value")
         """
@@ -246,9 +246,9 @@ class VfbTiming(TimingExtension):
     A model element used to define timing descriptions and constraints at VFB
     level. TimingDescriptions aggregated by VfbTiming are restricted to event
     chains referring to events which are derived from the class TDEventVfb.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::VfbTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 24, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 223, Foundation R23-11)
@@ -270,10 +270,10 @@ class VfbTiming(TimingExtension):
     def component(self, value: Optional["SwComponentType"]) -> None:
         """
         Set component with validation.
-        
+
         Args:
             value: The component to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -292,10 +292,10 @@ class VfbTiming(TimingExtension):
     def getComponent(self) -> "SwComponentType":
         """
         AUTOSAR-compliant getter for component.
-        
+
         Returns:
             The component value
-        
+
         Note:
             Delegates to component property (CODING_RULE_V2_00017)
         """
@@ -304,13 +304,13 @@ class VfbTiming(TimingExtension):
     def setComponent(self, value: "SwComponentType") -> "VfbTiming":
         """
         AUTOSAR-compliant setter for component with method chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to component property setter (gets validation automatically)
         """
@@ -322,13 +322,13 @@ class VfbTiming(TimingExtension):
     def with_component(self, value: Optional["SwComponentType"]) -> "VfbTiming":
         """
         Set component and return self for chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_component("value")
         """
@@ -343,9 +343,9 @@ class SwcTiming(TimingExtension):
     component. TimingDescriptions aggregated by SwcTiming are restricted to
     event chains referring to events which are derived from the classes
     TDEventVfb and TDEventSwcInternalBehavior.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::SwcTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 25, Classic Platform R23-11)
     """
@@ -368,10 +368,10 @@ class SwcTiming(TimingExtension):
     def behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set behavior with validation.
-        
+
         Args:
             value: The behavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -390,10 +390,10 @@ class SwcTiming(TimingExtension):
     def getBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for behavior.
-        
+
         Returns:
             The behavior value
-        
+
         Note:
             Delegates to behavior property (CODING_RULE_V2_00017)
         """
@@ -402,13 +402,13 @@ class SwcTiming(TimingExtension):
     def setBehavior(self, value: "SwcInternalBehavior") -> "SwcTiming":
         """
         AUTOSAR-compliant setter for behavior with method chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to behavior property setter (gets validation automatically)
         """
@@ -420,13 +420,13 @@ class SwcTiming(TimingExtension):
     def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcTiming":
         """
         Set behavior and return self for chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_behavior("value")
         """
@@ -443,9 +443,9 @@ class SystemTiming(TimingExtension):
     TimingDescriptions aggregated by SystemTiming are restricted to events which
     are derived from the class TDEventVfb, TDEventSwcInternalBehavior and
     TDEventCom.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::SystemTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 26, Classic Platform R23-11)
     """
@@ -466,10 +466,10 @@ class SystemTiming(TimingExtension):
     def system(self, value: Optional["System"]) -> None:
         """
         Set system with validation.
-        
+
         Args:
             value: The system to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -488,10 +488,10 @@ class SystemTiming(TimingExtension):
     def getSystem(self) -> "System":
         """
         AUTOSAR-compliant getter for system.
-        
+
         Returns:
             The system value
-        
+
         Note:
             Delegates to system property (CODING_RULE_V2_00017)
         """
@@ -500,13 +500,13 @@ class SystemTiming(TimingExtension):
     def setSystem(self, value: "System") -> "SystemTiming":
         """
         AUTOSAR-compliant setter for system with method chaining.
-        
+
         Args:
             value: The system to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system property setter (gets validation automatically)
         """
@@ -518,13 +518,13 @@ class SystemTiming(TimingExtension):
     def with_system(self, value: Optional["System"]) -> "SystemTiming":
         """
         Set system and return self for chaining.
-        
+
         Args:
             value: The system to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system("value")
         """
@@ -541,9 +541,9 @@ class BswModuleTiming(TimingExtension):
     true for all Implementations of that BswInternalBehavior. TimingDescriptions
     aggregated by BswModuleTiming are restricted to event chains referring to
     events which are derived from the class TDEventBswInternalBehavior.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::BswModuleTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 28, Classic Platform R23-11)
     """
@@ -564,10 +564,10 @@ class BswModuleTiming(TimingExtension):
     def behavior(self, value: Optional["BswInternalBehavior"]) -> None:
         """
         Set behavior with validation.
-        
+
         Args:
             value: The behavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -586,10 +586,10 @@ class BswModuleTiming(TimingExtension):
     def getBehavior(self) -> "BswInternalBehavior":
         """
         AUTOSAR-compliant getter for behavior.
-        
+
         Returns:
             The behavior value
-        
+
         Note:
             Delegates to behavior property (CODING_RULE_V2_00017)
         """
@@ -598,13 +598,13 @@ class BswModuleTiming(TimingExtension):
     def setBehavior(self, value: "BswInternalBehavior") -> "BswModuleTiming":
         """
         AUTOSAR-compliant setter for behavior with method chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to behavior property setter (gets validation automatically)
         """
@@ -616,13 +616,13 @@ class BswModuleTiming(TimingExtension):
     def with_behavior(self, value: Optional["BswInternalBehavior"]) -> "BswModuleTiming":
         """
         Set behavior and return self for chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_behavior("value")
         """
@@ -642,9 +642,9 @@ class BswCompositionTiming(TimingExtension):
     class TDEventBswInternalBehavior and TDEventBsw. (cid:53) 28 of 277 Document
     ID 411: AUTOSAR_CP_TPS_TimingExtensions Specification of Timing Extensions
     for Classic Platform AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::BswCompositionTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 28, Classic Platform R23-11)
     """
@@ -666,10 +666,10 @@ class BswCompositionTiming(TimingExtension):
     def getImplementation(self) -> List["BswImplementation"]:
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -685,9 +685,9 @@ class EcuTiming(TimingExtension):
     the scope of one ECU configuration. TimingDescriptions aggregated by
     EcuTiming are allowed to use all events derived from the class Timing
     DescriptionEvent.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::EcuTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 30, Classic Platform R23-11)
     """
@@ -708,10 +708,10 @@ class EcuTiming(TimingExtension):
     def ecu(self, value: Optional["RefType"]) -> None:
         """
         Set ecu with validation.
-        
+
         Args:
             value: The ecu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -726,10 +726,10 @@ class EcuTiming(TimingExtension):
     def getEcu(self) -> "RefType":
         """
         AUTOSAR-compliant getter for ecu.
-        
+
         Returns:
             The ecu value
-        
+
         Note:
             Delegates to ecu property (CODING_RULE_V2_00017)
         """
@@ -738,13 +738,13 @@ class EcuTiming(TimingExtension):
     def setEcu(self, value: "RefType") -> "EcuTiming":
         """
         AUTOSAR-compliant setter for ecu with method chaining.
-        
+
         Args:
             value: The ecu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu property setter (gets validation automatically)
         """
@@ -756,13 +756,13 @@ class EcuTiming(TimingExtension):
     def with_ecu(self, value: Optional[RefType]) -> "EcuTiming":
         """
         Set ecu and return self for chaining.
-        
+
         Args:
             value: The ecu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu("value")
         """

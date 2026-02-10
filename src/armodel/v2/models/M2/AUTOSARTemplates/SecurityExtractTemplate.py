@@ -32,9 +32,9 @@ class SecurityEventContextProps(Identifiable):
     This meta-class specifies the SecurityEventDefinition to be mapped to an
     IdsmInstance and adds mapping-dependent properties of this security event
     valid only for this specific mapping.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 258, Classic Platform
       R23-11)
@@ -58,10 +58,10 @@ class SecurityEventContextProps(Identifiable):
     def context_data(self, value: Optional["SecurityEventContext"]) -> None:
         """
         Set contextData with validation.
-        
+
         Args:
             value: The contextData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class SecurityEventContextProps(Identifiable):
     def default(self, value: Optional["SecurityEventReporting"]) -> None:
         """
         Set default with validation.
-        
+
         Args:
             value: The default to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class SecurityEventContextProps(Identifiable):
     def persistent(self, value: Optional["Boolean"]) -> None:
         """
         Set persistent with validation.
-        
+
         Args:
             value: The persistent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -143,10 +143,10 @@ class SecurityEventContextProps(Identifiable):
     def security_event(self, value: Optional["SecurityEventDefinition"]) -> None:
         """
         Set securityEvent with validation.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class SecurityEventContextProps(Identifiable):
     def sensor_instance(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sensorInstance with validation.
-        
+
         Args:
             value: The sensorInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -204,10 +204,10 @@ class SecurityEventContextProps(Identifiable):
     def severity(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set severity with validation.
-        
+
         Args:
             value: The severity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -306,10 +306,10 @@ class SecurityEventContextProps(Identifiable):
     def getContextData(self) -> "SecurityEventContext":
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -318,13 +318,13 @@ class SecurityEventContextProps(Identifiable):
     def setContextData(self, value: "SecurityEventContext") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for contextData with method chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_data property setter (gets validation automatically)
         """
@@ -334,10 +334,10 @@ class SecurityEventContextProps(Identifiable):
     def getDefault(self) -> "SecurityEventReporting":
         """
         AUTOSAR-compliant getter for default.
-        
+
         Returns:
             The default value
-        
+
         Note:
             Delegates to default property (CODING_RULE_V2_00017)
         """
@@ -346,13 +346,13 @@ class SecurityEventContextProps(Identifiable):
     def setDefault(self, value: "SecurityEventReporting") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for default with method chaining.
-        
+
         Args:
             value: The default to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default property setter (gets validation automatically)
         """
@@ -362,10 +362,10 @@ class SecurityEventContextProps(Identifiable):
     def getPersistent(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for persistent.
-        
+
         Returns:
             The persistent value
-        
+
         Note:
             Delegates to persistent property (CODING_RULE_V2_00017)
         """
@@ -374,13 +374,13 @@ class SecurityEventContextProps(Identifiable):
     def setPersistent(self, value: "Boolean") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for persistent with method chaining.
-        
+
         Args:
             value: The persistent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to persistent property setter (gets validation automatically)
         """
@@ -390,10 +390,10 @@ class SecurityEventContextProps(Identifiable):
     def getSecurityEvent(self) -> "SecurityEventDefinition":
         """
         AUTOSAR-compliant getter for securityEvent.
-        
+
         Returns:
             The securityEvent value
-        
+
         Note:
             Delegates to security_event property (CODING_RULE_V2_00017)
         """
@@ -402,13 +402,13 @@ class SecurityEventContextProps(Identifiable):
     def setSecurityEvent(self, value: "SecurityEventDefinition") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for securityEvent with method chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_event property setter (gets validation automatically)
         """
@@ -418,10 +418,10 @@ class SecurityEventContextProps(Identifiable):
     def getSensorInstance(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sensorInstance.
-        
+
         Returns:
             The sensorInstance value
-        
+
         Note:
             Delegates to sensor_instance property (CODING_RULE_V2_00017)
         """
@@ -430,13 +430,13 @@ class SecurityEventContextProps(Identifiable):
     def setSensorInstance(self, value: "PositiveInteger") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for sensorInstance with method chaining.
-        
+
         Args:
             value: The sensorInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sensor_instance property setter (gets validation automatically)
         """
@@ -446,10 +446,10 @@ class SecurityEventContextProps(Identifiable):
     def getSeverity(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for severity.
-        
+
         Returns:
             The severity value
-        
+
         Note:
             Delegates to severity property (CODING_RULE_V2_00017)
         """
@@ -458,13 +458,13 @@ class SecurityEventContextProps(Identifiable):
     def setSeverity(self, value: "PositiveInteger") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for severity with method chaining.
-        
+
         Args:
             value: The severity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to severity property setter (gets validation automatically)
         """
@@ -476,13 +476,13 @@ class SecurityEventContextProps(Identifiable):
     def with_context_data(self, value: Optional["SecurityEventContext"]) -> "SecurityEventContextProps":
         """
         Set contextData and return self for chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_data("value")
         """
@@ -492,13 +492,13 @@ class SecurityEventContextProps(Identifiable):
     def with_default(self, value: Optional["SecurityEventReporting"]) -> "SecurityEventContextProps":
         """
         Set default and return self for chaining.
-        
+
         Args:
             value: The default to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default("value")
         """
@@ -508,13 +508,13 @@ class SecurityEventContextProps(Identifiable):
     def with_persistent(self, value: Optional["Boolean"]) -> "SecurityEventContextProps":
         """
         Set persistent and return self for chaining.
-        
+
         Args:
             value: The persistent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_persistent("value")
         """
@@ -524,13 +524,13 @@ class SecurityEventContextProps(Identifiable):
     def with_security_event(self, value: Optional["SecurityEventDefinition"]) -> "SecurityEventContextProps":
         """
         Set securityEvent and return self for chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_event("value")
         """
@@ -540,13 +540,13 @@ class SecurityEventContextProps(Identifiable):
     def with_sensor_instance(self, value: Optional["PositiveInteger"]) -> "SecurityEventContextProps":
         """
         Set sensorInstance and return self for chaining.
-        
+
         Args:
             value: The sensorInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sensor_instance("value")
         """
@@ -556,13 +556,13 @@ class SecurityEventContextProps(Identifiable):
     def with_severity(self, value: Optional["PositiveInteger"]) -> "SecurityEventContextProps":
         """
         Set severity and return self for chaining.
-        
+
         Args:
             value: The severity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_severity("value")
         """
@@ -577,9 +577,9 @@ class IdsDesign(ARElement):
     IDS development. It defines the scope of an IDS to be designed and
     implemented by referencing all SecurityExtract meta-classes that need to be
     included into the IDS development process.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsDesign
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 16, Foundation R23-11)
     """
@@ -601,10 +601,10 @@ class IdsDesign(ARElement):
     def getElement(self) -> List["IdsCommonElement"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -617,9 +617,9 @@ class IdsDesign(ARElement):
 class AbstractSecurityEventFilter(Identifiable, ABC):
     """
     This meta-class acts as a base class for security event filters.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::AbstractSecurityEventFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 21, Foundation R23-11)
     """
@@ -642,9 +642,9 @@ class IdsmRateLimitation(Identifiable):
     security events. This means that security events are dropped if the number
     of events (of any type) processed within a configurable time window is
     greater than a configurable threshold.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmRateLimitation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 28, Foundation R23-11)
     """
@@ -665,10 +665,10 @@ class IdsmRateLimitation(Identifiable):
     def max_events_in(self, value: "PositiveInteger") -> None:
         """
         Set maxEventsIn with validation.
-        
+
         Args:
             value: The maxEventsIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -690,10 +690,10 @@ class IdsmRateLimitation(Identifiable):
     def time_interval(self, value: "Float") -> None:
         """
         Set timeInterval with validation.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -708,10 +708,10 @@ class IdsmRateLimitation(Identifiable):
     def getMaxEventsIn(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxEventsIn.
-        
+
         Returns:
             The maxEventsIn value
-        
+
         Note:
             Delegates to max_events_in property (CODING_RULE_V2_00017)
         """
@@ -720,13 +720,13 @@ class IdsmRateLimitation(Identifiable):
     def setMaxEventsIn(self, value: "PositiveInteger") -> "IdsmRateLimitation":
         """
         AUTOSAR-compliant setter for maxEventsIn with method chaining.
-        
+
         Args:
             value: The maxEventsIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_events_in property setter (gets validation automatically)
         """
@@ -736,10 +736,10 @@ class IdsmRateLimitation(Identifiable):
     def getTimeInterval(self) -> "Float":
         """
         AUTOSAR-compliant getter for timeInterval.
-        
+
         Returns:
             The timeInterval value
-        
+
         Note:
             Delegates to time_interval property (CODING_RULE_V2_00017)
         """
@@ -748,13 +748,13 @@ class IdsmRateLimitation(Identifiable):
     def setTimeInterval(self, value: "Float") -> "IdsmRateLimitation":
         """
         AUTOSAR-compliant setter for timeInterval with method chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_interval property setter (gets validation automatically)
         """
@@ -766,13 +766,13 @@ class IdsmRateLimitation(Identifiable):
     def with_max_events_in(self, value: "PositiveInteger") -> "IdsmRateLimitation":
         """
         Set maxEventsIn and return self for chaining.
-        
+
         Args:
             value: The maxEventsIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_events_in("value")
         """
@@ -782,13 +782,13 @@ class IdsmRateLimitation(Identifiable):
     def with_time_interval(self, value: "Float") -> "IdsmRateLimitation":
         """
         Set timeInterval and return self for chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_interval("value")
         """
@@ -803,9 +803,9 @@ class IdsmTrafficLimitation(Identifiable):
     for Security Events. This means that security events are dropped if the size
     (in terms of bandwidth) of security events (of any type) processed within a
     configurable time window is greater than a configurable threshold.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmTrafficLimitation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 28, Foundation R23-11)
     """
@@ -826,10 +826,10 @@ class IdsmTrafficLimitation(Identifiable):
     def max_bytes_in(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxBytesIn with validation.
-        
+
         Args:
             value: The maxBytesIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -855,10 +855,10 @@ class IdsmTrafficLimitation(Identifiable):
     def time_interval(self, value: Optional["Float"]) -> None:
         """
         Set timeInterval with validation.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -877,10 +877,10 @@ class IdsmTrafficLimitation(Identifiable):
     def getMaxBytesIn(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxBytesIn.
-        
+
         Returns:
             The maxBytesIn value
-        
+
         Note:
             Delegates to max_bytes_in property (CODING_RULE_V2_00017)
         """
@@ -889,13 +889,13 @@ class IdsmTrafficLimitation(Identifiable):
     def setMaxBytesIn(self, value: "PositiveInteger") -> "IdsmTrafficLimitation":
         """
         AUTOSAR-compliant setter for maxBytesIn with method chaining.
-        
+
         Args:
             value: The maxBytesIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_bytes_in property setter (gets validation automatically)
         """
@@ -905,10 +905,10 @@ class IdsmTrafficLimitation(Identifiable):
     def getTimeInterval(self) -> "Float":
         """
         AUTOSAR-compliant getter for timeInterval.
-        
+
         Returns:
             The timeInterval value
-        
+
         Note:
             Delegates to time_interval property (CODING_RULE_V2_00017)
         """
@@ -917,13 +917,13 @@ class IdsmTrafficLimitation(Identifiable):
     def setTimeInterval(self, value: "Float") -> "IdsmTrafficLimitation":
         """
         AUTOSAR-compliant setter for timeInterval with method chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_interval property setter (gets validation automatically)
         """
@@ -935,13 +935,13 @@ class IdsmTrafficLimitation(Identifiable):
     def with_max_bytes_in(self, value: Optional["PositiveInteger"]) -> "IdsmTrafficLimitation":
         """
         Set maxBytesIn and return self for chaining.
-        
+
         Args:
             value: The maxBytesIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_bytes_in("value")
         """
@@ -951,13 +951,13 @@ class IdsmTrafficLimitation(Identifiable):
     def with_time_interval(self, value: Optional["Float"]) -> "IdsmTrafficLimitation":
         """
         Set timeInterval and return self for chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_interval("value")
         """
@@ -973,9 +973,9 @@ class BlockState(Identifiable):
     any reported security event that is mapped to a filter chain containing a
     SecurityEventStateFilter that references the block state which is currently
     active in the IdsM.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::BlockState
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 52, Foundation R23-11)
     """
@@ -995,9 +995,9 @@ class IdsCommonElement(ARElement, ABC):
     This meta-class represents a common base class for IDS related elements of
     the Security Extract. It does not contribute any specific functionality
     other than the ability to become the target of a reference.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsCommonElement
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 62, Foundation R23-11)
     """
@@ -1019,9 +1019,9 @@ class IdsmSignatureSupportAp(ARObject):
     This meta-class defines, for the Adaptive Platform, the cryptographic
     algorithm and key to be used by the IdsM instance for providing signature
     information in QSEv messages.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmSignatureSupportAp
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 64, Foundation R23-11)
     """
@@ -1043,10 +1043,10 @@ class IdsmSignatureSupportAp(ARObject):
     def crypto_primitive(self, value: "String") -> None:
         """
         Set cryptoPrimitive with validation.
-        
+
         Args:
             value: The cryptoPrimitive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1067,10 +1067,10 @@ class IdsmSignatureSupportAp(ARObject):
     def key_slot(self, value: Optional["CryptoKeySlot"]) -> None:
         """
         Set keySlot with validation.
-        
+
         Args:
             value: The keySlot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1089,10 +1089,10 @@ class IdsmSignatureSupportAp(ARObject):
     def getCryptoPrimitive(self) -> "String":
         """
         AUTOSAR-compliant getter for cryptoPrimitive.
-        
+
         Returns:
             The cryptoPrimitive value
-        
+
         Note:
             Delegates to crypto_primitive property (CODING_RULE_V2_00017)
         """
@@ -1101,13 +1101,13 @@ class IdsmSignatureSupportAp(ARObject):
     def setCryptoPrimitive(self, value: "String") -> "IdsmSignatureSupportAp":
         """
         AUTOSAR-compliant setter for cryptoPrimitive with method chaining.
-        
+
         Args:
             value: The cryptoPrimitive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_primitive property setter (gets validation automatically)
         """
@@ -1117,10 +1117,10 @@ class IdsmSignatureSupportAp(ARObject):
     def getKeySlot(self) -> "CryptoKeySlot":
         """
         AUTOSAR-compliant getter for keySlot.
-        
+
         Returns:
             The keySlot value
-        
+
         Note:
             Delegates to key_slot property (CODING_RULE_V2_00017)
         """
@@ -1129,13 +1129,13 @@ class IdsmSignatureSupportAp(ARObject):
     def setKeySlot(self, value: "CryptoKeySlot") -> "IdsmSignatureSupportAp":
         """
         AUTOSAR-compliant setter for keySlot with method chaining.
-        
+
         Args:
             value: The keySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_slot property setter (gets validation automatically)
         """
@@ -1147,13 +1147,13 @@ class IdsmSignatureSupportAp(ARObject):
     def with_crypto_primitive(self, value: "String") -> "IdsmSignatureSupportAp":
         """
         Set cryptoPrimitive and return self for chaining.
-        
+
         Args:
             value: The cryptoPrimitive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_primitive("value")
         """
@@ -1163,13 +1163,13 @@ class IdsmSignatureSupportAp(ARObject):
     def with_key_slot(self, value: Optional["CryptoKeySlot"]) -> "IdsmSignatureSupportAp":
         """
         Set keySlot and return self for chaining.
-        
+
         Args:
             value: The keySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_slot("value")
         """
@@ -1183,9 +1183,9 @@ class IdsmSignatureSupportCp(ARObject):
     This meta-class defines, for the Classic Platform, the cryptographic
     algorithm and key to be used by the IdsM instance for providing signature
     information in QSEv messages.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmSignatureSupportCp
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 64, Foundation R23-11)
     """
@@ -1206,10 +1206,10 @@ class IdsmSignatureSupportCp(ARObject):
     def authentication(self, value: Optional["CryptoServicePrimitive"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1234,10 +1234,10 @@ class IdsmSignatureSupportCp(ARObject):
     def crypto_service(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set cryptoService with validation.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1256,10 +1256,10 @@ class IdsmSignatureSupportCp(ARObject):
     def getAuthentication(self) -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -1268,13 +1268,13 @@ class IdsmSignatureSupportCp(ARObject):
     def setAuthentication(self, value: "CryptoServicePrimitive") -> "IdsmSignatureSupportCp":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -1284,10 +1284,10 @@ class IdsmSignatureSupportCp(ARObject):
     def getCryptoService(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for cryptoService.
-        
+
         Returns:
             The cryptoService value
-        
+
         Note:
             Delegates to crypto_service property (CODING_RULE_V2_00017)
         """
@@ -1296,13 +1296,13 @@ class IdsmSignatureSupportCp(ARObject):
     def setCryptoService(self, value: "CryptoServiceKey") -> "IdsmSignatureSupportCp":
         """
         AUTOSAR-compliant setter for cryptoService with method chaining.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_service property setter (gets validation automatically)
         """
@@ -1314,13 +1314,13 @@ class IdsmSignatureSupportCp(ARObject):
     def with_authentication(self, value: Optional["CryptoServicePrimitive"]) -> "IdsmSignatureSupportCp":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -1330,13 +1330,13 @@ class IdsmSignatureSupportCp(ARObject):
     def with_crypto_service(self, value: Optional["CryptoServiceKey"]) -> "IdsmSignatureSupportCp":
         """
         Set cryptoService and return self for chaining.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_service("value")
         """
@@ -1351,9 +1351,9 @@ class SecurityEventContextData(ARObject):
     to the aggregating Security EventDefinition. If this meta-class does not
     exist for a SecurityEventDefinition, then no context data shall be provided
     for this SecurityEventDefinition.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextData
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 66, Foundation R23-11)
     """
@@ -1375,9 +1375,9 @@ class SecurityEventStateFilter(AbstractSecurityEventFilter):
     events are dropped if the referenced state is the active state in the
     relevant state machine (which depends on whether the IdsM instance runs on
     the Classic or the Adaptive Platform).
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventStateFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 22, Foundation R23-11)
     """
@@ -1401,10 +1401,10 @@ class SecurityEventStateFilter(AbstractSecurityEventFilter):
     def getBlockIfState(self) -> List["BlockState"]:
         """
         AUTOSAR-compliant getter for blockIfState.
-        
+
         Returns:
             The blockIfState value
-        
+
         Note:
             Delegates to block_if_state property (CODING_RULE_V2_00017)
         """
@@ -1418,9 +1418,9 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     """
     This meta-class represents the configuration of a sampling (i.e. every n-th
     event is sampled) filter for security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventOneEveryNFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 24, Foundation R23-11)
     """
@@ -1442,10 +1442,10 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def n(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set n with validation.
-        
+
         Args:
             value: The n to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1464,10 +1464,10 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def getN(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for n.
-        
+
         Returns:
             The n value
-        
+
         Note:
             Delegates to n property (CODING_RULE_V2_00017)
         """
@@ -1476,13 +1476,13 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def setN(self, value: "PositiveInteger") -> "SecurityEventOneEveryNFilter":
         """
         AUTOSAR-compliant setter for n with method chaining.
-        
+
         Args:
             value: The n to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to n property setter (gets validation automatically)
         """
@@ -1494,13 +1494,13 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def with_n(self, value: Optional["PositiveInteger"]) -> "SecurityEventOneEveryNFilter":
         """
         Set n and return self for chaining.
-        
+
         Args:
             value: The n to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_n("value")
         """
@@ -1514,9 +1514,9 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     This meta-class represents the aggregation filter that aggregates all
     security events occurring within a configured time frame into one (i.e. the
     last reported) security event.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventAggregationFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 24, Foundation R23-11)
     """
@@ -1537,10 +1537,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def context_data(self, value: Optional["SecurityEventContext"]) -> None:
         """
         Set contextData with validation.
-        
+
         Args:
             value: The contextData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1565,10 +1565,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def minimum(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1587,10 +1587,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def getContextData(self) -> "SecurityEventContext":
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -1599,13 +1599,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def setContextData(self, value: "SecurityEventContext") -> "SecurityEventAggregationFilter":
         """
         AUTOSAR-compliant setter for contextData with method chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_data property setter (gets validation automatically)
         """
@@ -1615,10 +1615,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def getMinimum(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -1627,13 +1627,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def setMinimum(self, value: "TimeValue") -> "SecurityEventAggregationFilter":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -1645,13 +1645,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def with_context_data(self, value: Optional["SecurityEventContext"]) -> "SecurityEventAggregationFilter":
         """
         Set contextData and return self for chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_data("value")
         """
@@ -1661,13 +1661,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def with_minimum(self, value: Optional["TimeValue"]) -> "SecurityEventAggregationFilter":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """
@@ -1682,9 +1682,9 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     each beginning of a configurable time interval) a configurable number of
     security events . All subsequently arriving security events (within the
     configured time interval) pass the filter.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventThresholdFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 26, Foundation R23-11)
     """
@@ -1704,10 +1704,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def interval_length(self, value: Optional["TimeValue"]) -> None:
         """
         Set intervalLength with validation.
-        
+
         Args:
             value: The intervalLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1734,10 +1734,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def threshold(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set threshold with validation.
-        
+
         Args:
             value: The threshold to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1756,10 +1756,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def getIntervalLength(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for intervalLength.
-        
+
         Returns:
             The intervalLength value
-        
+
         Note:
             Delegates to interval_length property (CODING_RULE_V2_00017)
         """
@@ -1768,13 +1768,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def setIntervalLength(self, value: "TimeValue") -> "SecurityEventThresholdFilter":
         """
         AUTOSAR-compliant setter for intervalLength with method chaining.
-        
+
         Args:
             value: The intervalLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interval_length property setter (gets validation automatically)
         """
@@ -1784,10 +1784,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def getThreshold(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for threshold.
-        
+
         Returns:
             The threshold value
-        
+
         Note:
             Delegates to threshold property (CODING_RULE_V2_00017)
         """
@@ -1796,13 +1796,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def setThreshold(self, value: "PositiveInteger") -> "SecurityEventThresholdFilter":
         """
         AUTOSAR-compliant setter for threshold with method chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to threshold property setter (gets validation automatically)
         """
@@ -1814,13 +1814,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def with_interval_length(self, value: Optional["TimeValue"]) -> "SecurityEventThresholdFilter":
         """
         Set intervalLength and return self for chaining.
-        
+
         Args:
             value: The intervalLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interval_length("value")
         """
@@ -1830,13 +1830,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def with_threshold(self, value: Optional["PositiveInteger"]) -> "SecurityEventThresholdFilter":
         """
         Set threshold and return self for chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_threshold("value")
         """
@@ -1849,9 +1849,9 @@ class SecurityEventDefinition(IdsCommonElement):
     """
     This meta-class defines a security-related event as part of the intrusion
     detection system.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventDefinition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 259, Classic Platform
       R23-11)
@@ -1874,10 +1874,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def event_symbol(self, value: Optional["SymbolProps"]) -> None:
         """
         Set eventSymbol with validation.
-        
+
         Args:
             value: The eventSymbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1902,10 +1902,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1924,10 +1924,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def getEventSymbol(self) -> "SymbolProps":
         """
         AUTOSAR-compliant getter for eventSymbol.
-        
+
         Returns:
             The eventSymbol value
-        
+
         Note:
             Delegates to event_symbol property (CODING_RULE_V2_00017)
         """
@@ -1936,13 +1936,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def setEventSymbol(self, value: "SymbolProps") -> "SecurityEventDefinition":
         """
         AUTOSAR-compliant setter for eventSymbol with method chaining.
-        
+
         Args:
             value: The eventSymbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_symbol property setter (gets validation automatically)
         """
@@ -1952,10 +1952,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -1964,13 +1964,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def setId(self, value: "PositiveInteger") -> "SecurityEventDefinition":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -1982,13 +1982,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def with_event_symbol(self, value: Optional["SymbolProps"]) -> "SecurityEventDefinition":
         """
         Set eventSymbol and return self for chaining.
-        
+
         Args:
             value: The eventSymbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_symbol("value")
         """
@@ -1998,13 +1998,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "SecurityEventDefinition":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -2019,9 +2019,9 @@ class SecurityEventFilterChain(IdsCommonElement):
     security events. The different filters of this filter chain are applied in
     the follow order: SecurityEventStateFilter, SecurityEventOneEvery NFilter,
     SecurityEventAggregationFilter, SecurityEventThresholdFilter.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventFilterChain
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 20, Foundation R23-11)
     """
@@ -2041,10 +2041,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def aggregation(self, value: Optional["SecurityEvent"]) -> None:
         """
         Set aggregation with validation.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2068,10 +2068,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def one_every_n(self, value: Optional["SecurityEventOneEvery"]) -> None:
         """
         Set oneEveryN with validation.
-        
+
         Args:
             value: The oneEveryN to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2096,10 +2096,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def state(self, value: Optional["SecurityEventStateFilter"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2123,10 +2123,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def threshold(self, value: Optional["SecurityEventThreshold"]) -> None:
         """
         Set threshold with validation.
-        
+
         Args:
             value: The threshold to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2145,10 +2145,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getAggregation(self) -> "SecurityEvent":
         """
         AUTOSAR-compliant getter for aggregation.
-        
+
         Returns:
             The aggregation value
-        
+
         Note:
             Delegates to aggregation property (CODING_RULE_V2_00017)
         """
@@ -2157,13 +2157,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setAggregation(self, value: "SecurityEvent") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for aggregation with method chaining.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to aggregation property setter (gets validation automatically)
         """
@@ -2173,10 +2173,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getOneEveryN(self) -> "SecurityEventOneEvery":
         """
         AUTOSAR-compliant getter for oneEveryN.
-        
+
         Returns:
             The oneEveryN value
-        
+
         Note:
             Delegates to one_every_n property (CODING_RULE_V2_00017)
         """
@@ -2185,13 +2185,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setOneEveryN(self, value: "SecurityEventOneEvery") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for oneEveryN with method chaining.
-        
+
         Args:
             value: The oneEveryN to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to one_every_n property setter (gets validation automatically)
         """
@@ -2201,10 +2201,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getState(self) -> "SecurityEventStateFilter":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -2213,13 +2213,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setState(self, value: "SecurityEventStateFilter") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -2229,10 +2229,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getThreshold(self) -> "SecurityEventThreshold":
         """
         AUTOSAR-compliant getter for threshold.
-        
+
         Returns:
             The threshold value
-        
+
         Note:
             Delegates to threshold property (CODING_RULE_V2_00017)
         """
@@ -2241,13 +2241,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setThreshold(self, value: "SecurityEventThreshold") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for threshold with method chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to threshold property setter (gets validation automatically)
         """
@@ -2259,13 +2259,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_aggregation(self, value: Optional["SecurityEvent"]) -> "SecurityEventFilterChain":
         """
         Set aggregation and return self for chaining.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_aggregation("value")
         """
@@ -2275,13 +2275,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_one_every_n(self, value: Optional["SecurityEventOneEvery"]) -> "SecurityEventFilterChain":
         """
         Set oneEveryN and return self for chaining.
-        
+
         Args:
             value: The oneEveryN to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_one_every_n("value")
         """
@@ -2291,13 +2291,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_state(self, value: Optional["SecurityEventStateFilter"]) -> "SecurityEventFilterChain":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """
@@ -2307,13 +2307,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_threshold(self, value: Optional["SecurityEventThreshold"]) -> "SecurityEventFilterChain":
         """
         Set threshold and return self for chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_threshold("value")
         """
@@ -2327,9 +2327,9 @@ class IdsmInstance(IdsCommonElement):
     This meta-class provides the ability to create a relation between an
     EcuInstance and a specific class of filters for security events that apply
     for all security events reported on the referenced EcuInstance.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmInstance
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 44, Foundation R23-11)
     """
@@ -2357,10 +2357,10 @@ class IdsmInstance(IdsCommonElement):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2385,10 +2385,10 @@ class IdsmInstance(IdsCommonElement):
     def idsm_instance_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set idsmInstanceId with validation.
-        
+
         Args:
             value: The idsmInstanceId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2413,10 +2413,10 @@ class IdsmInstance(IdsCommonElement):
     def idsm_module(self, value: Optional["IdsmModule"]) -> None:
         """
         Set idsmModule with validation.
-        
+
         Args:
             value: The idsmModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2442,10 +2442,10 @@ class IdsmInstance(IdsCommonElement):
     def rate_limitation(self, value: Optional["IdsmRateLimitation"]) -> None:
         """
         Set rateLimitation with validation.
-        
+
         Args:
             value: The rateLimitation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2472,10 +2472,10 @@ class IdsmInstance(IdsCommonElement):
     def signature(self, value: Optional["IdsmSignatureSupport"]) -> None:
         """
         Set signature with validation.
-        
+
         Args:
             value: The signature to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2506,10 +2506,10 @@ class IdsmInstance(IdsCommonElement):
     def timestamp(self, value: Optional["String"]) -> None:
         """
         Set timestamp with validation.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2535,10 +2535,10 @@ class IdsmInstance(IdsCommonElement):
     def traffic_limitation(self, value: Optional["IdsmTrafficLimitation"]) -> None:
         """
         Set trafficLimitation with validation.
-        
+
         Args:
             value: The trafficLimitation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2557,10 +2557,10 @@ class IdsmInstance(IdsCommonElement):
     def getBlockState(self) -> List["BlockState"]:
         """
         AUTOSAR-compliant getter for blockState.
-        
+
         Returns:
             The blockState value
-        
+
         Note:
             Delegates to block_state property (CODING_RULE_V2_00017)
         """
@@ -2569,10 +2569,10 @@ class IdsmInstance(IdsCommonElement):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -2581,13 +2581,13 @@ class IdsmInstance(IdsCommonElement):
     def setEcuInstance(self, value: "EcuInstance") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -2597,10 +2597,10 @@ class IdsmInstance(IdsCommonElement):
     def getIdsmInstanceId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for idsmInstanceId.
-        
+
         Returns:
             The idsmInstanceId value
-        
+
         Note:
             Delegates to idsm_instance_id property (CODING_RULE_V2_00017)
         """
@@ -2609,13 +2609,13 @@ class IdsmInstance(IdsCommonElement):
     def setIdsmInstanceId(self, value: "PositiveInteger") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for idsmInstanceId with method chaining.
-        
+
         Args:
             value: The idsmInstanceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idsm_instance_id property setter (gets validation automatically)
         """
@@ -2625,10 +2625,10 @@ class IdsmInstance(IdsCommonElement):
     def getIdsmModule(self) -> "IdsmModule":
         """
         AUTOSAR-compliant getter for idsmModule.
-        
+
         Returns:
             The idsmModule value
-        
+
         Note:
             Delegates to idsm_module property (CODING_RULE_V2_00017)
         """
@@ -2637,13 +2637,13 @@ class IdsmInstance(IdsCommonElement):
     def setIdsmModule(self, value: "IdsmModule") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for idsmModule with method chaining.
-        
+
         Args:
             value: The idsmModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idsm_module property setter (gets validation automatically)
         """
@@ -2653,10 +2653,10 @@ class IdsmInstance(IdsCommonElement):
     def getRateLimitation(self) -> "IdsmRateLimitation":
         """
         AUTOSAR-compliant getter for rateLimitation.
-        
+
         Returns:
             The rateLimitation value
-        
+
         Note:
             Delegates to rate_limitation property (CODING_RULE_V2_00017)
         """
@@ -2665,13 +2665,13 @@ class IdsmInstance(IdsCommonElement):
     def setRateLimitation(self, value: "IdsmRateLimitation") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for rateLimitation with method chaining.
-        
+
         Args:
             value: The rateLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rate_limitation property setter (gets validation automatically)
         """
@@ -2681,10 +2681,10 @@ class IdsmInstance(IdsCommonElement):
     def getSignature(self) -> "IdsmSignatureSupport":
         """
         AUTOSAR-compliant getter for signature.
-        
+
         Returns:
             The signature value
-        
+
         Note:
             Delegates to signature property (CODING_RULE_V2_00017)
         """
@@ -2693,13 +2693,13 @@ class IdsmInstance(IdsCommonElement):
     def setSignature(self, value: "IdsmSignatureSupport") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for signature with method chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signature property setter (gets validation automatically)
         """
@@ -2709,10 +2709,10 @@ class IdsmInstance(IdsCommonElement):
     def getTimestamp(self) -> "String":
         """
         AUTOSAR-compliant getter for timestamp.
-        
+
         Returns:
             The timestamp value
-        
+
         Note:
             Delegates to timestamp property (CODING_RULE_V2_00017)
         """
@@ -2721,13 +2721,13 @@ class IdsmInstance(IdsCommonElement):
     def setTimestamp(self, value: "String") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timestamp property setter (gets validation automatically)
         """
@@ -2737,10 +2737,10 @@ class IdsmInstance(IdsCommonElement):
     def getTrafficLimitation(self) -> "IdsmTrafficLimitation":
         """
         AUTOSAR-compliant getter for trafficLimitation.
-        
+
         Returns:
             The trafficLimitation value
-        
+
         Note:
             Delegates to traffic_limitation property (CODING_RULE_V2_00017)
         """
@@ -2749,13 +2749,13 @@ class IdsmInstance(IdsCommonElement):
     def setTrafficLimitation(self, value: "IdsmTrafficLimitation") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for trafficLimitation with method chaining.
-        
+
         Args:
             value: The trafficLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to traffic_limitation property setter (gets validation automatically)
         """
@@ -2767,13 +2767,13 @@ class IdsmInstance(IdsCommonElement):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "IdsmInstance":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -2783,13 +2783,13 @@ class IdsmInstance(IdsCommonElement):
     def with_idsm_instance_id(self, value: Optional["PositiveInteger"]) -> "IdsmInstance":
         """
         Set idsmInstanceId and return self for chaining.
-        
+
         Args:
             value: The idsmInstanceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idsm_instance_id("value")
         """
@@ -2799,13 +2799,13 @@ class IdsmInstance(IdsCommonElement):
     def with_idsm_module(self, value: Optional["IdsmModule"]) -> "IdsmInstance":
         """
         Set idsmModule and return self for chaining.
-        
+
         Args:
             value: The idsmModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idsm_module("value")
         """
@@ -2815,13 +2815,13 @@ class IdsmInstance(IdsCommonElement):
     def with_rate_limitation(self, value: Optional["IdsmRateLimitation"]) -> "IdsmInstance":
         """
         Set rateLimitation and return self for chaining.
-        
+
         Args:
             value: The rateLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rate_limitation("value")
         """
@@ -2831,13 +2831,13 @@ class IdsmInstance(IdsCommonElement):
     def with_signature(self, value: Optional["IdsmSignatureSupport"]) -> "IdsmInstance":
         """
         Set signature and return self for chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signature("value")
         """
@@ -2847,13 +2847,13 @@ class IdsmInstance(IdsCommonElement):
     def with_timestamp(self, value: Optional["String"]) -> "IdsmInstance":
         """
         Set timestamp and return self for chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timestamp("value")
         """
@@ -2863,13 +2863,13 @@ class IdsmInstance(IdsCommonElement):
     def with_traffic_limitation(self, value: Optional["IdsmTrafficLimitation"]) -> "IdsmInstance":
         """
         Set trafficLimitation and return self for chaining.
-        
+
         Args:
             value: The trafficLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_traffic_limitation("value")
         """
@@ -2882,9 +2882,9 @@ class IdsMapping(IdsCommonElement, ABC):
     """
     This meta-class serves as abstract base class for mappings related to an IDS
     design.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 62, Foundation R23-11)
     """
@@ -2905,9 +2905,9 @@ class IdsmProperties(IdsCommonElement):
     """
     This meta-class provides the ability to aggregate filters for security
     events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmProperties
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)
     """
@@ -2938,10 +2938,10 @@ class IdsmProperties(IdsCommonElement):
     def getRateLimitation(self) -> List["IdsmRateLimitation"]:
         """
         AUTOSAR-compliant getter for rateLimitation.
-        
+
         Returns:
             The rateLimitation value
-        
+
         Note:
             Delegates to rate_limitation property (CODING_RULE_V2_00017)
         """
@@ -2950,10 +2950,10 @@ class IdsmProperties(IdsCommonElement):
     def getTrafficLimitation(self) -> List["IdsmTrafficLimitation"]:
         """
         AUTOSAR-compliant getter for trafficLimitation.
-        
+
         Returns:
             The trafficLimitation value
-        
+
         Note:
             Delegates to traffic_limitation property (CODING_RULE_V2_00017)
         """
@@ -2968,9 +2968,9 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     This meta-class represents the ability to create an association between a
     collection of security events, an IdsM instance which handles the security
     events and the filter chains applicable to the security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 32, Foundation R23-11)
     """
@@ -2993,10 +2993,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def filter_chain(self, value: Optional["SecurityEventFilter"]) -> None:
         """
         Set filterChain with validation.
-        
+
         Args:
             value: The filterChain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3022,10 +3022,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def idsm_instance(self, value: Optional["IdsmInstance"]) -> None:
         """
         Set idsmInstance with validation.
-        
+
         Args:
             value: The idsmInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3053,10 +3053,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def getFilterChain(self) -> "SecurityEventFilter":
         """
         AUTOSAR-compliant getter for filterChain.
-        
+
         Returns:
             The filterChain value
-        
+
         Note:
             Delegates to filter_chain property (CODING_RULE_V2_00017)
         """
@@ -3065,13 +3065,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def setFilterChain(self, value: "SecurityEventFilter") -> "SecurityEventContextMapping":
         """
         AUTOSAR-compliant setter for filterChain with method chaining.
-        
+
         Args:
             value: The filterChain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_chain property setter (gets validation automatically)
         """
@@ -3081,10 +3081,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def getIdsmInstance(self) -> "IdsmInstance":
         """
         AUTOSAR-compliant getter for idsmInstance.
-        
+
         Returns:
             The idsmInstance value
-        
+
         Note:
             Delegates to idsm_instance property (CODING_RULE_V2_00017)
         """
@@ -3093,13 +3093,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def setIdsmInstance(self, value: "IdsmInstance") -> "SecurityEventContextMapping":
         """
         AUTOSAR-compliant setter for idsmInstance with method chaining.
-        
+
         Args:
             value: The idsmInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idsm_instance property setter (gets validation automatically)
         """
@@ -3109,10 +3109,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def getMappedSecurity(self) -> List["SecurityEventContext"]:
         """
         AUTOSAR-compliant getter for mappedSecurity.
-        
+
         Returns:
             The mappedSecurity value
-        
+
         Note:
             Delegates to mapped_security property (CODING_RULE_V2_00017)
         """
@@ -3123,13 +3123,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def with_filter_chain(self, value: Optional["SecurityEventFilter"]) -> "SecurityEventContextMapping":
         """
         Set filterChain and return self for chaining.
-        
+
         Args:
             value: The filterChain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_chain("value")
         """
@@ -3139,13 +3139,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def with_idsm_instance(self, value: Optional["IdsmInstance"]) -> "SecurityEventContextMapping":
         """
         Set idsmInstance and return self for chaining.
-        
+
         Args:
             value: The idsmInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idsm_instance("value")
         """
@@ -3160,9 +3160,9 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     events with an IdsM instance and with the executional context of a BSW
     module in which this IdsM instance can receive reports for these security
     events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingBswModule
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 38, Foundation R23-11)
     """
@@ -3183,10 +3183,10 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def affected_bsw(self, value: Optional["String"]) -> None:
         """
         Set affectedBsw with validation.
-        
+
         Args:
             value: The affectedBsw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3205,10 +3205,10 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def getAffectedBsw(self) -> "String":
         """
         AUTOSAR-compliant getter for affectedBsw.
-        
+
         Returns:
             The affectedBsw value
-        
+
         Note:
             Delegates to affected_bsw property (CODING_RULE_V2_00017)
         """
@@ -3217,13 +3217,13 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def setAffectedBsw(self, value: "String") -> "SecurityEventContextMappingBswModule":
         """
         AUTOSAR-compliant setter for affectedBsw with method chaining.
-        
+
         Args:
             value: The affectedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to affected_bsw property setter (gets validation automatically)
         """
@@ -3235,13 +3235,13 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def with_affected_bsw(self, value: Optional["String"]) -> "SecurityEventContextMappingBswModule":
         """
         Set affectedBsw and return self for chaining.
-        
+
         Args:
             value: The affectedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_affected_bsw("value")
         """
@@ -3256,9 +3256,9 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     events with an IdsM instance and with the executional context of a
     functional cluster in which this IdsM instance can receive reports for these
     security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingFunctionalCluster
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 39, Foundation R23-11)
     """
@@ -3280,10 +3280,10 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def affected(self, value: "String") -> None:
         """
         Set affected with validation.
-        
+
         Args:
             value: The affected to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3298,10 +3298,10 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def getAffected(self) -> "String":
         """
         AUTOSAR-compliant getter for affected.
-        
+
         Returns:
             The affected value
-        
+
         Note:
             Delegates to affected property (CODING_RULE_V2_00017)
         """
@@ -3310,13 +3310,13 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def setAffected(self, value: "String") -> "SecurityEventContextMappingFunctionalCluster":
         """
         AUTOSAR-compliant setter for affected with method chaining.
-        
+
         Args:
             value: The affected to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to affected property setter (gets validation automatically)
         """
@@ -3328,13 +3328,13 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def with_affected(self, value: "String") -> "SecurityEventContextMappingFunctionalCluster":
         """
         Set affected and return self for chaining.
-        
+
         Args:
             value: The affected to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_affected("value")
         """
@@ -3349,9 +3349,9 @@ class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
     events with an IdsM instance and with the executional context related to a
     CommunicationConnector in which this IdsM instance can receive reports for
     these security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingCommConnector
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 40, Foundation R23-11)
     """
@@ -3373,10 +3373,10 @@ class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
     def getComm(self) -> List["Communication"]:
         """
         AUTOSAR-compliant getter for comm.
-        
+
         Returns:
             The comm value
-        
+
         Note:
             Delegates to comm property (CODING_RULE_V2_00017)
         """
@@ -3392,9 +3392,9 @@ class SecurityEventContextMappingApplication(SecurityEventContextMapping):
     events with an IdsM instance and with the executional context of an
     application (e.g. name of SWC on CP or name of SWCL on AP) in which this
     IdsM instance can receive reports for these security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingApplication
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 42, Foundation R23-11)
     """
@@ -3416,10 +3416,10 @@ class SecurityEventContextMappingApplication(SecurityEventContextMapping):
     def affected(self, value: "String") -> None:
         """
         Set affected with validation.
-        
+
         Args:
             value: The affected to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3434,10 +3434,10 @@ class SecurityEventContextMappingApplication(SecurityEventContextMapping):
     def getAffected(self) -> "String":
         """
         AUTOSAR-compliant getter for affected.
-        
+
         Returns:
             The affected value
-        
+
         Note:
             Delegates to affected property (CODING_RULE_V2_00017)
         """
@@ -3446,13 +3446,13 @@ class SecurityEventContextMappingApplication(SecurityEventContextMapping):
     def setAffected(self, value: "String") -> "SecurityEventContextMappingApplication":
         """
         AUTOSAR-compliant setter for affected with method chaining.
-        
+
         Args:
             value: The affected to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to affected property setter (gets validation automatically)
         """
@@ -3464,13 +3464,13 @@ class SecurityEventContextMappingApplication(SecurityEventContextMapping):
     def with_affected(self, value: "String") -> "SecurityEventContextMappingApplication":
         """
         Set affected and return self for chaining.
-        
+
         Args:
             value: The affected to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_affected("value")
         """

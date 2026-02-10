@@ -25,9 +25,9 @@ class GeneralAnnotation(ARObject, ABC):
     some further formal properties. (cid:53) 162 of 1228 Document ID 62:
     AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::GeneralAnnotation::GeneralAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 162, Classic Platform
       R23-11)
@@ -54,10 +54,10 @@ class GeneralAnnotation(ARObject, ABC):
     def annotation(self, value: "String") -> None:
         """
         Set annotation with validation.
-        
+
         Args:
             value: The annotation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class GeneralAnnotation(ARObject, ABC):
     def annotation_text(self, value: "DocumentationBlock") -> None:
         """
         Set annotationText with validation.
-        
+
         Args:
             value: The annotationText to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +102,10 @@ class GeneralAnnotation(ARObject, ABC):
     def label(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set label with validation.
-        
+
         Args:
             value: The label to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class GeneralAnnotation(ARObject, ABC):
     def getAnnotation(self) -> "String":
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -136,13 +136,13 @@ class GeneralAnnotation(ARObject, ABC):
     def setAnnotation(self, value: "String") -> "GeneralAnnotation":
         """
         AUTOSAR-compliant setter for annotation with method chaining.
-        
+
         Args:
             value: The annotation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to annotation property setter (gets validation automatically)
         """
@@ -152,10 +152,10 @@ class GeneralAnnotation(ARObject, ABC):
     def getAnnotationText(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for annotationText.
-        
+
         Returns:
             The annotationText value
-        
+
         Note:
             Delegates to annotation_text property (CODING_RULE_V2_00017)
         """
@@ -164,13 +164,13 @@ class GeneralAnnotation(ARObject, ABC):
     def setAnnotationText(self, value: "DocumentationBlock") -> "GeneralAnnotation":
         """
         AUTOSAR-compliant setter for annotationText with method chaining.
-        
+
         Args:
             value: The annotationText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to annotation_text property setter (gets validation automatically)
         """
@@ -180,10 +180,10 @@ class GeneralAnnotation(ARObject, ABC):
     def getLabel(self) -> "MultilanguageLong":
         """
         AUTOSAR-compliant getter for label.
-        
+
         Returns:
             The label value
-        
+
         Note:
             Delegates to label property (CODING_RULE_V2_00017)
         """
@@ -192,13 +192,13 @@ class GeneralAnnotation(ARObject, ABC):
     def setLabel(self, value: "MultilanguageLong") -> "GeneralAnnotation":
         """
         AUTOSAR-compliant setter for label with method chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to label property setter (gets validation automatically)
         """
@@ -210,13 +210,13 @@ class GeneralAnnotation(ARObject, ABC):
     def with_annotation(self, value: "String") -> "GeneralAnnotation":
         """
         Set annotation and return self for chaining.
-        
+
         Args:
             value: The annotation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_annotation("value")
         """
@@ -226,13 +226,13 @@ class GeneralAnnotation(ARObject, ABC):
     def with_annotation_text(self, value: "DocumentationBlock") -> "GeneralAnnotation":
         """
         Set annotationText and return self for chaining.
-        
+
         Args:
             value: The annotationText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_annotation_text("value")
         """
@@ -242,13 +242,13 @@ class GeneralAnnotation(ARObject, ABC):
     def with_label(self, value: Optional["MultilanguageLong"]) -> "GeneralAnnotation":
         """
         Set label and return self for chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_label("value")
         """

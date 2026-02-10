@@ -26,9 +26,9 @@ class RunnableEntity(ExecutableEntity):
     an AtomicSwComponent Type and are executed under control of the RTE.
     RunnableEntities are for instance set up to respond to data reception or
     operation invocation on a server.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 331, Classic
       Platform R23-11)
@@ -79,10 +79,10 @@ class RunnableEntity(ExecutableEntity):
     def can_be_invoked(self, value: Optional["Boolean"]) -> None:
         """
         Set canBeInvoked with validation.
-        
+
         Args:
             value: The canBeInvoked to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -228,10 +228,10 @@ class RunnableEntity(ExecutableEntity):
     def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -719,10 +719,10 @@ class RunnableEntity(ExecutableEntity):
     def getArgument(self) -> List["RunnableEntity"]:
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -731,10 +731,10 @@ class RunnableEntity(ExecutableEntity):
     def getAsynchronous(self) -> List["AsynchronousServer"]:
         """
         AUTOSAR-compliant getter for asynchronous.
-        
+
         Returns:
             The asynchronous value
-        
+
         Note:
             Delegates to asynchronous property (CODING_RULE_V2_00017)
         """
@@ -743,10 +743,10 @@ class RunnableEntity(ExecutableEntity):
     def getCanBeInvoked(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for canBeInvoked.
-        
+
         Returns:
             The canBeInvoked value
-        
+
         Note:
             Delegates to can_be_invoked property (CODING_RULE_V2_00017)
         """
@@ -755,13 +755,13 @@ class RunnableEntity(ExecutableEntity):
     def setCanBeInvoked(self, value: "Boolean") -> "RunnableEntity":
         """
         AUTOSAR-compliant setter for canBeInvoked with method chaining.
-        
+
         Args:
             value: The canBeInvoked to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_be_invoked property setter (gets validation automatically)
         """
@@ -771,10 +771,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataRead(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataRead.
-        
+
         Returns:
             The dataRead value
-        
+
         Note:
             Delegates to data_read property (CODING_RULE_V2_00017)
         """
@@ -783,10 +783,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataReceive(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataReceive.
-        
+
         Returns:
             The dataReceive value
-        
+
         Note:
             Delegates to data_receive property (CODING_RULE_V2_00017)
         """
@@ -795,10 +795,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataSendPoint(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataSendPoint.
-        
+
         Returns:
             The dataSendPoint value
-        
+
         Note:
             Delegates to data_send_point property (CODING_RULE_V2_00017)
         """
@@ -807,10 +807,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataWrite(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataWrite.
-        
+
         Returns:
             The dataWrite value
-        
+
         Note:
             Delegates to data_write property (CODING_RULE_V2_00017)
         """
@@ -819,10 +819,10 @@ class RunnableEntity(ExecutableEntity):
     def getExternal(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for external.
-        
+
         Returns:
             The external value
-        
+
         Note:
             Delegates to external property (CODING_RULE_V2_00017)
         """
@@ -831,10 +831,10 @@ class RunnableEntity(ExecutableEntity):
     def getInternal(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for internal.
-        
+
         Returns:
             The internal value
-        
+
         Note:
             Delegates to internal property (CODING_RULE_V2_00017)
         """
@@ -843,10 +843,10 @@ class RunnableEntity(ExecutableEntity):
     def getModeAccess(self) -> List["ModeAccessPoint"]:
         """
         AUTOSAR-compliant getter for modeAccess.
-        
+
         Returns:
             The modeAccess value
-        
+
         Note:
             Delegates to mode_access property (CODING_RULE_V2_00017)
         """
@@ -855,10 +855,10 @@ class RunnableEntity(ExecutableEntity):
     def getModeSwitch(self) -> List["ModeSwitchPoint"]:
         """
         AUTOSAR-compliant getter for modeSwitch.
-        
+
         Returns:
             The modeSwitch value
-        
+
         Note:
             Delegates to mode_switch property (CODING_RULE_V2_00017)
         """
@@ -867,10 +867,10 @@ class RunnableEntity(ExecutableEntity):
     def getParameter(self) -> List["ParameterAccess"]:
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -879,10 +879,10 @@ class RunnableEntity(ExecutableEntity):
     def getReadLocal(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for readLocal.
-        
+
         Returns:
             The readLocal value
-        
+
         Note:
             Delegates to read_local property (CODING_RULE_V2_00017)
         """
@@ -891,10 +891,10 @@ class RunnableEntity(ExecutableEntity):
     def getServerCallPoint(self) -> List["ServerCallPoint"]:
         """
         AUTOSAR-compliant getter for serverCallPoint.
-        
+
         Returns:
             The serverCallPoint value
-        
+
         Note:
             Delegates to server_call_point property (CODING_RULE_V2_00017)
         """
@@ -903,10 +903,10 @@ class RunnableEntity(ExecutableEntity):
     def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -915,13 +915,13 @@ class RunnableEntity(ExecutableEntity):
     def setSymbol(self, value: "CIdentifier") -> "RunnableEntity":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -931,10 +931,10 @@ class RunnableEntity(ExecutableEntity):
     def getWaitPoint(self) -> List["WaitPoint"]:
         """
         AUTOSAR-compliant getter for waitPoint.
-        
+
         Returns:
             The waitPoint value
-        
+
         Note:
             Delegates to wait_point property (CODING_RULE_V2_00017)
         """
@@ -943,10 +943,10 @@ class RunnableEntity(ExecutableEntity):
     def getWrittenLocal(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for writtenLocal.
-        
+
         Returns:
             The writtenLocal value
-        
+
         Note:
             Delegates to written_local property (CODING_RULE_V2_00017)
         """
@@ -957,13 +957,13 @@ class RunnableEntity(ExecutableEntity):
     def with_can_be_invoked(self, value: Optional["Boolean"]) -> "RunnableEntity":
         """
         Set canBeInvoked and return self for chaining.
-        
+
         Args:
             value: The canBeInvoked to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_be_invoked("value")
         """
@@ -973,13 +973,13 @@ class RunnableEntity(ExecutableEntity):
     def with_symbol(self, value: Optional["CIdentifier"]) -> "RunnableEntity":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """
@@ -993,9 +993,9 @@ class SwcInternalBehavior(InternalBehavior):
     The SwcInternalBehavior of an AtomicSwComponentType describes the relevant
     aspects of the software-component with respect to the RTE, i.e. the
     RunnableEntities and the RTEEvents they respond to.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::SwcInternalBehavior
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 345, Classic
       Platform R23-11)
@@ -1170,10 +1170,10 @@ class SwcInternalBehavior(InternalBehavior):
     def supports(self, value: Optional["Boolean"]) -> None:
         """
         Set supports with validation.
-        
+
         Args:
             value: The supports to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1200,10 +1200,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getArTypedPer(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for arTypedPer.
-        
+
         Returns:
             The arTypedPer value
-        
+
         Note:
             Delegates to ar_typed_per property (CODING_RULE_V2_00017)
         """
@@ -1212,10 +1212,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getEvent(self) -> List["RTEEvent"]:
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -1224,10 +1224,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getExclusiveArea(self) -> List["SwcExclusiveArea"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -1236,10 +1236,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getExplicitInter(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for explicitInter.
-        
+
         Returns:
             The explicitInter value
-        
+
         Note:
             Delegates to explicit_inter property (CODING_RULE_V2_00017)
         """
@@ -1248,10 +1248,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getImplicitInter(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for implicitInter.
-        
+
         Returns:
             The implicitInter value
-        
+
         Note:
             Delegates to implicit_inter property (CODING_RULE_V2_00017)
         """
@@ -1260,10 +1260,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getIncludedData(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for includedData.
-        
+
         Returns:
             The includedData value
-        
+
         Note:
             Delegates to included_data property (CODING_RULE_V2_00017)
         """
@@ -1272,10 +1272,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getIncludedMode(self) -> List["IncludedMode"]:
         """
         AUTOSAR-compliant getter for includedMode.
-        
+
         Returns:
             The includedMode value
-        
+
         Note:
             Delegates to included_mode property (CODING_RULE_V2_00017)
         """
@@ -1284,10 +1284,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getInstantiation(self) -> List["InstantiationDataDef"]:
         """
         AUTOSAR-compliant getter for instantiation.
-        
+
         Returns:
             The instantiation value
-        
+
         Note:
             Delegates to instantiation property (CODING_RULE_V2_00017)
         """
@@ -1296,10 +1296,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getPerInstance(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for perInstance.
-        
+
         Returns:
             The perInstance value
-        
+
         Note:
             Delegates to per_instance property (CODING_RULE_V2_00017)
         """
@@ -1308,10 +1308,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getPortAPIOption(self) -> List["PortAPIOption"]:
         """
         AUTOSAR-compliant getter for portAPIOption.
-        
+
         Returns:
             The portAPIOption value
-        
+
         Note:
             Delegates to port_api_option property (CODING_RULE_V2_00017)
         """
@@ -1320,10 +1320,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getRunnable(self) -> List["RunnableEntity"]:
         """
         AUTOSAR-compliant getter for runnable.
-        
+
         Returns:
             The runnable value
-        
+
         Note:
             Delegates to runnable property (CODING_RULE_V2_00017)
         """
@@ -1332,10 +1332,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getService(self) -> List["SwcService"]:
         """
         AUTOSAR-compliant getter for service.
-        
+
         Returns:
             The service value
-        
+
         Note:
             Delegates to service property (CODING_RULE_V2_00017)
         """
@@ -1344,10 +1344,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getShared(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for shared.
-        
+
         Returns:
             The shared value
-        
+
         Note:
             Delegates to shared property (CODING_RULE_V2_00017)
         """
@@ -1356,10 +1356,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getSupports(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for supports.
-        
+
         Returns:
             The supports value
-        
+
         Note:
             Delegates to supports property (CODING_RULE_V2_00017)
         """
@@ -1368,13 +1368,13 @@ class SwcInternalBehavior(InternalBehavior):
     def setSupports(self, value: "Boolean") -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant setter for supports with method chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to supports property setter (gets validation automatically)
         """
@@ -1384,10 +1384,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getVariationPoint(self) -> List["VariationPointProxy"]:
         """
         AUTOSAR-compliant getter for variationPoint.
-        
+
         Returns:
             The variationPoint value
-        
+
         Note:
             Delegates to variation_point property (CODING_RULE_V2_00017)
         """
@@ -1398,13 +1398,13 @@ class SwcInternalBehavior(InternalBehavior):
     def with_supports(self, value: Optional["Boolean"]) -> "SwcInternalBehavior":
         """
         Set supports and return self for chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_supports("value")
         """
@@ -1418,9 +1418,9 @@ class SwcExclusiveAreaPolicy(ARObject):
     Options how to generate the ExclusiveArea related APIs. If no
     SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values
     apply.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::SwcExclusiveAreaPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 556, Classic Platform
       R23-11)
@@ -1444,10 +1444,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def api_principle(self, value: Optional["ApiPrincipleEnum"]) -> None:
         """
         Set apiPrinciple with validation.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1472,10 +1472,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def exclusive_area(self, value: Optional["ExclusiveArea"]) -> None:
         """
         Set exclusiveArea with validation.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1494,10 +1494,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def getApiPrinciple(self) -> "ApiPrincipleEnum":
         """
         AUTOSAR-compliant getter for apiPrinciple.
-        
+
         Returns:
             The apiPrinciple value
-        
+
         Note:
             Delegates to api_principle property (CODING_RULE_V2_00017)
         """
@@ -1506,13 +1506,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def setApiPrinciple(self, value: "ApiPrincipleEnum") -> "SwcExclusiveAreaPolicy":
         """
         AUTOSAR-compliant setter for apiPrinciple with method chaining.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to api_principle property setter (gets validation automatically)
         """
@@ -1522,10 +1522,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def getExclusiveArea(self) -> "ExclusiveArea":
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -1534,13 +1534,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def setExclusiveArea(self, value: "ExclusiveArea") -> "SwcExclusiveAreaPolicy":
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to exclusive_area property setter (gets validation automatically)
         """
@@ -1552,13 +1552,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> "SwcExclusiveAreaPolicy":
         """
         Set apiPrinciple and return self for chaining.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_api_principle("value")
         """
@@ -1568,13 +1568,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> "SwcExclusiveAreaPolicy":
         """
         Set exclusiveArea and return self for chaining.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_exclusive_area("value")
         """

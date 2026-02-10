@@ -28,9 +28,9 @@ class PPortComSpec(ARObject, ABC):
     Communication attributes of a provided PortPrototype. This class will
     contain attributes that are valid for all kinds of provide ports,
     independent of client-server or sender-receiver communication patterns.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::PPortComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 166, Classic Platform
       R23-11)
@@ -134,9 +134,9 @@ class RPortComSpec(ARObject, ABC):
     Communication attributes of a required PortPrototype. This class will
     contain attributes that are valid for all kinds of require-ports,
     independent of client-server or sender-receiver communication patterns.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::RPortComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 167, Classic Platform
       R23-11)
@@ -159,9 +159,9 @@ class ReceptionComSpecProps(ARObject):
     """
     This meta-class defines a set of reception attributes which the application
     software is assumed to implement.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ReceptionComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 174, Classic Platform
       R23-11)
@@ -185,10 +185,10 @@ class ReceptionComSpecProps(ARObject):
     def data_update(self, value: Optional["TimeValue"]) -> None:
         """
         Set dataUpdate with validation.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -215,10 +215,10 @@ class ReceptionComSpecProps(ARObject):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -237,10 +237,10 @@ class ReceptionComSpecProps(ARObject):
     def getDataUpdate(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for dataUpdate.
-        
+
         Returns:
             The dataUpdate value
-        
+
         Note:
             Delegates to data_update property (CODING_RULE_V2_00017)
         """
@@ -249,13 +249,13 @@ class ReceptionComSpecProps(ARObject):
     def setDataUpdate(self, value: "TimeValue") -> "ReceptionComSpecProps":
         """
         AUTOSAR-compliant setter for dataUpdate with method chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_update property setter (gets validation automatically)
         """
@@ -265,10 +265,10 @@ class ReceptionComSpecProps(ARObject):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -277,13 +277,13 @@ class ReceptionComSpecProps(ARObject):
     def setTimeout(self, value: "TimeValue") -> "ReceptionComSpecProps":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -295,13 +295,13 @@ class ReceptionComSpecProps(ARObject):
     def with_data_update(self, value: Optional["TimeValue"]) -> "ReceptionComSpecProps":
         """
         Set dataUpdate and return self for chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_update("value")
         """
@@ -311,13 +311,13 @@ class ReceptionComSpecProps(ARObject):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ReceptionComSpecProps":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -330,9 +330,9 @@ class TransmissionComSpecProps(ARObject):
     """
     This meta-class defines a set of transmission attributes which the
     application software is assumed to implement.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransmissionComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -357,10 +357,10 @@ class TransmissionComSpecProps(ARObject):
     def data_update(self, value: Optional["TimeValue"]) -> None:
         """
         Set dataUpdate with validation.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -385,10 +385,10 @@ class TransmissionComSpecProps(ARObject):
     def minimum_send(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumSend with validation.
-        
+
         Args:
             value: The minimumSend to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -413,10 +413,10 @@ class TransmissionComSpecProps(ARObject):
     def transmission(self, value: Optional["TransmissionMode"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -435,10 +435,10 @@ class TransmissionComSpecProps(ARObject):
     def getDataUpdate(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for dataUpdate.
-        
+
         Returns:
             The dataUpdate value
-        
+
         Note:
             Delegates to data_update property (CODING_RULE_V2_00017)
         """
@@ -447,13 +447,13 @@ class TransmissionComSpecProps(ARObject):
     def setDataUpdate(self, value: "TimeValue") -> "TransmissionComSpecProps":
         """
         AUTOSAR-compliant setter for dataUpdate with method chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_update property setter (gets validation automatically)
         """
@@ -463,10 +463,10 @@ class TransmissionComSpecProps(ARObject):
     def getMinimumSend(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumSend.
-        
+
         Returns:
             The minimumSend value
-        
+
         Note:
             Delegates to minimum_send property (CODING_RULE_V2_00017)
         """
@@ -475,13 +475,13 @@ class TransmissionComSpecProps(ARObject):
     def setMinimumSend(self, value: "TimeValue") -> "TransmissionComSpecProps":
         """
         AUTOSAR-compliant setter for minimumSend with method chaining.
-        
+
         Args:
             value: The minimumSend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_send property setter (gets validation automatically)
         """
@@ -491,10 +491,10 @@ class TransmissionComSpecProps(ARObject):
     def getTransmission(self) -> "TransmissionMode":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -503,13 +503,13 @@ class TransmissionComSpecProps(ARObject):
     def setTransmission(self, value: "TransmissionMode") -> "TransmissionComSpecProps":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -521,13 +521,13 @@ class TransmissionComSpecProps(ARObject):
     def with_data_update(self, value: Optional["TimeValue"]) -> "TransmissionComSpecProps":
         """
         Set dataUpdate and return self for chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_update("value")
         """
@@ -537,13 +537,13 @@ class TransmissionComSpecProps(ARObject):
     def with_minimum_send(self, value: Optional["TimeValue"]) -> "TransmissionComSpecProps":
         """
         Set minimumSend and return self for chaining.
-        
+
         Args:
             value: The minimumSend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_send("value")
         """
@@ -553,13 +553,13 @@ class TransmissionComSpecProps(ARObject):
     def with_transmission(self, value: Optional["TransmissionMode"]) -> "TransmissionComSpecProps":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """
@@ -572,9 +572,9 @@ class TransmissionAcknowledgementRequest(ARObject):
     """
     Requests transmission acknowledgement that data has been sent successfully.
     Success/failure is reported via a SendPoint of a RunnableEntity.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransmissionAcknowledgementRequest
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 180, Classic Platform
       R23-11)
@@ -596,10 +596,10 @@ class TransmissionAcknowledgementRequest(ARObject):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -618,10 +618,10 @@ class TransmissionAcknowledgementRequest(ARObject):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -630,13 +630,13 @@ class TransmissionAcknowledgementRequest(ARObject):
     def setTimeout(self, value: "TimeValue") -> "TransmissionAcknowledgementRequest":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -648,13 +648,13 @@ class TransmissionAcknowledgementRequest(ARObject):
     def with_timeout(self, value: Optional["TimeValue"]) -> "TransmissionAcknowledgementRequest":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -667,9 +667,9 @@ class CompositeNetworkRepresentation(ARObject):
     """
     This meta-class is used to define the network representation of leaf
     elements of composite application data types.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::CompositeNetworkRepresentation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 181, Classic Platform
       R23-11)
@@ -691,10 +691,10 @@ class CompositeNetworkRepresentation(ARObject):
     def leaf_element_element_in_port_interface_instance_ref(self, value: Optional["ApplicationComposite"]) -> None:
         """
         Set leafElementElementInPortInterfaceInstanceRef with validation.
-        
+
         Args:
             value: The leafElementElementInPortInterfaceInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -719,10 +719,10 @@ class CompositeNetworkRepresentation(ARObject):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -741,10 +741,10 @@ class CompositeNetworkRepresentation(ARObject):
     def getLeafElementElementInPortInterfaceInstanceRef(self) -> "ApplicationComposite":
         """
         AUTOSAR-compliant getter for leafElementElementInPortInterfaceInstanceRef.
-        
+
         Returns:
             The leafElementElementInPortInterfaceInstanceRef value
-        
+
         Note:
             Delegates to leaf_element_element_in_port_interface_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -753,13 +753,13 @@ class CompositeNetworkRepresentation(ARObject):
     def setLeafElementElementInPortInterfaceInstanceRef(self, value: "ApplicationComposite") -> "CompositeNetworkRepresentation":
         """
         AUTOSAR-compliant setter for leafElementElementInPortInterfaceInstanceRef with method chaining.
-        
+
         Args:
             value: The leafElementElementInPortInterfaceInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to leaf_element_element_in_port_interface_instance_ref property setter (gets validation automatically)
         """
@@ -769,10 +769,10 @@ class CompositeNetworkRepresentation(ARObject):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -781,13 +781,13 @@ class CompositeNetworkRepresentation(ARObject):
     def setNetwork(self, value: "SwDataDefProps") -> "CompositeNetworkRepresentation":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -799,13 +799,13 @@ class CompositeNetworkRepresentation(ARObject):
     def with_leaf_element_element_in_port_interface_instance_ref(self, value: Optional["ApplicationComposite"]) -> "CompositeNetworkRepresentation":
         """
         Set leafElementElementInPortInterfaceInstanceRef and return self for chaining.
-        
+
         Args:
             value: The leafElementElementInPortInterfaceInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_leaf_element_element_in_port_interface_instance_ref("value")
         """
@@ -815,13 +815,13 @@ class CompositeNetworkRepresentation(ARObject):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "CompositeNetworkRepresentation":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -833,9 +833,9 @@ class CompositeNetworkRepresentation(ARObject):
 class ModeSwitchedAckRequest(ARObject):
     """
     Requests acknowledgements that a mode switch has been proceeded successfully
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ModeSwitchedAckRequest
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 190, Classic Platform
       R23-11)
@@ -857,10 +857,10 @@ class ModeSwitchedAckRequest(ARObject):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -879,10 +879,10 @@ class ModeSwitchedAckRequest(ARObject):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -891,13 +891,13 @@ class ModeSwitchedAckRequest(ARObject):
     def setTimeout(self, value: "TimeValue") -> "ModeSwitchedAckRequest":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -909,13 +909,13 @@ class ModeSwitchedAckRequest(ARObject):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ModeSwitchedAckRequest":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -928,9 +928,9 @@ class TransformationComSpecProps(Describable, ABC):
     """
     TransformationComSpecProps holds all the attributes for transformers that
     are port specific.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransformationComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 196, Classic Platform
       R23-11)
@@ -953,9 +953,9 @@ class SenderComSpec(PPortComSpec, ABC):
     """
     Communication attributes for a sender port (PPortPrototype typed by
     SenderReceiverInterface).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::SenderComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 178, Classic Platform
       R23-11)
@@ -988,10 +988,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def data_element(self, value: Optional["RefType"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1011,10 +1011,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def handle_out_of(self, value: Optional["HandleOutOfRange"]) -> None:
         """
         Set handleOutOf with validation.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1039,10 +1039,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1069,10 +1069,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def transmission(self, value: Optional["TransmissionComSpec"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1097,10 +1097,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def uses_end_to_end(self, value: Optional["Boolean"]) -> None:
         """
         Set usesEndToEnd with validation.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1119,10 +1119,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getComposite(self) -> List["CompositeNetwork"]:
         """
         AUTOSAR-compliant getter for composite.
-        
+
         Returns:
             The composite value
-        
+
         Note:
             Delegates to composite property (CODING_RULE_V2_00017)
         """
@@ -1131,10 +1131,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getDataElement(self) -> "RefType":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -1143,13 +1143,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setDataElement(self, value: "RefType") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -1159,10 +1159,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getHandleOutOf(self) -> "HandleOutOfRange":
         """
         AUTOSAR-compliant getter for handleOutOf.
-        
+
         Returns:
             The handleOutOf value
-        
+
         Note:
             Delegates to handle_out_of property (CODING_RULE_V2_00017)
         """
@@ -1171,13 +1171,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setHandleOutOf(self, value: "HandleOutOfRange") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_out_of property setter (gets validation automatically)
         """
@@ -1187,10 +1187,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -1199,13 +1199,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setNetwork(self, value: "SwDataDefProps") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -1215,10 +1215,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getTransmission(self) -> "TransmissionComSpec":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -1227,13 +1227,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setTransmission(self, value: "TransmissionComSpec") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -1243,10 +1243,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getUsesEndToEnd(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesEndToEnd.
-        
+
         Returns:
             The usesEndToEnd value
-        
+
         Note:
             Delegates to uses_end_to_end property (CODING_RULE_V2_00017)
         """
@@ -1255,13 +1255,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setUsesEndToEnd(self, value: "Boolean") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for usesEndToEnd with method chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_end_to_end property setter (gets validation automatically)
         """
@@ -1273,13 +1273,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_data_element(self, value: Optional[RefType]) -> "SenderComSpec":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -1289,13 +1289,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> "SenderComSpec":
         """
         Set handleOutOf and return self for chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_out_of("value")
         """
@@ -1305,13 +1305,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "SenderComSpec":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -1321,13 +1321,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_transmission(self, value: Optional["TransmissionComSpec"]) -> "SenderComSpec":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """
@@ -1337,13 +1337,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_uses_end_to_end(self, value: Optional["Boolean"]) -> "SenderComSpec":
         """
         Set usesEndToEnd and return self for chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_end_to_end("value")
         """
@@ -1356,9 +1356,9 @@ class ServerComSpec(PPortComSpec):
     """
     Communication attributes for a server port (PPortPrototype and
     ClientServerInterface).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ServerComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 188, Classic Platform
       R23-11)
@@ -1379,10 +1379,10 @@ class ServerComSpec(PPortComSpec):
     def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1410,10 +1410,10 @@ class ServerComSpec(PPortComSpec):
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1439,10 +1439,10 @@ class ServerComSpec(PPortComSpec):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -1451,13 +1451,13 @@ class ServerComSpec(PPortComSpec):
     def setOperation(self, value: "ClientServerOperation") -> "ServerComSpec":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -1467,10 +1467,10 @@ class ServerComSpec(PPortComSpec):
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -1479,13 +1479,13 @@ class ServerComSpec(PPortComSpec):
     def setQueueLength(self, value: "PositiveInteger") -> "ServerComSpec":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -1495,10 +1495,10 @@ class ServerComSpec(PPortComSpec):
     def getTransformation(self) -> List["TransformationCom"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -1509,13 +1509,13 @@ class ServerComSpec(PPortComSpec):
     def with_operation(self, value: Optional["ClientServerOperation"]) -> "ServerComSpec":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """
@@ -1525,13 +1525,13 @@ class ServerComSpec(PPortComSpec):
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "ServerComSpec":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """
@@ -1544,9 +1544,9 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     """
     Communication attributes of PPortPrototypes with respect to mode
     communication
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ModeSwitchSenderComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 190, Classic Platform
       R23-11)
@@ -1570,10 +1570,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def enhanced_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set enhancedMode with validation.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1598,10 +1598,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def mode_group(self, value: Optional["RefType"]) -> None:
         """
         Set modeGroup with validation.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1622,10 +1622,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def mode_switched(self, value: Optional["ModeSwitchedAck"]) -> None:
         """
         Set modeSwitched with validation.
-        
+
         Args:
             value: The modeSwitched to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1653,10 +1653,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1675,10 +1675,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def getEnhancedMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enhancedMode.
-        
+
         Returns:
             The enhancedMode value
-        
+
         Note:
             Delegates to enhanced_mode property (CODING_RULE_V2_00017)
         """
@@ -1687,13 +1687,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def setEnhancedMode(self, value: "Boolean") -> "ModeSwitchSenderComSpec":
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enhanced_mode property setter (gets validation automatically)
         """
@@ -1703,10 +1703,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def getModeGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for modeGroup.
-        
+
         Returns:
             The modeGroup value
-        
+
         Note:
             Delegates to mode_group property (CODING_RULE_V2_00017)
         """
@@ -1715,13 +1715,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def setModeGroup(self, value: "RefType") -> "ModeSwitchSenderComSpec":
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_group property setter (gets validation automatically)
         """
@@ -1731,10 +1731,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def getModeSwitched(self) -> "ModeSwitchedAck":
         """
         AUTOSAR-compliant getter for modeSwitched.
-        
+
         Returns:
             The modeSwitched value
-        
+
         Note:
             Delegates to mode_switched property (CODING_RULE_V2_00017)
         """
@@ -1743,13 +1743,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def setModeSwitched(self, value: "ModeSwitchedAck") -> "ModeSwitchSenderComSpec":
         """
         AUTOSAR-compliant setter for modeSwitched with method chaining.
-        
+
         Args:
             value: The modeSwitched to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_switched property setter (gets validation automatically)
         """
@@ -1759,10 +1759,10 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -1771,13 +1771,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def setQueueLength(self, value: "PositiveInteger") -> "ModeSwitchSenderComSpec":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -1789,13 +1789,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def with_enhanced_mode(self, value: Optional["Boolean"]) -> "ModeSwitchSenderComSpec":
         """
         Set enhancedMode and return self for chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enhanced_mode("value")
         """
@@ -1805,13 +1805,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def with_mode_group(self, value: Optional[RefType]) -> "ModeSwitchSenderComSpec":
         """
         Set modeGroup and return self for chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_group("value")
         """
@@ -1821,13 +1821,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def with_mode_switched(self, value: Optional["ModeSwitchedAck"]) -> "ModeSwitchSenderComSpec":
         """
         Set modeSwitched and return self for chaining.
-        
+
         Args:
             value: The modeSwitched to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_switched("value")
         """
@@ -1837,13 +1837,13 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "ModeSwitchSenderComSpec":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """
@@ -1856,9 +1856,9 @@ class ParameterProvideComSpec(PPortComSpec):
     """
     "Communication" specification that applies to parameters on the provided
     side of a connection.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ParameterProvideComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 192, Classic Platform
       R23-11)
@@ -1879,10 +1879,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1906,10 +1906,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def parameter(self, value: Optional["ParameterData"]) -> None:
         """
         Set parameter with validation.
-        
+
         Args:
             value: The parameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1928,10 +1928,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -1940,13 +1940,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "ParameterProvideComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -1956,10 +1956,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def getParameter(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -1968,13 +1968,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def setParameter(self, value: "ParameterData") -> "ParameterProvideComSpec":
         """
         AUTOSAR-compliant setter for parameter with method chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter property setter (gets validation automatically)
         """
@@ -1986,13 +1986,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "ParameterProvideComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -2002,13 +2002,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def with_parameter(self, value: Optional["ParameterData"]) -> "ParameterProvideComSpec":
         """
         Set parameter and return self for chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter("value")
         """
@@ -2021,9 +2021,9 @@ class NvProvideComSpec(PPortComSpec):
     """
     Communication attributes of PPortPrototypes with respect to Nv data
     communication on the provided side.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NvProvideComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 195, Classic Platform
       R23-11)
@@ -2045,10 +2045,10 @@ class NvProvideComSpec(PPortComSpec):
     def ram_block_init(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set ramBlockInit with validation.
-        
+
         Args:
             value: The ramBlockInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2073,10 +2073,10 @@ class NvProvideComSpec(PPortComSpec):
     def rom_block_init(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set romBlockInit with validation.
-        
+
         Args:
             value: The romBlockInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2100,10 +2100,10 @@ class NvProvideComSpec(PPortComSpec):
     def variable(self, value: Optional["RefType"]) -> None:
         """
         Set variable with validation.
-        
+
         Args:
             value: The variable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2118,10 +2118,10 @@ class NvProvideComSpec(PPortComSpec):
     def getRamBlockInit(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for ramBlockInit.
-        
+
         Returns:
             The ramBlockInit value
-        
+
         Note:
             Delegates to ram_block_init property (CODING_RULE_V2_00017)
         """
@@ -2130,13 +2130,13 @@ class NvProvideComSpec(PPortComSpec):
     def setRamBlockInit(self, value: "ValueSpecification") -> "NvProvideComSpec":
         """
         AUTOSAR-compliant setter for ramBlockInit with method chaining.
-        
+
         Args:
             value: The ramBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ram_block_init property setter (gets validation automatically)
         """
@@ -2146,10 +2146,10 @@ class NvProvideComSpec(PPortComSpec):
     def getRomBlockInit(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for romBlockInit.
-        
+
         Returns:
             The romBlockInit value
-        
+
         Note:
             Delegates to rom_block_init property (CODING_RULE_V2_00017)
         """
@@ -2158,13 +2158,13 @@ class NvProvideComSpec(PPortComSpec):
     def setRomBlockInit(self, value: "ValueSpecification") -> "NvProvideComSpec":
         """
         AUTOSAR-compliant setter for romBlockInit with method chaining.
-        
+
         Args:
             value: The romBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rom_block_init property setter (gets validation automatically)
         """
@@ -2174,10 +2174,10 @@ class NvProvideComSpec(PPortComSpec):
     def getVariable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for variable.
-        
+
         Returns:
             The variable value
-        
+
         Note:
             Delegates to variable property (CODING_RULE_V2_00017)
         """
@@ -2186,13 +2186,13 @@ class NvProvideComSpec(PPortComSpec):
     def setVariable(self, value: "RefType") -> "NvProvideComSpec":
         """
         AUTOSAR-compliant setter for variable with method chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable property setter (gets validation automatically)
         """
@@ -2204,13 +2204,13 @@ class NvProvideComSpec(PPortComSpec):
     def with_ram_block_init(self, value: Optional["ValueSpecification"]) -> "NvProvideComSpec":
         """
         Set ramBlockInit and return self for chaining.
-        
+
         Args:
             value: The ramBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ram_block_init("value")
         """
@@ -2220,13 +2220,13 @@ class NvProvideComSpec(PPortComSpec):
     def with_rom_block_init(self, value: Optional["ValueSpecification"]) -> "NvProvideComSpec":
         """
         Set romBlockInit and return self for chaining.
-        
+
         Args:
             value: The romBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rom_block_init("value")
         """
@@ -2236,13 +2236,13 @@ class NvProvideComSpec(PPortComSpec):
     def with_variable(self, value: Optional[RefType]) -> "NvProvideComSpec":
         """
         Set variable and return self for chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable("value")
         """
@@ -2277,9 +2277,9 @@ class ReceiverComSpec(RPortComSpec, ABC):
     invalidValue handling. (cid:53) 171 of 1228 Document ID 62:
     AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ReceiverComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 170, Classic Platform
       R23-11)
@@ -2313,10 +2313,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def data_element(self, value: Optional["RefType"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2337,10 +2337,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def handle_out_of(self, value: Optional["HandleOutOfRange"]) -> None:
         """
         Set handleOutOf with validation.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2369,10 +2369,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def max_delta(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxDelta with validation.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2402,10 +2402,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def sync_counter_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set syncCounterInit with validation.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2441,10 +2441,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def uses_end_to_end(self, value: Optional["Boolean"]) -> None:
         """
         Set usesEndToEnd with validation.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2463,10 +2463,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getComposite(self) -> List["CompositeNetwork"]:
         """
         AUTOSAR-compliant getter for composite.
-        
+
         Returns:
             The composite value
-        
+
         Note:
             Delegates to composite property (CODING_RULE_V2_00017)
         """
@@ -2475,10 +2475,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getDataElement(self) -> "RefType":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -2487,13 +2487,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setDataElement(self, value: "RefType") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -2503,10 +2503,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getHandleOutOf(self) -> "HandleOutOfRange":
         """
         AUTOSAR-compliant getter for handleOutOf.
-        
+
         Returns:
             The handleOutOf value
-        
+
         Note:
             Delegates to handle_out_of property (CODING_RULE_V2_00017)
         """
@@ -2515,13 +2515,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setHandleOutOf(self, value: "HandleOutOfRange") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_out_of property setter (gets validation automatically)
         """
@@ -2531,10 +2531,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getMaxDelta(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxDelta.
-        
+
         Returns:
             The maxDelta value
-        
+
         Note:
             Delegates to max_delta property (CODING_RULE_V2_00017)
         """
@@ -2543,13 +2543,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setMaxDelta(self, value: "PositiveInteger") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_delta property setter (gets validation automatically)
         """
@@ -2559,10 +2559,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getSyncCounterInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncCounterInit.
-        
+
         Returns:
             The syncCounterInit value
-        
+
         Note:
             Delegates to sync_counter_init property (CODING_RULE_V2_00017)
         """
@@ -2571,13 +2571,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setSyncCounterInit(self, value: "PositiveInteger") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_counter_init property setter (gets validation automatically)
         """
@@ -2587,10 +2587,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getTransformation(self) -> List["TransformationCom"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -2599,10 +2599,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getUsesEndToEnd(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesEndToEnd.
-        
+
         Returns:
             The usesEndToEnd value
-        
+
         Note:
             Delegates to uses_end_to_end property (CODING_RULE_V2_00017)
         """
@@ -2611,13 +2611,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setUsesEndToEnd(self, value: "Boolean") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for usesEndToEnd with method chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_end_to_end property setter (gets validation automatically)
         """
@@ -2629,13 +2629,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_data_element(self, value: Optional[RefType]) -> "ReceiverComSpec":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -2645,13 +2645,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> "ReceiverComSpec":
         """
         Set handleOutOf and return self for chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_out_of("value")
         """
@@ -2661,13 +2661,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_max_delta(self, value: Optional["PositiveInteger"]) -> "ReceiverComSpec":
         """
         Set maxDelta and return self for chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_delta("value")
         """
@@ -2677,13 +2677,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> "ReceiverComSpec":
         """
         Set syncCounterInit and return self for chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_counter_init("value")
         """
@@ -2693,13 +2693,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_uses_end_to_end(self, value: Optional["Boolean"]) -> "ReceiverComSpec":
         """
         Set usesEndToEnd and return self for chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_end_to_end("value")
         """
@@ -2712,9 +2712,9 @@ class ClientComSpec(RPortComSpec):
     """
     Client-specific communication attributes (RPortPrototype typed by
     ClientServerInterface).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ClientComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 187, Classic Platform
       R23-11)
@@ -2737,10 +2737,10 @@ class ClientComSpec(RPortComSpec):
     def end_to_end_call(self, value: Optional["TimeValue"]) -> None:
         """
         Set endToEndCall with validation.
-        
+
         Args:
             value: The endToEndCall to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2764,10 +2764,10 @@ class ClientComSpec(RPortComSpec):
     def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2793,10 +2793,10 @@ class ClientComSpec(RPortComSpec):
     def getEndToEndCall(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for endToEndCall.
-        
+
         Returns:
             The endToEndCall value
-        
+
         Note:
             Delegates to end_to_end_call property (CODING_RULE_V2_00017)
         """
@@ -2805,13 +2805,13 @@ class ClientComSpec(RPortComSpec):
     def setEndToEndCall(self, value: "TimeValue") -> "ClientComSpec":
         """
         AUTOSAR-compliant setter for endToEndCall with method chaining.
-        
+
         Args:
             value: The endToEndCall to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to end_to_end_call property setter (gets validation automatically)
         """
@@ -2821,10 +2821,10 @@ class ClientComSpec(RPortComSpec):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -2833,13 +2833,13 @@ class ClientComSpec(RPortComSpec):
     def setOperation(self, value: "ClientServerOperation") -> "ClientComSpec":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -2849,10 +2849,10 @@ class ClientComSpec(RPortComSpec):
     def getTransformation(self) -> List["TransformationCom"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -2863,13 +2863,13 @@ class ClientComSpec(RPortComSpec):
     def with_end_to_end_call(self, value: Optional["TimeValue"]) -> "ClientComSpec":
         """
         Set endToEndCall and return self for chaining.
-        
+
         Args:
             value: The endToEndCall to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_end_to_end_call("value")
         """
@@ -2879,13 +2879,13 @@ class ClientComSpec(RPortComSpec):
     def with_operation(self, value: Optional["ClientServerOperation"]) -> "ClientComSpec":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """
@@ -2898,9 +2898,9 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     """
     Communication attributes of RPortPrototypes with respect to mode
     communication
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ModeSwitchReceiverComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 191, Classic Platform
       R23-11)
@@ -2924,10 +2924,10 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def enhanced_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set enhancedMode with validation.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2952,10 +2952,10 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def mode_group(self, value: Optional["RefType"]) -> None:
         """
         Set modeGroup with validation.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2978,10 +2978,10 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def supports(self, value: Optional["Boolean"]) -> None:
         """
         Set supports with validation.
-        
+
         Args:
             value: The supports to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3000,10 +3000,10 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def getEnhancedMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enhancedMode.
-        
+
         Returns:
             The enhancedMode value
-        
+
         Note:
             Delegates to enhanced_mode property (CODING_RULE_V2_00017)
         """
@@ -3012,13 +3012,13 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def setEnhancedMode(self, value: "Boolean") -> "ModeSwitchReceiverComSpec":
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enhanced_mode property setter (gets validation automatically)
         """
@@ -3028,10 +3028,10 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def getModeGroup(self) -> "RefType":
         """
         AUTOSAR-compliant getter for modeGroup.
-        
+
         Returns:
             The modeGroup value
-        
+
         Note:
             Delegates to mode_group property (CODING_RULE_V2_00017)
         """
@@ -3040,13 +3040,13 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def setModeGroup(self, value: "RefType") -> "ModeSwitchReceiverComSpec":
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_group property setter (gets validation automatically)
         """
@@ -3056,10 +3056,10 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def getSupports(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for supports.
-        
+
         Returns:
             The supports value
-        
+
         Note:
             Delegates to supports property (CODING_RULE_V2_00017)
         """
@@ -3068,13 +3068,13 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def setSupports(self, value: "Boolean") -> "ModeSwitchReceiverComSpec":
         """
         AUTOSAR-compliant setter for supports with method chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to supports property setter (gets validation automatically)
         """
@@ -3086,13 +3086,13 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def with_enhanced_mode(self, value: Optional["Boolean"]) -> "ModeSwitchReceiverComSpec":
         """
         Set enhancedMode and return self for chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enhanced_mode("value")
         """
@@ -3102,13 +3102,13 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def with_mode_group(self, value: Optional[RefType]) -> "ModeSwitchReceiverComSpec":
         """
         Set modeGroup and return self for chaining.
-        
+
         Args:
             value: The modeGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_group("value")
         """
@@ -3118,13 +3118,13 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def with_supports(self, value: Optional["Boolean"]) -> "ModeSwitchReceiverComSpec":
         """
         Set supports and return self for chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_supports("value")
         """
@@ -3137,9 +3137,9 @@ class ParameterRequireComSpec(RPortComSpec):
     """
     "Communication" specification that applies to parameters on the required
     side of a connection.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ParameterRequireComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 193, Classic Platform
       R23-11)
@@ -3160,10 +3160,10 @@ class ParameterRequireComSpec(RPortComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3187,10 +3187,10 @@ class ParameterRequireComSpec(RPortComSpec):
     def parameter(self, value: Optional["ParameterData"]) -> None:
         """
         Set parameter with validation.
-        
+
         Args:
             value: The parameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3209,10 +3209,10 @@ class ParameterRequireComSpec(RPortComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -3221,13 +3221,13 @@ class ParameterRequireComSpec(RPortComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "ParameterRequireComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -3237,10 +3237,10 @@ class ParameterRequireComSpec(RPortComSpec):
     def getParameter(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -3249,13 +3249,13 @@ class ParameterRequireComSpec(RPortComSpec):
     def setParameter(self, value: "ParameterData") -> "ParameterRequireComSpec":
         """
         AUTOSAR-compliant setter for parameter with method chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter property setter (gets validation automatically)
         """
@@ -3267,13 +3267,13 @@ class ParameterRequireComSpec(RPortComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "ParameterRequireComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -3283,13 +3283,13 @@ class ParameterRequireComSpec(RPortComSpec):
     def with_parameter(self, value: Optional["ParameterData"]) -> "ParameterRequireComSpec":
         """
         Set parameter and return self for chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter("value")
         """
@@ -3302,9 +3302,9 @@ class NvRequireComSpec(RPortComSpec):
     """
     Communication attributes of RPortPrototypes with respect to Nv data
     communication on the required side.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NvRequireComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 194, Classic Platform
       R23-11)
@@ -3325,10 +3325,10 @@ class NvRequireComSpec(RPortComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3352,10 +3352,10 @@ class NvRequireComSpec(RPortComSpec):
     def variable(self, value: Optional["RefType"]) -> None:
         """
         Set variable with validation.
-        
+
         Args:
             value: The variable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3370,10 +3370,10 @@ class NvRequireComSpec(RPortComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -3382,13 +3382,13 @@ class NvRequireComSpec(RPortComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "NvRequireComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -3398,10 +3398,10 @@ class NvRequireComSpec(RPortComSpec):
     def getVariable(self) -> "RefType":
         """
         AUTOSAR-compliant getter for variable.
-        
+
         Returns:
             The variable value
-        
+
         Note:
             Delegates to variable property (CODING_RULE_V2_00017)
         """
@@ -3410,13 +3410,13 @@ class NvRequireComSpec(RPortComSpec):
     def setVariable(self, value: "RefType") -> "NvRequireComSpec":
         """
         AUTOSAR-compliant setter for variable with method chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable property setter (gets validation automatically)
         """
@@ -3428,13 +3428,13 @@ class NvRequireComSpec(RPortComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "NvRequireComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -3444,13 +3444,13 @@ class NvRequireComSpec(RPortComSpec):
     def with_variable(self, value: Optional[RefType]) -> "NvRequireComSpec":
         """
         Set variable and return self for chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable("value")
         """
@@ -3463,9 +3463,9 @@ class UserDefinedTransformationComSpecProps(TransformationComSpecProps):
     """
     The UserDefinedTransformationComSpecProps is used to specify port specific
     configuration properties for custom transformers.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::UserDefinedTransformationComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 200, Classic Platform
       R23-11)
@@ -3485,9 +3485,9 @@ class QueuedSenderComSpec(SenderComSpec):
     """
     Communication attributes specific to distribution of events (PPortPrototype,
     SenderReceiverInterface and dataElement carries an "event").
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::QueuedSenderComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -3507,9 +3507,9 @@ class NonqueuedSenderComSpec(SenderComSpec):
     """
     Communication attributes for non-queued sender/receiver communication
     (sender side)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NonqueuedSenderComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -3531,10 +3531,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def data_filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set dataFilter with validation.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3559,10 +3559,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3581,10 +3581,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def getDataFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for dataFilter.
-        
+
         Returns:
             The dataFilter value
-        
+
         Note:
             Delegates to data_filter property (CODING_RULE_V2_00017)
         """
@@ -3593,13 +3593,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def setDataFilter(self, value: "DataFilter") -> "NonqueuedSenderComSpec":
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_filter property setter (gets validation automatically)
         """
@@ -3609,10 +3609,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -3621,13 +3621,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "NonqueuedSenderComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -3639,13 +3639,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def with_data_filter(self, value: Optional["DataFilter"]) -> "NonqueuedSenderComSpec":
         """
         Set dataFilter and return self for chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_filter("value")
         """
@@ -3655,13 +3655,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "NonqueuedSenderComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -3673,9 +3673,9 @@ class NonqueuedSenderComSpec(SenderComSpec):
 class NonqueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to non-queued receiving.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NonqueuedReceiverComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 172, Classic Platform
       R23-11)
@@ -3701,10 +3701,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def alive_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set aliveTimeout with validation.
-        
+
         Args:
             value: The aliveTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3729,10 +3729,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def enable_update(self, value: Optional["Boolean"]) -> None:
         """
         Set enableUpdate with validation.
-        
+
         Args:
             value: The enableUpdate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3756,10 +3756,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set filter with validation.
-        
+
         Args:
             value: The filter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3785,10 +3785,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def handle_data(self, value: Optional["Boolean"]) -> None:
         """
         Set handleData with validation.
-        
+
         Args:
             value: The handleData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3816,10 +3816,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def handle_never(self, value: Optional["Boolean"]) -> None:
         """
         Set handleNever with validation.
-        
+
         Args:
             value: The handleNever to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3843,10 +3843,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def handle_timeout(self, value: Optional["HandleTimeoutEnum"]) -> None:
         """
         Set handleTimeout with validation.
-        
+
         Args:
             value: The handleTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3871,10 +3871,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3899,10 +3899,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def timeout(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3921,10 +3921,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getAliveTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for aliveTimeout.
-        
+
         Returns:
             The aliveTimeout value
-        
+
         Note:
             Delegates to alive_timeout property (CODING_RULE_V2_00017)
         """
@@ -3933,13 +3933,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setAliveTimeout(self, value: "TimeValue") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for aliveTimeout with method chaining.
-        
+
         Args:
             value: The aliveTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alive_timeout property setter (gets validation automatically)
         """
@@ -3949,10 +3949,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getEnableUpdate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enableUpdate.
-        
+
         Returns:
             The enableUpdate value
-        
+
         Note:
             Delegates to enable_update property (CODING_RULE_V2_00017)
         """
@@ -3961,13 +3961,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setEnableUpdate(self, value: "Boolean") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for enableUpdate with method chaining.
-        
+
         Args:
             value: The enableUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_update property setter (gets validation automatically)
         """
@@ -3977,10 +3977,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for filter.
-        
+
         Returns:
             The filter value
-        
+
         Note:
             Delegates to filter property (CODING_RULE_V2_00017)
         """
@@ -3989,13 +3989,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setFilter(self, value: "DataFilter") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for filter with method chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter property setter (gets validation automatically)
         """
@@ -4005,10 +4005,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getHandleData(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for handleData.
-        
+
         Returns:
             The handleData value
-        
+
         Note:
             Delegates to handle_data property (CODING_RULE_V2_00017)
         """
@@ -4017,13 +4017,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setHandleData(self, value: "Boolean") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleData with method chaining.
-        
+
         Args:
             value: The handleData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_data property setter (gets validation automatically)
         """
@@ -4033,10 +4033,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getHandleNever(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for handleNever.
-        
+
         Returns:
             The handleNever value
-        
+
         Note:
             Delegates to handle_never property (CODING_RULE_V2_00017)
         """
@@ -4045,13 +4045,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setHandleNever(self, value: "Boolean") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleNever with method chaining.
-        
+
         Args:
             value: The handleNever to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_never property setter (gets validation automatically)
         """
@@ -4061,10 +4061,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getHandleTimeout(self) -> "HandleTimeoutEnum":
         """
         AUTOSAR-compliant getter for handleTimeout.
-        
+
         Returns:
             The handleTimeout value
-        
+
         Note:
             Delegates to handle_timeout property (CODING_RULE_V2_00017)
         """
@@ -4073,13 +4073,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setHandleTimeout(self, value: "HandleTimeoutEnum") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleTimeout with method chaining.
-        
+
         Args:
             value: The handleTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_timeout property setter (gets validation automatically)
         """
@@ -4089,10 +4089,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -4101,13 +4101,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -4117,10 +4117,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getTimeout(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -4129,13 +4129,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setTimeout(self, value: "ValueSpecification") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -4147,13 +4147,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_alive_timeout(self, value: Optional["TimeValue"]) -> "NonqueuedReceiverComSpec":
         """
         Set aliveTimeout and return self for chaining.
-        
+
         Args:
             value: The aliveTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alive_timeout("value")
         """
@@ -4163,13 +4163,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_enable_update(self, value: Optional["Boolean"]) -> "NonqueuedReceiverComSpec":
         """
         Set enableUpdate and return self for chaining.
-        
+
         Args:
             value: The enableUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_update("value")
         """
@@ -4179,13 +4179,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_filter(self, value: Optional["DataFilter"]) -> "NonqueuedReceiverComSpec":
         """
         Set filter and return self for chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter("value")
         """
@@ -4195,13 +4195,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_handle_data(self, value: Optional["Boolean"]) -> "NonqueuedReceiverComSpec":
         """
         Set handleData and return self for chaining.
-        
+
         Args:
             value: The handleData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_data("value")
         """
@@ -4211,13 +4211,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_handle_never(self, value: Optional["Boolean"]) -> "NonqueuedReceiverComSpec":
         """
         Set handleNever and return self for chaining.
-        
+
         Args:
             value: The handleNever to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_never("value")
         """
@@ -4227,13 +4227,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_handle_timeout(self, value: Optional["HandleTimeoutEnum"]) -> "NonqueuedReceiverComSpec":
         """
         Set handleTimeout and return self for chaining.
-        
+
         Args:
             value: The handleTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_timeout("value")
         """
@@ -4243,13 +4243,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "NonqueuedReceiverComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -4259,13 +4259,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_timeout(self, value: Optional["ValueSpecification"]) -> "NonqueuedReceiverComSpec":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -4277,9 +4277,9 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 class QueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to queued receiving.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::QueuedReceiverComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 173, Classic Platform
       R23-11)
@@ -4300,10 +4300,10 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4322,10 +4322,10 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -4334,13 +4334,13 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def setQueueLength(self, value: "PositiveInteger") -> "QueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -4352,13 +4352,13 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "QueuedReceiverComSpec":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """

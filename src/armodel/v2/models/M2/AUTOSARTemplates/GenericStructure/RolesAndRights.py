@@ -26,9 +26,9 @@ class AclPermission(ARElement):
     """
     This meta class represents the ability to represent permissions granted on
     objects in an AUTOSAR model.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclPermission
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 382, Foundation
       R23-11)
@@ -82,10 +82,10 @@ class AclPermission(ARElement):
     def acl_scope(self, value: "AclScopeEnum") -> None:
         """
         Set aclScope with validation.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -228,10 +228,10 @@ class AclPermission(ARElement):
     def getAclContext(self) -> List["NameToken"]:
         """
         AUTOSAR-compliant getter for aclContext.
-        
+
         Returns:
             The aclContext value
-        
+
         Note:
             Delegates to acl_context property (CODING_RULE_V2_00017)
         """
@@ -240,10 +240,10 @@ class AclPermission(ARElement):
     def getAclObject(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for aclObject.
-        
+
         Returns:
             The aclObject value
-        
+
         Note:
             Delegates to acl_object property (CODING_RULE_V2_00017)
         """
@@ -252,10 +252,10 @@ class AclPermission(ARElement):
     def getAclOperation(self) -> List["AclOperation"]:
         """
         AUTOSAR-compliant getter for aclOperation.
-        
+
         Returns:
             The aclOperation value
-        
+
         Note:
             Delegates to acl_operation property (CODING_RULE_V2_00017)
         """
@@ -264,10 +264,10 @@ class AclPermission(ARElement):
     def getAclRole(self) -> List["AclRole"]:
         """
         AUTOSAR-compliant getter for aclRole.
-        
+
         Returns:
             The aclRole value
-        
+
         Note:
             Delegates to acl_role property (CODING_RULE_V2_00017)
         """
@@ -276,10 +276,10 @@ class AclPermission(ARElement):
     def getAclScope(self) -> "AclScopeEnum":
         """
         AUTOSAR-compliant getter for aclScope.
-        
+
         Returns:
             The aclScope value
-        
+
         Note:
             Delegates to acl_scope property (CODING_RULE_V2_00017)
         """
@@ -288,13 +288,13 @@ class AclPermission(ARElement):
     def setAclScope(self, value: "AclScopeEnum") -> "AclPermission":
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to acl_scope property setter (gets validation automatically)
         """
@@ -306,13 +306,13 @@ class AclPermission(ARElement):
     def with_acl_scope(self, value: "AclScopeEnum") -> "AclPermission":
         """
         Set aclScope and return self for chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_acl_scope("value")
         """
@@ -326,9 +326,9 @@ class AclObjectSet(ARElement):
     that this can also be a reference to a Standard Module Definition. Therefore
     it is stereotyped by atpUri Def. Stereotypes: atpUriDef Table 11.2:
     AclObjectSet
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclObjectSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 383, Foundation
       R23-11)
@@ -358,10 +358,10 @@ class AclObjectSet(ARElement):
     def acl_scope(self, value: "AclScopeEnum") -> None:
         """
         Set aclScope with validation.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -381,10 +381,10 @@ class AclObjectSet(ARElement):
     def collection(self, value: Optional["RefType"]) -> None:
         """
         Set collection with validation.
-        
+
         Args:
             value: The collection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -416,10 +416,10 @@ class AclObjectSet(ARElement):
     def getAclObjectClass(self) -> List["RefType"]:
         """
         AUTOSAR-compliant getter for aclObjectClass.
-        
+
         Returns:
             The aclObjectClass value
-        
+
         Note:
             Delegates to acl_object_class property (CODING_RULE_V2_00017)
         """
@@ -428,10 +428,10 @@ class AclObjectSet(ARElement):
     def getAclScope(self) -> "AclScopeEnum":
         """
         AUTOSAR-compliant getter for aclScope.
-        
+
         Returns:
             The aclScope value
-        
+
         Note:
             Delegates to acl_scope property (CODING_RULE_V2_00017)
         """
@@ -440,13 +440,13 @@ class AclObjectSet(ARElement):
     def setAclScope(self, value: "AclScopeEnum") -> "AclObjectSet":
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to acl_scope property setter (gets validation automatically)
         """
@@ -456,10 +456,10 @@ class AclObjectSet(ARElement):
     def getCollection(self) -> "RefType":
         """
         AUTOSAR-compliant getter for collection.
-        
+
         Returns:
             The collection value
-        
+
         Note:
             Delegates to collection property (CODING_RULE_V2_00017)
         """
@@ -468,13 +468,13 @@ class AclObjectSet(ARElement):
     def setCollection(self, value: "RefType") -> "AclObjectSet":
         """
         AUTOSAR-compliant setter for collection with method chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collection property setter (gets validation automatically)
         """
@@ -484,10 +484,10 @@ class AclObjectSet(ARElement):
     def getDerivedFrom(self) -> List["AtpBlueprint"]:
         """
         AUTOSAR-compliant getter for derivedFrom.
-        
+
         Returns:
             The derivedFrom value
-        
+
         Note:
             Delegates to derived_from property (CODING_RULE_V2_00017)
         """
@@ -496,10 +496,10 @@ class AclObjectSet(ARElement):
     def getEngineering(self) -> List["AutosarEngineering"]:
         """
         AUTOSAR-compliant getter for engineering.
-        
+
         Returns:
             The engineering value
-        
+
         Note:
             Delegates to engineering property (CODING_RULE_V2_00017)
         """
@@ -510,13 +510,13 @@ class AclObjectSet(ARElement):
     def with_acl_scope(self, value: "AclScopeEnum") -> "AclObjectSet":
         """
         Set aclScope and return self for chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_acl_scope("value")
         """
@@ -526,13 +526,13 @@ class AclObjectSet(ARElement):
     def with_collection(self, value: Optional[RefType]) -> "AclObjectSet":
         """
         Set collection and return self for chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collection("value")
         """
@@ -546,9 +546,9 @@ class AtpDefinition(Referrable, ABC):
     This abstract meta class represents "definition"-elements which identify the
     respective values. For example the value of a particular system constant is
     identified by the definition of this system constant.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AtpDefinition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 383, Foundation
       R23-11)
@@ -570,9 +570,9 @@ class AclOperation(ARElement):
     """
     This meta class represents the ability to denote a particular operation
     which may be performed on objects in an AUTOSAR model.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclOperation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 384, Foundation
       R23-11)
@@ -596,10 +596,10 @@ class AclOperation(ARElement):
     def getImplied(self) -> List["AclOperation"]:
         """
         AUTOSAR-compliant getter for implied.
-        
+
         Returns:
             The implied value
-        
+
         Note:
             Delegates to implied property (CODING_RULE_V2_00017)
         """
@@ -614,9 +614,9 @@ class AclRole(ARElement):
     This meta class represents the ability to specify a particular role which is
     used to grant access rights to AUTOSAR model. The purpose of this meta-class
     is to support the mutual agreements between the involved parties.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclRole
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 384, Foundation
       R23-11)
@@ -638,10 +638,10 @@ class AclRole(ARElement):
     def ldap_url(self, value: Optional["UriString"]) -> None:
         """
         Set ldapUrl with validation.
-        
+
         Args:
             value: The ldapUrl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -660,10 +660,10 @@ class AclRole(ARElement):
     def getLdapUrl(self) -> "UriString":
         """
         AUTOSAR-compliant getter for ldapUrl.
-        
+
         Returns:
             The ldapUrl value
-        
+
         Note:
             Delegates to ldap_url property (CODING_RULE_V2_00017)
         """
@@ -672,13 +672,13 @@ class AclRole(ARElement):
     def setLdapUrl(self, value: "UriString") -> "AclRole":
         """
         AUTOSAR-compliant setter for ldapUrl with method chaining.
-        
+
         Args:
             value: The ldapUrl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ldap_url property setter (gets validation automatically)
         """
@@ -690,13 +690,13 @@ class AclRole(ARElement):
     def with_ldap_url(self, value: Optional["UriString"]) -> "AclRole":
         """
         Set ldapUrl and return self for chaining.
-        
+
         Args:
             value: The ldapUrl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ldap_url("value")
         """
