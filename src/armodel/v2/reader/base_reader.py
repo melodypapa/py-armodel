@@ -8,6 +8,8 @@ from typing import (
     Any,
     Dict,
     Optional,
+    Union,
+    cast,
     get_type_hints,
 )
 
@@ -117,9 +119,9 @@ class ARXMLReader:
         # Property elements typically have hyphens and are uppercase
         return "-" in tag_name and tag_name == tag_name.upper()
 
-    def load(self, file_path: str, document: AUTOSAR) -> None:
+    def load(self, file_path: Union[str, Path], document: AUTOSAR) -> None:
         """Load ARXML file into AUTOSAR document."""
-        file_path = Path(file_path)
+        file_path = Path(file_path) if isinstance(file_path, str) else file_path
 
         # Parse XML with ElementTree
         tree = ET.parse(file_path)
@@ -240,19 +242,19 @@ class ARXMLReader:
                     child.parent = parent
 
     def _get_child_property(self, parent_class: type, child_tag: str,
-                           ctx: DeserializationContext) -> str:
+                           ctx: DeserializationContext) -> Optional[str]:
         """Get the property name for a child element."""
-        mappings = ctx.mappings.get("child_elements", {}).get(parent_class.__name__, {})
+        mappings: Dict[str, Any] = ctx.mappings.get("child_elements", {}).get(parent_class.__name__, {})
         for prop_name, tag_spec in mappings.items():
             if isinstance(tag_spec, list):
                 if child_tag in tag_spec:
-                    return prop_name
+                    return cast(Optional[str], prop_name)
                 for tag in tag_spec:
                     if tag.endswith(child_tag) or child_tag.endswith(tag):
-                        return prop_name
+                        return cast(Optional[str], prop_name)
             else:
                 if tag_spec == child_tag or tag_spec.endswith(child_tag) or child_tag.endswith(tag_spec):
-                    return prop_name
+                    return cast(Optional[str], prop_name)
         return None
 
     def _detect_autosar_version(self, root: ET.Element, file_path: Path) -> str:
