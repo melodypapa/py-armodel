@@ -1,5 +1,5 @@
-from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
-    DocumentationBlock,
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.Paginateable import (
+    Paginateable,
 )
 
 
@@ -42,7 +42,7 @@ class TraceableText(Paginateable):
         Raises:
             TypeError: If value type is incorrect
         """
-        if not isinstance(value, DocumentationBlock):
+        if value.__class__.__name__ != "DocumentationBlock":
             raise TypeError(
                 f"text must be DocumentationBlock, got {type(value).__name__}"
             )

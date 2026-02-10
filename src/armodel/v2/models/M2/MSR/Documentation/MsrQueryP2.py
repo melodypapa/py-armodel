@@ -3,32 +3,8 @@ from typing import Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
-    DocumentationBlock,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFigure import (
-    MlFigure,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFormula import (
-    MlFormula,
-)
-from armodel.v2.models.M2.MSR.Documentation.MsrQueryP2 import (
-    MsrQueryP2,
-)
 from armodel.v2.models.M2.MSR.Documentation.MsrQueryProps import (
     MsrQueryProps,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.MultiLanguageVerbatim import (
-    MultiLanguageVerbatim,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.Note import (
-    Note,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.StructuredReq import (
-    StructuredReq,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.TraceableText import (
-    TraceableText,
 )
 
 
@@ -95,7 +71,7 @@ class MsrQueryP2(ARObject):
             self._msrQueryResult = None
             return
 
-        if not isinstance(value, DocumentationBlock):
+        if value.__class__.__name__ != "DocumentationBlock":
             raise TypeError(
                 f"msrQueryResult must be DocumentationBlock or None, got {type(value).__name__}"
             )
