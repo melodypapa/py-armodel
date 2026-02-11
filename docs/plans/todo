@@ -1,12 +1,9 @@
-- Fix all the ruff and mypy errors of v2 one by one util the total numbers of errors < 3000.
-  - Use one feature branch and issue in github for the fixes and commit the changes for different phase.
-  - At the same time of fixing, please also follows:
-    - The changes shall be follow the `docs/development/coding_rules_v2.md`
-    - do not use the any type to solve the problem.
-    - all the class, package and attributes defintions shall be referred to `docs/requirements/packages`
-    - use the TDD methodology, add the unit test for the new classes and then implmentation
-    - all the tests shall be passed.
-    - do not use the scripts to fix the problem.
-    - verify no new ruff issues causes by the change.
-    - to avoid this kind of error: Union[Union[PositiveInteger, None] , None]
-    - correct all the attribute type with string annotation and replace them with the correct type.
+- check each file in @src/armodel/v2/models/ one by one until 1000 python files have been fixed.
+   - confirm all the string annotation has been replace the actual type definition
+   - import the actual type definition by looking up in @docs/requirements/class-package.json
+   - check all the import statement is correct by looking up in @docs/requirements/class-package.json
+   - combine the classes in one package for import statement 
+   - if the class is missing in the codebase, add the class definition by looking up in @docs/requirements/class-package.json for the location and the definition can be found in @docs/requirements/packages
+   - if the class is missing in @docs/requirements/class-package.json, summit an issue to one markdown file in @docs/requirements/issues/ and skip the changes for that class
+   - fix all the errors manually without using any scripts
+   - do not copy the model class from v1 codebase

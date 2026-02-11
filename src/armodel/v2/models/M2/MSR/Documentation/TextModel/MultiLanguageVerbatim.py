@@ -1,6 +1,6 @@
 from typing import Optional
 
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.Paginateable import (
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
 

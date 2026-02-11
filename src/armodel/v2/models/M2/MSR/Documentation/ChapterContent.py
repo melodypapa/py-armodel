@@ -6,6 +6,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Prms import (
     Prms,
 )
+from armodel.v2.models.M2.MSR.Documentation.TopicContentOrMsrQuery import (
+    TopicContentOrMsrQuery,
+)
 
 
 class ChapterContent(ARObject):
@@ -20,20 +23,20 @@ class ChapterContent(ARObject):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 330, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is a parameter table within a chapter.
-        self._prms: "Prms" = None
+        self._prms: Optional[Prms] = None
 
     @property
-    def prms(self) -> "Prms":
+    def prms(self) -> Optional[Prms]:
         """Get prms (Pythonic accessor)."""
         return self._prms
 
     @prms.setter
-    def prms(self, value: "Prms") -> None:
+    def prms(self, value: Optional[Prms]) -> None:
         """
         Set prms with validation.
 
@@ -43,21 +46,25 @@ class ChapterContent(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._prms = None
+            return
+
         if not isinstance(value, Prms):
             raise TypeError(
-                f"prms must be Prms, got {type(value).__name__}"
+                f"prms must be Prms or None, got {type(value).__name__}"
             )
         self._prms = value
         # in a topic.
-        self._topicContent: Optional["TopicContentOrMsr"] = None
+        self._topicContent: Optional[TopicContentOrMsrQuery] = None
 
     @property
-    def topic_content(self) -> Optional["TopicContentOrMsr"]:
+    def topic_content(self) -> Optional[TopicContentOrMsrQuery]:
         """Get topicContent (Pythonic accessor)."""
         return self._topicContent
 
     @topic_content.setter
-    def topic_content(self, value: Optional["TopicContentOrMsr"]) -> None:
+    def topic_content(self, value: Optional[TopicContentOrMsrQuery]) -> None:
         """
         Set topicContent with validation.
 
@@ -71,15 +78,15 @@ class ChapterContent(ARObject):
             self._topicContent = None
             return
 
-        if not isinstance(value, TopicContentOrMsr):
+        if not isinstance(value, TopicContentOrMsrQuery):
             raise TypeError(
-                f"topicContent must be TopicContentOrMsr or None, got {type(value).__name__}"
+                f"topicContent must be TopicContentOrMsrQuery or None, got {type(value).__name__}"
             )
         self._topicContent = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPrms(self) -> "Prms":
+    def getPrms(self) -> Optional[Prms]:
         """
         AUTOSAR-compliant getter for prms.
 
@@ -91,7 +98,7 @@ class ChapterContent(ARObject):
         """
         return self.prms  # Delegates to property
 
-    def setPrms(self, value: "Prms") -> "ChapterContent":
+    def setPrms(self, value: Optional[Prms]) -> "ChapterContent":
         """
         AUTOSAR-compliant setter for prms with method chaining.
 
@@ -107,7 +114,7 @@ class ChapterContent(ARObject):
         self.prms = value  # Delegates to property setter
         return self
 
-    def getTopicContent(self) -> "TopicContentOrMsr":
+    def getTopicContent(self) -> Optional[TopicContentOrMsrQuery]:
         """
         AUTOSAR-compliant getter for topicContent.
 
@@ -119,7 +126,7 @@ class ChapterContent(ARObject):
         """
         return self.topic_content  # Delegates to property
 
-    def setTopicContent(self, value: "TopicContentOrMsr") -> "ChapterContent":
+    def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> "ChapterContent":
         """
         AUTOSAR-compliant setter for topicContent with method chaining.
 
@@ -137,7 +144,7 @@ class ChapterContent(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_prms(self, value: "Prms") -> "ChapterContent":
+    def with_prms(self, value: Optional[Prms]) -> "ChapterContent":
         """
         Set prms and return self for chaining.
 
@@ -153,7 +160,7 @@ class ChapterContent(ARObject):
         self.prms = value  # Use property setter (gets validation)
         return self
 
-    def with_topic_content(self, value: Optional["TopicContentOrMsr"]) -> "ChapterContent":
+    def with_topic_content(self, value: Optional[TopicContentOrMsrQuery]) -> "ChapterContent":
         """
         Set topicContent and return self for chaining.
 

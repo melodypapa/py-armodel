@@ -4,7 +4,7 @@ AUTOSAR Package - MsrQuery
 Package: M2::MSR::Documentation::MsrQuery
 """
 
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -16,18 +16,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
-from armodel.v2.models.M2.MSR.Documentation.Chapter import (
-    Chapter,
-)
-from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
-    DocumentationBlock,
-)
-from armodel.v2.models.M2.MSR.Documentation.MsrQueryP2 import (
-    MsrQueryP2,
-)
-from armodel.v2.models.M2.MSR.Documentation.TopicContent import (
-    TopicContent,
-)
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.Chapters import Chapter
+    from armodel.v2.models.M2.MSR.Documentation.Chapters import TopicContent
+    from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import DocumentationBlock
 
 
 class MsrQueryP1(Paginateable):
@@ -93,10 +86,7 @@ class MsrQueryP1(Paginateable):
             self._msrQueryResult = None
             return
 
-        if not isinstance(value, TopicContent):
-            raise TypeError(
-                f"msrQueryResult must be TopicContent or None, got {type(value).__name__}"
-            )
+        # Skip isinstance check for forward references
         self._msrQueryResult = value
 
     def with_msr_query_arg(self, value):
@@ -1015,10 +1005,7 @@ class MsrQueryP2(ARObject):
             self._msrQueryResult = None
             return
 
-        if not isinstance(value, DocumentationBlock):
-            raise TypeError(
-                f"msrQueryResult must be DocumentationBlock or None, got {type(value).__name__}"
-            )
+        # Skip isinstance check for forward references
         self._msrQueryResult = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====

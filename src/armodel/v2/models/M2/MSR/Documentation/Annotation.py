@@ -21,7 +21,7 @@ class Annotation(GeneralAnnotation):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 163, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====

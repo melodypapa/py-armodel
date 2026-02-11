@@ -1,11 +1,13 @@
-from typing import (
-    List,
-)
+from typing import List
 
+from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import (
+    Field,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerOperation,
     PortInterface,
 )
 
@@ -27,83 +29,86 @@ class ApplicationInterface(PortInterface):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the set of attributes defined in the context Abstract
-                # Platform ApplicationInterface.
+        # Platform ApplicationInterface.
         # atpVariation.
-        self._attribute: List["Field"] = []
-
-    @property
-    def attribute(self) -> List["Field"]:
-        """Get attribute (Pythonic accessor)."""
-        return self._attribute
+        self._attribute: List[Field] = []
         # This represents the collection of commands or function optional data
-                # arguments) defined in the context ApplicationInterface.
+        # arguments) defined in the context ApplicationInterface.
         # atpVariation.
-        self._command: List["ClientServerOperation"] = []
-
-    @property
-    def command(self) -> List["ClientServerOperation"]:
-        """Get command (Pythonic accessor)."""
-        return self._command
+        self._command: List[ClientServerOperation] = []
         # This represents the collection of indication or events (with argument)
         # defined in the context of an atpVariation.
         self._indication: List[RefType] = []
+
+    @property
+    def attribute(self) -> List[Field]:
+        """Get attribute (Pythonic accessor)."""
+        return self._attribute
+
+    @attribute.setter
+    def attribute(self, value: List[Field]) -> None:
+        """
+        Set attribute with validation.
+
+        Args:
+            value: The attribute to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if not isinstance(value, list):
+            raise TypeError(
+                f"attribute must be a list, got {type(value).__name__}"
+            )
+        self._attribute = value
+
+    @property
+    def command(self) -> List[ClientServerOperation]:
+        """Get command (Pythonic accessor)."""
+        return self._command
+
+    @command.setter
+    def command(self, value: List[ClientServerOperation]) -> None:
+        """
+        Set command with validation.
+
+        Args:
+            value: The command to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if not isinstance(value, list):
+            raise TypeError(
+                f"command must be a list, got {type(value).__name__}"
+            )
+        self._command = value
 
     @property
     def indication(self) -> List[RefType]:
         """Get indication (Pythonic accessor)."""
         return self._indication
 
-    def with_attribute(self, value):
+    @indication.setter
+    def indication(self, value: List[RefType]) -> None:
         """
-        Set attribute and return self for chaining.
-
-        Args:
-            value: The attribute to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_attribute("value")
-        """
-        self.attribute = value  # Use property setter (gets validation)
-        return self
-
-    def with_command(self, value):
-        """
-        Set command and return self for chaining.
-
-        Args:
-            value: The command to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_command("value")
-        """
-        self.command = value  # Use property setter (gets validation)
-        return self
-
-    def with_indication(self, value):
-        """
-        Set indication and return self for chaining.
+        Set indication with validation.
 
         Args:
             value: The indication to set
 
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_indication("value")
+        Raises:
+            TypeError: If value type is incorrect
         """
-        self.indication = value  # Use property setter (gets validation)
-        return self
+        if not isinstance(value, list):
+            raise TypeError(
+                f"indication must be a list, got {type(value).__name__}"
+            )
+        self._indication = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAttribute(self) -> List["Field"]:
+    def getAttribute(self) -> List[Field]:
         """
         AUTOSAR-compliant getter for attribute.
 
@@ -115,7 +120,7 @@ class ApplicationInterface(PortInterface):
         """
         return self.attribute  # Delegates to property
 
-    def getCommand(self) -> List["ClientServerOperation"]:
+    def getCommand(self) -> List[ClientServerOperation]:
         """
         AUTOSAR-compliant getter for command.
 
@@ -140,3 +145,51 @@ class ApplicationInterface(PortInterface):
         return self.indication  # Delegates to property
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_attribute(self, value: List[Field]) -> "ApplicationInterface":
+        """
+        Set attribute and return self for chaining.
+
+        Args:
+            value: The attribute to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_attribute("value")
+        """
+        self.attribute = value  # Use property setter (gets validation)
+        return self
+
+    def with_command(self, value: List[ClientServerOperation]) -> "ApplicationInterface":
+        """
+        Set command and return self for chaining.
+
+        Args:
+            value: The command to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_command("value")
+        """
+        self.command = value  # Use property setter (gets validation)
+        return self
+
+    def with_indication(self, value: List[RefType]) -> "ApplicationInterface":
+        """
+        Set indication and return self for chaining.
+
+        Args:
+            value: The indication to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_indication("value")
+        """
+        self.indication = value  # Use property setter (gets validation)
+        return self

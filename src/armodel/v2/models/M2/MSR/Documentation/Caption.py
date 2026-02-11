@@ -3,6 +3,9 @@ from typing import Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import (
     MultilanguageReferrable,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageOverviewParagraph as MultiLanguageOverview,
+)
 
 
 class Caption(MultilanguageReferrable):
@@ -16,22 +19,22 @@ class Caption(MultilanguageReferrable):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 432, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a general but brief (one paragraph) what the object in
                 # question is about.
         # It is only This property helps a human reader to object in question.
-        self._desc: Optional["MultiLanguageOverview"] = None
+        self._desc: Optional[MultiLanguageOverview] = None
 
     @property
-    def desc(self) -> Optional["MultiLanguageOverview"]:
+    def desc(self) -> Optional[MultiLanguageOverview]:
         """Get desc (Pythonic accessor)."""
         return self._desc
 
     @desc.setter
-    def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
+    def desc(self, value: Optional[MultiLanguageOverview]) -> None:
         """
         Set desc with validation.
 
@@ -53,7 +56,7 @@ class Caption(MultilanguageReferrable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDesc(self) -> "MultiLanguageOverview":
+    def getDesc(self) -> Optional[MultiLanguageOverview]:
         """
         AUTOSAR-compliant getter for desc.
 
@@ -65,7 +68,7 @@ class Caption(MultilanguageReferrable):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> "Caption":
+    def setDesc(self, value: Optional[MultiLanguageOverview]) -> "Caption":
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -83,7 +86,7 @@ class Caption(MultilanguageReferrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "Caption":
+    def with_desc(self, value: Optional[MultiLanguageOverview]) -> "Caption":
         """
         Set desc and return self for chaining.
 
