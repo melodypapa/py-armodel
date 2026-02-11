@@ -254,7 +254,7 @@
       ],
       "attributes": {
         "operation": {
-          "type": "SwcToSwcOperation",
+          "type": "SwcToSwcOperationArguments",
           "multiplicity": "*",
           "kind": "attribute",
           "is_ref": false,

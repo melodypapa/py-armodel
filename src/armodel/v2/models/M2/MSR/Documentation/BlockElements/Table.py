@@ -1,3 +1,6 @@
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
+    Paginateable,
+)
 from typing import Optional
 
 

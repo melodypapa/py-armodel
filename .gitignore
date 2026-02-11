@@ -64,7 +64,7 @@ Temporary Items
 
 # Claude
 .claude/settings.local.json
-.claude/ralph*.local.json
+.claude/ralph-loop.local.md
 docs/**/M2
 # docs/**/packages
 

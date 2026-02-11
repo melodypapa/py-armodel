@@ -21,7 +21,7 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.StructuredReq import (
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.TraceableText import (
     TraceableText,
 )
-from armodel.v2.models.M2.MSR.Documentation.MsrQueryP2 import (
+from armodel.v2.models.M2.MSR.Documentation.MsrQuery import (
     MsrQueryP2,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.MultiLanguageVerbatim import (

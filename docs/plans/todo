@@ -1,8 +1,9 @@
-- check each file in @src/armodel/v2/models/ one by one unitil 1000 python files have been fixed.
+- check each file in @src/armodel/v2/models/ one by one until 1000 python files have been fixed.
    - confirm all the string annotation has been replace the actual type definition
    - import the actual type definition by looking up in @docs/requirements/class-package.json
    - check all the import statement is correct by looking up in @docs/requirements/class-package.json
    - combine the classes in one package for import statement 
    - if the class is missing in the codebase, add the class definition by looking up in @docs/requirements/class-package.json for the location and the definition can be found in @docs/requirements/packages
    - if the class is missing in @docs/requirements/class-package.json, summit an issue to one markdown file in @docs/requirements/issues/ and skip the changes for that class
-- fix all the errors manaully without using any scripts
+   - fix all the errors manually without using any scripts
+   - do not copy the model class from v1 codebase
