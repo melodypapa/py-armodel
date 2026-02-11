@@ -6,7 +6,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Paginateable import (
     Paginateable,
 )
-from armodel.v2.models.M2.MSR.Documentation.ChapterModel import ChapterModel
+from armodel.v2.models.M2.MSR.Documentation.Chapters import ChapterModel
 
 
 class Chapter(Paginateable):
@@ -28,16 +28,16 @@ class Chapter(Paginateable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the overall contents of the chapter.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
-                # R23-11.
-        self._chapterModel: Optional["ChapterModel"] = None
+        # R23-11.
+        self._chapterModel: Optional[ChapterModel] = None
 
     @property
-    def chapter_model(self) -> Optional["ChapterModel"]:
+    def chapter_model(self) -> Optional[ChapterModel]:
         """Get chapterModel (Pythonic accessor)."""
         return self._chapterModel
 
     @chapter_model.setter
-    def chapter_model(self, value: Optional["ChapterModel"]) -> None:
+    def chapter_model(self, value: Optional[ChapterModel]) -> None:
         """
         Set chapterModel with validation.
 
@@ -56,18 +56,18 @@ class Chapter(Paginateable):
                 f"chapterModel must be ChapterModel or None, got {type(value).__name__}"
             )
         self._chapterModel = value
-                # class.
+
         # The syntax shall be the applied help system respectively help is a
-                # concatenated Identifier, but as of now we as an arbitrary string.
-        self._helpEntry: Optional["String"] = None
+        # concatenated Identifier, but as of now we as an arbitrary string.
+        self._helpEntry: Optional[String] = None
 
     @property
-    def help_entry(self) -> Optional["String"]:
+    def help_entry(self) -> Optional[String]:
         """Get helpEntry (Pythonic accessor)."""
         return self._helpEntry
 
     @help_entry.setter
-    def help_entry(self, value: Optional["String"]) -> None:
+    def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
 
@@ -89,7 +89,7 @@ class Chapter(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChapterModel(self) -> Optional["ChapterModel"]:
+    def getChapterModel(self) -> Optional[ChapterModel]:
         """
         AUTOSAR-compliant getter for chapterModel.
 
@@ -101,7 +101,7 @@ class Chapter(Paginateable):
         """
         return self.chapter_model  # Delegates to property
 
-    def setChapterModel(self, value: Optional["ChapterModel"]) -> "Chapter":
+    def setChapterModel(self, value: Optional[ChapterModel]) -> "Chapter":
         """
         AUTOSAR-compliant setter for chapterModel with method chaining.
 
@@ -117,7 +117,7 @@ class Chapter(Paginateable):
         self.chapter_model = value  # Delegates to property setter
         return self
 
-    def getHelpEntry(self) -> Optional["String"]:
+    def getHelpEntry(self) -> Optional[String]:
         """
         AUTOSAR-compliant getter for helpEntry.
 
@@ -129,7 +129,7 @@ class Chapter(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: Optional["String"]) -> "Chapter":
+    def setHelpEntry(self, value: Optional[String]) -> "Chapter":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -147,7 +147,7 @@ class Chapter(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_chapter_model(self, value: Optional["ChapterModel"]) -> "Chapter":
+    def with_chapter_model(self, value: Optional[ChapterModel]) -> "Chapter":
         """
         Set chapterModel and return self for chaining.
 
@@ -163,7 +163,7 @@ class Chapter(Paginateable):
         self.chapter_model = value  # Use property setter (gets validation)
         return self
 
-    def with_help_entry(self, value: Optional["String"]) -> "Chapter":
+    def with_help_entry(self, value: Optional[String]) -> "Chapter":
         """
         Set helpEntry and return self for chaining.
 

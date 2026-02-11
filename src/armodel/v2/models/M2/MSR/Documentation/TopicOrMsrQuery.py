@@ -1,6 +1,10 @@
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.MSR.Documentation.MsrQueryTopic1 import MsrQueryTopic1
+from armodel.v2.models.M2.MSR.Documentation.Topic1 import Topic1
 
 
 class TopicOrMsrQuery(ARObject):
@@ -14,20 +18,20 @@ class TopicOrMsrQuery(ARObject):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 342, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents automatically contributed topics provided an msrquery.
-        self._msrQuery: "MsrQueryTopic1" = None
+        self._msrQuery: Optional[MsrQueryTopic1] = None
 
     @property
-    def msr_query(self) -> "MsrQueryTopic1":
+    def msr_query(self) -> Optional[MsrQueryTopic1]:
         """Get msrQuery (Pythonic accessor)."""
         return self._msrQuery
 
     @msr_query.setter
-    def msr_query(self, value: "MsrQueryTopic1") -> None:
+    def msr_query(self, value: Optional[MsrQueryTopic1]) -> None:
         """
         Set msrQuery with validation.
 
@@ -37,23 +41,27 @@ class TopicOrMsrQuery(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._msrQuery = None
+            return
+
         if not isinstance(value, MsrQueryTopic1):
             raise TypeError(
-                f"msrQuery must be MsrQueryTopic1, got {type(value).__name__}"
+                f"msrQuery must be MsrQueryTopic1 or None, got {type(value).__name__}"
             )
         self._msrQuery = value
         # A similar to a subchapter, but cannot be nested and appear in the table of
-                # contents of the document.
+        # contents of the document.
         # atpVariation.
-        self._topic1: "Topic1" = None
+        self._topic1: Optional[Topic1] = None
 
     @property
-    def topic1(self) -> "Topic1":
+    def topic1(self) -> Optional[Topic1]:
         """Get topic1 (Pythonic accessor)."""
         return self._topic1
 
     @topic1.setter
-    def topic1(self, value: "Topic1") -> None:
+    def topic1(self, value: Optional[Topic1]) -> None:
         """
         Set topic1 with validation.
 
@@ -63,15 +71,19 @@ class TopicOrMsrQuery(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._topic1 = None
+            return
+
         if not isinstance(value, Topic1):
             raise TypeError(
-                f"topic1 must be Topic1, got {type(value).__name__}"
+                f"topic1 must be Topic1 or None, got {type(value).__name__}"
             )
         self._topic1 = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMsrQuery(self) -> "MsrQueryTopic1":
+    def getMsrQuery(self) -> Optional[MsrQueryTopic1]:
         """
         AUTOSAR-compliant getter for msrQuery.
 
@@ -83,7 +95,7 @@ class TopicOrMsrQuery(ARObject):
         """
         return self.msr_query  # Delegates to property
 
-    def setMsrQuery(self, value: "MsrQueryTopic1") -> "TopicOrMsrQuery":
+    def setMsrQuery(self, value: Optional[MsrQueryTopic1]) -> "TopicOrMsrQuery":
         """
         AUTOSAR-compliant setter for msrQuery with method chaining.
 
@@ -99,7 +111,7 @@ class TopicOrMsrQuery(ARObject):
         self.msr_query = value  # Delegates to property setter
         return self
 
-    def getTopic1(self) -> "Topic1":
+    def getTopic1(self) -> Optional[Topic1]:
         """
         AUTOSAR-compliant getter for topic1.
 
@@ -111,7 +123,7 @@ class TopicOrMsrQuery(ARObject):
         """
         return self.topic1  # Delegates to property
 
-    def setTopic1(self, value: "Topic1") -> "TopicOrMsrQuery":
+    def setTopic1(self, value: Optional[Topic1]) -> "TopicOrMsrQuery":
         """
         AUTOSAR-compliant setter for topic1 with method chaining.
 
@@ -129,7 +141,7 @@ class TopicOrMsrQuery(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_msr_query(self, value: "MsrQueryTopic1") -> "TopicOrMsrQuery":
+    def with_msr_query(self, value: Optional[MsrQueryTopic1]) -> "TopicOrMsrQuery":
         """
         Set msrQuery and return self for chaining.
 
@@ -145,7 +157,7 @@ class TopicOrMsrQuery(ARObject):
         self.msr_query = value  # Use property setter (gets validation)
         return self
 
-    def with_topic1(self, value: "Topic1") -> "TopicOrMsrQuery":
+    def with_topic1(self, value: Optional[Topic1]) -> "TopicOrMsrQuery":
         """
         Set topic1 and return self for chaining.
 

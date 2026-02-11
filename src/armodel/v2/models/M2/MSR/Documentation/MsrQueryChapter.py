@@ -1,5 +1,13 @@
 from typing import Optional
 
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.Paginateable import (
+    Paginateable,
+)
+from armodel.v2.models.M2.MSR.Documentation.MsrQuery import (
+    MsrQueryProps,
+    MsrQueryResultChapter,
+)
+
 
 class MsrQueryChapter(Paginateable):
     """
@@ -12,20 +20,20 @@ class MsrQueryChapter(Paginateable):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 343, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is argument and properties of the chapter query.
-        self._msrQueryProps: "MsrQueryProps" = None
+        self._msrQueryProps: Optional[MsrQueryProps] = None
 
     @property
-    def msr_query_props(self) -> "MsrQueryProps":
+    def msr_query_props(self) -> Optional[MsrQueryProps]:
         """Get msrQueryProps (Pythonic accessor)."""
         return self._msrQueryProps
 
     @msr_query_props.setter
-    def msr_query_props(self, value: "MsrQueryProps") -> None:
+    def msr_query_props(self, value: Optional[MsrQueryProps]) -> None:
         """
         Set msrQueryProps with validation.
 
@@ -35,22 +43,26 @@ class MsrQueryChapter(Paginateable):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._msrQueryProps = None
+            return
+
         if not isinstance(value, MsrQueryProps):
             raise TypeError(
-                f"msrQueryProps must be MsrQueryProps, got {type(value).__name__}"
+                f"msrQueryProps must be MsrQueryProps or None, got {type(value).__name__}"
             )
         self._msrQueryProps = value
         # Tags: xml.
         # sequenceOffset=30.
-        self._msrQueryResult: Optional["MsrQueryResult"] = None
+        self._msrQueryResult: Optional[MsrQueryResultChapter] = None
 
     @property
-    def msr_query_result(self) -> Optional["MsrQueryResult"]:
+    def msr_query_result(self) -> Optional[MsrQueryResultChapter]:
         """Get msrQueryResult (Pythonic accessor)."""
         return self._msrQueryResult
 
     @msr_query_result.setter
-    def msr_query_result(self, value: Optional["MsrQueryResult"]) -> None:
+    def msr_query_result(self, value: Optional[MsrQueryResultChapter]) -> None:
         """
         Set msrQueryResult with validation.
 
@@ -64,15 +76,15 @@ class MsrQueryChapter(Paginateable):
             self._msrQueryResult = None
             return
 
-        if not isinstance(value, MsrQueryResult):
+        if not isinstance(value, MsrQueryResultChapter):
             raise TypeError(
-                f"msrQueryResult must be MsrQueryResult or None, got {type(value).__name__}"
+                f"msrQueryResult must be MsrQueryResultChapter or None, got {type(value).__name__}"
             )
         self._msrQueryResult = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMsrQueryProps(self) -> "MsrQueryProps":
+    def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
         """
         AUTOSAR-compliant getter for msrQueryProps.
 
@@ -84,7 +96,7 @@ class MsrQueryChapter(Paginateable):
         """
         return self.msr_query_props  # Delegates to property
 
-    def setMsrQueryProps(self, value: "MsrQueryProps") -> "MsrQueryChapter":
+    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryChapter":
         """
         AUTOSAR-compliant setter for msrQueryProps with method chaining.
 
@@ -100,7 +112,7 @@ class MsrQueryChapter(Paginateable):
         self.msr_query_props = value  # Delegates to property setter
         return self
 
-    def getMsrQueryResult(self) -> "MsrQueryResult":
+    def getMsrQueryResult(self) -> Optional[MsrQueryResultChapter]:
         """
         AUTOSAR-compliant getter for msrQueryResult.
 
@@ -112,7 +124,7 @@ class MsrQueryChapter(Paginateable):
         """
         return self.msr_query_result  # Delegates to property
 
-    def setMsrQueryResult(self, value: "MsrQueryResult") -> "MsrQueryChapter":
+    def setMsrQueryResult(self, value: Optional[MsrQueryResultChapter]) -> "MsrQueryChapter":
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
 
@@ -130,7 +142,7 @@ class MsrQueryChapter(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_msr_query_props(self, value: "MsrQueryProps") -> "MsrQueryChapter":
+    def with_msr_query_props(self, value: Optional[MsrQueryProps]) -> "MsrQueryChapter":
         """
         Set msrQueryProps and return self for chaining.
 
@@ -146,7 +158,7 @@ class MsrQueryChapter(Paginateable):
         self.msr_query_props = value  # Use property setter (gets validation)
         return self
 
-    def with_msr_query_result(self, value: Optional["MsrQueryResult"]) -> "MsrQueryChapter":
+    def with_msr_query_result(self, value: Optional[MsrQueryResultChapter]) -> "MsrQueryChapter":
         """
         Set msrQueryResult and return self for chaining.
 

@@ -1,8 +1,13 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.MSR.Documentation.Chapters import (
+    ChapterContent,
+    ChapterOrMsrQuery,
+    TopicOrMsrQuery,
+)
 
 
 class ChapterModel(ARObject):
@@ -25,15 +30,15 @@ class ChapterModel(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is a particular subchapter.
-        self._chapter: Optional["ChapterOrMsrQuery"] = None
+        self._chapter: Optional[ChapterOrMsrQuery] = None
 
     @property
-    def chapter(self) -> Optional["ChapterOrMsrQuery"]:
+    def chapter(self) -> Optional[ChapterOrMsrQuery]:
         """Get chapter (Pythonic accessor)."""
         return self._chapter
 
     @chapter.setter
-    def chapter(self, value: Optional["ChapterOrMsrQuery"]) -> None:
+    def chapter(self, value: Optional[ChapterOrMsrQuery]) -> None:
         """
         Set chapter with validation.
 
@@ -53,15 +58,15 @@ class ChapterModel(ARObject):
             )
         self._chapter = value
         # directly in the.
-        self._chapterContent: Optional["ChapterContent"] = None
+        self._chapterContent: Optional[ChapterContent] = None
 
     @property
-    def chapter_content(self) -> Optional["ChapterContent"]:
+    def chapter_content(self) -> Optional[ChapterContent]:
         """Get chapterContent (Pythonic accessor)."""
         return self._chapterContent
 
     @chapter_content.setter
-    def chapter_content(self, value: Optional["ChapterContent"]) -> None:
+    def chapter_content(self, value: Optional[ChapterContent]) -> None:
         """
         Set chapterContent with validation.
 
@@ -80,15 +85,15 @@ class ChapterModel(ARObject):
                 f"chapterContent must be ChapterContent or None, got {type(value).__name__}"
             )
         self._chapterContent = value
-        self._topic1: Optional["TopicOrMsrQuery"] = None
+        self._topic1: Optional[TopicOrMsrQuery] = None
 
     @property
-    def topic1(self) -> Optional["TopicOrMsrQuery"]:
+    def topic1(self) -> Optional[TopicOrMsrQuery]:
         """Get topic1 (Pythonic accessor)."""
         return self._topic1
 
     @topic1.setter
-    def topic1(self, value: Optional["TopicOrMsrQuery"]) -> None:
+    def topic1(self, value: Optional[TopicOrMsrQuery]) -> None:
         """
         Set topic1 with validation.
 
@@ -110,7 +115,7 @@ class ChapterModel(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChapter(self) -> "ChapterOrMsrQuery":
+    def getChapter(self) -> Optional[ChapterOrMsrQuery]:
         """
         AUTOSAR-compliant getter for chapter.
 
@@ -122,7 +127,7 @@ class ChapterModel(ARObject):
         """
         return self.chapter  # Delegates to property
 
-    def setChapter(self, value: "ChapterOrMsrQuery") -> "ChapterModel":
+    def setChapter(self, value: Optional[ChapterOrMsrQuery]) -> "ChapterModel":
         """
         AUTOSAR-compliant setter for chapter with method chaining.
 
@@ -138,7 +143,7 @@ class ChapterModel(ARObject):
         self.chapter = value  # Delegates to property setter
         return self
 
-    def getChapterContent(self) -> "ChapterContent":
+    def getChapterContent(self) -> Optional[ChapterContent]:
         """
         AUTOSAR-compliant getter for chapterContent.
 
@@ -150,7 +155,7 @@ class ChapterModel(ARObject):
         """
         return self.chapter_content  # Delegates to property
 
-    def setChapterContent(self, value: "ChapterContent") -> "ChapterModel":
+    def setChapterContent(self, value: Optional[ChapterContent]) -> "ChapterModel":
         """
         AUTOSAR-compliant setter for chapterContent with method chaining.
 
@@ -166,7 +171,7 @@ class ChapterModel(ARObject):
         self.chapter_content = value  # Delegates to property setter
         return self
 
-    def getTopic1(self) -> "TopicOrMsrQuery":
+    def getTopic1(self) -> Optional[TopicOrMsrQuery]:
         """
         AUTOSAR-compliant getter for topic1.
 
@@ -178,7 +183,7 @@ class ChapterModel(ARObject):
         """
         return self.topic1  # Delegates to property
 
-    def setTopic1(self, value: "TopicOrMsrQuery") -> "ChapterModel":
+    def setTopic1(self, value: Optional[TopicOrMsrQuery]) -> "ChapterModel":
         """
         AUTOSAR-compliant setter for topic1 with method chaining.
 
@@ -196,7 +201,7 @@ class ChapterModel(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_chapter(self, value: Optional["ChapterOrMsrQuery"]) -> "ChapterModel":
+    def with_chapter(self, value: Optional[ChapterOrMsrQuery]) -> "ChapterModel":
         """
         Set chapter and return self for chaining.
 
@@ -212,7 +217,7 @@ class ChapterModel(ARObject):
         self.chapter = value  # Use property setter (gets validation)
         return self
 
-    def with_chapter_content(self, value: Optional["ChapterContent"]) -> "ChapterModel":
+    def with_chapter_content(self, value: Optional[ChapterContent]) -> "ChapterModel":
         """
         Set chapterContent and return self for chaining.
 
@@ -228,7 +233,7 @@ class ChapterModel(ARObject):
         self.chapter_content = value  # Use property setter (gets validation)
         return self
 
-    def with_topic1(self, value: Optional["TopicOrMsrQuery"]) -> "ChapterModel":
+    def with_topic1(self, value: Optional[TopicOrMsrQuery]) -> "ChapterModel":
         """
         Set topic1 and return self for chaining.
 

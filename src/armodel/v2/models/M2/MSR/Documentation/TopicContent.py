@@ -3,12 +3,10 @@ from typing import Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.Table import (
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import (
     Table,
 )
-from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
-    DocumentationBlock,
-)
+from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import DocumentationBlock
 
 
 class TopicContent(ARObject):
@@ -22,20 +20,20 @@ class TopicContent(ARObject):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 478, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is that part of the content which may also occur in a cell.
-        self._blockLevel: "DocumentationBlock" = None
+        self._blockLevel: Optional[DocumentationBlock] = None
 
     @property
-    def block_level(self) -> "DocumentationBlock":
+    def block_level(self) -> Optional[DocumentationBlock]:
         """Get blockLevel (Pythonic accessor)."""
         return self._blockLevel
 
     @block_level.setter
-    def block_level(self, value: "DocumentationBlock") -> None:
+    def block_level(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set blockLevel with validation.
 
@@ -45,21 +43,25 @@ class TopicContent(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._blockLevel = None
+            return
+
         if not isinstance(value, DocumentationBlock):
             raise TypeError(
-                f"blockLevel must be DocumentationBlock, got {type(value).__name__}"
+                f"blockLevel must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._blockLevel = value
         # atpVariation.
-        self._table: Optional["Table"] = None
+        self._table: Optional[Table] = None
 
     @property
-    def table(self) -> Optional["Table"]:
+    def table(self) -> Optional[Table]:
         """Get table (Pythonic accessor)."""
         return self._table
 
     @table.setter
-    def table(self, value: Optional["Table"]) -> None:
+    def table(self, value: Optional[Table]) -> None:
         """
         Set table with validation.
 
@@ -78,33 +80,10 @@ class TopicContent(ARObject):
                 f"table must be Table or None, got {type(value).__name__}"
             )
         self._table = value
-        self._traceableTable: "TraceableTable" = None
-
-    @property
-    def traceable_table(self) -> "TraceableTable":
-        """Get traceableTable (Pythonic accessor)."""
-        return self._traceableTable
-
-    @traceable_table.setter
-    def traceable_table(self, value: "TraceableTable") -> None:
-        """
-        Set traceableTable with validation.
-
-        Args:
-            value: The traceableTable to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if not isinstance(value, TraceableTable):
-            raise TypeError(
-                f"traceableTable must be TraceableTable, got {type(value).__name__}"
-            )
-        self._traceableTable = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBlockLevel(self) -> "DocumentationBlock":
+    def getBlockLevel(self) -> Optional[DocumentationBlock]:
         """
         AUTOSAR-compliant getter for blockLevel.
 
@@ -116,7 +95,7 @@ class TopicContent(ARObject):
         """
         return self.block_level  # Delegates to property
 
-    def setBlockLevel(self, value: "DocumentationBlock") -> "TopicContent":
+    def setBlockLevel(self, value: Optional[DocumentationBlock]) -> "TopicContent":
         """
         AUTOSAR-compliant setter for blockLevel with method chaining.
 
@@ -132,7 +111,7 @@ class TopicContent(ARObject):
         self.block_level = value  # Delegates to property setter
         return self
 
-    def getTable(self) -> "Table":
+    def getTable(self) -> Optional[Table]:
         """
         AUTOSAR-compliant getter for table.
 
@@ -144,7 +123,7 @@ class TopicContent(ARObject):
         """
         return self.table  # Delegates to property
 
-    def setTable(self, value: "Table") -> "TopicContent":
+    def setTable(self, value: Optional[Table]) -> "TopicContent":
         """
         AUTOSAR-compliant setter for table with method chaining.
 
@@ -160,37 +139,9 @@ class TopicContent(ARObject):
         self.table = value  # Delegates to property setter
         return self
 
-    def getTraceableTable(self) -> "TraceableTable":
-        """
-        AUTOSAR-compliant getter for traceableTable.
-
-        Returns:
-            The traceableTable value
-
-        Note:
-            Delegates to traceable_table property (CODING_RULE_V2_00017)
-        """
-        return self.traceable_table  # Delegates to property
-
-    def setTraceableTable(self, value: "TraceableTable") -> "TopicContent":
-        """
-        AUTOSAR-compliant setter for traceableTable with method chaining.
-
-        Args:
-            value: The traceableTable to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to traceable_table property setter (gets validation automatically)
-        """
-        self.traceable_table = value  # Delegates to property setter
-        return self
-
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_block_level(self, value: "DocumentationBlock") -> "TopicContent":
+    def with_block_level(self, value: Optional[DocumentationBlock]) -> "TopicContent":
         """
         Set blockLevel and return self for chaining.
 
@@ -206,7 +157,7 @@ class TopicContent(ARObject):
         self.block_level = value  # Use property setter (gets validation)
         return self
 
-    def with_table(self, value: Optional["Table"]) -> "TopicContent":
+    def with_table(self, value: Optional[Table]) -> "TopicContent":
         """
         Set table and return self for chaining.
 
@@ -220,20 +171,4 @@ class TopicContent(ARObject):
             >>> obj.with_table("value")
         """
         self.table = value  # Use property setter (gets validation)
-        return self
-
-    def with_traceable_table(self, value: "TraceableTable") -> "TopicContent":
-        """
-        Set traceableTable and return self for chaining.
-
-        Args:
-            value: The traceableTable to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_traceable_table("value")
-        """
-        self.traceable_table = value  # Use property setter (gets validation)
         return self

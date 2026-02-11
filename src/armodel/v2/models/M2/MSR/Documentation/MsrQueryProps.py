@@ -4,8 +4,12 @@ from typing import (
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    String,
+)
+from armodel.v2.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg
 
 
 class MsrQueryProps(ARObject):
@@ -20,20 +24,20 @@ class MsrQueryProps(ARObject):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This element contains a commentary in text form.
-        self._comment: Optional["String"] = None
+        self._comment: Optional[String] = None
 
     @property
-    def comment(self) -> Optional["String"]:
+    def comment(self) -> Optional[String]:
         """Get comment (Pythonic accessor)."""
         return self._comment
 
     @comment.setter
-    def comment(self, value: Optional["String"]) -> None:
+    def comment(self, value: Optional[String]) -> None:
         """
         Set comment with validation.
 
@@ -52,38 +56,14 @@ class MsrQueryProps(ARObject):
                 f"comment must be String or None, got {type(value).__name__}"
             )
         self._comment = value
-        self._msrQueryArg: List["MsrQueryArg"] = []
+        self._msrQueryArg: List[MsrQueryArg] = []
 
     @property
-    def msr_query_arg(self) -> List["MsrQueryArg"]:
+    def msr_query_arg(self) -> List[MsrQueryArg]:
         """Get msrQueryArg (Pythonic accessor)."""
         return self._msrQueryArg
-        # This element specifies the name of the MSR-QUERY.
-        self._msrQueryName: "String" = None
 
-    @property
-    def msr_query_name(self) -> "String":
-        """Get msrQueryName (Pythonic accessor)."""
-        return self._msrQueryName
-
-    @msr_query_name.setter
-    def msr_query_name(self, value: "String") -> None:
-        """
-        Set msrQueryName with validation.
-
-        Args:
-            value: The msrQueryName to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if not isinstance(value, String):
-            raise TypeError(
-                f"msrQueryName must be String, got {type(value).__name__}"
-            )
-        self._msrQueryName = value
-
-    def with_msr_query_arg(self, value):
+    def with_msr_query_arg(self, value: MsrQueryArg) -> "MsrQueryProps":
         """
         Set msr_query_arg and return self for chaining.
 
@@ -96,12 +76,41 @@ class MsrQueryProps(ARObject):
         Example:
             >>> obj.with_msr_query_arg("value")
         """
-        self.msr_query_arg = value  # Use property setter (gets validation)
+        self.msr_query_arg.append(value)  # Use property setter (gets validation)
         return self
+
+        # This element specifies the name of the MSR-QUERY.
+        self._msrQueryName: Optional[String] = None
+
+    @property
+    def msr_query_name(self) -> Optional[String]:
+        """Get msrQueryName (Pythonic accessor)."""
+        return self._msrQueryName
+
+    @msr_query_name.setter
+    def msr_query_name(self, value: Optional[String]) -> None:
+        """
+        Set msrQueryName with validation.
+
+        Args:
+            value: The msrQueryName to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._msrQueryName = None
+            return
+
+        if not isinstance(value, String):
+            raise TypeError(
+                f"msrQueryName must be String or None, got {type(value).__name__}"
+            )
+        self._msrQueryName = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getComment(self) -> "String":
+    def getComment(self) -> Optional[String]:
         """
         AUTOSAR-compliant getter for comment.
 
@@ -113,7 +122,7 @@ class MsrQueryProps(ARObject):
         """
         return self.comment  # Delegates to property
 
-    def setComment(self, value: "String") -> "MsrQueryProps":
+    def setComment(self, value: Optional[String]) -> "MsrQueryProps":
         """
         AUTOSAR-compliant setter for comment with method chaining.
 
@@ -129,7 +138,7 @@ class MsrQueryProps(ARObject):
         self.comment = value  # Delegates to property setter
         return self
 
-    def getMsrQueryArg(self) -> List["MsrQueryArg"]:
+    def getMsrQueryArg(self) -> List[MsrQueryArg]:
         """
         AUTOSAR-compliant getter for msrQueryArg.
 
@@ -141,7 +150,7 @@ class MsrQueryProps(ARObject):
         """
         return self.msr_query_arg  # Delegates to property
 
-    def getMsrQueryName(self) -> "String":
+    def getMsrQueryName(self) -> String:
         """
         AUTOSAR-compliant getter for msrQueryName.
 
@@ -153,7 +162,7 @@ class MsrQueryProps(ARObject):
         """
         return self.msr_query_name  # Delegates to property
 
-    def setMsrQueryName(self, value: "String") -> "MsrQueryProps":
+    def setMsrQueryName(self, value: String) -> "MsrQueryProps":
         """
         AUTOSAR-compliant setter for msrQueryName with method chaining.
 
@@ -171,7 +180,7 @@ class MsrQueryProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_comment(self, value: Optional["String"]) -> "MsrQueryProps":
+    def with_comment(self, value: Optional[String]) -> "MsrQueryProps":
         """
         Set comment and return self for chaining.
 
@@ -187,7 +196,7 @@ class MsrQueryProps(ARObject):
         self.comment = value  # Use property setter (gets validation)
         return self
 
-    def with_msr_query_name(self, value: "String") -> "MsrQueryProps":
+    def with_msr_query_name(self, value: String) -> "MsrQueryProps":
         """
         Set msrQueryName and return self for chaining.
 

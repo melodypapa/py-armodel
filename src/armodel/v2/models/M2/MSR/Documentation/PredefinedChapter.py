@@ -1,6 +1,9 @@
+from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.MSR.Documentation.Chapters import ChapterModel
 
 
 class PredefinedChapter(ARObject):
@@ -13,20 +16,20 @@ class PredefinedChapter(ARObject):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 330, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the content of the predefined chapter.
-        self._chapterModel: "ChapterModel" = None
+        self._chapterModel: Optional[ChapterModel] = None
 
     @property
-    def chapter_model(self) -> "ChapterModel":
+    def chapter_model(self) -> Optional[ChapterModel]:
         """Get chapterModel (Pythonic accessor)."""
         return self._chapterModel
 
     @chapter_model.setter
-    def chapter_model(self, value: "ChapterModel") -> None:
+    def chapter_model(self, value: Optional[ChapterModel]) -> None:
         """
         Set chapterModel with validation.
 
@@ -36,15 +39,19 @@ class PredefinedChapter(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._chapterModel = None
+            return
+
         if not isinstance(value, ChapterModel):
             raise TypeError(
-                f"chapterModel must be ChapterModel, got {type(value).__name__}"
+                f"chapterModel must be ChapterModel or None, got {type(value).__name__}"
             )
         self._chapterModel = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChapterModel(self) -> "ChapterModel":
+    def getChapterModel(self) -> Optional[ChapterModel]:
         """
         AUTOSAR-compliant getter for chapterModel.
 
@@ -56,7 +63,7 @@ class PredefinedChapter(ARObject):
         """
         return self.chapter_model  # Delegates to property
 
-    def setChapterModel(self, value: "ChapterModel") -> "PredefinedChapter":
+    def setChapterModel(self, value: Optional[ChapterModel]) -> "PredefinedChapter":
         """
         AUTOSAR-compliant setter for chapterModel with method chaining.
 
@@ -74,7 +81,7 @@ class PredefinedChapter(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_chapter_model(self, value: "ChapterModel") -> "PredefinedChapter":
+    def with_chapter_model(self, value: Optional[ChapterModel]) -> "PredefinedChapter":
         """
         Set chapterModel and return self for chaining.
 
