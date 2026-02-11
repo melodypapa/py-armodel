@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
@@ -96,7 +98,7 @@ class ParameterAccess(AbstractAccessPoint):
         """
         return self.accessed_parameter  # Delegates to property
 
-    def setAccessedParameter(self, value: RefType) -> "ParameterAccess":
+    def setAccessedParameter(self, value: RefType) -> ParameterAccess:
         """
         AUTOSAR-compliant setter for accessedParameter with method chaining.
 
@@ -124,7 +126,7 @@ class ParameterAccess(AbstractAccessPoint):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "ParameterAccess":
+    def setSwDataDef(self, value: "SwDataDefProps") -> ParameterAccess:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -142,7 +144,7 @@ class ParameterAccess(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accessed_parameter(self, value: Optional[RefType]) -> "ParameterAccess":
+    def with_accessed_parameter(self, value: Optional[RefType]) -> ParameterAccess:
         """
         Set accessedParameter and return self for chaining.
 
@@ -158,7 +160,7 @@ class ParameterAccess(AbstractAccessPoint):
         self.accessed_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "ParameterAccess":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> ParameterAccess:
         """
         Set swDataDef and return self for chaining.
 

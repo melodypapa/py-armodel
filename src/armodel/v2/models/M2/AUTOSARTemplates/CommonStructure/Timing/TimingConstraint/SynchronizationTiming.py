@@ -4,6 +4,8 @@ AUTOSAR Package - SynchronizationTiming
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (
@@ -196,7 +198,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "EventOccurrenceKind") -> "SynchronizationTimingConstraint":
+    def setEvent(self, value: "EventOccurrenceKind") -> SynchronizationTimingConstraint:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -248,7 +250,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
         """
         return self.synchronization  # Delegates to property
 
-    def setSynchronization(self, value: "SynchronizationType") -> "SynchronizationTimingConstraint":
+    def setSynchronization(self, value: "SynchronizationType") -> SynchronizationTimingConstraint:
         """
         AUTOSAR-compliant setter for synchronization with method chaining.
 
@@ -276,7 +278,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
         """
         return self.tolerance  # Delegates to property
 
-    def setTolerance(self, value: "MultidimensionalTime") -> "SynchronizationTimingConstraint":
+    def setTolerance(self, value: "MultidimensionalTime") -> SynchronizationTimingConstraint:
         """
         AUTOSAR-compliant setter for tolerance with method chaining.
 
@@ -294,7 +296,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event(self, value: Optional["EventOccurrenceKind"]) -> "SynchronizationTimingConstraint":
+    def with_event(self, value: Optional["EventOccurrenceKind"]) -> SynchronizationTimingConstraint:
         """
         Set event and return self for chaining.
 
@@ -310,7 +312,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
         self.event = value  # Use property setter (gets validation)
         return self
 
-    def with_synchronization(self, value: Optional["SynchronizationType"]) -> "SynchronizationTimingConstraint":
+    def with_synchronization(self, value: Optional["SynchronizationType"]) -> SynchronizationTimingConstraint:
         """
         Set synchronization and return self for chaining.
 
@@ -326,7 +328,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
         self.synchronization = value  # Use property setter (gets validation)
         return self
 
-    def with_tolerance(self, value: Optional["MultidimensionalTime"]) -> "SynchronizationTimingConstraint":
+    def with_tolerance(self, value: Optional["MultidimensionalTime"]) -> SynchronizationTimingConstraint:
         """
         Set tolerance and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - NetworkManagement
 Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     PositiveInteger,
@@ -41,17 +43,17 @@ class NmConfig(FibexElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of NmClusterCouplings Derived, because NmCluster can vary.
         # atpVariation.
-        self._nmCluster: List["NmClusterCoupling"] = []
+        self._nmCluster: List[NmClusterCoupling] = []
 
     @property
-    def nm_cluster(self) -> List["NmClusterCoupling"]:
+    def nm_cluster(self) -> List[NmClusterCoupling]:
         """Get nmCluster (Pythonic accessor)."""
         return self._nmCluster
         # Collection of NM ECUs because EcuInstance can be atpVariation.
-        self._nmIfEcu: List["NmEcu"] = []
+        self._nmIfEcu: List[NmEcu] = []
 
     @property
-    def nm_if_ecu(self) -> List["NmEcu"]:
+    def nm_if_ecu(self) -> List[NmEcu]:
         """Get nmIfEcu (Pythonic accessor)."""
         return self._nmIfEcu
 
@@ -169,7 +171,7 @@ class NmConfig(FibexElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getNmCluster(self) -> List["NmClusterCoupling"]:
+    def getNmCluster(self) -> List[NmClusterCoupling]:
         """
         AUTOSAR-compliant getter for nmCluster.
 
@@ -181,7 +183,7 @@ class NmConfig(FibexElement):
         """
         return self.nm_cluster  # Delegates to property
 
-    def getNmIfEcu(self) -> List["NmEcu"]:
+    def getNmIfEcu(self) -> List[NmEcu]:
         """
         AUTOSAR-compliant getter for nmIfEcu.
 
@@ -454,7 +456,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: "CommunicationCluster") -> "NmCluster":
+    def setCommunication(self, value: "CommunicationCluster") -> NmCluster:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -482,7 +484,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.nm_channel  # Delegates to property
 
-    def setNmChannel(self, value: "Boolean") -> "NmCluster":
+    def setNmChannel(self, value: "Boolean") -> NmCluster:
         """
         AUTOSAR-compliant setter for nmChannel with method chaining.
 
@@ -510,7 +512,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.nm_node  # Delegates to property
 
-    def setNmNode(self, value: "Boolean") -> "NmCluster":
+    def setNmNode(self, value: "Boolean") -> NmCluster:
         """
         AUTOSAR-compliant setter for nmNode with method chaining.
 
@@ -538,7 +540,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.nm_node_id_enabled  # Delegates to property
 
-    def setNmNodeIdEnabled(self, value: "Boolean") -> "NmCluster":
+    def setNmNodeIdEnabled(self, value: "Boolean") -> NmCluster:
         """
         AUTOSAR-compliant setter for nmNodeIdEnabled with method chaining.
 
@@ -566,7 +568,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.nm_pnc  # Delegates to property
 
-    def setNmPnc(self, value: "Boolean") -> "NmCluster":
+    def setNmPnc(self, value: "Boolean") -> NmCluster:
         """
         AUTOSAR-compliant setter for nmPnc with method chaining.
 
@@ -594,7 +596,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.nm_repeat_msg  # Delegates to property
 
-    def setNmRepeatMsg(self, value: "Boolean") -> "NmCluster":
+    def setNmRepeatMsg(self, value: "Boolean") -> NmCluster:
         """
         AUTOSAR-compliant setter for nmRepeatMsg with method chaining.
 
@@ -622,7 +624,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.nm  # Delegates to property
 
-    def setNm(self, value: "Boolean") -> "NmCluster":
+    def setNm(self, value: "Boolean") -> NmCluster:
         """
         AUTOSAR-compliant setter for nm with method chaining.
 
@@ -650,7 +652,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.pnc_cluster  # Delegates to property
 
-    def setPncCluster(self, value: "PositiveInteger") -> "NmCluster":
+    def setPncCluster(self, value: "PositiveInteger") -> NmCluster:
         """
         AUTOSAR-compliant setter for pncCluster with method chaining.
 
@@ -668,7 +670,7 @@ class NmCluster(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication(self, value: Optional["CommunicationCluster"]) -> "NmCluster":
+    def with_communication(self, value: Optional["CommunicationCluster"]) -> NmCluster:
         """
         Set communication and return self for chaining.
 
@@ -684,7 +686,7 @@ class NmCluster(Identifiable, ABC):
         self.communication = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_channel(self, value: Optional["Boolean"]) -> "NmCluster":
+    def with_nm_channel(self, value: Optional["Boolean"]) -> NmCluster:
         """
         Set nmChannel and return self for chaining.
 
@@ -700,7 +702,7 @@ class NmCluster(Identifiable, ABC):
         self.nm_channel = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_node(self, value: Optional["Boolean"]) -> "NmCluster":
+    def with_nm_node(self, value: Optional["Boolean"]) -> NmCluster:
         """
         Set nmNode and return self for chaining.
 
@@ -716,7 +718,7 @@ class NmCluster(Identifiable, ABC):
         self.nm_node = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_node_id_enabled(self, value: Optional["Boolean"]) -> "NmCluster":
+    def with_nm_node_id_enabled(self, value: Optional["Boolean"]) -> NmCluster:
         """
         Set nmNodeIdEnabled and return self for chaining.
 
@@ -732,7 +734,7 @@ class NmCluster(Identifiable, ABC):
         self.nm_node_id_enabled = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_pnc(self, value: Optional["Boolean"]) -> "NmCluster":
+    def with_nm_pnc(self, value: Optional["Boolean"]) -> NmCluster:
         """
         Set nmPnc and return self for chaining.
 
@@ -748,7 +750,7 @@ class NmCluster(Identifiable, ABC):
         self.nm_pnc = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_repeat_msg(self, value: Optional["Boolean"]) -> "NmCluster":
+    def with_nm_repeat_msg(self, value: Optional["Boolean"]) -> NmCluster:
         """
         Set nmRepeatMsg and return self for chaining.
 
@@ -764,7 +766,7 @@ class NmCluster(Identifiable, ABC):
         self.nm_repeat_msg = value  # Use property setter (gets validation)
         return self
 
-    def with_nm(self, value: Optional["Boolean"]) -> "NmCluster":
+    def with_nm(self, value: Optional["Boolean"]) -> NmCluster:
         """
         Set nm and return self for chaining.
 
@@ -780,7 +782,7 @@ class NmCluster(Identifiable, ABC):
         self.nm = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_cluster(self, value: Optional["PositiveInteger"]) -> "NmCluster":
+    def with_pnc_cluster(self, value: Optional["PositiveInteger"]) -> NmCluster:
         """
         Set pncCluster and return self for chaining.
 
@@ -812,10 +814,10 @@ class NmEcu(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Cluster specific NmEcu attributes.
-        self._busDependentNmEcu: List["BusspecificNmEcu"] = []
+        self._busDependentNmEcu: List[BusspecificNmEcu] = []
 
     @property
-    def bus_dependent_nm_ecu(self) -> List["BusspecificNmEcu"]:
+    def bus_dependent_nm_ecu(self) -> List[BusspecificNmEcu]:
         """Get busDependentNmEcu (Pythonic accessor)."""
         return self._busDependentNmEcu
         # Association to an ECUInstance in the topology.
@@ -900,15 +902,15 @@ class NmEcu(Identifiable):
                 f"nmComControlEnabled must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._nmComControlEnabled = value
-        self._nmCoordinator: Optional["NmCoordinator"] = None
+        self._nmCoordinator: Optional[NmCoordinator] = None
 
     @property
-    def nm_coordinator(self) -> Optional["NmCoordinator"]:
+    def nm_coordinator(self) -> Optional[NmCoordinator]:
         """Get nmCoordinator (Pythonic accessor)."""
         return self._nmCoordinator
 
     @nm_coordinator.setter
-    def nm_coordinator(self, value: Optional["NmCoordinator"]) -> None:
+    def nm_coordinator(self, value: Optional[NmCoordinator]) -> None:
         """
         Set nmCoordinator with validation.
 
@@ -1066,7 +1068,7 @@ class NmEcu(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBusDependentNmEcu(self) -> List["BusspecificNmEcu"]:
+    def getBusDependentNmEcu(self) -> List[BusspecificNmEcu]:
         """
         AUTOSAR-compliant getter for busDependentNmEcu.
 
@@ -1090,7 +1092,7 @@ class NmEcu(Identifiable):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> "NmEcu":
+    def setEcuInstance(self, value: "EcuInstance") -> NmEcu:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -1118,7 +1120,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_bus_synchronization_enabled  # Delegates to property
 
-    def setNmBusSynchronizationEnabled(self, value: "Boolean") -> "NmEcu":
+    def setNmBusSynchronizationEnabled(self, value: "Boolean") -> NmEcu:
         """
         AUTOSAR-compliant setter for nmBusSynchronizationEnabled with method chaining.
 
@@ -1146,7 +1148,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_com_control_enabled  # Delegates to property
 
-    def setNmComControlEnabled(self, value: "Boolean") -> "NmEcu":
+    def setNmComControlEnabled(self, value: "Boolean") -> NmEcu:
         """
         AUTOSAR-compliant setter for nmComControlEnabled with method chaining.
 
@@ -1162,7 +1164,7 @@ class NmEcu(Identifiable):
         self.nm_com_control_enabled = value  # Delegates to property setter
         return self
 
-    def getNmCoordinator(self) -> "NmCoordinator":
+    def getNmCoordinator(self) -> NmCoordinator:
         """
         AUTOSAR-compliant getter for nmCoordinator.
 
@@ -1174,7 +1176,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_coordinator  # Delegates to property
 
-    def setNmCoordinator(self, value: "NmCoordinator") -> "NmEcu":
+    def setNmCoordinator(self, value: NmCoordinator) -> NmEcu:
         """
         AUTOSAR-compliant setter for nmCoordinator with method chaining.
 
@@ -1202,7 +1204,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_cycletime  # Delegates to property
 
-    def setNmCycletime(self, value: "TimeValue") -> "NmEcu":
+    def setNmCycletime(self, value: "TimeValue") -> NmEcu:
         """
         AUTOSAR-compliant setter for nmCycletime with method chaining.
 
@@ -1230,7 +1232,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_pdu_rx_indication_enabled  # Delegates to property
 
-    def setNmPduRxIndicationEnabled(self, value: "Boolean") -> "NmEcu":
+    def setNmPduRxIndicationEnabled(self, value: "Boolean") -> NmEcu:
         """
         AUTOSAR-compliant setter for nmPduRxIndicationEnabled with method chaining.
 
@@ -1258,7 +1260,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_remote  # Delegates to property
 
-    def setNmRemote(self, value: "Boolean") -> "NmEcu":
+    def setNmRemote(self, value: "Boolean") -> NmEcu:
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
 
@@ -1286,7 +1288,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_state_change  # Delegates to property
 
-    def setNmStateChange(self, value: "Boolean") -> "NmEcu":
+    def setNmStateChange(self, value: "Boolean") -> NmEcu:
         """
         AUTOSAR-compliant setter for nmStateChange with method chaining.
 
@@ -1314,7 +1316,7 @@ class NmEcu(Identifiable):
         """
         return self.nm_user_data_enabled  # Delegates to property
 
-    def setNmUserDataEnabled(self, value: "Boolean") -> "NmEcu":
+    def setNmUserDataEnabled(self, value: "Boolean") -> NmEcu:
         """
         AUTOSAR-compliant setter for nmUserDataEnabled with method chaining.
 
@@ -1332,7 +1334,7 @@ class NmEcu(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "NmEcu":
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> NmEcu:
         """
         Set ecuInstance and return self for chaining.
 
@@ -1348,7 +1350,7 @@ class NmEcu(Identifiable):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_bus_synchronization_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
+    def with_nm_bus_synchronization_enabled(self, value: Optional["Boolean"]) -> NmEcu:
         """
         Set nmBusSynchronizationEnabled and return self for chaining.
 
@@ -1364,7 +1366,7 @@ class NmEcu(Identifiable):
         self.nm_bus_synchronization_enabled = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_com_control_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
+    def with_nm_com_control_enabled(self, value: Optional["Boolean"]) -> NmEcu:
         """
         Set nmComControlEnabled and return self for chaining.
 
@@ -1380,7 +1382,7 @@ class NmEcu(Identifiable):
         self.nm_com_control_enabled = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_coordinator(self, value: Optional["NmCoordinator"]) -> "NmEcu":
+    def with_nm_coordinator(self, value: Optional[NmCoordinator]) -> NmEcu:
         """
         Set nmCoordinator and return self for chaining.
 
@@ -1396,7 +1398,7 @@ class NmEcu(Identifiable):
         self.nm_coordinator = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_cycletime(self, value: Optional["TimeValue"]) -> "NmEcu":
+    def with_nm_cycletime(self, value: Optional["TimeValue"]) -> NmEcu:
         """
         Set nmCycletime and return self for chaining.
 
@@ -1412,7 +1414,7 @@ class NmEcu(Identifiable):
         self.nm_cycletime = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_pdu_rx_indication_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
+    def with_nm_pdu_rx_indication_enabled(self, value: Optional["Boolean"]) -> NmEcu:
         """
         Set nmPduRxIndicationEnabled and return self for chaining.
 
@@ -1428,7 +1430,7 @@ class NmEcu(Identifiable):
         self.nm_pdu_rx_indication_enabled = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_remote(self, value: Optional["Boolean"]) -> "NmEcu":
+    def with_nm_remote(self, value: Optional["Boolean"]) -> NmEcu:
         """
         Set nmRemote and return self for chaining.
 
@@ -1444,7 +1446,7 @@ class NmEcu(Identifiable):
         self.nm_remote = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_state_change(self, value: Optional["Boolean"]) -> "NmEcu":
+    def with_nm_state_change(self, value: Optional["Boolean"]) -> NmEcu:
         """
         Set nmStateChange and return self for chaining.
 
@@ -1460,7 +1462,7 @@ class NmEcu(Identifiable):
         self.nm_state_change = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_user_data_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
+    def with_nm_user_data_enabled(self, value: Optional["Boolean"]) -> NmEcu:
         """
         Set nmUserDataEnabled and return self for chaining.
 
@@ -1599,10 +1601,10 @@ class NmCoordinator(ARObject):
                 f"nmGlobal must be TimeValue or None, got {type(value).__name__}"
             )
         self._nmGlobal = value
-        self._nmNode: List["NmNode"] = []
+        self._nmNode: List[NmNode] = []
 
     @property
-    def nm_node(self) -> List["NmNode"]:
+    def nm_node(self) -> List[NmNode]:
         """Get nmNode (Pythonic accessor)."""
         return self._nmNode
 
@@ -1620,7 +1622,7 @@ class NmCoordinator(ARObject):
         """
         return self.index  # Delegates to property
 
-    def setIndex(self, value: "Integer") -> "NmCoordinator":
+    def setIndex(self, value: "Integer") -> NmCoordinator:
         """
         AUTOSAR-compliant setter for index with method chaining.
 
@@ -1648,7 +1650,7 @@ class NmCoordinator(ARObject):
         """
         return self.nm_coord_sync  # Delegates to property
 
-    def setNmCoordSync(self, value: "Boolean") -> "NmCoordinator":
+    def setNmCoordSync(self, value: "Boolean") -> NmCoordinator:
         """
         AUTOSAR-compliant setter for nmCoordSync with method chaining.
 
@@ -1676,7 +1678,7 @@ class NmCoordinator(ARObject):
         """
         return self.nm_global  # Delegates to property
 
-    def setNmGlobal(self, value: "TimeValue") -> "NmCoordinator":
+    def setNmGlobal(self, value: "TimeValue") -> NmCoordinator:
         """
         AUTOSAR-compliant setter for nmGlobal with method chaining.
 
@@ -1692,7 +1694,7 @@ class NmCoordinator(ARObject):
         self.nm_global = value  # Delegates to property setter
         return self
 
-    def getNmNode(self) -> List["NmNode"]:
+    def getNmNode(self) -> List[NmNode]:
         """
         AUTOSAR-compliant getter for nmNode.
 
@@ -1706,7 +1708,7 @@ class NmCoordinator(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_index(self, value: Optional["Integer"]) -> "NmCoordinator":
+    def with_index(self, value: Optional["Integer"]) -> NmCoordinator:
         """
         Set index and return self for chaining.
 
@@ -1722,7 +1724,7 @@ class NmCoordinator(ARObject):
         self.index = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_coord_sync(self, value: Optional["Boolean"]) -> "NmCoordinator":
+    def with_nm_coord_sync(self, value: Optional["Boolean"]) -> NmCoordinator:
         """
         Set nmCoordSync and return self for chaining.
 
@@ -1738,7 +1740,7 @@ class NmCoordinator(ARObject):
         self.nm_coord_sync = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_global(self, value: Optional["TimeValue"]) -> "NmCoordinator":
+    def with_nm_global(self, value: Optional["TimeValue"]) -> NmCoordinator:
         """
         Set nmGlobal and return self for chaining.
 
@@ -1856,15 +1858,15 @@ class NmNode(Identifiable, ABC):
             )
         self._nmCoordinator = value
         # is referenced by the Nm be contained in the EcuInstance that is the NmEcu).
-        self._nmIfEcu: Optional["NmEcu"] = None
+        self._nmIfEcu: Optional[NmEcu] = None
 
     @property
-    def nm_if_ecu(self) -> Optional["NmEcu"]:
+    def nm_if_ecu(self) -> Optional[NmEcu]:
         """Get nmIfEcu (Pythonic accessor)."""
         return self._nmIfEcu
 
     @nm_if_ecu.setter
-    def nm_if_ecu(self, value: Optional["NmEcu"]) -> None:
+    def nm_if_ecu(self, value: Optional[NmEcu]) -> None:
         """
         Set nmIfEcu with validation.
 
@@ -1967,7 +1969,7 @@ class NmNode(Identifiable, ABC):
         """
         return self.controller  # Delegates to property
 
-    def setController(self, value: "Communication") -> "NmNode":
+    def setController(self, value: "Communication") -> NmNode:
         """
         AUTOSAR-compliant setter for controller with method chaining.
 
@@ -1995,7 +1997,7 @@ class NmNode(Identifiable, ABC):
         """
         return self.nm_coord_cluster  # Delegates to property
 
-    def setNmCoordCluster(self, value: "PositiveInteger") -> "NmNode":
+    def setNmCoordCluster(self, value: "PositiveInteger") -> NmNode:
         """
         AUTOSAR-compliant setter for nmCoordCluster with method chaining.
 
@@ -2023,7 +2025,7 @@ class NmNode(Identifiable, ABC):
         """
         return self.nm_coordinator  # Delegates to property
 
-    def setNmCoordinator(self, value: "NmCoordinatorRole") -> "NmNode":
+    def setNmCoordinator(self, value: "NmCoordinatorRole") -> NmNode:
         """
         AUTOSAR-compliant setter for nmCoordinator with method chaining.
 
@@ -2039,7 +2041,7 @@ class NmNode(Identifiable, ABC):
         self.nm_coordinator = value  # Delegates to property setter
         return self
 
-    def getNmIfEcu(self) -> "NmEcu":
+    def getNmIfEcu(self) -> NmEcu:
         """
         AUTOSAR-compliant getter for nmIfEcu.
 
@@ -2051,7 +2053,7 @@ class NmNode(Identifiable, ABC):
         """
         return self.nm_if_ecu  # Delegates to property
 
-    def setNmIfEcu(self, value: "NmEcu") -> "NmNode":
+    def setNmIfEcu(self, value: NmEcu) -> NmNode:
         """
         AUTOSAR-compliant setter for nmIfEcu with method chaining.
 
@@ -2079,7 +2081,7 @@ class NmNode(Identifiable, ABC):
         """
         return self.nm_node_id  # Delegates to property
 
-    def setNmNodeId(self, value: "Integer") -> "NmNode":
+    def setNmNodeId(self, value: "Integer") -> NmNode:
         """
         AUTOSAR-compliant setter for nmNodeId with method chaining.
 
@@ -2107,7 +2109,7 @@ class NmNode(Identifiable, ABC):
         """
         return self.nm_passive  # Delegates to property
 
-    def setNmPassive(self, value: "Boolean") -> "NmNode":
+    def setNmPassive(self, value: "Boolean") -> NmNode:
         """
         AUTOSAR-compliant setter for nmPassive with method chaining.
 
@@ -2149,7 +2151,7 @@ class NmNode(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_controller(self, value: Optional["Communication"]) -> "NmNode":
+    def with_controller(self, value: Optional["Communication"]) -> NmNode:
         """
         Set controller and return self for chaining.
 
@@ -2165,7 +2167,7 @@ class NmNode(Identifiable, ABC):
         self.controller = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_coord_cluster(self, value: Optional["PositiveInteger"]) -> "NmNode":
+    def with_nm_coord_cluster(self, value: Optional["PositiveInteger"]) -> NmNode:
         """
         Set nmCoordCluster and return self for chaining.
 
@@ -2181,7 +2183,7 @@ class NmNode(Identifiable, ABC):
         self.nm_coord_cluster = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_coordinator(self, value: Optional["NmCoordinatorRole"]) -> "NmNode":
+    def with_nm_coordinator(self, value: Optional["NmCoordinatorRole"]) -> NmNode:
         """
         Set nmCoordinator and return self for chaining.
 
@@ -2197,7 +2199,7 @@ class NmNode(Identifiable, ABC):
         self.nm_coordinator = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_if_ecu(self, value: Optional["NmEcu"]) -> "NmNode":
+    def with_nm_if_ecu(self, value: Optional[NmEcu]) -> NmNode:
         """
         Set nmIfEcu and return self for chaining.
 
@@ -2213,7 +2215,7 @@ class NmNode(Identifiable, ABC):
         self.nm_if_ecu = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_node_id(self, value: Optional["Integer"]) -> "NmNode":
+    def with_nm_node_id(self, value: Optional["Integer"]) -> NmNode:
         """
         Set nmNodeId and return self for chaining.
 
@@ -2229,7 +2231,7 @@ class NmNode(Identifiable, ABC):
         self.nm_node_id = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_passive(self, value: Optional["Boolean"]) -> "NmNode":
+    def with_nm_passive(self, value: Optional["Boolean"]) -> NmNode:
         """
         Set nmPassive and return self for chaining.
 
@@ -2515,7 +2517,7 @@ class J1939NodeName(ARObject):
         """
         return self.arbitrary  # Delegates to property
 
-    def setArbitrary(self, value: "Boolean") -> "J1939NodeName":
+    def setArbitrary(self, value: "Boolean") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for arbitrary with method chaining.
 
@@ -2543,7 +2545,7 @@ class J1939NodeName(ARObject):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "Integer") -> "J1939NodeName":
+    def setEcuInstance(self, value: "Integer") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -2571,7 +2573,7 @@ class J1939NodeName(ARObject):
         """
         return self.function  # Delegates to property
 
-    def setFunction(self, value: "Integer") -> "J1939NodeName":
+    def setFunction(self, value: "Integer") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for function with method chaining.
 
@@ -2599,7 +2601,7 @@ class J1939NodeName(ARObject):
         """
         return self.function_instance  # Delegates to property
 
-    def setFunctionInstance(self, value: "Integer") -> "J1939NodeName":
+    def setFunctionInstance(self, value: "Integer") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for functionInstance with method chaining.
 
@@ -2627,7 +2629,7 @@ class J1939NodeName(ARObject):
         """
         return self.identitiy_number  # Delegates to property
 
-    def setIdentitiyNumber(self, value: "Integer") -> "J1939NodeName":
+    def setIdentitiyNumber(self, value: "Integer") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for identitiyNumber with method chaining.
 
@@ -2655,7 +2657,7 @@ class J1939NodeName(ARObject):
         """
         return self.industry_group  # Delegates to property
 
-    def setIndustryGroup(self, value: "Integer") -> "J1939NodeName":
+    def setIndustryGroup(self, value: "Integer") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for industryGroup with method chaining.
 
@@ -2683,7 +2685,7 @@ class J1939NodeName(ARObject):
         """
         return self.manufacturer_code  # Delegates to property
 
-    def setManufacturerCode(self, value: "Integer") -> "J1939NodeName":
+    def setManufacturerCode(self, value: "Integer") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for manufacturerCode with method chaining.
 
@@ -2711,7 +2713,7 @@ class J1939NodeName(ARObject):
         """
         return self.vehicle_system  # Delegates to property
 
-    def setVehicleSystem(self, value: "Integer") -> "J1939NodeName":
+    def setVehicleSystem(self, value: "Integer") -> J1939NodeName:
         """
         AUTOSAR-compliant setter for vehicleSystem with method chaining.
 
@@ -2729,7 +2731,7 @@ class J1939NodeName(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_arbitrary(self, value: Optional["Boolean"]) -> "J1939NodeName":
+    def with_arbitrary(self, value: Optional["Boolean"]) -> J1939NodeName:
         """
         Set arbitrary and return self for chaining.
 
@@ -2745,7 +2747,7 @@ class J1939NodeName(ARObject):
         self.arbitrary = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional["Integer"]) -> "J1939NodeName":
+    def with_ecu_instance(self, value: Optional["Integer"]) -> J1939NodeName:
         """
         Set ecuInstance and return self for chaining.
 
@@ -2761,7 +2763,7 @@ class J1939NodeName(ARObject):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_function(self, value: Optional["Integer"]) -> "J1939NodeName":
+    def with_function(self, value: Optional["Integer"]) -> J1939NodeName:
         """
         Set function and return self for chaining.
 
@@ -2777,7 +2779,7 @@ class J1939NodeName(ARObject):
         self.function = value  # Use property setter (gets validation)
         return self
 
-    def with_function_instance(self, value: Optional["Integer"]) -> "J1939NodeName":
+    def with_function_instance(self, value: Optional["Integer"]) -> J1939NodeName:
         """
         Set functionInstance and return self for chaining.
 
@@ -2793,7 +2795,7 @@ class J1939NodeName(ARObject):
         self.function_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_identitiy_number(self, value: Optional["Integer"]) -> "J1939NodeName":
+    def with_identitiy_number(self, value: Optional["Integer"]) -> J1939NodeName:
         """
         Set identitiyNumber and return self for chaining.
 
@@ -2809,7 +2811,7 @@ class J1939NodeName(ARObject):
         self.identitiy_number = value  # Use property setter (gets validation)
         return self
 
-    def with_industry_group(self, value: Optional["Integer"]) -> "J1939NodeName":
+    def with_industry_group(self, value: Optional["Integer"]) -> J1939NodeName:
         """
         Set industryGroup and return self for chaining.
 
@@ -2825,7 +2827,7 @@ class J1939NodeName(ARObject):
         self.industry_group = value  # Use property setter (gets validation)
         return self
 
-    def with_manufacturer_code(self, value: Optional["Integer"]) -> "J1939NodeName":
+    def with_manufacturer_code(self, value: Optional["Integer"]) -> J1939NodeName:
         """
         Set manufacturerCode and return self for chaining.
 
@@ -2841,7 +2843,7 @@ class J1939NodeName(ARObject):
         self.manufacturer_code = value  # Use property setter (gets validation)
         return self
 
-    def with_vehicle_system(self, value: Optional["Integer"]) -> "J1939NodeName":
+    def with_vehicle_system(self, value: Optional["Integer"]) -> J1939NodeName:
         """
         Set vehicleSystem and return self for chaining.
 
@@ -3085,7 +3087,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nm_car_wake_up  # Delegates to property
 
-    def setNmCarWakeUp(self, value: "Boolean") -> "FlexrayNmCluster":
+    def setNmCarWakeUp(self, value: "Boolean") -> FlexrayNmCluster:
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
 
@@ -3113,7 +3115,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nm_data_cycle  # Delegates to property
 
-    def setNmDataCycle(self, value: "Integer") -> "FlexrayNmCluster":
+    def setNmDataCycle(self, value: "Integer") -> FlexrayNmCluster:
         """
         AUTOSAR-compliant setter for nmDataCycle with method chaining.
 
@@ -3141,7 +3143,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nm_main  # Delegates to property
 
-    def setNmMain(self, value: "TimeValue") -> "FlexrayNmCluster":
+    def setNmMain(self, value: "TimeValue") -> FlexrayNmCluster:
         """
         AUTOSAR-compliant setter for nmMain with method chaining.
 
@@ -3169,7 +3171,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nm_remote  # Delegates to property
 
-    def setNmRemote(self, value: "TimeValue") -> "FlexrayNmCluster":
+    def setNmRemote(self, value: "TimeValue") -> FlexrayNmCluster:
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
 
@@ -3197,7 +3199,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nm_repeat  # Delegates to property
 
-    def setNmRepeat(self, value: "TimeValue") -> "FlexrayNmCluster":
+    def setNmRepeat(self, value: "TimeValue") -> FlexrayNmCluster:
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
 
@@ -3225,7 +3227,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nm_repetition  # Delegates to property
 
-    def setNmRepetition(self, value: "Integer") -> "FlexrayNmCluster":
+    def setNmRepetition(self, value: "Integer") -> FlexrayNmCluster:
         """
         AUTOSAR-compliant setter for nmRepetition with method chaining.
 
@@ -3253,7 +3255,7 @@ class FlexrayNmCluster(NmCluster):
         """
         return self.nm_voting_cycle  # Delegates to property
 
-    def setNmVotingCycle(self, value: "Integer") -> "FlexrayNmCluster":
+    def setNmVotingCycle(self, value: "Integer") -> FlexrayNmCluster:
         """
         AUTOSAR-compliant setter for nmVotingCycle with method chaining.
 
@@ -3271,7 +3273,7 @@ class FlexrayNmCluster(NmCluster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> "FlexrayNmCluster":
+    def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> FlexrayNmCluster:
         """
         Set nmCarWakeUp and return self for chaining.
 
@@ -3287,7 +3289,7 @@ class FlexrayNmCluster(NmCluster):
         self.nm_car_wake_up = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_data_cycle(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
+    def with_nm_data_cycle(self, value: Optional["Integer"]) -> FlexrayNmCluster:
         """
         Set nmDataCycle and return self for chaining.
 
@@ -3303,7 +3305,7 @@ class FlexrayNmCluster(NmCluster):
         self.nm_data_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_main(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
+    def with_nm_main(self, value: Optional["TimeValue"]) -> FlexrayNmCluster:
         """
         Set nmMain and return self for chaining.
 
@@ -3319,7 +3321,7 @@ class FlexrayNmCluster(NmCluster):
         self.nm_main = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_remote(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
+    def with_nm_remote(self, value: Optional["TimeValue"]) -> FlexrayNmCluster:
         """
         Set nmRemote and return self for chaining.
 
@@ -3335,7 +3337,7 @@ class FlexrayNmCluster(NmCluster):
         self.nm_remote = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_repeat(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
+    def with_nm_repeat(self, value: Optional["TimeValue"]) -> FlexrayNmCluster:
         """
         Set nmRepeat and return self for chaining.
 
@@ -3351,7 +3353,7 @@ class FlexrayNmCluster(NmCluster):
         self.nm_repeat = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_repetition(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
+    def with_nm_repetition(self, value: Optional["Integer"]) -> FlexrayNmCluster:
         """
         Set nmRepetition and return self for chaining.
 
@@ -3367,7 +3369,7 @@ class FlexrayNmCluster(NmCluster):
         self.nm_repetition = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_voting_cycle(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
+    def with_nm_voting_cycle(self, value: Optional["Integer"]) -> FlexrayNmCluster:
         """
         Set nmVotingCycle and return self for chaining.
 
@@ -3753,7 +3755,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_busload  # Delegates to property
 
-    def setNmBusload(self, value: "Boolean") -> "CanNmCluster":
+    def setNmBusload(self, value: "Boolean") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmBusload with method chaining.
 
@@ -3781,7 +3783,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_car_wake_up  # Delegates to property
 
-    def setNmCarWakeUp(self, value: "PositiveInteger") -> "CanNmCluster":
+    def setNmCarWakeUp(self, value: "PositiveInteger") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
 
@@ -3809,7 +3811,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_car_wake_up_filter_node_id  # Delegates to property
 
-    def setNmCarWakeUpFilterNodeId(self, value: "PositiveInteger") -> "CanNmCluster":
+    def setNmCarWakeUpFilterNodeId(self, value: "PositiveInteger") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmCarWakeUpFilterNodeId with method chaining.
 
@@ -3837,7 +3839,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_cbv_position  # Delegates to property
 
-    def setNmCbvPosition(self, value: "Integer") -> "CanNmCluster":
+    def setNmCbvPosition(self, value: "Integer") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmCbvPosition with method chaining.
 
@@ -3865,7 +3867,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_immediate  # Delegates to property
 
-    def setNmImmediate(self, value: "PositiveInteger") -> "CanNmCluster":
+    def setNmImmediate(self, value: "PositiveInteger") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
 
@@ -3893,7 +3895,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_message  # Delegates to property
 
-    def setNmMessage(self, value: "TimeValue") -> "CanNmCluster":
+    def setNmMessage(self, value: "TimeValue") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmMessage with method chaining.
 
@@ -3921,7 +3923,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_msg_cycle  # Delegates to property
 
-    def setNmMsgCycle(self, value: "TimeValue") -> "CanNmCluster":
+    def setNmMsgCycle(self, value: "TimeValue") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
 
@@ -3949,7 +3951,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_network  # Delegates to property
 
-    def setNmNetwork(self, value: "TimeValue") -> "CanNmCluster":
+    def setNmNetwork(self, value: "TimeValue") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmNetwork with method chaining.
 
@@ -3977,7 +3979,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_nid_position  # Delegates to property
 
-    def setNmNidPosition(self, value: "Integer") -> "CanNmCluster":
+    def setNmNidPosition(self, value: "Integer") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmNidPosition with method chaining.
 
@@ -4005,7 +4007,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_remote  # Delegates to property
 
-    def setNmRemote(self, value: "TimeValue") -> "CanNmCluster":
+    def setNmRemote(self, value: "TimeValue") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
 
@@ -4033,7 +4035,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_repeat  # Delegates to property
 
-    def setNmRepeat(self, value: "TimeValue") -> "CanNmCluster":
+    def setNmRepeat(self, value: "TimeValue") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
 
@@ -4061,7 +4063,7 @@ class CanNmCluster(NmCluster):
         """
         return self.nm_wait_bus  # Delegates to property
 
-    def setNmWaitBus(self, value: "TimeValue") -> "CanNmCluster":
+    def setNmWaitBus(self, value: "TimeValue") -> CanNmCluster:
         """
         AUTOSAR-compliant setter for nmWaitBus with method chaining.
 
@@ -4079,7 +4081,7 @@ class CanNmCluster(NmCluster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_busload(self, value: Optional["Boolean"]) -> "CanNmCluster":
+    def with_nm_busload(self, value: Optional["Boolean"]) -> CanNmCluster:
         """
         Set nmBusload and return self for chaining.
 
@@ -4095,7 +4097,7 @@ class CanNmCluster(NmCluster):
         self.nm_busload = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_car_wake_up(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
+    def with_nm_car_wake_up(self, value: Optional["PositiveInteger"]) -> CanNmCluster:
         """
         Set nmCarWakeUp and return self for chaining.
 
@@ -4111,7 +4113,7 @@ class CanNmCluster(NmCluster):
         self.nm_car_wake_up = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_car_wake_up_filter_node_id(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
+    def with_nm_car_wake_up_filter_node_id(self, value: Optional["PositiveInteger"]) -> CanNmCluster:
         """
         Set nmCarWakeUpFilterNodeId and return self for chaining.
 
@@ -4127,7 +4129,7 @@ class CanNmCluster(NmCluster):
         self.nm_car_wake_up_filter_node_id = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_cbv_position(self, value: Optional["Integer"]) -> "CanNmCluster":
+    def with_nm_cbv_position(self, value: Optional["Integer"]) -> CanNmCluster:
         """
         Set nmCbvPosition and return self for chaining.
 
@@ -4143,7 +4145,7 @@ class CanNmCluster(NmCluster):
         self.nm_cbv_position = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
+    def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> CanNmCluster:
         """
         Set nmImmediate and return self for chaining.
 
@@ -4159,7 +4161,7 @@ class CanNmCluster(NmCluster):
         self.nm_immediate = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_message(self, value: Optional["TimeValue"]) -> "CanNmCluster":
+    def with_nm_message(self, value: Optional["TimeValue"]) -> CanNmCluster:
         """
         Set nmMessage and return self for chaining.
 
@@ -4175,7 +4177,7 @@ class CanNmCluster(NmCluster):
         self.nm_message = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "CanNmCluster":
+    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> CanNmCluster:
         """
         Set nmMsgCycle and return self for chaining.
 
@@ -4191,7 +4193,7 @@ class CanNmCluster(NmCluster):
         self.nm_msg_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_network(self, value: Optional["TimeValue"]) -> "CanNmCluster":
+    def with_nm_network(self, value: Optional["TimeValue"]) -> CanNmCluster:
         """
         Set nmNetwork and return self for chaining.
 
@@ -4207,7 +4209,7 @@ class CanNmCluster(NmCluster):
         self.nm_network = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_nid_position(self, value: Optional["Integer"]) -> "CanNmCluster":
+    def with_nm_nid_position(self, value: Optional["Integer"]) -> CanNmCluster:
         """
         Set nmNidPosition and return self for chaining.
 
@@ -4223,7 +4225,7 @@ class CanNmCluster(NmCluster):
         self.nm_nid_position = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_remote(self, value: Optional["TimeValue"]) -> "CanNmCluster":
+    def with_nm_remote(self, value: Optional["TimeValue"]) -> CanNmCluster:
         """
         Set nmRemote and return self for chaining.
 
@@ -4239,7 +4241,7 @@ class CanNmCluster(NmCluster):
         self.nm_remote = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_repeat(self, value: Optional["TimeValue"]) -> "CanNmCluster":
+    def with_nm_repeat(self, value: Optional["TimeValue"]) -> CanNmCluster:
         """
         Set nmRepeat and return self for chaining.
 
@@ -4255,7 +4257,7 @@ class CanNmCluster(NmCluster):
         self.nm_repeat = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> "CanNmCluster":
+    def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> CanNmCluster:
         """
         Set nmWaitBus and return self for chaining.
 
@@ -4588,7 +4590,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_cbv_position  # Delegates to property
 
-    def setNmCbvPosition(self, value: "Integer") -> "UdpNmCluster":
+    def setNmCbvPosition(self, value: "Integer") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmCbvPosition with method chaining.
 
@@ -4616,7 +4618,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_immediate  # Delegates to property
 
-    def setNmImmediate(self, value: "PositiveInteger") -> "UdpNmCluster":
+    def setNmImmediate(self, value: "PositiveInteger") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
 
@@ -4644,7 +4646,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_message  # Delegates to property
 
-    def setNmMessage(self, value: "TimeValue") -> "UdpNmCluster":
+    def setNmMessage(self, value: "TimeValue") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmMessage with method chaining.
 
@@ -4672,7 +4674,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_msg_cycle  # Delegates to property
 
-    def setNmMsgCycle(self, value: "TimeValue") -> "UdpNmCluster":
+    def setNmMsgCycle(self, value: "TimeValue") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
 
@@ -4700,7 +4702,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_network  # Delegates to property
 
-    def setNmNetwork(self, value: "TimeValue") -> "UdpNmCluster":
+    def setNmNetwork(self, value: "TimeValue") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmNetwork with method chaining.
 
@@ -4728,7 +4730,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_nid_position  # Delegates to property
 
-    def setNmNidPosition(self, value: "Integer") -> "UdpNmCluster":
+    def setNmNidPosition(self, value: "Integer") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmNidPosition with method chaining.
 
@@ -4756,7 +4758,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_remote  # Delegates to property
 
-    def setNmRemote(self, value: "TimeValue") -> "UdpNmCluster":
+    def setNmRemote(self, value: "TimeValue") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
 
@@ -4784,7 +4786,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_repeat  # Delegates to property
 
-    def setNmRepeat(self, value: "TimeValue") -> "UdpNmCluster":
+    def setNmRepeat(self, value: "TimeValue") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
 
@@ -4812,7 +4814,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.nm_wait_bus  # Delegates to property
 
-    def setNmWaitBus(self, value: "TimeValue") -> "UdpNmCluster":
+    def setNmWaitBus(self, value: "TimeValue") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for nmWaitBus with method chaining.
 
@@ -4840,7 +4842,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.vlan  # Delegates to property
 
-    def setVlan(self, value: "EthernetPhysical") -> "UdpNmCluster":
+    def setVlan(self, value: "EthernetPhysical") -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for vlan with method chaining.
 
@@ -4858,7 +4860,7 @@ class UdpNmCluster(NmCluster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_cbv_position(self, value: Optional["Integer"]) -> "UdpNmCluster":
+    def with_nm_cbv_position(self, value: Optional["Integer"]) -> UdpNmCluster:
         """
         Set nmCbvPosition and return self for chaining.
 
@@ -4874,7 +4876,7 @@ class UdpNmCluster(NmCluster):
         self.nm_cbv_position = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> "UdpNmCluster":
+    def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> UdpNmCluster:
         """
         Set nmImmediate and return self for chaining.
 
@@ -4890,7 +4892,7 @@ class UdpNmCluster(NmCluster):
         self.nm_immediate = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_message(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
+    def with_nm_message(self, value: Optional["TimeValue"]) -> UdpNmCluster:
         """
         Set nmMessage and return self for chaining.
 
@@ -4906,7 +4908,7 @@ class UdpNmCluster(NmCluster):
         self.nm_message = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
+    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> UdpNmCluster:
         """
         Set nmMsgCycle and return self for chaining.
 
@@ -4922,7 +4924,7 @@ class UdpNmCluster(NmCluster):
         self.nm_msg_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_network(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
+    def with_nm_network(self, value: Optional["TimeValue"]) -> UdpNmCluster:
         """
         Set nmNetwork and return self for chaining.
 
@@ -4938,7 +4940,7 @@ class UdpNmCluster(NmCluster):
         self.nm_network = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_nid_position(self, value: Optional["Integer"]) -> "UdpNmCluster":
+    def with_nm_nid_position(self, value: Optional["Integer"]) -> UdpNmCluster:
         """
         Set nmNidPosition and return self for chaining.
 
@@ -4954,7 +4956,7 @@ class UdpNmCluster(NmCluster):
         self.nm_nid_position = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_remote(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
+    def with_nm_remote(self, value: Optional["TimeValue"]) -> UdpNmCluster:
         """
         Set nmRemote and return self for chaining.
 
@@ -4970,7 +4972,7 @@ class UdpNmCluster(NmCluster):
         self.nm_remote = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_repeat(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
+    def with_nm_repeat(self, value: Optional["TimeValue"]) -> UdpNmCluster:
         """
         Set nmRepeat and return self for chaining.
 
@@ -4986,7 +4988,7 @@ class UdpNmCluster(NmCluster):
         self.nm_repeat = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
+    def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> UdpNmCluster:
         """
         Set nmWaitBus and return self for chaining.
 
@@ -5002,7 +5004,7 @@ class UdpNmCluster(NmCluster):
         self.nm_wait_bus = value  # Use property setter (gets validation)
         return self
 
-    def with_vlan(self, value: Optional["EthernetPhysical"]) -> "UdpNmCluster":
+    def with_vlan(self, value: Optional["EthernetPhysical"]) -> UdpNmCluster:
         """
         Set vlan and return self for chaining.
 
@@ -5109,7 +5111,7 @@ class J1939NmCluster(NmCluster):
         """
         return self.address_claim  # Delegates to property
 
-    def setAddressClaim(self, value: "Boolean") -> "J1939NmCluster":
+    def setAddressClaim(self, value: "Boolean") -> J1939NmCluster:
         """
         AUTOSAR-compliant setter for addressClaim with method chaining.
 
@@ -5137,7 +5139,7 @@ class J1939NmCluster(NmCluster):
         """
         return self.uses_dynamic  # Delegates to property
 
-    def setUsesDynamic(self, value: "Boolean") -> "J1939NmCluster":
+    def setUsesDynamic(self, value: "Boolean") -> J1939NmCluster:
         """
         AUTOSAR-compliant setter for usesDynamic with method chaining.
 
@@ -5155,7 +5157,7 @@ class J1939NmCluster(NmCluster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_address_claim(self, value: Optional["Boolean"]) -> "J1939NmCluster":
+    def with_address_claim(self, value: Optional["Boolean"]) -> J1939NmCluster:
         """
         Set addressClaim and return self for chaining.
 
@@ -5171,7 +5173,7 @@ class J1939NmCluster(NmCluster):
         self.address_claim = value  # Use property setter (gets validation)
         return self
 
-    def with_uses_dynamic(self, value: Optional["Boolean"]) -> "J1939NmCluster":
+    def with_uses_dynamic(self, value: Optional["Boolean"]) -> J1939NmCluster:
         """
         Set usesDynamic and return self for chaining.
 
@@ -5273,7 +5275,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
         """
         return self.nm_hw_vote  # Delegates to property
 
-    def setNmHwVote(self, value: "Boolean") -> "FlexrayNmEcu":
+    def setNmHwVote(self, value: "Boolean") -> FlexrayNmEcu:
         """
         AUTOSAR-compliant setter for nmHwVote with method chaining.
 
@@ -5301,7 +5303,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
         """
         return self.nm_main  # Delegates to property
 
-    def setNmMain(self, value: "Boolean") -> "FlexrayNmEcu":
+    def setNmMain(self, value: "Boolean") -> FlexrayNmEcu:
         """
         AUTOSAR-compliant setter for nmMain with method chaining.
 
@@ -5319,7 +5321,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_hw_vote(self, value: Optional["Boolean"]) -> "FlexrayNmEcu":
+    def with_nm_hw_vote(self, value: Optional["Boolean"]) -> FlexrayNmEcu:
         """
         Set nmHwVote and return self for chaining.
 
@@ -5335,7 +5337,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
         self.nm_hw_vote = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_main(self, value: Optional["Boolean"]) -> "FlexrayNmEcu":
+    def with_nm_main(self, value: Optional["Boolean"]) -> FlexrayNmEcu:
         """
         Set nmMain and return self for chaining.
 
@@ -5457,15 +5459,15 @@ class J1939NmNode(NmNode):
                 f"address must be J1939NmAddress or None, got {type(value).__name__}"
             )
         self._address = value
-        self._nodeName: Optional["J1939NodeName"] = None
+        self._nodeName: Optional[J1939NodeName] = None
 
     @property
-    def node_name(self) -> Optional["J1939NodeName"]:
+    def node_name(self) -> Optional[J1939NodeName]:
         """Get nodeName (Pythonic accessor)."""
         return self._nodeName
 
     @node_name.setter
-    def node_name(self, value: Optional["J1939NodeName"]) -> None:
+    def node_name(self, value: Optional[J1939NodeName]) -> None:
         """
         Set nodeName with validation.
 
@@ -5499,7 +5501,7 @@ class J1939NmNode(NmNode):
         """
         return self.address  # Delegates to property
 
-    def setAddress(self, value: "J1939NmAddress") -> "J1939NmNode":
+    def setAddress(self, value: "J1939NmAddress") -> J1939NmNode:
         """
         AUTOSAR-compliant setter for address with method chaining.
 
@@ -5515,7 +5517,7 @@ class J1939NmNode(NmNode):
         self.address = value  # Delegates to property setter
         return self
 
-    def getNodeName(self) -> "J1939NodeName":
+    def getNodeName(self) -> J1939NodeName:
         """
         AUTOSAR-compliant getter for nodeName.
 
@@ -5527,7 +5529,7 @@ class J1939NmNode(NmNode):
         """
         return self.node_name  # Delegates to property
 
-    def setNodeName(self, value: "J1939NodeName") -> "J1939NmNode":
+    def setNodeName(self, value: J1939NodeName) -> J1939NmNode:
         """
         AUTOSAR-compliant setter for nodeName with method chaining.
 
@@ -5545,7 +5547,7 @@ class J1939NmNode(NmNode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_address(self, value: Optional["J1939NmAddress"]) -> "J1939NmNode":
+    def with_address(self, value: Optional["J1939NmAddress"]) -> J1939NmNode:
         """
         Set address and return self for chaining.
 
@@ -5561,7 +5563,7 @@ class J1939NmNode(NmNode):
         self.address = value  # Use property setter (gets validation)
         return self
 
-    def with_node_name(self, value: Optional["J1939NodeName"]) -> "J1939NmNode":
+    def with_node_name(self, value: Optional[J1939NodeName]) -> J1939NmNode:
         """
         Set nodeName and return self for chaining.
 
@@ -5744,7 +5746,7 @@ class CanNmNode(NmNode):
         """
         return self.all_nm_messages  # Delegates to property
 
-    def setAllNmMessages(self, value: "Boolean") -> "CanNmNode":
+    def setAllNmMessages(self, value: "Boolean") -> CanNmNode:
         """
         AUTOSAR-compliant setter for allNmMessages with method chaining.
 
@@ -5772,7 +5774,7 @@ class CanNmNode(NmNode):
         """
         return self.nm_car_wake_up  # Delegates to property
 
-    def setNmCarWakeUp(self, value: "Boolean") -> "CanNmNode":
+    def setNmCarWakeUp(self, value: "Boolean") -> CanNmNode:
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
 
@@ -5800,7 +5802,7 @@ class CanNmNode(NmNode):
         """
         return self.nm_msg_cycle  # Delegates to property
 
-    def setNmMsgCycle(self, value: "TimeValue") -> "CanNmNode":
+    def setNmMsgCycle(self, value: "TimeValue") -> CanNmNode:
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
 
@@ -5828,7 +5830,7 @@ class CanNmNode(NmNode):
         """
         return self.nm_msg  # Delegates to property
 
-    def setNmMsg(self, value: "TimeValue") -> "CanNmNode":
+    def setNmMsg(self, value: "TimeValue") -> CanNmNode:
         """
         AUTOSAR-compliant setter for nmMsg with method chaining.
 
@@ -5846,7 +5848,7 @@ class CanNmNode(NmNode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_all_nm_messages(self, value: Optional["Boolean"]) -> "CanNmNode":
+    def with_all_nm_messages(self, value: Optional["Boolean"]) -> CanNmNode:
         """
         Set allNmMessages and return self for chaining.
 
@@ -5862,7 +5864,7 @@ class CanNmNode(NmNode):
         self.all_nm_messages = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> "CanNmNode":
+    def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> CanNmNode:
         """
         Set nmCarWakeUp and return self for chaining.
 
@@ -5878,7 +5880,7 @@ class CanNmNode(NmNode):
         self.nm_car_wake_up = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "CanNmNode":
+    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> CanNmNode:
         """
         Set nmMsgCycle and return self for chaining.
 
@@ -5894,7 +5896,7 @@ class CanNmNode(NmNode):
         self.nm_msg_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_msg(self, value: Optional["TimeValue"]) -> "CanNmNode":
+    def with_nm_msg(self, value: Optional["TimeValue"]) -> CanNmNode:
         """
         Set nmMsg and return self for chaining.
 
@@ -6000,7 +6002,7 @@ class UdpNmNode(NmNode):
         """
         return self.all_nm_messages  # Delegates to property
 
-    def setAllNmMessages(self, value: "Boolean") -> "UdpNmNode":
+    def setAllNmMessages(self, value: "Boolean") -> UdpNmNode:
         """
         AUTOSAR-compliant setter for allNmMessages with method chaining.
 
@@ -6028,7 +6030,7 @@ class UdpNmNode(NmNode):
         """
         return self.nm_msg_cycle  # Delegates to property
 
-    def setNmMsgCycle(self, value: "TimeValue") -> "UdpNmNode":
+    def setNmMsgCycle(self, value: "TimeValue") -> UdpNmNode:
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
 
@@ -6046,7 +6048,7 @@ class UdpNmNode(NmNode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_all_nm_messages(self, value: Optional["Boolean"]) -> "UdpNmNode":
+    def with_all_nm_messages(self, value: Optional["Boolean"]) -> UdpNmNode:
         """
         Set allNmMessages and return self for chaining.
 
@@ -6062,7 +6064,7 @@ class UdpNmNode(NmNode):
         self.all_nm_messages = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "UdpNmNode":
+    def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> UdpNmNode:
         """
         Set nmMsgCycle and return self for chaining.
 
@@ -6095,10 +6097,10 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to coupled FlexRay Clusters.
-        self._coupledCluster: List["FlexrayNmCluster"] = []
+        self._coupledCluster: List[FlexrayNmCluster] = []
 
     @property
-    def coupled_cluster(self) -> List["FlexrayNmCluster"]:
+    def coupled_cluster(self) -> List[FlexrayNmCluster]:
         """Get coupledCluster (Pythonic accessor)."""
         return self._coupledCluster
         # FrNm schedule variant according to FrNm SWS.
@@ -6132,7 +6134,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCoupledCluster(self) -> List["FlexrayNmCluster"]:
+    def getCoupledCluster(self) -> List[FlexrayNmCluster]:
         """
         AUTOSAR-compliant getter for coupledCluster.
 
@@ -6156,7 +6158,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
         """
         return self.nm_schedule  # Delegates to property
 
-    def setNmSchedule(self, value: "FlexrayNmSchedule") -> "FlexrayNmClusterCoupling":
+    def setNmSchedule(self, value: "FlexrayNmSchedule") -> FlexrayNmClusterCoupling:
         """
         AUTOSAR-compliant setter for nmSchedule with method chaining.
 
@@ -6174,7 +6176,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_schedule(self, value: Optional["FlexrayNmSchedule"]) -> "FlexrayNmClusterCoupling":
+    def with_nm_schedule(self, value: Optional["FlexrayNmSchedule"]) -> FlexrayNmClusterCoupling:
         """
         Set nmSchedule and return self for chaining.
 
@@ -6207,10 +6209,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to coupled CAN Clusters.
-        self._coupledCluster: List["CanNmCluster"] = []
+        self._coupledCluster: List[CanNmCluster] = []
 
     @property
-    def coupled_cluster(self) -> List["CanNmCluster"]:
+    def coupled_cluster(self) -> List[CanNmCluster]:
         """Get coupledCluster (Pythonic accessor)."""
         return self._coupledCluster
         # Enables busload reduction support.
@@ -6272,7 +6274,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCoupledCluster(self) -> List["CanNmCluster"]:
+    def getCoupledCluster(self) -> List[CanNmCluster]:
         """
         AUTOSAR-compliant getter for coupledCluster.
 
@@ -6296,7 +6298,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
         """
         return self.nm_busload_reduction_enabled  # Delegates to property
 
-    def setNmBusloadReductionEnabled(self, value: "Boolean") -> "CanNmClusterCoupling":
+    def setNmBusloadReductionEnabled(self, value: "Boolean") -> CanNmClusterCoupling:
         """
         AUTOSAR-compliant setter for nmBusloadReductionEnabled with method chaining.
 
@@ -6324,7 +6326,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
         """
         return self.nm_immediate  # Delegates to property
 
-    def setNmImmediate(self, value: "Boolean") -> "CanNmClusterCoupling":
+    def setNmImmediate(self, value: "Boolean") -> CanNmClusterCoupling:
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
 
@@ -6342,7 +6344,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_busload_reduction_enabled(self, value: Optional["Boolean"]) -> "CanNmClusterCoupling":
+    def with_nm_busload_reduction_enabled(self, value: Optional["Boolean"]) -> CanNmClusterCoupling:
         """
         Set nmBusloadReductionEnabled and return self for chaining.
 
@@ -6358,7 +6360,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
         self.nm_busload_reduction_enabled = value  # Use property setter (gets validation)
         return self
 
-    def with_nm_immediate(self, value: Optional["Boolean"]) -> "CanNmClusterCoupling":
+    def with_nm_immediate(self, value: Optional["Boolean"]) -> CanNmClusterCoupling:
         """
         Set nmImmediate and return self for chaining.
 
@@ -6391,10 +6393,10 @@ class UdpNmClusterCoupling(NmClusterCoupling):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to coupled UdpNm Clusters.
-        self._coupledCluster: List["UdpNmCluster"] = []
+        self._coupledCluster: List[UdpNmCluster] = []
 
     @property
-    def coupled_cluster(self) -> List["UdpNmCluster"]:
+    def coupled_cluster(self) -> List[UdpNmCluster]:
         """Get coupledCluster (Pythonic accessor)."""
         return self._coupledCluster
         # Enables the asynchronous transmission of a CanNm upon bus-communication
@@ -6429,7 +6431,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCoupledCluster(self) -> List["UdpNmCluster"]:
+    def getCoupledCluster(self) -> List[UdpNmCluster]:
         """
         AUTOSAR-compliant getter for coupledCluster.
 
@@ -6453,7 +6455,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
         """
         return self.nm_immediate  # Delegates to property
 
-    def setNmImmediate(self, value: "Boolean") -> "UdpNmClusterCoupling":
+    def setNmImmediate(self, value: "Boolean") -> UdpNmClusterCoupling:
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
 
@@ -6471,7 +6473,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_immediate(self, value: Optional["Boolean"]) -> "UdpNmClusterCoupling":
+    def with_nm_immediate(self, value: Optional["Boolean"]) -> UdpNmClusterCoupling:
         """
         Set nmImmediate and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - LogAndTraceExtract
 Package: M2::AUTOSARTemplates::LogAndTraceExtract
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
@@ -39,10 +41,10 @@ class DltArgument(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation is used to describe subElements of a Dlt that defines a
         # Structure.
-        self._dltArgument: List["DltArgument"] = []
+        self._dltArgument: List[DltArgument] = []
 
     @property
-    def dlt_argument(self) -> List["DltArgument"]:
+    def dlt_argument(self) -> List[DltArgument]:
         """Get dltArgument (Pythonic accessor)."""
         return self._dltArgument
         # Describes the DltArgument length in case of Arrays and number of BaseTypes.
@@ -250,7 +252,7 @@ class DltArgument(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDltArgument(self) -> List["DltArgument"]:
+    def getDltArgument(self) -> List[DltArgument]:
         """
         AUTOSAR-compliant getter for dltArgument.
 
@@ -274,7 +276,7 @@ class DltArgument(Identifiable):
         """
         return self.length  # Delegates to property
 
-    def setLength(self, value: "PositiveInteger") -> "DltArgument":
+    def setLength(self, value: "PositiveInteger") -> DltArgument:
         """
         AUTOSAR-compliant setter for length with method chaining.
 
@@ -302,7 +304,7 @@ class DltArgument(Identifiable):
         """
         return self.network  # Delegates to property
 
-    def setNetwork(self, value: "SwDataDefProps") -> "DltArgument":
+    def setNetwork(self, value: "SwDataDefProps") -> DltArgument:
         """
         AUTOSAR-compliant setter for network with method chaining.
 
@@ -330,7 +332,7 @@ class DltArgument(Identifiable):
         """
         return self.optional  # Delegates to property
 
-    def setOptional(self, value: "Boolean") -> "DltArgument":
+    def setOptional(self, value: "Boolean") -> DltArgument:
         """
         AUTOSAR-compliant setter for optional with method chaining.
 
@@ -358,7 +360,7 @@ class DltArgument(Identifiable):
         """
         return self.predefined_text  # Delegates to property
 
-    def setPredefinedText(self, value: "Boolean") -> "DltArgument":
+    def setPredefinedText(self, value: "Boolean") -> DltArgument:
         """
         AUTOSAR-compliant setter for predefinedText with method chaining.
 
@@ -386,7 +388,7 @@ class DltArgument(Identifiable):
         """
         return self.variable_length  # Delegates to property
 
-    def setVariableLength(self, value: "Boolean") -> "DltArgument":
+    def setVariableLength(self, value: "Boolean") -> DltArgument:
         """
         AUTOSAR-compliant setter for variableLength with method chaining.
 
@@ -404,7 +406,7 @@ class DltArgument(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_length(self, value: Optional["PositiveInteger"]) -> "DltArgument":
+    def with_length(self, value: Optional["PositiveInteger"]) -> DltArgument:
         """
         Set length and return self for chaining.
 
@@ -420,7 +422,7 @@ class DltArgument(Identifiable):
         self.length = value  # Use property setter (gets validation)
         return self
 
-    def with_network(self, value: Optional["SwDataDefProps"]) -> "DltArgument":
+    def with_network(self, value: Optional["SwDataDefProps"]) -> DltArgument:
         """
         Set network and return self for chaining.
 
@@ -436,7 +438,7 @@ class DltArgument(Identifiable):
         self.network = value  # Use property setter (gets validation)
         return self
 
-    def with_optional(self, value: Optional["Boolean"]) -> "DltArgument":
+    def with_optional(self, value: Optional["Boolean"]) -> DltArgument:
         """
         Set optional and return self for chaining.
 
@@ -452,7 +454,7 @@ class DltArgument(Identifiable):
         self.optional = value  # Use property setter (gets validation)
         return self
 
-    def with_predefined_text(self, value: Optional["Boolean"]) -> "DltArgument":
+    def with_predefined_text(self, value: Optional["Boolean"]) -> DltArgument:
         """
         Set predefinedText and return self for chaining.
 
@@ -468,7 +470,7 @@ class DltArgument(Identifiable):
         self.predefined_text = value  # Use property setter (gets validation)
         return self
 
-    def with_variable_length(self, value: Optional["Boolean"]) -> "DltArgument":
+    def with_variable_length(self, value: Optional["Boolean"]) -> DltArgument:
         """
         Set variableLength and return self for chaining.
 
@@ -558,10 +560,10 @@ class DltApplication(Identifiable):
             )
         self._applicationId = value
         # atpVariation.
-        self._context: List["DltContext"] = []
+        self._context: List[DltContext] = []
 
     @property
-    def context(self) -> List["DltContext"]:
+    def context(self) -> List[DltContext]:
         """Get context (Pythonic accessor)."""
         return self._context
 
@@ -579,7 +581,7 @@ class DltApplication(Identifiable):
         """
         return self.application  # Delegates to property
 
-    def setApplication(self, value: "String") -> "DltApplication":
+    def setApplication(self, value: "String") -> DltApplication:
         """
         AUTOSAR-compliant setter for application with method chaining.
 
@@ -607,7 +609,7 @@ class DltApplication(Identifiable):
         """
         return self.application_id  # Delegates to property
 
-    def setApplicationId(self, value: "String") -> "DltApplication":
+    def setApplicationId(self, value: "String") -> DltApplication:
         """
         AUTOSAR-compliant setter for applicationId with method chaining.
 
@@ -623,7 +625,7 @@ class DltApplication(Identifiable):
         self.application_id = value  # Delegates to property setter
         return self
 
-    def getContext(self) -> List["DltContext"]:
+    def getContext(self) -> List[DltContext]:
         """
         AUTOSAR-compliant getter for context.
 
@@ -637,7 +639,7 @@ class DltApplication(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application(self, value: Optional["String"]) -> "DltApplication":
+    def with_application(self, value: Optional["String"]) -> DltApplication:
         """
         Set application and return self for chaining.
 
@@ -653,7 +655,7 @@ class DltApplication(Identifiable):
         self.application = value  # Use property setter (gets validation)
         return self
 
-    def with_application_id(self, value: Optional["String"]) -> "DltApplication":
+    def with_application_id(self, value: Optional["String"]) -> DltApplication:
         """
         Set applicationId and return self for chaining.
 
@@ -744,10 +746,10 @@ class DltContext(ARElement):
                 f"contextId must be String or str or None, got {type(value).__name__}"
             )
         self._contextId = value
-        self._dltMessage: List["DltMessage"] = []
+        self._dltMessage: List[DltMessage] = []
 
     @property
-    def dlt_message(self) -> List["DltMessage"]:
+    def dlt_message(self) -> List[DltMessage]:
         """Get dltMessage (Pythonic accessor)."""
         return self._dltMessage
 
@@ -765,7 +767,7 @@ class DltContext(ARElement):
         """
         return self.context  # Delegates to property
 
-    def setContext(self, value: "String") -> "DltContext":
+    def setContext(self, value: "String") -> DltContext:
         """
         AUTOSAR-compliant setter for context with method chaining.
 
@@ -793,7 +795,7 @@ class DltContext(ARElement):
         """
         return self.context_id  # Delegates to property
 
-    def setContextId(self, value: "String") -> "DltContext":
+    def setContextId(self, value: "String") -> DltContext:
         """
         AUTOSAR-compliant setter for contextId with method chaining.
 
@@ -809,7 +811,7 @@ class DltContext(ARElement):
         self.context_id = value  # Delegates to property setter
         return self
 
-    def getDltMessage(self) -> List["DltMessage"]:
+    def getDltMessage(self) -> List[DltMessage]:
         """
         AUTOSAR-compliant getter for dltMessage.
 
@@ -823,7 +825,7 @@ class DltContext(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context(self, value: Optional["String"]) -> "DltContext":
+    def with_context(self, value: Optional["String"]) -> DltContext:
         """
         Set context and return self for chaining.
 
@@ -839,7 +841,7 @@ class DltContext(ARElement):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_context_id(self, value: Optional["String"]) -> "DltContext":
+    def with_context_id(self, value: Optional["String"]) -> DltContext:
         """
         Set contextId and return self for chaining.
 
@@ -874,10 +876,10 @@ class DltEcu(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Application on DltEcu that provides log or trace data.
         # atpVariation.
-        self._application: List["DltApplication"] = []
+        self._application: List[DltApplication] = []
 
     @property
-    def application(self) -> List["DltApplication"]:
+    def application(self) -> List[DltApplication]:
         """Get application (Pythonic accessor)."""
         return self._application
         # This attribute defines the name of the ECU for use within protocol.
@@ -911,7 +913,7 @@ class DltEcu(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> List["DltApplication"]:
+    def getApplication(self) -> List[DltApplication]:
         """
         AUTOSAR-compliant getter for application.
 
@@ -935,7 +937,7 @@ class DltEcu(ARElement):
         """
         return self.ecu_id  # Delegates to property
 
-    def setEcuId(self, value: "String") -> "DltEcu":
+    def setEcuId(self, value: "String") -> DltEcu:
         """
         AUTOSAR-compliant setter for ecuId with method chaining.
 
@@ -953,7 +955,7 @@ class DltEcu(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_id(self, value: Optional["String"]) -> "DltEcu":
+    def with_ecu_id(self, value: Optional["String"]) -> DltEcu:
         """
         Set ecuId and return self for chaining.
 
@@ -986,10 +988,10 @@ class DltMessage(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Ordered collection of DltArguments in the DltMessage.
-        self._dltArgument: List["DltArgument"] = []
+        self._dltArgument: List[DltArgument] = []
 
     @property
-    def dlt_argument(self) -> List["DltArgument"]:
+    def dlt_argument(self) -> List[DltArgument]:
         """Get dltArgument (Pythonic accessor)."""
         return self._dltArgument
         # This attribute defines the unique Id for the DltMessage.
@@ -1103,15 +1105,15 @@ class DltMessage(Identifiable):
             )
         self._messageTypeInfo = value
         # to it.
-        self._privacyLevel: Optional["PrivacyLevel"] = None
+        self._privacyLevel: Optional[PrivacyLevel] = None
 
     @property
-    def privacy_level(self) -> Optional["PrivacyLevel"]:
+    def privacy_level(self) -> Optional[PrivacyLevel]:
         """Get privacyLevel (Pythonic accessor)."""
         return self._privacyLevel
 
     @privacy_level.setter
-    def privacy_level(self, value: Optional["PrivacyLevel"]) -> None:
+    def privacy_level(self, value: Optional[PrivacyLevel]) -> None:
         """
         Set privacyLevel with validation.
 
@@ -1133,7 +1135,7 @@ class DltMessage(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDltArgument(self) -> List["DltArgument"]:
+    def getDltArgument(self) -> List[DltArgument]:
         """
         AUTOSAR-compliant getter for dltArgument.
 
@@ -1157,7 +1159,7 @@ class DltMessage(Identifiable):
         """
         return self.message_id  # Delegates to property
 
-    def setMessageId(self, value: "PositiveInteger") -> "DltMessage":
+    def setMessageId(self, value: "PositiveInteger") -> DltMessage:
         """
         AUTOSAR-compliant setter for messageId with method chaining.
 
@@ -1185,7 +1187,7 @@ class DltMessage(Identifiable):
         """
         return self.message_line  # Delegates to property
 
-    def setMessageLine(self, value: "PositiveInteger") -> "DltMessage":
+    def setMessageLine(self, value: "PositiveInteger") -> DltMessage:
         """
         AUTOSAR-compliant setter for messageLine with method chaining.
 
@@ -1213,7 +1215,7 @@ class DltMessage(Identifiable):
         """
         return self.message_source  # Delegates to property
 
-    def setMessageSource(self, value: "String") -> "DltMessage":
+    def setMessageSource(self, value: "String") -> DltMessage:
         """
         AUTOSAR-compliant setter for messageSource with method chaining.
 
@@ -1241,7 +1243,7 @@ class DltMessage(Identifiable):
         """
         return self.message_type_info  # Delegates to property
 
-    def setMessageTypeInfo(self, value: "String") -> "DltMessage":
+    def setMessageTypeInfo(self, value: "String") -> DltMessage:
         """
         AUTOSAR-compliant setter for messageTypeInfo with method chaining.
 
@@ -1257,7 +1259,7 @@ class DltMessage(Identifiable):
         self.message_type_info = value  # Delegates to property setter
         return self
 
-    def getPrivacyLevel(self) -> "PrivacyLevel":
+    def getPrivacyLevel(self) -> PrivacyLevel:
         """
         AUTOSAR-compliant getter for privacyLevel.
 
@@ -1269,7 +1271,7 @@ class DltMessage(Identifiable):
         """
         return self.privacy_level  # Delegates to property
 
-    def setPrivacyLevel(self, value: "PrivacyLevel") -> "DltMessage":
+    def setPrivacyLevel(self, value: PrivacyLevel) -> DltMessage:
         """
         AUTOSAR-compliant setter for privacyLevel with method chaining.
 
@@ -1287,7 +1289,7 @@ class DltMessage(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_message_id(self, value: Optional["PositiveInteger"]) -> "DltMessage":
+    def with_message_id(self, value: Optional["PositiveInteger"]) -> DltMessage:
         """
         Set messageId and return self for chaining.
 
@@ -1303,7 +1305,7 @@ class DltMessage(Identifiable):
         self.message_id = value  # Use property setter (gets validation)
         return self
 
-    def with_message_line(self, value: Optional["PositiveInteger"]) -> "DltMessage":
+    def with_message_line(self, value: Optional["PositiveInteger"]) -> DltMessage:
         """
         Set messageLine and return self for chaining.
 
@@ -1319,7 +1321,7 @@ class DltMessage(Identifiable):
         self.message_line = value  # Use property setter (gets validation)
         return self
 
-    def with_message_source(self, value: Optional["String"]) -> "DltMessage":
+    def with_message_source(self, value: Optional["String"]) -> DltMessage:
         """
         Set messageSource and return self for chaining.
 
@@ -1335,7 +1337,7 @@ class DltMessage(Identifiable):
         self.message_source = value  # Use property setter (gets validation)
         return self
 
-    def with_message_type_info(self, value: Optional["String"]) -> "DltMessage":
+    def with_message_type_info(self, value: Optional["String"]) -> DltMessage:
         """
         Set messageTypeInfo and return self for chaining.
 
@@ -1351,7 +1353,7 @@ class DltMessage(Identifiable):
         self.message_type_info = value  # Use property setter (gets validation)
         return self
 
-    def with_privacy_level(self, value: Optional["PrivacyLevel"]) -> "DltMessage":
+    def with_privacy_level(self, value: Optional[PrivacyLevel]) -> DltMessage:
         """
         Set privacyLevel and return self for chaining.
 
@@ -1383,16 +1385,16 @@ class LogAndTraceMessageCollectionSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of DltMessages in the DltMessageCollection atpVariation.
-        self._dltMessage: List["DltMessage"] = []
+        self._dltMessage: List[DltMessage] = []
 
     @property
-    def dlt_message(self) -> List["DltMessage"]:
+    def dlt_message(self) -> List[DltMessage]:
         """Get dltMessage (Pythonic accessor)."""
         return self._dltMessage
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDltMessage(self) -> List["DltMessage"]:
+    def getDltMessage(self) -> List[DltMessage]:
         """
         AUTOSAR-compliant getter for dltMessage.
 
@@ -1492,7 +1494,7 @@ class PrivacyLevel(ARObject):
         """
         return self.compu_method  # Delegates to property
 
-    def setCompuMethod(self, value: "CompuMethod") -> "PrivacyLevel":
+    def setCompuMethod(self, value: "CompuMethod") -> PrivacyLevel:
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
 
@@ -1520,7 +1522,7 @@ class PrivacyLevel(ARObject):
         """
         return self.privacy_level  # Delegates to property
 
-    def setPrivacyLevel(self, value: "PositiveInteger") -> "PrivacyLevel":
+    def setPrivacyLevel(self, value: "PositiveInteger") -> PrivacyLevel:
         """
         AUTOSAR-compliant setter for privacyLevel with method chaining.
 
@@ -1538,7 +1540,7 @@ class PrivacyLevel(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_method(self, value: Optional["CompuMethod"]) -> "PrivacyLevel":
+    def with_compu_method(self, value: Optional["CompuMethod"]) -> PrivacyLevel:
         """
         Set compuMethod and return self for chaining.
 
@@ -1554,7 +1556,7 @@ class PrivacyLevel(ARObject):
         self.compu_method = value  # Use property setter (gets validation)
         return self
 
-    def with_privacy_level(self, value: Optional["PositiveInteger"]) -> "PrivacyLevel":
+    def with_privacy_level(self, value: Optional["PositiveInteger"]) -> PrivacyLevel:
         """
         Set privacyLevel and return self for chaining.
 

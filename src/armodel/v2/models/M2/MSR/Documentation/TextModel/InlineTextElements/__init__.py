@@ -18,14 +18,14 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.XrefTarget import (
 )
 
 __all__ = [
-    "Br",
+    Br,
     "EmphasisText",
     "IndexEntry",
-    "Std",
+    Std,
     "Superscript",
-    "Tt",
-    "Xdoc",
-    "Xfile",
-    "Xref",
+    Tt,
+    Xdoc,
+    Xfile,
+    Xref,
     "XrefTarget",
 ]

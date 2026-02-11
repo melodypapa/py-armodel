@@ -4,9 +4,11 @@ AUTOSAR Package - MultilanguageData
 Package: M2::MSR::Documentation::TextModel::MultilanguageData
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     String,
 )
@@ -75,7 +77,7 @@ class MultiLanguageOverviewParagraph(ARObject):
         """
         return self.l2  # Delegates to property
 
-    def setL2(self, value: "LOverviewParagraph") -> "MultiLanguageOverviewParagraph":
+    def setL2(self, value: "LOverviewParagraph") -> MultiLanguageOverviewParagraph:
         """
         AUTOSAR-compliant setter for l2 with method chaining.
 
@@ -93,7 +95,7 @@ class MultiLanguageOverviewParagraph(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_l2(self, value: "LOverviewParagraph") -> "MultiLanguageOverviewParagraph":
+    def with_l2(self, value: "LOverviewParagraph") -> MultiLanguageOverviewParagraph:
         """
         Set l2 and return self for chaining.
 
@@ -168,7 +170,7 @@ class MultilanguageLongName(ARObject):
         """
         return self.l4  # Delegates to property
 
-    def setL4(self, value: "LLongName") -> "MultilanguageLongName":
+    def setL4(self, value: "LLongName") -> MultilanguageLongName:
         """
         AUTOSAR-compliant setter for l4 with method chaining.
 
@@ -186,7 +188,7 @@ class MultilanguageLongName(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_l4(self, value: "LLongName") -> "MultilanguageLongName":
+    def with_l4(self, value: "LLongName") -> MultilanguageLongName:
         """
         Set l4 and return self for chaining.
 
@@ -285,7 +287,7 @@ class MultiLanguageParagraph(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> "MultiLanguageParagraph":
+    def setHelpEntry(self, value: "String") -> MultiLanguageParagraph:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -313,7 +315,7 @@ class MultiLanguageParagraph(Paginateable):
         """
         return self.l1  # Delegates to property
 
-    def setL1(self, value: "LParagraph") -> "MultiLanguageParagraph":
+    def setL1(self, value: "LParagraph") -> MultiLanguageParagraph:
         """
         AUTOSAR-compliant setter for l1 with method chaining.
 
@@ -331,7 +333,7 @@ class MultiLanguageParagraph(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_help_entry(self, value: Optional["String"]) -> "MultiLanguageParagraph":
+    def with_help_entry(self, value: Optional["String"]) -> MultiLanguageParagraph:
         """
         Set helpEntry and return self for chaining.
 
@@ -347,7 +349,7 @@ class MultiLanguageParagraph(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_l1(self, value: "LParagraph") -> "MultiLanguageParagraph":
+    def with_l1(self, value: "LParagraph") -> MultiLanguageParagraph:
         """
         Set l1 and return self for chaining.
 
@@ -532,7 +534,7 @@ class MultiLanguageVerbatim(Paginateable):
         """
         return self.allow_break  # Delegates to property
 
-    def setAllowBreak(self, value: "NameToken") -> "MultiLanguageVerbatim":
+    def setAllowBreak(self, value: "NameToken") -> MultiLanguageVerbatim:
         """
         AUTOSAR-compliant setter for allowBreak with method chaining.
 
@@ -560,7 +562,7 @@ class MultiLanguageVerbatim(Paginateable):
         """
         return self.float  # Delegates to property
 
-    def setFloat(self, value: "FloatEnum") -> "MultiLanguageVerbatim":
+    def setFloat(self, value: "FloatEnum") -> MultiLanguageVerbatim:
         """
         AUTOSAR-compliant setter for float with method chaining.
 
@@ -588,7 +590,7 @@ class MultiLanguageVerbatim(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> "MultiLanguageVerbatim":
+    def setHelpEntry(self, value: "String") -> MultiLanguageVerbatim:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -616,7 +618,7 @@ class MultiLanguageVerbatim(Paginateable):
         """
         return self.l5  # Delegates to property
 
-    def setL5(self, value: "LVerbatim") -> "MultiLanguageVerbatim":
+    def setL5(self, value: "LVerbatim") -> MultiLanguageVerbatim:
         """
         AUTOSAR-compliant setter for l5 with method chaining.
 
@@ -644,7 +646,7 @@ class MultiLanguageVerbatim(Paginateable):
         """
         return self.pgwide  # Delegates to property
 
-    def setPgwide(self, value: "PgwideEnum") -> "MultiLanguageVerbatim":
+    def setPgwide(self, value: "PgwideEnum") -> MultiLanguageVerbatim:
         """
         AUTOSAR-compliant setter for pgwide with method chaining.
 
@@ -662,7 +664,7 @@ class MultiLanguageVerbatim(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_allow_break(self, value: Optional["NameToken"]) -> "MultiLanguageVerbatim":
+    def with_allow_break(self, value: Optional["NameToken"]) -> MultiLanguageVerbatim:
         """
         Set allowBreak and return self for chaining.
 
@@ -678,7 +680,7 @@ class MultiLanguageVerbatim(Paginateable):
         self.allow_break = value  # Use property setter (gets validation)
         return self
 
-    def with_float(self, value: Optional["FloatEnum"]) -> "MultiLanguageVerbatim":
+    def with_float(self, value: Optional["FloatEnum"]) -> MultiLanguageVerbatim:
         """
         Set float and return self for chaining.
 
@@ -694,7 +696,7 @@ class MultiLanguageVerbatim(Paginateable):
         self.float = value  # Use property setter (gets validation)
         return self
 
-    def with_help_entry(self, value: Optional["String"]) -> "MultiLanguageVerbatim":
+    def with_help_entry(self, value: Optional["String"]) -> MultiLanguageVerbatim:
         """
         Set helpEntry and return self for chaining.
 
@@ -710,7 +712,7 @@ class MultiLanguageVerbatim(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_l5(self, value: "LVerbatim") -> "MultiLanguageVerbatim":
+    def with_l5(self, value: "LVerbatim") -> MultiLanguageVerbatim:
         """
         Set l5 and return self for chaining.
 
@@ -726,7 +728,7 @@ class MultiLanguageVerbatim(Paginateable):
         self.l5 = value  # Use property setter (gets validation)
         return self
 
-    def with_pgwide(self, value: Optional["PgwideEnum"]) -> "MultiLanguageVerbatim":
+    def with_pgwide(self, value: Optional["PgwideEnum"]) -> MultiLanguageVerbatim:
         """
         Set pgwide and return self for chaining.
 
@@ -797,7 +799,7 @@ class MultiLanguagePlainText(ARObject):
         """
         return self.l10  # Delegates to property
 
-    def setL10(self, value: "LPlainText") -> "MultiLanguagePlainText":
+    def setL10(self, value: "LPlainText") -> MultiLanguagePlainText:
         """
         AUTOSAR-compliant setter for l10 with method chaining.
 
@@ -815,7 +817,7 @@ class MultiLanguagePlainText(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_l10(self, value: "LPlainText") -> "MultiLanguagePlainText":
+    def with_l10(self, value: "LPlainText") -> MultiLanguagePlainText:
         """
         Set l10 and return self for chaining.
 

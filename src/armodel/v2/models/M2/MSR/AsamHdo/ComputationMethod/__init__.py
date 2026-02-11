@@ -37,20 +37,20 @@ from armodel.v2.models.M2.MSR.AsamHdo.CompuScaleRationalFormula import (
 from armodel.v2.models.M2.MSR.AsamHdo.CompuScales import CompuScales
 
 __all__ = [
-    "Compu",
-    "CompuConst",
+    Compu,
+    CompuConst,
     "CompuConstContent",
     "CompuConstFormulaContent",
     "CompuConstNumericContent",
     "CompuConstTextContent",
-    "CompuContent",
-    "CompuGenericMath",
-    "CompuMethod",
+    CompuContent,
+    CompuGenericMath,
+    CompuMethod,
     "CompuNominatorDenominator",
     "CompuRationalCoeffs",
-    "CompuScale",
+    CompuScale,
     "CompuScaleConstantContents",
     "CompuScaleContents",
     "CompuScaleRationalFormula",
-    "CompuScales",
+    CompuScales,
 ]

@@ -16,7 +16,7 @@ from armodel.v2.models.M2.MSR.AsamHdo.Constraints.ScaleConstr import (
 )
 
 __all__ = [
-    "DataConstr",
+    DataConstr,
     "DataConstrRule",
     "InternalConstrs",
     "PhysConstrs",

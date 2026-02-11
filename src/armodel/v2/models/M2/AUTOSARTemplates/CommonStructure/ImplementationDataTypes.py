@@ -4,10 +4,12 @@ AUTOSAR Package - ImplementationDataTypes
 Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     NameToken,
     String,
@@ -241,7 +243,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.dynamic_array  # Delegates to property
 
-    def setDynamicArray(self, value: "String") -> "ImplementationDataType":
+    def setDynamicArray(self, value: "String") -> ImplementationDataType:
         """
         AUTOSAR-compliant setter for dynamicArray with method chaining.
 
@@ -281,7 +283,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.symbol_props  # Delegates to property
 
-    def setSymbolProps(self, value: "SymbolProps") -> "ImplementationDataType":
+    def setSymbolProps(self, value: "SymbolProps") -> ImplementationDataType:
         """
         AUTOSAR-compliant setter for symbolProps with method chaining.
 
@@ -309,7 +311,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.type_emitter  # Delegates to property
 
-    def setTypeEmitter(self, value: "NameToken") -> "ImplementationDataType":
+    def setTypeEmitter(self, value: "NameToken") -> ImplementationDataType:
         """
         AUTOSAR-compliant setter for typeEmitter with method chaining.
 
@@ -327,7 +329,7 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dynamic_array(self, value: Optional["String"]) -> "ImplementationDataType":
+    def with_dynamic_array(self, value: Optional["String"]) -> ImplementationDataType:
         """
         Set dynamicArray and return self for chaining.
 
@@ -343,7 +345,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         self.dynamic_array = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol_props(self, value: Optional["SymbolProps"]) -> "ImplementationDataType":
+    def with_symbol_props(self, value: Optional["SymbolProps"]) -> ImplementationDataType:
         """
         Set symbolProps and return self for chaining.
 
@@ -359,7 +361,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         self.symbol_props = value  # Use property setter (gets validation)
         return self
 
-    def with_type_emitter(self, value: Optional["NameToken"]) -> "ImplementationDataType":
+    def with_type_emitter(self, value: Optional["NameToken"]) -> ImplementationDataType:
         """
         Set typeEmitter and return self for chaining.
 
@@ -407,15 +409,15 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         # It shall only be used if the enclosing an array.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._arrayImplPolicy: Optional["ArrayImplPolicyEnum"] = None
+        self._arrayImplPolicy: Optional[ArrayImplPolicyEnum] = None
 
     @property
-    def array_impl_policy(self) -> Optional["ArrayImplPolicyEnum"]:
+    def array_impl_policy(self) -> Optional[ArrayImplPolicyEnum]:
         """Get arrayImplPolicy (Pythonic accessor)."""
         return self._arrayImplPolicy
 
     @array_impl_policy.setter
-    def array_impl_policy(self, value: Optional["ArrayImplPolicyEnum"]) -> None:
+    def array_impl_policy(self, value: Optional[ArrayImplPolicyEnum]) -> None:
         """
         Set arrayImplPolicy with validation.
 
@@ -535,7 +537,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArrayImplPolicy(self) -> "ArrayImplPolicyEnum":
+    def getArrayImplPolicy(self) -> ArrayImplPolicyEnum:
         """
         AUTOSAR-compliant getter for arrayImplPolicy.
 
@@ -547,7 +549,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         """
         return self.array_impl_policy  # Delegates to property
 
-    def setArrayImplPolicy(self, value: "ArrayImplPolicyEnum") -> "ImplementationDataTypeElement":
+    def setArrayImplPolicy(self, value: ArrayImplPolicyEnum) -> ImplementationDataTypeElement:
         """
         AUTOSAR-compliant setter for arrayImplPolicy with method chaining.
 
@@ -575,7 +577,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         """
         return self.array_size  # Delegates to property
 
-    def setArraySize(self, value: "ArraySizeSemantics") -> "ImplementationDataTypeElement":
+    def setArraySize(self, value: "ArraySizeSemantics") -> ImplementationDataTypeElement:
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
 
@@ -603,7 +605,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         """
         return self.is_optional  # Delegates to property
 
-    def setIsOptional(self, value: "Boolean") -> "ImplementationDataTypeElement":
+    def setIsOptional(self, value: "Boolean") -> ImplementationDataTypeElement:
         """
         AUTOSAR-compliant setter for isOptional with method chaining.
 
@@ -643,7 +645,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "ImplementationDataTypeElement":
+    def setSwDataDef(self, value: "SwDataDefProps") -> ImplementationDataTypeElement:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -661,7 +663,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_array_impl_policy(self, value: Optional["ArrayImplPolicyEnum"]) -> "ImplementationDataTypeElement":
+    def with_array_impl_policy(self, value: Optional[ArrayImplPolicyEnum]) -> ImplementationDataTypeElement:
         """
         Set arrayImplPolicy and return self for chaining.
 
@@ -677,7 +679,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         self.array_impl_policy = value  # Use property setter (gets validation)
         return self
 
-    def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "ImplementationDataTypeElement":
+    def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> ImplementationDataTypeElement:
         """
         Set arraySize and return self for chaining.
 
@@ -693,7 +695,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         self.array_size = value  # Use property setter (gets validation)
         return self
 
-    def with_is_optional(self, value: Optional["Boolean"]) -> "ImplementationDataTypeElement":
+    def with_is_optional(self, value: Optional["Boolean"]) -> ImplementationDataTypeElement:
         """
         Set isOptional and return self for chaining.
 
@@ -709,7 +711,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         self.is_optional = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "ImplementationDataTypeElement":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> ImplementationDataTypeElement:
         """
         Set swDataDef and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - IOControl
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -240,7 +242,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.data_identifier_identifier  # Delegates to property
 
-    def setDataIdentifierIdentifier(self, value: "DiagnosticDataIdentifier") -> "DiagnosticIOControl":
+    def setDataIdentifierIdentifier(self, value: "DiagnosticDataIdentifier") -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for dataIdentifierIdentifier with method chaining.
 
@@ -268,7 +270,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.freeze_current  # Delegates to property
 
-    def setFreezeCurrent(self, value: "Boolean") -> "DiagnosticIOControl":
+    def setFreezeCurrent(self, value: "Boolean") -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for freezeCurrent with method chaining.
 
@@ -296,7 +298,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.io_control_class  # Delegates to property
 
-    def setIoControlClass(self, value: "DiagnosticIoControl") -> "DiagnosticIOControl":
+    def setIoControlClass(self, value: "DiagnosticIoControl") -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for ioControlClass with method chaining.
 
@@ -324,7 +326,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.reset_to_default  # Delegates to property
 
-    def setResetToDefault(self, value: "Boolean") -> "DiagnosticIOControl":
+    def setResetToDefault(self, value: "Boolean") -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for resetToDefault with method chaining.
 
@@ -352,7 +354,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.short_term  # Delegates to property
 
-    def setShortTerm(self, value: "Boolean") -> "DiagnosticIOControl":
+    def setShortTerm(self, value: "Boolean") -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for shortTerm with method chaining.
 
@@ -370,7 +372,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_identifier_identifier(self, value: Optional["DiagnosticDataIdentifier"]) -> "DiagnosticIOControl":
+    def with_data_identifier_identifier(self, value: Optional["DiagnosticDataIdentifier"]) -> DiagnosticIOControl:
         """
         Set dataIdentifierIdentifier and return self for chaining.
 
@@ -386,7 +388,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.data_identifier_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_freeze_current(self, value: Optional["Boolean"]) -> "DiagnosticIOControl":
+    def with_freeze_current(self, value: Optional["Boolean"]) -> DiagnosticIOControl:
         """
         Set freezeCurrent and return self for chaining.
 
@@ -402,7 +404,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.freeze_current = value  # Use property setter (gets validation)
         return self
 
-    def with_io_control_class(self, value: Optional["DiagnosticIoControl"]) -> "DiagnosticIOControl":
+    def with_io_control_class(self, value: Optional["DiagnosticIoControl"]) -> DiagnosticIOControl:
         """
         Set ioControlClass and return self for chaining.
 
@@ -418,7 +420,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.io_control_class = value  # Use property setter (gets validation)
         return self
 
-    def with_reset_to_default(self, value: Optional["Boolean"]) -> "DiagnosticIOControl":
+    def with_reset_to_default(self, value: Optional["Boolean"]) -> DiagnosticIOControl:
         """
         Set resetToDefault and return self for chaining.
 
@@ -434,7 +436,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.reset_to_default = value  # Use property setter (gets validation)
         return self
 
-    def with_short_term(self, value: Optional["Boolean"]) -> "DiagnosticIOControl":
+    def with_short_term(self, value: Optional["Boolean"]) -> DiagnosticIOControl:
         """
         Set shortTerm and return self for chaining.
 
@@ -541,7 +543,7 @@ class DiagnosticControlEnableMaskBit(ARObject):
         """
         return self.bit_number  # Delegates to property
 
-    def setBitNumber(self, value: "PositiveInteger") -> "DiagnosticControlEnableMaskBit":
+    def setBitNumber(self, value: "PositiveInteger") -> DiagnosticControlEnableMaskBit:
         """
         AUTOSAR-compliant setter for bitNumber with method chaining.
 
@@ -571,7 +573,7 @@ class DiagnosticControlEnableMaskBit(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bit_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticControlEnableMaskBit":
+    def with_bit_number(self, value: Optional["PositiveInteger"]) -> DiagnosticControlEnableMaskBit:
         """
         Set bitNumber and return self for chaining.
 

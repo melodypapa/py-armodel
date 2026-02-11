@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
@@ -93,7 +95,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.context_r_port_prototype  # Delegates to property
 
-    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RModeGroupInAtomicSWCInstanceRef":
+    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> RModeGroupInAtomicSWCInstanceRef:
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
 
@@ -121,7 +123,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.target_mode  # Delegates to property
 
-    def setTargetMode(self, value: RefType) -> "RModeGroupInAtomicSWCInstanceRef":
+    def setTargetMode(self, value: RefType) -> RModeGroupInAtomicSWCInstanceRef:
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
 
@@ -139,7 +141,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RModeGroupInAtomicSWCInstanceRef":
+    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RModeGroupInAtomicSWCInstanceRef:
         """
         Set contextRPortPrototype and return self for chaining.
 
@@ -155,7 +157,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         self.context_r_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_mode(self, value: Optional[RefType]) -> "RModeGroupInAtomicSWCInstanceRef":
+    def with_target_mode(self, value: Optional[RefType]) -> RModeGroupInAtomicSWCInstanceRef:
         """
         Set targetMode and return self for chaining.
 

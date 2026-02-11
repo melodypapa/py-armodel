@@ -4,10 +4,12 @@ AUTOSAR Package - SwcInternalBehavior
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
 )
@@ -45,10 +47,10 @@ class RunnableEntity(ExecutableEntity):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the formal definition of a an argument to a RunnableEntity.
-        self._argument: List["RunnableEntity"] = []
+        self._argument: List[RunnableEntity] = []
 
     @property
-    def argument(self) -> List["RunnableEntity"]:
+    def argument(self) -> List[RunnableEntity]:
         """Get argument (Pythonic accessor)."""
         return self._argument
         # The server call result point admits a runnable to fetch the result of an
@@ -716,7 +718,7 @@ class RunnableEntity(ExecutableEntity):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArgument(self) -> List["RunnableEntity"]:
+    def getArgument(self) -> List[RunnableEntity]:
         """
         AUTOSAR-compliant getter for argument.
 
@@ -752,7 +754,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.can_be_invoked  # Delegates to property
 
-    def setCanBeInvoked(self, value: "Boolean") -> "RunnableEntity":
+    def setCanBeInvoked(self, value: "Boolean") -> RunnableEntity:
         """
         AUTOSAR-compliant setter for canBeInvoked with method chaining.
 
@@ -912,7 +914,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> "RunnableEntity":
+    def setSymbol(self, value: "CIdentifier") -> RunnableEntity:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -954,7 +956,7 @@ class RunnableEntity(ExecutableEntity):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_can_be_invoked(self, value: Optional["Boolean"]) -> "RunnableEntity":
+    def with_can_be_invoked(self, value: Optional["Boolean"]) -> RunnableEntity:
         """
         Set canBeInvoked and return self for chaining.
 
@@ -970,7 +972,7 @@ class RunnableEntity(ExecutableEntity):
         self.can_be_invoked = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> "RunnableEntity":
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RunnableEntity:
         """
         Set symbol and return self for chaining.
 
@@ -1124,10 +1126,10 @@ class SwcInternalBehavior(InternalBehavior):
                 # number of RunnableEntities due to the conditional existence of Port
                 # DataReceivedEvents or due to different of algorithms.
         # atpVariation.
-        self._runnable: List["RunnableEntity"] = []
+        self._runnable: List[RunnableEntity] = []
 
     @property
-    def runnable(self) -> List["RunnableEntity"]:
+    def runnable(self) -> List[RunnableEntity]:
         """Get runnable (Pythonic accessor)."""
         return self._runnable
         # Defines the requirements on AUTOSAR Services for a particular item.
@@ -1317,7 +1319,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.port_api_option  # Delegates to property
 
-    def getRunnable(self) -> List["RunnableEntity"]:
+    def getRunnable(self) -> List[RunnableEntity]:
         """
         AUTOSAR-compliant getter for runnable.
 
@@ -1365,7 +1367,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.supports  # Delegates to property
 
-    def setSupports(self, value: "Boolean") -> "SwcInternalBehavior":
+    def setSupports(self, value: "Boolean") -> SwcInternalBehavior:
         """
         AUTOSAR-compliant setter for supports with method chaining.
 
@@ -1395,7 +1397,7 @@ class SwcInternalBehavior(InternalBehavior):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_supports(self, value: Optional["Boolean"]) -> "SwcInternalBehavior":
+    def with_supports(self, value: Optional["Boolean"]) -> SwcInternalBehavior:
         """
         Set supports and return self for chaining.
 
@@ -1503,7 +1505,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         """
         return self.api_principle  # Delegates to property
 
-    def setApiPrinciple(self, value: "ApiPrincipleEnum") -> "SwcExclusiveAreaPolicy":
+    def setApiPrinciple(self, value: "ApiPrincipleEnum") -> SwcExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for apiPrinciple with method chaining.
 
@@ -1531,7 +1533,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         """
         return self.exclusive_area  # Delegates to property
 
-    def setExclusiveArea(self, value: "ExclusiveArea") -> "SwcExclusiveAreaPolicy":
+    def setExclusiveArea(self, value: "ExclusiveArea") -> SwcExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
 
@@ -1549,7 +1551,7 @@ class SwcExclusiveAreaPolicy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> "SwcExclusiveAreaPolicy":
+    def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> SwcExclusiveAreaPolicy:
         """
         Set apiPrinciple and return self for chaining.
 
@@ -1565,7 +1567,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         self.api_principle = value  # Use property setter (gets validation)
         return self
 
-    def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> "SwcExclusiveAreaPolicy":
+    def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> SwcExclusiveAreaPolicy:
         """
         Set exclusiveArea and return self for chaining.
 
@@ -1583,7 +1585,7 @@ class SwcExclusiveAreaPolicy(ARObject):
 
 
 __all__ = [
-    "RunnableEntity",
-    "SwcInternalBehavior",
-    "SwcExclusiveAreaPolicy",
+    RunnableEntity,
+    SwcInternalBehavior,
+    SwcExclusiveAreaPolicy,
 ]

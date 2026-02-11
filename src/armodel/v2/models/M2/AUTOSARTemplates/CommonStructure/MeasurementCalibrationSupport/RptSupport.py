@@ -4,9 +4,11 @@ AUTOSAR Package - RptSupport
 Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -287,32 +289,32 @@ class RptSupportData(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines an environment for the execution of Executable.
-        self._execution: List["RptExecutionContext"] = []
+        self._execution: List[RptExecutionContext] = []
 
     @property
-    def execution(self) -> List["RptExecutionContext"]:
+    def execution(self) -> List[RptExecutionContext]:
         """Get execution (Pythonic accessor)."""
         return self._execution
         # Description of components for which rapid prototyping implemented.
         # atpVariation.
-        self._rptComponent: List["RptComponent"] = []
+        self._rptComponent: List[RptComponent] = []
 
     @property
-    def rpt_component(self) -> List["RptComponent"]:
+    def rpt_component(self) -> List[RptComponent]:
         """Get rptComponent (Pythonic accessor)."""
         return self._rptComponent
         # This aggregation represents the collection of service with the enclosing
         # RptSuportData atpVariation.
-        self._rptServicePoint: List["RptServicePoint"] = []
+        self._rptServicePoint: List[RptServicePoint] = []
 
     @property
-    def rpt_service_point(self) -> List["RptServicePoint"]:
+    def rpt_service_point(self) -> List[RptServicePoint]:
         """Get rptServicePoint (Pythonic accessor)."""
         return self._rptServicePoint
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getExecution(self) -> List["RptExecutionContext"]:
+    def getExecution(self) -> List[RptExecutionContext]:
         """
         AUTOSAR-compliant getter for execution.
 
@@ -324,7 +326,7 @@ class RptSupportData(ARObject):
         """
         return self.execution  # Delegates to property
 
-    def getRptComponent(self) -> List["RptComponent"]:
+    def getRptComponent(self) -> List[RptComponent]:
         """
         AUTOSAR-compliant getter for rptComponent.
 
@@ -336,7 +338,7 @@ class RptSupportData(ARObject):
         """
         return self.rpt_component  # Delegates to property
 
-    def getRptServicePoint(self) -> List["RptServicePoint"]:
+    def getRptServicePoint(self) -> List[RptServicePoint]:
         """
         AUTOSAR-compliant getter for rptServicePoint.
 
@@ -371,15 +373,15 @@ class RptSwPrototypingAccess(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The related data element can be modified using a tool.
         # An ENABLED VariableData implicitly READABLE/WRITABLE.
-        self._rptHookAccess: Optional["RptAccessEnum"] = None
+        self._rptHookAccess: Optional[RptAccessEnum] = None
 
     @property
-    def rpt_hook_access(self) -> Optional["RptAccessEnum"]:
+    def rpt_hook_access(self) -> Optional[RptAccessEnum]:
         """Get rptHookAccess (Pythonic accessor)."""
         return self._rptHookAccess
 
     @rpt_hook_access.setter
-    def rpt_hook_access(self, value: Optional["RptAccessEnum"]) -> None:
+    def rpt_hook_access(self, value: Optional[RptAccessEnum]) -> None:
         """
         Set rptHookAccess with validation.
 
@@ -400,15 +402,15 @@ class RptSwPrototypingAccess(ARObject):
         self._rptHookAccess = value
         # If rptImplPolicy is not specified generation shall ensure at least suitable
                 # MC are created.
-        self._rptReadAccess: Optional["RptAccessEnum"] = None
+        self._rptReadAccess: Optional[RptAccessEnum] = None
 
     @property
-    def rpt_read_access(self) -> Optional["RptAccessEnum"]:
+    def rpt_read_access(self) -> Optional[RptAccessEnum]:
         """Get rptReadAccess (Pythonic accessor)."""
         return self._rptReadAccess
 
     @rpt_read_access.setter
-    def rpt_read_access(self, value: Optional["RptAccessEnum"]) -> None:
+    def rpt_read_access(self, value: Optional[RptAccessEnum]) -> None:
         """
         Set rptReadAccess with validation.
 
@@ -428,15 +430,15 @@ class RptSwPrototypingAccess(ARObject):
             )
         self._rptReadAccess = value
         # The data element shall to rptLevel2 and related write service points.
-        self._rptWriteAccess: Optional["RptAccessEnum"] = None
+        self._rptWriteAccess: Optional[RptAccessEnum] = None
 
     @property
-    def rpt_write_access(self) -> Optional["RptAccessEnum"]:
+    def rpt_write_access(self) -> Optional[RptAccessEnum]:
         """Get rptWriteAccess (Pythonic accessor)."""
         return self._rptWriteAccess
 
     @rpt_write_access.setter
-    def rpt_write_access(self, value: Optional["RptAccessEnum"]) -> None:
+    def rpt_write_access(self, value: Optional[RptAccessEnum]) -> None:
         """
         Set rptWriteAccess with validation.
 
@@ -458,7 +460,7 @@ class RptSwPrototypingAccess(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRptHookAccess(self) -> "RptAccessEnum":
+    def getRptHookAccess(self) -> RptAccessEnum:
         """
         AUTOSAR-compliant getter for rptHookAccess.
 
@@ -470,7 +472,7 @@ class RptSwPrototypingAccess(ARObject):
         """
         return self.rpt_hook_access  # Delegates to property
 
-    def setRptHookAccess(self, value: "RptAccessEnum") -> "RptSwPrototypingAccess":
+    def setRptHookAccess(self, value: RptAccessEnum) -> RptSwPrototypingAccess:
         """
         AUTOSAR-compliant setter for rptHookAccess with method chaining.
 
@@ -486,7 +488,7 @@ class RptSwPrototypingAccess(ARObject):
         self.rpt_hook_access = value  # Delegates to property setter
         return self
 
-    def getRptReadAccess(self) -> "RptAccessEnum":
+    def getRptReadAccess(self) -> RptAccessEnum:
         """
         AUTOSAR-compliant getter for rptReadAccess.
 
@@ -498,7 +500,7 @@ class RptSwPrototypingAccess(ARObject):
         """
         return self.rpt_read_access  # Delegates to property
 
-    def setRptReadAccess(self, value: "RptAccessEnum") -> "RptSwPrototypingAccess":
+    def setRptReadAccess(self, value: RptAccessEnum) -> RptSwPrototypingAccess:
         """
         AUTOSAR-compliant setter for rptReadAccess with method chaining.
 
@@ -514,7 +516,7 @@ class RptSwPrototypingAccess(ARObject):
         self.rpt_read_access = value  # Delegates to property setter
         return self
 
-    def getRptWriteAccess(self) -> "RptAccessEnum":
+    def getRptWriteAccess(self) -> RptAccessEnum:
         """
         AUTOSAR-compliant getter for rptWriteAccess.
 
@@ -526,7 +528,7 @@ class RptSwPrototypingAccess(ARObject):
         """
         return self.rpt_write_access  # Delegates to property
 
-    def setRptWriteAccess(self, value: "RptAccessEnum") -> "RptSwPrototypingAccess":
+    def setRptWriteAccess(self, value: RptAccessEnum) -> RptSwPrototypingAccess:
         """
         AUTOSAR-compliant setter for rptWriteAccess with method chaining.
 
@@ -544,7 +546,7 @@ class RptSwPrototypingAccess(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_rpt_hook_access(self, value: Optional["RptAccessEnum"]) -> "RptSwPrototypingAccess":
+    def with_rpt_hook_access(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
         Set rptHookAccess and return self for chaining.
 
@@ -560,7 +562,7 @@ class RptSwPrototypingAccess(ARObject):
         self.rpt_hook_access = value  # Use property setter (gets validation)
         return self
 
-    def with_rpt_read_access(self, value: Optional["RptAccessEnum"]) -> "RptSwPrototypingAccess":
+    def with_rpt_read_access(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
         Set rptReadAccess and return self for chaining.
 
@@ -576,7 +578,7 @@ class RptSwPrototypingAccess(ARObject):
         self.rpt_read_access = value  # Use property setter (gets validation)
         return self
 
-    def with_rpt_write_access(self, value: Optional["RptAccessEnum"]) -> "RptSwPrototypingAccess":
+    def with_rpt_write_access(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
         Set rptWriteAccess and return self for chaining.
 
@@ -646,10 +648,10 @@ class RptComponent(Identifiable):
             )
         self._rpImplPolicy = value
         # atpSplitable; atpVariation.
-        self._rptExecutable: List["RptExecutableEntity"] = []
+        self._rptExecutable: List[RptExecutableEntity] = []
 
     @property
-    def rpt_executable(self) -> List["RptExecutableEntity"]:
+    def rpt_executable(self) -> List[RptExecutableEntity]:
         """Get rptExecutable (Pythonic accessor)."""
         return self._rptExecutable
 
@@ -679,7 +681,7 @@ class RptComponent(Identifiable):
         """
         return self.rp_impl_policy  # Delegates to property
 
-    def setRpImplPolicy(self, value: "RptImplPolicy") -> "RptComponent":
+    def setRpImplPolicy(self, value: "RptImplPolicy") -> RptComponent:
         """
         AUTOSAR-compliant setter for rpImplPolicy with method chaining.
 
@@ -695,7 +697,7 @@ class RptComponent(Identifiable):
         self.rp_impl_policy = value  # Delegates to property setter
         return self
 
-    def getRptExecutable(self) -> List["RptExecutableEntity"]:
+    def getRptExecutable(self) -> List[RptExecutableEntity]:
         """
         AUTOSAR-compliant getter for rptExecutable.
 
@@ -709,7 +711,7 @@ class RptComponent(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_rp_impl_policy(self, value: Optional["RptImplPolicy"]) -> "RptComponent":
+    def with_rp_impl_policy(self, value: Optional["RptImplPolicy"]) -> RptComponent:
         """
         Set rpImplPolicy and return self for chaining.
 
@@ -743,10 +745,10 @@ class RptExecutableEntity(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # ExecutableEntity event instance activation the owning Rpt ExecutableEntity.
         # atpVariation.
-        self._rptExecutable: List["RptExecutableEntity"] = []
+        self._rptExecutable: List[RptExecutableEntity] = []
 
     @property
-    def rpt_executable(self) -> List["RptExecutableEntity"]:
+    def rpt_executable(self) -> List[RptExecutableEntity]:
         """Get rptExecutable (Pythonic accessor)."""
         return self._rptExecutable
         # read access to a variable atpSplitable; atpVariation.
@@ -794,7 +796,7 @@ class RptExecutableEntity(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRptExecutable(self) -> List["RptExecutableEntity"]:
+    def getRptExecutable(self) -> List[RptExecutableEntity]:
         """
         AUTOSAR-compliant getter for rptExecutable.
 
@@ -842,7 +844,7 @@ class RptExecutableEntity(Identifiable):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> "RptExecutableEntity":
+    def setSymbol(self, value: "CIdentifier") -> RptExecutableEntity:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -860,7 +862,7 @@ class RptExecutableEntity(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> "RptExecutableEntity":
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RptExecutableEntity:
         """
         Set symbol and return self for chaining.
 
@@ -893,10 +895,10 @@ class RptExecutableEntityEvent(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This describes the context in which the event of the entity is executed.
-        self._execution: List["RptExecutionContext"] = []
+        self._execution: List[RptExecutionContext] = []
 
     @property
-    def execution(self) -> List["RptExecutionContext"]:
+    def execution(self) -> List[RptExecutionContext]:
         """Get execution (Pythonic accessor)."""
         return self._execution
         # Reference to related McDataElements describing the implementation of "RP
@@ -936,15 +938,15 @@ class RptExecutableEntityEvent(Identifiable):
             )
         self._rptEventId = value
         # ExecutableEntity invocation.
-        self._rptExecutable: Optional["RptExecutableEntity"] = None
+        self._rptExecutable: Optional[RptExecutableEntity] = None
 
     @property
-    def rpt_executable(self) -> Optional["RptExecutableEntity"]:
+    def rpt_executable(self) -> Optional[RptExecutableEntity]:
         """Get rptExecutable (Pythonic accessor)."""
         return self._rptExecutable
 
     @rpt_executable.setter
-    def rpt_executable(self, value: Optional["RptExecutableEntity"]) -> None:
+    def rpt_executable(self, value: Optional[RptExecutableEntity]) -> None:
         """
         Set rptExecutable with validation.
 
@@ -991,16 +993,16 @@ class RptExecutableEntityEvent(Identifiable):
             )
         self._rptImplPolicy = value
         # bypassed ExecutableEntity.
-        self._rptServicePoint: List["RptServicePoint"] = []
+        self._rptServicePoint: List[RptServicePoint] = []
 
     @property
-    def rpt_service_point(self) -> List["RptServicePoint"]:
+    def rpt_service_point(self) -> List[RptServicePoint]:
         """Get rptServicePoint (Pythonic accessor)."""
         return self._rptServicePoint
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getExecution(self) -> List["RptExecutionContext"]:
+    def getExecution(self) -> List[RptExecutionContext]:
         """
         AUTOSAR-compliant getter for execution.
 
@@ -1036,7 +1038,7 @@ class RptExecutableEntityEvent(Identifiable):
         """
         return self.rpt_event_id  # Delegates to property
 
-    def setRptEventId(self, value: "PositiveInteger") -> "RptExecutableEntityEvent":
+    def setRptEventId(self, value: "PositiveInteger") -> RptExecutableEntityEvent:
         """
         AUTOSAR-compliant setter for rptEventId with method chaining.
 
@@ -1052,7 +1054,7 @@ class RptExecutableEntityEvent(Identifiable):
         self.rpt_event_id = value  # Delegates to property setter
         return self
 
-    def getRptExecutable(self) -> "RptExecutableEntity":
+    def getRptExecutable(self) -> RptExecutableEntity:
         """
         AUTOSAR-compliant getter for rptExecutable.
 
@@ -1064,7 +1066,7 @@ class RptExecutableEntityEvent(Identifiable):
         """
         return self.rpt_executable  # Delegates to property
 
-    def setRptExecutable(self, value: "RptExecutableEntity") -> "RptExecutableEntityEvent":
+    def setRptExecutable(self, value: RptExecutableEntity) -> RptExecutableEntityEvent:
         """
         AUTOSAR-compliant setter for rptExecutable with method chaining.
 
@@ -1092,7 +1094,7 @@ class RptExecutableEntityEvent(Identifiable):
         """
         return self.rpt_impl_policy  # Delegates to property
 
-    def setRptImplPolicy(self, value: "RptImplPolicy") -> "RptExecutableEntityEvent":
+    def setRptImplPolicy(self, value: "RptImplPolicy") -> RptExecutableEntityEvent:
         """
         AUTOSAR-compliant setter for rptImplPolicy with method chaining.
 
@@ -1108,7 +1110,7 @@ class RptExecutableEntityEvent(Identifiable):
         self.rpt_impl_policy = value  # Delegates to property setter
         return self
 
-    def getRptServicePoint(self) -> List["RptServicePoint"]:
+    def getRptServicePoint(self) -> List[RptServicePoint]:
         """
         AUTOSAR-compliant getter for rptServicePoint.
 
@@ -1122,7 +1124,7 @@ class RptExecutableEntityEvent(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_rpt_event_id(self, value: Optional["PositiveInteger"]) -> "RptExecutableEntityEvent":
+    def with_rpt_event_id(self, value: Optional["PositiveInteger"]) -> RptExecutableEntityEvent:
         """
         Set rptEventId and return self for chaining.
 
@@ -1138,7 +1140,7 @@ class RptExecutableEntityEvent(Identifiable):
         self.rpt_event_id = value  # Use property setter (gets validation)
         return self
 
-    def with_rpt_executable(self, value: Optional["RptExecutableEntity"]) -> "RptExecutableEntityEvent":
+    def with_rpt_executable(self, value: Optional[RptExecutableEntity]) -> RptExecutableEntityEvent:
         """
         Set rptExecutable and return self for chaining.
 
@@ -1154,7 +1156,7 @@ class RptExecutableEntityEvent(Identifiable):
         self.rpt_executable = value  # Use property setter (gets validation)
         return self
 
-    def with_rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> "RptExecutableEntityEvent":
+    def with_rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> RptExecutableEntityEvent:
         """
         Set rptImplPolicy and return self for chaining.
 
@@ -1280,7 +1282,7 @@ class RptServicePoint(Identifiable):
         """
         return self.service_id  # Delegates to property
 
-    def setServiceId(self, value: "PositiveInteger") -> "RptServicePoint":
+    def setServiceId(self, value: "PositiveInteger") -> RptServicePoint:
         """
         AUTOSAR-compliant setter for serviceId with method chaining.
 
@@ -1308,7 +1310,7 @@ class RptServicePoint(Identifiable):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> "RptServicePoint":
+    def setSymbol(self, value: "CIdentifier") -> RptServicePoint:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -1326,7 +1328,7 @@ class RptServicePoint(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_service_id(self, value: Optional["PositiveInteger"]) -> "RptServicePoint":
+    def with_service_id(self, value: Optional["PositiveInteger"]) -> RptServicePoint:
         """
         Set serviceId and return self for chaining.
 
@@ -1342,7 +1344,7 @@ class RptServicePoint(Identifiable):
         self.service_id = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> "RptServicePoint":
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RptServicePoint:
         """
         Set symbol and return self for chaining.
 

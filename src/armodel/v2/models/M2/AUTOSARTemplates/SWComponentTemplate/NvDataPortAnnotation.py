@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
@@ -65,7 +67,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
         """
         return self.variable  # Delegates to property
 
-    def setVariable(self, value: RefType) -> "NvDataPortAnnotation":
+    def setVariable(self, value: RefType) -> NvDataPortAnnotation:
         """
         AUTOSAR-compliant setter for variable with method chaining.
 
@@ -83,7 +85,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_variable(self, value: Optional[RefType]) -> "NvDataPortAnnotation":
+    def with_variable(self, value: Optional[RefType]) -> NvDataPortAnnotation:
         """
         Set variable and return self for chaining.
 

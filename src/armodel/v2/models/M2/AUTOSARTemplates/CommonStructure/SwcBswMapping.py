@@ -4,9 +4,11 @@ AUTOSAR Package - SwcBswMapping
 Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -154,7 +156,7 @@ class SwcBswMapping(ARElement):
         """
         return self.bsw_behavior  # Delegates to property
 
-    def setBswBehavior(self, value: "BswInternalBehavior") -> "SwcBswMapping":
+    def setBswBehavior(self, value: "BswInternalBehavior") -> SwcBswMapping:
         """
         AUTOSAR-compliant setter for bswBehavior with method chaining.
 
@@ -194,7 +196,7 @@ class SwcBswMapping(ARElement):
         """
         return self.swc_behavior  # Delegates to property
 
-    def setSwcBehavior(self, value: "SwcInternalBehavior") -> "SwcBswMapping":
+    def setSwcBehavior(self, value: "SwcInternalBehavior") -> SwcBswMapping:
         """
         AUTOSAR-compliant setter for swcBehavior with method chaining.
 
@@ -224,7 +226,7 @@ class SwcBswMapping(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> "SwcBswMapping":
+    def with_bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> SwcBswMapping:
         """
         Set bswBehavior and return self for chaining.
 
@@ -240,7 +242,7 @@ class SwcBswMapping(ARElement):
         self.bsw_behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcBswMapping":
+    def with_swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> SwcBswMapping:
         """
         Set swcBehavior and return self for chaining.
 
@@ -346,7 +348,7 @@ class SwcBswRunnableMapping(ARObject):
         """
         return self.bsw_entity  # Delegates to property
 
-    def setBswEntity(self, value: "BswModuleEntity") -> "SwcBswRunnableMapping":
+    def setBswEntity(self, value: "BswModuleEntity") -> SwcBswRunnableMapping:
         """
         AUTOSAR-compliant setter for bswEntity with method chaining.
 
@@ -374,7 +376,7 @@ class SwcBswRunnableMapping(ARObject):
         """
         return self.swc_runnable  # Delegates to property
 
-    def setSwcRunnable(self, value: "RunnableEntity") -> "SwcBswRunnableMapping":
+    def setSwcRunnable(self, value: "RunnableEntity") -> SwcBswRunnableMapping:
         """
         AUTOSAR-compliant setter for swcRunnable with method chaining.
 
@@ -392,7 +394,7 @@ class SwcBswRunnableMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_entity(self, value: Optional["BswModuleEntity"]) -> "SwcBswRunnableMapping":
+    def with_bsw_entity(self, value: Optional["BswModuleEntity"]) -> SwcBswRunnableMapping:
         """
         Set bswEntity and return self for chaining.
 
@@ -408,7 +410,7 @@ class SwcBswRunnableMapping(ARObject):
         self.bsw_entity = value  # Use property setter (gets validation)
         return self
 
-    def with_swc_runnable(self, value: Optional["RunnableEntity"]) -> "SwcBswRunnableMapping":
+    def with_swc_runnable(self, value: Optional["RunnableEntity"]) -> SwcBswRunnableMapping:
         """
         Set swcRunnable and return self for chaining.
 
@@ -503,7 +505,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
         """
         return self.bsw_mode_group_prototype  # Delegates to property
 
-    def setBswModeGroupPrototype(self, value: "RefType") -> "SwcBswSynchronizedModeGroupPrototype":
+    def setBswModeGroupPrototype(self, value: "RefType") -> SwcBswSynchronizedModeGroupPrototype:
         """
         AUTOSAR-compliant setter for bswModeGroupPrototype with method chaining.
 
@@ -531,7 +533,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
         """
         return self.swc_mode_group_swc_instance_ref  # Delegates to property
 
-    def setSwcModeGroupSwcInstanceRef(self, value: "RefType") -> "SwcBswSynchronizedModeGroupPrototype":
+    def setSwcModeGroupSwcInstanceRef(self, value: "RefType") -> SwcBswSynchronizedModeGroupPrototype:
         """
         AUTOSAR-compliant setter for swcModeGroupSwcInstanceRef with method chaining.
 
@@ -549,7 +551,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_mode_group_prototype(self, value: Optional[RefType]) -> "SwcBswSynchronizedModeGroupPrototype":
+    def with_bsw_mode_group_prototype(self, value: Optional[RefType]) -> SwcBswSynchronizedModeGroupPrototype:
         """
         Set bswModeGroupPrototype and return self for chaining.
 
@@ -565,7 +567,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
         self.bsw_mode_group_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_swc_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> "SwcBswSynchronizedModeGroupPrototype":
+    def with_swc_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> SwcBswSynchronizedModeGroupPrototype:
         """
         Set swcModeGroupSwcInstanceRef and return self for chaining.
 
@@ -660,7 +662,7 @@ class SwcBswSynchronizedTrigger(ARObject):
         """
         return self.bsw_trigger  # Delegates to property
 
-    def setBswTrigger(self, value: "RefType") -> "SwcBswSynchronizedTrigger":
+    def setBswTrigger(self, value: "RefType") -> SwcBswSynchronizedTrigger:
         """
         AUTOSAR-compliant setter for bswTrigger with method chaining.
 
@@ -688,7 +690,7 @@ class SwcBswSynchronizedTrigger(ARObject):
         """
         return self.swc_trigger_type_instance_ref  # Delegates to property
 
-    def setSwcTriggerTypeInstanceRef(self, value: "RefType") -> "SwcBswSynchronizedTrigger":
+    def setSwcTriggerTypeInstanceRef(self, value: "RefType") -> SwcBswSynchronizedTrigger:
         """
         AUTOSAR-compliant setter for swcTriggerTypeInstanceRef with method chaining.
 
@@ -706,7 +708,7 @@ class SwcBswSynchronizedTrigger(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_trigger(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
+    def with_bsw_trigger(self, value: Optional[RefType]) -> SwcBswSynchronizedTrigger:
         """
         Set bswTrigger and return self for chaining.
 
@@ -722,7 +724,7 @@ class SwcBswSynchronizedTrigger(ARObject):
         self.bsw_trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_swc_trigger_type_instance_ref(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
+    def with_swc_trigger_type_instance_ref(self, value: Optional[RefType]) -> SwcBswSynchronizedTrigger:
         """
         Set swcTriggerTypeInstanceRef and return self for chaining.
 

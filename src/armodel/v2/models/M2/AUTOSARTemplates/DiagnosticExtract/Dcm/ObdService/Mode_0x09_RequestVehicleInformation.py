@@ -4,6 +4,8 @@ AUTOSAR Package - Mode_0x09_RequestVehicleInformation
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x09_RequestVehicleInformation
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -99,7 +101,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         """
         return self.info_type  # Delegates to property
 
-    def setInfoType(self, value: "DiagnosticInfoType") -> "DiagnosticRequestVehicleInfo":
+    def setInfoType(self, value: "DiagnosticInfoType") -> DiagnosticRequestVehicleInfo:
         """
         AUTOSAR-compliant setter for infoType with method chaining.
 
@@ -127,7 +129,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         """
         return self.request_vehicle  # Delegates to property
 
-    def setRequestVehicle(self, value: "DiagnosticRequest") -> "DiagnosticRequestVehicleInfo":
+    def setRequestVehicle(self, value: "DiagnosticRequest") -> DiagnosticRequestVehicleInfo:
         """
         AUTOSAR-compliant setter for requestVehicle with method chaining.
 
@@ -145,7 +147,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_info_type(self, value: Optional["DiagnosticInfoType"]) -> "DiagnosticRequestVehicleInfo":
+    def with_info_type(self, value: Optional["DiagnosticInfoType"]) -> DiagnosticRequestVehicleInfo:
         """
         Set infoType and return self for chaining.
 
@@ -161,7 +163,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         self.info_type = value  # Use property setter (gets validation)
         return self
 
-    def with_request_vehicle(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestVehicleInfo":
+    def with_request_vehicle(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestVehicleInfo:
         """
         Set requestVehicle and return self for chaining.
 

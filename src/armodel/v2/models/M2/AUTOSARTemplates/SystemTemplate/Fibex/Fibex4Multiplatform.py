@@ -4,9 +4,11 @@ AUTOSAR Package - Fibex4Multiplatform
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     PositiveInteger,
     RefType,
@@ -154,7 +156,7 @@ class Gateway(FibexElement):
         """
         return self.ecu  # Delegates to property
 
-    def setEcu(self, value: "EcuInstance") -> "Gateway":
+    def setEcu(self, value: "EcuInstance") -> Gateway:
         """
         AUTOSAR-compliant setter for ecu with method chaining.
 
@@ -208,7 +210,7 @@ class Gateway(FibexElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu(self, value: Optional["EcuInstance"]) -> "Gateway":
+    def with_ecu(self, value: Optional["EcuInstance"]) -> Gateway:
         """
         Set ecu and return self for chaining.
 
@@ -334,7 +336,7 @@ class FrameMapping(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "FrameMapping":
+    def setIntroduction(self, value: "DocumentationBlock") -> FrameMapping:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -362,7 +364,7 @@ class FrameMapping(ARObject):
         """
         return self.source_frame  # Delegates to property
 
-    def setSourceFrame(self, value: "RefType") -> "FrameMapping":
+    def setSourceFrame(self, value: "RefType") -> FrameMapping:
         """
         AUTOSAR-compliant setter for sourceFrame with method chaining.
 
@@ -390,7 +392,7 @@ class FrameMapping(ARObject):
         """
         return self.target_frame  # Delegates to property
 
-    def setTargetFrame(self, value: "RefType") -> "FrameMapping":
+    def setTargetFrame(self, value: "RefType") -> FrameMapping:
         """
         AUTOSAR-compliant setter for targetFrame with method chaining.
 
@@ -408,7 +410,7 @@ class FrameMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "FrameMapping":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> FrameMapping:
         """
         Set introduction and return self for chaining.
 
@@ -424,7 +426,7 @@ class FrameMapping(ARObject):
         self.introduction = value  # Use property setter (gets validation)
         return self
 
-    def with_source_frame(self, value: Optional[RefType]) -> "FrameMapping":
+    def with_source_frame(self, value: Optional[RefType]) -> FrameMapping:
         """
         Set sourceFrame and return self for chaining.
 
@@ -440,7 +442,7 @@ class FrameMapping(ARObject):
         self.source_frame = value  # Use property setter (gets validation)
         return self
 
-    def with_target_frame(self, value: Optional[RefType]) -> "FrameMapping":
+    def with_target_frame(self, value: Optional[RefType]) -> FrameMapping:
         """
         Set targetFrame and return self for chaining.
 
@@ -617,7 +619,7 @@ class IPduMapping(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "IPduMapping":
+    def setIntroduction(self, value: "DocumentationBlock") -> IPduMapping:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -645,7 +647,7 @@ class IPduMapping(ARObject):
         """
         return self.pdu_max_length  # Delegates to property
 
-    def setPduMaxLength(self, value: "PositiveInteger") -> "IPduMapping":
+    def setPduMaxLength(self, value: "PositiveInteger") -> IPduMapping:
         """
         AUTOSAR-compliant setter for pduMaxLength with method chaining.
 
@@ -673,7 +675,7 @@ class IPduMapping(ARObject):
         """
         return self.pdur_tp_chunk  # Delegates to property
 
-    def setPdurTpChunk(self, value: "PositiveInteger") -> "IPduMapping":
+    def setPdurTpChunk(self, value: "PositiveInteger") -> IPduMapping:
         """
         AUTOSAR-compliant setter for pdurTpChunk with method chaining.
 
@@ -701,7 +703,7 @@ class IPduMapping(ARObject):
         """
         return self.source_i_pdu  # Delegates to property
 
-    def setSourceIPdu(self, value: "RefType") -> "IPduMapping":
+    def setSourceIPdu(self, value: "RefType") -> IPduMapping:
         """
         AUTOSAR-compliant setter for sourceIPdu with method chaining.
 
@@ -729,7 +731,7 @@ class IPduMapping(ARObject):
         """
         return self.target_i_pdu  # Delegates to property
 
-    def setTargetIPdu(self, value: "RefType") -> "IPduMapping":
+    def setTargetIPdu(self, value: "RefType") -> IPduMapping:
         """
         AUTOSAR-compliant setter for targetIPdu with method chaining.
 
@@ -747,7 +749,7 @@ class IPduMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "IPduMapping":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> IPduMapping:
         """
         Set introduction and return self for chaining.
 
@@ -763,7 +765,7 @@ class IPduMapping(ARObject):
         self.introduction = value  # Use property setter (gets validation)
         return self
 
-    def with_pdu_max_length(self, value: Optional["PositiveInteger"]) -> "IPduMapping":
+    def with_pdu_max_length(self, value: Optional["PositiveInteger"]) -> IPduMapping:
         """
         Set pduMaxLength and return self for chaining.
 
@@ -779,7 +781,7 @@ class IPduMapping(ARObject):
         self.pdu_max_length = value  # Use property setter (gets validation)
         return self
 
-    def with_pdur_tp_chunk(self, value: Optional["PositiveInteger"]) -> "IPduMapping":
+    def with_pdur_tp_chunk(self, value: Optional["PositiveInteger"]) -> IPduMapping:
         """
         Set pdurTpChunk and return self for chaining.
 
@@ -795,7 +797,7 @@ class IPduMapping(ARObject):
         self.pdur_tp_chunk = value  # Use property setter (gets validation)
         return self
 
-    def with_source_i_pdu(self, value: Optional[RefType]) -> "IPduMapping":
+    def with_source_i_pdu(self, value: Optional[RefType]) -> IPduMapping:
         """
         Set sourceIPdu and return self for chaining.
 
@@ -811,7 +813,7 @@ class IPduMapping(ARObject):
         self.source_i_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_target_i_pdu(self, value: Optional[RefType]) -> "IPduMapping":
+    def with_target_i_pdu(self, value: Optional[RefType]) -> IPduMapping:
         """
         Set targetIPdu and return self for chaining.
 
@@ -904,7 +906,7 @@ class TargetIPduRef(ARObject):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "RefType") -> "TargetIPduRef":
+    def setDefaultValue(self, value: "RefType") -> TargetIPduRef:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 
@@ -932,7 +934,7 @@ class TargetIPduRef(ARObject):
         """
         return self.target_i_pdu  # Delegates to property
 
-    def setTargetIPdu(self, value: "RefType") -> "TargetIPduRef":
+    def setTargetIPdu(self, value: "RefType") -> TargetIPduRef:
         """
         AUTOSAR-compliant setter for targetIPdu with method chaining.
 
@@ -950,7 +952,7 @@ class TargetIPduRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_value(self, value: Optional[RefType]) -> "TargetIPduRef":
+    def with_default_value(self, value: Optional[RefType]) -> TargetIPduRef:
         """
         Set defaultValue and return self for chaining.
 
@@ -966,7 +968,7 @@ class TargetIPduRef(ARObject):
         self.default_value = value  # Use property setter (gets validation)
         return self
 
-    def with_target_i_pdu(self, value: Optional[RefType]) -> "TargetIPduRef":
+    def with_target_i_pdu(self, value: Optional[RefType]) -> TargetIPduRef:
         """
         Set targetIPdu and return self for chaining.
 
@@ -1000,16 +1002,16 @@ class PduMappingDefaultValue(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The default value consists of a number of elements.
         # Each value element is represented by the element and in an array.
-        self._defaultValue: List["DefaultValueElement"] = []
+        self._defaultValue: List[DefaultValueElement] = []
 
     @property
-    def default_value(self) -> List["DefaultValueElement"]:
+    def default_value(self) -> List[DefaultValueElement]:
         """Get defaultValue (Pythonic accessor)."""
         return self._defaultValue
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefaultValue(self) -> List["DefaultValueElement"]:
+    def getDefaultValue(self) -> List[DefaultValueElement]:
         """
         AUTOSAR-compliant getter for defaultValue.
 
@@ -1109,7 +1111,7 @@ class DefaultValueElement(ARObject):
         """
         return self.element_byte_value  # Delegates to property
 
-    def setElementByteValue(self, value: "Integer") -> "DefaultValueElement":
+    def setElementByteValue(self, value: "Integer") -> DefaultValueElement:
         """
         AUTOSAR-compliant setter for elementByteValue with method chaining.
 
@@ -1137,7 +1139,7 @@ class DefaultValueElement(ARObject):
         """
         return self.element_position  # Delegates to property
 
-    def setElementPosition(self, value: "Integer") -> "DefaultValueElement":
+    def setElementPosition(self, value: "Integer") -> DefaultValueElement:
         """
         AUTOSAR-compliant setter for elementPosition with method chaining.
 
@@ -1155,7 +1157,7 @@ class DefaultValueElement(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_element_byte_value(self, value: Optional["Integer"]) -> "DefaultValueElement":
+    def with_element_byte_value(self, value: Optional["Integer"]) -> DefaultValueElement:
         """
         Set elementByteValue and return self for chaining.
 
@@ -1171,7 +1173,7 @@ class DefaultValueElement(ARObject):
         self.element_byte_value = value  # Use property setter (gets validation)
         return self
 
-    def with_element_position(self, value: Optional["Integer"]) -> "DefaultValueElement":
+    def with_element_position(self, value: Optional["Integer"]) -> DefaultValueElement:
         """
         Set elementPosition and return self for chaining.
 
@@ -1294,7 +1296,7 @@ class ISignalMapping(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "ISignalMapping":
+    def setIntroduction(self, value: "DocumentationBlock") -> ISignalMapping:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -1322,7 +1324,7 @@ class ISignalMapping(ARObject):
         """
         return self.source_signal  # Delegates to property
 
-    def setSourceSignal(self, value: "RefType") -> "ISignalMapping":
+    def setSourceSignal(self, value: "RefType") -> ISignalMapping:
         """
         AUTOSAR-compliant setter for sourceSignal with method chaining.
 
@@ -1350,7 +1352,7 @@ class ISignalMapping(ARObject):
         """
         return self.target_signal  # Delegates to property
 
-    def setTargetSignal(self, value: "RefType") -> "ISignalMapping":
+    def setTargetSignal(self, value: "RefType") -> ISignalMapping:
         """
         AUTOSAR-compliant setter for targetSignal with method chaining.
 
@@ -1368,7 +1370,7 @@ class ISignalMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "ISignalMapping":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> ISignalMapping:
         """
         Set introduction and return self for chaining.
 
@@ -1384,7 +1386,7 @@ class ISignalMapping(ARObject):
         self.introduction = value  # Use property setter (gets validation)
         return self
 
-    def with_source_signal(self, value: Optional[RefType]) -> "ISignalMapping":
+    def with_source_signal(self, value: Optional[RefType]) -> ISignalMapping:
         """
         Set sourceSignal and return self for chaining.
 
@@ -1400,7 +1402,7 @@ class ISignalMapping(ARObject):
         self.source_signal = value  # Use property setter (gets validation)
         return self
 
-    def with_target_signal(self, value: Optional[RefType]) -> "ISignalMapping":
+    def with_target_signal(self, value: Optional[RefType]) -> ISignalMapping:
         """
         Set targetSignal and return self for chaining.
 

@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
@@ -68,7 +70,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
         """
         return self.mode_group_swc_instance_ref  # Delegates to property
 
-    def setModeGroupSwcInstanceRef(self, value: RefType) -> "ModeSwitchPoint":
+    def setModeGroupSwcInstanceRef(self, value: RefType) -> ModeSwitchPoint:
         """
         AUTOSAR-compliant setter for modeGroupSwcInstanceRef with method chaining.
 
@@ -86,7 +88,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> "ModeSwitchPoint":
+    def with_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> ModeSwitchPoint:
         """
         Set modeGroupSwcInstanceRef and return self for chaining.
 

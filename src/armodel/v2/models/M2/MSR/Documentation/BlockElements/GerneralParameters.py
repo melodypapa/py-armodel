@@ -4,6 +4,8 @@ AUTOSAR Package - GerneralParameters
 Package: M2::MSR::Documentation::BlockElements::GerneralParameters
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
@@ -94,7 +96,7 @@ class Prms(Paginateable):
         """
         return self.label  # Delegates to property
 
-    def setLabel(self, value: "MultilanguageLong") -> "Prms":
+    def setLabel(self, value: "MultilanguageLong") -> Prms:
         """
         AUTOSAR-compliant setter for label with method chaining.
 
@@ -122,7 +124,7 @@ class Prms(Paginateable):
         """
         return self.prm  # Delegates to property
 
-    def setPrm(self, value: "GeneralParameter") -> "Prms":
+    def setPrm(self, value: "GeneralParameter") -> Prms:
         """
         AUTOSAR-compliant setter for prm with method chaining.
 
@@ -140,7 +142,7 @@ class Prms(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_label(self, value: Optional["MultilanguageLong"]) -> "Prms":
+    def with_label(self, value: Optional["MultilanguageLong"]) -> Prms:
         """
         Set label and return self for chaining.
 
@@ -156,7 +158,7 @@ class Prms(Paginateable):
         self.label = value  # Use property setter (gets validation)
         return self
 
-    def with_prm(self, value: "GeneralParameter") -> "Prms":
+    def with_prm(self, value: "GeneralParameter") -> Prms:
         """
         Set prm and return self for chaining.
 

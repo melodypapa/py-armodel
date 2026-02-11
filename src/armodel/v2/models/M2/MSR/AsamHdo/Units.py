@@ -4,9 +4,11 @@ AUTOSAR Package - Units
 Package: M2::MSR::AsamHdo::Units
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -132,15 +134,15 @@ class Unit(ARElement):
             )
         self._offsetSiToUnit = value
         # Note that only values with units same physical dimensions might be converted.
-        self._physical: Optional["PhysicalDimension"] = None
+        self._physical: Optional[PhysicalDimension] = None
 
     @property
-    def physical(self) -> Optional["PhysicalDimension"]:
+    def physical(self) -> Optional[PhysicalDimension]:
         """Get physical (Pythonic accessor)."""
         return self._physical
 
     @physical.setter
-    def physical(self, value: Optional["PhysicalDimension"]) -> None:
+    def physical(self, value: Optional[PhysicalDimension]) -> None:
         """
         Set physical with validation.
 
@@ -190,7 +192,7 @@ class Unit(ARElement):
         """
         return self.display_name  # Delegates to property
 
-    def setDisplayName(self, value: "SingleLanguageUnit") -> "Unit":
+    def setDisplayName(self, value: "SingleLanguageUnit") -> Unit:
         """
         AUTOSAR-compliant setter for displayName with method chaining.
 
@@ -218,7 +220,7 @@ class Unit(ARElement):
         """
         return self.factor_si_to_unit  # Delegates to property
 
-    def setFactorSiToUnit(self, value: "Float") -> "Unit":
+    def setFactorSiToUnit(self, value: "Float") -> Unit:
         """
         AUTOSAR-compliant setter for factorSiToUnit with method chaining.
 
@@ -246,7 +248,7 @@ class Unit(ARElement):
         """
         return self.offset_si_to_unit  # Delegates to property
 
-    def setOffsetSiToUnit(self, value: "Float") -> "Unit":
+    def setOffsetSiToUnit(self, value: "Float") -> Unit:
         """
         AUTOSAR-compliant setter for offsetSiToUnit with method chaining.
 
@@ -262,7 +264,7 @@ class Unit(ARElement):
         self.offset_si_to_unit = value  # Delegates to property setter
         return self
 
-    def getPhysical(self) -> "PhysicalDimension":
+    def getPhysical(self) -> PhysicalDimension:
         """
         AUTOSAR-compliant getter for physical.
 
@@ -274,7 +276,7 @@ class Unit(ARElement):
         """
         return self.physical  # Delegates to property
 
-    def setPhysical(self, value: "PhysicalDimension") -> "Unit":
+    def setPhysical(self, value: PhysicalDimension) -> Unit:
         """
         AUTOSAR-compliant setter for physical with method chaining.
 
@@ -292,7 +294,7 @@ class Unit(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_display_name(self, value: Optional["SingleLanguageUnit"]) -> "Unit":
+    def with_display_name(self, value: Optional["SingleLanguageUnit"]) -> Unit:
         """
         Set displayName and return self for chaining.
 
@@ -308,7 +310,7 @@ class Unit(ARElement):
         self.display_name = value  # Use property setter (gets validation)
         return self
 
-    def with_factor_si_to_unit(self, value: Optional["Float"]) -> "Unit":
+    def with_factor_si_to_unit(self, value: Optional["Float"]) -> Unit:
         """
         Set factorSiToUnit and return self for chaining.
 
@@ -324,7 +326,7 @@ class Unit(ARElement):
         self.factor_si_to_unit = value  # Use property setter (gets validation)
         return self
 
-    def with_offset_si_to_unit(self, value: Optional["Float"]) -> "Unit":
+    def with_offset_si_to_unit(self, value: Optional["Float"]) -> Unit:
         """
         Set offsetSiToUnit and return self for chaining.
 
@@ -340,7 +342,7 @@ class Unit(ARElement):
         self.offset_si_to_unit = value  # Use property setter (gets validation)
         return self
 
-    def with_physical(self, value: Optional["PhysicalDimension"]) -> "Unit":
+    def with_physical(self, value: Optional[PhysicalDimension]) -> Unit:
         """
         Set physical and return self for chaining.
 
@@ -375,16 +377,16 @@ class UnitGroup(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents one particular unit in the UnitGroup.
-        self._unit: List["Unit"] = []
+        self._unit: List[Unit] = []
 
     @property
-    def unit(self) -> List["Unit"]:
+    def unit(self) -> List[Unit]:
         """Get unit (Pythonic accessor)."""
         return self._unit
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getUnit(self) -> List["Unit"]:
+    def getUnit(self) -> List[Unit]:
         """
         AUTOSAR-compliant getter for unit.
 
@@ -625,7 +627,7 @@ class PhysicalDimension(ARElement):
         """
         return self.current_exp  # Delegates to property
 
-    def setCurrentExp(self, value: "Numerical") -> "PhysicalDimension":
+    def setCurrentExp(self, value: "Numerical") -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for currentExp with method chaining.
 
@@ -653,7 +655,7 @@ class PhysicalDimension(ARElement):
         """
         return self.length_exp  # Delegates to property
 
-    def setLengthExp(self, value: "Numerical") -> "PhysicalDimension":
+    def setLengthExp(self, value: "Numerical") -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for lengthExp with method chaining.
 
@@ -681,7 +683,7 @@ class PhysicalDimension(ARElement):
         """
         return self.luminous  # Delegates to property
 
-    def setLuminous(self, value: "Numerical") -> "PhysicalDimension":
+    def setLuminous(self, value: "Numerical") -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for luminous with method chaining.
 
@@ -709,7 +711,7 @@ class PhysicalDimension(ARElement):
         """
         return self.mass_exp  # Delegates to property
 
-    def setMassExp(self, value: "Numerical") -> "PhysicalDimension":
+    def setMassExp(self, value: "Numerical") -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for massExp with method chaining.
 
@@ -737,7 +739,7 @@ class PhysicalDimension(ARElement):
         """
         return self.molar_amount  # Delegates to property
 
-    def setMolarAmount(self, value: "Numerical") -> "PhysicalDimension":
+    def setMolarAmount(self, value: "Numerical") -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for molarAmount with method chaining.
 
@@ -765,7 +767,7 @@ class PhysicalDimension(ARElement):
         """
         return self.temperature_exp  # Delegates to property
 
-    def setTemperatureExp(self, value: "Numerical") -> "PhysicalDimension":
+    def setTemperatureExp(self, value: "Numerical") -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for temperatureExp with method chaining.
 
@@ -793,7 +795,7 @@ class PhysicalDimension(ARElement):
         """
         return self.time_exp  # Delegates to property
 
-    def setTimeExp(self, value: "Numerical") -> "PhysicalDimension":
+    def setTimeExp(self, value: "Numerical") -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for timeExp with method chaining.
 
@@ -811,7 +813,7 @@ class PhysicalDimension(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_current_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
+    def with_current_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
         """
         Set currentExp and return self for chaining.
 
@@ -827,7 +829,7 @@ class PhysicalDimension(ARElement):
         self.current_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_length_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
+    def with_length_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
         """
         Set lengthExp and return self for chaining.
 
@@ -843,7 +845,7 @@ class PhysicalDimension(ARElement):
         self.length_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_luminous(self, value: Optional["Numerical"]) -> "PhysicalDimension":
+    def with_luminous(self, value: Optional["Numerical"]) -> PhysicalDimension:
         """
         Set luminous and return self for chaining.
 
@@ -859,7 +861,7 @@ class PhysicalDimension(ARElement):
         self.luminous = value  # Use property setter (gets validation)
         return self
 
-    def with_mass_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
+    def with_mass_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
         """
         Set massExp and return self for chaining.
 
@@ -875,7 +877,7 @@ class PhysicalDimension(ARElement):
         self.mass_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_molar_amount(self, value: Optional["Numerical"]) -> "PhysicalDimension":
+    def with_molar_amount(self, value: Optional["Numerical"]) -> PhysicalDimension:
         """
         Set molarAmount and return self for chaining.
 
@@ -891,7 +893,7 @@ class PhysicalDimension(ARElement):
         self.molar_amount = value  # Use property setter (gets validation)
         return self
 
-    def with_temperature_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
+    def with_temperature_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
         """
         Set temperatureExp and return self for chaining.
 
@@ -907,7 +909,7 @@ class PhysicalDimension(ARElement):
         self.temperature_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_time_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
+    def with_time_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
         """
         Set timeExp and return self for chaining.
 
@@ -940,15 +942,15 @@ class PhysicalDimensionMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the first PhysicalDimension of the PhysicalDimensionMapping.
-        self._firstPhysical: Optional["PhysicalDimension"] = None
+        self._firstPhysical: Optional[PhysicalDimension] = None
 
     @property
-    def first_physical(self) -> Optional["PhysicalDimension"]:
+    def first_physical(self) -> Optional[PhysicalDimension]:
         """Get firstPhysical (Pythonic accessor)."""
         return self._firstPhysical
 
     @first_physical.setter
-    def first_physical(self, value: Optional["PhysicalDimension"]) -> None:
+    def first_physical(self, value: Optional[PhysicalDimension]) -> None:
         """
         Set firstPhysical with validation.
 
@@ -967,15 +969,15 @@ class PhysicalDimensionMapping(ARObject):
                 f"firstPhysical must be PhysicalDimension or None, got {type(value).__name__}"
             )
         self._firstPhysical = value
-        self._secondPhysical: Optional["PhysicalDimension"] = None
+        self._secondPhysical: Optional[PhysicalDimension] = None
 
     @property
-    def second_physical(self) -> Optional["PhysicalDimension"]:
+    def second_physical(self) -> Optional[PhysicalDimension]:
         """Get secondPhysical (Pythonic accessor)."""
         return self._secondPhysical
 
     @second_physical.setter
-    def second_physical(self, value: Optional["PhysicalDimension"]) -> None:
+    def second_physical(self, value: Optional[PhysicalDimension]) -> None:
         """
         Set secondPhysical with validation.
 
@@ -997,7 +999,7 @@ class PhysicalDimensionMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFirstPhysical(self) -> "PhysicalDimension":
+    def getFirstPhysical(self) -> PhysicalDimension:
         """
         AUTOSAR-compliant getter for firstPhysical.
 
@@ -1009,7 +1011,7 @@ class PhysicalDimensionMapping(ARObject):
         """
         return self.first_physical  # Delegates to property
 
-    def setFirstPhysical(self, value: "PhysicalDimension") -> "PhysicalDimensionMapping":
+    def setFirstPhysical(self, value: PhysicalDimension) -> PhysicalDimensionMapping:
         """
         AUTOSAR-compliant setter for firstPhysical with method chaining.
 
@@ -1025,7 +1027,7 @@ class PhysicalDimensionMapping(ARObject):
         self.first_physical = value  # Delegates to property setter
         return self
 
-    def getSecondPhysical(self) -> "PhysicalDimension":
+    def getSecondPhysical(self) -> PhysicalDimension:
         """
         AUTOSAR-compliant getter for secondPhysical.
 
@@ -1037,7 +1039,7 @@ class PhysicalDimensionMapping(ARObject):
         """
         return self.second_physical  # Delegates to property
 
-    def setSecondPhysical(self, value: "PhysicalDimension") -> "PhysicalDimensionMapping":
+    def setSecondPhysical(self, value: PhysicalDimension) -> PhysicalDimensionMapping:
         """
         AUTOSAR-compliant setter for secondPhysical with method chaining.
 
@@ -1055,7 +1057,7 @@ class PhysicalDimensionMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_first_physical(self, value: Optional["PhysicalDimension"]) -> "PhysicalDimensionMapping":
+    def with_first_physical(self, value: Optional[PhysicalDimension]) -> PhysicalDimensionMapping:
         """
         Set firstPhysical and return self for chaining.
 
@@ -1071,7 +1073,7 @@ class PhysicalDimensionMapping(ARObject):
         self.first_physical = value  # Use property setter (gets validation)
         return self
 
-    def with_second_physical(self, value: Optional["PhysicalDimension"]) -> "PhysicalDimensionMapping":
+    def with_second_physical(self, value: Optional[PhysicalDimension]) -> PhysicalDimensionMapping:
         """
         Set secondPhysical and return self for chaining.
 
@@ -1106,16 +1108,16 @@ class PhysicalDimensionMappingSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation represents a concrete collections of
         # PhysicalDimensionMappings in the context of one.
-        self._physical: List["PhysicalDimension"] = []
+        self._physical: List[PhysicalDimension] = []
 
     @property
-    def physical(self) -> List["PhysicalDimension"]:
+    def physical(self) -> List[PhysicalDimension]:
         """Get physical (Pythonic accessor)."""
         return self._physical
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPhysical(self) -> List["PhysicalDimension"]:
+    def getPhysical(self) -> List[PhysicalDimension]:
         """
         AUTOSAR-compliant getter for physical.
 

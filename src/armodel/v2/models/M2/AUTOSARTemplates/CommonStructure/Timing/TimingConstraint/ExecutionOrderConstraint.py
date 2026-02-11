@@ -4,10 +4,12 @@ AUTOSAR Package - ExecutionOrderConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     PositiveInteger,
@@ -330,7 +332,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "CompositionSw") -> "ExecutionOrderConstraint":
+    def setBase(self, value: "CompositionSw") -> ExecutionOrderConstraint:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -358,7 +360,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         """
         return self.execution_order  # Delegates to property
 
-    def setExecutionOrder(self, value: "ExecutionOrder") -> "ExecutionOrderConstraint":
+    def setExecutionOrder(self, value: "ExecutionOrder") -> ExecutionOrderConstraint:
         """
         AUTOSAR-compliant setter for executionOrder with method chaining.
 
@@ -386,7 +388,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         """
         return self.ignore_order  # Delegates to property
 
-    def setIgnoreOrder(self, value: "Boolean") -> "ExecutionOrderConstraint":
+    def setIgnoreOrder(self, value: "Boolean") -> ExecutionOrderConstraint:
         """
         AUTOSAR-compliant setter for ignoreOrder with method chaining.
 
@@ -414,7 +416,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         """
         return self.is_event  # Delegates to property
 
-    def setIsEvent(self, value: "Boolean") -> "ExecutionOrderConstraint":
+    def setIsEvent(self, value: "Boolean") -> ExecutionOrderConstraint:
         """
         AUTOSAR-compliant setter for isEvent with method chaining.
 
@@ -454,7 +456,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         """
         return self.permit_multiple  # Delegates to property
 
-    def setPermitMultiple(self, value: "Boolean") -> "ExecutionOrderConstraint":
+    def setPermitMultiple(self, value: "Boolean") -> ExecutionOrderConstraint:
         """
         AUTOSAR-compliant setter for permitMultiple with method chaining.
 
@@ -472,7 +474,7 @@ class ExecutionOrderConstraint(TimingConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["CompositionSw"]) -> "ExecutionOrderConstraint":
+    def with_base(self, value: Optional["CompositionSw"]) -> ExecutionOrderConstraint:
         """
         Set base and return self for chaining.
 
@@ -488,7 +490,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_execution_order(self, value: Optional["ExecutionOrder"]) -> "ExecutionOrderConstraint":
+    def with_execution_order(self, value: Optional["ExecutionOrder"]) -> ExecutionOrderConstraint:
         """
         Set executionOrder and return self for chaining.
 
@@ -504,7 +506,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         self.execution_order = value  # Use property setter (gets validation)
         return self
 
-    def with_ignore_order(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
+    def with_ignore_order(self, value: Optional["Boolean"]) -> ExecutionOrderConstraint:
         """
         Set ignoreOrder and return self for chaining.
 
@@ -520,7 +522,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         self.ignore_order = value  # Use property setter (gets validation)
         return self
 
-    def with_is_event(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
+    def with_is_event(self, value: Optional["Boolean"]) -> ExecutionOrderConstraint:
         """
         Set isEvent and return self for chaining.
 
@@ -536,7 +538,7 @@ class ExecutionOrderConstraint(TimingConstraint):
         self.is_event = value  # Use property setter (gets validation)
         return self
 
-    def with_permit_multiple(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
+    def with_permit_multiple(self, value: Optional["Boolean"]) -> ExecutionOrderConstraint:
         """
         Set permitMultiple and return self for chaining.
 
@@ -823,7 +825,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         """
         return self.let_data  # Delegates to property
 
-    def setLetData(self, value: "LetDataExchange") -> "EOCExecutableEntityRefGroup":
+    def setLetData(self, value: "LetDataExchange") -> EOCExecutableEntityRefGroup:
         """
         AUTOSAR-compliant setter for letData with method chaining.
 
@@ -863,7 +865,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         """
         return self.max_cycle  # Delegates to property
 
-    def setMaxCycle(self, value: "PositiveInteger") -> "EOCExecutableEntityRefGroup":
+    def setMaxCycle(self, value: "PositiveInteger") -> EOCExecutableEntityRefGroup:
         """
         AUTOSAR-compliant setter for maxCycle with method chaining.
 
@@ -891,7 +893,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         """
         return self.max_cycles  # Delegates to property
 
-    def setMaxCycles(self, value: "Integer") -> "EOCExecutableEntityRefGroup":
+    def setMaxCycles(self, value: "Integer") -> EOCExecutableEntityRefGroup:
         """
         AUTOSAR-compliant setter for maxCycles with method chaining.
 
@@ -919,7 +921,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         """
         return self.max_slots  # Delegates to property
 
-    def setMaxSlots(self, value: "Integer") -> "EOCExecutableEntityRefGroup":
+    def setMaxSlots(self, value: "Integer") -> EOCExecutableEntityRefGroup:
         """
         AUTOSAR-compliant setter for maxSlots with method chaining.
 
@@ -947,7 +949,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         """
         return self.max_slots_per  # Delegates to property
 
-    def setMaxSlotsPer(self, value: "PositiveInteger") -> "EOCExecutableEntityRefGroup":
+    def setMaxSlotsPer(self, value: "PositiveInteger") -> EOCExecutableEntityRefGroup:
         """
         AUTOSAR-compliant setter for maxSlotsPer with method chaining.
 
@@ -999,7 +1001,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         """
         return self.triggering_event  # Delegates to property
 
-    def setTriggeringEvent(self, value: "TimingDescriptionEvent") -> "EOCExecutableEntityRefGroup":
+    def setTriggeringEvent(self, value: "TimingDescriptionEvent") -> EOCExecutableEntityRefGroup:
         """
         AUTOSAR-compliant setter for triggeringEvent with method chaining.
 
@@ -1017,7 +1019,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_let_data(self, value: Optional["LetDataExchange"]) -> "EOCExecutableEntityRefGroup":
+    def with_let_data(self, value: Optional["LetDataExchange"]) -> EOCExecutableEntityRefGroup:
         """
         Set letData and return self for chaining.
 
@@ -1033,7 +1035,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         self.let_data = value  # Use property setter (gets validation)
         return self
 
-    def with_max_cycle(self, value: Optional["PositiveInteger"]) -> "EOCExecutableEntityRefGroup":
+    def with_max_cycle(self, value: Optional["PositiveInteger"]) -> EOCExecutableEntityRefGroup:
         """
         Set maxCycle and return self for chaining.
 
@@ -1049,7 +1051,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         self.max_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_max_cycles(self, value: Optional["Integer"]) -> "EOCExecutableEntityRefGroup":
+    def with_max_cycles(self, value: Optional["Integer"]) -> EOCExecutableEntityRefGroup:
         """
         Set maxCycles and return self for chaining.
 
@@ -1065,7 +1067,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         self.max_cycles = value  # Use property setter (gets validation)
         return self
 
-    def with_max_slots(self, value: Optional["Integer"]) -> "EOCExecutableEntityRefGroup":
+    def with_max_slots(self, value: Optional["Integer"]) -> EOCExecutableEntityRefGroup:
         """
         Set maxSlots and return self for chaining.
 
@@ -1081,7 +1083,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         self.max_slots = value  # Use property setter (gets validation)
         return self
 
-    def with_max_slots_per(self, value: Optional["PositiveInteger"]) -> "EOCExecutableEntityRefGroup":
+    def with_max_slots_per(self, value: Optional["PositiveInteger"]) -> EOCExecutableEntityRefGroup:
         """
         Set maxSlotsPer and return self for chaining.
 
@@ -1097,7 +1099,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
         self.max_slots_per = value  # Use property setter (gets validation)
         return self
 
-    def with_triggering_event(self, value: Optional["TimingDescriptionEvent"]) -> "EOCExecutableEntityRefGroup":
+    def with_triggering_event(self, value: Optional["TimingDescriptionEvent"]) -> EOCExecutableEntityRefGroup:
         """
         Set triggeringEvent and return self for chaining.
 
@@ -1236,7 +1238,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
         """
         return self.bsw_module  # Delegates to property
 
-    def setBswModule(self, value: "BswImplementation") -> "EOCExecutableEntityRef":
+    def setBswModule(self, value: "BswImplementation") -> EOCExecutableEntityRef:
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
 
@@ -1264,7 +1266,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
         """
         return self.component_composition_instance_ref  # Delegates to property
 
-    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> "EOCExecutableEntityRef":
+    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> EOCExecutableEntityRef:
         """
         AUTOSAR-compliant setter for componentCompositionInstanceRef with method chaining.
 
@@ -1292,7 +1294,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
         """
         return self.executable  # Delegates to property
 
-    def setExecutable(self, value: "ExecutableEntity") -> "EOCExecutableEntityRef":
+    def setExecutable(self, value: "ExecutableEntity") -> EOCExecutableEntityRef:
         """
         AUTOSAR-compliant setter for executable with method chaining.
 
@@ -1322,7 +1324,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_module(self, value: Optional["BswImplementation"]) -> "EOCExecutableEntityRef":
+    def with_bsw_module(self, value: Optional["BswImplementation"]) -> EOCExecutableEntityRef:
         """
         Set bswModule and return self for chaining.
 
@@ -1338,7 +1340,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
         self.bsw_module = value  # Use property setter (gets validation)
         return self
 
-    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "EOCExecutableEntityRef":
+    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> EOCExecutableEntityRef:
         """
         Set componentCompositionInstanceRef and return self for chaining.
 
@@ -1354,7 +1356,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
         self.component_composition_instance_ref = value  # Use property setter (gets validation)
         return self
 
-    def with_executable(self, value: Optional["ExecutableEntity"]) -> "EOCExecutableEntityRef":
+    def with_executable(self, value: Optional["ExecutableEntity"]) -> EOCExecutableEntityRef:
         """
         Set executable and return self for chaining.
 
@@ -1489,7 +1491,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         """
         return self.bsw_module  # Delegates to property
 
-    def setBswModule(self, value: "BswImplementation") -> "EOCEventRef":
+    def setBswModule(self, value: "BswImplementation") -> EOCEventRef:
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
 
@@ -1517,7 +1519,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         """
         return self.component_composition_instance_ref  # Delegates to property
 
-    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> "EOCEventRef":
+    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> EOCEventRef:
         """
         AUTOSAR-compliant setter for componentCompositionInstanceRef with method chaining.
 
@@ -1545,7 +1547,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "AbstractEvent") -> "EOCEventRef":
+    def setEvent(self, value: "AbstractEvent") -> EOCEventRef:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -1575,7 +1577,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_module(self, value: Optional["BswImplementation"]) -> "EOCEventRef":
+    def with_bsw_module(self, value: Optional["BswImplementation"]) -> EOCEventRef:
         """
         Set bswModule and return self for chaining.
 
@@ -1591,7 +1593,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         self.bsw_module = value  # Use property setter (gets validation)
         return self
 
-    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "EOCEventRef":
+    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> EOCEventRef:
         """
         Set componentCompositionInstanceRef and return self for chaining.
 
@@ -1607,7 +1609,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         self.component_composition_instance_ref = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional["AbstractEvent"]) -> "EOCEventRef":
+    def with_event(self, value: Optional["AbstractEvent"]) -> EOCEventRef:
         """
         Set event and return self for chaining.
 

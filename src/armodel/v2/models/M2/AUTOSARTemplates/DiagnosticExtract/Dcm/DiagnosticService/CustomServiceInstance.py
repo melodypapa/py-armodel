@@ -4,6 +4,8 @@ AUTOSAR Package - CustomServiceInstance
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CustomServiceInstance
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -69,7 +71,7 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
         """
         return self.custom_service  # Delegates to property
 
-    def setCustomService(self, value: "DiagnosticCustom") -> "DiagnosticCustomServiceInstance":
+    def setCustomService(self, value: "DiagnosticCustom") -> DiagnosticCustomServiceInstance:
         """
         AUTOSAR-compliant setter for customService with method chaining.
 
@@ -87,7 +89,7 @@ class DiagnosticCustomServiceInstance(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_service(self, value: Optional["DiagnosticCustom"]) -> "DiagnosticCustomServiceInstance":
+    def with_custom_service(self, value: Optional["DiagnosticCustom"]) -> DiagnosticCustomServiceInstance:
         """
         Set customService and return self for chaining.
 

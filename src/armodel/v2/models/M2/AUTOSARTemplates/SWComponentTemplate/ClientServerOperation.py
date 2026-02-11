@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import (
     List,
     Optional,
@@ -149,7 +151,7 @@ class ClientServerOperation(Identifiable):
         """
         return self.diag_arg_integrity  # Delegates to property
 
-    def setDiagArgIntegrity(self, value: "Boolean") -> "ClientServerOperation":
+    def setDiagArgIntegrity(self, value: "Boolean") -> ClientServerOperation:
         """
         AUTOSAR-compliant setter for diagArgIntegrity with method chaining.
 
@@ -179,7 +181,7 @@ class ClientServerOperation(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diag_arg_integrity(self, value: Optional["Boolean"]) -> "ClientServerOperation":
+    def with_diag_arg_integrity(self, value: Optional["Boolean"]) -> ClientServerOperation:
         """
         Set diagArgIntegrity and return self for chaining.
 

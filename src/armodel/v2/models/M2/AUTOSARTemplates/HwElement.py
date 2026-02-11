@@ -56,10 +56,10 @@ class HwElement(HwDescriptionEntity):
         # e.
         # multiple the same HwElement is not supported (at level).
         # atpVariation.
-        self._nestedElement: List["HwElement"] = []
+        self._nestedElement: List[HwElement] = []
 
     @property
-    def nested_element(self) -> List["HwElement"]:
+    def nested_element(self) -> List[HwElement]:
         """Get nestedElement (Pythonic accessor)."""
         return self._nestedElement
 
@@ -137,7 +137,7 @@ class HwElement(HwDescriptionEntity):
         """
         return self.hw_pin_group  # Delegates to property
 
-    def getNestedElement(self) -> List["HwElement"]:
+    def getNestedElement(self) -> List[HwElement]:
         """
         AUTOSAR-compliant getter for nestedElement.
 

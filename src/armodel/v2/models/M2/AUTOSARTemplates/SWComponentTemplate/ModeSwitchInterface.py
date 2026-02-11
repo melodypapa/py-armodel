@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
@@ -67,7 +69,7 @@ class ModeSwitchInterface(PortInterface):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: RefType) -> "ModeSwitchInterface":
+    def setModeGroup(self, value: RefType) -> ModeSwitchInterface:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -85,7 +87,7 @@ class ModeSwitchInterface(PortInterface):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group(self, value: Optional[RefType]) -> "ModeSwitchInterface":
+    def with_mode_group(self, value: Optional[RefType]) -> ModeSwitchInterface:
         """
         Set modeGroup and return self for chaining.
 

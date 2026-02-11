@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import (
     List,
     Optional,
@@ -179,7 +181,7 @@ class AclObjectSet(ARElement):
         """
         return self.acl_scope  # Delegates to property
 
-    def setAclScope(self, value: "AclScopeEnum") -> "AclObjectSet":
+    def setAclScope(self, value: "AclScopeEnum") -> AclObjectSet:
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
 
@@ -207,7 +209,7 @@ class AclObjectSet(ARElement):
         """
         return self.collection  # Delegates to property
 
-    def setCollection(self, value: RefType) -> "AclObjectSet":
+    def setCollection(self, value: RefType) -> AclObjectSet:
         """
         AUTOSAR-compliant setter for collection with method chaining.
 
@@ -249,7 +251,7 @@ class AclObjectSet(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_acl_scope(self, value: "AclScopeEnum") -> "AclObjectSet":
+    def with_acl_scope(self, value: "AclScopeEnum") -> AclObjectSet:
         """
         Set aclScope and return self for chaining.
 
@@ -265,7 +267,7 @@ class AclObjectSet(ARElement):
         self.acl_scope = value  # Use property setter (gets validation)
         return self
 
-    def with_collection(self, value: Optional[RefType]) -> "AclObjectSet":
+    def with_collection(self, value: Optional[RefType]) -> AclObjectSet:
         """
         Set collection and return self for chaining.
 

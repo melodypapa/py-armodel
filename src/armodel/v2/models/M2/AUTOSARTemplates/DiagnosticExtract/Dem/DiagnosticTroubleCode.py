@@ -4,10 +4,12 @@ AUTOSAR Package - DiagnosticTroubleCode
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     NameToken,
     PositiveInteger,
@@ -148,7 +150,7 @@ class EventObdReadinessGroup(ARObject):
         """
         return self.event_obd  # Delegates to property
 
-    def setEventObd(self, value: "NameToken") -> "EventObdReadinessGroup":
+    def setEventObd(self, value: "NameToken") -> EventObdReadinessGroup:
         """
         AUTOSAR-compliant setter for eventObd with method chaining.
 
@@ -166,7 +168,7 @@ class EventObdReadinessGroup(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_obd(self, value: Optional["NameToken"]) -> "EventObdReadinessGroup":
+    def with_event_obd(self, value: Optional["NameToken"]) -> EventObdReadinessGroup:
         """
         Set eventObd and return self for chaining.
 
@@ -226,10 +228,10 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
         # This represents the collection of DiagnosticTroubleCodes this
                 # DiagnosticTroubleCodeGroup.
         # atpVariation.
-        self._dtc: List["DiagnosticTroubleCode"] = []
+        self._dtc: List[DiagnosticTroubleCode] = []
 
     @property
-    def dtc(self) -> List["DiagnosticTroubleCode"]:
+    def dtc(self) -> List[DiagnosticTroubleCode]:
         """Get dtc (Pythonic accessor)."""
         return self._dtc
         # This represents the base number of the DTC group.
@@ -263,7 +265,7 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDtc(self) -> List["DiagnosticTroubleCode"]:
+    def getDtc(self) -> List[DiagnosticTroubleCode]:
         """
         AUTOSAR-compliant getter for dtc.
 
@@ -287,7 +289,7 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
         """
         return self.group_number  # Delegates to property
 
-    def setGroupNumber(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeGroup":
+    def setGroupNumber(self, value: "PositiveInteger") -> DiagnosticTroubleCodeGroup:
         """
         AUTOSAR-compliant setter for groupNumber with method chaining.
 
@@ -305,7 +307,7 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_group_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeGroup":
+    def with_group_number(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeGroup:
         """
         Set groupNumber and return self for chaining.
 
@@ -599,7 +601,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.aging  # Delegates to property
 
-    def setAging(self, value: "DiagnosticAging") -> "DiagnosticTroubleCodeProps":
+    def setAging(self, value: "DiagnosticAging") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for aging with method chaining.
 
@@ -627,7 +629,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.diagnostic  # Delegates to property
 
-    def setDiagnostic(self, value: "DiagnosticMemory") -> "DiagnosticTroubleCodeProps":
+    def setDiagnostic(self, value: "DiagnosticMemory") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
 
@@ -679,7 +681,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.immediate_nv  # Delegates to property
 
-    def setImmediateNv(self, value: "Boolean") -> "DiagnosticTroubleCodeProps":
+    def setImmediateNv(self, value: "Boolean") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for immediateNv with method chaining.
 
@@ -707,7 +709,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.legislated  # Delegates to property
 
-    def setLegislated(self, value: "DiagnosticDataIdentifier") -> "DiagnosticTroubleCodeProps":
+    def setLegislated(self, value: "DiagnosticDataIdentifier") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for legislated with method chaining.
 
@@ -735,7 +737,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.max_number  # Delegates to property
 
-    def setMaxNumber(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeProps":
+    def setMaxNumber(self, value: "PositiveInteger") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for maxNumber with method chaining.
 
@@ -763,7 +765,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeProps":
+    def setPriority(self, value: "PositiveInteger") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -791,7 +793,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.significance  # Delegates to property
 
-    def setSignificance(self, value: "DiagnosticSignificance") -> "DiagnosticTroubleCodeProps":
+    def setSignificance(self, value: "DiagnosticSignificance") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for significance with method chaining.
 
@@ -819,7 +821,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.snapshot  # Delegates to property
 
-    def setSnapshot(self, value: "DiagnosticDataIdentifier") -> "DiagnosticTroubleCodeProps":
+    def setSnapshot(self, value: "DiagnosticDataIdentifier") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for snapshot with method chaining.
 
@@ -837,7 +839,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_aging(self, value: Optional["DiagnosticAging"]) -> "DiagnosticTroubleCodeProps":
+    def with_aging(self, value: Optional["DiagnosticAging"]) -> DiagnosticTroubleCodeProps:
         """
         Set aging and return self for chaining.
 
@@ -853,7 +855,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.aging = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic(self, value: Optional["DiagnosticMemory"]) -> "DiagnosticTroubleCodeProps":
+    def with_diagnostic(self, value: Optional["DiagnosticMemory"]) -> DiagnosticTroubleCodeProps:
         """
         Set diagnostic and return self for chaining.
 
@@ -869,7 +871,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.diagnostic = value  # Use property setter (gets validation)
         return self
 
-    def with_immediate_nv(self, value: Optional["Boolean"]) -> "DiagnosticTroubleCodeProps":
+    def with_immediate_nv(self, value: Optional["Boolean"]) -> DiagnosticTroubleCodeProps:
         """
         Set immediateNv and return self for chaining.
 
@@ -885,7 +887,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.immediate_nv = value  # Use property setter (gets validation)
         return self
 
-    def with_legislated(self, value: Optional["DiagnosticDataIdentifier"]) -> "DiagnosticTroubleCodeProps":
+    def with_legislated(self, value: Optional["DiagnosticDataIdentifier"]) -> DiagnosticTroubleCodeProps:
         """
         Set legislated and return self for chaining.
 
@@ -901,7 +903,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.legislated = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeProps":
+    def with_max_number(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeProps:
         """
         Set maxNumber and return self for chaining.
 
@@ -917,7 +919,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.max_number = value  # Use property setter (gets validation)
         return self
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeProps":
+    def with_priority(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeProps:
         """
         Set priority and return self for chaining.
 
@@ -933,7 +935,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.priority = value  # Use property setter (gets validation)
         return self
 
-    def with_significance(self, value: Optional["DiagnosticSignificance"]) -> "DiagnosticTroubleCodeProps":
+    def with_significance(self, value: Optional["DiagnosticSignificance"]) -> DiagnosticTroubleCodeProps:
         """
         Set significance and return self for chaining.
 
@@ -949,7 +951,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.significance = value  # Use property setter (gets validation)
         return self
 
-    def with_snapshot(self, value: Optional["DiagnosticDataIdentifier"]) -> "DiagnosticTroubleCodeProps":
+    def with_snapshot(self, value: Optional["DiagnosticDataIdentifier"]) -> DiagnosticTroubleCodeProps:
         """
         Set snapshot and return self for chaining.
 
@@ -1052,15 +1054,15 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"considerPto must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._considerPto = value
-        self._dtcPropsProps: Optional["DiagnosticTroubleCode"] = None
+        self._dtcPropsProps: Optional[DiagnosticTroubleCode] = None
 
     @property
-    def dtc_props_props(self) -> Optional["DiagnosticTroubleCode"]:
+    def dtc_props_props(self) -> Optional[DiagnosticTroubleCode]:
         """Get dtcPropsProps (Pythonic accessor)."""
         return self._dtcPropsProps
 
     @dtc_props_props.setter
-    def dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> None:
+    def dtc_props_props(self, value: Optional[DiagnosticTroubleCode]) -> None:
         """
         Set dtcPropsProps with validation.
 
@@ -1265,7 +1267,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.consider_pto  # Delegates to property
 
-    def setConsiderPto(self, value: "Boolean") -> "DiagnosticTroubleCodeUds":
+    def setConsiderPto(self, value: "Boolean") -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for considerPto with method chaining.
 
@@ -1281,7 +1283,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.consider_pto = value  # Delegates to property setter
         return self
 
-    def getDtcPropsProps(self) -> "DiagnosticTroubleCode":
+    def getDtcPropsProps(self) -> DiagnosticTroubleCode:
         """
         AUTOSAR-compliant getter for dtcPropsProps.
 
@@ -1293,7 +1295,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.dtc_props_props  # Delegates to property
 
-    def setDtcPropsProps(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeUds":
+    def setDtcPropsProps(self, value: DiagnosticTroubleCode) -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for dtcPropsProps with method chaining.
 
@@ -1321,7 +1323,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.event_readiness  # Delegates to property
 
-    def setEventReadiness(self, value: "EventObdReadiness") -> "DiagnosticTroubleCodeUds":
+    def setEventReadiness(self, value: "EventObdReadiness") -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for eventReadiness with method chaining.
 
@@ -1349,7 +1351,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.functional_unit  # Delegates to property
 
-    def setFunctionalUnit(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeUds":
+    def setFunctionalUnit(self, value: "PositiveInteger") -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for functionalUnit with method chaining.
 
@@ -1377,7 +1379,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.obd_dtc  # Delegates to property
 
-    def setObdDtc(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeUds":
+    def setObdDtc(self, value: "PositiveInteger") -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for obdDtc with method chaining.
 
@@ -1405,7 +1407,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.severity  # Delegates to property
 
-    def setSeverity(self, value: "DiagnosticUdsSeverity") -> "DiagnosticTroubleCodeUds":
+    def setSeverity(self, value: "DiagnosticUdsSeverity") -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for severity with method chaining.
 
@@ -1433,7 +1435,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.uds_dtc_value  # Delegates to property
 
-    def setUdsDtcValue(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeUds":
+    def setUdsDtcValue(self, value: "PositiveInteger") -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for udsDtcValue with method chaining.
 
@@ -1461,7 +1463,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.wwh_obd_dtc  # Delegates to property
 
-    def setWwhObdDtc(self, value: "DiagnosticWwhObdDtc") -> "DiagnosticTroubleCodeUds":
+    def setWwhObdDtc(self, value: "DiagnosticWwhObdDtc") -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for wwhObdDtc with method chaining.
 
@@ -1479,7 +1481,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_consider_pto(self, value: Optional["Boolean"]) -> "DiagnosticTroubleCodeUds":
+    def with_consider_pto(self, value: Optional["Boolean"]) -> DiagnosticTroubleCodeUds:
         """
         Set considerPto and return self for chaining.
 
@@ -1495,7 +1497,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.consider_pto = value  # Use property setter (gets validation)
         return self
 
-    def with_dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeUds":
+    def with_dtc_props_props(self, value: Optional[DiagnosticTroubleCode]) -> DiagnosticTroubleCodeUds:
         """
         Set dtcPropsProps and return self for chaining.
 
@@ -1511,7 +1513,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.dtc_props_props = value  # Use property setter (gets validation)
         return self
 
-    def with_event_readiness(self, value: Optional["EventObdReadiness"]) -> "DiagnosticTroubleCodeUds":
+    def with_event_readiness(self, value: Optional["EventObdReadiness"]) -> DiagnosticTroubleCodeUds:
         """
         Set eventReadiness and return self for chaining.
 
@@ -1527,7 +1529,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.event_readiness = value  # Use property setter (gets validation)
         return self
 
-    def with_functional_unit(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeUds":
+    def with_functional_unit(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeUds:
         """
         Set functionalUnit and return self for chaining.
 
@@ -1543,7 +1545,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.functional_unit = value  # Use property setter (gets validation)
         return self
 
-    def with_obd_dtc(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeUds":
+    def with_obd_dtc(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeUds:
         """
         Set obdDtc and return self for chaining.
 
@@ -1559,7 +1561,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.obd_dtc = value  # Use property setter (gets validation)
         return self
 
-    def with_severity(self, value: Optional["DiagnosticUdsSeverity"]) -> "DiagnosticTroubleCodeUds":
+    def with_severity(self, value: Optional["DiagnosticUdsSeverity"]) -> DiagnosticTroubleCodeUds:
         """
         Set severity and return self for chaining.
 
@@ -1575,7 +1577,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.severity = value  # Use property setter (gets validation)
         return self
 
-    def with_uds_dtc_value(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeUds":
+    def with_uds_dtc_value(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeUds:
         """
         Set udsDtcValue and return self for chaining.
 
@@ -1591,7 +1593,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.uds_dtc_value = value  # Use property setter (gets validation)
         return self
 
-    def with_wwh_obd_dtc(self, value: Optional["DiagnosticWwhObdDtc"]) -> "DiagnosticTroubleCodeUds":
+    def with_wwh_obd_dtc(self, value: Optional["DiagnosticWwhObdDtc"]) -> DiagnosticTroubleCodeUds:
         """
         Set wwhObdDtc and return self for chaining.
 
@@ -1655,15 +1657,15 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         self._considerPto = value
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
-        self._dtcPropsProps: Optional["DiagnosticTroubleCode"] = None
+        self._dtcPropsProps: Optional[DiagnosticTroubleCode] = None
 
     @property
-    def dtc_props_props(self) -> Optional["DiagnosticTroubleCode"]:
+    def dtc_props_props(self) -> Optional[DiagnosticTroubleCode]:
         """Get dtcPropsProps (Pythonic accessor)."""
         return self._dtcPropsProps
 
     @dtc_props_props.setter
-    def dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> None:
+    def dtc_props_props(self, value: Optional[DiagnosticTroubleCode]) -> None:
         """
         Set dtcPropsProps with validation.
 
@@ -1753,7 +1755,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         """
         return self.consider_pto  # Delegates to property
 
-    def setConsiderPto(self, value: "Boolean") -> "DiagnosticTroubleCodeObd":
+    def setConsiderPto(self, value: "Boolean") -> DiagnosticTroubleCodeObd:
         """
         AUTOSAR-compliant setter for considerPto with method chaining.
 
@@ -1769,7 +1771,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         self.consider_pto = value  # Delegates to property setter
         return self
 
-    def getDtcPropsProps(self) -> "DiagnosticTroubleCode":
+    def getDtcPropsProps(self) -> DiagnosticTroubleCode:
         """
         AUTOSAR-compliant getter for dtcPropsProps.
 
@@ -1781,7 +1783,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         """
         return self.dtc_props_props  # Delegates to property
 
-    def setDtcPropsProps(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeObd":
+    def setDtcPropsProps(self, value: DiagnosticTroubleCode) -> DiagnosticTroubleCodeObd:
         """
         AUTOSAR-compliant setter for dtcPropsProps with method chaining.
 
@@ -1809,7 +1811,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         """
         return self.event_readiness  # Delegates to property
 
-    def setEventReadiness(self, value: "EventObdReadiness") -> "DiagnosticTroubleCodeObd":
+    def setEventReadiness(self, value: "EventObdReadiness") -> DiagnosticTroubleCodeObd:
         """
         AUTOSAR-compliant setter for eventReadiness with method chaining.
 
@@ -1837,7 +1839,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         """
         return self.obd_dtc_value  # Delegates to property
 
-    def setObdDTCValue(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeObd":
+    def setObdDTCValue(self, value: "PositiveInteger") -> DiagnosticTroubleCodeObd:
         """
         AUTOSAR-compliant setter for obdDTCValue with method chaining.
 
@@ -1855,7 +1857,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_consider_pto(self, value: Optional["Boolean"]) -> "DiagnosticTroubleCodeObd":
+    def with_consider_pto(self, value: Optional["Boolean"]) -> DiagnosticTroubleCodeObd:
         """
         Set considerPto and return self for chaining.
 
@@ -1871,7 +1873,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         self.consider_pto = value  # Use property setter (gets validation)
         return self
 
-    def with_dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeObd":
+    def with_dtc_props_props(self, value: Optional[DiagnosticTroubleCode]) -> DiagnosticTroubleCodeObd:
         """
         Set dtcPropsProps and return self for chaining.
 
@@ -1887,7 +1889,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         self.dtc_props_props = value  # Use property setter (gets validation)
         return self
 
-    def with_event_readiness(self, value: Optional["EventObdReadiness"]) -> "DiagnosticTroubleCodeObd":
+    def with_event_readiness(self, value: Optional["EventObdReadiness"]) -> DiagnosticTroubleCodeObd:
         """
         Set eventReadiness and return self for chaining.
 
@@ -1903,7 +1905,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         self.event_readiness = value  # Use property setter (gets validation)
         return self
 
-    def with_obd_dtc_value(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeObd":
+    def with_obd_dtc_value(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeObd:
         """
         Set obdDTCValue and return self for chaining.
 
@@ -1937,15 +1939,15 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defined properties associated with the J1939 DTC.
-        self._dtcPropsProps: Optional["DiagnosticTroubleCode"] = None
+        self._dtcPropsProps: Optional[DiagnosticTroubleCode] = None
 
     @property
-    def dtc_props_props(self) -> Optional["DiagnosticTroubleCode"]:
+    def dtc_props_props(self) -> Optional[DiagnosticTroubleCode]:
         """Get dtcPropsProps (Pythonic accessor)."""
         return self._dtcPropsProps
 
     @dtc_props_props.setter
-    def dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> None:
+    def dtc_props_props(self, value: Optional[DiagnosticTroubleCode]) -> None:
         """
         Set dtcPropsProps with validation.
 
@@ -1992,15 +1994,15 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
                 f"fmi must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._fmi = value
-        self._kind: Optional["DiagnosticTroubleCode"] = None
+        self._kind: Optional[DiagnosticTroubleCode] = None
 
     @property
-    def kind(self) -> Optional["DiagnosticTroubleCode"]:
+    def kind(self) -> Optional[DiagnosticTroubleCode]:
         """Get kind (Pythonic accessor)."""
         return self._kind
 
     @kind.setter
-    def kind(self, value: Optional["DiagnosticTroubleCode"]) -> None:
+    def kind(self, value: Optional[DiagnosticTroubleCode]) -> None:
         """
         Set kind with validation.
 
@@ -2076,7 +2078,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDtcPropsProps(self) -> "DiagnosticTroubleCode":
+    def getDtcPropsProps(self) -> DiagnosticTroubleCode:
         """
         AUTOSAR-compliant getter for dtcPropsProps.
 
@@ -2088,7 +2090,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.dtc_props_props  # Delegates to property
 
-    def setDtcPropsProps(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeJ1939":
+    def setDtcPropsProps(self, value: DiagnosticTroubleCode) -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for dtcPropsProps with method chaining.
 
@@ -2116,7 +2118,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.fmi  # Delegates to property
 
-    def setFmi(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeJ1939":
+    def setFmi(self, value: "PositiveInteger") -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for fmi with method chaining.
 
@@ -2132,7 +2134,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.fmi = value  # Delegates to property setter
         return self
 
-    def getKind(self) -> "DiagnosticTroubleCode":
+    def getKind(self) -> DiagnosticTroubleCode:
         """
         AUTOSAR-compliant getter for kind.
 
@@ -2144,7 +2146,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.kind  # Delegates to property
 
-    def setKind(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeJ1939":
+    def setKind(self, value: DiagnosticTroubleCode) -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for kind with method chaining.
 
@@ -2172,7 +2174,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.node  # Delegates to property
 
-    def setNode(self, value: "DiagnosticJ1939Node") -> "DiagnosticTroubleCodeJ1939":
+    def setNode(self, value: "DiagnosticJ1939Node") -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for node with method chaining.
 
@@ -2200,7 +2202,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.spn  # Delegates to property
 
-    def setSpn(self, value: "DiagnosticJ1939Spn") -> "DiagnosticTroubleCodeJ1939":
+    def setSpn(self, value: "DiagnosticJ1939Spn") -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for spn with method chaining.
 
@@ -2218,7 +2220,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeJ1939":
+    def with_dtc_props_props(self, value: Optional[DiagnosticTroubleCode]) -> DiagnosticTroubleCodeJ1939:
         """
         Set dtcPropsProps and return self for chaining.
 
@@ -2234,7 +2236,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.dtc_props_props = value  # Use property setter (gets validation)
         return self
 
-    def with_fmi(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeJ1939":
+    def with_fmi(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeJ1939:
         """
         Set fmi and return self for chaining.
 
@@ -2250,7 +2252,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.fmi = value  # Use property setter (gets validation)
         return self
 
-    def with_kind(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeJ1939":
+    def with_kind(self, value: Optional[DiagnosticTroubleCode]) -> DiagnosticTroubleCodeJ1939:
         """
         Set kind and return self for chaining.
 
@@ -2266,7 +2268,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.kind = value  # Use property setter (gets validation)
         return self
 
-    def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> "DiagnosticTroubleCodeJ1939":
+    def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> DiagnosticTroubleCodeJ1939:
         """
         Set node and return self for chaining.
 
@@ -2282,7 +2284,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.node = value  # Use property setter (gets validation)
         return self
 
-    def with_spn(self, value: Optional["DiagnosticJ1939Spn"]) -> "DiagnosticTroubleCodeJ1939":
+    def with_spn(self, value: Optional["DiagnosticJ1939Spn"]) -> DiagnosticTroubleCodeJ1939:
         """
         Set spn and return self for chaining.
 

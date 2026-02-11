@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
@@ -67,7 +69,7 @@ class SwcModeManagerErrorEvent(RTEEvent):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: RefType) -> "SwcModeManagerErrorEvent":
+    def setModeGroup(self, value: RefType) -> SwcModeManagerErrorEvent:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -85,7 +87,7 @@ class SwcModeManagerErrorEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group(self, value: Optional[RefType]) -> "SwcModeManagerErrorEvent":
+    def with_mode_group(self, value: Optional[RefType]) -> SwcModeManagerErrorEvent:
         """
         Set modeGroup and return self for chaining.
 

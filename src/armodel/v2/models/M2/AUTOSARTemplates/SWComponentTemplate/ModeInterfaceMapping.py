@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
@@ -66,7 +68,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
         """
         return self.mode_mapping  # Delegates to property
 
-    def setModeMapping(self, value: RefType) -> "ModeInterfaceMapping":
+    def setModeMapping(self, value: RefType) -> ModeInterfaceMapping:
         """
         AUTOSAR-compliant setter for modeMapping with method chaining.
 
@@ -84,7 +86,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_mapping(self, value: Optional[RefType]) -> "ModeInterfaceMapping":
+    def with_mode_mapping(self, value: Optional[RefType]) -> ModeInterfaceMapping:
         """
         Set modeMapping and return self for chaining.
 

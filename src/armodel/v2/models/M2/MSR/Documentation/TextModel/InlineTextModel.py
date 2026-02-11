@@ -4,6 +4,8 @@ AUTOSAR Package - InlineTextModel
 Package: M2::MSR::Documentation::TextModel::InlineTextModel
 """
 
+
+from __future__ import annotations
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -161,7 +163,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> "MixedContentForLongName":
+    def setE(self, value: "EmphasisText") -> MixedContentForLongName:
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -189,7 +191,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.ie  # Delegates to property
 
-    def setIe(self, value: "IndexEntry") -> "MixedContentForLongName":
+    def setIe(self, value: "IndexEntry") -> MixedContentForLongName:
         """
         AUTOSAR-compliant setter for ie with method chaining.
 
@@ -217,7 +219,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> "MixedContentForLongName":
+    def setSub(self, value: "Superscript") -> MixedContentForLongName:
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -245,7 +247,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> "MixedContentForLongName":
+    def setSup(self, value: "Superscript") -> MixedContentForLongName:
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -273,7 +275,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> "MixedContentForLongName":
+    def setTt(self, value: "Tt") -> MixedContentForLongName:
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -291,7 +293,7 @@ class MixedContentForLongName(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_e(self, value: "EmphasisText") -> "MixedContentForLongName":
+    def with_e(self, value: "EmphasisText") -> MixedContentForLongName:
         """
         Set e and return self for chaining.
 
@@ -307,7 +309,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_ie(self, value: "IndexEntry") -> "MixedContentForLongName":
+    def with_ie(self, value: "IndexEntry") -> MixedContentForLongName:
         """
         Set ie and return self for chaining.
 
@@ -323,7 +325,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.ie = value  # Use property setter (gets validation)
         return self
 
-    def with_sub(self, value: "Superscript") -> "MixedContentForLongName":
+    def with_sub(self, value: "Superscript") -> MixedContentForLongName:
         """
         Set sub and return self for chaining.
 
@@ -339,7 +341,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> "MixedContentForLongName":
+    def with_sup(self, value: "Superscript") -> MixedContentForLongName:
         """
         Set sup and return self for chaining.
 
@@ -355,7 +357,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.sup = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> "MixedContentForLongName":
+    def with_tt(self, value: "Tt") -> MixedContentForLongName:
         """
         Set tt and return self for chaining.
 
@@ -706,7 +708,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.br  # Delegates to property
 
-    def setBr(self, value: "Br") -> "MixedContentForParagraph":
+    def setBr(self, value: "Br") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for br with method chaining.
 
@@ -734,7 +736,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> "MixedContentForParagraph":
+    def setE(self, value: "EmphasisText") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -762,7 +764,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.ft  # Delegates to property
 
-    def setFt(self, value: "SlParagraph") -> "MixedContentForParagraph":
+    def setFt(self, value: "SlParagraph") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for ft with method chaining.
 
@@ -790,7 +792,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.ie  # Delegates to property
 
-    def setIe(self, value: "IndexEntry") -> "MixedContentForParagraph":
+    def setIe(self, value: "IndexEntry") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for ie with method chaining.
 
@@ -818,7 +820,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.std  # Delegates to property
 
-    def setStd(self, value: "Std") -> "MixedContentForParagraph":
+    def setStd(self, value: "Std") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for std with method chaining.
 
@@ -846,7 +848,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> "MixedContentForParagraph":
+    def setSub(self, value: "Superscript") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -874,7 +876,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> "MixedContentForParagraph":
+    def setSup(self, value: "Superscript") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -902,7 +904,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.trace  # Delegates to property
 
-    def setTrace(self, value: "Traceable") -> "MixedContentForParagraph":
+    def setTrace(self, value: "Traceable") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for trace with method chaining.
 
@@ -930,7 +932,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> "MixedContentForParagraph":
+    def setTt(self, value: "Tt") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -958,7 +960,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xdoc  # Delegates to property
 
-    def setXdoc(self, value: "Xdoc") -> "MixedContentForParagraph":
+    def setXdoc(self, value: "Xdoc") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for xdoc with method chaining.
 
@@ -986,7 +988,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xfile  # Delegates to property
 
-    def setXfile(self, value: "Xfile") -> "MixedContentForParagraph":
+    def setXfile(self, value: "Xfile") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for xfile with method chaining.
 
@@ -1014,7 +1016,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xref  # Delegates to property
 
-    def setXref(self, value: "Xref") -> "MixedContentForParagraph":
+    def setXref(self, value: "Xref") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for xref with method chaining.
 
@@ -1042,7 +1044,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xref_target  # Delegates to property
 
-    def setXrefTarget(self, value: "XrefTarget") -> "MixedContentForParagraph":
+    def setXrefTarget(self, value: "XrefTarget") -> MixedContentForParagraph:
         """
         AUTOSAR-compliant setter for xrefTarget with method chaining.
 
@@ -1060,7 +1062,7 @@ class MixedContentForParagraph(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_br(self, value: "Br") -> "MixedContentForParagraph":
+    def with_br(self, value: "Br") -> MixedContentForParagraph:
         """
         Set br and return self for chaining.
 
@@ -1076,7 +1078,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.br = value  # Use property setter (gets validation)
         return self
 
-    def with_e(self, value: "EmphasisText") -> "MixedContentForParagraph":
+    def with_e(self, value: "EmphasisText") -> MixedContentForParagraph:
         """
         Set e and return self for chaining.
 
@@ -1092,7 +1094,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_ft(self, value: "SlParagraph") -> "MixedContentForParagraph":
+    def with_ft(self, value: "SlParagraph") -> MixedContentForParagraph:
         """
         Set ft and return self for chaining.
 
@@ -1108,7 +1110,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.ft = value  # Use property setter (gets validation)
         return self
 
-    def with_ie(self, value: "IndexEntry") -> "MixedContentForParagraph":
+    def with_ie(self, value: "IndexEntry") -> MixedContentForParagraph:
         """
         Set ie and return self for chaining.
 
@@ -1124,7 +1126,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.ie = value  # Use property setter (gets validation)
         return self
 
-    def with_std(self, value: "Std") -> "MixedContentForParagraph":
+    def with_std(self, value: "Std") -> MixedContentForParagraph:
         """
         Set std and return self for chaining.
 
@@ -1140,7 +1142,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.std = value  # Use property setter (gets validation)
         return self
 
-    def with_sub(self, value: "Superscript") -> "MixedContentForParagraph":
+    def with_sub(self, value: "Superscript") -> MixedContentForParagraph:
         """
         Set sub and return self for chaining.
 
@@ -1156,7 +1158,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> "MixedContentForParagraph":
+    def with_sup(self, value: "Superscript") -> MixedContentForParagraph:
         """
         Set sup and return self for chaining.
 
@@ -1172,7 +1174,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.sup = value  # Use property setter (gets validation)
         return self
 
-    def with_trace(self, value: "Traceable") -> "MixedContentForParagraph":
+    def with_trace(self, value: "Traceable") -> MixedContentForParagraph:
         """
         Set trace and return self for chaining.
 
@@ -1188,7 +1190,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.trace = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> "MixedContentForParagraph":
+    def with_tt(self, value: "Tt") -> MixedContentForParagraph:
         """
         Set tt and return self for chaining.
 
@@ -1204,7 +1206,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.tt = value  # Use property setter (gets validation)
         return self
 
-    def with_xdoc(self, value: "Xdoc") -> "MixedContentForParagraph":
+    def with_xdoc(self, value: "Xdoc") -> MixedContentForParagraph:
         """
         Set xdoc and return self for chaining.
 
@@ -1220,7 +1222,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xdoc = value  # Use property setter (gets validation)
         return self
 
-    def with_xfile(self, value: "Xfile") -> "MixedContentForParagraph":
+    def with_xfile(self, value: "Xfile") -> MixedContentForParagraph:
         """
         Set xfile and return self for chaining.
 
@@ -1236,7 +1238,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xfile = value  # Use property setter (gets validation)
         return self
 
-    def with_xref(self, value: "Xref") -> "MixedContentForParagraph":
+    def with_xref(self, value: "Xref") -> MixedContentForParagraph:
         """
         Set xref and return self for chaining.
 
@@ -1252,7 +1254,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xref = value  # Use property setter (gets validation)
         return self
 
-    def with_xref_target(self, value: "XrefTarget") -> "MixedContentForParagraph":
+    def with_xref_target(self, value: "XrefTarget") -> MixedContentForParagraph:
         """
         Set xrefTarget and return self for chaining.
 
@@ -1535,7 +1537,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.br  # Delegates to property
 
-    def setBr(self, value: "Br") -> "MixedContentForOverviewParagraph":
+    def setBr(self, value: "Br") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for br with method chaining.
 
@@ -1563,7 +1565,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> "MixedContentForOverviewParagraph":
+    def setE(self, value: "EmphasisText") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -1591,7 +1593,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.ft  # Delegates to property
 
-    def setFt(self, value: "SlOverviewParagraph") -> "MixedContentForOverviewParagraph":
+    def setFt(self, value: "SlOverviewParagraph") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for ft with method chaining.
 
@@ -1619,7 +1621,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.ie  # Delegates to property
 
-    def setIe(self, value: "IndexEntry") -> "MixedContentForOverviewParagraph":
+    def setIe(self, value: "IndexEntry") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for ie with method chaining.
 
@@ -1647,7 +1649,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> "MixedContentForOverviewParagraph":
+    def setSub(self, value: "Superscript") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -1675,7 +1677,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> "MixedContentForOverviewParagraph":
+    def setSup(self, value: "Superscript") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -1703,7 +1705,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.trace  # Delegates to property
 
-    def setTrace(self, value: "Traceable") -> "MixedContentForOverviewParagraph":
+    def setTrace(self, value: "Traceable") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for trace with method chaining.
 
@@ -1731,7 +1733,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> "MixedContentForOverviewParagraph":
+    def setTt(self, value: "Tt") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -1759,7 +1761,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.xref  # Delegates to property
 
-    def setXref(self, value: "Xref") -> "MixedContentForOverviewParagraph":
+    def setXref(self, value: "Xref") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for xref with method chaining.
 
@@ -1787,7 +1789,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.xref_target  # Delegates to property
 
-    def setXrefTarget(self, value: "XrefTarget") -> "MixedContentForOverviewParagraph":
+    def setXrefTarget(self, value: "XrefTarget") -> MixedContentForOverviewParagraph:
         """
         AUTOSAR-compliant setter for xrefTarget with method chaining.
 
@@ -1805,7 +1807,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_br(self, value: "Br") -> "MixedContentForOverviewParagraph":
+    def with_br(self, value: "Br") -> MixedContentForOverviewParagraph:
         """
         Set br and return self for chaining.
 
@@ -1821,7 +1823,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.br = value  # Use property setter (gets validation)
         return self
 
-    def with_e(self, value: "EmphasisText") -> "MixedContentForOverviewParagraph":
+    def with_e(self, value: "EmphasisText") -> MixedContentForOverviewParagraph:
         """
         Set e and return self for chaining.
 
@@ -1837,7 +1839,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_ft(self, value: "SlOverviewParagraph") -> "MixedContentForOverviewParagraph":
+    def with_ft(self, value: "SlOverviewParagraph") -> MixedContentForOverviewParagraph:
         """
         Set ft and return self for chaining.
 
@@ -1853,7 +1855,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.ft = value  # Use property setter (gets validation)
         return self
 
-    def with_ie(self, value: "IndexEntry") -> "MixedContentForOverviewParagraph":
+    def with_ie(self, value: "IndexEntry") -> MixedContentForOverviewParagraph:
         """
         Set ie and return self for chaining.
 
@@ -1869,7 +1871,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.ie = value  # Use property setter (gets validation)
         return self
 
-    def with_sub(self, value: "Superscript") -> "MixedContentForOverviewParagraph":
+    def with_sub(self, value: "Superscript") -> MixedContentForOverviewParagraph:
         """
         Set sub and return self for chaining.
 
@@ -1885,7 +1887,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> "MixedContentForOverviewParagraph":
+    def with_sup(self, value: "Superscript") -> MixedContentForOverviewParagraph:
         """
         Set sup and return self for chaining.
 
@@ -1901,7 +1903,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.sup = value  # Use property setter (gets validation)
         return self
 
-    def with_trace(self, value: "Traceable") -> "MixedContentForOverviewParagraph":
+    def with_trace(self, value: "Traceable") -> MixedContentForOverviewParagraph:
         """
         Set trace and return self for chaining.
 
@@ -1917,7 +1919,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.trace = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> "MixedContentForOverviewParagraph":
+    def with_tt(self, value: "Tt") -> MixedContentForOverviewParagraph:
         """
         Set tt and return self for chaining.
 
@@ -1933,7 +1935,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.tt = value  # Use property setter (gets validation)
         return self
 
-    def with_xref(self, value: "Xref") -> "MixedContentForOverviewParagraph":
+    def with_xref(self, value: "Xref") -> MixedContentForOverviewParagraph:
         """
         Set xref and return self for chaining.
 
@@ -1949,7 +1951,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.xref = value  # Use property setter (gets validation)
         return self
 
-    def with_xref_target(self, value: "XrefTarget") -> "MixedContentForOverviewParagraph":
+    def with_xref_target(self, value: "XrefTarget") -> MixedContentForOverviewParagraph:
         """
         Set xrefTarget and return self for chaining.
 
@@ -2105,7 +2107,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.br  # Delegates to property
 
-    def setBr(self, value: "Br") -> "MixedContentForVerbatim":
+    def setBr(self, value: "Br") -> MixedContentForVerbatim:
         """
         AUTOSAR-compliant setter for br with method chaining.
 
@@ -2133,7 +2135,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> "MixedContentForVerbatim":
+    def setE(self, value: "EmphasisText") -> MixedContentForVerbatim:
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -2161,7 +2163,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> "MixedContentForVerbatim":
+    def setTt(self, value: "Tt") -> MixedContentForVerbatim:
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -2189,7 +2191,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.xref  # Delegates to property
 
-    def setXref(self, value: "Xref") -> "MixedContentForVerbatim":
+    def setXref(self, value: "Xref") -> MixedContentForVerbatim:
         """
         AUTOSAR-compliant setter for xref with method chaining.
 
@@ -2207,7 +2209,7 @@ class MixedContentForVerbatim(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_br(self, value: "Br") -> "MixedContentForVerbatim":
+    def with_br(self, value: "Br") -> MixedContentForVerbatim:
         """
         Set br and return self for chaining.
 
@@ -2223,7 +2225,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.br = value  # Use property setter (gets validation)
         return self
 
-    def with_e(self, value: "EmphasisText") -> "MixedContentForVerbatim":
+    def with_e(self, value: "EmphasisText") -> MixedContentForVerbatim:
         """
         Set e and return self for chaining.
 
@@ -2239,7 +2241,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> "MixedContentForVerbatim":
+    def with_tt(self, value: "Tt") -> MixedContentForVerbatim:
         """
         Set tt and return self for chaining.
 
@@ -2255,7 +2257,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.tt = value  # Use property setter (gets validation)
         return self
 
-    def with_xref(self, value: "Xref") -> "MixedContentForVerbatim":
+    def with_xref(self, value: "Xref") -> MixedContentForVerbatim:
         """
         Set xref and return self for chaining.
 
@@ -2378,7 +2380,7 @@ class MixedContentForUnitNames(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> "MixedContentForUnitNames":
+    def setSub(self, value: "Superscript") -> MixedContentForUnitNames:
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -2406,7 +2408,7 @@ class MixedContentForUnitNames(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> "MixedContentForUnitNames":
+    def setSup(self, value: "Superscript") -> MixedContentForUnitNames:
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -2424,7 +2426,7 @@ class MixedContentForUnitNames(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sub(self, value: "Superscript") -> "MixedContentForUnitNames":
+    def with_sub(self, value: "Superscript") -> MixedContentForUnitNames:
         """
         Set sub and return self for chaining.
 
@@ -2440,7 +2442,7 @@ class MixedContentForUnitNames(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> "MixedContentForUnitNames":
+    def with_sup(self, value: "Superscript") -> MixedContentForUnitNames:
         """
         Set sup and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - EndToEndProtection
 Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     NameToken,
     PositiveInteger,
@@ -595,7 +597,7 @@ class EndToEndDescription(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "NameToken") -> "EndToEndDescription":
+    def setCategory(self, value: "NameToken") -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -623,7 +625,7 @@ class EndToEndDescription(ARObject):
         """
         return self.counter_offset  # Delegates to property
 
-    def setCounterOffset(self, value: "PositiveInteger") -> "EndToEndDescription":
+    def setCounterOffset(self, value: "PositiveInteger") -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for counterOffset with method chaining.
 
@@ -651,7 +653,7 @@ class EndToEndDescription(ARObject):
         """
         return self.crc_offset  # Delegates to property
 
-    def setCrcOffset(self, value: "PositiveInteger") -> "EndToEndDescription":
+    def setCrcOffset(self, value: "PositiveInteger") -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for crcOffset with method chaining.
 
@@ -679,7 +681,7 @@ class EndToEndDescription(ARObject):
         """
         return self.data_id_mode  # Delegates to property
 
-    def setDataIdMode(self, value: "PositiveInteger") -> "EndToEndDescription":
+    def setDataIdMode(self, value: "PositiveInteger") -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for dataIdMode with method chaining.
 
@@ -707,7 +709,7 @@ class EndToEndDescription(ARObject):
         """
         return self.data_id_nibble  # Delegates to property
 
-    def setDataIdNibble(self, value: "PositiveInteger") -> "EndToEndDescription":
+    def setDataIdNibble(self, value: "PositiveInteger") -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for dataIdNibble with method chaining.
 
@@ -735,7 +737,7 @@ class EndToEndDescription(ARObject):
         """
         return self.data_length  # Delegates to property
 
-    def setDataLength(self, value: "PositiveInteger") -> "EndToEndDescription":
+    def setDataLength(self, value: "PositiveInteger") -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
 
@@ -763,7 +765,7 @@ class EndToEndDescription(ARObject):
         """
         return self.max_delta  # Delegates to property
 
-    def setMaxDelta(self, value: "PositiveInteger") -> "EndToEndDescription":
+    def setMaxDelta(self, value: "PositiveInteger") -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
 
@@ -781,7 +783,7 @@ class EndToEndDescription(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["NameToken"]) -> "EndToEndDescription":
+    def with_category(self, value: Optional["NameToken"]) -> EndToEndDescription:
         """
         Set category and return self for chaining.
 
@@ -797,7 +799,7 @@ class EndToEndDescription(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndDescription":
+    def with_counter_offset(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
         """
         Set counterOffset and return self for chaining.
 
@@ -813,7 +815,7 @@ class EndToEndDescription(ARObject):
         self.counter_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndDescription":
+    def with_crc_offset(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
         """
         Set crcOffset and return self for chaining.
 
@@ -829,7 +831,7 @@ class EndToEndDescription(ARObject):
         self.crc_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_data_id_mode(self, value: Optional["PositiveInteger"]) -> "EndToEndDescription":
+    def with_data_id_mode(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
         """
         Set dataIdMode and return self for chaining.
 
@@ -845,7 +847,7 @@ class EndToEndDescription(ARObject):
         self.data_id_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_data_id_nibble(self, value: Optional["PositiveInteger"]) -> "EndToEndDescription":
+    def with_data_id_nibble(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
         """
         Set dataIdNibble and return self for chaining.
 
@@ -861,7 +863,7 @@ class EndToEndDescription(ARObject):
         self.data_id_nibble = value  # Use property setter (gets validation)
         return self
 
-    def with_data_length(self, value: Optional["PositiveInteger"]) -> "EndToEndDescription":
+    def with_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
         """
         Set dataLength and return self for chaining.
 
@@ -877,7 +879,7 @@ class EndToEndDescription(ARObject):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_max_delta(self, value: Optional["PositiveInteger"]) -> "EndToEndDescription":
+    def with_max_delta(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
         """
         Set maxDelta and return self for chaining.
 
@@ -912,16 +914,16 @@ class EndToEndProtectionSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is one particular EndToEndProtection.
         # atpSplitable; atpVariation.
-        self._endToEnd: List["EndToEndProtection"] = []
+        self._endToEnd: List[EndToEndProtection] = []
 
     @property
-    def end_to_end(self) -> List["EndToEndProtection"]:
+    def end_to_end(self) -> List[EndToEndProtection]:
         """Get endToEnd (Pythonic accessor)."""
         return self._endToEnd
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEndToEnd(self) -> List["EndToEndProtection"]:
+    def getEndToEnd(self) -> List[EndToEndProtection]:
         """
         AUTOSAR-compliant getter for endToEnd.
 
@@ -963,16 +965,16 @@ class EndToEndProtection(Identifiable):
                 # by the superior E2E (which is fully standardized by new projects (without
                 # legacy to carry-over parts) shall use the fully transformer approach.
         # atpVariation.
-        self._endToEnd: List["EndToEndProtection"] = []
+        self._endToEnd: List[EndToEndProtection] = []
 
     @property
-    def end_to_end(self) -> List["EndToEndProtection"]:
+    def end_to_end(self) -> List[EndToEndProtection]:
         """Get endToEnd (Pythonic accessor)."""
         return self._endToEnd
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEndToEnd(self) -> List["EndToEndProtection"]:
+    def getEndToEnd(self) -> List[EndToEndProtection]:
         """
         AUTOSAR-compliant getter for endToEnd.
 
@@ -1100,7 +1102,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         """
         return self.sender  # Delegates to property
 
-    def setSender(self, value: "RefType") -> "EndToEndProtectionVariablePrototype":
+    def setSender(self, value: "RefType") -> EndToEndProtectionVariablePrototype:
         """
         AUTOSAR-compliant setter for sender with method chaining.
 
@@ -1128,7 +1130,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> "EndToEndProtectionVariablePrototype":
+    def setShortLabel(self, value: "Identifier") -> EndToEndProtectionVariablePrototype:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -1146,7 +1148,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sender(self, value: Optional[RefType]) -> "EndToEndProtectionVariablePrototype":
+    def with_sender(self, value: Optional[RefType]) -> EndToEndProtectionVariablePrototype:
         """
         Set sender and return self for chaining.
 
@@ -1162,7 +1164,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         self.sender = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["Identifier"]) -> "EndToEndProtectionVariablePrototype":
+    def with_short_label(self, value: Optional["Identifier"]) -> EndToEndProtectionVariablePrototype:
         """
         Set shortLabel and return self for chaining.
 

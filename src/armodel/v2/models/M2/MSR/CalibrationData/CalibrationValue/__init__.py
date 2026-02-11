@@ -7,8 +7,8 @@ from armodel.v2.models.M2.MSR.CalibrationData.SwValues import SwValues
 from armodel.v2.models.M2.MSR.CalibrationData.ValueGroup import ValueGroup
 
 __all__ = [
-    "SwAxisCont",
-    "SwValueCont",
-    "SwValues",
-    "ValueGroup",
+    SwAxisCont,
+    SwValueCont,
+    SwValues,
+    ValueGroup,
 ]

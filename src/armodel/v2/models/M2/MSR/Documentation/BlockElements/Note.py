@@ -4,6 +4,8 @@ AUTOSAR Package - Note
 Package: M2::MSR::Documentation::BlockElements::Note
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -86,15 +88,15 @@ class Note(Paginateable):
             )
         self._noteText = value
         # Default is "HINT".
-        self._noteType: Optional["NoteTypeEnum"] = None
+        self._noteType: Optional[NoteTypeEnum] = None
 
     @property
-    def note_type(self) -> Optional["NoteTypeEnum"]:
+    def note_type(self) -> Optional[NoteTypeEnum]:
         """Get noteType (Pythonic accessor)."""
         return self._noteType
 
     @note_type.setter
-    def note_type(self, value: Optional["NoteTypeEnum"]) -> None:
+    def note_type(self, value: Optional[NoteTypeEnum]) -> None:
         """
         Set noteType with validation.
 
@@ -128,7 +130,7 @@ class Note(Paginateable):
         """
         return self.label  # Delegates to property
 
-    def setLabel(self, value: "MultilanguageLong") -> "Note":
+    def setLabel(self, value: "MultilanguageLong") -> Note:
         """
         AUTOSAR-compliant setter for label with method chaining.
 
@@ -156,7 +158,7 @@ class Note(Paginateable):
         """
         return self.note_text  # Delegates to property
 
-    def setNoteText(self, value: "DocumentationBlock") -> "Note":
+    def setNoteText(self, value: "DocumentationBlock") -> Note:
         """
         AUTOSAR-compliant setter for noteText with method chaining.
 
@@ -172,7 +174,7 @@ class Note(Paginateable):
         self.note_text = value  # Delegates to property setter
         return self
 
-    def getNoteType(self) -> "NoteTypeEnum":
+    def getNoteType(self) -> NoteTypeEnum:
         """
         AUTOSAR-compliant getter for noteType.
 
@@ -184,7 +186,7 @@ class Note(Paginateable):
         """
         return self.note_type  # Delegates to property
 
-    def setNoteType(self, value: "NoteTypeEnum") -> "Note":
+    def setNoteType(self, value: NoteTypeEnum) -> Note:
         """
         AUTOSAR-compliant setter for noteType with method chaining.
 
@@ -202,7 +204,7 @@ class Note(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_label(self, value: Optional["MultilanguageLong"]) -> "Note":
+    def with_label(self, value: Optional["MultilanguageLong"]) -> Note:
         """
         Set label and return self for chaining.
 
@@ -218,7 +220,7 @@ class Note(Paginateable):
         self.label = value  # Use property setter (gets validation)
         return self
 
-    def with_note_text(self, value: "DocumentationBlock") -> "Note":
+    def with_note_text(self, value: "DocumentationBlock") -> Note:
         """
         Set noteText and return self for chaining.
 
@@ -234,7 +236,7 @@ class Note(Paginateable):
         self.note_text = value  # Use property setter (gets validation)
         return self
 
-    def with_note_type(self, value: Optional["NoteTypeEnum"]) -> "Note":
+    def with_note_type(self, value: Optional[NoteTypeEnum]) -> Note:
         """
         Set noteType and return self for chaining.
 

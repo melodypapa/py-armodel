@@ -3,15 +3,16 @@
 ## Summary
 
 - **Total V2 classes**: 1937
-- **Verified**: 1847 (95%)
+- **Verified**: 1857 (95%)
 - **Wrong location**: 0
-- **Missing**: 90
-- **Extra files**: 427
+- **Duplicate definitions**: 0
+- **Missing**: 80
+- **Extra files**: 233
 - **Conflicts**: 184
 
 ## Missing Classes
 
-Total: 90
+Total: 80
 
 - `AlignmentType` → `src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
 - `SectionInitializationPolicyType` → `src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
@@ -33,7 +34,6 @@ Total: 90
 - `VerbatimStringPlain` → `src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
 - `AnyServiceInstanceId` → `src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
 - `AnyVersionString` → `src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
-- `Collection` → `src/armodel/v2/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ElementCollection.py`
 - `ISignal` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 - `ISignalIPduGroup` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 - `J1939DcmIPdu` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
@@ -86,24 +86,15 @@ Total: 90
 - `DynamicPartAlternative` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 - `MultiplexedPart` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 - `SegmentPosition` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
-- `J1939Cluster` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `AbstractCanCluster` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanCluster` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanClusterBusOffRecovery` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanCommunicationController` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `AbstractCanCommunicationController` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `AbstractCanCommunicationControllerAttributes` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanControllerConfiguration` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanControllerConfigurationRequirements` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanControllerFdConfiguration` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanControllerFdConfigurationRequirements` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanControllerXlConfiguration` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanControllerXlConfigurationRequirements` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `AbstractCanPhysicalChannel` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanPhysicalChannel` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `AbstractCanCommunicationConnector` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-- `CanCommunicationConnector` → `src/armodel/v2/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
+- `HwElement` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+- `HwDescriptionEntity` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+- `HwPinGroup` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+- `HwPinGroupContent` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+- `HwPin` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+- `HwElementConnector` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+- `HwPinGroupConnector` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+- `HwPinConnector` → `src/armodel/v2/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
 
 ## Status
 
-❌ **FAILED**: 90 required classes are missing from the codebase.
+❌ **FAILED**: 80 required classes are missing from the codebase.

@@ -17,6 +17,6 @@ __all__ = [
     "PhysicalDimension",
     "PhysicalDimensionMapping",
     "PhysicalDimensionMappingSet",
-    "Unit",
-    "UnitGroup",
+    Unit,
+    UnitGroup,
 ]

@@ -1,50 +1,34 @@
 """
-V2 M2::AUTOSARTemplates::ECUCDescriptionTemplate package.
+ECUC Description Template package.
+
+This module imports and re-exports classes from ECUCDescriptionTemplate.py.
+All class definitions are consolidated in ECUCDescriptionTemplate.py.
 """
-from armodel.v2.models.M2.AUTOSARTemplates.EcucAbstractReferenceValue import (
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucAddInfoParamValue import (
     EcucAddInfoParamValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucContainerValue import (
     EcucContainerValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucIndexableValue import (
     EcucIndexableValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucInstanceReferenceValue import (
     EcucInstanceReferenceValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucModuleConfigurationValues import (
     EcucModuleConfigurationValues,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucNumericalParamValue import (
     EcucNumericalParamValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucParameterValue import (
     EcucParameterValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucReferenceValue import (
     EcucReferenceValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucTextualParamValue import (
     EcucTextualParamValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcucValueCollection import (
     EcucValueCollection,
 )
 
 __all__ = [
-    "EcucAbstractReferenceValue",
-    "EcucAddInfoParamValue",
-    "EcucContainerValue",
-    "EcucIndexableValue",
-    "EcucInstanceReferenceValue",
-    "EcucModuleConfigurationValues",
-    "EcucNumericalParamValue",
-    "EcucParameterValue",
-    "EcucReferenceValue",
-    "EcucTextualParamValue",
-    "EcucValueCollection",
+    EcucAbstractReferenceValue,
+    EcucAddInfoParamValue,
+    EcucContainerValue,
+    EcucIndexableValue,
+    EcucInstanceReferenceValue,
+    EcucModuleConfigurationValues,
+    EcucNumericalParamValue,
+    EcucParameterValue,
+    EcucReferenceValue,
+    EcucTextualParamValue,
+    EcucValueCollection,
 ]

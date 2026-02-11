@@ -4,6 +4,8 @@ AUTOSAR Package - AnyInstanceRef
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef
 """
 
+
+from __future__ import annotations
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -116,7 +118,7 @@ class AnyInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtpClassifier") -> "AnyInstanceRef":
+    def setBase(self, value: "AtpClassifier") -> AnyInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -156,7 +158,7 @@ class AnyInstanceRef(ARObject):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "AtpFeature") -> "AnyInstanceRef":
+    def setTarget(self, value: "AtpFeature") -> AnyInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -174,7 +176,7 @@ class AnyInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: "AtpClassifier") -> "AnyInstanceRef":
+    def with_base(self, value: "AtpClassifier") -> AnyInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -190,7 +192,7 @@ class AnyInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: "AtpFeature") -> "AnyInstanceRef":
+    def with_target(self, value: "AtpFeature") -> AnyInstanceRef:
         """
         Set target and return self for chaining.
 

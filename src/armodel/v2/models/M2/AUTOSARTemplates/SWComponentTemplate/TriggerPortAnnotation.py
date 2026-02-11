@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
@@ -65,7 +67,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: RefType) -> "TriggerPortAnnotation":
+    def setTrigger(self, value: RefType) -> TriggerPortAnnotation:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -83,7 +85,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_trigger(self, value: Optional[RefType]) -> "TriggerPortAnnotation":
+    def with_trigger(self, value: Optional[RefType]) -> TriggerPortAnnotation:
         """
         Set trigger and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - Dds
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
     PositiveInteger,
     RefType,
@@ -44,15 +46,15 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the DdsTopic.
-        self._ddsTopic: Optional["DdsCpTopic"] = None
+        self._ddsTopic: Optional[DdsCpTopic] = None
 
     @property
-    def dds_topic(self) -> Optional["DdsCpTopic"]:
+    def dds_topic(self) -> Optional[DdsCpTopic]:
         """Get ddsTopic (Pythonic accessor)."""
         return self._ddsTopic
 
     @dds_topic.setter
-    def dds_topic(self, value: Optional["DdsCpTopic"]) -> None:
+    def dds_topic(self, value: Optional[DdsCpTopic]) -> None:
         """
         Set ddsTopic with validation.
 
@@ -165,7 +167,7 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsTopic(self) -> "DdsCpTopic":
+    def getDdsTopic(self) -> DdsCpTopic:
         """
         AUTOSAR-compliant getter for ddsTopic.
 
@@ -177,7 +179,7 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
         """
         return self.dds_topic  # Delegates to property
 
-    def setDdsTopic(self, value: "DdsCpTopic") -> "DdsCpISignalToDdsTopicMapping":
+    def setDdsTopic(self, value: DdsCpTopic) -> DdsCpISignalToDdsTopicMapping:
         """
         AUTOSAR-compliant setter for ddsTopic with method chaining.
 
@@ -205,7 +207,7 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
         """
         return self.i_signal  # Delegates to property
 
-    def setISignal(self, value: "ISignal") -> "DdsCpISignalToDdsTopicMapping":
+    def setISignal(self, value: "ISignal") -> DdsCpISignalToDdsTopicMapping:
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
 
@@ -223,7 +225,7 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dds_topic(self, value: Optional["DdsCpTopic"]) -> "DdsCpISignalToDdsTopicMapping":
+    def with_dds_topic(self, value: Optional[DdsCpTopic]) -> DdsCpISignalToDdsTopicMapping:
         """
         Set ddsTopic and return self for chaining.
 
@@ -239,7 +241,7 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
         self.dds_topic = value  # Use property setter (gets validation)
         return self
 
-    def with_i_signal(self, value: Optional["ISignal"]) -> "DdsCpISignalToDdsTopicMapping":
+    def with_i_signal(self, value: Optional["ISignal"]) -> DdsCpISignalToDdsTopicMapping:
         """
         Set iSignal and return self for chaining.
 
@@ -274,15 +276,15 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the DdsTopic used as fragment for the topic of field setters.
-        self._ddsFieldReply: Optional["DdsCpTopic"] = None
+        self._ddsFieldReply: Optional[DdsCpTopic] = None
 
     @property
-    def dds_field_reply(self) -> Optional["DdsCpTopic"]:
+    def dds_field_reply(self) -> Optional[DdsCpTopic]:
         """Get ddsFieldReply (Pythonic accessor)."""
         return self._ddsFieldReply
 
     @dds_field_reply.setter
-    def dds_field_reply(self, value: Optional["DdsCpTopic"]) -> None:
+    def dds_field_reply(self, value: Optional[DdsCpTopic]) -> None:
         """
         Set ddsFieldReply with validation.
 
@@ -301,15 +303,15 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
                 f"ddsFieldReply must be DdsCpTopic or None, got {type(value).__name__}"
             )
         self._ddsFieldReply = value
-        self._ddsField: Optional["DdsCpTopic"] = None
+        self._ddsField: Optional[DdsCpTopic] = None
 
     @property
-    def dds_field(self) -> Optional["DdsCpTopic"]:
+    def dds_field(self) -> Optional[DdsCpTopic]:
         """Get ddsField (Pythonic accessor)."""
         return self._ddsField
 
     @dds_field.setter
-    def dds_field(self, value: Optional["DdsCpTopic"]) -> None:
+    def dds_field(self, value: Optional[DdsCpTopic]) -> None:
         """
         Set ddsField with validation.
 
@@ -328,15 +330,15 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
                 f"ddsField must be DdsCpTopic or None, got {type(value).__name__}"
             )
         self._ddsField = value
-        self._ddsMethod: Optional["DdsCpTopic"] = None
+        self._ddsMethod: Optional[DdsCpTopic] = None
 
     @property
-    def dds_method(self) -> Optional["DdsCpTopic"]:
+    def dds_method(self) -> Optional[DdsCpTopic]:
         """Get ddsMethod (Pythonic accessor)."""
         return self._ddsMethod
 
     @dds_method.setter
-    def dds_method(self, value: Optional["DdsCpTopic"]) -> None:
+    def dds_method(self, value: Optional[DdsCpTopic]) -> None:
         """
         Set ddsMethod with validation.
 
@@ -357,15 +359,15 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self._ddsMethod = value
         # atp.
         # Status=candidate.
-        self._ddsServiceQos: Optional["DdsCpQosProfile"] = None
+        self._ddsServiceQos: Optional[DdsCpQosProfile] = None
 
     @property
-    def dds_service_qos(self) -> Optional["DdsCpQosProfile"]:
+    def dds_service_qos(self) -> Optional[DdsCpQosProfile]:
         """Get ddsServiceQos (Pythonic accessor)."""
         return self._ddsServiceQos
 
     @dds_service_qos.setter
-    def dds_service_qos(self, value: Optional["DdsCpQosProfile"]) -> None:
+    def dds_service_qos(self, value: Optional[DdsCpQosProfile]) -> None:
         """
         Set ddsServiceQos with validation.
 
@@ -444,7 +446,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsFieldReply(self) -> "DdsCpTopic":
+    def getDdsFieldReply(self) -> DdsCpTopic:
         """
         AUTOSAR-compliant getter for ddsFieldReply.
 
@@ -456,7 +458,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.dds_field_reply  # Delegates to property
 
-    def setDdsFieldReply(self, value: "DdsCpTopic") -> "DdsCpServiceInstance":
+    def setDdsFieldReply(self, value: DdsCpTopic) -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for ddsFieldReply with method chaining.
 
@@ -472,7 +474,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_field_reply = value  # Delegates to property setter
         return self
 
-    def getDdsField(self) -> "DdsCpTopic":
+    def getDdsField(self) -> DdsCpTopic:
         """
         AUTOSAR-compliant getter for ddsField.
 
@@ -484,7 +486,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.dds_field  # Delegates to property
 
-    def setDdsField(self, value: "DdsCpTopic") -> "DdsCpServiceInstance":
+    def setDdsField(self, value: DdsCpTopic) -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for ddsField with method chaining.
 
@@ -500,7 +502,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_field = value  # Delegates to property setter
         return self
 
-    def getDdsMethod(self) -> "DdsCpTopic":
+    def getDdsMethod(self) -> DdsCpTopic:
         """
         AUTOSAR-compliant getter for ddsMethod.
 
@@ -512,7 +514,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.dds_method  # Delegates to property
 
-    def setDdsMethod(self, value: "DdsCpTopic") -> "DdsCpServiceInstance":
+    def setDdsMethod(self, value: DdsCpTopic) -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for ddsMethod with method chaining.
 
@@ -528,7 +530,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_method = value  # Delegates to property setter
         return self
 
-    def getDdsServiceQos(self) -> "DdsCpQosProfile":
+    def getDdsServiceQos(self) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant getter for ddsServiceQos.
 
@@ -540,7 +542,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.dds_service_qos  # Delegates to property
 
-    def setDdsServiceQos(self, value: "DdsCpQosProfile") -> "DdsCpServiceInstance":
+    def setDdsServiceQos(self, value: DdsCpQosProfile) -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for ddsServiceQos with method chaining.
 
@@ -568,7 +570,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.service_instance  # Delegates to property
 
-    def setServiceInstance(self, value: "PositiveInteger") -> "DdsCpServiceInstance":
+    def setServiceInstance(self, value: "PositiveInteger") -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
 
@@ -596,7 +598,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.service_interface  # Delegates to property
 
-    def setServiceInterface(self, value: "String") -> "DdsCpServiceInstance":
+    def setServiceInterface(self, value: "String") -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for serviceInterface with method chaining.
 
@@ -614,7 +616,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dds_field_reply(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstance":
+    def with_dds_field_reply(self, value: Optional[DdsCpTopic]) -> DdsCpServiceInstance:
         """
         Set ddsFieldReply and return self for chaining.
 
@@ -630,7 +632,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_field_reply = value  # Use property setter (gets validation)
         return self
 
-    def with_dds_field(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstance":
+    def with_dds_field(self, value: Optional[DdsCpTopic]) -> DdsCpServiceInstance:
         """
         Set ddsField and return self for chaining.
 
@@ -646,7 +648,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_field = value  # Use property setter (gets validation)
         return self
 
-    def with_dds_method(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstance":
+    def with_dds_method(self, value: Optional[DdsCpTopic]) -> DdsCpServiceInstance:
         """
         Set ddsMethod and return self for chaining.
 
@@ -662,7 +664,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_method = value  # Use property setter (gets validation)
         return self
 
-    def with_dds_service_qos(self, value: Optional["DdsCpQosProfile"]) -> "DdsCpServiceInstance":
+    def with_dds_service_qos(self, value: Optional[DdsCpQosProfile]) -> DdsCpServiceInstance:
         """
         Set ddsServiceQos and return self for chaining.
 
@@ -678,7 +680,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_service_qos = value  # Use property setter (gets validation)
         return self
 
-    def with_service_instance(self, value: Optional["PositiveInteger"]) -> "DdsCpServiceInstance":
+    def with_service_instance(self, value: Optional["PositiveInteger"]) -> DdsCpServiceInstance:
         """
         Set serviceInstance and return self for chaining.
 
@@ -694,7 +696,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.service_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_service_interface(self, value: Optional["String"]) -> "DdsCpServiceInstance":
+    def with_service_interface(self, value: Optional["String"]) -> DdsCpServiceInstance:
         """
         Set serviceInterface and return self for chaining.
 
@@ -752,15 +754,15 @@ class DdsCpServiceInstanceEvent(ARObject):
         self._ddsEvent = value
         # atp.
         # Status=candidate.
-        self._ddsEventQos: Optional["DdsCpQosProfile"] = None
+        self._ddsEventQos: Optional[DdsCpQosProfile] = None
 
     @property
-    def dds_event_qos(self) -> Optional["DdsCpQosProfile"]:
+    def dds_event_qos(self) -> Optional[DdsCpQosProfile]:
         """Get ddsEventQos (Pythonic accessor)."""
         return self._ddsEventQos
 
     @dds_event_qos.setter
-    def dds_event_qos(self, value: Optional["DdsCpQosProfile"]) -> None:
+    def dds_event_qos(self, value: Optional[DdsCpQosProfile]) -> None:
         """
         Set ddsEventQos with validation.
 
@@ -779,15 +781,15 @@ class DdsCpServiceInstanceEvent(ARObject):
                 f"ddsEventQos must be DdsCpQosProfile or None, got {type(value).__name__}"
             )
         self._ddsEventQos = value
-        self._ddsEventTopic: Optional["DdsCpTopic"] = None
+        self._ddsEventTopic: Optional[DdsCpTopic] = None
 
     @property
-    def dds_event_topic(self) -> Optional["DdsCpTopic"]:
+    def dds_event_topic(self) -> Optional[DdsCpTopic]:
         """Get ddsEventTopic (Pythonic accessor)."""
         return self._ddsEventTopic
 
     @dds_event_topic.setter
-    def dds_event_topic(self, value: Optional["DdsCpTopic"]) -> None:
+    def dds_event_topic(self, value: Optional[DdsCpTopic]) -> None:
         """
         Set ddsEventTopic with validation.
 
@@ -821,7 +823,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         """
         return self.dds_event  # Delegates to property
 
-    def setDdsEvent(self, value: "RefType") -> "DdsCpServiceInstanceEvent":
+    def setDdsEvent(self, value: "RefType") -> DdsCpServiceInstanceEvent:
         """
         AUTOSAR-compliant setter for ddsEvent with method chaining.
 
@@ -837,7 +839,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         self.dds_event = value  # Delegates to property setter
         return self
 
-    def getDdsEventQos(self) -> "DdsCpQosProfile":
+    def getDdsEventQos(self) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant getter for ddsEventQos.
 
@@ -849,7 +851,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         """
         return self.dds_event_qos  # Delegates to property
 
-    def setDdsEventQos(self, value: "DdsCpQosProfile") -> "DdsCpServiceInstanceEvent":
+    def setDdsEventQos(self, value: DdsCpQosProfile) -> DdsCpServiceInstanceEvent:
         """
         AUTOSAR-compliant setter for ddsEventQos with method chaining.
 
@@ -865,7 +867,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         self.dds_event_qos = value  # Delegates to property setter
         return self
 
-    def getDdsEventTopic(self) -> "DdsCpTopic":
+    def getDdsEventTopic(self) -> DdsCpTopic:
         """
         AUTOSAR-compliant getter for ddsEventTopic.
 
@@ -877,7 +879,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         """
         return self.dds_event_topic  # Delegates to property
 
-    def setDdsEventTopic(self, value: "DdsCpTopic") -> "DdsCpServiceInstanceEvent":
+    def setDdsEventTopic(self, value: DdsCpTopic) -> DdsCpServiceInstanceEvent:
         """
         AUTOSAR-compliant setter for ddsEventTopic with method chaining.
 
@@ -895,7 +897,7 @@ class DdsCpServiceInstanceEvent(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dds_event(self, value: Optional[RefType]) -> "DdsCpServiceInstanceEvent":
+    def with_dds_event(self, value: Optional[RefType]) -> DdsCpServiceInstanceEvent:
         """
         Set ddsEvent and return self for chaining.
 
@@ -911,7 +913,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         self.dds_event = value  # Use property setter (gets validation)
         return self
 
-    def with_dds_event_qos(self, value: Optional["DdsCpQosProfile"]) -> "DdsCpServiceInstanceEvent":
+    def with_dds_event_qos(self, value: Optional[DdsCpQosProfile]) -> DdsCpServiceInstanceEvent:
         """
         Set ddsEventQos and return self for chaining.
 
@@ -927,7 +929,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         self.dds_event_qos = value  # Use property setter (gets validation)
         return self
 
-    def with_dds_event_topic(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstanceEvent":
+    def with_dds_event_topic(self, value: Optional[DdsCpTopic]) -> DdsCpServiceInstanceEvent:
         """
         Set ddsEventTopic and return self for chaining.
 
@@ -1001,7 +1003,7 @@ class DdsCpServiceInstanceOperation(ARObject):
         """
         return self.dds_operation  # Delegates to property
 
-    def setDdsOperation(self, value: "RefType") -> "DdsCpServiceInstanceOperation":
+    def setDdsOperation(self, value: "RefType") -> DdsCpServiceInstanceOperation:
         """
         AUTOSAR-compliant setter for ddsOperation with method chaining.
 
@@ -1019,7 +1021,7 @@ class DdsCpServiceInstanceOperation(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dds_operation(self, value: Optional[RefType]) -> "DdsCpServiceInstanceOperation":
+    def with_dds_operation(self, value: Optional[RefType]) -> DdsCpServiceInstanceOperation:
         """
         Set ddsOperation and return self for chaining.
 
@@ -1052,23 +1054,23 @@ class DdsCpConfig(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of DDS Domain definitions.
-        self._ddsDomain: List["DdsCpDomain"] = []
+        self._ddsDomain: List[DdsCpDomain] = []
 
     @property
-    def dds_domain(self) -> List["DdsCpDomain"]:
+    def dds_domain(self) -> List[DdsCpDomain]:
         """Get ddsDomain (Pythonic accessor)."""
         return self._ddsDomain
         # Collection of DDS QOS Profiles.
-        self._ddsQosProfile: List["DdsCpQosProfile"] = []
+        self._ddsQosProfile: List[DdsCpQosProfile] = []
 
     @property
-    def dds_qos_profile(self) -> List["DdsCpQosProfile"]:
+    def dds_qos_profile(self) -> List[DdsCpQosProfile]:
         """Get ddsQosProfile (Pythonic accessor)."""
         return self._ddsQosProfile
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsDomain(self) -> List["DdsCpDomain"]:
+    def getDdsDomain(self) -> List[DdsCpDomain]:
         """
         AUTOSAR-compliant getter for ddsDomain.
 
@@ -1080,7 +1082,7 @@ class DdsCpConfig(ARElement):
         """
         return self.dds_domain  # Delegates to property
 
-    def getDdsQosProfile(self) -> List["DdsCpQosProfile"]:
+    def getDdsQosProfile(self) -> List[DdsCpQosProfile]:
         """
         AUTOSAR-compliant getter for ddsQosProfile.
 
@@ -1110,17 +1112,17 @@ class DdsCpDomain(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of DDS Partition definitions.
-        self._ddsPartition: List["DdsCpPartition"] = []
+        self._ddsPartition: List[DdsCpPartition] = []
 
     @property
-    def dds_partition(self) -> List["DdsCpPartition"]:
+    def dds_partition(self) -> List[DdsCpPartition]:
         """Get ddsPartition (Pythonic accessor)."""
         return self._ddsPartition
         # Collection of DDS Topics.
-        self._ddsTopic: List["DdsCpTopic"] = []
+        self._ddsTopic: List[DdsCpTopic] = []
 
     @property
-    def dds_topic(self) -> List["DdsCpTopic"]:
+    def dds_topic(self) -> List[DdsCpTopic]:
         """Get ddsTopic (Pythonic accessor)."""
         return self._ddsTopic
         # Definition of the DDS Domain Id.
@@ -1154,7 +1156,7 @@ class DdsCpDomain(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsPartition(self) -> List["DdsCpPartition"]:
+    def getDdsPartition(self) -> List[DdsCpPartition]:
         """
         AUTOSAR-compliant getter for ddsPartition.
 
@@ -1166,7 +1168,7 @@ class DdsCpDomain(Identifiable):
         """
         return self.dds_partition  # Delegates to property
 
-    def getDdsTopic(self) -> List["DdsCpTopic"]:
+    def getDdsTopic(self) -> List[DdsCpTopic]:
         """
         AUTOSAR-compliant getter for ddsTopic.
 
@@ -1190,7 +1192,7 @@ class DdsCpDomain(Identifiable):
         """
         return self.domain_id  # Delegates to property
 
-    def setDomainId(self, value: "PositiveInteger") -> "DdsCpDomain":
+    def setDomainId(self, value: "PositiveInteger") -> DdsCpDomain:
         """
         AUTOSAR-compliant setter for domainId with method chaining.
 
@@ -1208,7 +1210,7 @@ class DdsCpDomain(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_domain_id(self, value: Optional["PositiveInteger"]) -> "DdsCpDomain":
+    def with_domain_id(self, value: Optional["PositiveInteger"]) -> DdsCpDomain:
         """
         Set domainId and return self for chaining.
 
@@ -1240,15 +1242,15 @@ class DdsCpTopic(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the DDS Partition this topic is.
-        self._ddsPartition: Optional["DdsCpPartition"] = None
+        self._ddsPartition: Optional[DdsCpPartition] = None
 
     @property
-    def dds_partition(self) -> Optional["DdsCpPartition"]:
+    def dds_partition(self) -> Optional[DdsCpPartition]:
         """Get ddsPartition (Pythonic accessor)."""
         return self._ddsPartition
 
     @dds_partition.setter
-    def dds_partition(self, value: Optional["DdsCpPartition"]) -> None:
+    def dds_partition(self, value: Optional[DdsCpPartition]) -> None:
         """
         Set ddsPartition with validation.
 
@@ -1297,7 +1299,7 @@ class DdsCpTopic(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsPartition(self) -> "DdsCpPartition":
+    def getDdsPartition(self) -> DdsCpPartition:
         """
         AUTOSAR-compliant getter for ddsPartition.
 
@@ -1309,7 +1311,7 @@ class DdsCpTopic(Identifiable):
         """
         return self.dds_partition  # Delegates to property
 
-    def setDdsPartition(self, value: "DdsCpPartition") -> "DdsCpTopic":
+    def setDdsPartition(self, value: DdsCpPartition) -> DdsCpTopic:
         """
         AUTOSAR-compliant setter for ddsPartition with method chaining.
 
@@ -1337,7 +1339,7 @@ class DdsCpTopic(Identifiable):
         """
         return self.topic_name  # Delegates to property
 
-    def setTopicName(self, value: "String") -> "DdsCpTopic":
+    def setTopicName(self, value: "String") -> DdsCpTopic:
         """
         AUTOSAR-compliant setter for topicName with method chaining.
 
@@ -1355,7 +1357,7 @@ class DdsCpTopic(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dds_partition(self, value: Optional["DdsCpPartition"]) -> "DdsCpTopic":
+    def with_dds_partition(self, value: Optional[DdsCpPartition]) -> DdsCpTopic:
         """
         Set ddsPartition and return self for chaining.
 
@@ -1371,7 +1373,7 @@ class DdsCpTopic(Identifiable):
         self.dds_partition = value  # Use property setter (gets validation)
         return self
 
-    def with_topic_name(self, value: Optional["String"]) -> "DdsCpTopic":
+    def with_topic_name(self, value: Optional["String"]) -> DdsCpTopic:
         """
         Set topicName and return self for chaining.
 
@@ -1446,7 +1448,7 @@ class DdsCpPartition(Identifiable):
         """
         return self.partition_name  # Delegates to property
 
-    def setPartitionName(self, value: "String") -> "DdsCpPartition":
+    def setPartitionName(self, value: "String") -> DdsCpPartition:
         """
         AUTOSAR-compliant setter for partitionName with method chaining.
 
@@ -1464,7 +1466,7 @@ class DdsCpPartition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_partition_name(self, value: Optional["String"]) -> "DdsCpPartition":
+    def with_partition_name(self, value: Optional["String"]) -> DdsCpPartition:
         """
         Set partitionName and return self for chaining.
 
@@ -1496,15 +1498,15 @@ class DdsCpQosProfile(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the DDS DEADLINE QoS policy.
-        self._deadline: Optional["DdsDeadline"] = None
+        self._deadline: Optional[DdsDeadline] = None
 
     @property
-    def deadline(self) -> Optional["DdsDeadline"]:
+    def deadline(self) -> Optional[DdsDeadline]:
         """Get deadline (Pythonic accessor)."""
         return self._deadline
 
     @deadline.setter
-    def deadline(self, value: Optional["DdsDeadline"]) -> None:
+    def deadline(self, value: Optional[DdsDeadline]) -> None:
         """
         Set deadline with validation.
 
@@ -1523,15 +1525,15 @@ class DdsCpQosProfile(Identifiable):
                 f"deadline must be DdsDeadline or None, got {type(value).__name__}"
             )
         self._deadline = value
-        self._destinationOrder: Optional["DdsDestinationOrder"] = None
+        self._destinationOrder: Optional[DdsDestinationOrder] = None
 
     @property
-    def destination_order(self) -> Optional["DdsDestinationOrder"]:
+    def destination_order(self) -> Optional[DdsDestinationOrder]:
         """Get destinationOrder (Pythonic accessor)."""
         return self._destinationOrder
 
     @destination_order.setter
-    def destination_order(self, value: Optional["DdsDestinationOrder"]) -> None:
+    def destination_order(self, value: Optional[DdsDestinationOrder]) -> None:
         """
         Set destinationOrder with validation.
 
@@ -1552,15 +1554,15 @@ class DdsCpQosProfile(Identifiable):
         self._destinationOrder = value
         # atp.
         # Status=candidate.
-        self._durability: Optional["DdsDurabilityService"] = None
+        self._durability: Optional[DdsDurabilityService] = None
 
     @property
-    def durability(self) -> Optional["DdsDurabilityService"]:
+    def durability(self) -> Optional[DdsDurabilityService]:
         """Get durability (Pythonic accessor)."""
         return self._durability
 
     @durability.setter
-    def durability(self, value: Optional["DdsDurabilityService"]) -> None:
+    def durability(self, value: Optional[DdsDurabilityService]) -> None:
         """
         Set durability with validation.
 
@@ -1579,15 +1581,15 @@ class DdsCpQosProfile(Identifiable):
                 f"durability must be DdsDurabilityService or None, got {type(value).__name__}"
             )
         self._durability = value
-        self._history: Optional["DdsHistory"] = None
+        self._history: Optional[DdsHistory] = None
 
     @property
-    def history(self) -> Optional["DdsHistory"]:
+    def history(self) -> Optional[DdsHistory]:
         """Get history (Pythonic accessor)."""
         return self._history
 
     @history.setter
-    def history(self, value: Optional["DdsHistory"]) -> None:
+    def history(self, value: Optional[DdsHistory]) -> None:
         """
         Set history with validation.
 
@@ -1606,15 +1608,15 @@ class DdsCpQosProfile(Identifiable):
                 f"history must be DdsHistory or None, got {type(value).__name__}"
             )
         self._history = value
-        self._latencyBudget: Optional["DdsLatencyBudget"] = None
+        self._latencyBudget: Optional[DdsLatencyBudget] = None
 
     @property
-    def latency_budget(self) -> Optional["DdsLatencyBudget"]:
+    def latency_budget(self) -> Optional[DdsLatencyBudget]:
         """Get latencyBudget (Pythonic accessor)."""
         return self._latencyBudget
 
     @latency_budget.setter
-    def latency_budget(self, value: Optional["DdsLatencyBudget"]) -> None:
+    def latency_budget(self, value: Optional[DdsLatencyBudget]) -> None:
         """
         Set latencyBudget with validation.
 
@@ -1633,15 +1635,15 @@ class DdsCpQosProfile(Identifiable):
                 f"latencyBudget must be DdsLatencyBudget or None, got {type(value).__name__}"
             )
         self._latencyBudget = value
-        self._lifespan: Optional["DdsLifespan"] = None
+        self._lifespan: Optional[DdsLifespan] = None
 
     @property
-    def lifespan(self) -> Optional["DdsLifespan"]:
+    def lifespan(self) -> Optional[DdsLifespan]:
         """Get lifespan (Pythonic accessor)."""
         return self._lifespan
 
     @lifespan.setter
-    def lifespan(self, value: Optional["DdsLifespan"]) -> None:
+    def lifespan(self, value: Optional[DdsLifespan]) -> None:
         """
         Set lifespan with validation.
 
@@ -1660,15 +1662,15 @@ class DdsCpQosProfile(Identifiable):
                 f"lifespan must be DdsLifespan or None, got {type(value).__name__}"
             )
         self._lifespan = value
-        self._liveliness: Optional["DdsLiveliness"] = None
+        self._liveliness: Optional[DdsLiveliness] = None
 
     @property
-    def liveliness(self) -> Optional["DdsLiveliness"]:
+    def liveliness(self) -> Optional[DdsLiveliness]:
         """Get liveliness (Pythonic accessor)."""
         return self._liveliness
 
     @liveliness.setter
-    def liveliness(self, value: Optional["DdsLiveliness"]) -> None:
+    def liveliness(self, value: Optional[DdsLiveliness]) -> None:
         """
         Set liveliness with validation.
 
@@ -1689,15 +1691,15 @@ class DdsCpQosProfile(Identifiable):
         self._liveliness = value
         # atp.
         # Status=candidate.
-        self._ownership: Optional["DdsOwnershipStrength"] = None
+        self._ownership: Optional[DdsOwnershipStrength] = None
 
     @property
-    def ownership(self) -> Optional["DdsOwnershipStrength"]:
+    def ownership(self) -> Optional[DdsOwnershipStrength]:
         """Get ownership (Pythonic accessor)."""
         return self._ownership
 
     @ownership.setter
-    def ownership(self, value: Optional["DdsOwnershipStrength"]) -> None:
+    def ownership(self, value: Optional[DdsOwnershipStrength]) -> None:
         """
         Set ownership with validation.
 
@@ -1716,15 +1718,15 @@ class DdsCpQosProfile(Identifiable):
                 f"ownership must be DdsOwnershipStrength or None, got {type(value).__name__}"
             )
         self._ownership = value
-        self._reliability: Optional["DdsReliability"] = None
+        self._reliability: Optional[DdsReliability] = None
 
     @property
-    def reliability(self) -> Optional["DdsReliability"]:
+    def reliability(self) -> Optional[DdsReliability]:
         """Get reliability (Pythonic accessor)."""
         return self._reliability
 
     @reliability.setter
-    def reliability(self, value: Optional["DdsReliability"]) -> None:
+    def reliability(self, value: Optional[DdsReliability]) -> None:
         """
         Set reliability with validation.
 
@@ -1743,15 +1745,15 @@ class DdsCpQosProfile(Identifiable):
                 f"reliability must be DdsReliability or None, got {type(value).__name__}"
             )
         self._reliability = value
-        self._resourceLimits: Optional["DdsResourceLimits"] = None
+        self._resourceLimits: Optional[DdsResourceLimits] = None
 
     @property
-    def resource_limits(self) -> Optional["DdsResourceLimits"]:
+    def resource_limits(self) -> Optional[DdsResourceLimits]:
         """Get resourceLimits (Pythonic accessor)."""
         return self._resourceLimits
 
     @resource_limits.setter
-    def resource_limits(self, value: Optional["DdsResourceLimits"]) -> None:
+    def resource_limits(self, value: Optional[DdsResourceLimits]) -> None:
         """
         Set resourceLimits with validation.
 
@@ -1770,15 +1772,15 @@ class DdsCpQosProfile(Identifiable):
                 f"resourceLimits must be DdsResourceLimits or None, got {type(value).__name__}"
             )
         self._resourceLimits = value
-        self._topicData: Optional["DdsTopicData"] = None
+        self._topicData: Optional[DdsTopicData] = None
 
     @property
-    def topic_data(self) -> Optional["DdsTopicData"]:
+    def topic_data(self) -> Optional[DdsTopicData]:
         """Get topicData (Pythonic accessor)."""
         return self._topicData
 
     @topic_data.setter
-    def topic_data(self, value: Optional["DdsTopicData"]) -> None:
+    def topic_data(self, value: Optional[DdsTopicData]) -> None:
         """
         Set topicData with validation.
 
@@ -1797,15 +1799,15 @@ class DdsCpQosProfile(Identifiable):
                 f"topicData must be DdsTopicData or None, got {type(value).__name__}"
             )
         self._topicData = value
-        self._transportPriority: Optional["DdsTransportPriority"] = None
+        self._transportPriority: Optional[DdsTransportPriority] = None
 
     @property
-    def transport_priority(self) -> Optional["DdsTransportPriority"]:
+    def transport_priority(self) -> Optional[DdsTransportPriority]:
         """Get transportPriority (Pythonic accessor)."""
         return self._transportPriority
 
     @transport_priority.setter
-    def transport_priority(self, value: Optional["DdsTransportPriority"]) -> None:
+    def transport_priority(self, value: Optional[DdsTransportPriority]) -> None:
         """
         Set transportPriority with validation.
 
@@ -1827,7 +1829,7 @@ class DdsCpQosProfile(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDeadline(self) -> "DdsDeadline":
+    def getDeadline(self) -> DdsDeadline:
         """
         AUTOSAR-compliant getter for deadline.
 
@@ -1839,7 +1841,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.deadline  # Delegates to property
 
-    def setDeadline(self, value: "DdsDeadline") -> "DdsCpQosProfile":
+    def setDeadline(self, value: DdsDeadline) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for deadline with method chaining.
 
@@ -1855,7 +1857,7 @@ class DdsCpQosProfile(Identifiable):
         self.deadline = value  # Delegates to property setter
         return self
 
-    def getDestinationOrder(self) -> "DdsDestinationOrder":
+    def getDestinationOrder(self) -> DdsDestinationOrder:
         """
         AUTOSAR-compliant getter for destinationOrder.
 
@@ -1867,7 +1869,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.destination_order  # Delegates to property
 
-    def setDestinationOrder(self, value: "DdsDestinationOrder") -> "DdsCpQosProfile":
+    def setDestinationOrder(self, value: DdsDestinationOrder) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for destinationOrder with method chaining.
 
@@ -1883,7 +1885,7 @@ class DdsCpQosProfile(Identifiable):
         self.destination_order = value  # Delegates to property setter
         return self
 
-    def getDurability(self) -> "DdsDurabilityService":
+    def getDurability(self) -> DdsDurabilityService:
         """
         AUTOSAR-compliant getter for durability.
 
@@ -1895,7 +1897,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.durability  # Delegates to property
 
-    def setDurability(self, value: "DdsDurabilityService") -> "DdsCpQosProfile":
+    def setDurability(self, value: DdsDurabilityService) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for durability with method chaining.
 
@@ -1911,7 +1913,7 @@ class DdsCpQosProfile(Identifiable):
         self.durability = value  # Delegates to property setter
         return self
 
-    def getHistory(self) -> "DdsHistory":
+    def getHistory(self) -> DdsHistory:
         """
         AUTOSAR-compliant getter for history.
 
@@ -1923,7 +1925,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.history  # Delegates to property
 
-    def setHistory(self, value: "DdsHistory") -> "DdsCpQosProfile":
+    def setHistory(self, value: DdsHistory) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for history with method chaining.
 
@@ -1939,7 +1941,7 @@ class DdsCpQosProfile(Identifiable):
         self.history = value  # Delegates to property setter
         return self
 
-    def getLatencyBudget(self) -> "DdsLatencyBudget":
+    def getLatencyBudget(self) -> DdsLatencyBudget:
         """
         AUTOSAR-compliant getter for latencyBudget.
 
@@ -1951,7 +1953,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.latency_budget  # Delegates to property
 
-    def setLatencyBudget(self, value: "DdsLatencyBudget") -> "DdsCpQosProfile":
+    def setLatencyBudget(self, value: DdsLatencyBudget) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for latencyBudget with method chaining.
 
@@ -1967,7 +1969,7 @@ class DdsCpQosProfile(Identifiable):
         self.latency_budget = value  # Delegates to property setter
         return self
 
-    def getLifespan(self) -> "DdsLifespan":
+    def getLifespan(self) -> DdsLifespan:
         """
         AUTOSAR-compliant getter for lifespan.
 
@@ -1979,7 +1981,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.lifespan  # Delegates to property
 
-    def setLifespan(self, value: "DdsLifespan") -> "DdsCpQosProfile":
+    def setLifespan(self, value: DdsLifespan) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for lifespan with method chaining.
 
@@ -1995,7 +1997,7 @@ class DdsCpQosProfile(Identifiable):
         self.lifespan = value  # Delegates to property setter
         return self
 
-    def getLiveliness(self) -> "DdsLiveliness":
+    def getLiveliness(self) -> DdsLiveliness:
         """
         AUTOSAR-compliant getter for liveliness.
 
@@ -2007,7 +2009,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.liveliness  # Delegates to property
 
-    def setLiveliness(self, value: "DdsLiveliness") -> "DdsCpQosProfile":
+    def setLiveliness(self, value: DdsLiveliness) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for liveliness with method chaining.
 
@@ -2023,7 +2025,7 @@ class DdsCpQosProfile(Identifiable):
         self.liveliness = value  # Delegates to property setter
         return self
 
-    def getOwnership(self) -> "DdsOwnershipStrength":
+    def getOwnership(self) -> DdsOwnershipStrength:
         """
         AUTOSAR-compliant getter for ownership.
 
@@ -2035,7 +2037,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.ownership  # Delegates to property
 
-    def setOwnership(self, value: "DdsOwnershipStrength") -> "DdsCpQosProfile":
+    def setOwnership(self, value: DdsOwnershipStrength) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for ownership with method chaining.
 
@@ -2051,7 +2053,7 @@ class DdsCpQosProfile(Identifiable):
         self.ownership = value  # Delegates to property setter
         return self
 
-    def getReliability(self) -> "DdsReliability":
+    def getReliability(self) -> DdsReliability:
         """
         AUTOSAR-compliant getter for reliability.
 
@@ -2063,7 +2065,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.reliability  # Delegates to property
 
-    def setReliability(self, value: "DdsReliability") -> "DdsCpQosProfile":
+    def setReliability(self, value: DdsReliability) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for reliability with method chaining.
 
@@ -2079,7 +2081,7 @@ class DdsCpQosProfile(Identifiable):
         self.reliability = value  # Delegates to property setter
         return self
 
-    def getResourceLimits(self) -> "DdsResourceLimits":
+    def getResourceLimits(self) -> DdsResourceLimits:
         """
         AUTOSAR-compliant getter for resourceLimits.
 
@@ -2091,7 +2093,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.resource_limits  # Delegates to property
 
-    def setResourceLimits(self, value: "DdsResourceLimits") -> "DdsCpQosProfile":
+    def setResourceLimits(self, value: DdsResourceLimits) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for resourceLimits with method chaining.
 
@@ -2107,7 +2109,7 @@ class DdsCpQosProfile(Identifiable):
         self.resource_limits = value  # Delegates to property setter
         return self
 
-    def getTopicData(self) -> "DdsTopicData":
+    def getTopicData(self) -> DdsTopicData:
         """
         AUTOSAR-compliant getter for topicData.
 
@@ -2119,7 +2121,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.topic_data  # Delegates to property
 
-    def setTopicData(self, value: "DdsTopicData") -> "DdsCpQosProfile":
+    def setTopicData(self, value: DdsTopicData) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for topicData with method chaining.
 
@@ -2135,7 +2137,7 @@ class DdsCpQosProfile(Identifiable):
         self.topic_data = value  # Delegates to property setter
         return self
 
-    def getTransportPriority(self) -> "DdsTransportPriority":
+    def getTransportPriority(self) -> DdsTransportPriority:
         """
         AUTOSAR-compliant getter for transportPriority.
 
@@ -2147,7 +2149,7 @@ class DdsCpQosProfile(Identifiable):
         """
         return self.transport_priority  # Delegates to property
 
-    def setTransportPriority(self, value: "DdsTransportPriority") -> "DdsCpQosProfile":
+    def setTransportPriority(self, value: DdsTransportPriority) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant setter for transportPriority with method chaining.
 
@@ -2165,7 +2167,7 @@ class DdsCpQosProfile(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_deadline(self, value: Optional["DdsDeadline"]) -> "DdsCpQosProfile":
+    def with_deadline(self, value: Optional[DdsDeadline]) -> DdsCpQosProfile:
         """
         Set deadline and return self for chaining.
 
@@ -2181,7 +2183,7 @@ class DdsCpQosProfile(Identifiable):
         self.deadline = value  # Use property setter (gets validation)
         return self
 
-    def with_destination_order(self, value: Optional["DdsDestinationOrder"]) -> "DdsCpQosProfile":
+    def with_destination_order(self, value: Optional[DdsDestinationOrder]) -> DdsCpQosProfile:
         """
         Set destinationOrder and return self for chaining.
 
@@ -2197,7 +2199,7 @@ class DdsCpQosProfile(Identifiable):
         self.destination_order = value  # Use property setter (gets validation)
         return self
 
-    def with_durability(self, value: Optional["DdsDurabilityService"]) -> "DdsCpQosProfile":
+    def with_durability(self, value: Optional[DdsDurabilityService]) -> DdsCpQosProfile:
         """
         Set durability and return self for chaining.
 
@@ -2213,7 +2215,7 @@ class DdsCpQosProfile(Identifiable):
         self.durability = value  # Use property setter (gets validation)
         return self
 
-    def with_history(self, value: Optional["DdsHistory"]) -> "DdsCpQosProfile":
+    def with_history(self, value: Optional[DdsHistory]) -> DdsCpQosProfile:
         """
         Set history and return self for chaining.
 
@@ -2229,7 +2231,7 @@ class DdsCpQosProfile(Identifiable):
         self.history = value  # Use property setter (gets validation)
         return self
 
-    def with_latency_budget(self, value: Optional["DdsLatencyBudget"]) -> "DdsCpQosProfile":
+    def with_latency_budget(self, value: Optional[DdsLatencyBudget]) -> DdsCpQosProfile:
         """
         Set latencyBudget and return self for chaining.
 
@@ -2245,7 +2247,7 @@ class DdsCpQosProfile(Identifiable):
         self.latency_budget = value  # Use property setter (gets validation)
         return self
 
-    def with_lifespan(self, value: Optional["DdsLifespan"]) -> "DdsCpQosProfile":
+    def with_lifespan(self, value: Optional[DdsLifespan]) -> DdsCpQosProfile:
         """
         Set lifespan and return self for chaining.
 
@@ -2261,7 +2263,7 @@ class DdsCpQosProfile(Identifiable):
         self.lifespan = value  # Use property setter (gets validation)
         return self
 
-    def with_liveliness(self, value: Optional["DdsLiveliness"]) -> "DdsCpQosProfile":
+    def with_liveliness(self, value: Optional[DdsLiveliness]) -> DdsCpQosProfile:
         """
         Set liveliness and return self for chaining.
 
@@ -2277,7 +2279,7 @@ class DdsCpQosProfile(Identifiable):
         self.liveliness = value  # Use property setter (gets validation)
         return self
 
-    def with_ownership(self, value: Optional["DdsOwnershipStrength"]) -> "DdsCpQosProfile":
+    def with_ownership(self, value: Optional[DdsOwnershipStrength]) -> DdsCpQosProfile:
         """
         Set ownership and return self for chaining.
 
@@ -2293,7 +2295,7 @@ class DdsCpQosProfile(Identifiable):
         self.ownership = value  # Use property setter (gets validation)
         return self
 
-    def with_reliability(self, value: Optional["DdsReliability"]) -> "DdsCpQosProfile":
+    def with_reliability(self, value: Optional[DdsReliability]) -> DdsCpQosProfile:
         """
         Set reliability and return self for chaining.
 
@@ -2309,7 +2311,7 @@ class DdsCpQosProfile(Identifiable):
         self.reliability = value  # Use property setter (gets validation)
         return self
 
-    def with_resource_limits(self, value: Optional["DdsResourceLimits"]) -> "DdsCpQosProfile":
+    def with_resource_limits(self, value: Optional[DdsResourceLimits]) -> DdsCpQosProfile:
         """
         Set resourceLimits and return self for chaining.
 
@@ -2325,7 +2327,7 @@ class DdsCpQosProfile(Identifiable):
         self.resource_limits = value  # Use property setter (gets validation)
         return self
 
-    def with_topic_data(self, value: Optional["DdsTopicData"]) -> "DdsCpQosProfile":
+    def with_topic_data(self, value: Optional[DdsTopicData]) -> DdsCpQosProfile:
         """
         Set topicData and return self for chaining.
 
@@ -2341,7 +2343,7 @@ class DdsCpQosProfile(Identifiable):
         self.topic_data = value  # Use property setter (gets validation)
         return self
 
-    def with_transport_priority(self, value: Optional["DdsTransportPriority"]) -> "DdsCpQosProfile":
+    def with_transport_priority(self, value: Optional[DdsTransportPriority]) -> DdsCpQosProfile:
         """
         Set transportPriority and return self for chaining.
 
@@ -2415,7 +2417,7 @@ class DdsTopicData(ARObject):
         """
         return self.topic_data  # Delegates to property
 
-    def setTopicData(self, value: "String") -> "DdsTopicData":
+    def setTopicData(self, value: "String") -> DdsTopicData:
         """
         AUTOSAR-compliant setter for topicData with method chaining.
 
@@ -2433,7 +2435,7 @@ class DdsTopicData(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_topic_data(self, value: Optional["String"]) -> "DdsTopicData":
+    def with_topic_data(self, value: Optional["String"]) -> DdsTopicData:
         """
         Set topicData and return self for chaining.
 
@@ -2465,15 +2467,15 @@ class DdsDurability(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "DURABILITY" chapter in DDS.
-        self._durabilityKind: Optional["DdsDurabilityKindEnum"] = None
+        self._durabilityKind: Optional[DdsDurabilityKindEnum] = None
 
     @property
-    def durability_kind(self) -> Optional["DdsDurabilityKindEnum"]:
+    def durability_kind(self) -> Optional[DdsDurabilityKindEnum]:
         """Get durabilityKind (Pythonic accessor)."""
         return self._durabilityKind
 
     @durability_kind.setter
-    def durability_kind(self, value: Optional["DdsDurabilityKindEnum"]) -> None:
+    def durability_kind(self, value: Optional[DdsDurabilityKindEnum]) -> None:
         """
         Set durabilityKind with validation.
 
@@ -2495,7 +2497,7 @@ class DdsDurability(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDurabilityKind(self) -> "DdsDurabilityKindEnum":
+    def getDurabilityKind(self) -> DdsDurabilityKindEnum:
         """
         AUTOSAR-compliant getter for durabilityKind.
 
@@ -2507,7 +2509,7 @@ class DdsDurability(ARObject):
         """
         return self.durability_kind  # Delegates to property
 
-    def setDurabilityKind(self, value: "DdsDurabilityKindEnum") -> "DdsDurability":
+    def setDurabilityKind(self, value: DdsDurabilityKindEnum) -> DdsDurability:
         """
         AUTOSAR-compliant setter for durabilityKind with method chaining.
 
@@ -2525,7 +2527,7 @@ class DdsDurability(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_durability_kind(self, value: Optional["DdsDurabilityKindEnum"]) -> "DdsDurability":
+    def with_durability_kind(self, value: Optional[DdsDurabilityKindEnum]) -> DdsDurability:
         """
         Set durabilityKind and return self for chaining.
 
@@ -2601,7 +2603,7 @@ class DdsDurabilityService(ARObject):
         """
         return self.durability  # Delegates to property
 
-    def setDurability(self, value: "PositiveInteger") -> "DdsDurabilityService":
+    def setDurability(self, value: "PositiveInteger") -> DdsDurabilityService:
         """
         AUTOSAR-compliant setter for durability with method chaining.
 
@@ -2619,7 +2621,7 @@ class DdsDurabilityService(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_durability(self, value: Optional["PositiveInteger"]) -> "DdsDurabilityService":
+    def with_durability(self, value: Optional["PositiveInteger"]) -> DdsDurabilityService:
         """
         Set durability and return self for chaining.
 
@@ -2694,7 +2696,7 @@ class DdsDeadline(ARObject):
         """
         return self.deadline_period  # Delegates to property
 
-    def setDeadlinePeriod(self, value: "Float") -> "DdsDeadline":
+    def setDeadlinePeriod(self, value: "Float") -> DdsDeadline:
         """
         AUTOSAR-compliant setter for deadlinePeriod with method chaining.
 
@@ -2712,7 +2714,7 @@ class DdsDeadline(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_deadline_period(self, value: Optional["Float"]) -> "DdsDeadline":
+    def with_deadline_period(self, value: Optional["Float"]) -> DdsDeadline:
         """
         Set deadlinePeriod and return self for chaining.
 
@@ -2787,7 +2789,7 @@ class DdsLatencyBudget(ARObject):
         """
         return self.latency_budget  # Delegates to property
 
-    def setLatencyBudget(self, value: "Float") -> "DdsLatencyBudget":
+    def setLatencyBudget(self, value: "Float") -> DdsLatencyBudget:
         """
         AUTOSAR-compliant setter for latencyBudget with method chaining.
 
@@ -2805,7 +2807,7 @@ class DdsLatencyBudget(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_latency_budget(self, value: Optional["Float"]) -> "DdsLatencyBudget":
+    def with_latency_budget(self, value: Optional["Float"]) -> DdsLatencyBudget:
         """
         Set latencyBudget and return self for chaining.
 
@@ -2881,7 +2883,7 @@ class DdsOwnership(ARObject):
         """
         return self.ownership_kind  # Delegates to property
 
-    def setOwnershipKind(self, value: "DdsOwnershipKind") -> "DdsOwnership":
+    def setOwnershipKind(self, value: "DdsOwnershipKind") -> DdsOwnership:
         """
         AUTOSAR-compliant setter for ownershipKind with method chaining.
 
@@ -2899,7 +2901,7 @@ class DdsOwnership(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ownership_kind(self, value: Optional["DdsOwnershipKind"]) -> "DdsOwnership":
+    def with_ownership_kind(self, value: Optional["DdsOwnershipKind"]) -> DdsOwnership:
         """
         Set ownershipKind and return self for chaining.
 
@@ -2975,7 +2977,7 @@ class DdsOwnershipStrength(ARObject):
         """
         return self.ownership  # Delegates to property
 
-    def setOwnership(self, value: "PositiveInteger") -> "DdsOwnershipStrength":
+    def setOwnership(self, value: "PositiveInteger") -> DdsOwnershipStrength:
         """
         AUTOSAR-compliant setter for ownership with method chaining.
 
@@ -2993,7 +2995,7 @@ class DdsOwnershipStrength(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ownership(self, value: Optional["PositiveInteger"]) -> "DdsOwnershipStrength":
+    def with_ownership(self, value: Optional["PositiveInteger"]) -> DdsOwnershipStrength:
         """
         Set ownership and return self for chaining.
 
@@ -3053,15 +3055,15 @@ class DdsLiveliness(ARObject):
                 f"livelinessLease must be Float or float or None, got {type(value).__name__}"
             )
         self._livelinessLease = value
-        self._livenessKind: Optional["DdsLivenessKindEnum"] = None
+        self._livenessKind: Optional[DdsLivenessKindEnum] = None
 
     @property
-    def liveness_kind(self) -> Optional["DdsLivenessKindEnum"]:
+    def liveness_kind(self) -> Optional[DdsLivenessKindEnum]:
         """Get livenessKind (Pythonic accessor)."""
         return self._livenessKind
 
     @liveness_kind.setter
-    def liveness_kind(self, value: Optional["DdsLivenessKindEnum"]) -> None:
+    def liveness_kind(self, value: Optional[DdsLivenessKindEnum]) -> None:
         """
         Set livenessKind with validation.
 
@@ -3095,7 +3097,7 @@ class DdsLiveliness(ARObject):
         """
         return self.liveliness_lease  # Delegates to property
 
-    def setLivelinessLease(self, value: "Float") -> "DdsLiveliness":
+    def setLivelinessLease(self, value: "Float") -> DdsLiveliness:
         """
         AUTOSAR-compliant setter for livelinessLease with method chaining.
 
@@ -3111,7 +3113,7 @@ class DdsLiveliness(ARObject):
         self.liveliness_lease = value  # Delegates to property setter
         return self
 
-    def getLivenessKind(self) -> "DdsLivenessKindEnum":
+    def getLivenessKind(self) -> DdsLivenessKindEnum:
         """
         AUTOSAR-compliant getter for livenessKind.
 
@@ -3123,7 +3125,7 @@ class DdsLiveliness(ARObject):
         """
         return self.liveness_kind  # Delegates to property
 
-    def setLivenessKind(self, value: "DdsLivenessKindEnum") -> "DdsLiveliness":
+    def setLivenessKind(self, value: DdsLivenessKindEnum) -> DdsLiveliness:
         """
         AUTOSAR-compliant setter for livenessKind with method chaining.
 
@@ -3141,7 +3143,7 @@ class DdsLiveliness(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_liveliness_lease(self, value: Optional["Float"]) -> "DdsLiveliness":
+    def with_liveliness_lease(self, value: Optional["Float"]) -> DdsLiveliness:
         """
         Set livelinessLease and return self for chaining.
 
@@ -3157,7 +3159,7 @@ class DdsLiveliness(ARObject):
         self.liveliness_lease = value  # Use property setter (gets validation)
         return self
 
-    def with_liveness_kind(self, value: Optional["DdsLivenessKindEnum"]) -> "DdsLiveliness":
+    def with_liveness_kind(self, value: Optional[DdsLivenessKindEnum]) -> DdsLiveliness:
         """
         Set livenessKind and return self for chaining.
 
@@ -3189,15 +3191,15 @@ class DdsReliability(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "RELIABILITY" chapter of DDS.
-        self._reliabilityKind: Optional["DdsReliabilityKindEnum"] = None
+        self._reliabilityKind: Optional[DdsReliabilityKindEnum] = None
 
     @property
-    def reliability_kind(self) -> Optional["DdsReliabilityKindEnum"]:
+    def reliability_kind(self) -> Optional[DdsReliabilityKindEnum]:
         """Get reliabilityKind (Pythonic accessor)."""
         return self._reliabilityKind
 
     @reliability_kind.setter
-    def reliability_kind(self, value: Optional["DdsReliabilityKindEnum"]) -> None:
+    def reliability_kind(self, value: Optional[DdsReliabilityKindEnum]) -> None:
         """
         Set reliabilityKind with validation.
 
@@ -3247,7 +3249,7 @@ class DdsReliability(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getReliabilityKind(self) -> "DdsReliabilityKindEnum":
+    def getReliabilityKind(self) -> DdsReliabilityKindEnum:
         """
         AUTOSAR-compliant getter for reliabilityKind.
 
@@ -3259,7 +3261,7 @@ class DdsReliability(ARObject):
         """
         return self.reliability_kind  # Delegates to property
 
-    def setReliabilityKind(self, value: "DdsReliabilityKindEnum") -> "DdsReliability":
+    def setReliabilityKind(self, value: DdsReliabilityKindEnum) -> DdsReliability:
         """
         AUTOSAR-compliant setter for reliabilityKind with method chaining.
 
@@ -3287,7 +3289,7 @@ class DdsReliability(ARObject):
         """
         return self.reliability_max  # Delegates to property
 
-    def setReliabilityMax(self, value: "Float") -> "DdsReliability":
+    def setReliabilityMax(self, value: "Float") -> DdsReliability:
         """
         AUTOSAR-compliant setter for reliabilityMax with method chaining.
 
@@ -3305,7 +3307,7 @@ class DdsReliability(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_reliability_kind(self, value: Optional["DdsReliabilityKindEnum"]) -> "DdsReliability":
+    def with_reliability_kind(self, value: Optional[DdsReliabilityKindEnum]) -> DdsReliability:
         """
         Set reliabilityKind and return self for chaining.
 
@@ -3321,7 +3323,7 @@ class DdsReliability(ARObject):
         self.reliability_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_reliability_max(self, value: Optional["Float"]) -> "DdsReliability":
+    def with_reliability_max(self, value: Optional["Float"]) -> DdsReliability:
         """
         Set reliabilityMax and return self for chaining.
 
@@ -3395,7 +3397,7 @@ class DdsTransportPriority(ARObject):
         """
         return self.transport_priority  # Delegates to property
 
-    def setTransportPriority(self, value: "PositiveInteger") -> "DdsTransportPriority":
+    def setTransportPriority(self, value: "PositiveInteger") -> DdsTransportPriority:
         """
         AUTOSAR-compliant setter for transportPriority with method chaining.
 
@@ -3413,7 +3415,7 @@ class DdsTransportPriority(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transport_priority(self, value: Optional["PositiveInteger"]) -> "DdsTransportPriority":
+    def with_transport_priority(self, value: Optional["PositiveInteger"]) -> DdsTransportPriority:
         """
         Set transportPriority and return self for chaining.
 
@@ -3488,7 +3490,7 @@ class DdsLifespan(ARObject):
         """
         return self.lifespan_duration  # Delegates to property
 
-    def setLifespanDuration(self, value: "Float") -> "DdsLifespan":
+    def setLifespanDuration(self, value: "Float") -> DdsLifespan:
         """
         AUTOSAR-compliant setter for lifespanDuration with method chaining.
 
@@ -3506,7 +3508,7 @@ class DdsLifespan(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lifespan_duration(self, value: Optional["Float"]) -> "DdsLifespan":
+    def with_lifespan_duration(self, value: Optional["Float"]) -> DdsLifespan:
         """
         Set lifespanDuration and return self for chaining.
 
@@ -3540,15 +3542,15 @@ class DdsDestinationOrder(ARObject):
         # See "DESTINATION_ORDER" chapter of DDS.
         # Tags: atp.
         # Status=candidate.
-        self._destination: Optional["DdsDestinationOrder"] = None
+        self._destination: Optional[DdsDestinationOrder] = None
 
     @property
-    def destination(self) -> Optional["DdsDestinationOrder"]:
+    def destination(self) -> Optional[DdsDestinationOrder]:
         """Get destination (Pythonic accessor)."""
         return self._destination
 
     @destination.setter
-    def destination(self, value: Optional["DdsDestinationOrder"]) -> None:
+    def destination(self, value: Optional[DdsDestinationOrder]) -> None:
         """
         Set destination with validation.
 
@@ -3570,7 +3572,7 @@ class DdsDestinationOrder(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestination(self) -> "DdsDestinationOrder":
+    def getDestination(self) -> DdsDestinationOrder:
         """
         AUTOSAR-compliant getter for destination.
 
@@ -3582,7 +3584,7 @@ class DdsDestinationOrder(ARObject):
         """
         return self.destination  # Delegates to property
 
-    def setDestination(self, value: "DdsDestinationOrder") -> "DdsDestinationOrder":
+    def setDestination(self, value: DdsDestinationOrder) -> DdsDestinationOrder:
         """
         AUTOSAR-compliant setter for destination with method chaining.
 
@@ -3600,7 +3602,7 @@ class DdsDestinationOrder(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_destination(self, value: Optional["DdsDestinationOrder"]) -> "DdsDestinationOrder":
+    def with_destination(self, value: Optional[DdsDestinationOrder]) -> DdsDestinationOrder:
         """
         Set destination and return self for chaining.
 
@@ -3632,15 +3634,15 @@ class DdsHistory(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "HISTORY" chapter of DDS.
-        self._historyKind: Optional["DdsHistoryKindEnum"] = None
+        self._historyKind: Optional[DdsHistoryKindEnum] = None
 
     @property
-    def history_kind(self) -> Optional["DdsHistoryKindEnum"]:
+    def history_kind(self) -> Optional[DdsHistoryKindEnum]:
         """Get historyKind (Pythonic accessor)."""
         return self._historyKind
 
     @history_kind.setter
-    def history_kind(self, value: Optional["DdsHistoryKindEnum"]) -> None:
+    def history_kind(self, value: Optional[DdsHistoryKindEnum]) -> None:
         """
         Set historyKind with validation.
 
@@ -3691,7 +3693,7 @@ class DdsHistory(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHistoryKind(self) -> "DdsHistoryKindEnum":
+    def getHistoryKind(self) -> DdsHistoryKindEnum:
         """
         AUTOSAR-compliant getter for historyKind.
 
@@ -3703,7 +3705,7 @@ class DdsHistory(ARObject):
         """
         return self.history_kind  # Delegates to property
 
-    def setHistoryKind(self, value: "DdsHistoryKindEnum") -> "DdsHistory":
+    def setHistoryKind(self, value: DdsHistoryKindEnum) -> DdsHistory:
         """
         AUTOSAR-compliant setter for historyKind with method chaining.
 
@@ -3731,7 +3733,7 @@ class DdsHistory(ARObject):
         """
         return self.history_order  # Delegates to property
 
-    def setHistoryOrder(self, value: "PositiveInteger") -> "DdsHistory":
+    def setHistoryOrder(self, value: "PositiveInteger") -> DdsHistory:
         """
         AUTOSAR-compliant setter for historyOrder with method chaining.
 
@@ -3749,7 +3751,7 @@ class DdsHistory(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_history_kind(self, value: Optional["DdsHistoryKindEnum"]) -> "DdsHistory":
+    def with_history_kind(self, value: Optional[DdsHistoryKindEnum]) -> DdsHistory:
         """
         Set historyKind and return self for chaining.
 
@@ -3765,7 +3767,7 @@ class DdsHistory(ARObject):
         self.history_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_history_order(self, value: Optional["PositiveInteger"]) -> "DdsHistory":
+    def with_history_order(self, value: Optional["PositiveInteger"]) -> DdsHistory:
         """
         Set historyOrder and return self for chaining.
 
@@ -3894,7 +3896,7 @@ class DdsResourceLimits(ARObject):
         """
         return self.max_instances  # Delegates to property
 
-    def setMaxInstances(self, value: "PositiveInteger") -> "DdsResourceLimits":
+    def setMaxInstances(self, value: "PositiveInteger") -> DdsResourceLimits:
         """
         AUTOSAR-compliant setter for maxInstances with method chaining.
 
@@ -3922,7 +3924,7 @@ class DdsResourceLimits(ARObject):
         """
         return self.max_samples  # Delegates to property
 
-    def setMaxSamples(self, value: "PositiveInteger") -> "DdsResourceLimits":
+    def setMaxSamples(self, value: "PositiveInteger") -> DdsResourceLimits:
         """
         AUTOSAR-compliant setter for maxSamples with method chaining.
 
@@ -3950,7 +3952,7 @@ class DdsResourceLimits(ARObject):
         """
         return self.max_samples_per_instance  # Delegates to property
 
-    def setMaxSamplesPerInstance(self, value: "PositiveInteger") -> "DdsResourceLimits":
+    def setMaxSamplesPerInstance(self, value: "PositiveInteger") -> DdsResourceLimits:
         """
         AUTOSAR-compliant setter for maxSamplesPerInstance with method chaining.
 
@@ -3968,7 +3970,7 @@ class DdsResourceLimits(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_instances(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
+    def with_max_instances(self, value: Optional["PositiveInteger"]) -> DdsResourceLimits:
         """
         Set maxInstances and return self for chaining.
 
@@ -3984,7 +3986,7 @@ class DdsResourceLimits(ARObject):
         self.max_instances = value  # Use property setter (gets validation)
         return self
 
-    def with_max_samples(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
+    def with_max_samples(self, value: Optional["PositiveInteger"]) -> DdsResourceLimits:
         """
         Set maxSamples and return self for chaining.
 
@@ -4000,7 +4002,7 @@ class DdsResourceLimits(ARObject):
         self.max_samples = value  # Use property setter (gets validation)
         return self
 
-    def with_max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
+    def with_max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> DdsResourceLimits:
         """
         Set maxSamplesPerInstance and return self for chaining.
 
@@ -4090,10 +4092,10 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
             )
         self._minorVersion = value
         # Stereotypes: atpSplitable; atpVariation Event Tags:.
-        self._providedDds: List["DdsCpServiceInstance"] = []
+        self._providedDds: List[DdsCpServiceInstance] = []
 
     @property
-    def provided_dds(self) -> List["DdsCpServiceInstance"]:
+    def provided_dds(self) -> List[DdsCpServiceInstance]:
         """Get providedDds (Pythonic accessor)."""
         return self._providedDds
         # This reference defines the remote unicast addresses of consumers.
@@ -4121,7 +4123,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> "DdsCpProvidedServiceInstance":
+    def setLocalUnicast(self, value: "ApplicationEndpoint") -> DdsCpProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -4149,7 +4151,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: "PositiveInteger") -> "DdsCpProvidedServiceInstance":
+    def setMinorVersion(self, value: "PositiveInteger") -> DdsCpProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -4165,7 +4167,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         self.minor_version = value  # Delegates to property setter
         return self
 
-    def getProvidedDds(self) -> List["DdsCpServiceInstance"]:
+    def getProvidedDds(self) -> List[DdsCpServiceInstance]:
         """
         AUTOSAR-compliant getter for providedDds.
 
@@ -4191,7 +4193,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpProvidedServiceInstance":
+    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> DdsCpProvidedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -4207,7 +4209,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional["PositiveInteger"]) -> "DdsCpProvidedServiceInstance":
+    def with_minor_version(self, value: Optional["PositiveInteger"]) -> DdsCpProvidedServiceInstance:
         """
         Set minorVersion and return self for chaining.
 
@@ -4242,10 +4244,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of consumed events.
         # Stereotypes: atpSplitable; atpVariation.
-        self._consumedDds: List["DdsCpServiceInstance"] = []
+        self._consumedDds: List[DdsCpServiceInstance] = []
 
     @property
-    def consumed_dds(self) -> List["DdsCpServiceInstance"]:
+    def consumed_dds(self) -> List[DdsCpServiceInstance]:
         """Get consumedDds (Pythonic accessor)."""
         return self._consumedDds
         # The local address over which the Service is consumed.
@@ -4338,7 +4340,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConsumedDds(self) -> List["DdsCpServiceInstance"]:
+    def getConsumedDds(self) -> List[DdsCpServiceInstance]:
         """
         AUTOSAR-compliant getter for consumedDds.
 
@@ -4362,7 +4364,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
+    def setLocalUnicast(self, value: "ApplicationEndpoint") -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -4390,7 +4392,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: "AnyVersionString") -> "DdsCpConsumedServiceInstance":
+    def setMinorVersion(self, value: "AnyVersionString") -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -4418,7 +4420,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.static_remote  # Delegates to property
 
-    def setStaticRemote(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
+    def setStaticRemote(self, value: "ApplicationEndpoint") -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for staticRemote with method chaining.
 
@@ -4436,7 +4438,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
+    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> DdsCpConsumedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -4452,7 +4454,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional["AnyVersionString"]) -> "DdsCpConsumedServiceInstance":
+    def with_minor_version(self, value: Optional["AnyVersionString"]) -> DdsCpConsumedServiceInstance:
         """
         Set minorVersion and return self for chaining.
 
@@ -4468,7 +4470,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.minor_version = value  # Use property setter (gets validation)
         return self
 
-    def with_static_remote(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
+    def with_static_remote(self, value: Optional["ApplicationEndpoint"]) -> DdsCpConsumedServiceInstance:
         """
         Set staticRemote and return self for chaining.
 

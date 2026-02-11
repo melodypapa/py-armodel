@@ -4,10 +4,12 @@ AUTOSAR Package - TimingExtensions
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -63,15 +65,15 @@ class TimingExtension(ARElement, ABC):
         return self._timing
         # The timing resource contains all instance references from within a timing
         # condition formula of a timing.
-        self._timingResource: Optional["TimingExtension"] = None
+        self._timingResource: Optional[TimingExtension] = None
 
     @property
-    def timing_resource(self) -> Optional["TimingExtension"]:
+    def timing_resource(self) -> Optional[TimingExtension]:
         """Get timingResource (Pythonic accessor)."""
         return self._timingResource
 
     @timing_resource.setter
-    def timing_resource(self, value: Optional["TimingExtension"]) -> None:
+    def timing_resource(self, value: Optional[TimingExtension]) -> None:
         """
         Set timingResource with validation.
 
@@ -193,7 +195,7 @@ class TimingExtension(ARElement, ABC):
         """
         return self.timing  # Delegates to property
 
-    def getTimingResource(self) -> "TimingExtension":
+    def getTimingResource(self) -> TimingExtension:
         """
         AUTOSAR-compliant getter for timingResource.
 
@@ -205,7 +207,7 @@ class TimingExtension(ARElement, ABC):
         """
         return self.timing_resource  # Delegates to property
 
-    def setTimingResource(self, value: "TimingExtension") -> "TimingExtension":
+    def setTimingResource(self, value: TimingExtension) -> TimingExtension:
         """
         AUTOSAR-compliant setter for timingResource with method chaining.
 
@@ -223,7 +225,7 @@ class TimingExtension(ARElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_timing_resource(self, value: Optional["TimingExtension"]) -> "TimingExtension":
+    def with_timing_resource(self, value: Optional[TimingExtension]) -> TimingExtension:
         """
         Set timingResource and return self for chaining.
 
@@ -301,7 +303,7 @@ class VfbTiming(TimingExtension):
         """
         return self.component  # Delegates to property
 
-    def setComponent(self, value: "SwComponentType") -> "VfbTiming":
+    def setComponent(self, value: "SwComponentType") -> VfbTiming:
         """
         AUTOSAR-compliant setter for component with method chaining.
 
@@ -319,7 +321,7 @@ class VfbTiming(TimingExtension):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_component(self, value: Optional["SwComponentType"]) -> "VfbTiming":
+    def with_component(self, value: Optional["SwComponentType"]) -> VfbTiming:
         """
         Set component and return self for chaining.
 
@@ -399,7 +401,7 @@ class SwcTiming(TimingExtension):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "SwcInternalBehavior") -> "SwcTiming":
+    def setBehavior(self, value: "SwcInternalBehavior") -> SwcTiming:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -417,7 +419,7 @@ class SwcTiming(TimingExtension):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcTiming":
+    def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> SwcTiming:
         """
         Set behavior and return self for chaining.
 
@@ -497,7 +499,7 @@ class SystemTiming(TimingExtension):
         """
         return self.system  # Delegates to property
 
-    def setSystem(self, value: "System") -> "SystemTiming":
+    def setSystem(self, value: "System") -> SystemTiming:
         """
         AUTOSAR-compliant setter for system with method chaining.
 
@@ -515,7 +517,7 @@ class SystemTiming(TimingExtension):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_system(self, value: Optional["System"]) -> "SystemTiming":
+    def with_system(self, value: Optional["System"]) -> SystemTiming:
         """
         Set system and return self for chaining.
 
@@ -595,7 +597,7 @@ class BswModuleTiming(TimingExtension):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "BswInternalBehavior") -> "BswModuleTiming":
+    def setBehavior(self, value: "BswInternalBehavior") -> BswModuleTiming:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -613,7 +615,7 @@ class BswModuleTiming(TimingExtension):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_behavior(self, value: Optional["BswInternalBehavior"]) -> "BswModuleTiming":
+    def with_behavior(self, value: Optional["BswInternalBehavior"]) -> BswModuleTiming:
         """
         Set behavior and return self for chaining.
 
@@ -735,7 +737,7 @@ class EcuTiming(TimingExtension):
         """
         return self.ecu  # Delegates to property
 
-    def setEcu(self, value: "RefType") -> "EcuTiming":
+    def setEcu(self, value: "RefType") -> EcuTiming:
         """
         AUTOSAR-compliant setter for ecu with method chaining.
 
@@ -753,7 +755,7 @@ class EcuTiming(TimingExtension):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu(self, value: Optional[RefType]) -> "EcuTiming":
+    def with_ecu(self, value: Optional[RefType]) -> EcuTiming:
         """
         Set ecu and return self for chaining.
 

@@ -4,6 +4,8 @@ AUTOSAR Package - BlueprintFormula
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintFormula
 """
 
+
+from __future__ import annotations
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -86,7 +88,7 @@ class BlueprintFormula(ARObject):
         """
         return self.ecuc  # Delegates to property
 
-    def setEcuc(self, value: "EcucDefinitionElement") -> "BlueprintFormula":
+    def setEcuc(self, value: "EcucDefinitionElement") -> BlueprintFormula:
         """
         AUTOSAR-compliant setter for ecuc with method chaining.
 
@@ -114,7 +116,7 @@ class BlueprintFormula(ARObject):
         """
         return self.verbatim  # Delegates to property
 
-    def setVerbatim(self, value: "MultiLanguageVerbatim") -> "BlueprintFormula":
+    def setVerbatim(self, value: "MultiLanguageVerbatim") -> BlueprintFormula:
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
 
@@ -132,7 +134,7 @@ class BlueprintFormula(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecuc(self, value: "EcucDefinitionElement") -> "BlueprintFormula":
+    def with_ecuc(self, value: "EcucDefinitionElement") -> BlueprintFormula:
         """
         Set ecuc and return self for chaining.
 
@@ -148,7 +150,7 @@ class BlueprintFormula(ARObject):
         self.ecuc = value  # Use property setter (gets validation)
         return self
 
-    def with_verbatim(self, value: "MultiLanguageVerbatim") -> "BlueprintFormula":
+    def with_verbatim(self, value: "MultiLanguageVerbatim") -> BlueprintFormula:
         """
         Set verbatim and return self for chaining.
 

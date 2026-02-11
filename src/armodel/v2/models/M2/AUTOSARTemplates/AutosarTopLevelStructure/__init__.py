@@ -1,14 +1,16 @@
 """
-V2 M2::AUTOSARTemplates::AutosarTopLevelStructure package.
+AutosarTopLevelStructure package.
+
+This module imports and re-exports classes from AutosarTopLevelStructure.py.
+All class definitions are consolidated in AutosarTopLevelStructure.py.
 """
-from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure.AUTOSAR import (
+
+from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.FileInfoComment import (
     FileInfoComment,
 )
 
 __all__ = [
-    "AUTOSAR",
-    "FileInfoComment",
+    AUTOSAR,
+    FileInfoComment,
 ]

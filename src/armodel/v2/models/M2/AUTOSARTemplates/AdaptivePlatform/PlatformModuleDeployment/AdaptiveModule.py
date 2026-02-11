@@ -4,6 +4,8 @@ AUTOSAR Package - AdaptiveModule
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -124,7 +126,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: "EthernetCommunication") -> "PlatformModuleEthernetEndpointConfiguration":
+    def setCommunication(self, value: "EthernetCommunication") -> PlatformModuleEthernetEndpointConfiguration:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -152,7 +154,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         """
         return self.ipv4_multicast_ip  # Delegates to property
 
-    def setIpv4MulticastIp(self, value: "Ip4AddressString") -> "PlatformModuleEthernetEndpointConfiguration":
+    def setIpv4MulticastIp(self, value: "Ip4AddressString") -> PlatformModuleEthernetEndpointConfiguration:
         """
         AUTOSAR-compliant setter for ipv4MulticastIp with method chaining.
 
@@ -180,7 +182,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         """
         return self.ipv6_multicast_ip  # Delegates to property
 
-    def setIpv6MulticastIp(self, value: "Ip6AddressString") -> "PlatformModuleEthernetEndpointConfiguration":
+    def setIpv6MulticastIp(self, value: "Ip6AddressString") -> PlatformModuleEthernetEndpointConfiguration:
         """
         AUTOSAR-compliant setter for ipv6MulticastIp with method chaining.
 
@@ -198,7 +200,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication(self, value: Optional["EthernetCommunication"]) -> "PlatformModuleEthernetEndpointConfiguration":
+    def with_communication(self, value: Optional["EthernetCommunication"]) -> PlatformModuleEthernetEndpointConfiguration:
         """
         Set communication and return self for chaining.
 
@@ -214,7 +216,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         self.communication = value  # Use property setter (gets validation)
         return self
 
-    def with_ipv4_multicast_ip(self, value: Optional["Ip4AddressString"]) -> "PlatformModuleEthernetEndpointConfiguration":
+    def with_ipv4_multicast_ip(self, value: Optional["Ip4AddressString"]) -> PlatformModuleEthernetEndpointConfiguration:
         """
         Set ipv4MulticastIp and return self for chaining.
 
@@ -230,7 +232,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         self.ipv4_multicast_ip = value  # Use property setter (gets validation)
         return self
 
-    def with_ipv6_multicast_ip(self, value: Optional["Ip6AddressString"]) -> "PlatformModuleEthernetEndpointConfiguration":
+    def with_ipv6_multicast_ip(self, value: Optional["Ip6AddressString"]) -> PlatformModuleEthernetEndpointConfiguration:
         """
         Set ipv6MulticastIp and return self for chaining.
 

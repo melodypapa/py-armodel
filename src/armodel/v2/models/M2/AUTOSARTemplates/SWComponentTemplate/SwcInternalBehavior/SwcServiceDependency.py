@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import (
     List,
     Optional,
@@ -176,7 +178,7 @@ class SwcServiceDependency(ServiceDependency):
         """
         return self.represented_port  # Delegates to property
 
-    def setRepresentedPort(self, value: RefType) -> "SwcServiceDependency":
+    def setRepresentedPort(self, value: RefType) -> SwcServiceDependency:
         """
         AUTOSAR-compliant setter for representedPort with method chaining.
 
@@ -204,7 +206,7 @@ class SwcServiceDependency(ServiceDependency):
         """
         return self.service_needs  # Delegates to property
 
-    def setServiceNeeds(self, value: "ServiceNeeds") -> "SwcServiceDependency":
+    def setServiceNeeds(self, value: "ServiceNeeds") -> SwcServiceDependency:
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
 
@@ -222,7 +224,7 @@ class SwcServiceDependency(ServiceDependency):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_represented_port(self, value: Optional[RefType]) -> "SwcServiceDependency":
+    def with_represented_port(self, value: Optional[RefType]) -> SwcServiceDependency:
         """
         Set representedPort and return self for chaining.
 
@@ -238,7 +240,7 @@ class SwcServiceDependency(ServiceDependency):
         self.represented_port = value  # Use property setter (gets validation)
         return self
 
-    def with_service_needs(self, value: Optional["ServiceNeeds"]) -> "SwcServiceDependency":
+    def with_service_needs(self, value: Optional["ServiceNeeds"]) -> SwcServiceDependency:
         """
         Set serviceNeeds and return self for chaining.
 

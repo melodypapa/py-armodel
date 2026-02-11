@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
@@ -160,7 +162,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.computed  # Delegates to property
 
-    def setComputed(self, value: "Boolean") -> "SenderReceiverAnnotation":
+    def setComputed(self, value: "Boolean") -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for computed with method chaining.
 
@@ -188,7 +190,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: RefType) -> "SenderReceiverAnnotation":
+    def setDataElement(self, value: RefType) -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -216,7 +218,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.limit_kind  # Delegates to property
 
-    def setLimitKind(self, value: "DataLimitKindEnum") -> "SenderReceiverAnnotation":
+    def setLimitKind(self, value: "DataLimitKindEnum") -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for limitKind with method chaining.
 
@@ -244,7 +246,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.processing_kind  # Delegates to property
 
-    def setProcessingKind(self, value: "ProcessingKindEnum") -> "SenderReceiverAnnotation":
+    def setProcessingKind(self, value: "ProcessingKindEnum") -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for processingKind with method chaining.
 
@@ -262,7 +264,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_computed(self, value: Optional["Boolean"]) -> "SenderReceiverAnnotation":
+    def with_computed(self, value: Optional["Boolean"]) -> SenderReceiverAnnotation:
         """
         Set computed and return self for chaining.
 
@@ -278,7 +280,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.computed = value  # Use property setter (gets validation)
         return self
 
-    def with_data_element(self, value: Optional[RefType]) -> "SenderReceiverAnnotation":
+    def with_data_element(self, value: Optional[RefType]) -> SenderReceiverAnnotation:
         """
         Set dataElement and return self for chaining.
 
@@ -294,7 +296,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_limit_kind(self, value: Optional["DataLimitKindEnum"]) -> "SenderReceiverAnnotation":
+    def with_limit_kind(self, value: Optional["DataLimitKindEnum"]) -> SenderReceiverAnnotation:
         """
         Set limitKind and return self for chaining.
 
@@ -310,7 +312,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.limit_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_processing_kind(self, value: Optional["ProcessingKindEnum"]) -> "SenderReceiverAnnotation":
+    def with_processing_kind(self, value: Optional["ProcessingKindEnum"]) -> SenderReceiverAnnotation:
         """
         Set processingKind and return self for chaining.
 

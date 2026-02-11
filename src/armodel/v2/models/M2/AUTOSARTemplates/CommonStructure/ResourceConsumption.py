@@ -4,9 +4,11 @@ AUTOSAR Package - ResourceConsumption
 Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
     String,
 )
@@ -371,7 +373,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.additional  # Delegates to property
 
-    def setAdditional(self, value: "String") -> "HardwareConfiguration":
+    def setAdditional(self, value: "String") -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for additional with method chaining.
 
@@ -399,7 +401,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processor_mode  # Delegates to property
 
-    def setProcessorMode(self, value: "String") -> "HardwareConfiguration":
+    def setProcessorMode(self, value: "String") -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for processorMode with method chaining.
 
@@ -427,7 +429,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processor_speed  # Delegates to property
 
-    def setProcessorSpeed(self, value: "String") -> "HardwareConfiguration":
+    def setProcessorSpeed(self, value: "String") -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for processorSpeed with method chaining.
 
@@ -445,7 +447,7 @@ class HardwareConfiguration(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_additional(self, value: Optional["String"]) -> "HardwareConfiguration":
+    def with_additional(self, value: Optional["String"]) -> HardwareConfiguration:
         """
         Set additional and return self for chaining.
 
@@ -461,7 +463,7 @@ class HardwareConfiguration(ARObject):
         self.additional = value  # Use property setter (gets validation)
         return self
 
-    def with_processor_mode(self, value: Optional["String"]) -> "HardwareConfiguration":
+    def with_processor_mode(self, value: Optional["String"]) -> HardwareConfiguration:
         """
         Set processorMode and return self for chaining.
 
@@ -477,7 +479,7 @@ class HardwareConfiguration(ARObject):
         self.processor_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_processor_speed(self, value: Optional["String"]) -> "HardwareConfiguration":
+    def with_processor_speed(self, value: Optional["String"]) -> HardwareConfiguration:
         """
         Set processorSpeed and return self for chaining.
 
@@ -579,7 +581,7 @@ class SoftwareContext(ARObject):
         """
         return self.input  # Delegates to property
 
-    def setInput(self, value: "String") -> "SoftwareContext":
+    def setInput(self, value: "String") -> SoftwareContext:
         """
         AUTOSAR-compliant setter for input with method chaining.
 
@@ -607,7 +609,7 @@ class SoftwareContext(ARObject):
         """
         return self.state  # Delegates to property
 
-    def setState(self, value: "String") -> "SoftwareContext":
+    def setState(self, value: "String") -> SoftwareContext:
         """
         AUTOSAR-compliant setter for state with method chaining.
 
@@ -625,7 +627,7 @@ class SoftwareContext(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_input(self, value: Optional["String"]) -> "SoftwareContext":
+    def with_input(self, value: Optional["String"]) -> SoftwareContext:
         """
         Set input and return self for chaining.
 
@@ -641,7 +643,7 @@ class SoftwareContext(ARObject):
         self.input = value  # Use property setter (gets validation)
         return self
 
-    def with_state(self, value: Optional["String"]) -> "SoftwareContext":
+    def with_state(self, value: Optional["String"]) -> SoftwareContext:
         """
         Set state and return self for chaining.
 

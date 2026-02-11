@@ -4,10 +4,12 @@ AUTOSAR Package - LanguageDataModel
 Package: M2::MSR::Documentation::TextModel::LanguageDataModel
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -78,7 +80,7 @@ class LLongName(ARObject):
         """
         return self.blueprint_value  # Delegates to property
 
-    def setBlueprintValue(self, value: "String") -> "LLongName":
+    def setBlueprintValue(self, value: "String") -> LLongName:
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
         
@@ -96,7 +98,7 @@ class LLongName(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint_value(self, value: Optional["String"]) -> "LLongName":
+    def with_blueprint_value(self, value: Optional["String"]) -> LLongName:
         """
         Set blueprintValue and return self for chaining.
         
@@ -172,7 +174,7 @@ class WhitespaceControlled(ARObject, ABC):
         """
         return self.xml_space  # Delegates to property
 
-    def setXmlSpace(self, value: "XmlSpaceEnum") -> "WhitespaceControlled":
+    def setXmlSpace(self, value: "XmlSpaceEnum") -> WhitespaceControlled:
         """
         AUTOSAR-compliant setter for xmlSpace with method chaining.
         
@@ -190,7 +192,7 @@ class WhitespaceControlled(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_xml_space(self, value: "XmlSpaceEnum") -> "WhitespaceControlled":
+    def with_xml_space(self, value: "XmlSpaceEnum") -> WhitespaceControlled:
         """
         Set xmlSpace and return self for chaining.
         
@@ -289,7 +291,7 @@ class LOverviewParagraph(ARObject):
         """
         return self.blueprint_value  # Delegates to property
 
-    def setBlueprintValue(self, value: "String") -> "LOverviewParagraph":
+    def setBlueprintValue(self, value: "String") -> LOverviewParagraph:
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
         
@@ -307,7 +309,7 @@ class LOverviewParagraph(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint_value(self, value: Optional["String"]) -> "LOverviewParagraph":
+    def with_blueprint_value(self, value: Optional["String"]) -> LOverviewParagraph:
         """
         Set blueprintValue and return self for chaining.
         
@@ -389,15 +391,15 @@ class LanguageSpecific(ARObject, ABC):
         # ’This attribute denotes the language in which the document entity is given.
         # Note that that the entity is applicable to all is language neutral.
         # ISO 639-1:2002 and is specified in upper case.
-        self._l: "LEnum" = None
+        self._l: LEnum = None
 
     @property
-    def l(self) -> "LEnum":
+    def l(self) -> LEnum:
         """Get l (Pythonic accessor)."""
         return self._l
 
     @l.setter
-    def l(self, value: "LEnum") -> None:
+    def l(self, value: LEnum) -> None:
         """
         Set l with validation.
         
@@ -415,7 +417,7 @@ class LanguageSpecific(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getL(self) -> "LEnum":
+    def getL(self) -> LEnum:
         """
         AUTOSAR-compliant getter for l.
         
@@ -427,7 +429,7 @@ class LanguageSpecific(ARObject, ABC):
         """
         return self.l  # Delegates to property
 
-    def setL(self, value: "LEnum") -> "LanguageSpecific":
+    def setL(self, value: LEnum) -> LanguageSpecific:
         """
         AUTOSAR-compliant setter for l with method chaining.
         
@@ -445,7 +447,7 @@ class LanguageSpecific(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_l(self, value: "LEnum") -> "LanguageSpecific":
+    def with_l(self, value: LEnum) -> LanguageSpecific:
         """
         Set l and return self for chaining.
         

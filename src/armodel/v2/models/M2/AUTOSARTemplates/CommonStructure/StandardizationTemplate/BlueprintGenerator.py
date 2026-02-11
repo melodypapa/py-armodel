@@ -4,6 +4,8 @@ AUTOSAR Package - BlueprintGenerator
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -98,7 +100,7 @@ class BlueprintGenerator(ARObject):
         """
         return self.expression  # Delegates to property
 
-    def setExpression(self, value: "VerbatimString") -> "BlueprintGenerator":
+    def setExpression(self, value: "VerbatimString") -> BlueprintGenerator:
         """
         AUTOSAR-compliant setter for expression with method chaining.
 
@@ -126,7 +128,7 @@ class BlueprintGenerator(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "BlueprintGenerator":
+    def setIntroduction(self, value: "DocumentationBlock") -> BlueprintGenerator:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -144,7 +146,7 @@ class BlueprintGenerator(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_expression(self, value: Optional["VerbatimString"]) -> "BlueprintGenerator":
+    def with_expression(self, value: Optional["VerbatimString"]) -> BlueprintGenerator:
         """
         Set expression and return self for chaining.
 
@@ -160,7 +162,7 @@ class BlueprintGenerator(ARObject):
         self.expression = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "BlueprintGenerator":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> BlueprintGenerator:
         """
         Set introduction and return self for chaining.
 

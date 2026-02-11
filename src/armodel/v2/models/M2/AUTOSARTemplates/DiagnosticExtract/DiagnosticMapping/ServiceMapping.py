@@ -4,10 +4,12 @@ AUTOSAR Package - ServiceMapping
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
 )
@@ -182,7 +184,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         """
         return self.diagnostic_data  # Delegates to property
 
-    def setDiagnosticData(self, value: "DiagnosticDataElement") -> "DiagnosticServiceDataMapping":
+    def setDiagnosticData(self, value: "DiagnosticDataElement") -> DiagnosticServiceDataMapping:
         """
         AUTOSAR-compliant setter for diagnosticData with method chaining.
 
@@ -210,7 +212,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         """
         return self.diagnostic  # Delegates to property
 
-    def setDiagnostic(self, value: "DiagnosticParameter") -> "DiagnosticServiceDataMapping":
+    def setDiagnostic(self, value: "DiagnosticParameter") -> DiagnosticServiceDataMapping:
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
 
@@ -238,7 +240,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         """
         return self.mapped_data  # Delegates to property
 
-    def setMappedData(self, value: "RefType") -> "DiagnosticServiceDataMapping":
+    def setMappedData(self, value: "RefType") -> DiagnosticServiceDataMapping:
         """
         AUTOSAR-compliant setter for mappedData with method chaining.
 
@@ -266,7 +268,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         """
         return self.parameter  # Delegates to property
 
-    def setParameter(self, value: "DiagnosticParameter") -> "DiagnosticServiceDataMapping":
+    def setParameter(self, value: "DiagnosticParameter") -> DiagnosticServiceDataMapping:
         """
         AUTOSAR-compliant setter for parameter with method chaining.
 
@@ -284,7 +286,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticServiceDataMapping":
+    def with_diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> DiagnosticServiceDataMapping:
         """
         Set diagnosticData and return self for chaining.
 
@@ -300,7 +302,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         self.diagnostic_data = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticServiceDataMapping":
+    def with_diagnostic(self, value: Optional["DiagnosticParameter"]) -> DiagnosticServiceDataMapping:
         """
         Set diagnostic and return self for chaining.
 
@@ -316,7 +318,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         self.diagnostic = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped_data(self, value: Optional[RefType]) -> "DiagnosticServiceDataMapping":
+    def with_mapped_data(self, value: Optional[RefType]) -> DiagnosticServiceDataMapping:
         """
         Set mappedData and return self for chaining.
 
@@ -332,7 +334,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         self.mapped_data = value  # Use property setter (gets validation)
         return self
 
-    def with_parameter(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticServiceDataMapping":
+    def with_parameter(self, value: Optional["DiagnosticParameter"]) -> DiagnosticServiceDataMapping:
         """
         Set parameter and return self for chaining.
 
@@ -429,7 +431,7 @@ class DiagnosticParameterElementAccess(ARObject):
         """
         return self.target_element  # Delegates to property
 
-    def setTargetElement(self, value: "DiagnosticParameter") -> "DiagnosticParameterElementAccess":
+    def setTargetElement(self, value: "DiagnosticParameter") -> DiagnosticParameterElementAccess:
         """
         AUTOSAR-compliant setter for targetElement with method chaining.
 
@@ -447,7 +449,7 @@ class DiagnosticParameterElementAccess(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_target_element(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticParameterElementAccess":
+    def with_target_element(self, value: Optional["DiagnosticParameter"]) -> DiagnosticParameterElementAccess:
         """
         Set targetElement and return self for chaining.
 
@@ -745,7 +747,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.accessed_data  # Delegates to property
 
-    def setAccessedData(self, value: "RefType") -> "DiagnosticServiceSwMapping":
+    def setAccessedData(self, value: "RefType") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for accessedData with method chaining.
 
@@ -773,7 +775,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.diagnostic_data  # Delegates to property
 
-    def setDiagnosticData(self, value: "DiagnosticDataElement") -> "DiagnosticServiceSwMapping":
+    def setDiagnosticData(self, value: "DiagnosticDataElement") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for diagnosticData with method chaining.
 
@@ -801,7 +803,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.diagnostic  # Delegates to property
 
-    def setDiagnostic(self, value: "DiagnosticParameter") -> "DiagnosticServiceSwMapping":
+    def setDiagnostic(self, value: "DiagnosticParameter") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
 
@@ -829,7 +831,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.mapped_bsw  # Delegates to property
 
-    def setMappedBsw(self, value: "BswService") -> "DiagnosticServiceSwMapping":
+    def setMappedBsw(self, value: "BswService") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for mappedBsw with method chaining.
 
@@ -857,7 +859,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.mapped_flat_swc  # Delegates to property
 
-    def setMappedFlatSwc(self, value: "SwcService") -> "DiagnosticServiceSwMapping":
+    def setMappedFlatSwc(self, value: "SwcService") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for mappedFlatSwc with method chaining.
 
@@ -885,7 +887,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.mapped_swc  # Delegates to property
 
-    def setMappedSwc(self, value: "SwcService") -> "DiagnosticServiceSwMapping":
+    def setMappedSwc(self, value: "SwcService") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for mappedSwc with method chaining.
 
@@ -913,7 +915,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.parameter  # Delegates to property
 
-    def setParameter(self, value: "DiagnosticParameter") -> "DiagnosticServiceSwMapping":
+    def setParameter(self, value: "DiagnosticParameter") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for parameter with method chaining.
 
@@ -941,7 +943,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.service_instance  # Delegates to property
 
-    def setServiceInstance(self, value: "DiagnosticService") -> "DiagnosticServiceSwMapping":
+    def setServiceInstance(self, value: "DiagnosticService") -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
 
@@ -959,7 +961,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accessed_data(self, value: Optional[RefType]) -> "DiagnosticServiceSwMapping":
+    def with_accessed_data(self, value: Optional[RefType]) -> DiagnosticServiceSwMapping:
         """
         Set accessedData and return self for chaining.
 
@@ -975,7 +977,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.accessed_data = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticServiceSwMapping":
+    def with_diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> DiagnosticServiceSwMapping:
         """
         Set diagnosticData and return self for chaining.
 
@@ -991,7 +993,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.diagnostic_data = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticServiceSwMapping":
+    def with_diagnostic(self, value: Optional["DiagnosticParameter"]) -> DiagnosticServiceSwMapping:
         """
         Set diagnostic and return self for chaining.
 
@@ -1007,7 +1009,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.diagnostic = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped_bsw(self, value: Optional["BswService"]) -> "DiagnosticServiceSwMapping":
+    def with_mapped_bsw(self, value: Optional["BswService"]) -> DiagnosticServiceSwMapping:
         """
         Set mappedBsw and return self for chaining.
 
@@ -1023,7 +1025,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.mapped_bsw = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped_flat_swc(self, value: Optional["SwcService"]) -> "DiagnosticServiceSwMapping":
+    def with_mapped_flat_swc(self, value: Optional["SwcService"]) -> DiagnosticServiceSwMapping:
         """
         Set mappedFlatSwc and return self for chaining.
 
@@ -1039,7 +1041,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.mapped_flat_swc = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped_swc(self, value: Optional["SwcService"]) -> "DiagnosticServiceSwMapping":
+    def with_mapped_swc(self, value: Optional["SwcService"]) -> DiagnosticServiceSwMapping:
         """
         Set mappedSwc and return self for chaining.
 
@@ -1055,7 +1057,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.mapped_swc = value  # Use property setter (gets validation)
         return self
 
-    def with_parameter(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticServiceSwMapping":
+    def with_parameter(self, value: Optional["DiagnosticParameter"]) -> DiagnosticServiceSwMapping:
         """
         Set parameter and return self for chaining.
 
@@ -1071,7 +1073,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_service_instance(self, value: Optional["DiagnosticService"]) -> "DiagnosticServiceSwMapping":
+    def with_service_instance(self, value: Optional["DiagnosticService"]) -> DiagnosticServiceSwMapping:
         """
         Set serviceInstance and return self for chaining.
 
@@ -1204,7 +1206,7 @@ class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticSecurityEventReportingModeMapping":
+    def setDataElement(self, value: "DiagnosticDataElement") -> DiagnosticSecurityEventReportingModeMapping:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -1232,7 +1234,7 @@ class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
         """
         return self.security_event  # Delegates to property
 
-    def setSecurityEvent(self, value: "SecurityEventContext") -> "DiagnosticSecurityEventReportingModeMapping":
+    def setSecurityEvent(self, value: "SecurityEventContext") -> DiagnosticSecurityEventReportingModeMapping:
         """
         AUTOSAR-compliant setter for securityEvent with method chaining.
 
@@ -1250,7 +1252,7 @@ class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticSecurityEventReportingModeMapping":
+    def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> DiagnosticSecurityEventReportingModeMapping:
         """
         Set dataElement and return self for chaining.
 
@@ -1266,7 +1268,7 @@ class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_security_event(self, value: Optional["SecurityEventContext"]) -> "DiagnosticSecurityEventReportingModeMapping":
+    def with_security_event(self, value: Optional["SecurityEventContext"]) -> DiagnosticSecurityEventReportingModeMapping:
         """
         Set securityEvent and return self for chaining.
 
@@ -1370,7 +1372,7 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticDemProvidedDataMapping":
+    def setDataElement(self, value: "DiagnosticDataElement") -> DiagnosticDemProvidedDataMapping:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -1398,7 +1400,7 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
         """
         return self.data_provider  # Delegates to property
 
-    def setDataProvider(self, value: "NameToken") -> "DiagnosticDemProvidedDataMapping":
+    def setDataProvider(self, value: "NameToken") -> DiagnosticDemProvidedDataMapping:
         """
         AUTOSAR-compliant setter for dataProvider with method chaining.
 
@@ -1416,7 +1418,7 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticDemProvidedDataMapping":
+    def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> DiagnosticDemProvidedDataMapping:
         """
         Set dataElement and return self for chaining.
 
@@ -1432,7 +1434,7 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_data_provider(self, value: Optional["NameToken"]) -> "DiagnosticDemProvidedDataMapping":
+    def with_data_provider(self, value: Optional["NameToken"]) -> DiagnosticDemProvidedDataMapping:
         """
         Set dataProvider and return self for chaining.
 
@@ -1596,7 +1598,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         """
         return self.mapped_bsw  # Delegates to property
 
-    def setMappedBsw(self, value: "BswService") -> "DiagnosticFimFunctionMapping":
+    def setMappedBsw(self, value: "BswService") -> DiagnosticFimFunctionMapping:
         """
         AUTOSAR-compliant setter for mappedBsw with method chaining.
 
@@ -1624,7 +1626,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         """
         return self.mapped_flat_swc  # Delegates to property
 
-    def setMappedFlatSwc(self, value: "SwcService") -> "DiagnosticFimFunctionMapping":
+    def setMappedFlatSwc(self, value: "SwcService") -> DiagnosticFimFunctionMapping:
         """
         AUTOSAR-compliant setter for mappedFlatSwc with method chaining.
 
@@ -1652,7 +1654,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         """
         return self.mapped  # Delegates to property
 
-    def setMapped(self, value: "DiagnosticFunction") -> "DiagnosticFimFunctionMapping":
+    def setMapped(self, value: "DiagnosticFunction") -> DiagnosticFimFunctionMapping:
         """
         AUTOSAR-compliant setter for mapped with method chaining.
 
@@ -1680,7 +1682,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         """
         return self.mapped_swc  # Delegates to property
 
-    def setMappedSwc(self, value: "SwcService") -> "DiagnosticFimFunctionMapping":
+    def setMappedSwc(self, value: "SwcService") -> DiagnosticFimFunctionMapping:
         """
         AUTOSAR-compliant setter for mappedSwc with method chaining.
 
@@ -1698,7 +1700,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mapped_bsw(self, value: Optional["BswService"]) -> "DiagnosticFimFunctionMapping":
+    def with_mapped_bsw(self, value: Optional["BswService"]) -> DiagnosticFimFunctionMapping:
         """
         Set mappedBsw and return self for chaining.
 
@@ -1714,7 +1716,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         self.mapped_bsw = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped_flat_swc(self, value: Optional["SwcService"]) -> "DiagnosticFimFunctionMapping":
+    def with_mapped_flat_swc(self, value: Optional["SwcService"]) -> DiagnosticFimFunctionMapping:
         """
         Set mappedFlatSwc and return self for chaining.
 
@@ -1730,7 +1732,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         self.mapped_flat_swc = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticFimFunctionMapping":
+    def with_mapped(self, value: Optional["DiagnosticFunction"]) -> DiagnosticFimFunctionMapping:
         """
         Set mapped and return self for chaining.
 
@@ -1746,7 +1748,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         self.mapped = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped_swc(self, value: Optional["SwcService"]) -> "DiagnosticFimFunctionMapping":
+    def with_mapped_swc(self, value: Optional["SwcService"]) -> DiagnosticFimFunctionMapping:
         """
         Set mappedSwc and return self for chaining.
 

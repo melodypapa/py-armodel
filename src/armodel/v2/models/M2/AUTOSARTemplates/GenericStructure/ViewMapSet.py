@@ -4,9 +4,11 @@ AUTOSAR Package - ViewMapSet
 Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -155,7 +157,7 @@ class ViewMap(Identifiable):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "ViewMap":
+    def setRole(self, value: "Identifier") -> ViewMap:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -185,7 +187,7 @@ class ViewMap(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_role(self, value: Optional["Identifier"]) -> "ViewMap":
+    def with_role(self, value: Optional["Identifier"]) -> ViewMap:
         """
         Set role and return self for chaining.
 
@@ -220,16 +222,16 @@ class ViewMapSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # ViewMaps that are collected by the ViewMapSet.
-        self._viewMap: List["ViewMap"] = []
+        self._viewMap: List[ViewMap] = []
 
     @property
-    def view_map(self) -> List["ViewMap"]:
+    def view_map(self) -> List[ViewMap]:
         """Get viewMap (Pythonic accessor)."""
         return self._viewMap
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getViewMap(self) -> List["ViewMap"]:
+    def getViewMap(self) -> List[ViewMap]:
         """
         AUTOSAR-compliant getter for viewMap.
 

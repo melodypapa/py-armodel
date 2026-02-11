@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
@@ -66,7 +68,7 @@ class InternalTriggerOccurredEvent(RTEEvent):
         """
         return self.event_source  # Delegates to property
 
-    def setEventSource(self, value: RefType) -> "InternalTriggerOccurredEvent":
+    def setEventSource(self, value: RefType) -> InternalTriggerOccurredEvent:
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
 
@@ -84,7 +86,7 @@ class InternalTriggerOccurredEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_source(self, value: Optional[RefType]) -> "InternalTriggerOccurredEvent":
+    def with_event_source(self, value: Optional[RefType]) -> InternalTriggerOccurredEvent:
         """
         Set eventSource and return self for chaining.
 

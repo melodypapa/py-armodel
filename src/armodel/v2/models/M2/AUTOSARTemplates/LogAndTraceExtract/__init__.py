@@ -12,11 +12,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.LogAndTraceMessageCollectionSet impor
 from armodel.v2.models.M2.AUTOSARTemplates.PrivacyLevel import PrivacyLevel
 
 __all__ = [
-    "DltApplication",
-    "DltArgument",
-    "DltContext",
-    "DltEcu",
-    "DltMessage",
+    DltApplication,
+    DltArgument,
+    DltContext,
+    DltEcu,
+    DltMessage,
     "LogAndTraceMessageCollectionSet",
-    "PrivacyLevel",
+    PrivacyLevel,
 ]

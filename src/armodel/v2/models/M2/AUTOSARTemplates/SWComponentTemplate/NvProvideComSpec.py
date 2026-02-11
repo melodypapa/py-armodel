@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
@@ -122,7 +124,7 @@ class NvProvideComSpec(PPortComSpec):
         """
         return self.ram_block_init  # Delegates to property
 
-    def setRamBlockInit(self, value: "ValueSpecification") -> "NvProvideComSpec":
+    def setRamBlockInit(self, value: "ValueSpecification") -> NvProvideComSpec:
         """
         AUTOSAR-compliant setter for ramBlockInit with method chaining.
 
@@ -150,7 +152,7 @@ class NvProvideComSpec(PPortComSpec):
         """
         return self.rom_block_init  # Delegates to property
 
-    def setRomBlockInit(self, value: "ValueSpecification") -> "NvProvideComSpec":
+    def setRomBlockInit(self, value: "ValueSpecification") -> NvProvideComSpec:
         """
         AUTOSAR-compliant setter for romBlockInit with method chaining.
 
@@ -178,7 +180,7 @@ class NvProvideComSpec(PPortComSpec):
         """
         return self.variable  # Delegates to property
 
-    def setVariable(self, value: RefType) -> "NvProvideComSpec":
+    def setVariable(self, value: RefType) -> NvProvideComSpec:
         """
         AUTOSAR-compliant setter for variable with method chaining.
 
@@ -196,7 +198,7 @@ class NvProvideComSpec(PPortComSpec):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ram_block_init(self, value: Optional["ValueSpecification"]) -> "NvProvideComSpec":
+    def with_ram_block_init(self, value: Optional["ValueSpecification"]) -> NvProvideComSpec:
         """
         Set ramBlockInit and return self for chaining.
 
@@ -212,7 +214,7 @@ class NvProvideComSpec(PPortComSpec):
         self.ram_block_init = value  # Use property setter (gets validation)
         return self
 
-    def with_rom_block_init(self, value: Optional["ValueSpecification"]) -> "NvProvideComSpec":
+    def with_rom_block_init(self, value: Optional["ValueSpecification"]) -> NvProvideComSpec:
         """
         Set romBlockInit and return self for chaining.
 
@@ -228,7 +230,7 @@ class NvProvideComSpec(PPortComSpec):
         self.rom_block_init = value  # Use property setter (gets validation)
         return self
 
-    def with_variable(self, value: Optional[RefType]) -> "NvProvideComSpec":
+    def with_variable(self, value: Optional[RefType]) -> NvProvideComSpec:
         """
         Set variable and return self for chaining.
 

@@ -4,6 +4,8 @@ AUTOSAR Package - Mode_0x06_RequestOnBoard
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -109,7 +111,7 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
         """
         return self.request_on  # Delegates to property
 
-    def setRequestOn(self, value: "DiagnosticRequestOn") -> "DiagnosticRequestOnBoardMonitoringTestResults":
+    def setRequestOn(self, value: "DiagnosticRequestOn") -> DiagnosticRequestOnBoardMonitoringTestResults:
         """
         AUTOSAR-compliant setter for requestOn with method chaining.
 
@@ -127,7 +129,7 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_on(self, value: Optional["DiagnosticRequestOn"]) -> "DiagnosticRequestOnBoardMonitoringTestResults":
+    def with_request_on(self, value: Optional["DiagnosticRequestOn"]) -> DiagnosticRequestOnBoardMonitoringTestResults:
         """
         Set requestOn and return self for chaining.
 

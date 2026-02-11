@@ -4,9 +4,11 @@ AUTOSAR Package - DiagnosticCommonProps
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -366,7 +368,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.authentication  # Delegates to property
 
-    def setAuthentication(self, value: "TimeValue") -> "DiagnosticCommonProps":
+    def setAuthentication(self, value: "TimeValue") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
 
@@ -406,7 +408,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.default  # Delegates to property
 
-    def setDefault(self, value: "ByteOrderEnum") -> "DiagnosticCommonProps":
+    def setDefault(self, value: "ByteOrderEnum") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for default with method chaining.
 
@@ -434,7 +436,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "DiagnosticEvent") -> "DiagnosticCommonProps":
+    def setEvent(self, value: "DiagnosticEvent") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -462,7 +464,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> "DiagnosticCommonProps":
+    def setMaxNumberOf(self, value: "PositiveInteger") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -490,7 +492,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.occurrence  # Delegates to property
 
-    def setOccurrence(self, value: "DiagnosticOccurrence") -> "DiagnosticCommonProps":
+    def setOccurrence(self, value: "DiagnosticOccurrence") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for occurrence with method chaining.
 
@@ -518,7 +520,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.reset_confirmed  # Delegates to property
 
-    def setResetConfirmed(self, value: "Boolean") -> "DiagnosticCommonProps":
+    def setResetConfirmed(self, value: "Boolean") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for resetConfirmed with method chaining.
 
@@ -546,7 +548,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.reset_pending_bit  # Delegates to property
 
-    def setResetPendingBit(self, value: "Boolean") -> "DiagnosticCommonProps":
+    def setResetPendingBit(self, value: "Boolean") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for resetPendingBit with method chaining.
 
@@ -574,7 +576,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.response_on_all  # Delegates to property
 
-    def setResponseOnAll(self, value: "Boolean") -> "DiagnosticCommonProps":
+    def setResponseOnAll(self, value: "Boolean") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for responseOnAll with method chaining.
 
@@ -602,7 +604,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.response_on  # Delegates to property
 
-    def setResponseOn(self, value: "Boolean") -> "DiagnosticCommonProps":
+    def setResponseOn(self, value: "Boolean") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
 
@@ -630,7 +632,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.type_of_event  # Delegates to property
 
-    def setTypeOfEvent(self, value: "DiagnosticEvent") -> "DiagnosticCommonProps":
+    def setTypeOfEvent(self, value: "DiagnosticEvent") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for typeOfEvent with method chaining.
 
@@ -648,7 +650,7 @@ class DiagnosticCommonProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_authentication(self, value: Optional["TimeValue"]) -> "DiagnosticCommonProps":
+    def with_authentication(self, value: Optional["TimeValue"]) -> DiagnosticCommonProps:
         """
         Set authentication and return self for chaining.
 
@@ -664,7 +666,7 @@ class DiagnosticCommonProps(ARObject):
         self.authentication = value  # Use property setter (gets validation)
         return self
 
-    def with_default(self, value: Optional["ByteOrderEnum"]) -> "DiagnosticCommonProps":
+    def with_default(self, value: Optional["ByteOrderEnum"]) -> DiagnosticCommonProps:
         """
         Set default and return self for chaining.
 
@@ -680,7 +682,7 @@ class DiagnosticCommonProps(ARObject):
         self.default = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticCommonProps":
+    def with_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticCommonProps:
         """
         Set event and return self for chaining.
 
@@ -696,7 +698,7 @@ class DiagnosticCommonProps(ARObject):
         self.event = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "DiagnosticCommonProps":
+    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> DiagnosticCommonProps:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -712,7 +714,7 @@ class DiagnosticCommonProps(ARObject):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_occurrence(self, value: Optional["DiagnosticOccurrence"]) -> "DiagnosticCommonProps":
+    def with_occurrence(self, value: Optional["DiagnosticOccurrence"]) -> DiagnosticCommonProps:
         """
         Set occurrence and return self for chaining.
 
@@ -728,7 +730,7 @@ class DiagnosticCommonProps(ARObject):
         self.occurrence = value  # Use property setter (gets validation)
         return self
 
-    def with_reset_confirmed(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
+    def with_reset_confirmed(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
         """
         Set resetConfirmed and return self for chaining.
 
@@ -744,7 +746,7 @@ class DiagnosticCommonProps(ARObject):
         self.reset_confirmed = value  # Use property setter (gets validation)
         return self
 
-    def with_reset_pending_bit(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
+    def with_reset_pending_bit(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
         """
         Set resetPendingBit and return self for chaining.
 
@@ -760,7 +762,7 @@ class DiagnosticCommonProps(ARObject):
         self.reset_pending_bit = value  # Use property setter (gets validation)
         return self
 
-    def with_response_on_all(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
+    def with_response_on_all(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
         """
         Set responseOnAll and return self for chaining.
 
@@ -776,7 +778,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on_all = value  # Use property setter (gets validation)
         return self
 
-    def with_response_on(self, value: Optional["Boolean"]) -> "DiagnosticCommonProps":
+    def with_response_on(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
         """
         Set responseOn and return self for chaining.
 
@@ -792,7 +794,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on = value  # Use property setter (gets validation)
         return self
 
-    def with_type_of_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticCommonProps":
+    def with_type_of_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticCommonProps:
         """
         Set typeOfEvent and return self for chaining.
 

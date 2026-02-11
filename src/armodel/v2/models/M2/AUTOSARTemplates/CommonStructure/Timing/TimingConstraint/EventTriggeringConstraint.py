@@ -4,10 +4,12 @@ AUTOSAR Package - EventTriggeringConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
     PositiveInteger,
 )
@@ -145,7 +147,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "TimingDescriptionEvent") -> "EventTriggeringConstraint":
+    def setEvent(self, value: "TimingDescriptionEvent") -> EventTriggeringConstraint:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -163,7 +165,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event(self, value: Optional["TimingDescriptionEvent"]) -> "EventTriggeringConstraint":
+    def with_event(self, value: Optional["TimingDescriptionEvent"]) -> EventTriggeringConstraint:
         """
         Set event and return self for chaining.
 
@@ -293,7 +295,7 @@ class ConfidenceInterval(ARObject):
         """
         return self.lower_bound  # Delegates to property
 
-    def setLowerBound(self, value: "MultidimensionalTime") -> "ConfidenceInterval":
+    def setLowerBound(self, value: "MultidimensionalTime") -> ConfidenceInterval:
         """
         AUTOSAR-compliant setter for lowerBound with method chaining.
 
@@ -321,7 +323,7 @@ class ConfidenceInterval(ARObject):
         """
         return self.propability  # Delegates to property
 
-    def setPropability(self, value: "Float") -> "ConfidenceInterval":
+    def setPropability(self, value: "Float") -> ConfidenceInterval:
         """
         AUTOSAR-compliant setter for propability with method chaining.
 
@@ -349,7 +351,7 @@ class ConfidenceInterval(ARObject):
         """
         return self.upper_bound  # Delegates to property
 
-    def setUpperBound(self, value: "MultidimensionalTime") -> "ConfidenceInterval":
+    def setUpperBound(self, value: "MultidimensionalTime") -> ConfidenceInterval:
         """
         AUTOSAR-compliant setter for upperBound with method chaining.
 
@@ -367,7 +369,7 @@ class ConfidenceInterval(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lower_bound(self, value: Optional["MultidimensionalTime"]) -> "ConfidenceInterval":
+    def with_lower_bound(self, value: Optional["MultidimensionalTime"]) -> ConfidenceInterval:
         """
         Set lowerBound and return self for chaining.
 
@@ -383,7 +385,7 @@ class ConfidenceInterval(ARObject):
         self.lower_bound = value  # Use property setter (gets validation)
         return self
 
-    def with_propability(self, value: Optional["Float"]) -> "ConfidenceInterval":
+    def with_propability(self, value: Optional["Float"]) -> ConfidenceInterval:
         """
         Set propability and return self for chaining.
 
@@ -399,7 +401,7 @@ class ConfidenceInterval(ARObject):
         self.propability = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_bound(self, value: Optional["MultidimensionalTime"]) -> "ConfidenceInterval":
+    def with_upper_bound(self, value: Optional["MultidimensionalTime"]) -> ConfidenceInterval:
         """
         Set upperBound and return self for chaining.
 
@@ -533,7 +535,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
         """
         return self.jitter  # Delegates to property
 
-    def setJitter(self, value: "MultidimensionalTime") -> "PeriodicEventTriggering":
+    def setJitter(self, value: "MultidimensionalTime") -> PeriodicEventTriggering:
         """
         AUTOSAR-compliant setter for jitter with method chaining.
 
@@ -561,7 +563,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
         """
         return self.minimum_inter  # Delegates to property
 
-    def setMinimumInter(self, value: "MultidimensionalTime") -> "PeriodicEventTriggering":
+    def setMinimumInter(self, value: "MultidimensionalTime") -> PeriodicEventTriggering:
         """
         AUTOSAR-compliant setter for minimumInter with method chaining.
 
@@ -589,7 +591,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "MultidimensionalTime") -> "PeriodicEventTriggering":
+    def setPeriod(self, value: "MultidimensionalTime") -> PeriodicEventTriggering:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -607,7 +609,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_jitter(self, value: Optional["MultidimensionalTime"]) -> "PeriodicEventTriggering":
+    def with_jitter(self, value: Optional["MultidimensionalTime"]) -> PeriodicEventTriggering:
         """
         Set jitter and return self for chaining.
 
@@ -623,7 +625,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
         self.jitter = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> "PeriodicEventTriggering":
+    def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> PeriodicEventTriggering:
         """
         Set minimumInter and return self for chaining.
 
@@ -639,7 +641,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
         self.minimum_inter = value  # Use property setter (gets validation)
         return self
 
-    def with_period(self, value: Optional["MultidimensionalTime"]) -> "PeriodicEventTriggering":
+    def with_period(self, value: Optional["MultidimensionalTime"]) -> PeriodicEventTriggering:
         """
         Set period and return self for chaining.
 
@@ -797,7 +799,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         """
         return self.jitter  # Delegates to property
 
-    def setJitter(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
+    def setJitter(self, value: "MultidimensionalTime") -> SporadicEventTriggering:
         """
         AUTOSAR-compliant setter for jitter with method chaining.
 
@@ -825,7 +827,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         """
         return self.maximum_inter  # Delegates to property
 
-    def setMaximumInter(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
+    def setMaximumInter(self, value: "MultidimensionalTime") -> SporadicEventTriggering:
         """
         AUTOSAR-compliant setter for maximumInter with method chaining.
 
@@ -853,7 +855,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         """
         return self.minimum_inter  # Delegates to property
 
-    def setMinimumInter(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
+    def setMinimumInter(self, value: "MultidimensionalTime") -> SporadicEventTriggering:
         """
         AUTOSAR-compliant setter for minimumInter with method chaining.
 
@@ -881,7 +883,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
+    def setPeriod(self, value: "MultidimensionalTime") -> SporadicEventTriggering:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -899,7 +901,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_jitter(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
+    def with_jitter(self, value: Optional["MultidimensionalTime"]) -> SporadicEventTriggering:
         """
         Set jitter and return self for chaining.
 
@@ -915,7 +917,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         self.jitter = value  # Use property setter (gets validation)
         return self
 
-    def with_maximum_inter(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
+    def with_maximum_inter(self, value: Optional["MultidimensionalTime"]) -> SporadicEventTriggering:
         """
         Set maximumInter and return self for chaining.
 
@@ -931,7 +933,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         self.maximum_inter = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
+    def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> SporadicEventTriggering:
         """
         Set minimumInter and return self for chaining.
 
@@ -947,7 +949,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         self.minimum_inter = value  # Use property setter (gets validation)
         return self
 
-    def with_period(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
+    def with_period(self, value: Optional["MultidimensionalTime"]) -> SporadicEventTriggering:
         """
         Set period and return self for chaining.
 
@@ -1101,7 +1103,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
         """
         return self.pattern_jitter  # Delegates to property
 
-    def setPatternJitter(self, value: "MultidimensionalTime") -> "ConcretePatternEventTriggering":
+    def setPatternJitter(self, value: "MultidimensionalTime") -> ConcretePatternEventTriggering:
         """
         AUTOSAR-compliant setter for patternJitter with method chaining.
 
@@ -1129,7 +1131,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
         """
         return self.pattern_length  # Delegates to property
 
-    def setPatternLength(self, value: "MultidimensionalTime") -> "ConcretePatternEventTriggering":
+    def setPatternLength(self, value: "MultidimensionalTime") -> ConcretePatternEventTriggering:
         """
         AUTOSAR-compliant setter for patternLength with method chaining.
 
@@ -1157,7 +1159,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
         """
         return self.pattern_period  # Delegates to property
 
-    def setPatternPeriod(self, value: "MultidimensionalTime") -> "ConcretePatternEventTriggering":
+    def setPatternPeriod(self, value: "MultidimensionalTime") -> ConcretePatternEventTriggering:
         """
         AUTOSAR-compliant setter for patternPeriod with method chaining.
 
@@ -1175,7 +1177,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> "ConcretePatternEventTriggering":
+    def with_pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> ConcretePatternEventTriggering:
         """
         Set patternJitter and return self for chaining.
 
@@ -1191,7 +1193,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
         self.pattern_jitter = value  # Use property setter (gets validation)
         return self
 
-    def with_pattern_length(self, value: Optional["MultidimensionalTime"]) -> "ConcretePatternEventTriggering":
+    def with_pattern_length(self, value: Optional["MultidimensionalTime"]) -> ConcretePatternEventTriggering:
         """
         Set patternLength and return self for chaining.
 
@@ -1207,7 +1209,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
         self.pattern_length = value  # Use property setter (gets validation)
         return self
 
-    def with_pattern_period(self, value: Optional["MultidimensionalTime"]) -> "ConcretePatternEventTriggering":
+    def with_pattern_period(self, value: Optional["MultidimensionalTime"]) -> ConcretePatternEventTriggering:
         """
         Set patternPeriod and return self for chaining.
 
@@ -1424,7 +1426,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> "BurstPatternEventTriggering":
+    def setMaxNumberOf(self, value: "PositiveInteger") -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -1452,7 +1454,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.minimum_inter  # Delegates to property
 
-    def setMinimumInter(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
+    def setMinimumInter(self, value: "MultidimensionalTime") -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for minimumInter with method chaining.
 
@@ -1480,7 +1482,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.min_number_of  # Delegates to property
 
-    def setMinNumberOf(self, value: "PositiveInteger") -> "BurstPatternEventTriggering":
+    def setMinNumberOf(self, value: "PositiveInteger") -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for minNumberOf with method chaining.
 
@@ -1508,7 +1510,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.pattern_jitter  # Delegates to property
 
-    def setPatternJitter(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
+    def setPatternJitter(self, value: "MultidimensionalTime") -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for patternJitter with method chaining.
 
@@ -1536,7 +1538,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.pattern_length  # Delegates to property
 
-    def setPatternLength(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
+    def setPatternLength(self, value: "MultidimensionalTime") -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for patternLength with method chaining.
 
@@ -1564,7 +1566,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.pattern_period  # Delegates to property
 
-    def setPatternPeriod(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
+    def setPatternPeriod(self, value: "MultidimensionalTime") -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for patternPeriod with method chaining.
 
@@ -1582,7 +1584,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "BurstPatternEventTriggering":
+    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> BurstPatternEventTriggering:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -1598,7 +1600,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
+    def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> BurstPatternEventTriggering:
         """
         Set minimumInter and return self for chaining.
 
@@ -1614,7 +1616,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         self.minimum_inter = value  # Use property setter (gets validation)
         return self
 
-    def with_min_number_of(self, value: Optional["PositiveInteger"]) -> "BurstPatternEventTriggering":
+    def with_min_number_of(self, value: Optional["PositiveInteger"]) -> BurstPatternEventTriggering:
         """
         Set minNumberOf and return self for chaining.
 
@@ -1630,7 +1632,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         self.min_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
+    def with_pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> BurstPatternEventTriggering:
         """
         Set patternJitter and return self for chaining.
 
@@ -1646,7 +1648,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         self.pattern_jitter = value  # Use property setter (gets validation)
         return self
 
-    def with_pattern_length(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
+    def with_pattern_length(self, value: Optional["MultidimensionalTime"]) -> BurstPatternEventTriggering:
         """
         Set patternLength and return self for chaining.
 
@@ -1662,7 +1664,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         self.pattern_length = value  # Use property setter (gets validation)
         return self
 
-    def with_pattern_period(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
+    def with_pattern_period(self, value: Optional["MultidimensionalTime"]) -> BurstPatternEventTriggering:
         """
         Set patternPeriod and return self for chaining.
 
@@ -1700,10 +1702,10 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
         # xml.
         # sequenceOffset=30 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing
                 # Extensions for Classic R23-11.
-        self._confidence: List["ConfidenceInterval"] = []
+        self._confidence: List[ConfidenceInterval] = []
 
     @property
-    def confidence(self) -> List["ConfidenceInterval"]:
+    def confidence(self) -> List[ConfidenceInterval]:
         """Get confidence (Pythonic accessor)."""
         return self._confidence
         # The nth array element describes the maximum distance can be observed for a
@@ -1727,7 +1729,7 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConfidence(self) -> List["ConfidenceInterval"]:
+    def getConfidence(self) -> List[ConfidenceInterval]:
         """
         AUTOSAR-compliant getter for confidence.
 

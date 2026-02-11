@@ -4,10 +4,12 @@ AUTOSAR Package - TimingDescription
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -103,15 +105,15 @@ class TimingDescriptionEventChain(TimingDescription):
                 f"isPipelining must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._isPipelining = value
-        self._response: Optional["TimingDescriptionEvent"] = None
+        self._response: Optional[TimingDescriptionEvent] = None
 
     @property
-    def response(self) -> Optional["TimingDescriptionEvent"]:
+    def response(self) -> Optional[TimingDescriptionEvent]:
         """Get response (Pythonic accessor)."""
         return self._response
 
     @response.setter
-    def response(self, value: Optional["TimingDescriptionEvent"]) -> None:
+    def response(self, value: Optional[TimingDescriptionEvent]) -> None:
         """
         Set response with validation.
 
@@ -130,22 +132,22 @@ class TimingDescriptionEventChain(TimingDescription):
                 f"response must be TimingDescriptionEvent or None, got {type(value).__name__}"
             )
         self._response = value
-        self._segment: List["TimingDescriptionEvent"] = []
+        self._segment: List[TimingDescriptionEvent] = []
 
     @property
-    def segment(self) -> List["TimingDescriptionEvent"]:
+    def segment(self) -> List[TimingDescriptionEvent]:
         """Get segment (Pythonic accessor)."""
         return self._segment
         # The stimulus event representing the point in time where chain is activated.
-        self._stimulus: Optional["TimingDescriptionEvent"] = None
+        self._stimulus: Optional[TimingDescriptionEvent] = None
 
     @property
-    def stimulus(self) -> Optional["TimingDescriptionEvent"]:
+    def stimulus(self) -> Optional[TimingDescriptionEvent]:
         """Get stimulus (Pythonic accessor)."""
         return self._stimulus
 
     @stimulus.setter
-    def stimulus(self, value: Optional["TimingDescriptionEvent"]) -> None:
+    def stimulus(self, value: Optional[TimingDescriptionEvent]) -> None:
         """
         Set stimulus with validation.
 
@@ -179,7 +181,7 @@ class TimingDescriptionEventChain(TimingDescription):
         """
         return self.is_pipelining  # Delegates to property
 
-    def setIsPipelining(self, value: "Boolean") -> "TimingDescriptionEventChain":
+    def setIsPipelining(self, value: "Boolean") -> TimingDescriptionEventChain:
         """
         AUTOSAR-compliant setter for isPipelining with method chaining.
 
@@ -195,7 +197,7 @@ class TimingDescriptionEventChain(TimingDescription):
         self.is_pipelining = value  # Delegates to property setter
         return self
 
-    def getResponse(self) -> "TimingDescriptionEvent":
+    def getResponse(self) -> TimingDescriptionEvent:
         """
         AUTOSAR-compliant getter for response.
 
@@ -207,7 +209,7 @@ class TimingDescriptionEventChain(TimingDescription):
         """
         return self.response  # Delegates to property
 
-    def setResponse(self, value: "TimingDescriptionEvent") -> "TimingDescriptionEventChain":
+    def setResponse(self, value: TimingDescriptionEvent) -> TimingDescriptionEventChain:
         """
         AUTOSAR-compliant setter for response with method chaining.
 
@@ -223,7 +225,7 @@ class TimingDescriptionEventChain(TimingDescription):
         self.response = value  # Delegates to property setter
         return self
 
-    def getSegment(self) -> List["TimingDescriptionEvent"]:
+    def getSegment(self) -> List[TimingDescriptionEvent]:
         """
         AUTOSAR-compliant getter for segment.
 
@@ -235,7 +237,7 @@ class TimingDescriptionEventChain(TimingDescription):
         """
         return self.segment  # Delegates to property
 
-    def getStimulus(self) -> "TimingDescriptionEvent":
+    def getStimulus(self) -> TimingDescriptionEvent:
         """
         AUTOSAR-compliant getter for stimulus.
 
@@ -247,7 +249,7 @@ class TimingDescriptionEventChain(TimingDescription):
         """
         return self.stimulus  # Delegates to property
 
-    def setStimulus(self, value: "TimingDescriptionEvent") -> "TimingDescriptionEventChain":
+    def setStimulus(self, value: TimingDescriptionEvent) -> TimingDescriptionEventChain:
         """
         AUTOSAR-compliant setter for stimulus with method chaining.
 
@@ -265,7 +267,7 @@ class TimingDescriptionEventChain(TimingDescription):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_pipelining(self, value: Optional["Boolean"]) -> "TimingDescriptionEventChain":
+    def with_is_pipelining(self, value: Optional["Boolean"]) -> TimingDescriptionEventChain:
         """
         Set isPipelining and return self for chaining.
 
@@ -281,7 +283,7 @@ class TimingDescriptionEventChain(TimingDescription):
         self.is_pipelining = value  # Use property setter (gets validation)
         return self
 
-    def with_response(self, value: Optional["TimingDescriptionEvent"]) -> "TimingDescriptionEventChain":
+    def with_response(self, value: Optional[TimingDescriptionEvent]) -> TimingDescriptionEventChain:
         """
         Set response and return self for chaining.
 
@@ -297,7 +299,7 @@ class TimingDescriptionEventChain(TimingDescription):
         self.response = value  # Use property setter (gets validation)
         return self
 
-    def with_stimulus(self, value: Optional["TimingDescriptionEvent"]) -> "TimingDescriptionEventChain":
+    def with_stimulus(self, value: Optional[TimingDescriptionEvent]) -> TimingDescriptionEventChain:
         """
         Set stimulus and return self for chaining.
 
@@ -406,7 +408,7 @@ class TimingDescriptionEvent(TimingDescription, ABC):
         """
         return self.clock_reference  # Delegates to property
 
-    def setClockReference(self, value: "TimingClock") -> "TimingDescriptionEvent":
+    def setClockReference(self, value: "TimingClock") -> TimingDescriptionEvent:
         """
         AUTOSAR-compliant setter for clockReference with method chaining.
 
@@ -434,7 +436,7 @@ class TimingDescriptionEvent(TimingDescription, ABC):
         """
         return self.occurrence  # Delegates to property
 
-    def setOccurrence(self, value: "TDEventOccurrence") -> "TimingDescriptionEvent":
+    def setOccurrence(self, value: "TDEventOccurrence") -> TimingDescriptionEvent:
         """
         AUTOSAR-compliant setter for occurrence with method chaining.
 
@@ -452,7 +454,7 @@ class TimingDescriptionEvent(TimingDescription, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_clock_reference(self, value: Optional["TimingClock"]) -> "TimingDescriptionEvent":
+    def with_clock_reference(self, value: Optional["TimingClock"]) -> TimingDescriptionEvent:
         """
         Set clockReference and return self for chaining.
 
@@ -468,7 +470,7 @@ class TimingDescriptionEvent(TimingDescription, ABC):
         self.clock_reference = value  # Use property setter (gets validation)
         return self
 
-    def with_occurrence(self, value: Optional["TDEventOccurrence"]) -> "TimingDescriptionEvent":
+    def with_occurrence(self, value: Optional["TDEventOccurrence"]) -> TimingDescriptionEvent:
         """
         Set occurrence and return self for chaining.
 

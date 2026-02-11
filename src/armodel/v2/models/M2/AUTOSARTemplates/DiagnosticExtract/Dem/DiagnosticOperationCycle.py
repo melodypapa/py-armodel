@@ -4,6 +4,8 @@ AUTOSAR Package - DiagnosticOperationCycle
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticOperationCycle
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -72,7 +74,7 @@ class DiagnosticOperationCycle(DiagnosticCommonElement):
         """
         return self.type_cycle_type_enum  # Delegates to property
 
-    def setTypeCycleTypeEnum(self, value: "DiagnosticOperation") -> "DiagnosticOperationCycle":
+    def setTypeCycleTypeEnum(self, value: "DiagnosticOperation") -> DiagnosticOperationCycle:
         """
         AUTOSAR-compliant setter for typeCycleTypeEnum with method chaining.
 
@@ -90,7 +92,7 @@ class DiagnosticOperationCycle(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_type_cycle_type_enum(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticOperationCycle":
+    def with_type_cycle_type_enum(self, value: Optional["DiagnosticOperation"]) -> DiagnosticOperationCycle:
         """
         Set typeCycleTypeEnum and return self for chaining.
 

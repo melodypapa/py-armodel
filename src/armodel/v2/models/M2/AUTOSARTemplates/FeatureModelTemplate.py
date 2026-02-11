@@ -4,10 +4,12 @@ AUTOSAR Package - FeatureModelTemplate
 Package: M2::AUTOSARTemplates::FeatureModelTemplate
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
 )
@@ -45,23 +47,23 @@ class FMFeatureModel(ARElement):
         # "feature" holds the list of features of the feature model.
         # No be contained twice in this list.
         # Also, each be contained on only one feature model.
-        self._feature: List["FMFeature"] = []
+        self._feature: List[FMFeature] = []
 
     @property
-    def feature(self) -> List["FMFeature"]:
+    def feature(self) -> List[FMFeature]:
         """Get feature (Pythonic accessor)."""
         return self._feature
         # The features of a feature model define a tree.
         # The points to the root of this tree.
-        self._root: Optional["FMFeature"] = None
+        self._root: Optional[FMFeature] = None
 
     @property
-    def root(self) -> Optional["FMFeature"]:
+    def root(self) -> Optional[FMFeature]:
         """Get root (Pythonic accessor)."""
         return self._root
 
     @root.setter
-    def root(self, value: Optional["FMFeature"]) -> None:
+    def root(self, value: Optional[FMFeature]) -> None:
         """
         Set root with validation.
 
@@ -275,7 +277,7 @@ class FMFeatureModel(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFeature(self) -> List["FMFeature"]:
+    def getFeature(self) -> List[FMFeature]:
         """
         AUTOSAR-compliant getter for feature.
 
@@ -287,7 +289,7 @@ class FMFeatureModel(ARElement):
         """
         return self.feature  # Delegates to property
 
-    def getRoot(self) -> "FMFeature":
+    def getRoot(self) -> FMFeature:
         """
         AUTOSAR-compliant getter for root.
 
@@ -299,7 +301,7 @@ class FMFeatureModel(ARElement):
         """
         return self.root  # Delegates to property
 
-    def setRoot(self, value: "FMFeature") -> "FMFeatureModel":
+    def setRoot(self, value: FMFeature) -> FMFeatureModel:
         """
         AUTOSAR-compliant setter for root with method chaining.
 
@@ -317,7 +319,7 @@ class FMFeatureModel(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_root(self, value: Optional["FMFeature"]) -> "FMFeatureModel":
+    def with_root(self, value: Optional[FMFeature]) -> FMFeatureModel:
         """
         Set root and return self for chaining.
 
@@ -353,17 +355,17 @@ class FMFeature(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This defines the attributes of the given feature.
-        self._attributeDef: List["FMAttributeDef"] = []
+        self._attributeDef: List[FMAttributeDef] = []
 
     @property
-    def attribute_def(self) -> List["FMAttributeDef"]:
+    def attribute_def(self) -> List[FMAttributeDef]:
         """Get attributeDef (Pythonic accessor)."""
         return self._attributeDef
         # Lists the sub-features of a feature.
-        self._decompositionDecomposition: List["FMFeature"] = []
+        self._decompositionDecomposition: List[FMFeature] = []
 
     @property
-    def decomposition_decomposition(self) -> List["FMFeature"]:
+    def decomposition_decomposition(self) -> List[FMFeature]:
         """Get decompositionDecomposition (Pythonic accessor)."""
         return self._decompositionDecomposition
         # Defines an upper bound for the binding time of the points that are associated
@@ -426,25 +428,25 @@ class FMFeature(ARElement):
             )
         self._minimum = value
         # with A FMFeature can only be part of a all its relations are fulfilled.
-        self._relation: List["FMFeatureRelation"] = []
+        self._relation: List[FMFeatureRelation] = []
 
     @property
-    def relation(self) -> List["FMFeatureRelation"]:
+    def relation(self) -> List[FMFeatureRelation]:
         """Get relation (Pythonic accessor)."""
         return self._relation
         # Defines restrictions for FMFeatures.
         # A FMFeature can part of a FMFeatureSelectionSet if at least one of evaluates
                 # to true.
-        self._restriction: List["FMFeatureRestriction"] = []
+        self._restriction: List[FMFeatureRestriction] = []
 
     @property
-    def restriction(self) -> List["FMFeatureRestriction"]:
+    def restriction(self) -> List[FMFeatureRestriction]:
         """Get restriction (Pythonic accessor)."""
         return self._restriction
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAttributeDef(self) -> List["FMAttributeDef"]:
+    def getAttributeDef(self) -> List[FMAttributeDef]:
         """
         AUTOSAR-compliant getter for attributeDef.
 
@@ -456,7 +458,7 @@ class FMFeature(ARElement):
         """
         return self.attribute_def  # Delegates to property
 
-    def getDecompositionDecomposition(self) -> List["FMFeature"]:
+    def getDecompositionDecomposition(self) -> List[FMFeature]:
         """
         AUTOSAR-compliant getter for decompositionDecomposition.
 
@@ -480,7 +482,7 @@ class FMFeature(ARElement):
         """
         return self.maximum  # Delegates to property
 
-    def setMaximum(self, value: "BindingTimeEnum") -> "FMFeature":
+    def setMaximum(self, value: "BindingTimeEnum") -> FMFeature:
         """
         AUTOSAR-compliant setter for maximum with method chaining.
 
@@ -508,7 +510,7 @@ class FMFeature(ARElement):
         """
         return self.minimum  # Delegates to property
 
-    def setMinimum(self, value: "BindingTimeEnum") -> "FMFeature":
+    def setMinimum(self, value: "BindingTimeEnum") -> FMFeature:
         """
         AUTOSAR-compliant setter for minimum with method chaining.
 
@@ -524,7 +526,7 @@ class FMFeature(ARElement):
         self.minimum = value  # Delegates to property setter
         return self
 
-    def getRelation(self) -> List["FMFeatureRelation"]:
+    def getRelation(self) -> List[FMFeatureRelation]:
         """
         AUTOSAR-compliant getter for relation.
 
@@ -536,7 +538,7 @@ class FMFeature(ARElement):
         """
         return self.relation  # Delegates to property
 
-    def getRestriction(self) -> List["FMFeatureRestriction"]:
+    def getRestriction(self) -> List[FMFeatureRestriction]:
         """
         AUTOSAR-compliant getter for restriction.
 
@@ -550,7 +552,7 @@ class FMFeature(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_maximum(self, value: Optional["BindingTimeEnum"]) -> "FMFeature":
+    def with_maximum(self, value: Optional["BindingTimeEnum"]) -> FMFeature:
         """
         Set maximum and return self for chaining.
 
@@ -566,7 +568,7 @@ class FMFeature(ARElement):
         self.maximum = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum(self, value: Optional["BindingTimeEnum"]) -> "FMFeature":
+    def with_minimum(self, value: Optional["BindingTimeEnum"]) -> FMFeature:
         """
         Set minimum and return self for chaining.
 
@@ -695,7 +697,7 @@ class FMAttributeDef(Identifiable):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "Numerical") -> "FMAttributeDef":
+    def setDefaultValue(self, value: "Numerical") -> FMAttributeDef:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 
@@ -723,7 +725,7 @@ class FMAttributeDef(Identifiable):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "Limit") -> "FMAttributeDef":
+    def setMax(self, value: "Limit") -> FMAttributeDef:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -751,7 +753,7 @@ class FMAttributeDef(Identifiable):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "Limit") -> "FMAttributeDef":
+    def setMin(self, value: "Limit") -> FMAttributeDef:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -769,7 +771,7 @@ class FMAttributeDef(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_value(self, value: Optional["Numerical"]) -> "FMAttributeDef":
+    def with_default_value(self, value: Optional["Numerical"]) -> FMAttributeDef:
         """
         Set defaultValue and return self for chaining.
 
@@ -785,7 +787,7 @@ class FMAttributeDef(Identifiable):
         self.default_value = value  # Use property setter (gets validation)
         return self
 
-    def with_max(self, value: Optional["Limit"]) -> "FMAttributeDef":
+    def with_max(self, value: Optional["Limit"]) -> FMAttributeDef:
         """
         Set max and return self for chaining.
 
@@ -801,7 +803,7 @@ class FMAttributeDef(Identifiable):
         self.max = value  # Use property setter (gets validation)
         return self
 
-    def with_min(self, value: Optional["Limit"]) -> "FMAttributeDef":
+    def with_min(self, value: Optional["Limit"]) -> FMAttributeDef:
         """
         Set min and return self for chaining.
 
@@ -868,10 +870,10 @@ class FMFeatureDecomposition(ARObject):
                 # FMFeatureDecomposition.
         # 92 Document ID 606: AUTOSAR_FO_TPS_FeatureModelExchangeFormat Model Exchange
                 # Format R23-11.
-        self._feature: List["FMFeature"] = []
+        self._feature: List[FMFeature] = []
 
     @property
-    def feature(self) -> List["FMFeature"]:
+    def feature(self) -> List[FMFeature]:
         """Get feature (Pythonic accessor)."""
         return self._feature
         # For a dependency of category MULTIPLEFEATURE, this maximum number of features
@@ -946,7 +948,7 @@ class FMFeatureDecomposition(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CategoryString") -> "FMFeatureDecomposition":
+    def setCategory(self, value: "CategoryString") -> FMFeatureDecomposition:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -962,7 +964,7 @@ class FMFeatureDecomposition(ARObject):
         self.category = value  # Delegates to property setter
         return self
 
-    def getFeature(self) -> List["FMFeature"]:
+    def getFeature(self) -> List[FMFeature]:
         """
         AUTOSAR-compliant getter for feature.
 
@@ -986,7 +988,7 @@ class FMFeatureDecomposition(ARObject):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "PositiveInteger") -> "FMFeatureDecomposition":
+    def setMax(self, value: "PositiveInteger") -> FMFeatureDecomposition:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -1014,7 +1016,7 @@ class FMFeatureDecomposition(ARObject):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "PositiveInteger") -> "FMFeatureDecomposition":
+    def setMin(self, value: "PositiveInteger") -> FMFeatureDecomposition:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -1032,7 +1034,7 @@ class FMFeatureDecomposition(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["CategoryString"]) -> "FMFeatureDecomposition":
+    def with_category(self, value: Optional["CategoryString"]) -> FMFeatureDecomposition:
         """
         Set category and return self for chaining.
 
@@ -1048,7 +1050,7 @@ class FMFeatureDecomposition(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_max(self, value: Optional["PositiveInteger"]) -> "FMFeatureDecomposition":
+    def with_max(self, value: Optional["PositiveInteger"]) -> FMFeatureDecomposition:
         """
         Set max and return self for chaining.
 
@@ -1064,7 +1066,7 @@ class FMFeatureDecomposition(ARObject):
         self.max = value  # Use property setter (gets validation)
         return self
 
-    def with_min(self, value: Optional["PositiveInteger"]) -> "FMFeatureDecomposition":
+    def with_min(self, value: Optional["PositiveInteger"]) -> FMFeatureDecomposition:
         """
         Set min and return self for chaining.
 
@@ -1140,7 +1142,7 @@ class FMFeatureRestriction(Identifiable):
         """
         return self.restriction_and_attributes  # Delegates to property
 
-    def setRestrictionAndAttributes(self, value: "FMConditionByFeatures") -> "FMFeatureRestriction":
+    def setRestrictionAndAttributes(self, value: "FMConditionByFeatures") -> FMFeatureRestriction:
         """
         AUTOSAR-compliant setter for restrictionAndAttributes with method chaining.
 
@@ -1158,7 +1160,7 @@ class FMFeatureRestriction(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_restriction_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureRestriction":
+    def with_restriction_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureRestriction:
         """
         Set restrictionAndAttributes and return self for chaining.
 
@@ -1193,10 +1195,10 @@ class FMFeatureRelation(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The FMFeature that is targeted by this FMFeature.
-        self._feature: List["FMFeature"] = []
+        self._feature: List[FMFeature] = []
 
     @property
-    def feature(self) -> List["FMFeature"]:
+    def feature(self) -> List[FMFeature]:
         """Get feature (Pythonic accessor)."""
         return self._feature
         # If given, the condition shall evaluate to true, in order for
@@ -1231,7 +1233,7 @@ class FMFeatureRelation(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFeature(self) -> List["FMFeature"]:
+    def getFeature(self) -> List[FMFeature]:
         """
         AUTOSAR-compliant getter for feature.
 
@@ -1255,7 +1257,7 @@ class FMFeatureRelation(Identifiable):
         """
         return self.restriction  # Delegates to property
 
-    def setRestriction(self, value: "FMConditionByFeatures") -> "FMFeatureRelation":
+    def setRestriction(self, value: "FMConditionByFeatures") -> FMFeatureRelation:
         """
         AUTOSAR-compliant setter for restriction with method chaining.
 
@@ -1273,7 +1275,7 @@ class FMFeatureRelation(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_restriction(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureRelation":
+    def with_restriction(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureRelation:
         """
         Set restriction and return self for chaining.
 
@@ -1329,16 +1331,16 @@ class FMFeatureSelection(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This defines a value for the attribute that is referred to in definition.
-        self._attributeValue: List["FMAttributeValue"] = []
+        self._attributeValue: List[FMAttributeValue] = []
 
     @property
-    def attribute_value(self) -> List["FMAttributeValue"]:
+    def attribute_value(self) -> List[FMAttributeValue]:
         """Get attributeValue (Pythonic accessor)."""
         return self._attributeValue
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAttributeValue(self) -> List["FMAttributeValue"]:
+    def getAttributeValue(self) -> List[FMAttributeValue]:
         """
         AUTOSAR-compliant getter for attributeValue.
 
@@ -1370,15 +1372,15 @@ class FMAttributeValue(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This refers to the definition of this attribute.
-        self._definition: Optional["FMAttributeDef"] = None
+        self._definition: Optional[FMAttributeDef] = None
 
     @property
-    def definition(self) -> Optional["FMAttributeDef"]:
+    def definition(self) -> Optional[FMAttributeDef]:
         """Get definition (Pythonic accessor)."""
         return self._definition
 
     @definition.setter
-    def definition(self, value: Optional["FMAttributeDef"]) -> None:
+    def definition(self, value: Optional[FMAttributeDef]) -> None:
         """
         Set definition with validation.
 
@@ -1427,7 +1429,7 @@ class FMAttributeValue(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefinition(self) -> "FMAttributeDef":
+    def getDefinition(self) -> FMAttributeDef:
         """
         AUTOSAR-compliant getter for definition.
 
@@ -1439,7 +1441,7 @@ class FMAttributeValue(ARObject):
         """
         return self.definition  # Delegates to property
 
-    def setDefinition(self, value: "FMAttributeDef") -> "FMAttributeValue":
+    def setDefinition(self, value: FMAttributeDef) -> FMAttributeValue:
         """
         AUTOSAR-compliant setter for definition with method chaining.
 
@@ -1467,7 +1469,7 @@ class FMAttributeValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> "FMAttributeValue":
+    def setValue(self, value: "Numerical") -> FMAttributeValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1485,7 +1487,7 @@ class FMAttributeValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_definition(self, value: Optional["FMAttributeDef"]) -> "FMAttributeValue":
+    def with_definition(self, value: Optional[FMAttributeDef]) -> FMAttributeValue:
         """
         Set definition and return self for chaining.
 
@@ -1501,7 +1503,7 @@ class FMAttributeValue(ARObject):
         self.definition = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["Numerical"]) -> "FMAttributeValue":
+    def with_value(self, value: Optional["Numerical"]) -> FMAttributeValue:
         """
         Set value and return self for chaining.
 
@@ -1536,10 +1538,10 @@ class FMFeatureSelectionSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # All FMFeatures in this FMFeatureSelectionSet shall be the referenced
         # FMFeatureModel.
-        self._featureModel: List["FMFeatureModel"] = []
+        self._featureModel: List[FMFeatureModel] = []
 
     @property
-    def feature_model(self) -> List["FMFeatureModel"]:
+    def feature_model(self) -> List[FMFeatureModel]:
         """Get featureModel (Pythonic accessor)."""
         return self._featureModel
         # Each FMFeatureSelectionSet may include one or more establishes a hierarchy
@@ -1551,16 +1553,16 @@ class FMFeatureSelectionSet(ARElement):
         """Get include (Pythonic accessor)."""
         return self._include
         # The set of FMFeatureSelections of this FMFeature.
-        self._selection: List["FMFeatureSelection"] = []
+        self._selection: List[FMFeatureSelection] = []
 
     @property
-    def selection(self) -> List["FMFeatureSelection"]:
+    def selection(self) -> List[FMFeatureSelection]:
         """Get selection (Pythonic accessor)."""
         return self._selection
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFeatureModel(self) -> List["FMFeatureModel"]:
+    def getFeatureModel(self) -> List[FMFeatureModel]:
         """
         AUTOSAR-compliant getter for featureModel.
 
@@ -1584,7 +1586,7 @@ class FMFeatureSelectionSet(ARElement):
         """
         return self.include  # Delegates to property
 
-    def getSelection(self) -> List["FMFeatureSelection"]:
+    def getSelection(self) -> List[FMFeatureSelection]:
         """
         AUTOSAR-compliant getter for selection.
 
@@ -1618,16 +1620,16 @@ class FMFeatureMap(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Set of mappings defined by this FMFeatureMap.
-        self._mapping: List["FMFeatureMapElement"] = []
+        self._mapping: List[FMFeatureMapElement] = []
 
     @property
-    def mapping(self) -> List["FMFeatureMapElement"]:
+    def mapping(self) -> List[FMFeatureMapElement]:
         """Get mapping (Pythonic accessor)."""
         return self._mapping
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMapping(self) -> List["FMFeatureMapElement"]:
+    def getMapping(self) -> List[FMFeatureMapElement]:
         """
         AUTOSAR-compliant getter for mapping.
 
@@ -1661,17 +1663,17 @@ class FMFeatureMapElement(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines a boolean expression based on features and constants which needs to
         # evaluate to true for this become active.
-        self._assertion: List["FMFeatureMap"] = []
+        self._assertion: List[FMFeatureMap] = []
 
     @property
-    def assertion(self) -> List["FMFeatureMap"]:
+    def assertion(self) -> List[FMFeatureMap]:
         """Get assertion (Pythonic accessor)."""
         return self._assertion
         # Defines a condition which needs to be fulfilled for this to become active.
-        self._condition: List["FMFeatureMap"] = []
+        self._condition: List[FMFeatureMap] = []
 
     @property
-    def condition(self) -> List["FMFeatureMap"]:
+    def condition(self) -> List[FMFeatureMap]:
         """Get condition (Pythonic accessor)."""
         return self._condition
         # Selects a set of values for postbuild variant criterions.
@@ -1691,7 +1693,7 @@ class FMFeatureMapElement(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAssertion(self) -> List["FMFeatureMap"]:
+    def getAssertion(self) -> List[FMFeatureMap]:
         """
         AUTOSAR-compliant getter for assertion.
 
@@ -1703,7 +1705,7 @@ class FMFeatureMapElement(Identifiable):
         """
         return self.assertion  # Delegates to property
 
-    def getCondition(self) -> List["FMFeatureMap"]:
+    def getCondition(self) -> List[FMFeatureMap]:
         """
         AUTOSAR-compliant getter for condition.
 
@@ -1802,7 +1804,7 @@ class FMFeatureMapCondition(Identifiable):
         """
         return self.fm_cond_and_attributes  # Delegates to property
 
-    def setFmCondAndAttributes(self, value: "FMConditionByFeatures") -> "FMFeatureMapCondition":
+    def setFmCondAndAttributes(self, value: "FMConditionByFeatures") -> FMFeatureMapCondition:
         """
         AUTOSAR-compliant setter for fmCondAndAttributes with method chaining.
 
@@ -1820,7 +1822,7 @@ class FMFeatureMapCondition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fm_cond_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureMapCondition":
+    def with_fm_cond_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureMapCondition:
         """
         Set fmCondAndAttributes and return self for chaining.
 
@@ -1897,7 +1899,7 @@ class FMFeatureMapAssertion(Identifiable):
         """
         return self.fm_syscond_and_sw_systemconsts  # Delegates to property
 
-    def setFmSyscondAndSwSystemconsts(self, value: "FMConditionByFeatures") -> "FMFeatureMapAssertion":
+    def setFmSyscondAndSwSystemconsts(self, value: "FMConditionByFeatures") -> FMFeatureMapAssertion:
         """
         AUTOSAR-compliant setter for fmSyscondAndSwSystemconsts with method chaining.
 
@@ -1915,7 +1917,7 @@ class FMFeatureMapAssertion(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fm_syscond_and_sw_systemconsts(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureMapAssertion":
+    def with_fm_syscond_and_sw_systemconsts(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureMapAssertion:
         """
         Set fmSyscondAndSwSystemconsts and return self for chaining.
 
@@ -1953,15 +1955,15 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # An expression of type FMFormulaByFeaturesAnd refer to attributes of
         # FMFeatures.
-        self._attribute: Optional["FMAttributeDef"] = None
+        self._attribute: Optional[FMAttributeDef] = None
 
     @property
-    def attribute(self) -> Optional["FMAttributeDef"]:
+    def attribute(self) -> Optional[FMAttributeDef]:
         """Get attribute (Pythonic accessor)."""
         return self._attribute
 
     @attribute.setter
-    def attribute(self, value: Optional["FMAttributeDef"]) -> None:
+    def attribute(self, value: Optional[FMAttributeDef]) -> None:
         """
         Set attribute with validation.
 
@@ -1980,15 +1982,15 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
                 f"attribute must be FMAttributeDef or None, got {type(value).__name__}"
             )
         self._attribute = value
-        self._feature: Optional["FMFeature"] = None
+        self._feature: Optional[FMFeature] = None
 
     @property
-    def feature(self) -> Optional["FMFeature"]:
+    def feature(self) -> Optional[FMFeature]:
         """Get feature (Pythonic accessor)."""
         return self._feature
 
     @feature.setter
-    def feature(self, value: Optional["FMFeature"]) -> None:
+    def feature(self, value: Optional[FMFeature]) -> None:
         """
         Set feature with validation.
 
@@ -2010,7 +2012,7 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAttribute(self) -> "FMAttributeDef":
+    def getAttribute(self) -> FMAttributeDef:
         """
         AUTOSAR-compliant getter for attribute.
 
@@ -2022,7 +2024,7 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
         """
         return self.attribute  # Delegates to property
 
-    def setAttribute(self, value: "FMAttributeDef") -> "FMFormulaByFeaturesAndAttributes":
+    def setAttribute(self, value: FMAttributeDef) -> FMFormulaByFeaturesAndAttributes:
         """
         AUTOSAR-compliant setter for attribute with method chaining.
 
@@ -2038,7 +2040,7 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
         self.attribute = value  # Delegates to property setter
         return self
 
-    def getFeature(self) -> "FMFeature":
+    def getFeature(self) -> FMFeature:
         """
         AUTOSAR-compliant getter for feature.
 
@@ -2050,7 +2052,7 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
         """
         return self.feature  # Delegates to property
 
-    def setFeature(self, value: "FMFeature") -> "FMFormulaByFeaturesAndAttributes":
+    def setFeature(self, value: FMFeature) -> FMFormulaByFeaturesAndAttributes:
         """
         AUTOSAR-compliant setter for feature with method chaining.
 
@@ -2068,7 +2070,7 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_attribute(self, value: Optional["FMAttributeDef"]) -> "FMFormulaByFeaturesAndAttributes":
+    def with_attribute(self, value: Optional[FMAttributeDef]) -> FMFormulaByFeaturesAndAttributes:
         """
         Set attribute and return self for chaining.
 
@@ -2084,7 +2086,7 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
         self.attribute = value  # Use property setter (gets validation)
         return self
 
-    def with_feature(self, value: Optional["FMFeature"]) -> "FMFormulaByFeaturesAndAttributes":
+    def with_feature(self, value: Optional[FMFeature]) -> FMFormulaByFeaturesAndAttributes:
         """
         Set feature and return self for chaining.
 
@@ -2143,15 +2145,15 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # An expression of type FMFormulaByFeaturesAndSw refer to FMFeatures.
-        self._feature: Optional["FMFeature"] = None
+        self._feature: Optional[FMFeature] = None
 
     @property
-    def feature(self) -> Optional["FMFeature"]:
+    def feature(self) -> Optional[FMFeature]:
         """Get feature (Pythonic accessor)."""
         return self._feature
 
     @feature.setter
-    def feature(self, value: Optional["FMFeature"]) -> None:
+    def feature(self, value: Optional[FMFeature]) -> None:
         """
         Set feature with validation.
 
@@ -2173,7 +2175,7 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFeature(self) -> "FMFeature":
+    def getFeature(self) -> FMFeature:
         """
         AUTOSAR-compliant getter for feature.
 
@@ -2185,7 +2187,7 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
         """
         return self.feature  # Delegates to property
 
-    def setFeature(self, value: "FMFeature") -> "FMFormulaByFeaturesAndSwSystemconsts":
+    def setFeature(self, value: FMFeature) -> FMFormulaByFeaturesAndSwSystemconsts:
         """
         AUTOSAR-compliant setter for feature with method chaining.
 
@@ -2203,7 +2205,7 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_feature(self, value: Optional["FMFeature"]) -> "FMFormulaByFeaturesAndSwSystemconsts":
+    def with_feature(self, value: Optional[FMFeature]) -> FMFormulaByFeaturesAndSwSystemconsts:
         """
         Set feature and return self for chaining.
 

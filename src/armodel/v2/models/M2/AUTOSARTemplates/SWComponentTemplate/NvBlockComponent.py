@@ -4,9 +4,11 @@ AUTOSAR Package - NvBlockComponent
 Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     PositiveInteger,
@@ -457,7 +459,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.nv_block_needs  # Delegates to property
 
-    def setNvBlockNeeds(self, value: "NvBlockNeeds") -> "NvBlockDescriptor":
+    def setNvBlockNeeds(self, value: "NvBlockNeeds") -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for nvBlockNeeds with method chaining.
 
@@ -485,7 +487,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.ram_block  # Delegates to property
 
-    def setRamBlock(self, value: "RefType") -> "NvBlockDescriptor":
+    def setRamBlock(self, value: "RefType") -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for ramBlock with method chaining.
 
@@ -513,7 +515,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.rom_block  # Delegates to property
 
-    def setRomBlock(self, value: "ParameterData") -> "NvBlockDescriptor":
+    def setRomBlock(self, value: "ParameterData") -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for romBlock with method chaining.
 
@@ -541,7 +543,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.support_dirty  # Delegates to property
 
-    def setSupportDirty(self, value: "Boolean") -> "NvBlockDescriptor":
+    def setSupportDirty(self, value: "Boolean") -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for supportDirty with method chaining.
 
@@ -569,7 +571,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.timing_event  # Delegates to property
 
-    def setTimingEvent(self, value: "TimingEvent") -> "NvBlockDescriptor":
+    def setTimingEvent(self, value: "TimingEvent") -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for timingEvent with method chaining.
 
@@ -599,7 +601,7 @@ class NvBlockDescriptor(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nv_block_needs(self, value: Optional["NvBlockNeeds"]) -> "NvBlockDescriptor":
+    def with_nv_block_needs(self, value: Optional["NvBlockNeeds"]) -> NvBlockDescriptor:
         """
         Set nvBlockNeeds and return self for chaining.
 
@@ -615,7 +617,7 @@ class NvBlockDescriptor(Identifiable):
         self.nv_block_needs = value  # Use property setter (gets validation)
         return self
 
-    def with_ram_block(self, value: Optional[RefType]) -> "NvBlockDescriptor":
+    def with_ram_block(self, value: Optional[RefType]) -> NvBlockDescriptor:
         """
         Set ramBlock and return self for chaining.
 
@@ -631,7 +633,7 @@ class NvBlockDescriptor(Identifiable):
         self.ram_block = value  # Use property setter (gets validation)
         return self
 
-    def with_rom_block(self, value: Optional["ParameterData"]) -> "NvBlockDescriptor":
+    def with_rom_block(self, value: Optional["ParameterData"]) -> NvBlockDescriptor:
         """
         Set romBlock and return self for chaining.
 
@@ -647,7 +649,7 @@ class NvBlockDescriptor(Identifiable):
         self.rom_block = value  # Use property setter (gets validation)
         return self
 
-    def with_support_dirty(self, value: Optional["Boolean"]) -> "NvBlockDescriptor":
+    def with_support_dirty(self, value: Optional["Boolean"]) -> NvBlockDescriptor:
         """
         Set supportDirty and return self for chaining.
 
@@ -663,7 +665,7 @@ class NvBlockDescriptor(Identifiable):
         self.support_dirty = value  # Use property setter (gets validation)
         return self
 
-    def with_timing_event(self, value: Optional["TimingEvent"]) -> "NvBlockDescriptor":
+    def with_timing_event(self, value: Optional["TimingEvent"]) -> NvBlockDescriptor:
         """
         Set timingEvent and return self for chaining.
 
@@ -766,7 +768,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "ModeSwitchEventTriggeredActivity":
+    def setRole(self, value: "Identifier") -> ModeSwitchEventTriggeredActivity:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -794,7 +796,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
         """
         return self.swc_mode_switch  # Delegates to property
 
-    def setSwcModeSwitch(self, value: "SwcModeSwitchEvent") -> "ModeSwitchEventTriggeredActivity":
+    def setSwcModeSwitch(self, value: "SwcModeSwitchEvent") -> ModeSwitchEventTriggeredActivity:
         """
         AUTOSAR-compliant setter for swcModeSwitch with method chaining.
 
@@ -812,7 +814,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_role(self, value: Optional["Identifier"]) -> "ModeSwitchEventTriggeredActivity":
+    def with_role(self, value: Optional["Identifier"]) -> ModeSwitchEventTriggeredActivity:
         """
         Set role and return self for chaining.
 
@@ -828,7 +830,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
         self.role = value  # Use property setter (gets validation)
         return self
 
-    def with_swc_mode_switch(self, value: Optional["SwcModeSwitchEvent"]) -> "ModeSwitchEventTriggeredActivity":
+    def with_swc_mode_switch(self, value: Optional["SwcModeSwitchEvent"]) -> ModeSwitchEventTriggeredActivity:
         """
         Set swcModeSwitch and return self for chaining.
 
@@ -1003,7 +1005,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.bitfield_text_table  # Delegates to property
 
-    def setBitfieldTextTable(self, value: "PositiveInteger") -> "NvBlockDataMapping":
+    def setBitfieldTextTable(self, value: "PositiveInteger") -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for bitfieldTextTable with method chaining.
 
@@ -1031,7 +1033,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.nv_ram_block  # Delegates to property
 
-    def setNvRamBlock(self, value: "RefType") -> "NvBlockDataMapping":
+    def setNvRamBlock(self, value: "RefType") -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for nvRamBlock with method chaining.
 
@@ -1059,7 +1061,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.read_nv_data  # Delegates to property
 
-    def setReadNvData(self, value: "RefType") -> "NvBlockDataMapping":
+    def setReadNvData(self, value: "RefType") -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for readNvData with method chaining.
 
@@ -1087,7 +1089,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.written_nv_data  # Delegates to property
 
-    def setWrittenNvData(self, value: "RefType") -> "NvBlockDataMapping":
+    def setWrittenNvData(self, value: "RefType") -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for writtenNvData with method chaining.
 
@@ -1115,7 +1117,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.written_read_nv  # Delegates to property
 
-    def setWrittenReadNv(self, value: "RefType") -> "NvBlockDataMapping":
+    def setWrittenReadNv(self, value: "RefType") -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for writtenReadNv with method chaining.
 
@@ -1133,7 +1135,7 @@ class NvBlockDataMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bitfield_text_table(self, value: Optional["PositiveInteger"]) -> "NvBlockDataMapping":
+    def with_bitfield_text_table(self, value: Optional["PositiveInteger"]) -> NvBlockDataMapping:
         """
         Set bitfieldTextTable and return self for chaining.
 
@@ -1149,7 +1151,7 @@ class NvBlockDataMapping(ARObject):
         self.bitfield_text_table = value  # Use property setter (gets validation)
         return self
 
-    def with_nv_ram_block(self, value: Optional[RefType]) -> "NvBlockDataMapping":
+    def with_nv_ram_block(self, value: Optional[RefType]) -> NvBlockDataMapping:
         """
         Set nvRamBlock and return self for chaining.
 
@@ -1165,7 +1167,7 @@ class NvBlockDataMapping(ARObject):
         self.nv_ram_block = value  # Use property setter (gets validation)
         return self
 
-    def with_read_nv_data(self, value: Optional[RefType]) -> "NvBlockDataMapping":
+    def with_read_nv_data(self, value: Optional[RefType]) -> NvBlockDataMapping:
         """
         Set readNvData and return self for chaining.
 
@@ -1181,7 +1183,7 @@ class NvBlockDataMapping(ARObject):
         self.read_nv_data = value  # Use property setter (gets validation)
         return self
 
-    def with_written_nv_data(self, value: Optional[RefType]) -> "NvBlockDataMapping":
+    def with_written_nv_data(self, value: Optional[RefType]) -> NvBlockDataMapping:
         """
         Set writtenNvData and return self for chaining.
 
@@ -1197,7 +1199,7 @@ class NvBlockDataMapping(ARObject):
         self.written_nv_data = value  # Use property setter (gets validation)
         return self
 
-    def with_written_read_nv(self, value: Optional[RefType]) -> "NvBlockDataMapping":
+    def with_written_read_nv(self, value: Optional[RefType]) -> NvBlockDataMapping:
         """
         Set writtenReadNv and return self for chaining.
 
@@ -1281,7 +1283,7 @@ class BulkNvDataDescriptor(Identifiable):
         """
         return self.bulk_nv_block  # Delegates to property
 
-    def setBulkNvBlock(self, value: "RefType") -> "BulkNvDataDescriptor":
+    def setBulkNvBlock(self, value: "RefType") -> BulkNvDataDescriptor:
         """
         AUTOSAR-compliant setter for bulkNvBlock with method chaining.
 
@@ -1311,7 +1313,7 @@ class BulkNvDataDescriptor(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bulk_nv_block(self, value: Optional[RefType]) -> "BulkNvDataDescriptor":
+    def with_bulk_nv_block(self, value: Optional[RefType]) -> BulkNvDataDescriptor:
         """
         Set bulkNvBlock and return self for chaining.
 

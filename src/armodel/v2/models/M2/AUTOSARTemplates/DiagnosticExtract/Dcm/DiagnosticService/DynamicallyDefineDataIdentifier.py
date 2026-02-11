@@ -4,9 +4,11 @@ AUTOSAR Package - DynamicallyDefineDataIdentifier
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DynamicallyDefineDataIdentifier
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -148,7 +150,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         """
         return self.data_identifier  # Delegates to property
 
-    def setDataIdentifier(self, value: "DiagnosticDynamicData") -> "DiagnosticDynamicallyDefineDataIdentifier":
+    def setDataIdentifier(self, value: "DiagnosticDynamicData") -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         AUTOSAR-compliant setter for dataIdentifier with method chaining.
 
@@ -176,7 +178,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         """
         return self.dynamically  # Delegates to property
 
-    def setDynamically(self, value: "DiagnosticDynamically") -> "DiagnosticDynamicallyDefineDataIdentifier":
+    def setDynamically(self, value: "DiagnosticDynamically") -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         AUTOSAR-compliant setter for dynamically with method chaining.
 
@@ -204,7 +206,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         """
         return self.max_source  # Delegates to property
 
-    def setMaxSource(self, value: "PositiveInteger") -> "DiagnosticDynamicallyDefineDataIdentifier":
+    def setMaxSource(self, value: "PositiveInteger") -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         AUTOSAR-compliant setter for maxSource with method chaining.
 
@@ -222,7 +224,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_identifier(self, value: Optional["DiagnosticDynamicData"]) -> "DiagnosticDynamicallyDefineDataIdentifier":
+    def with_data_identifier(self, value: Optional["DiagnosticDynamicData"]) -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         Set dataIdentifier and return self for chaining.
 
@@ -238,7 +240,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         self.data_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_dynamically(self, value: Optional["DiagnosticDynamically"]) -> "DiagnosticDynamicallyDefineDataIdentifier":
+    def with_dynamically(self, value: Optional["DiagnosticDynamically"]) -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         Set dynamically and return self for chaining.
 
@@ -254,7 +256,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         self.dynamically = value  # Use property setter (gets validation)
         return self
 
-    def with_max_source(self, value: Optional["PositiveInteger"]) -> "DiagnosticDynamicallyDefineDataIdentifier":
+    def with_max_source(self, value: Optional["PositiveInteger"]) -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         Set maxSource and return self for chaining.
 
@@ -370,7 +372,7 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
         """
         return self.check_per  # Delegates to property
 
-    def setCheckPer(self, value: "Boolean") -> "DiagnosticDynamicallyDefineDataIdentifierClass":
+    def setCheckPer(self, value: "Boolean") -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
         AUTOSAR-compliant setter for checkPer with method chaining.
 
@@ -398,7 +400,7 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
         """
         return self.configuration  # Delegates to property
 
-    def setConfiguration(self, value: "DiagnosticHandleDDDI") -> "DiagnosticDynamicallyDefineDataIdentifierClass":
+    def setConfiguration(self, value: "DiagnosticHandleDDDI") -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
         AUTOSAR-compliant setter for configuration with method chaining.
 
@@ -428,7 +430,7 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_check_per(self, value: Optional["Boolean"]) -> "DiagnosticDynamicallyDefineDataIdentifierClass":
+    def with_check_per(self, value: Optional["Boolean"]) -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
         Set checkPer and return self for chaining.
 
@@ -444,7 +446,7 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
         self.check_per = value  # Use property setter (gets validation)
         return self
 
-    def with_configuration(self, value: Optional["DiagnosticHandleDDDI"]) -> "DiagnosticDynamicallyDefineDataIdentifierClass":
+    def with_configuration(self, value: Optional["DiagnosticHandleDDDI"]) -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
         Set configuration and return self for chaining.
 

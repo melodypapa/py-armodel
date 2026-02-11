@@ -4,6 +4,8 @@ AUTOSAR Package - DataExchange
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
@@ -166,7 +168,7 @@ class SpecificationDocumentScope(SpecElementReference):
         """
         return self.custom_documentation  # Delegates to property
 
-    def setCustomDocumentation(self, value: "Documentation") -> "SpecificationDocumentScope":
+    def setCustomDocumentation(self, value: "Documentation") -> SpecificationDocumentScope:
         """
         AUTOSAR-compliant setter for customDocumentation with method chaining.
 
@@ -196,7 +198,7 @@ class SpecificationDocumentScope(SpecElementReference):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_documentation(self, value: Optional["Documentation"]) -> "SpecificationDocumentScope":
+    def with_custom_documentation(self, value: Optional["Documentation"]) -> SpecificationDocumentScope:
         """
         Set customDocumentation and return self for chaining.
 
@@ -285,7 +287,7 @@ class DocumentElementScope(SpecElementReference):
         """
         return self.custom  # Delegates to property
 
-    def setCustom(self, value: "Traceable") -> "DocumentElementScope":
+    def setCustom(self, value: "Traceable") -> DocumentElementScope:
         """
         AUTOSAR-compliant setter for custom with method chaining.
 
@@ -315,7 +317,7 @@ class DocumentElementScope(SpecElementReference):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom(self, value: Optional["Traceable"]) -> "DocumentElementScope":
+    def with_custom(self, value: Optional["Traceable"]) -> DocumentElementScope:
         """
         Set custom and return self for chaining.
 

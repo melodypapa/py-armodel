@@ -66,12 +66,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.SecurityEventThresholdFilter import (
 
 __all__ = [
     "AbstractSecurityEventFilter",
-    "BlockState",
+    BlockState,
     "IdsCommonElement",
-    "IdsDesign",
-    "IdsMapping",
-    "IdsmInstance",
-    "IdsmProperties",
+    IdsDesign,
+    IdsMapping,
+    IdsmInstance,
+    IdsmProperties,
     "IdsmRateLimitation",
     "IdsmSignatureSupportAp",
     "IdsmSignatureSupportCp",

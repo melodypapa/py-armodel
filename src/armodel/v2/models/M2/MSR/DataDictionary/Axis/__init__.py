@@ -15,10 +15,10 @@ from armodel.v2.models.M2.MSR.DataDictionary.SwGenericAxisParamType import (
 )
 
 __all__ = [
-    "SwAxisGeneric",
-    "SwAxisGrouped",
+    SwAxisGeneric,
+    SwAxisGrouped,
     "SwAxisIndividual",
-    "SwAxisType",
+    SwAxisType,
     "SwGenericAxisParam",
     "SwGenericAxisParamType",
 ]

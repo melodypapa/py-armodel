@@ -4,9 +4,11 @@ AUTOSAR Package - DiagnosticExtendedDataRecord
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticExtendedDataRecord
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
@@ -180,7 +182,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
         """
         return self.custom_trigger  # Delegates to property
 
-    def setCustomTrigger(self, value: "String") -> "DiagnosticExtendedDataRecord":
+    def setCustomTrigger(self, value: "String") -> DiagnosticExtendedDataRecord:
         """
         AUTOSAR-compliant setter for customTrigger with method chaining.
 
@@ -220,7 +222,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
         """
         return self.record_number  # Delegates to property
 
-    def setRecordNumber(self, value: "PositiveInteger") -> "DiagnosticExtendedDataRecord":
+    def setRecordNumber(self, value: "PositiveInteger") -> DiagnosticExtendedDataRecord:
         """
         AUTOSAR-compliant setter for recordNumber with method chaining.
 
@@ -248,7 +250,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "DiagnosticRecord") -> "DiagnosticExtendedDataRecord":
+    def setTrigger(self, value: "DiagnosticRecord") -> DiagnosticExtendedDataRecord:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -276,7 +278,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
         """
         return self.update  # Delegates to property
 
-    def setUpdate(self, value: "Boolean") -> "DiagnosticExtendedDataRecord":
+    def setUpdate(self, value: "Boolean") -> DiagnosticExtendedDataRecord:
         """
         AUTOSAR-compliant setter for update with method chaining.
 
@@ -294,7 +296,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_trigger(self, value: Optional["String"]) -> "DiagnosticExtendedDataRecord":
+    def with_custom_trigger(self, value: Optional["String"]) -> DiagnosticExtendedDataRecord:
         """
         Set customTrigger and return self for chaining.
 
@@ -310,7 +312,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
         self.custom_trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_record_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticExtendedDataRecord":
+    def with_record_number(self, value: Optional["PositiveInteger"]) -> DiagnosticExtendedDataRecord:
         """
         Set recordNumber and return self for chaining.
 
@@ -326,7 +328,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
         self.record_number = value  # Use property setter (gets validation)
         return self
 
-    def with_trigger(self, value: Optional["DiagnosticRecord"]) -> "DiagnosticExtendedDataRecord":
+    def with_trigger(self, value: Optional["DiagnosticRecord"]) -> DiagnosticExtendedDataRecord:
         """
         Set trigger and return self for chaining.
 
@@ -342,7 +344,7 @@ class DiagnosticExtendedDataRecord(DiagnosticCommonElement):
         self.trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_update(self, value: Optional["Boolean"]) -> "DiagnosticExtendedDataRecord":
+    def with_update(self, value: Optional["Boolean"]) -> DiagnosticExtendedDataRecord:
         """
         Set update and return self for chaining.
 

@@ -4,6 +4,8 @@ AUTOSAR Package - IntrusionDetectionSystem
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
@@ -109,7 +111,7 @@ class IdsPlatformInstantiation(Identifiable, ABC):
         """
         return self.time_base  # Delegates to property
 
-    def setTimeBase(self, value: "TimeBaseResource") -> "IdsPlatformInstantiation":
+    def setTimeBase(self, value: "TimeBaseResource") -> IdsPlatformInstantiation:
         """
         AUTOSAR-compliant setter for timeBase with method chaining.
 
@@ -127,7 +129,7 @@ class IdsPlatformInstantiation(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_time_base(self, value: Optional["TimeBaseResource"]) -> "IdsPlatformInstantiation":
+    def with_time_base(self, value: Optional["TimeBaseResource"]) -> IdsPlatformInstantiation:
         """
         Set timeBase and return self for chaining.
 

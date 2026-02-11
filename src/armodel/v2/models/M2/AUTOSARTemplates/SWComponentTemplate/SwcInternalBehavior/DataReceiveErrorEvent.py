@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
@@ -66,7 +68,7 @@ class DataReceiveErrorEvent(RTEEvent):
         """
         return self.data  # Delegates to property
 
-    def setData(self, value: RefType) -> "DataReceiveErrorEvent":
+    def setData(self, value: RefType) -> DataReceiveErrorEvent:
         """
         AUTOSAR-compliant setter for data with method chaining.
 
@@ -84,7 +86,7 @@ class DataReceiveErrorEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data(self, value: Optional[RefType]) -> "DataReceiveErrorEvent":
+    def with_data(self, value: Optional[RefType]) -> DataReceiveErrorEvent:
         """
         Set data and return self for chaining.
 

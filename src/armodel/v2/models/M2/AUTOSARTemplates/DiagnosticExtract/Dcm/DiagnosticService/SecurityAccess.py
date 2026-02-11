@@ -4,9 +4,11 @@ AUTOSAR Package - SecurityAccess
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SecurityAccess
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -157,7 +159,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.request_seed_id  # Delegates to property
 
-    def setRequestSeedId(self, value: "PositiveInteger") -> "DiagnosticSecurityAccess":
+    def setRequestSeedId(self, value: "PositiveInteger") -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for requestSeedId with method chaining.
 
@@ -185,7 +187,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.security_access  # Delegates to property
 
-    def setSecurityAccess(self, value: "DiagnosticSecurity") -> "DiagnosticSecurityAccess":
+    def setSecurityAccess(self, value: "DiagnosticSecurity") -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for securityAccess with method chaining.
 
@@ -213,7 +215,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.security_delay  # Delegates to property
 
-    def setSecurityDelay(self, value: "TimeValue") -> "DiagnosticSecurityAccess":
+    def setSecurityDelay(self, value: "TimeValue") -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for securityDelay with method chaining.
 
@@ -241,7 +243,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.security_level  # Delegates to property
 
-    def setSecurityLevel(self, value: "DiagnosticSecurityLevel") -> "DiagnosticSecurityAccess":
+    def setSecurityLevel(self, value: "DiagnosticSecurityLevel") -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for securityLevel with method chaining.
 
@@ -259,7 +261,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_seed_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticSecurityAccess":
+    def with_request_seed_id(self, value: Optional["PositiveInteger"]) -> DiagnosticSecurityAccess:
         """
         Set requestSeedId and return self for chaining.
 
@@ -275,7 +277,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.request_seed_id = value  # Use property setter (gets validation)
         return self
 
-    def with_security_access(self, value: Optional["DiagnosticSecurity"]) -> "DiagnosticSecurityAccess":
+    def with_security_access(self, value: Optional["DiagnosticSecurity"]) -> DiagnosticSecurityAccess:
         """
         Set securityAccess and return self for chaining.
 
@@ -291,7 +293,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.security_access = value  # Use property setter (gets validation)
         return self
 
-    def with_security_delay(self, value: Optional["TimeValue"]) -> "DiagnosticSecurityAccess":
+    def with_security_delay(self, value: Optional["TimeValue"]) -> DiagnosticSecurityAccess:
         """
         Set securityDelay and return self for chaining.
 
@@ -307,7 +309,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.security_delay = value  # Use property setter (gets validation)
         return self
 
-    def with_security_level(self, value: Optional["DiagnosticSecurityLevel"]) -> "DiagnosticSecurityAccess":
+    def with_security_level(self, value: Optional["DiagnosticSecurityLevel"]) -> DiagnosticSecurityAccess:
         """
         Set securityLevel and return self for chaining.
 

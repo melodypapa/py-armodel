@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
@@ -66,7 +68,7 @@ class ModePortAnnotation(GeneralAnnotation):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: RefType) -> "ModePortAnnotation":
+    def setModeGroup(self, value: RefType) -> ModePortAnnotation:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -84,7 +86,7 @@ class ModePortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group(self, value: Optional[RefType]) -> "ModePortAnnotation":
+    def with_mode_group(self, value: Optional[RefType]) -> ModePortAnnotation:
         """
         Set modeGroup and return self for chaining.
 

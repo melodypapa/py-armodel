@@ -14,13 +14,13 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.MlFigure import (
 )
 
 __all__ = [
-    "Area",
+    Area,
     "AreaEnumNohref",
     "AreaEnumShape",
     "Graphic",
     "GraphicFitEnum",
     "GraphicNotationEnum",
     "LGraphic",
-    "Map",
+    Map,
     "MlFigure",
 ]

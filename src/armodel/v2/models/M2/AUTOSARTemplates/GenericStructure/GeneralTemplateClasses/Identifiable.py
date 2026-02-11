@@ -4,6 +4,8 @@ AUTOSAR Package - Identifiable
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable
 """
 
+
+from __future__ import annotations
 from abc import (
     ABC,
 )
@@ -213,7 +215,7 @@ class Describable(ARObject, ABC):
         """
         return self.admin_data  # Delegates to property
 
-    def setAdminData(self, value: "AdminData") -> "Describable":
+    def setAdminData(self, value: "AdminData") -> Describable:
         """
         AUTOSAR-compliant setter for adminData with method chaining.
 
@@ -241,7 +243,7 @@ class Describable(ARObject, ABC):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CategoryString") -> "Describable":
+    def setCategory(self, value: "CategoryString") -> Describable:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -269,7 +271,7 @@ class Describable(ARObject, ABC):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> "Describable":
+    def setDesc(self, value: "MultiLanguageOverview") -> Describable:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -297,7 +299,7 @@ class Describable(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "Describable":
+    def setIntroduction(self, value: "DocumentationBlock") -> Describable:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -315,7 +317,7 @@ class Describable(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_admin_data(self, value: Optional["AdminData"]) -> "Describable":
+    def with_admin_data(self, value: Optional["AdminData"]) -> Describable:
         """
         Set adminData and return self for chaining.
 
@@ -331,7 +333,7 @@ class Describable(ARObject, ABC):
         self.admin_data = value  # Use property setter (gets validation)
         return self
 
-    def with_category(self, value: Optional["CategoryString"]) -> "Describable":
+    def with_category(self, value: Optional["CategoryString"]) -> Describable:
         """
         Set category and return self for chaining.
 
@@ -347,7 +349,7 @@ class Describable(ARObject, ABC):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "Describable":
+    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> Describable:
         """
         Set desc and return self for chaining.
 
@@ -363,7 +365,7 @@ class Describable(ARObject, ABC):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "Describable":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> Describable:
         """
         Set introduction and return self for chaining.
 
@@ -422,7 +424,7 @@ class Referrable(ARObject, ABC):
         self._shortName: "Identifier" = None
         # This specifies how the Referrable.
         # shortName is of several shortNameFragments.
-        self._shortNameFragment: List["ShortNameFragment"] = []
+        self._shortNameFragment: List[ShortNameFragment] = []
 
     @property
     def short_name(self) -> "Identifier":
@@ -453,7 +455,7 @@ class Referrable(ARObject, ABC):
             self._shortName = value
 
     @property
-    def short_name_fragment(self) -> List["ShortNameFragment"]:
+    def short_name_fragment(self) -> List[ShortNameFragment]:
         """Get shortNameFragment (Pythonic accessor)."""
         return self._shortNameFragment
 
@@ -471,7 +473,7 @@ class Referrable(ARObject, ABC):
         """
         return self.short_name  # Delegates to property
 
-    def setShortName(self, value: "Identifier") -> "Referrable":
+    def setShortName(self, value: "Identifier") -> Referrable:
         """
         AUTOSAR-compliant setter for shortName with method chaining.
 
@@ -487,7 +489,7 @@ class Referrable(ARObject, ABC):
         self.short_name = value  # Delegates to property setter
         return self
 
-    def getShortNameFragment(self) -> List["ShortNameFragment"]:
+    def getShortNameFragment(self) -> List[ShortNameFragment]:
         """
         AUTOSAR-compliant getter for shortNameFragment.
 
@@ -501,7 +503,7 @@ class Referrable(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_short_name(self, value: "Identifier") -> "Referrable":
+    def with_short_name(self, value: "Identifier") -> Referrable:
         """
         Set shortName and return self for chaining.
 
@@ -598,7 +600,7 @@ class ShortNameFragment(ARObject):
         """
         return self.fragment  # Delegates to property
 
-    def setFragment(self, value: "Identifier") -> "ShortNameFragment":
+    def setFragment(self, value: "Identifier") -> ShortNameFragment:
         """
         AUTOSAR-compliant setter for fragment with method chaining.
 
@@ -626,7 +628,7 @@ class ShortNameFragment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "String") -> "ShortNameFragment":
+    def setRole(self, value: "String") -> ShortNameFragment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -644,7 +646,7 @@ class ShortNameFragment(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fragment(self, value: "Identifier") -> "ShortNameFragment":
+    def with_fragment(self, value: "Identifier") -> ShortNameFragment:
         """
         Set fragment and return self for chaining.
 
@@ -660,7 +662,7 @@ class ShortNameFragment(ARObject):
         self.fragment = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: "String") -> "ShortNameFragment":
+    def with_role(self, value: "String") -> ShortNameFragment:
         """
         Set role and return self for chaining.
 
@@ -750,7 +752,7 @@ class MultilanguageReferrable(Referrable, ABC):
         """
         return self.long_name  # Delegates to property
 
-    def setLongName(self, value: "MultilanguageLong") -> "MultilanguageReferrable":
+    def setLongName(self, value: "MultilanguageLong") -> MultilanguageReferrable:
         """
         AUTOSAR-compliant setter for longName with method chaining.
 
@@ -768,7 +770,7 @@ class MultilanguageReferrable(Referrable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_long_name(self, value: Optional["MultilanguageLong"]) -> "MultilanguageReferrable":
+    def with_long_name(self, value: Optional["MultilanguageLong"]) -> MultilanguageReferrable:
         """
         Set longName and return self for chaining.
 
@@ -850,7 +852,7 @@ class SingleLanguageReferrable(Referrable, ABC):
         """
         return self.long_name1  # Delegates to property
 
-    def setLongName1(self, value: "SingleLanguageLong") -> "SingleLanguageReferrable":
+    def setLongName1(self, value: "SingleLanguageLong") -> SingleLanguageReferrable:
         """
         AUTOSAR-compliant setter for longName1 with method chaining.
 
@@ -868,7 +870,7 @@ class SingleLanguageReferrable(Referrable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_long_name1(self, value: Optional["SingleLanguageLong"]) -> "SingleLanguageReferrable":
+    def with_long_name1(self, value: Optional["SingleLanguageLong"]) -> SingleLanguageReferrable:
         """
         Set longName1 and return self for chaining.
 
@@ -1140,7 +1142,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.admin_data  # Delegates to property
 
-    def setAdminData(self, value: "AdminData") -> "Identifiable":
+    def setAdminData(self, value: "AdminData") -> Identifiable:
         """
         AUTOSAR-compliant setter for adminData with method chaining.
 
@@ -1180,7 +1182,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CategoryString") -> "Identifiable":
+    def setCategory(self, value: "CategoryString") -> Identifiable:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -1208,7 +1210,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> "Identifiable":
+    def setDesc(self, value: "MultiLanguageOverview") -> Identifiable:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -1236,7 +1238,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "Identifiable":
+    def setIntroduction(self, value: "DocumentationBlock") -> Identifiable:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -1264,7 +1266,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.uuid  # Delegates to property
 
-    def setUuid(self, value: "String") -> "Identifiable":
+    def setUuid(self, value: "String") -> Identifiable:
         """
         AUTOSAR-compliant setter for uuid with method chaining.
 
@@ -1282,7 +1284,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_admin_data(self, value: Optional["AdminData"]) -> "Identifiable":
+    def with_admin_data(self, value: Optional["AdminData"]) -> Identifiable:
         """
         Set adminData and return self for chaining.
 
@@ -1298,7 +1300,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.admin_data = value  # Use property setter (gets validation)
         return self
 
-    def with_category(self, value: Optional["CategoryString"]) -> "Identifiable":
+    def with_category(self, value: Optional["CategoryString"]) -> Identifiable:
         """
         Set category and return self for chaining.
 
@@ -1314,7 +1316,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "Identifiable":
+    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> Identifiable:
         """
         Set desc and return self for chaining.
 
@@ -1330,7 +1332,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "Identifiable":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> Identifiable:
         """
         Set introduction and return self for chaining.
 
@@ -1346,7 +1348,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.introduction = value  # Use property setter (gets validation)
         return self
 
-    def with_uuid(self, value: Optional["String"]) -> "Identifiable":
+    def with_uuid(self, value: Optional["String"]) -> Identifiable:
         """
         Set uuid and return self for chaining.
 

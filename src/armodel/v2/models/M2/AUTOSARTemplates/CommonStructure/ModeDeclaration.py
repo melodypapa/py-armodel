@@ -4,9 +4,11 @@ AUTOSAR Package - ModeDeclaration
 Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
 )
@@ -128,7 +130,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
         """
         return self.sw_calibration  # Delegates to property
 
-    def setSwCalibration(self, value: "SwCalibrationAccess") -> "ModeDeclarationGroupPrototype":
+    def setSwCalibration(self, value: "SwCalibrationAccess") -> ModeDeclarationGroupPrototype:
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
 
@@ -156,7 +158,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "RefType") -> "ModeDeclarationGroupPrototype":
+    def setType(self, value: "RefType") -> ModeDeclarationGroupPrototype:
         """
         AUTOSAR-compliant setter for type with method chaining.
 
@@ -174,7 +176,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> "ModeDeclarationGroupPrototype":
+    def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> ModeDeclarationGroupPrototype:
         """
         Set swCalibration and return self for chaining.
 
@@ -190,7 +192,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
         self.sw_calibration = value  # Use property setter (gets validation)
         return self
 
-    def with_type(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototype":
+    def with_type(self, value: Optional[RefType]) -> ModeDeclarationGroupPrototype:
         """
         Set type and return self for chaining.
 
@@ -231,15 +233,15 @@ class ModeDeclarationGroup(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The initial mode of the ModeDeclarationGroup.
         # This active before any mode switches occurred.
-        self._initialMode: Optional["ModeDeclaration"] = None
+        self._initialMode: Optional[ModeDeclaration] = None
 
     @property
-    def initial_mode(self) -> Optional["ModeDeclaration"]:
+    def initial_mode(self) -> Optional[ModeDeclaration]:
         """Get initialMode (Pythonic accessor)."""
         return self._initialMode
 
     @initial_mode.setter
-    def initial_mode(self, value: Optional["ModeDeclaration"]) -> None:
+    def initial_mode(self, value: Optional[ModeDeclaration]) -> None:
         """
         Set initialMode with validation.
 
@@ -258,25 +260,25 @@ class ModeDeclarationGroup(ARElement):
                 f"initialMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._initialMode = value
-        self._mode: List["ModeDeclaration"] = []
+        self._mode: List[ModeDeclaration] = []
 
     @property
-    def mode(self) -> List["ModeDeclaration"]:
+    def mode(self) -> List[ModeDeclaration]:
         """Get mode (Pythonic accessor)."""
         return self._mode
         # This represents the ability to define the error behavior by the mode manager
                 # in case of errors on the side (e.
         # g.
         # terminated mode user).
-        self._modeManager: Optional["ModeErrorBehavior"] = None
+        self._modeManager: Optional[ModeErrorBehavior] = None
 
     @property
-    def mode_manager(self) -> Optional["ModeErrorBehavior"]:
+    def mode_manager(self) -> Optional[ModeErrorBehavior]:
         """Get modeManager (Pythonic accessor)."""
         return self._modeManager
 
     @mode_manager.setter
-    def mode_manager(self, value: Optional["ModeErrorBehavior"]) -> None:
+    def mode_manager(self, value: Optional[ModeErrorBehavior]) -> None:
         """
         Set modeManager with validation.
 
@@ -295,25 +297,25 @@ class ModeDeclarationGroup(ARElement):
                 f"modeManager must be ModeErrorBehavior or None, got {type(value).__name__}"
             )
         self._modeManager = value
-        self._modeTransition: List["ModeTransition"] = []
+        self._modeTransition: List[ModeTransition] = []
 
     @property
-    def mode_transition(self) -> List["ModeTransition"]:
+    def mode_transition(self) -> List[ModeTransition]:
         """Get modeTransition (Pythonic accessor)."""
         return self._modeTransition
         # This represents the definition of the error behavior by the mode user in case
                 # of errors on the mode (e.
         # g.
         # terminated mode manager).
-        self._modeUserError: Optional["ModeErrorBehavior"] = None
+        self._modeUserError: Optional[ModeErrorBehavior] = None
 
     @property
-    def mode_user_error(self) -> Optional["ModeErrorBehavior"]:
+    def mode_user_error(self) -> Optional[ModeErrorBehavior]:
         """Get modeUserError (Pythonic accessor)."""
         return self._modeUserError
 
     @mode_user_error.setter
-    def mode_user_error(self, value: Optional["ModeErrorBehavior"]) -> None:
+    def mode_user_error(self, value: Optional[ModeErrorBehavior]) -> None:
         """
         Set modeUserError with validation.
 
@@ -363,7 +365,7 @@ class ModeDeclarationGroup(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitialMode(self) -> "ModeDeclaration":
+    def getInitialMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for initialMode.
 
@@ -375,7 +377,7 @@ class ModeDeclarationGroup(ARElement):
         """
         return self.initial_mode  # Delegates to property
 
-    def setInitialMode(self, value: "ModeDeclaration") -> "ModeDeclarationGroup":
+    def setInitialMode(self, value: ModeDeclaration) -> ModeDeclarationGroup:
         """
         AUTOSAR-compliant setter for initialMode with method chaining.
 
@@ -391,7 +393,7 @@ class ModeDeclarationGroup(ARElement):
         self.initial_mode = value  # Delegates to property setter
         return self
 
-    def getMode(self) -> List["ModeDeclaration"]:
+    def getMode(self) -> List[ModeDeclaration]:
         """
         AUTOSAR-compliant getter for mode.
 
@@ -403,7 +405,7 @@ class ModeDeclarationGroup(ARElement):
         """
         return self.mode  # Delegates to property
 
-    def getModeManager(self) -> "ModeErrorBehavior":
+    def getModeManager(self) -> ModeErrorBehavior:
         """
         AUTOSAR-compliant getter for modeManager.
 
@@ -415,7 +417,7 @@ class ModeDeclarationGroup(ARElement):
         """
         return self.mode_manager  # Delegates to property
 
-    def setModeManager(self, value: "ModeErrorBehavior") -> "ModeDeclarationGroup":
+    def setModeManager(self, value: ModeErrorBehavior) -> ModeDeclarationGroup:
         """
         AUTOSAR-compliant setter for modeManager with method chaining.
 
@@ -431,7 +433,7 @@ class ModeDeclarationGroup(ARElement):
         self.mode_manager = value  # Delegates to property setter
         return self
 
-    def getModeTransition(self) -> List["ModeTransition"]:
+    def getModeTransition(self) -> List[ModeTransition]:
         """
         AUTOSAR-compliant getter for modeTransition.
 
@@ -443,7 +445,7 @@ class ModeDeclarationGroup(ARElement):
         """
         return self.mode_transition  # Delegates to property
 
-    def getModeUserError(self) -> "ModeErrorBehavior":
+    def getModeUserError(self) -> ModeErrorBehavior:
         """
         AUTOSAR-compliant getter for modeUserError.
 
@@ -455,7 +457,7 @@ class ModeDeclarationGroup(ARElement):
         """
         return self.mode_user_error  # Delegates to property
 
-    def setModeUserError(self, value: "ModeErrorBehavior") -> "ModeDeclarationGroup":
+    def setModeUserError(self, value: ModeErrorBehavior) -> ModeDeclarationGroup:
         """
         AUTOSAR-compliant setter for modeUserError with method chaining.
 
@@ -483,7 +485,7 @@ class ModeDeclarationGroup(ARElement):
         """
         return self.on_transition  # Delegates to property
 
-    def setOnTransition(self, value: "PositiveInteger") -> "ModeDeclarationGroup":
+    def setOnTransition(self, value: "PositiveInteger") -> ModeDeclarationGroup:
         """
         AUTOSAR-compliant setter for onTransition with method chaining.
 
@@ -501,7 +503,7 @@ class ModeDeclarationGroup(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_initial_mode(self, value: Optional["ModeDeclaration"]) -> "ModeDeclarationGroup":
+    def with_initial_mode(self, value: Optional[ModeDeclaration]) -> ModeDeclarationGroup:
         """
         Set initialMode and return self for chaining.
 
@@ -517,7 +519,7 @@ class ModeDeclarationGroup(ARElement):
         self.initial_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_mode_manager(self, value: Optional["ModeErrorBehavior"]) -> "ModeDeclarationGroup":
+    def with_mode_manager(self, value: Optional[ModeErrorBehavior]) -> ModeDeclarationGroup:
         """
         Set modeManager and return self for chaining.
 
@@ -533,7 +535,7 @@ class ModeDeclarationGroup(ARElement):
         self.mode_manager = value  # Use property setter (gets validation)
         return self
 
-    def with_mode_user_error(self, value: Optional["ModeErrorBehavior"]) -> "ModeDeclarationGroup":
+    def with_mode_user_error(self, value: Optional[ModeErrorBehavior]) -> ModeDeclarationGroup:
         """
         Set modeUserError and return self for chaining.
 
@@ -549,7 +551,7 @@ class ModeDeclarationGroup(ARElement):
         self.mode_user_error = value  # Use property setter (gets validation)
         return self
 
-    def with_on_transition(self, value: Optional["PositiveInteger"]) -> "ModeDeclarationGroup":
+    def with_on_transition(self, value: Optional["PositiveInteger"]) -> ModeDeclarationGroup:
         """
         Set onTransition and return self for chaining.
 
@@ -632,7 +634,7 @@ class ModeDeclaration(Identifiable):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "PositiveInteger") -> "ModeDeclaration":
+    def setValue(self, value: "PositiveInteger") -> ModeDeclaration:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -650,7 +652,7 @@ class ModeDeclaration(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional["PositiveInteger"]) -> "ModeDeclaration":
+    def with_value(self, value: Optional["PositiveInteger"]) -> ModeDeclaration:
         """
         Set value and return self for chaining.
 
@@ -686,15 +688,15 @@ class ModeTransition(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the entered model of the ModeTransition.
-        self._enteredMode: Optional["ModeDeclaration"] = None
+        self._enteredMode: Optional[ModeDeclaration] = None
 
     @property
-    def entered_mode(self) -> Optional["ModeDeclaration"]:
+    def entered_mode(self) -> Optional[ModeDeclaration]:
         """Get enteredMode (Pythonic accessor)."""
         return self._enteredMode
 
     @entered_mode.setter
-    def entered_mode(self, value: Optional["ModeDeclaration"]) -> None:
+    def entered_mode(self, value: Optional[ModeDeclaration]) -> None:
         """
         Set enteredMode with validation.
 
@@ -713,15 +715,15 @@ class ModeTransition(Identifiable):
                 f"enteredMode must be ModeDeclaration or None, got {type(value).__name__}"
             )
         self._enteredMode = value
-        self._exitedMode: Optional["ModeDeclaration"] = None
+        self._exitedMode: Optional[ModeDeclaration] = None
 
     @property
-    def exited_mode(self) -> Optional["ModeDeclaration"]:
+    def exited_mode(self) -> Optional[ModeDeclaration]:
         """Get exitedMode (Pythonic accessor)."""
         return self._exitedMode
 
     @exited_mode.setter
-    def exited_mode(self, value: Optional["ModeDeclaration"]) -> None:
+    def exited_mode(self, value: Optional[ModeDeclaration]) -> None:
         """
         Set exitedMode with validation.
 
@@ -743,7 +745,7 @@ class ModeTransition(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEnteredMode(self) -> "ModeDeclaration":
+    def getEnteredMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for enteredMode.
 
@@ -755,7 +757,7 @@ class ModeTransition(Identifiable):
         """
         return self.entered_mode  # Delegates to property
 
-    def setEnteredMode(self, value: "ModeDeclaration") -> "ModeTransition":
+    def setEnteredMode(self, value: ModeDeclaration) -> ModeTransition:
         """
         AUTOSAR-compliant setter for enteredMode with method chaining.
 
@@ -771,7 +773,7 @@ class ModeTransition(Identifiable):
         self.entered_mode = value  # Delegates to property setter
         return self
 
-    def getExitedMode(self) -> "ModeDeclaration":
+    def getExitedMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for exitedMode.
 
@@ -783,7 +785,7 @@ class ModeTransition(Identifiable):
         """
         return self.exited_mode  # Delegates to property
 
-    def setExitedMode(self, value: "ModeDeclaration") -> "ModeTransition":
+    def setExitedMode(self, value: ModeDeclaration) -> ModeTransition:
         """
         AUTOSAR-compliant setter for exitedMode with method chaining.
 
@@ -801,7 +803,7 @@ class ModeTransition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_entered_mode(self, value: Optional["ModeDeclaration"]) -> "ModeTransition":
+    def with_entered_mode(self, value: Optional[ModeDeclaration]) -> ModeTransition:
         """
         Set enteredMode and return self for chaining.
 
@@ -817,7 +819,7 @@ class ModeTransition(Identifiable):
         self.entered_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_exited_mode(self, value: Optional["ModeDeclaration"]) -> "ModeTransition":
+    def with_exited_mode(self, value: Optional[ModeDeclaration]) -> ModeTransition:
         """
         Set exitedMode and return self for chaining.
 
@@ -854,15 +856,15 @@ class ModeErrorBehavior(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the ModeDeclaration that is considered mode in the context of
         # the enclosing Mode.
-        self._defaultMode: Optional["ModeDeclaration"] = None
+        self._defaultMode: Optional[ModeDeclaration] = None
 
     @property
-    def default_mode(self) -> Optional["ModeDeclaration"]:
+    def default_mode(self) -> Optional[ModeDeclaration]:
         """Get defaultMode (Pythonic accessor)."""
         return self._defaultMode
 
     @default_mode.setter
-    def default_mode(self, value: Optional["ModeDeclaration"]) -> None:
+    def default_mode(self, value: Optional[ModeDeclaration]) -> None:
         """
         Set defaultMode with validation.
 
@@ -912,7 +914,7 @@ class ModeErrorBehavior(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefaultMode(self) -> "ModeDeclaration":
+    def getDefaultMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for defaultMode.
 
@@ -924,7 +926,7 @@ class ModeErrorBehavior(ARObject):
         """
         return self.default_mode  # Delegates to property
 
-    def setDefaultMode(self, value: "ModeDeclaration") -> "ModeErrorBehavior":
+    def setDefaultMode(self, value: ModeDeclaration) -> ModeErrorBehavior:
         """
         AUTOSAR-compliant setter for defaultMode with method chaining.
 
@@ -952,7 +954,7 @@ class ModeErrorBehavior(ARObject):
         """
         return self.error_reaction  # Delegates to property
 
-    def setErrorReaction(self, value: "ModeErrorReaction") -> "ModeErrorBehavior":
+    def setErrorReaction(self, value: "ModeErrorReaction") -> ModeErrorBehavior:
         """
         AUTOSAR-compliant setter for errorReaction with method chaining.
 
@@ -970,7 +972,7 @@ class ModeErrorBehavior(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_mode(self, value: Optional["ModeDeclaration"]) -> "ModeErrorBehavior":
+    def with_default_mode(self, value: Optional[ModeDeclaration]) -> ModeErrorBehavior:
         """
         Set defaultMode and return self for chaining.
 
@@ -986,7 +988,7 @@ class ModeErrorBehavior(ARObject):
         self.default_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_error_reaction(self, value: Optional["ModeErrorReaction"]) -> "ModeErrorBehavior":
+    def with_error_reaction(self, value: Optional["ModeErrorReaction"]) -> ModeErrorBehavior:
         """
         Set errorReaction and return self for chaining.
 
@@ -1089,7 +1091,7 @@ class ModeRequestTypeMap(ARObject):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: "AbstractImplementation") -> "ModeRequestTypeMap":
+    def setImplementation(self, value: "AbstractImplementation") -> ModeRequestTypeMap:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -1117,7 +1119,7 @@ class ModeRequestTypeMap(ARObject):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: "RefType") -> "ModeRequestTypeMap":
+    def setModeGroup(self, value: "RefType") -> ModeRequestTypeMap:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -1135,7 +1137,7 @@ class ModeRequestTypeMap(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_implementation(self, value: Optional["AbstractImplementation"]) -> "ModeRequestTypeMap":
+    def with_implementation(self, value: Optional["AbstractImplementation"]) -> ModeRequestTypeMap:
         """
         Set implementation and return self for chaining.
 
@@ -1151,7 +1153,7 @@ class ModeRequestTypeMap(ARObject):
         self.implementation = value  # Use property setter (gets validation)
         return self
 
-    def with_mode_group(self, value: Optional[RefType]) -> "ModeRequestTypeMap":
+    def with_mode_group(self, value: Optional[RefType]) -> ModeRequestTypeMap:
         """
         Set modeGroup and return self for chaining.
 
@@ -1211,15 +1213,15 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
 
         self._firstModeGroupPrototype = value
         # this ModeDeclarationGroup.
-        self._mode: Optional["ModeDeclaration"] = None
+        self._mode: Optional[ModeDeclaration] = None
 
     @property
-    def mode(self) -> Optional["ModeDeclaration"]:
+    def mode(self) -> Optional[ModeDeclaration]:
         """Get mode (Pythonic accessor)."""
         return self._mode
 
     @mode.setter
-    def mode(self, value: Optional["ModeDeclaration"]) -> None:
+    def mode(self, value: Optional[ModeDeclaration]) -> None:
         """
         Set mode with validation.
 
@@ -1276,7 +1278,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         return self.first_mode_group_prototype  # Delegates to property
 
-    def setFirstModeGroupPrototype(self, value: "RefType") -> "ModeDeclarationGroupPrototypeMapping":
+    def setFirstModeGroupPrototype(self, value: "RefType") -> ModeDeclarationGroupPrototypeMapping:
         """
         AUTOSAR-compliant setter for firstModeGroupPrototype with method chaining.
 
@@ -1292,7 +1294,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         self.first_mode_group_prototype = value  # Delegates to property setter
         return self
 
-    def getMode(self) -> "ModeDeclaration":
+    def getMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for mode.
 
@@ -1304,7 +1306,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "ModeDeclaration") -> "ModeDeclarationGroupPrototypeMapping":
+    def setMode(self, value: ModeDeclaration) -> ModeDeclarationGroupPrototypeMapping:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -1332,7 +1334,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         return self.second_mode  # Delegates to property
 
-    def setSecondMode(self, value: "RefType") -> "ModeDeclarationGroupPrototypeMapping":
+    def setSecondMode(self, value: "RefType") -> ModeDeclarationGroupPrototypeMapping:
         """
         AUTOSAR-compliant setter for secondMode with method chaining.
 
@@ -1350,7 +1352,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_first_mode_group_prototype(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
+    def with_first_mode_group_prototype(self, value: Optional[RefType]) -> ModeDeclarationGroupPrototypeMapping:
         """
         Set firstModeGroupPrototype and return self for chaining.
 
@@ -1366,7 +1368,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         self.first_mode_group_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_mode(self, value: Optional["ModeDeclaration"]) -> "ModeDeclarationGroupPrototypeMapping":
+    def with_mode(self, value: Optional[ModeDeclaration]) -> ModeDeclarationGroupPrototypeMapping:
         """
         Set mode and return self for chaining.
 
@@ -1382,7 +1384,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         self.mode = value  # Use property setter (gets validation)
         return self
 
-    def with_second_mode(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
+    def with_second_mode(self, value: Optional[RefType]) -> ModeDeclarationGroupPrototypeMapping:
         """
         Set secondMode and return self for chaining.
 

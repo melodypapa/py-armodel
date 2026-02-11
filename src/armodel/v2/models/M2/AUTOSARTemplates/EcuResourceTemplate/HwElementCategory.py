@@ -4,9 +4,11 @@ AUTOSAR Package - HwElementCategory
 Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.__init__ import (
@@ -66,15 +68,15 @@ class HwAttributeValue(ARObject):
                 f"annotation must be Annotation or None, got {type(value).__name__}"
             )
         self._annotation = value
-        self._hwAttributeDef: Optional["HwAttributeDef"] = None
+        self._hwAttributeDef: Optional[HwAttributeDef] = None
 
     @property
-    def hw_attribute_def(self) -> Optional["HwAttributeDef"]:
+    def hw_attribute_def(self) -> Optional[HwAttributeDef]:
         """Get hwAttributeDef (Pythonic accessor)."""
         return self._hwAttributeDef
 
     @hw_attribute_def.setter
-    def hw_attribute_def(self, value: Optional["HwAttributeDef"]) -> None:
+    def hw_attribute_def(self, value: Optional[HwAttributeDef]) -> None:
         """
         Set hwAttributeDef with validation.
 
@@ -178,7 +180,7 @@ class HwAttributeValue(ARObject):
         """
         return self.annotation  # Delegates to property
 
-    def setAnnotation(self, value: "Annotation") -> "HwAttributeValue":
+    def setAnnotation(self, value: "Annotation") -> HwAttributeValue:
         """
         AUTOSAR-compliant setter for annotation with method chaining.
 
@@ -194,7 +196,7 @@ class HwAttributeValue(ARObject):
         self.annotation = value  # Delegates to property setter
         return self
 
-    def getHwAttributeDef(self) -> "HwAttributeDef":
+    def getHwAttributeDef(self) -> HwAttributeDef:
         """
         AUTOSAR-compliant getter for hwAttributeDef.
 
@@ -206,7 +208,7 @@ class HwAttributeValue(ARObject):
         """
         return self.hw_attribute_def  # Delegates to property
 
-    def setHwAttributeDef(self, value: "HwAttributeDef") -> "HwAttributeValue":
+    def setHwAttributeDef(self, value: HwAttributeDef) -> HwAttributeValue:
         """
         AUTOSAR-compliant setter for hwAttributeDef with method chaining.
 
@@ -234,7 +236,7 @@ class HwAttributeValue(ARObject):
         """
         return self.v  # Delegates to property
 
-    def setV(self, value: "Numerical") -> "HwAttributeValue":
+    def setV(self, value: "Numerical") -> HwAttributeValue:
         """
         AUTOSAR-compliant setter for v with method chaining.
 
@@ -262,7 +264,7 @@ class HwAttributeValue(ARObject):
         """
         return self.vt  # Delegates to property
 
-    def setVt(self, value: "VerbatimString") -> "HwAttributeValue":
+    def setVt(self, value: "VerbatimString") -> HwAttributeValue:
         """
         AUTOSAR-compliant setter for vt with method chaining.
 
@@ -280,7 +282,7 @@ class HwAttributeValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_annotation(self, value: Optional["Annotation"]) -> "HwAttributeValue":
+    def with_annotation(self, value: Optional["Annotation"]) -> HwAttributeValue:
         """
         Set annotation and return self for chaining.
 
@@ -296,7 +298,7 @@ class HwAttributeValue(ARObject):
         self.annotation = value  # Use property setter (gets validation)
         return self
 
-    def with_hw_attribute_def(self, value: Optional["HwAttributeDef"]) -> "HwAttributeValue":
+    def with_hw_attribute_def(self, value: Optional[HwAttributeDef]) -> HwAttributeValue:
         """
         Set hwAttributeDef and return self for chaining.
 
@@ -312,7 +314,7 @@ class HwAttributeValue(ARObject):
         self.hw_attribute_def = value  # Use property setter (gets validation)
         return self
 
-    def with_v(self, value: Optional["Numerical"]) -> "HwAttributeValue":
+    def with_v(self, value: Optional["Numerical"]) -> HwAttributeValue:
         """
         Set v and return self for chaining.
 
@@ -328,7 +330,7 @@ class HwAttributeValue(ARObject):
         self.v = value  # Use property setter (gets validation)
         return self
 
-    def with_vt(self, value: Optional["VerbatimString"]) -> "HwAttributeValue":
+    def with_vt(self, value: Optional["VerbatimString"]) -> HwAttributeValue:
         """
         Set vt and return self for chaining.
 
@@ -388,16 +390,16 @@ class HwCategory(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation describes particular hardware attribute.
-        self._hwAttributeDef: List["HwAttributeDef"] = []
+        self._hwAttributeDef: List[HwAttributeDef] = []
 
     @property
-    def hw_attribute_def(self) -> List["HwAttributeDef"]:
+    def hw_attribute_def(self) -> List[HwAttributeDef]:
         """Get hwAttributeDef (Pythonic accessor)."""
         return self._hwAttributeDef
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHwAttributeDef(self) -> List["HwAttributeDef"]:
+    def getHwAttributeDef(self) -> List[HwAttributeDef]:
         """
         AUTOSAR-compliant getter for hwAttributeDef.
 
@@ -432,10 +434,10 @@ class HwAttributeDef(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The available EnumerationLiterals of the Enumeration Only applicable if the
         # category of the Hw Enumeration.
-        self._hwAttribute: List["HwAttributeLiteralDef"] = []
+        self._hwAttribute: List[HwAttributeLiteralDef] = []
 
     @property
-    def hw_attribute(self) -> List["HwAttributeLiteralDef"]:
+    def hw_attribute(self) -> List[HwAttributeLiteralDef]:
         """Get hwAttribute (Pythonic accessor)."""
         return self._hwAttribute
         # This attribute specifies if the defined attribute value is be provided.
@@ -497,7 +499,7 @@ class HwAttributeDef(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHwAttribute(self) -> List["HwAttributeLiteralDef"]:
+    def getHwAttribute(self) -> List[HwAttributeLiteralDef]:
         """
         AUTOSAR-compliant getter for hwAttribute.
 
@@ -521,7 +523,7 @@ class HwAttributeDef(Identifiable):
         """
         return self.is_required  # Delegates to property
 
-    def setIsRequired(self, value: "Boolean") -> "HwAttributeDef":
+    def setIsRequired(self, value: "Boolean") -> HwAttributeDef:
         """
         AUTOSAR-compliant setter for isRequired with method chaining.
 
@@ -549,7 +551,7 @@ class HwAttributeDef(Identifiable):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "HwAttributeDef":
+    def setUnit(self, value: "Unit") -> HwAttributeDef:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -567,7 +569,7 @@ class HwAttributeDef(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_required(self, value: Optional["Boolean"]) -> "HwAttributeDef":
+    def with_is_required(self, value: Optional["Boolean"]) -> HwAttributeDef:
         """
         Set isRequired and return self for chaining.
 
@@ -583,7 +585,7 @@ class HwAttributeDef(Identifiable):
         self.is_required = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "HwAttributeDef":
+    def with_unit(self, value: Optional["Unit"]) -> HwAttributeDef:
         """
         Set unit and return self for chaining.
 

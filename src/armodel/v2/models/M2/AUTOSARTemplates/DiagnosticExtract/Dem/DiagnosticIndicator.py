@@ -4,6 +4,8 @@ AUTOSAR Package - DiagnosticIndicator
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticIndicator
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -72,7 +74,7 @@ class DiagnosticIndicator(DiagnosticCommonElement):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "DiagnosticIndicatorType") -> "DiagnosticIndicator":
+    def setType(self, value: "DiagnosticIndicatorType") -> DiagnosticIndicator:
         """
         AUTOSAR-compliant setter for type with method chaining.
 
@@ -90,7 +92,7 @@ class DiagnosticIndicator(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_type(self, value: Optional["DiagnosticIndicatorType"]) -> "DiagnosticIndicator":
+    def with_type(self, value: Optional["DiagnosticIndicatorType"]) -> DiagnosticIndicator:
         """
         Set type and return self for chaining.
 

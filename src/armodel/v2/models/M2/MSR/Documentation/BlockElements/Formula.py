@@ -4,6 +4,8 @@ AUTOSAR Package - Formula
 Package: M2::MSR::Documentation::BlockElements::Formula
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
@@ -180,7 +182,7 @@ class MlFormula(Paginateable):
         """
         return self.formula_caption  # Delegates to property
 
-    def setFormulaCaption(self, value: "Caption") -> "MlFormula":
+    def setFormulaCaption(self, value: "Caption") -> MlFormula:
         """
         AUTOSAR-compliant setter for formulaCaption with method chaining.
 
@@ -208,7 +210,7 @@ class MlFormula(Paginateable):
         """
         return self.generic_math  # Delegates to property
 
-    def setGenericMath(self, value: "MultiLanguagePlainText") -> "MlFormula":
+    def setGenericMath(self, value: "MultiLanguagePlainText") -> MlFormula:
         """
         AUTOSAR-compliant setter for genericMath with method chaining.
 
@@ -248,7 +250,7 @@ class MlFormula(Paginateable):
         """
         return self.tex_math  # Delegates to property
 
-    def setTexMath(self, value: "MultiLanguagePlainText") -> "MlFormula":
+    def setTexMath(self, value: "MultiLanguagePlainText") -> MlFormula:
         """
         AUTOSAR-compliant setter for texMath with method chaining.
 
@@ -276,7 +278,7 @@ class MlFormula(Paginateable):
         """
         return self.verbatim  # Delegates to property
 
-    def setVerbatim(self, value: "MultiLanguageVerbatim") -> "MlFormula":
+    def setVerbatim(self, value: "MultiLanguageVerbatim") -> MlFormula:
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
 
@@ -294,7 +296,7 @@ class MlFormula(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_formula_caption(self, value: Optional["Caption"]) -> "MlFormula":
+    def with_formula_caption(self, value: Optional["Caption"]) -> MlFormula:
         """
         Set formulaCaption and return self for chaining.
 
@@ -310,7 +312,7 @@ class MlFormula(Paginateable):
         self.formula_caption = value  # Use property setter (gets validation)
         return self
 
-    def with_generic_math(self, value: Optional["MultiLanguagePlainText"]) -> "MlFormula":
+    def with_generic_math(self, value: Optional["MultiLanguagePlainText"]) -> MlFormula:
         """
         Set genericMath and return self for chaining.
 
@@ -326,7 +328,7 @@ class MlFormula(Paginateable):
         self.generic_math = value  # Use property setter (gets validation)
         return self
 
-    def with_tex_math(self, value: Optional["MultiLanguagePlainText"]) -> "MlFormula":
+    def with_tex_math(self, value: Optional["MultiLanguagePlainText"]) -> MlFormula:
         """
         Set texMath and return self for chaining.
 
@@ -342,7 +344,7 @@ class MlFormula(Paginateable):
         self.tex_math = value  # Use property setter (gets validation)
         return self
 
-    def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> "MlFormula":
+    def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> MlFormula:
         """
         Set verbatim and return self for chaining.
 

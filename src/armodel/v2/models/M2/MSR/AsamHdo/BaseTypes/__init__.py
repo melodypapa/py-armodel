@@ -11,9 +11,9 @@ from armodel.v2.models.M2.MSR.AsamHdo.BaseTypeDirectDefinition import (
 from armodel.v2.models.M2.MSR.AsamHdo.SwBaseType import SwBaseType
 
 __all__ = [
-    "BaseType",
+    BaseType,
     "BaseTypeDefinition",
     "BaseTypeDirectDefinition",
     "BaseTypeEncodingString",
-    "SwBaseType",
+    SwBaseType,
 ]

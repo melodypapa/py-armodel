@@ -4,9 +4,11 @@ AUTOSAR Package - BswImplementation
 Package: M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
@@ -223,7 +225,7 @@ class BswImplementation(Implementation):
         """
         return self.ar_release  # Delegates to property
 
-    def setArRelease(self, value: "RevisionLabelString") -> "BswImplementation":
+    def setArRelease(self, value: "RevisionLabelString") -> BswImplementation:
         """
         AUTOSAR-compliant setter for arRelease with method chaining.
 
@@ -251,7 +253,7 @@ class BswImplementation(Implementation):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "BswInternalBehavior") -> "BswImplementation":
+    def setBehavior(self, value: "BswInternalBehavior") -> BswImplementation:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -303,7 +305,7 @@ class BswImplementation(Implementation):
         """
         return self.vendor_api_infix  # Delegates to property
 
-    def setVendorApiInfix(self, value: "Identifier") -> "BswImplementation":
+    def setVendorApiInfix(self, value: "Identifier") -> BswImplementation:
         """
         AUTOSAR-compliant setter for vendorApiInfix with method chaining.
 
@@ -333,7 +335,7 @@ class BswImplementation(Implementation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ar_release(self, value: Optional["RevisionLabelString"]) -> "BswImplementation":
+    def with_ar_release(self, value: Optional["RevisionLabelString"]) -> BswImplementation:
         """
         Set arRelease and return self for chaining.
 
@@ -349,7 +351,7 @@ class BswImplementation(Implementation):
         self.ar_release = value  # Use property setter (gets validation)
         return self
 
-    def with_behavior(self, value: Optional["BswInternalBehavior"]) -> "BswImplementation":
+    def with_behavior(self, value: Optional["BswInternalBehavior"]) -> BswImplementation:
         """
         Set behavior and return self for chaining.
 
@@ -365,7 +367,7 @@ class BswImplementation(Implementation):
         self.behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_vendor_api_infix(self, value: Optional["Identifier"]) -> "BswImplementation":
+    def with_vendor_api_infix(self, value: Optional["Identifier"]) -> BswImplementation:
         """
         Set vendorApiInfix and return self for chaining.
 

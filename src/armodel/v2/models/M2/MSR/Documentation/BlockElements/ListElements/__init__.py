@@ -23,10 +23,10 @@ __all__ = [
     "DefItem",
     "DefList",
     "IndentSample",
-    "Item",
+    Item,
     "ItemLabelPosEnum",
     "LabeledItem",
     "LabeledList",
-    "List",
+    List,
     "ListEnum",
 ]

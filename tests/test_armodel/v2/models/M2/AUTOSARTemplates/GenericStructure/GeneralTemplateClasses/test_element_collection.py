@@ -19,14 +19,12 @@ Tests cover:
 import pytest
 
 # Import from the correct locations
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Collection import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    AutoCollectEnum,
     Collection,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.CollectableElement import (
     CollectableElement,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
-    AutoCollectEnum,
 )
 
 

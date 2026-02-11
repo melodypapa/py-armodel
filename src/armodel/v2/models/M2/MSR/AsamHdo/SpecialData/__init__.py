@@ -8,9 +8,9 @@ from armodel.v2.models.M2.MSR.AsamHdo.SdgCaption import SdgCaption
 from armodel.v2.models.M2.MSR.AsamHdo.SdgContents import SdgContents
 
 __all__ = [
-    "Sd",
-    "Sdf",
-    "Sdg",
-    "SdgCaption",
-    "SdgContents",
+    Sd,
+    Sdf,
+    Sdg,
+    SdgCaption,
+    SdgContents,
 ]

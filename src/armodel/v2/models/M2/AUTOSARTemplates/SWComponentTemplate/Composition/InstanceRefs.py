@@ -4,10 +4,12 @@ AUTOSAR Package - InstanceRefs
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -128,7 +130,7 @@ class ComponentInCompositionInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "CompositionSw") -> "ComponentInCompositionInstanceRef":
+    def setBase(self, value: "CompositionSw") -> ComponentInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -168,7 +170,7 @@ class ComponentInCompositionInstanceRef(ARObject):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "SwComponent") -> "ComponentInCompositionInstanceRef":
+    def setTarget(self, value: "SwComponent") -> ComponentInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -186,7 +188,7 @@ class ComponentInCompositionInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["CompositionSw"]) -> "ComponentInCompositionInstanceRef":
+    def with_base(self, value: Optional["CompositionSw"]) -> ComponentInCompositionInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -202,7 +204,7 @@ class ComponentInCompositionInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional["SwComponent"]) -> "ComponentInCompositionInstanceRef":
+    def with_target(self, value: Optional["SwComponent"]) -> ComponentInCompositionInstanceRef:
         """
         Set target and return self for chaining.
 
@@ -330,7 +332,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
         """
         return self.abstract_context  # Delegates to property
 
-    def setAbstractContext(self, value: "SwComponent") -> "PortInCompositionTypeInstanceRef":
+    def setAbstractContext(self, value: "SwComponent") -> PortInCompositionTypeInstanceRef:
         """
         AUTOSAR-compliant setter for abstractContext with method chaining.
 
@@ -358,7 +360,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "CompositionSw") -> "PortInCompositionTypeInstanceRef":
+    def setBase(self, value: "CompositionSw") -> PortInCompositionTypeInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -386,7 +388,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
         """
         return self.target_port  # Delegates to property
 
-    def setTargetPort(self, value: "RefType") -> "PortInCompositionTypeInstanceRef":
+    def setTargetPort(self, value: "RefType") -> PortInCompositionTypeInstanceRef:
         """
         AUTOSAR-compliant setter for targetPort with method chaining.
 
@@ -404,7 +406,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_abstract_context(self, value: Optional["SwComponent"]) -> "PortInCompositionTypeInstanceRef":
+    def with_abstract_context(self, value: Optional["SwComponent"]) -> PortInCompositionTypeInstanceRef:
         """
         Set abstractContext and return self for chaining.
 
@@ -420,7 +422,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
         self.abstract_context = value  # Use property setter (gets validation)
         return self
 
-    def with_base(self, value: Optional["CompositionSw"]) -> "PortInCompositionTypeInstanceRef":
+    def with_base(self, value: Optional["CompositionSw"]) -> PortInCompositionTypeInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -436,7 +438,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target_port(self, value: Optional[RefType]) -> "PortInCompositionTypeInstanceRef":
+    def with_target_port(self, value: Optional[RefType]) -> PortInCompositionTypeInstanceRef:
         """
         Set targetPort and return self for chaining.
 
@@ -547,7 +549,7 @@ class InstanceEventInCompositionInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "CompositionSw") -> "InstanceEventInCompositionInstanceRef":
+    def setBase(self, value: "CompositionSw") -> InstanceEventInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -587,7 +589,7 @@ class InstanceEventInCompositionInstanceRef(ARObject):
         """
         return self.target_event  # Delegates to property
 
-    def setTargetEvent(self, value: "RTEEvent") -> "InstanceEventInCompositionInstanceRef":
+    def setTargetEvent(self, value: "RTEEvent") -> InstanceEventInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetEvent with method chaining.
 
@@ -605,7 +607,7 @@ class InstanceEventInCompositionInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["CompositionSw"]) -> "InstanceEventInCompositionInstanceRef":
+    def with_base(self, value: Optional["CompositionSw"]) -> InstanceEventInCompositionInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -621,7 +623,7 @@ class InstanceEventInCompositionInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target_event(self, value: Optional["RTEEvent"]) -> "InstanceEventInCompositionInstanceRef":
+    def with_target_event(self, value: Optional["RTEEvent"]) -> InstanceEventInCompositionInstanceRef:
         """
         Set targetEvent and return self for chaining.
 
@@ -724,7 +726,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         """
         return self.context  # Delegates to property
 
-    def setContext(self, value: "SwComponent") -> "PPortInCompositionInstanceRef":
+    def setContext(self, value: "SwComponent") -> PPortInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for context with method chaining.
 
@@ -752,7 +754,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         """
         return self.target_p_port_prototype  # Delegates to property
 
-    def setTargetPPortPrototype(self, value: "AbstractProvidedPort") -> "PPortInCompositionInstanceRef":
+    def setTargetPPortPrototype(self, value: "AbstractProvidedPort") -> PPortInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetPPortPrototype with method chaining.
 
@@ -770,7 +772,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context(self, value: Optional["SwComponent"]) -> "PPortInCompositionInstanceRef":
+    def with_context(self, value: Optional["SwComponent"]) -> PPortInCompositionInstanceRef:
         """
         Set context and return self for chaining.
 
@@ -786,7 +788,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_target_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PPortInCompositionInstanceRef":
+    def with_target_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PPortInCompositionInstanceRef:
         """
         Set targetPPortPrototype and return self for chaining.
 
@@ -891,7 +893,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         """
         return self.context  # Delegates to property
 
-    def setContext(self, value: "SwComponent") -> "RPortInCompositionInstanceRef":
+    def setContext(self, value: "SwComponent") -> RPortInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for context with method chaining.
 
@@ -919,7 +921,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         """
         return self.target_r_port_prototype  # Delegates to property
 
-    def setTargetRPortPrototype(self, value: "AbstractRequiredPort") -> "RPortInCompositionInstanceRef":
+    def setTargetRPortPrototype(self, value: "AbstractRequiredPort") -> RPortInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetRPortPrototype with method chaining.
 
@@ -937,7 +939,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context(self, value: Optional["SwComponent"]) -> "RPortInCompositionInstanceRef":
+    def with_context(self, value: Optional["SwComponent"]) -> RPortInCompositionInstanceRef:
         """
         Set context and return self for chaining.
 
@@ -953,7 +955,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_target_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RPortInCompositionInstanceRef":
+    def with_target_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RPortInCompositionInstanceRef:
         """
         Set targetRPortPrototype and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - ApplicationAttributes
 Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Float,
     RefType,
@@ -97,15 +99,15 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         # the max.
         # power which can be used by that the current min.
         # slip.
-        self._limitKind: Optional["DataLimitKindEnum"] = None
+        self._limitKind: Optional[DataLimitKindEnum] = None
 
     @property
-    def limit_kind(self) -> Optional["DataLimitKindEnum"]:
+    def limit_kind(self) -> Optional[DataLimitKindEnum]:
         """Get limitKind (Pythonic accessor)."""
         return self._limitKind
 
     @limit_kind.setter
-    def limit_kind(self, value: Optional["DataLimitKindEnum"]) -> None:
+    def limit_kind(self, value: Optional[DataLimitKindEnum]) -> None:
         """
         Set limitKind with validation.
 
@@ -125,15 +127,15 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
             )
         self._limitKind = value
         # ProcessingKindEnum.
-        self._processingKind: Optional["ProcessingKindEnum"] = None
+        self._processingKind: Optional[ProcessingKindEnum] = None
 
     @property
-    def processing_kind(self) -> Optional["ProcessingKindEnum"]:
+    def processing_kind(self) -> Optional[ProcessingKindEnum]:
         """Get processingKind (Pythonic accessor)."""
         return self._processingKind
 
     @processing_kind.setter
-    def processing_kind(self, value: Optional["ProcessingKindEnum"]) -> None:
+    def processing_kind(self, value: Optional[ProcessingKindEnum]) -> None:
         """
         Set processingKind with validation.
 
@@ -167,7 +169,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.computed  # Delegates to property
 
-    def setComputed(self, value: "Boolean") -> "SenderReceiverAnnotation":
+    def setComputed(self, value: "Boolean") -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for computed with method chaining.
 
@@ -195,7 +197,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "RefType") -> "SenderReceiverAnnotation":
+    def setDataElement(self, value: "RefType") -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -211,7 +213,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getLimitKind(self) -> "DataLimitKindEnum":
+    def getLimitKind(self) -> DataLimitKindEnum:
         """
         AUTOSAR-compliant getter for limitKind.
 
@@ -223,7 +225,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.limit_kind  # Delegates to property
 
-    def setLimitKind(self, value: "DataLimitKindEnum") -> "SenderReceiverAnnotation":
+    def setLimitKind(self, value: DataLimitKindEnum) -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for limitKind with method chaining.
 
@@ -239,7 +241,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.limit_kind = value  # Delegates to property setter
         return self
 
-    def getProcessingKind(self) -> "ProcessingKindEnum":
+    def getProcessingKind(self) -> ProcessingKindEnum:
         """
         AUTOSAR-compliant getter for processingKind.
 
@@ -251,7 +253,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.processing_kind  # Delegates to property
 
-    def setProcessingKind(self, value: "ProcessingKindEnum") -> "SenderReceiverAnnotation":
+    def setProcessingKind(self, value: ProcessingKindEnum) -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for processingKind with method chaining.
 
@@ -269,7 +271,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_computed(self, value: Optional["Boolean"]) -> "SenderReceiverAnnotation":
+    def with_computed(self, value: Optional["Boolean"]) -> SenderReceiverAnnotation:
         """
         Set computed and return self for chaining.
 
@@ -285,7 +287,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.computed = value  # Use property setter (gets validation)
         return self
 
-    def with_data_element(self, value: Optional[RefType]) -> "SenderReceiverAnnotation":
+    def with_data_element(self, value: Optional[RefType]) -> SenderReceiverAnnotation:
         """
         Set dataElement and return self for chaining.
 
@@ -301,7 +303,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_limit_kind(self, value: Optional["DataLimitKindEnum"]) -> "SenderReceiverAnnotation":
+    def with_limit_kind(self, value: Optional[DataLimitKindEnum]) -> SenderReceiverAnnotation:
         """
         Set limitKind and return self for chaining.
 
@@ -317,7 +319,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.limit_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_processing_kind(self, value: Optional["ProcessingKindEnum"]) -> "SenderReceiverAnnotation":
+    def with_processing_kind(self, value: Optional[ProcessingKindEnum]) -> SenderReceiverAnnotation:
         """
         Set processingKind and return self for chaining.
 
@@ -392,7 +394,7 @@ class ClientServerAnnotation(GeneralAnnotation):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: "ClientServerOperation") -> "ClientServerAnnotation":
+    def setOperation(self, value: "ClientServerOperation") -> ClientServerAnnotation:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -410,7 +412,7 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation(self, value: Optional["ClientServerOperation"]) -> "ClientServerAnnotation":
+    def with_operation(self, value: Optional["ClientServerOperation"]) -> ClientServerAnnotation:
         """
         Set operation and return self for chaining.
 
@@ -581,15 +583,15 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         # the signal in the IoHw that no modification of the signal has This is the
         # default value debounceData the signal is a mean value waitTimeData the signal
         # is delivered by a GET operation certain amount of time.
-        self._filtering: Optional["FilterDebouncingEnum"] = None
+        self._filtering: Optional[FilterDebouncingEnum] = None
 
     @property
-    def filtering(self) -> Optional["FilterDebouncingEnum"]:
+    def filtering(self) -> Optional[FilterDebouncingEnum]:
         """Get filtering (Pythonic accessor)."""
         return self._filtering
 
     @filtering.setter
-    def filtering(self, value: Optional["FilterDebouncingEnum"]) -> None:
+    def filtering(self, value: Optional[FilterDebouncingEnum]) -> None:
         """
         Set filtering with validation.
 
@@ -609,15 +611,15 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
             )
         self._filtering = value
         # VariableDataPrototype used to generate pulse test sequences using the.
-        self._pulseTest: Optional["PulseTestEnum"] = None
+        self._pulseTest: Optional[PulseTestEnum] = None
 
     @property
-    def pulse_test(self) -> Optional["PulseTestEnum"]:
+    def pulse_test(self) -> Optional[PulseTestEnum]:
         """Get pulseTest (Pythonic accessor)."""
         return self._pulseTest
 
     @pulse_test.setter
-    def pulse_test(self, value: Optional["PulseTestEnum"]) -> None:
+    def pulse_test(self, value: Optional[PulseTestEnum]) -> None:
         """
         Set pulseTest with validation.
 
@@ -674,7 +676,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.age  # Delegates to property
 
-    def setAge(self, value: "MultidimensionalTime") -> "IoHwAbstractionServerAnnotation":
+    def setAge(self, value: "MultidimensionalTime") -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for age with method chaining.
 
@@ -702,7 +704,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.argument  # Delegates to property
 
-    def setArgument(self, value: "RefType") -> "IoHwAbstractionServerAnnotation":
+    def setArgument(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for argument with method chaining.
 
@@ -730,7 +732,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.bsw_resolution  # Delegates to property
 
-    def setBswResolution(self, value: "Float") -> "IoHwAbstractionServerAnnotation":
+    def setBswResolution(self, value: "Float") -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for bswResolution with method chaining.
 
@@ -758,7 +760,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "RefType") -> "IoHwAbstractionServerAnnotation":
+    def setDataElement(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -786,7 +788,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.failure  # Delegates to property
 
-    def setFailure(self, value: "RefType") -> "IoHwAbstractionServerAnnotation":
+    def setFailure(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for failure with method chaining.
 
@@ -802,7 +804,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.failure = value  # Delegates to property setter
         return self
 
-    def getFiltering(self) -> "FilterDebouncingEnum":
+    def getFiltering(self) -> FilterDebouncingEnum:
         """
         AUTOSAR-compliant getter for filtering.
 
@@ -814,7 +816,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.filtering  # Delegates to property
 
-    def setFiltering(self, value: "FilterDebouncingEnum") -> "IoHwAbstractionServerAnnotation":
+    def setFiltering(self, value: FilterDebouncingEnum) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for filtering with method chaining.
 
@@ -830,7 +832,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.filtering = value  # Delegates to property setter
         return self
 
-    def getPulseTest(self) -> "PulseTestEnum":
+    def getPulseTest(self) -> PulseTestEnum:
         """
         AUTOSAR-compliant getter for pulseTest.
 
@@ -842,7 +844,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.pulse_test  # Delegates to property
 
-    def setPulseTest(self, value: "PulseTestEnum") -> "IoHwAbstractionServerAnnotation":
+    def setPulseTest(self, value: PulseTestEnum) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for pulseTest with method chaining.
 
@@ -870,7 +872,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> "IoHwAbstractionServerAnnotation":
+    def setTrigger(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -888,7 +890,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_age(self, value: Optional["MultidimensionalTime"]) -> "IoHwAbstractionServerAnnotation":
+    def with_age(self, value: Optional["MultidimensionalTime"]) -> IoHwAbstractionServerAnnotation:
         """
         Set age and return self for chaining.
 
@@ -904,7 +906,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.age = value  # Use property setter (gets validation)
         return self
 
-    def with_argument(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def with_argument(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         Set argument and return self for chaining.
 
@@ -920,7 +922,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.argument = value  # Use property setter (gets validation)
         return self
 
-    def with_bsw_resolution(self, value: Optional["Float"]) -> "IoHwAbstractionServerAnnotation":
+    def with_bsw_resolution(self, value: Optional["Float"]) -> IoHwAbstractionServerAnnotation:
         """
         Set bswResolution and return self for chaining.
 
@@ -936,7 +938,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.bsw_resolution = value  # Use property setter (gets validation)
         return self
 
-    def with_data_element(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def with_data_element(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         Set dataElement and return self for chaining.
 
@@ -952,7 +954,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_failure(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def with_failure(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         Set failure and return self for chaining.
 
@@ -968,7 +970,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.failure = value  # Use property setter (gets validation)
         return self
 
-    def with_filtering(self, value: Optional["FilterDebouncingEnum"]) -> "IoHwAbstractionServerAnnotation":
+    def with_filtering(self, value: Optional[FilterDebouncingEnum]) -> IoHwAbstractionServerAnnotation:
         """
         Set filtering and return self for chaining.
 
@@ -984,7 +986,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.filtering = value  # Use property setter (gets validation)
         return self
 
-    def with_pulse_test(self, value: Optional["PulseTestEnum"]) -> "IoHwAbstractionServerAnnotation":
+    def with_pulse_test(self, value: Optional[PulseTestEnum]) -> IoHwAbstractionServerAnnotation:
         """
         Set pulseTest and return self for chaining.
 
@@ -1000,7 +1002,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.pulse_test = value  # Use property setter (gets validation)
         return self
 
-    def with_trigger(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
+    def with_trigger(self, value: Optional[RefType]) -> IoHwAbstractionServerAnnotation:
         """
         Set trigger and return self for chaining.
 
@@ -1076,7 +1078,7 @@ class ParameterPortAnnotation(GeneralAnnotation):
         """
         return self.parameter_prototype  # Delegates to property
 
-    def setParameterPrototype(self, value: "ParameterData") -> "ParameterPortAnnotation":
+    def setParameterPrototype(self, value: "ParameterData") -> ParameterPortAnnotation:
         """
         AUTOSAR-compliant setter for parameterPrototype with method chaining.
 
@@ -1094,7 +1096,7 @@ class ParameterPortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_parameter_prototype(self, value: Optional["ParameterData"]) -> "ParameterPortAnnotation":
+    def with_parameter_prototype(self, value: Optional["ParameterData"]) -> ParameterPortAnnotation:
         """
         Set parameterPrototype and return self for chaining.
 
@@ -1166,7 +1168,7 @@ class ModePortAnnotation(GeneralAnnotation):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: "RefType") -> "ModePortAnnotation":
+    def setModeGroup(self, value: "RefType") -> ModePortAnnotation:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -1184,7 +1186,7 @@ class ModePortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group(self, value: Optional[RefType]) -> "ModePortAnnotation":
+    def with_mode_group(self, value: Optional[RefType]) -> ModePortAnnotation:
         """
         Set modeGroup and return self for chaining.
 
@@ -1255,7 +1257,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> "TriggerPortAnnotation":
+    def setTrigger(self, value: "RefType") -> TriggerPortAnnotation:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -1273,7 +1275,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_trigger(self, value: Optional[RefType]) -> "TriggerPortAnnotation":
+    def with_trigger(self, value: Optional[RefType]) -> TriggerPortAnnotation:
         """
         Set trigger and return self for chaining.
 
@@ -1344,7 +1346,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
         """
         return self.variable  # Delegates to property
 
-    def setVariable(self, value: "RefType") -> "NvDataPortAnnotation":
+    def setVariable(self, value: "RefType") -> NvDataPortAnnotation:
         """
         AUTOSAR-compliant setter for variable with method chaining.
 
@@ -1362,7 +1364,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_variable(self, value: Optional[RefType]) -> "NvDataPortAnnotation":
+    def with_variable(self, value: Optional[RefType]) -> NvDataPortAnnotation:
         """
         Set variable and return self for chaining.
 
@@ -1396,15 +1398,15 @@ class DelegatedPortAnnotation(GeneralAnnotation):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the Signal Fan In or Signal Fan Out inside the.
-        self._signalFan: Optional["SignalFanEnum"] = None
+        self._signalFan: Optional[SignalFanEnum] = None
 
     @property
-    def signal_fan(self) -> Optional["SignalFanEnum"]:
+    def signal_fan(self) -> Optional[SignalFanEnum]:
         """Get signalFan (Pythonic accessor)."""
         return self._signalFan
 
     @signal_fan.setter
-    def signal_fan(self, value: Optional["SignalFanEnum"]) -> None:
+    def signal_fan(self, value: Optional[SignalFanEnum]) -> None:
         """
         Set signalFan with validation.
 
@@ -1426,7 +1428,7 @@ class DelegatedPortAnnotation(GeneralAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSignalFan(self) -> "SignalFanEnum":
+    def getSignalFan(self) -> SignalFanEnum:
         """
         AUTOSAR-compliant getter for signalFan.
 
@@ -1438,7 +1440,7 @@ class DelegatedPortAnnotation(GeneralAnnotation):
         """
         return self.signal_fan  # Delegates to property
 
-    def setSignalFan(self, value: "SignalFanEnum") -> "DelegatedPortAnnotation":
+    def setSignalFan(self, value: SignalFanEnum) -> DelegatedPortAnnotation:
         """
         AUTOSAR-compliant setter for signalFan with method chaining.
 
@@ -1456,7 +1458,7 @@ class DelegatedPortAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_signal_fan(self, value: Optional["SignalFanEnum"]) -> "DelegatedPortAnnotation":
+    def with_signal_fan(self, value: Optional[SignalFanEnum]) -> DelegatedPortAnnotation:
         """
         Set signalFan and return self for chaining.
 
@@ -1556,7 +1558,7 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
         """
         return self.signal_age  # Delegates to property
 
-    def setSignalAge(self, value: "MultidimensionalTime") -> "ReceiverAnnotation":
+    def setSignalAge(self, value: "MultidimensionalTime") -> ReceiverAnnotation:
         """
         AUTOSAR-compliant setter for signalAge with method chaining.
 
@@ -1574,7 +1576,7 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_signal_age(self, value: Optional["MultidimensionalTime"]) -> "ReceiverAnnotation":
+    def with_signal_age(self, value: Optional["MultidimensionalTime"]) -> ReceiverAnnotation:
         """
         Set signalAge and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - EnvironmentalCondition
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
 )
@@ -92,7 +94,7 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
         """
         return self.formula  # Delegates to property
 
-    def setFormula(self, value: "DiagnosticEnvCondition") -> "DiagnosticEnvironmentalCondition":
+    def setFormula(self, value: "DiagnosticEnvCondition") -> DiagnosticEnvironmentalCondition:
         """
         AUTOSAR-compliant setter for formula with method chaining.
 
@@ -122,7 +124,7 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_formula(self, value: Optional["DiagnosticEnvCondition"]) -> "DiagnosticEnvironmentalCondition":
+    def with_formula(self, value: Optional["DiagnosticEnvCondition"]) -> DiagnosticEnvironmentalCondition:
         """
         Set formula and return self for chaining.
 
@@ -291,7 +293,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
         """
         return self.nrc_value  # Delegates to property
 
-    def setNrcValue(self, value: "PositiveInteger") -> "DiagnosticEnvConditionFormula":
+    def setNrcValue(self, value: "PositiveInteger") -> DiagnosticEnvConditionFormula:
         """
         AUTOSAR-compliant setter for nrcValue with method chaining.
 
@@ -319,7 +321,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
         """
         return self.op  # Delegates to property
 
-    def setOp(self, value: "DiagnosticLogical") -> "DiagnosticEnvConditionFormula":
+    def setOp(self, value: "DiagnosticLogical") -> DiagnosticEnvConditionFormula:
         """
         AUTOSAR-compliant setter for op with method chaining.
 
@@ -337,7 +339,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nrc_value(self, value: Optional["PositiveInteger"]) -> "DiagnosticEnvConditionFormula":
+    def with_nrc_value(self, value: Optional["PositiveInteger"]) -> DiagnosticEnvConditionFormula:
         """
         Set nrcValue and return self for chaining.
 
@@ -353,7 +355,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
         self.nrc_value = value  # Use property setter (gets validation)
         return self
 
-    def with_op(self, value: Optional["DiagnosticLogical"]) -> "DiagnosticEnvConditionFormula":
+    def with_op(self, value: Optional["DiagnosticLogical"]) -> DiagnosticEnvConditionFormula:
         """
         Set op and return self for chaining.
 
@@ -433,7 +435,7 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
         """
         return self.compare_type  # Delegates to property
 
-    def setCompareType(self, value: "DiagnosticCompare") -> "DiagnosticEnvCompareCondition":
+    def setCompareType(self, value: "DiagnosticCompare") -> DiagnosticEnvCompareCondition:
         """
         AUTOSAR-compliant setter for compareType with method chaining.
 
@@ -451,7 +453,7 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compare_type(self, value: Optional["DiagnosticCompare"]) -> "DiagnosticEnvCompareCondition":
+    def with_compare_type(self, value: Optional["DiagnosticCompare"]) -> DiagnosticEnvCompareCondition:
         """
         Set compareType and return self for chaining.
 
@@ -527,7 +529,7 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "ModeDeclaration") -> "DiagnosticEnvSwcModeElement":
+    def setMode(self, value: "ModeDeclaration") -> DiagnosticEnvSwcModeElement:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -545,7 +547,7 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode(self, value: Optional["ModeDeclaration"]) -> "DiagnosticEnvSwcModeElement":
+    def with_mode(self, value: Optional["ModeDeclaration"]) -> DiagnosticEnvSwcModeElement:
         """
         Set mode and return self for chaining.
 
@@ -621,7 +623,7 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "ModeDeclaration") -> "DiagnosticEnvBswModeElement":
+    def setMode(self, value: "ModeDeclaration") -> DiagnosticEnvBswModeElement:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -639,7 +641,7 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode(self, value: Optional["ModeDeclaration"]) -> "DiagnosticEnvBswModeElement":
+    def with_mode(self, value: Optional["ModeDeclaration"]) -> DiagnosticEnvBswModeElement:
         """
         Set mode and return self for chaining.
 
@@ -743,7 +745,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
         """
         return self.compare_value  # Delegates to property
 
-    def setCompareValue(self, value: "ValueSpecification") -> "DiagnosticEnvDataCondition":
+    def setCompareValue(self, value: "ValueSpecification") -> DiagnosticEnvDataCondition:
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
 
@@ -771,7 +773,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticEnvDataCondition":
+    def setDataElement(self, value: "DiagnosticDataElement") -> DiagnosticEnvDataCondition:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -789,7 +791,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compare_value(self, value: Optional["ValueSpecification"]) -> "DiagnosticEnvDataCondition":
+    def with_compare_value(self, value: Optional["ValueSpecification"]) -> DiagnosticEnvDataCondition:
         """
         Set compareValue and return self for chaining.
 
@@ -805,7 +807,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
         self.compare_value = value  # Use property setter (gets validation)
         return self
 
-    def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticEnvDataCondition":
+    def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> DiagnosticEnvDataCondition:
         """
         Set dataElement and return self for chaining.
 
@@ -935,7 +937,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         """
         return self.compare_value  # Delegates to property
 
-    def setCompareValue(self, value: "ValueSpecification") -> "DiagnosticEnvDataElementCondition":
+    def setCompareValue(self, value: "ValueSpecification") -> DiagnosticEnvDataElementCondition:
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
 
@@ -963,7 +965,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         """
         return self.data_prototype  # Delegates to property
 
-    def setDataPrototype(self, value: "RefType") -> "DiagnosticEnvDataElementCondition":
+    def setDataPrototype(self, value: "RefType") -> DiagnosticEnvDataElementCondition:
         """
         AUTOSAR-compliant setter for dataPrototype with method chaining.
 
@@ -991,7 +993,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "DiagnosticEnvDataElementCondition":
+    def setSwDataDef(self, value: "SwDataDefProps") -> DiagnosticEnvDataElementCondition:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -1009,7 +1011,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compare_value(self, value: Optional["ValueSpecification"]) -> "DiagnosticEnvDataElementCondition":
+    def with_compare_value(self, value: Optional["ValueSpecification"]) -> DiagnosticEnvDataElementCondition:
         """
         Set compareValue and return self for chaining.
 
@@ -1025,7 +1027,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         self.compare_value = value  # Use property setter (gets validation)
         return self
 
-    def with_data_prototype(self, value: Optional[RefType]) -> "DiagnosticEnvDataElementCondition":
+    def with_data_prototype(self, value: Optional[RefType]) -> DiagnosticEnvDataElementCondition:
         """
         Set dataPrototype and return self for chaining.
 
@@ -1041,7 +1043,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         self.data_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "DiagnosticEnvDataElementCondition":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> DiagnosticEnvDataElementCondition:
         """
         Set swDataDef and return self for chaining.
 
@@ -1124,7 +1126,7 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
         """
         return self.mode_element  # Delegates to property
 
-    def setModeElement(self, value: "DiagnosticEnvMode") -> "DiagnosticEnvModeCondition":
+    def setModeElement(self, value: "DiagnosticEnvMode") -> DiagnosticEnvModeCondition:
         """
         AUTOSAR-compliant setter for modeElement with method chaining.
 
@@ -1142,7 +1144,7 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_element(self, value: Optional["DiagnosticEnvMode"]) -> "DiagnosticEnvModeCondition":
+    def with_mode_element(self, value: Optional["DiagnosticEnvMode"]) -> DiagnosticEnvModeCondition:
         """
         Set modeElement and return self for chaining.
 

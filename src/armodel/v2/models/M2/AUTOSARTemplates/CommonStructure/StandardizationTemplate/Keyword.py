@@ -4,9 +4,11 @@ AUTOSAR Package - Keyword
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword
 """
 
+
+from __future__ import annotations
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -118,7 +120,7 @@ class Keyword(Identifiable):
         """
         return self.abbr_name  # Delegates to property
 
-    def setAbbrName(self, value: "NameToken") -> "Keyword":
+    def setAbbrName(self, value: "NameToken") -> Keyword:
         """
         AUTOSAR-compliant setter for abbrName with method chaining.
 
@@ -148,7 +150,7 @@ class Keyword(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_abbr_name(self, value: "NameToken") -> "Keyword":
+    def with_abbr_name(self, value: "NameToken") -> Keyword:
         """
         Set abbrName and return self for chaining.
 
@@ -181,16 +183,16 @@ class KeywordSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is one particular keyword in the keyword set.
-        self._keyword: List["Keyword"] = []
+        self._keyword: List[Keyword] = []
 
     @property
-    def keyword(self) -> List["Keyword"]:
+    def keyword(self) -> List[Keyword]:
         """Get keyword (Pythonic accessor)."""
         return self._keyword
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getKeyword(self) -> List["Keyword"]:
+    def getKeyword(self) -> List[Keyword]:
         """
         AUTOSAR-compliant getter for keyword.
 

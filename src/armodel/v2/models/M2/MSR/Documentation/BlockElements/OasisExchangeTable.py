@@ -4,19 +4,22 @@ AUTOSAR Package - OasisExchangeTable
 Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Integer,
-    NameToken,
-    String,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARLiteral,
+    Integer,
+    NameToken,
+    String,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+    Caption,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
@@ -39,15 +42,15 @@ class Table(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Indicates if by default a line should be drawn between the this table.
-        self._colsep: Optional["TableSeparatorString"] = None
+        self._colsep: Optional[TableSeparatorString] = None
 
     @property
-    def colsep(self) -> Optional["TableSeparatorString"]:
+    def colsep(self) -> Optional[TableSeparatorString]:
         """Get colsep (Pythonic accessor)."""
         return self._colsep
 
     @colsep.setter
-    def colsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def colsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set colsep with validation.
 
@@ -66,15 +69,15 @@ class Table(Paginateable):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        self._float: "FloatEnum" = None
+        self._float: FloatEnum = None
 
     @property
-    def float(self) -> "FloatEnum":
+    def float(self) -> FloatEnum:
         """Get float (Pythonic accessor)."""
         return self._float
 
     @float.setter
-    def float(self, value: "FloatEnum") -> None:
+    def float(self, value: FloatEnum) -> None:
         """
         Set float with validation.
 
@@ -90,15 +93,15 @@ class Table(Paginateable):
             )
         self._float = value
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._frame: Optional["FrameEnum"] = None
+        self._frame: Optional[FrameEnum] = None
 
     @property
-    def frame(self) -> Optional["FrameEnum"]:
+    def frame(self) -> Optional[FrameEnum]:
         """Get frame (Pythonic accessor)."""
         return self._frame
 
     @frame.setter
-    def frame(self, value: Optional["FrameEnum"]) -> None:
+    def frame(self, value: Optional[FrameEnum]) -> None:
         """
         Set frame with validation.
 
@@ -119,15 +122,15 @@ class Table(Paginateable):
         self._frame = value
                 # class.
         # The syntax shall be the applied help system respectively help.
-        self._helpEntry: Optional["String"] = None
+        self._helpEntry: Optional[String] = None
 
     @property
-    def help_entry(self) -> Optional["String"]:
+    def help_entry(self) -> Optional[String]:
         """Get helpEntry (Pythonic accessor)."""
         return self._helpEntry
 
     @help_entry.setter
-    def help_entry(self, value: Optional["String"]) -> None:
+    def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
 
@@ -175,15 +178,15 @@ class Table(Paginateable):
             )
         self._orient = value
         # or not (value =.
-        self._pgwide: Optional["NameToken"] = None
+        self._pgwide: Optional[NameToken] = None
 
     @property
-    def pgwide(self) -> Optional["NameToken"]:
+    def pgwide(self) -> Optional[NameToken]:
         """Get pgwide (Pythonic accessor)."""
         return self._pgwide
 
     @pgwide.setter
-    def pgwide(self, value: Optional["NameToken"]) -> None:
+    def pgwide(self, value: Optional[NameToken]) -> None:
         """
         Set pgwide with validation.
 
@@ -202,15 +205,15 @@ class Table(Paginateable):
                 f"pgwide must be NameToken or str or None, got {type(value).__name__}"
             )
         self._pgwide = value
-        self._rowsep: Optional["TableSeparatorString"] = None
+        self._rowsep: Optional[TableSeparatorString] = None
 
     @property
-    def rowsep(self) -> Optional["TableSeparatorString"]:
+    def rowsep(self) -> Optional[TableSeparatorString]:
         """Get rowsep (Pythonic accessor)."""
         return self._rowsep
 
     @rowsep.setter
-    def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def rowsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set rowsep with validation.
 
@@ -229,15 +232,15 @@ class Table(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        self._tableCaption: Optional["Caption"] = None
+        self._tableCaption: Optional[Caption] = None
 
     @property
-    def table_caption(self) -> Optional["Caption"]:
+    def table_caption(self) -> Optional[Caption]:
         """Get tableCaption (Pythonic accessor)."""
         return self._tableCaption
 
     @table_caption.setter
-    def table_caption(self, value: Optional["Caption"]) -> None:
+    def table_caption(self, value: Optional[Caption]) -> None:
         """
         Set tableCaption with validation.
 
@@ -259,15 +262,15 @@ class Table(Paginateable):
         # Tgroup 1.
         # * aggr A table can be built of individual segments.
         # Such a called tgroup.
-        self._tabstyle: Optional["NameToken"] = None
+        self._tabstyle: Optional[NameToken] = None
 
     @property
-    def tabstyle(self) -> Optional["NameToken"]:
+    def tabstyle(self) -> Optional[NameToken]:
         """Get tabstyle (Pythonic accessor)."""
         return self._tabstyle
 
     @tabstyle.setter
-    def tabstyle(self, value: Optional["NameToken"]) -> None:
+    def tabstyle(self, value: Optional[NameToken]) -> None:
         """
         Set tabstyle with validation.
 
@@ -305,7 +308,7 @@ class Table(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getColsep(self) -> "TableSeparatorString":
+    def getColsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for colsep.
 
@@ -317,7 +320,7 @@ class Table(Paginateable):
         """
         return self.colsep  # Delegates to property
 
-    def setColsep(self, value: "TableSeparatorString") -> "Table":
+    def setColsep(self, value: TableSeparatorString) -> Table:
         """
         AUTOSAR-compliant setter for colsep with method chaining.
 
@@ -333,7 +336,7 @@ class Table(Paginateable):
         self.colsep = value  # Delegates to property setter
         return self
 
-    def getFloat(self) -> "FloatEnum":
+    def getFloat(self) -> FloatEnum:
         """
         AUTOSAR-compliant getter for float.
 
@@ -345,7 +348,7 @@ class Table(Paginateable):
         """
         return self.float  # Delegates to property
 
-    def setFloat(self, value: "FloatEnum") -> "Table":
+    def setFloat(self, value: FloatEnum) -> Table:
         """
         AUTOSAR-compliant setter for float with method chaining.
 
@@ -361,7 +364,7 @@ class Table(Paginateable):
         self.float = value  # Delegates to property setter
         return self
 
-    def getFrame(self) -> "FrameEnum":
+    def getFrame(self) -> FrameEnum:
         """
         AUTOSAR-compliant getter for frame.
 
@@ -373,7 +376,7 @@ class Table(Paginateable):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: "FrameEnum") -> "Table":
+    def setFrame(self, value: FrameEnum) -> Table:
         """
         AUTOSAR-compliant setter for frame with method chaining.
 
@@ -401,7 +404,7 @@ class Table(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> "Table":
+    def setHelpEntry(self, value: "String") -> Table:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -429,7 +432,7 @@ class Table(Paginateable):
         """
         return self.orient  # Delegates to property
 
-    def setOrient(self, value: "OrientEnum") -> "Table":
+    def setOrient(self, value: "OrientEnum") -> Table:
         """
         AUTOSAR-compliant setter for orient with method chaining.
 
@@ -457,7 +460,7 @@ class Table(Paginateable):
         """
         return self.pgwide  # Delegates to property
 
-    def setPgwide(self, value: "NameToken") -> "Table":
+    def setPgwide(self, value: "NameToken") -> Table:
         """
         AUTOSAR-compliant setter for pgwide with method chaining.
 
@@ -473,7 +476,7 @@ class Table(Paginateable):
         self.pgwide = value  # Delegates to property setter
         return self
 
-    def getRowsep(self) -> "TableSeparatorString":
+    def getRowsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for rowsep.
 
@@ -485,7 +488,7 @@ class Table(Paginateable):
         """
         return self.rowsep  # Delegates to property
 
-    def setRowsep(self, value: "TableSeparatorString") -> "Table":
+    def setRowsep(self, value: TableSeparatorString) -> Table:
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
 
@@ -513,7 +516,7 @@ class Table(Paginateable):
         """
         return self.table_caption  # Delegates to property
 
-    def setTableCaption(self, value: "Caption") -> "Table":
+    def setTableCaption(self, value: "Caption") -> Table:
         """
         AUTOSAR-compliant setter for tableCaption with method chaining.
 
@@ -541,7 +544,7 @@ class Table(Paginateable):
         """
         return self.tabstyle  # Delegates to property
 
-    def setTabstyle(self, value: "NameToken") -> "Table":
+    def setTabstyle(self, value: "NameToken") -> Table:
         """
         AUTOSAR-compliant setter for tabstyle with method chaining.
 
@@ -559,7 +562,7 @@ class Table(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_colsep(self, value: Optional["TableSeparatorString"]) -> "Table":
+    def with_colsep(self, value: Optional[TableSeparatorString]) -> Table:
         """
         Set colsep and return self for chaining.
 
@@ -575,7 +578,7 @@ class Table(Paginateable):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_float(self, value: "FloatEnum") -> "Table":
+    def with_float(self, value: FloatEnum) -> Table:
         """
         Set float and return self for chaining.
 
@@ -591,7 +594,7 @@ class Table(Paginateable):
         self.float = value  # Use property setter (gets validation)
         return self
 
-    def with_frame(self, value: Optional["FrameEnum"]) -> "Table":
+    def with_frame(self, value: Optional[FrameEnum]) -> Table:
         """
         Set frame and return self for chaining.
 
@@ -607,7 +610,7 @@ class Table(Paginateable):
         self.frame = value  # Use property setter (gets validation)
         return self
 
-    def with_help_entry(self, value: Optional["String"]) -> "Table":
+    def with_help_entry(self, value: Optional[String]) -> Table:
         """
         Set helpEntry and return self for chaining.
 
@@ -623,7 +626,7 @@ class Table(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_orient(self, value: Optional["OrientEnum"]) -> "Table":
+    def with_orient(self, value: Optional["OrientEnum"]) -> Table:
         """
         Set orient and return self for chaining.
 
@@ -639,7 +642,7 @@ class Table(Paginateable):
         self.orient = value  # Use property setter (gets validation)
         return self
 
-    def with_pgwide(self, value: Optional["NameToken"]) -> "Table":
+    def with_pgwide(self, value: Optional[NameToken]) -> Table:
         """
         Set pgwide and return self for chaining.
 
@@ -655,7 +658,7 @@ class Table(Paginateable):
         self.pgwide = value  # Use property setter (gets validation)
         return self
 
-    def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Table":
+    def with_rowsep(self, value: Optional[TableSeparatorString]) -> Table:
         """
         Set rowsep and return self for chaining.
 
@@ -671,7 +674,7 @@ class Table(Paginateable):
         self.rowsep = value  # Use property setter (gets validation)
         return self
 
-    def with_table_caption(self, value: Optional["Caption"]) -> "Table":
+    def with_table_caption(self, value: Optional[Caption]) -> Table:
         """
         Set tableCaption and return self for chaining.
 
@@ -687,7 +690,7 @@ class Table(Paginateable):
         self.table_caption = value  # Use property setter (gets validation)
         return self
 
-    def with_tabstyle(self, value: Optional["NameToken"]) -> "Table":
+    def with_tabstyle(self, value: Optional[NameToken]) -> Table:
         """
         Set tabstyle and return self for chaining.
 
@@ -722,15 +725,15 @@ class Tgroup(ARObject):
         # Specifies how the cell entries shall be horizontally aligned specified
                 # TGROUP.
         # Default is "LEFT".
-        self._align: Optional["AlignEnum"] = None
+        self._align: Optional[AlignEnum] = None
 
     @property
-    def align(self) -> Optional["AlignEnum"]:
+    def align(self) -> Optional[AlignEnum]:
         """Get align (Pythonic accessor)."""
         return self._align
 
     @align.setter
-    def align(self, value: Optional["AlignEnum"]) -> None:
+    def align(self, value: Optional[AlignEnum]) -> None:
         """
         Set align with validation.
 
@@ -772,15 +775,15 @@ class Tgroup(ARObject):
                 f"cols must be Integer or int, got {type(value).__name__}"
             )
         self._cols = value
-        self._colsep: Optional["TableSeparatorString"] = None
+        self._colsep: Optional[TableSeparatorString] = None
 
     @property
-    def colsep(self) -> Optional["TableSeparatorString"]:
+    def colsep(self) -> Optional[TableSeparatorString]:
         """Get colsep (Pythonic accessor)."""
         return self._colsep
 
     @colsep.setter
-    def colsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def colsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set colsep with validation.
 
@@ -800,23 +803,23 @@ class Tgroup(ARObject):
             )
         self._colsep = value
         # entry for each column.
-        self._colspec: List["Colspec"] = []
+        self._colspec: List[Colspec] = []
 
     @property
-    def colspec(self) -> List["Colspec"]:
+    def colspec(self) -> List[Colspec]:
         """Get colspec (Pythonic accessor)."""
         return self._colspec
         # Indicates if by default a line shall be drawn at the bottom rows in this
         # table group.
-        self._rowsep: Optional["TableSeparatorString"] = None
+        self._rowsep: Optional[TableSeparatorString] = None
 
     @property
-    def rowsep(self) -> Optional["TableSeparatorString"]:
+    def rowsep(self) -> Optional[TableSeparatorString]:
         """Get rowsep (Pythonic accessor)."""
         return self._rowsep
 
     @rowsep.setter
-    def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def rowsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set rowsep with validation.
 
@@ -836,15 +839,15 @@ class Tgroup(ARObject):
             )
         self._rowsep = value
         # 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._tbody: "Tbody" = None
+        self._tbody: Tbody = None
 
     @property
-    def tbody(self) -> "Tbody":
+    def tbody(self) -> Tbody:
         """Get tbody (Pythonic accessor)."""
         return self._tbody
 
     @tbody.setter
-    def tbody(self, value: "Tbody") -> None:
+    def tbody(self, value: Tbody) -> None:
         """
         Set tbody with validation.
 
@@ -860,15 +863,15 @@ class Tgroup(ARObject):
             )
         self._tbody = value
         # This printed at the end of the table or before a.
-        self._tfoot: Optional["Tbody"] = None
+        self._tfoot: Optional[Tbody] = None
 
     @property
-    def tfoot(self) -> Optional["Tbody"]:
+    def tfoot(self) -> Optional[Tbody]:
         """Get tfoot (Pythonic accessor)."""
         return self._tfoot
 
     @tfoot.setter
-    def tfoot(self, value: Optional["Tbody"]) -> None:
+    def tfoot(self, value: Optional[Tbody]) -> None:
         """
         Set tfoot with validation.
 
@@ -888,15 +891,15 @@ class Tgroup(ARObject):
             )
         self._tfoot = value
         # The usually repeated at the beginning of each new.
-        self._thead: Optional["Tbody"] = None
+        self._thead: Optional[Tbody] = None
 
     @property
-    def thead(self) -> Optional["Tbody"]:
+    def thead(self) -> Optional[Tbody]:
         """Get thead (Pythonic accessor)."""
         return self._thead
 
     @thead.setter
-    def thead(self, value: Optional["Tbody"]) -> None:
+    def thead(self, value: Optional[Tbody]) -> None:
         """
         Set thead with validation.
 
@@ -918,7 +921,7 @@ class Tgroup(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlign(self) -> "AlignEnum":
+    def getAlign(self) -> AlignEnum:
         """
         AUTOSAR-compliant getter for align.
 
@@ -930,7 +933,7 @@ class Tgroup(ARObject):
         """
         return self.align  # Delegates to property
 
-    def setAlign(self, value: "AlignEnum") -> "Tgroup":
+    def setAlign(self, value: AlignEnum) -> Tgroup:
         """
         AUTOSAR-compliant setter for align with method chaining.
 
@@ -958,7 +961,7 @@ class Tgroup(ARObject):
         """
         return self.cols  # Delegates to property
 
-    def setCols(self, value: "Integer") -> "Tgroup":
+    def setCols(self, value: "Integer") -> Tgroup:
         """
         AUTOSAR-compliant setter for cols with method chaining.
 
@@ -974,7 +977,7 @@ class Tgroup(ARObject):
         self.cols = value  # Delegates to property setter
         return self
 
-    def getColsep(self) -> "TableSeparatorString":
+    def getColsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for colsep.
 
@@ -986,7 +989,7 @@ class Tgroup(ARObject):
         """
         return self.colsep  # Delegates to property
 
-    def setColsep(self, value: "TableSeparatorString") -> "Tgroup":
+    def setColsep(self, value: TableSeparatorString) -> Tgroup:
         """
         AUTOSAR-compliant setter for colsep with method chaining.
 
@@ -1002,7 +1005,7 @@ class Tgroup(ARObject):
         self.colsep = value  # Delegates to property setter
         return self
 
-    def getColspec(self) -> List["Colspec"]:
+    def getColspec(self) -> List[Colspec]:
         """
         AUTOSAR-compliant getter for colspec.
 
@@ -1014,7 +1017,7 @@ class Tgroup(ARObject):
         """
         return self.colspec  # Delegates to property
 
-    def getRowsep(self) -> "TableSeparatorString":
+    def getRowsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for rowsep.
 
@@ -1026,7 +1029,7 @@ class Tgroup(ARObject):
         """
         return self.rowsep  # Delegates to property
 
-    def setRowsep(self, value: "TableSeparatorString") -> "Tgroup":
+    def setRowsep(self, value: TableSeparatorString) -> Tgroup:
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
 
@@ -1042,7 +1045,7 @@ class Tgroup(ARObject):
         self.rowsep = value  # Delegates to property setter
         return self
 
-    def getTbody(self) -> "Tbody":
+    def getTbody(self) -> Tbody:
         """
         AUTOSAR-compliant getter for tbody.
 
@@ -1054,7 +1057,7 @@ class Tgroup(ARObject):
         """
         return self.tbody  # Delegates to property
 
-    def setTbody(self, value: "Tbody") -> "Tgroup":
+    def setTbody(self, value: Tbody) -> Tgroup:
         """
         AUTOSAR-compliant setter for tbody with method chaining.
 
@@ -1070,7 +1073,7 @@ class Tgroup(ARObject):
         self.tbody = value  # Delegates to property setter
         return self
 
-    def getTfoot(self) -> "Tbody":
+    def getTfoot(self) -> Tbody:
         """
         AUTOSAR-compliant getter for tfoot.
 
@@ -1082,7 +1085,7 @@ class Tgroup(ARObject):
         """
         return self.tfoot  # Delegates to property
 
-    def setTfoot(self, value: "Tbody") -> "Tgroup":
+    def setTfoot(self, value: Tbody) -> Tgroup:
         """
         AUTOSAR-compliant setter for tfoot with method chaining.
 
@@ -1098,7 +1101,7 @@ class Tgroup(ARObject):
         self.tfoot = value  # Delegates to property setter
         return self
 
-    def getThead(self) -> "Tbody":
+    def getThead(self) -> Tbody:
         """
         AUTOSAR-compliant getter for thead.
 
@@ -1110,7 +1113,7 @@ class Tgroup(ARObject):
         """
         return self.thead  # Delegates to property
 
-    def setThead(self, value: "Tbody") -> "Tgroup":
+    def setThead(self, value: Tbody) -> Tgroup:
         """
         AUTOSAR-compliant setter for thead with method chaining.
 
@@ -1128,7 +1131,7 @@ class Tgroup(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_align(self, value: Optional["AlignEnum"]) -> "Tgroup":
+    def with_align(self, value: Optional[AlignEnum]) -> Tgroup:
         """
         Set align and return self for chaining.
 
@@ -1144,7 +1147,7 @@ class Tgroup(ARObject):
         self.align = value  # Use property setter (gets validation)
         return self
 
-    def with_cols(self, value: "Integer") -> "Tgroup":
+    def with_cols(self, value: "Integer") -> Tgroup:
         """
         Set cols and return self for chaining.
 
@@ -1160,7 +1163,7 @@ class Tgroup(ARObject):
         self.cols = value  # Use property setter (gets validation)
         return self
 
-    def with_colsep(self, value: Optional["TableSeparatorString"]) -> "Tgroup":
+    def with_colsep(self, value: Optional[TableSeparatorString]) -> Tgroup:
         """
         Set colsep and return self for chaining.
 
@@ -1176,7 +1179,7 @@ class Tgroup(ARObject):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Tgroup":
+    def with_rowsep(self, value: Optional[TableSeparatorString]) -> Tgroup:
         """
         Set rowsep and return self for chaining.
 
@@ -1192,7 +1195,7 @@ class Tgroup(ARObject):
         self.rowsep = value  # Use property setter (gets validation)
         return self
 
-    def with_tbody(self, value: "Tbody") -> "Tgroup":
+    def with_tbody(self, value: Tbody) -> Tgroup:
         """
         Set tbody and return self for chaining.
 
@@ -1208,7 +1211,7 @@ class Tgroup(ARObject):
         self.tbody = value  # Use property setter (gets validation)
         return self
 
-    def with_tfoot(self, value: Optional["Tbody"]) -> "Tgroup":
+    def with_tfoot(self, value: Optional[Tbody]) -> Tgroup:
         """
         Set tfoot and return self for chaining.
 
@@ -1224,7 +1227,7 @@ class Tgroup(ARObject):
         self.tfoot = value  # Use property setter (gets validation)
         return self
 
-    def with_thead(self, value: Optional["Tbody"]) -> "Tgroup":
+    def with_thead(self, value: Optional[Tbody]) -> Tgroup:
         """
         Set thead and return self for chaining.
 
@@ -1259,15 +1262,15 @@ class Tbody(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Indicates how the cells in the rows shall be aligned.
         # inherited from tbody, otherwise it is "TOP".
-        self._valign: Optional["ValignEnum"] = None
+        self._valign: Optional[ValignEnum] = None
 
     @property
-    def valign(self) -> Optional["ValignEnum"]:
+    def valign(self) -> Optional[ValignEnum]:
         """Get valign (Pythonic accessor)."""
         return self._valign
 
     @valign.setter
-    def valign(self, value: Optional["ValignEnum"]) -> None:
+    def valign(self, value: Optional[ValignEnum]) -> None:
         """
         Set valign with validation.
 
@@ -1289,7 +1292,7 @@ class Tbody(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValign(self) -> "ValignEnum":
+    def getValign(self) -> ValignEnum:
         """
         AUTOSAR-compliant getter for valign.
 
@@ -1301,7 +1304,7 @@ class Tbody(ARObject):
         """
         return self.valign  # Delegates to property
 
-    def setValign(self, value: "ValignEnum") -> "Tbody":
+    def setValign(self, value: ValignEnum) -> Tbody:
         """
         AUTOSAR-compliant setter for valign with method chaining.
 
@@ -1319,7 +1322,7 @@ class Tbody(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_valign(self, value: Optional["ValignEnum"]) -> "Tbody":
+    def with_valign(self, value: Optional[ValignEnum]) -> Tbody:
         """
         Set valign and return self for chaining.
 
@@ -1352,15 +1355,15 @@ class Row(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Indicates if by default a line should be displayed below the.
-        self._rowsep: Optional["TableSeparatorString"] = None
+        self._rowsep: Optional[TableSeparatorString] = None
 
     @property
-    def rowsep(self) -> Optional["TableSeparatorString"]:
+    def rowsep(self) -> Optional[TableSeparatorString]:
         """Get rowsep (Pythonic accessor)."""
         return self._rowsep
 
     @rowsep.setter
-    def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def rowsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set rowsep with validation.
 
@@ -1380,15 +1383,15 @@ class Row(Paginateable):
             )
         self._rowsep = value
         # inherited from tbody, otherwise it is "TOP".
-        self._valign: Optional["ValignEnum"] = None
+        self._valign: Optional[ValignEnum] = None
 
     @property
-    def valign(self) -> Optional["ValignEnum"]:
+    def valign(self) -> Optional[ValignEnum]:
         """Get valign (Pythonic accessor)."""
         return self._valign
 
     @valign.setter
-    def valign(self, value: Optional["ValignEnum"]) -> None:
+    def valign(self, value: Optional[ValignEnum]) -> None:
         """
         Set valign with validation.
 
@@ -1410,7 +1413,7 @@ class Row(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRowsep(self) -> "TableSeparatorString":
+    def getRowsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for rowsep.
 
@@ -1422,7 +1425,7 @@ class Row(Paginateable):
         """
         return self.rowsep  # Delegates to property
 
-    def setRowsep(self, value: "TableSeparatorString") -> "Row":
+    def setRowsep(self, value: TableSeparatorString) -> Row:
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
 
@@ -1438,7 +1441,7 @@ class Row(Paginateable):
         self.rowsep = value  # Delegates to property setter
         return self
 
-    def getValign(self) -> "ValignEnum":
+    def getValign(self) -> ValignEnum:
         """
         AUTOSAR-compliant getter for valign.
 
@@ -1450,7 +1453,7 @@ class Row(Paginateable):
         """
         return self.valign  # Delegates to property
 
-    def setValign(self, value: "ValignEnum") -> "Row":
+    def setValign(self, value: ValignEnum) -> Row:
         """
         AUTOSAR-compliant setter for valign with method chaining.
 
@@ -1468,7 +1471,7 @@ class Row(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Row":
+    def with_rowsep(self, value: Optional[TableSeparatorString]) -> Row:
         """
         Set rowsep and return self for chaining.
 
@@ -1484,7 +1487,7 @@ class Row(Paginateable):
         self.rowsep = value  # Use property setter (gets validation)
         return self
 
-    def with_valign(self, value: Optional["ValignEnum"]) -> "Row":
+    def with_valign(self, value: Optional[ValignEnum]) -> Row:
         """
         Set valign and return self for chaining.
 
@@ -1517,15 +1520,15 @@ class Entry(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies how the cell ENTRY shall be horizontally is "LEFT".
-        self._align: Optional["AlignEnum"] = None
+        self._align: Optional[AlignEnum] = None
 
     @property
-    def align(self) -> Optional["AlignEnum"]:
+    def align(self) -> Optional[AlignEnum]:
         """Get align (Pythonic accessor)."""
         return self._align
 
     @align.setter
-    def align(self, value: Optional["AlignEnum"]) -> None:
+    def align(self, value: Optional[AlignEnum]) -> None:
         """
         Set align with validation.
 
@@ -1569,15 +1572,15 @@ class Entry(ARObject):
                 f"bgcolor must be String or str, got {type(value).__name__}"
             )
         self._bgcolor = value
-        self._colname: Optional["String"] = None
+        self._colname: Optional[String] = None
 
     @property
-    def colname(self) -> Optional["String"]:
+    def colname(self) -> Optional[String]:
         """Get colname (Pythonic accessor)."""
         return self._colname
 
     @colname.setter
-    def colname(self, value: Optional["String"]) -> None:
+    def colname(self, value: Optional[String]) -> None:
         """
         Set colname with validation.
 
@@ -1596,15 +1599,15 @@ class Entry(ARObject):
                 f"colname must be String or str or None, got {type(value).__name__}"
             )
         self._colname = value
-        self._colsep: Optional["TableSeparatorString"] = None
+        self._colsep: Optional[TableSeparatorString] = None
 
     @property
-    def colsep(self) -> Optional["TableSeparatorString"]:
+    def colsep(self) -> Optional[TableSeparatorString]:
         """Get colsep (Pythonic accessor)."""
         return self._colsep
 
     @colsep.setter
-    def colsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def colsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set colsep with validation.
 
@@ -1647,15 +1650,15 @@ class Entry(ARObject):
             )
         self._entryContents = value
         # Default is "0".
-        self._morerows: Optional["String"] = None
+        self._morerows: Optional[String] = None
 
     @property
-    def morerows(self) -> Optional["String"]:
+    def morerows(self) -> Optional[String]:
         """Get morerows (Pythonic accessor)."""
         return self._morerows
 
     @morerows.setter
-    def morerows(self, value: Optional["String"]) -> None:
+    def morerows(self, value: Optional[String]) -> None:
         """
         Set morerows with validation.
 
@@ -1674,15 +1677,15 @@ class Entry(ARObject):
                 f"morerows must be String or str or None, got {type(value).__name__}"
             )
         self._morerows = value
-        self._nameend: Optional["String"] = None
+        self._nameend: Optional[String] = None
 
     @property
-    def nameend(self) -> Optional["String"]:
+    def nameend(self) -> Optional[String]:
         """Get nameend (Pythonic accessor)."""
         return self._nameend
 
     @nameend.setter
-    def nameend(self, value: Optional["String"]) -> None:
+    def nameend(self, value: Optional[String]) -> None:
         """
         Set nameend with validation.
 
@@ -1701,15 +1704,15 @@ class Entry(ARObject):
                 f"nameend must be String or str or None, got {type(value).__name__}"
             )
         self._nameend = value
-        self._namest: Optional["String"] = None
+        self._namest: Optional[String] = None
 
     @property
-    def namest(self) -> Optional["String"]:
+    def namest(self) -> Optional[String]:
         """Get namest (Pythonic accessor)."""
         return self._namest
 
     @namest.setter
-    def namest(self, value: Optional["String"]) -> None:
+    def namest(self, value: Optional[String]) -> None:
         """
         Set namest with validation.
 
@@ -1730,15 +1733,15 @@ class Entry(ARObject):
         self._namest = value
         # Default is 0; 1 the contents 90 degree counterclockwise.
         # is defined by OASIS.
-        self._rotate: Optional["String"] = None
+        self._rotate: Optional[String] = None
 
     @property
-    def rotate(self) -> Optional["String"]:
+    def rotate(self) -> Optional[String]:
         """Get rotate (Pythonic accessor)."""
         return self._rotate
 
     @rotate.setter
-    def rotate(self, value: Optional["String"]) -> None:
+    def rotate(self, value: Optional[String]) -> None:
         """
         Set rotate with validation.
 
@@ -1757,15 +1760,15 @@ class Entry(ARObject):
                 f"rotate must be String or str or None, got {type(value).__name__}"
             )
         self._rotate = value
-        self._rowsep: Optional["TableSeparatorString"] = None
+        self._rowsep: Optional[TableSeparatorString] = None
 
     @property
-    def rowsep(self) -> Optional["TableSeparatorString"]:
+    def rowsep(self) -> Optional[TableSeparatorString]:
         """Get rowsep (Pythonic accessor)."""
         return self._rowsep
 
     @rowsep.setter
-    def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def rowsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set rowsep with validation.
 
@@ -1784,15 +1787,15 @@ class Entry(ARObject):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        self._spanname: Optional["String"] = None
+        self._spanname: Optional[String] = None
 
     @property
-    def spanname(self) -> Optional["String"]:
+    def spanname(self) -> Optional[String]:
         """Get spanname (Pythonic accessor)."""
         return self._spanname
 
     @spanname.setter
-    def spanname(self, value: Optional["String"]) -> None:
+    def spanname(self, value: Optional[String]) -> None:
         """
         Set spanname with validation.
 
@@ -1812,15 +1815,15 @@ class Entry(ARObject):
             )
         self._spanname = value
         # inherited from row or tbody, otherwise "TOP".
-        self._valign: Optional["ValignEnum"] = None
+        self._valign: Optional[ValignEnum] = None
 
     @property
-    def valign(self) -> Optional["ValignEnum"]:
+    def valign(self) -> Optional[ValignEnum]:
         """Get valign (Pythonic accessor)."""
         return self._valign
 
     @valign.setter
-    def valign(self, value: Optional["ValignEnum"]) -> None:
+    def valign(self, value: Optional[ValignEnum]) -> None:
         """
         Set valign with validation.
 
@@ -1842,7 +1845,7 @@ class Entry(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlign(self) -> "AlignEnum":
+    def getAlign(self) -> AlignEnum:
         """
         AUTOSAR-compliant getter for align.
 
@@ -1854,7 +1857,7 @@ class Entry(ARObject):
         """
         return self.align  # Delegates to property
 
-    def setAlign(self, value: "AlignEnum") -> "Entry":
+    def setAlign(self, value: AlignEnum) -> Entry:
         """
         AUTOSAR-compliant setter for align with method chaining.
 
@@ -1882,7 +1885,7 @@ class Entry(ARObject):
         """
         return self.bgcolor  # Delegates to property
 
-    def setBgcolor(self, value: "String") -> "Entry":
+    def setBgcolor(self, value: "String") -> Entry:
         """
         AUTOSAR-compliant setter for bgcolor with method chaining.
 
@@ -1910,7 +1913,7 @@ class Entry(ARObject):
         """
         return self.colname  # Delegates to property
 
-    def setColname(self, value: "String") -> "Entry":
+    def setColname(self, value: "String") -> Entry:
         """
         AUTOSAR-compliant setter for colname with method chaining.
 
@@ -1926,7 +1929,7 @@ class Entry(ARObject):
         self.colname = value  # Delegates to property setter
         return self
 
-    def getColsep(self) -> "TableSeparatorString":
+    def getColsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for colsep.
 
@@ -1938,7 +1941,7 @@ class Entry(ARObject):
         """
         return self.colsep  # Delegates to property
 
-    def setColsep(self, value: "TableSeparatorString") -> "Entry":
+    def setColsep(self, value: TableSeparatorString) -> Entry:
         """
         AUTOSAR-compliant setter for colsep with method chaining.
 
@@ -1966,7 +1969,7 @@ class Entry(ARObject):
         """
         return self.entry_contents  # Delegates to property
 
-    def setEntryContents(self, value: "DocumentationBlock") -> "Entry":
+    def setEntryContents(self, value: "DocumentationBlock") -> Entry:
         """
         AUTOSAR-compliant setter for entryContents with method chaining.
 
@@ -1994,7 +1997,7 @@ class Entry(ARObject):
         """
         return self.morerows  # Delegates to property
 
-    def setMorerows(self, value: "String") -> "Entry":
+    def setMorerows(self, value: "String") -> Entry:
         """
         AUTOSAR-compliant setter for morerows with method chaining.
 
@@ -2022,7 +2025,7 @@ class Entry(ARObject):
         """
         return self.nameend  # Delegates to property
 
-    def setNameend(self, value: "String") -> "Entry":
+    def setNameend(self, value: "String") -> Entry:
         """
         AUTOSAR-compliant setter for nameend with method chaining.
 
@@ -2050,7 +2053,7 @@ class Entry(ARObject):
         """
         return self.namest  # Delegates to property
 
-    def setNamest(self, value: "String") -> "Entry":
+    def setNamest(self, value: "String") -> Entry:
         """
         AUTOSAR-compliant setter for namest with method chaining.
 
@@ -2078,7 +2081,7 @@ class Entry(ARObject):
         """
         return self.rotate  # Delegates to property
 
-    def setRotate(self, value: "String") -> "Entry":
+    def setRotate(self, value: "String") -> Entry:
         """
         AUTOSAR-compliant setter for rotate with method chaining.
 
@@ -2094,7 +2097,7 @@ class Entry(ARObject):
         self.rotate = value  # Delegates to property setter
         return self
 
-    def getRowsep(self) -> "TableSeparatorString":
+    def getRowsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for rowsep.
 
@@ -2106,7 +2109,7 @@ class Entry(ARObject):
         """
         return self.rowsep  # Delegates to property
 
-    def setRowsep(self, value: "TableSeparatorString") -> "Entry":
+    def setRowsep(self, value: TableSeparatorString) -> Entry:
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
 
@@ -2134,7 +2137,7 @@ class Entry(ARObject):
         """
         return self.spanname  # Delegates to property
 
-    def setSpanname(self, value: "String") -> "Entry":
+    def setSpanname(self, value: "String") -> Entry:
         """
         AUTOSAR-compliant setter for spanname with method chaining.
 
@@ -2150,7 +2153,7 @@ class Entry(ARObject):
         self.spanname = value  # Delegates to property setter
         return self
 
-    def getValign(self) -> "ValignEnum":
+    def getValign(self) -> ValignEnum:
         """
         AUTOSAR-compliant getter for valign.
 
@@ -2162,7 +2165,7 @@ class Entry(ARObject):
         """
         return self.valign  # Delegates to property
 
-    def setValign(self, value: "ValignEnum") -> "Entry":
+    def setValign(self, value: ValignEnum) -> Entry:
         """
         AUTOSAR-compliant setter for valign with method chaining.
 
@@ -2180,7 +2183,7 @@ class Entry(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_align(self, value: Optional["AlignEnum"]) -> "Entry":
+    def with_align(self, value: Optional[AlignEnum]) -> Entry:
         """
         Set align and return self for chaining.
 
@@ -2196,7 +2199,7 @@ class Entry(ARObject):
         self.align = value  # Use property setter (gets validation)
         return self
 
-    def with_bgcolor(self, value: "String") -> "Entry":
+    def with_bgcolor(self, value: "String") -> Entry:
         """
         Set bgcolor and return self for chaining.
 
@@ -2212,7 +2215,7 @@ class Entry(ARObject):
         self.bgcolor = value  # Use property setter (gets validation)
         return self
 
-    def with_colname(self, value: Optional["String"]) -> "Entry":
+    def with_colname(self, value: Optional[String]) -> Entry:
         """
         Set colname and return self for chaining.
 
@@ -2228,7 +2231,7 @@ class Entry(ARObject):
         self.colname = value  # Use property setter (gets validation)
         return self
 
-    def with_colsep(self, value: Optional["TableSeparatorString"]) -> "Entry":
+    def with_colsep(self, value: Optional[TableSeparatorString]) -> Entry:
         """
         Set colsep and return self for chaining.
 
@@ -2244,7 +2247,7 @@ class Entry(ARObject):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_entry_contents(self, value: "DocumentationBlock") -> "Entry":
+    def with_entry_contents(self, value: "DocumentationBlock") -> Entry:
         """
         Set entryContents and return self for chaining.
 
@@ -2260,7 +2263,7 @@ class Entry(ARObject):
         self.entry_contents = value  # Use property setter (gets validation)
         return self
 
-    def with_morerows(self, value: Optional["String"]) -> "Entry":
+    def with_morerows(self, value: Optional[String]) -> Entry:
         """
         Set morerows and return self for chaining.
 
@@ -2276,7 +2279,7 @@ class Entry(ARObject):
         self.morerows = value  # Use property setter (gets validation)
         return self
 
-    def with_nameend(self, value: Optional["String"]) -> "Entry":
+    def with_nameend(self, value: Optional[String]) -> Entry:
         """
         Set nameend and return self for chaining.
 
@@ -2292,7 +2295,7 @@ class Entry(ARObject):
         self.nameend = value  # Use property setter (gets validation)
         return self
 
-    def with_namest(self, value: Optional["String"]) -> "Entry":
+    def with_namest(self, value: Optional[String]) -> Entry:
         """
         Set namest and return self for chaining.
 
@@ -2308,7 +2311,7 @@ class Entry(ARObject):
         self.namest = value  # Use property setter (gets validation)
         return self
 
-    def with_rotate(self, value: Optional["String"]) -> "Entry":
+    def with_rotate(self, value: Optional[String]) -> Entry:
         """
         Set rotate and return self for chaining.
 
@@ -2324,7 +2327,7 @@ class Entry(ARObject):
         self.rotate = value  # Use property setter (gets validation)
         return self
 
-    def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Entry":
+    def with_rowsep(self, value: Optional[TableSeparatorString]) -> Entry:
         """
         Set rowsep and return self for chaining.
 
@@ -2340,7 +2343,7 @@ class Entry(ARObject):
         self.rowsep = value  # Use property setter (gets validation)
         return self
 
-    def with_spanname(self, value: Optional["String"]) -> "Entry":
+    def with_spanname(self, value: Optional[String]) -> Entry:
         """
         Set spanname and return self for chaining.
 
@@ -2356,7 +2359,7 @@ class Entry(ARObject):
         self.spanname = value  # Use property setter (gets validation)
         return self
 
-    def with_valign(self, value: Optional["ValignEnum"]) -> "Entry":
+    def with_valign(self, value: Optional[ValignEnum]) -> Entry:
         """
         Set valign and return self for chaining.
 
@@ -2392,15 +2395,15 @@ class Colspec(ARObject):
         # Specifies how the cell entries shall be horizontally aligned specified
                 # column.
         # Default is "LEFT".
-        self._align: Optional["AlignEnum"] = None
+        self._align: Optional[AlignEnum] = None
 
     @property
-    def align(self) -> Optional["AlignEnum"]:
+    def align(self) -> Optional[AlignEnum]:
         """Get align (Pythonic accessor)."""
         return self._align
 
     @align.setter
-    def align(self, value: Optional["AlignEnum"]) -> None:
+    def align(self, value: Optional[AlignEnum]) -> None:
         """
         Set align with validation.
 
@@ -2419,15 +2422,15 @@ class Colspec(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        self._colname: Optional["String"] = None
+        self._colname: Optional[String] = None
 
     @property
-    def colname(self) -> Optional["String"]:
+    def colname(self) -> Optional[String]:
         """Get colname (Pythonic accessor)."""
         return self._colname
 
     @colname.setter
-    def colname(self, value: Optional["String"]) -> None:
+    def colname(self, value: Optional[String]) -> None:
         """
         Set colname with validation.
 
@@ -2446,15 +2449,15 @@ class Colspec(ARObject):
                 f"colname must be String or str or None, got {type(value).__name__}"
             )
         self._colname = value
-        self._colnum: Optional["String"] = None
+        self._colnum: Optional[String] = None
 
     @property
-    def colnum(self) -> Optional["String"]:
+    def colnum(self) -> Optional[String]:
         """Get colnum (Pythonic accessor)."""
         return self._colnum
 
     @colnum.setter
-    def colnum(self, value: Optional["String"]) -> None:
+    def colnum(self, value: Optional[String]) -> None:
         """
         Set colnum with validation.
 
@@ -2475,15 +2478,15 @@ class Colspec(ARObject):
         self._colnum = value
                 # specification.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._colsep: Optional["TableSeparatorString"] = None
+        self._colsep: Optional[TableSeparatorString] = None
 
     @property
-    def colsep(self) -> Optional["TableSeparatorString"]:
+    def colsep(self) -> Optional[TableSeparatorString]:
         """Get colsep (Pythonic accessor)."""
         return self._colsep
 
     @colsep.setter
-    def colsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def colsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set colsep with validation.
 
@@ -2507,15 +2510,15 @@ class Colspec(ARObject):
         # , 2* for double those of other columns with 1*).
         # can be added to the number in the string.
         # are: cm, mm, px, pt.
-        self._colwidth: Optional["String"] = None
+        self._colwidth: Optional[String] = None
 
     @property
-    def colwidth(self) -> Optional["String"]:
+    def colwidth(self) -> Optional[String]:
         """Get colwidth (Pythonic accessor)."""
         return self._colwidth
 
     @colwidth.setter
-    def colwidth(self, value: Optional["String"]) -> None:
+    def colwidth(self, value: Optional[String]) -> None:
         """
         Set colwidth with validation.
 
@@ -2535,15 +2538,15 @@ class Colspec(ARObject):
             )
         self._colwidth = value
         # column defined in the Colspec.
-        self._rowsep: Optional["TableSeparatorString"] = None
+        self._rowsep: Optional[TableSeparatorString] = None
 
     @property
-    def rowsep(self) -> Optional["TableSeparatorString"]:
+    def rowsep(self) -> Optional[TableSeparatorString]:
         """Get rowsep (Pythonic accessor)."""
         return self._rowsep
 
     @rowsep.setter
-    def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
+    def rowsep(self, value: Optional[TableSeparatorString]) -> None:
         """
         Set rowsep with validation.
 
@@ -2565,7 +2568,7 @@ class Colspec(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlign(self) -> "AlignEnum":
+    def getAlign(self) -> AlignEnum:
         """
         AUTOSAR-compliant getter for align.
 
@@ -2577,7 +2580,7 @@ class Colspec(ARObject):
         """
         return self.align  # Delegates to property
 
-    def setAlign(self, value: "AlignEnum") -> "Colspec":
+    def setAlign(self, value: AlignEnum) -> Colspec:
         """
         AUTOSAR-compliant setter for align with method chaining.
 
@@ -2605,7 +2608,7 @@ class Colspec(ARObject):
         """
         return self.colname  # Delegates to property
 
-    def setColname(self, value: "String") -> "Colspec":
+    def setColname(self, value: "String") -> Colspec:
         """
         AUTOSAR-compliant setter for colname with method chaining.
 
@@ -2633,7 +2636,7 @@ class Colspec(ARObject):
         """
         return self.colnum  # Delegates to property
 
-    def setColnum(self, value: "String") -> "Colspec":
+    def setColnum(self, value: "String") -> Colspec:
         """
         AUTOSAR-compliant setter for colnum with method chaining.
 
@@ -2649,7 +2652,7 @@ class Colspec(ARObject):
         self.colnum = value  # Delegates to property setter
         return self
 
-    def getColsep(self) -> "TableSeparatorString":
+    def getColsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for colsep.
 
@@ -2661,7 +2664,7 @@ class Colspec(ARObject):
         """
         return self.colsep  # Delegates to property
 
-    def setColsep(self, value: "TableSeparatorString") -> "Colspec":
+    def setColsep(self, value: TableSeparatorString) -> Colspec:
         """
         AUTOSAR-compliant setter for colsep with method chaining.
 
@@ -2689,7 +2692,7 @@ class Colspec(ARObject):
         """
         return self.colwidth  # Delegates to property
 
-    def setColwidth(self, value: "String") -> "Colspec":
+    def setColwidth(self, value: "String") -> Colspec:
         """
         AUTOSAR-compliant setter for colwidth with method chaining.
 
@@ -2705,7 +2708,7 @@ class Colspec(ARObject):
         self.colwidth = value  # Delegates to property setter
         return self
 
-    def getRowsep(self) -> "TableSeparatorString":
+    def getRowsep(self) -> TableSeparatorString:
         """
         AUTOSAR-compliant getter for rowsep.
 
@@ -2717,7 +2720,7 @@ class Colspec(ARObject):
         """
         return self.rowsep  # Delegates to property
 
-    def setRowsep(self, value: "TableSeparatorString") -> "Colspec":
+    def setRowsep(self, value: TableSeparatorString) -> Colspec:
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
 
@@ -2735,7 +2738,7 @@ class Colspec(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_align(self, value: Optional["AlignEnum"]) -> "Colspec":
+    def with_align(self, value: Optional[AlignEnum]) -> Colspec:
         """
         Set align and return self for chaining.
 
@@ -2751,7 +2754,7 @@ class Colspec(ARObject):
         self.align = value  # Use property setter (gets validation)
         return self
 
-    def with_colname(self, value: Optional["String"]) -> "Colspec":
+    def with_colname(self, value: Optional[String]) -> Colspec:
         """
         Set colname and return self for chaining.
 
@@ -2767,7 +2770,7 @@ class Colspec(ARObject):
         self.colname = value  # Use property setter (gets validation)
         return self
 
-    def with_colnum(self, value: Optional["String"]) -> "Colspec":
+    def with_colnum(self, value: Optional[String]) -> Colspec:
         """
         Set colnum and return self for chaining.
 
@@ -2783,7 +2786,7 @@ class Colspec(ARObject):
         self.colnum = value  # Use property setter (gets validation)
         return self
 
-    def with_colsep(self, value: Optional["TableSeparatorString"]) -> "Colspec":
+    def with_colsep(self, value: Optional[TableSeparatorString]) -> Colspec:
         """
         Set colsep and return self for chaining.
 
@@ -2799,7 +2802,7 @@ class Colspec(ARObject):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_colwidth(self, value: Optional["String"]) -> "Colspec":
+    def with_colwidth(self, value: Optional[String]) -> Colspec:
         """
         Set colwidth and return self for chaining.
 
@@ -2815,7 +2818,7 @@ class Colspec(ARObject):
         self.colwidth = value  # Use property setter (gets validation)
         return self
 
-    def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Colspec":
+    def with_rowsep(self, value: Optional[TableSeparatorString]) -> Colspec:
         """
         Set rowsep and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - ServiceProcessTask
 Package: M2::MSR::DataDictionary::ServiceProcessTask
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -141,7 +143,7 @@ class SwServiceArg(Identifiable):
         """
         return self.direction  # Delegates to property
 
-    def setDirection(self, value: "ArgumentDirection") -> "SwServiceArg":
+    def setDirection(self, value: "ArgumentDirection") -> SwServiceArg:
         """
         AUTOSAR-compliant setter for direction with method chaining.
 
@@ -169,7 +171,7 @@ class SwServiceArg(Identifiable):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> "SwServiceArg":
+    def setSwArraysize(self, value: "RefType") -> SwServiceArg:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -197,7 +199,7 @@ class SwServiceArg(Identifiable):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "SwServiceArg":
+    def setSwDataDef(self, value: "SwDataDefProps") -> SwServiceArg:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -215,7 +217,7 @@ class SwServiceArg(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_direction(self, value: Optional["ArgumentDirection"]) -> "SwServiceArg":
+    def with_direction(self, value: Optional["ArgumentDirection"]) -> SwServiceArg:
         """
         Set direction and return self for chaining.
 
@@ -231,7 +233,7 @@ class SwServiceArg(Identifiable):
         self.direction = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_arraysize(self, value: Optional[RefType]) -> "SwServiceArg":
+    def with_sw_arraysize(self, value: Optional[RefType]) -> SwServiceArg:
         """
         Set swArraysize and return self for chaining.
 
@@ -247,7 +249,7 @@ class SwServiceArg(Identifiable):
         self.sw_arraysize = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "SwServiceArg":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> SwServiceArg:
         """
         Set swDataDef and return self for chaining.
 

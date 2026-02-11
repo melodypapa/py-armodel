@@ -4,9 +4,11 @@ AUTOSAR Package - McGroups
 Package: M2::AUTOSARTemplates::CommonStructure::McGroups
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -188,7 +190,7 @@ class McGroup(ARElement):
         """
         return self.ref_calprm_set  # Delegates to property
 
-    def setRefCalprmSet(self, value: "RefType") -> "McGroup":
+    def setRefCalprmSet(self, value: "RefType") -> McGroup:
         """
         AUTOSAR-compliant setter for refCalprmSet with method chaining.
 
@@ -216,7 +218,7 @@ class McGroup(ARElement):
         """
         return self.ref  # Delegates to property
 
-    def setRef(self, value: "RefType") -> "McGroup":
+    def setRef(self, value: "RefType") -> McGroup:
         """
         AUTOSAR-compliant setter for ref with method chaining.
 
@@ -246,7 +248,7 @@ class McGroup(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ref_calprm_set(self, value: Optional[RefType]) -> "McGroup":
+    def with_ref_calprm_set(self, value: Optional[RefType]) -> McGroup:
         """
         Set refCalprmSet and return self for chaining.
 
@@ -262,7 +264,7 @@ class McGroup(ARElement):
         self.ref_calprm_set = value  # Use property setter (gets validation)
         return self
 
-    def with_ref(self, value: Optional[RefType]) -> "McGroup":
+    def with_ref(self, value: Optional[RefType]) -> McGroup:
         """
         Set ref and return self for chaining.
 

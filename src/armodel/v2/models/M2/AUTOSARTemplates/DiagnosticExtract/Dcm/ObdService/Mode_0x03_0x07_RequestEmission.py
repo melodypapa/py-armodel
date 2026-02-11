@@ -4,6 +4,8 @@ AUTOSAR Package - Mode_0x03_0x07_RequestEmission
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x03_0x07_RequestEmission
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -73,7 +75,7 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
         """
         return self.request  # Delegates to property
 
-    def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestEmissionRelatedDTC":
+    def setRequest(self, value: "DiagnosticRequest") -> DiagnosticRequestEmissionRelatedDTC:
         """
         AUTOSAR-compliant setter for request with method chaining.
 
@@ -91,7 +93,7 @@ class DiagnosticRequestEmissionRelatedDTC(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestEmissionRelatedDTC":
+    def with_request(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestEmissionRelatedDTC:
         """
         Set request and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - DataExchangePoint
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -70,15 +72,15 @@ class DataExchangePoint(ARElement):
         self._dataFormat = value
         # It provides if this DataExchangePoint represents output of a tool that
                 # produce data, input of a tool that consumes data or agreed profile.
-        self._kind: "DataExchangePoint" = None
+        self._kind: DataExchangePoint = None
 
     @property
-    def kind(self) -> "DataExchangePoint":
+    def kind(self) -> DataExchangePoint:
         """Get kind (Pythonic accessor)."""
         return self._kind
 
     @kind.setter
-    def kind(self, value: "DataExchangePoint") -> None:
+    def kind(self, value: DataExchangePoint) -> None:
         """
         Set kind with validation.
 
@@ -94,15 +96,15 @@ class DataExchangePoint(ARElement):
             )
         self._kind = value
         # Exchange Point.
-        self._referenced: "Baseline" = None
+        self._referenced: Baseline = None
 
     @property
-    def referenced(self) -> "Baseline":
+    def referenced(self) -> Baseline:
         """Get referenced (Pythonic accessor)."""
         return self._referenced
 
     @referenced.setter
-    def referenced(self, value: "Baseline") -> None:
+    def referenced(self, value: Baseline) -> None:
         """
         Set referenced with validation.
 
@@ -208,7 +210,7 @@ class DataExchangePoint(ARElement):
         """
         return self.data_format  # Delegates to property
 
-    def setDataFormat(self, value: "DataFormatTailoring") -> "DataExchangePoint":
+    def setDataFormat(self, value: "DataFormatTailoring") -> DataExchangePoint:
         """
         AUTOSAR-compliant setter for dataFormat with method chaining.
 
@@ -224,7 +226,7 @@ class DataExchangePoint(ARElement):
         self.data_format = value  # Delegates to property setter
         return self
 
-    def getKind(self) -> "DataExchangePoint":
+    def getKind(self) -> DataExchangePoint:
         """
         AUTOSAR-compliant getter for kind.
 
@@ -236,7 +238,7 @@ class DataExchangePoint(ARElement):
         """
         return self.kind  # Delegates to property
 
-    def setKind(self, value: "DataExchangePoint") -> "DataExchangePoint":
+    def setKind(self, value: DataExchangePoint) -> DataExchangePoint:
         """
         AUTOSAR-compliant setter for kind with method chaining.
 
@@ -252,7 +254,7 @@ class DataExchangePoint(ARElement):
         self.kind = value  # Delegates to property setter
         return self
 
-    def getReferenced(self) -> "Baseline":
+    def getReferenced(self) -> Baseline:
         """
         AUTOSAR-compliant getter for referenced.
 
@@ -264,7 +266,7 @@ class DataExchangePoint(ARElement):
         """
         return self.referenced  # Delegates to property
 
-    def setReferenced(self, value: "Baseline") -> "DataExchangePoint":
+    def setReferenced(self, value: Baseline) -> DataExchangePoint:
         """
         AUTOSAR-compliant setter for referenced with method chaining.
 
@@ -292,7 +294,7 @@ class DataExchangePoint(ARElement):
         """
         return self.specification  # Delegates to property
 
-    def setSpecification(self, value: "SpecificationScope") -> "DataExchangePoint":
+    def setSpecification(self, value: "SpecificationScope") -> DataExchangePoint:
         """
         AUTOSAR-compliant setter for specification with method chaining.
 
@@ -310,7 +312,7 @@ class DataExchangePoint(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_format(self, value: Optional["DataFormatTailoring"]) -> "DataExchangePoint":
+    def with_data_format(self, value: Optional["DataFormatTailoring"]) -> DataExchangePoint:
         """
         Set dataFormat and return self for chaining.
 
@@ -326,7 +328,7 @@ class DataExchangePoint(ARElement):
         self.data_format = value  # Use property setter (gets validation)
         return self
 
-    def with_kind(self, value: "DataExchangePoint") -> "DataExchangePoint":
+    def with_kind(self, value: DataExchangePoint) -> DataExchangePoint:
         """
         Set kind and return self for chaining.
 
@@ -342,7 +344,7 @@ class DataExchangePoint(ARElement):
         self.kind = value  # Use property setter (gets validation)
         return self
 
-    def with_referenced(self, value: "Baseline") -> "DataExchangePoint":
+    def with_referenced(self, value: Baseline) -> DataExchangePoint:
         """
         Set referenced and return self for chaining.
 
@@ -358,7 +360,7 @@ class DataExchangePoint(ARElement):
         self.referenced = value  # Use property setter (gets validation)
         return self
 
-    def with_specification(self, value: Optional["SpecificationScope"]) -> "DataExchangePoint":
+    def with_specification(self, value: Optional["SpecificationScope"]) -> DataExchangePoint:
         """
         Set specification and return self for chaining.
 

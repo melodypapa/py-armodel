@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from abc import ABC
 from typing import (
     List,
@@ -281,7 +283,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: RefType) -> "ReceiverComSpec":
+    def setDataElement(self, value: RefType) -> ReceiverComSpec:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -309,7 +311,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.handle_out_of  # Delegates to property
 
-    def setHandleOutOf(self, value: "HandleOutOfRange") -> "ReceiverComSpec":
+    def setHandleOutOf(self, value: "HandleOutOfRange") -> ReceiverComSpec:
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
 
@@ -337,7 +339,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.max_delta  # Delegates to property
 
-    def setMaxDelta(self, value: "PositiveInteger") -> "ReceiverComSpec":
+    def setMaxDelta(self, value: "PositiveInteger") -> ReceiverComSpec:
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
 
@@ -365,7 +367,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.sync_counter_init  # Delegates to property
 
-    def setSyncCounterInit(self, value: "PositiveInteger") -> "ReceiverComSpec":
+    def setSyncCounterInit(self, value: "PositiveInteger") -> ReceiverComSpec:
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
 
@@ -405,7 +407,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.uses_end_to_end  # Delegates to property
 
-    def setUsesEndToEnd(self, value: "Boolean") -> "ReceiverComSpec":
+    def setUsesEndToEnd(self, value: "Boolean") -> ReceiverComSpec:
         """
         AUTOSAR-compliant setter for usesEndToEnd with method chaining.
 
@@ -423,7 +425,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_element(self, value: Optional[RefType]) -> "ReceiverComSpec":
+    def with_data_element(self, value: Optional[RefType]) -> ReceiverComSpec:
         """
         Set dataElement and return self for chaining.
 
@@ -439,7 +441,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> "ReceiverComSpec":
+    def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> ReceiverComSpec:
         """
         Set handleOutOf and return self for chaining.
 
@@ -455,7 +457,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         self.handle_out_of = value  # Use property setter (gets validation)
         return self
 
-    def with_max_delta(self, value: Optional["PositiveInteger"]) -> "ReceiverComSpec":
+    def with_max_delta(self, value: Optional["PositiveInteger"]) -> ReceiverComSpec:
         """
         Set maxDelta and return self for chaining.
 
@@ -471,7 +473,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         self.max_delta = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> "ReceiverComSpec":
+    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> ReceiverComSpec:
         """
         Set syncCounterInit and return self for chaining.
 
@@ -487,7 +489,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         self.sync_counter_init = value  # Use property setter (gets validation)
         return self
 
-    def with_uses_end_to_end(self, value: Optional["Boolean"]) -> "ReceiverComSpec":
+    def with_uses_end_to_end(self, value: Optional["Boolean"]) -> ReceiverComSpec:
         """
         Set usesEndToEnd and return self for chaining.
 

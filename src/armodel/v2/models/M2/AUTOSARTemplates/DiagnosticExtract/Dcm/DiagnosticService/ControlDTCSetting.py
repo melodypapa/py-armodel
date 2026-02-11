@@ -4,9 +4,11 @@ AUTOSAR Package - ControlDTCSetting
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ControlDTCSetting
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -75,7 +77,7 @@ class DiagnosticControlDTCSetting(DiagnosticServiceInstance):
         """
         return self.dtc_setting_class  # Delegates to property
 
-    def setDtcSettingClass(self, value: "DiagnosticControlDTC") -> "DiagnosticControlDTCSetting":
+    def setDtcSettingClass(self, value: "DiagnosticControlDTC") -> DiagnosticControlDTCSetting:
         """
         AUTOSAR-compliant setter for dtcSettingClass with method chaining.
 
@@ -93,7 +95,7 @@ class DiagnosticControlDTCSetting(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dtc_setting_class(self, value: Optional["DiagnosticControlDTC"]) -> "DiagnosticControlDTCSetting":
+    def with_dtc_setting_class(self, value: Optional["DiagnosticControlDTC"]) -> DiagnosticControlDTCSetting:
         """
         Set dtcSettingClass and return self for chaining.
 
@@ -170,7 +172,7 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
         """
         return self.control_option  # Delegates to property
 
-    def setControlOption(self, value: "Boolean") -> "DiagnosticControlDTCSettingClass":
+    def setControlOption(self, value: "Boolean") -> DiagnosticControlDTCSettingClass:
         """
         AUTOSAR-compliant setter for controlOption with method chaining.
 
@@ -188,7 +190,7 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_control_option(self, value: Optional["Boolean"]) -> "DiagnosticControlDTCSettingClass":
+    def with_control_option(self, value: Optional["Boolean"]) -> DiagnosticControlDTCSettingClass:
         """
         Set controlOption and return self for chaining.
 

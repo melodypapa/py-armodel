@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import (
     List,
     Optional,
@@ -286,7 +288,7 @@ class CompositionSwComponentType(SwComponentType):
         """
         return self.physical  # Delegates to property
 
-    def setPhysical(self, value: "PhysicalDimension") -> "CompositionSwComponentType":
+    def setPhysical(self, value: "PhysicalDimension") -> CompositionSwComponentType:
         """
         AUTOSAR-compliant setter for physical with method chaining.
 
@@ -304,7 +306,7 @@ class CompositionSwComponentType(SwComponentType):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_physical(self, value: Optional["PhysicalDimension"]) -> "CompositionSwComponentType":
+    def with_physical(self, value: Optional["PhysicalDimension"]) -> CompositionSwComponentType:
         """
         Set physical and return self for chaining.
 

@@ -28,6 +28,6 @@ __all__ = [
     "SwDataDependencyArgs",
     "SwImplPolicyEnum",
     "SwPointerTargetProps",
-    "SwTextProps",
-    "ValueList",
+    SwTextProps,
+    ValueList,
 ]

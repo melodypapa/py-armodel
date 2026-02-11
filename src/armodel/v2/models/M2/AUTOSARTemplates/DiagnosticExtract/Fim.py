@@ -4,6 +4,8 @@ AUTOSAR Package - Fim
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -190,7 +192,7 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
         """
         return self.function  # Delegates to property
 
-    def setFunction(self, value: "DiagnosticFunction") -> "DiagnosticFunctionIdentifierInhibit":
+    def setFunction(self, value: "DiagnosticFunction") -> DiagnosticFunctionIdentifierInhibit:
         """
         AUTOSAR-compliant setter for function with method chaining.
 
@@ -218,7 +220,7 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
         """
         return self.inhibition_mask  # Delegates to property
 
-    def setInhibitionMask(self, value: "DiagnosticInhibition") -> "DiagnosticFunctionIdentifierInhibit":
+    def setInhibitionMask(self, value: "DiagnosticInhibition") -> DiagnosticFunctionIdentifierInhibit:
         """
         AUTOSAR-compliant setter for inhibitionMask with method chaining.
 
@@ -248,7 +250,7 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_function(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticFunctionIdentifierInhibit":
+    def with_function(self, value: Optional["DiagnosticFunction"]) -> DiagnosticFunctionIdentifierInhibit:
         """
         Set function and return self for chaining.
 
@@ -264,7 +266,7 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
         self.function = value  # Use property setter (gets validation)
         return self
 
-    def with_inhibition_mask(self, value: Optional["DiagnosticInhibition"]) -> "DiagnosticFunctionIdentifierInhibit":
+    def with_inhibition_mask(self, value: Optional["DiagnosticInhibition"]) -> DiagnosticFunctionIdentifierInhibit:
         """
         Set inhibitionMask and return self for chaining.
 
@@ -367,7 +369,7 @@ class DiagnosticFunctionInhibitSource(Identifiable):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "DiagnosticFimAlias") -> "DiagnosticFunctionInhibitSource":
+    def setEvent(self, value: "DiagnosticFimAlias") -> DiagnosticFunctionInhibitSource:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -395,7 +397,7 @@ class DiagnosticFunctionInhibitSource(Identifiable):
         """
         return self.event_group  # Delegates to property
 
-    def setEventGroup(self, value: "DiagnosticFimAlias") -> "DiagnosticFunctionInhibitSource":
+    def setEventGroup(self, value: "DiagnosticFimAlias") -> DiagnosticFunctionInhibitSource:
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
 
@@ -413,7 +415,7 @@ class DiagnosticFunctionInhibitSource(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFunctionInhibitSource":
+    def with_event(self, value: Optional["DiagnosticFimAlias"]) -> DiagnosticFunctionInhibitSource:
         """
         Set event and return self for chaining.
 
@@ -429,7 +431,7 @@ class DiagnosticFunctionInhibitSource(Identifiable):
         self.event = value  # Use property setter (gets validation)
         return self
 
-    def with_event_group(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFunctionInhibitSource":
+    def with_event_group(self, value: Optional["DiagnosticFimAlias"]) -> DiagnosticFunctionInhibitSource:
         """
         Set eventGroup and return self for chaining.
 

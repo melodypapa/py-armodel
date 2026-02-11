@@ -4,6 +4,8 @@ AUTOSAR Package - ClientServerInterfaceToBsw
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -135,7 +137,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
         """
         return self.blueprint  # Delegates to property
 
-    def setBlueprint(self, value: "DocumentationBlock") -> "ClientServerOperationBlueprintMapping":
+    def setBlueprint(self, value: "DocumentationBlock") -> ClientServerOperationBlueprintMapping:
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
 
@@ -163,7 +165,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
         """
         return self.bsw_module  # Delegates to property
 
-    def setBswModule(self, value: "BswModuleEntry") -> "ClientServerOperationBlueprintMapping":
+    def setBswModule(self, value: "BswModuleEntry") -> ClientServerOperationBlueprintMapping:
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
 
@@ -191,7 +193,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
         """
         return self.client_server  # Delegates to property
 
-    def setClientServer(self, value: "ClientServerOperation") -> "ClientServerOperationBlueprintMapping":
+    def setClientServer(self, value: "ClientServerOperation") -> ClientServerOperationBlueprintMapping:
         """
         AUTOSAR-compliant setter for clientServer with method chaining.
 
@@ -209,7 +211,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint(self, value: Optional["DocumentationBlock"]) -> "ClientServerOperationBlueprintMapping":
+    def with_blueprint(self, value: Optional["DocumentationBlock"]) -> ClientServerOperationBlueprintMapping:
         """
         Set blueprint and return self for chaining.
 
@@ -225,7 +227,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
         self.blueprint = value  # Use property setter (gets validation)
         return self
 
-    def with_bsw_module(self, value: "BswModuleEntry") -> "ClientServerOperationBlueprintMapping":
+    def with_bsw_module(self, value: "BswModuleEntry") -> ClientServerOperationBlueprintMapping:
         """
         Set bswModule and return self for chaining.
 
@@ -241,7 +243,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
         self.bsw_module = value  # Use property setter (gets validation)
         return self
 
-    def with_client_server(self, value: "ClientServerOperation") -> "ClientServerOperationBlueprintMapping":
+    def with_client_server(self, value: "ClientServerOperation") -> ClientServerOperationBlueprintMapping:
         """
         Set clientServer and return self for chaining.
 
@@ -348,7 +350,7 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
         """
         return self.client_server  # Delegates to property
 
-    def setClientServer(self, value: "ClientServerInterface") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
+    def setClientServer(self, value: "ClientServerInterface") -> ClientServerInterfaceToBswModuleEntryBlueprintMapping:
         """
         AUTOSAR-compliant setter for clientServer with method chaining.
 
@@ -376,7 +378,7 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: "ClientServerOperation") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
+    def setOperation(self, value: "ClientServerOperation") -> ClientServerInterfaceToBswModuleEntryBlueprintMapping:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -406,7 +408,7 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_client_server(self, value: "ClientServerInterface") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
+    def with_client_server(self, value: "ClientServerInterface") -> ClientServerInterfaceToBswModuleEntryBlueprintMapping:
         """
         Set clientServer and return self for chaining.
 
@@ -422,7 +424,7 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
         self.client_server = value  # Use property setter (gets validation)
         return self
 
-    def with_operation(self, value: "ClientServerOperation") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
+    def with_operation(self, value: "ClientServerOperation") -> ClientServerInterfaceToBswModuleEntryBlueprintMapping:
         """
         Set operation and return self for chaining.
 

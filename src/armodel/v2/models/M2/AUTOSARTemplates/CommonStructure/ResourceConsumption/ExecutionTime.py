@@ -4,10 +4,12 @@ AUTOSAR Package - ExecutionTime
 Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
     String,
 )
@@ -158,10 +160,10 @@ class ExecutionTime(Identifiable, ABC):
         return self._includedLibrary
         # Provides information on the MemorySectionLocation is involved in the
         # ExecutionTime description.
-        self._memorySection: List["MemorySectionLocation"] = []
+        self._memorySection: List[MemorySectionLocation] = []
 
     @property
-    def memory_section(self) -> List["MemorySectionLocation"]:
+    def memory_section(self) -> List[MemorySectionLocation]:
         """Get memorySection (Pythonic accessor)."""
         return self._memorySection
         # Provides information on the detailed SoftwareContext provide the
@@ -240,7 +242,7 @@ class ExecutionTime(Identifiable, ABC):
         """
         return self.exclusive_area  # Delegates to property
 
-    def setExclusiveArea(self, value: "ExclusiveArea") -> "ExecutionTime":
+    def setExclusiveArea(self, value: "ExclusiveArea") -> ExecutionTime:
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
 
@@ -268,7 +270,7 @@ class ExecutionTime(Identifiable, ABC):
         """
         return self.executable_entity  # Delegates to property
 
-    def setExecutableEntity(self, value: "ExecutableEntity") -> "ExecutionTime":
+    def setExecutableEntity(self, value: "ExecutableEntity") -> ExecutionTime:
         """
         AUTOSAR-compliant setter for executableEntity with method chaining.
 
@@ -296,7 +298,7 @@ class ExecutionTime(Identifiable, ABC):
         """
         return self.hardware  # Delegates to property
 
-    def setHardware(self, value: "HardwareConfiguration") -> "ExecutionTime":
+    def setHardware(self, value: "HardwareConfiguration") -> ExecutionTime:
         """
         AUTOSAR-compliant setter for hardware with method chaining.
 
@@ -324,7 +326,7 @@ class ExecutionTime(Identifiable, ABC):
         """
         return self.hw_element  # Delegates to property
 
-    def setHwElement(self, value: "HwElement") -> "ExecutionTime":
+    def setHwElement(self, value: "HwElement") -> ExecutionTime:
         """
         AUTOSAR-compliant setter for hwElement with method chaining.
 
@@ -352,7 +354,7 @@ class ExecutionTime(Identifiable, ABC):
         """
         return self.included_library  # Delegates to property
 
-    def getMemorySection(self) -> List["MemorySectionLocation"]:
+    def getMemorySection(self) -> List[MemorySectionLocation]:
         """
         AUTOSAR-compliant getter for memorySection.
 
@@ -376,7 +378,7 @@ class ExecutionTime(Identifiable, ABC):
         """
         return self.software_context  # Delegates to property
 
-    def setSoftwareContext(self, value: "SoftwareContext") -> "ExecutionTime":
+    def setSoftwareContext(self, value: "SoftwareContext") -> ExecutionTime:
         """
         AUTOSAR-compliant setter for softwareContext with method chaining.
 
@@ -394,7 +396,7 @@ class ExecutionTime(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> "ExecutionTime":
+    def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> ExecutionTime:
         """
         Set exclusiveArea and return self for chaining.
 
@@ -410,7 +412,7 @@ class ExecutionTime(Identifiable, ABC):
         self.exclusive_area = value  # Use property setter (gets validation)
         return self
 
-    def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> "ExecutionTime":
+    def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> ExecutionTime:
         """
         Set executableEntity and return self for chaining.
 
@@ -426,7 +428,7 @@ class ExecutionTime(Identifiable, ABC):
         self.executable_entity = value  # Use property setter (gets validation)
         return self
 
-    def with_hardware(self, value: Optional["HardwareConfiguration"]) -> "ExecutionTime":
+    def with_hardware(self, value: Optional["HardwareConfiguration"]) -> ExecutionTime:
         """
         Set hardware and return self for chaining.
 
@@ -442,7 +444,7 @@ class ExecutionTime(Identifiable, ABC):
         self.hardware = value  # Use property setter (gets validation)
         return self
 
-    def with_hw_element(self, value: Optional["HwElement"]) -> "ExecutionTime":
+    def with_hw_element(self, value: Optional["HwElement"]) -> ExecutionTime:
         """
         Set hwElement and return self for chaining.
 
@@ -458,7 +460,7 @@ class ExecutionTime(Identifiable, ABC):
         self.hw_element = value  # Use property setter (gets validation)
         return self
 
-    def with_software_context(self, value: Optional["SoftwareContext"]) -> "ExecutionTime":
+    def with_software_context(self, value: Optional["SoftwareContext"]) -> ExecutionTime:
         """
         Set softwareContext and return self for chaining.
 
@@ -561,7 +563,7 @@ class MemorySectionLocation(ARObject):
         """
         return self.provided_memory  # Delegates to property
 
-    def setProvidedMemory(self, value: "HwElement") -> "MemorySectionLocation":
+    def setProvidedMemory(self, value: "HwElement") -> MemorySectionLocation:
         """
         AUTOSAR-compliant setter for providedMemory with method chaining.
 
@@ -589,7 +591,7 @@ class MemorySectionLocation(ARObject):
         """
         return self.software  # Delegates to property
 
-    def setSoftware(self, value: "MemorySection") -> "MemorySectionLocation":
+    def setSoftware(self, value: "MemorySection") -> MemorySectionLocation:
         """
         AUTOSAR-compliant setter for software with method chaining.
 
@@ -607,7 +609,7 @@ class MemorySectionLocation(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provided_memory(self, value: Optional["HwElement"]) -> "MemorySectionLocation":
+    def with_provided_memory(self, value: Optional["HwElement"]) -> MemorySectionLocation:
         """
         Set providedMemory and return self for chaining.
 
@@ -623,7 +625,7 @@ class MemorySectionLocation(ARObject):
         self.provided_memory = value  # Use property setter (gets validation)
         return self
 
-    def with_software(self, value: Optional["MemorySection"]) -> "MemorySectionLocation":
+    def with_software(self, value: Optional["MemorySection"]) -> MemorySectionLocation:
         """
         Set software and return self for chaining.
 
@@ -728,7 +730,7 @@ class AnalyzedExecutionTime(ExecutionTime):
         """
         return self.best_case  # Delegates to property
 
-    def setBestCase(self, value: "MultidimensionalTime") -> "AnalyzedExecutionTime":
+    def setBestCase(self, value: "MultidimensionalTime") -> AnalyzedExecutionTime:
         """
         AUTOSAR-compliant setter for bestCase with method chaining.
 
@@ -756,7 +758,7 @@ class AnalyzedExecutionTime(ExecutionTime):
         """
         return self.worst_case  # Delegates to property
 
-    def setWorstCase(self, value: "MultidimensionalTime") -> "AnalyzedExecutionTime":
+    def setWorstCase(self, value: "MultidimensionalTime") -> AnalyzedExecutionTime:
         """
         AUTOSAR-compliant setter for worstCase with method chaining.
 
@@ -774,7 +776,7 @@ class AnalyzedExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_best_case(self, value: Optional["MultidimensionalTime"]) -> "AnalyzedExecutionTime":
+    def with_best_case(self, value: Optional["MultidimensionalTime"]) -> AnalyzedExecutionTime:
         """
         Set bestCase and return self for chaining.
 
@@ -790,7 +792,7 @@ class AnalyzedExecutionTime(ExecutionTime):
         self.best_case = value  # Use property setter (gets validation)
         return self
 
-    def with_worst_case(self, value: Optional["MultidimensionalTime"]) -> "AnalyzedExecutionTime":
+    def with_worst_case(self, value: Optional["MultidimensionalTime"]) -> AnalyzedExecutionTime:
         """
         Set worstCase and return self for chaining.
 
@@ -919,7 +921,7 @@ class MeasuredExecutionTime(ExecutionTime):
         """
         return self.maximum_execution_time  # Delegates to property
 
-    def setMaximumExecutionTime(self, value: "MultidimensionalTime") -> "MeasuredExecutionTime":
+    def setMaximumExecutionTime(self, value: "MultidimensionalTime") -> MeasuredExecutionTime:
         """
         AUTOSAR-compliant setter for maximumExecutionTime with method chaining.
 
@@ -947,7 +949,7 @@ class MeasuredExecutionTime(ExecutionTime):
         """
         return self.minimum_execution_time  # Delegates to property
 
-    def setMinimumExecutionTime(self, value: "MultidimensionalTime") -> "MeasuredExecutionTime":
+    def setMinimumExecutionTime(self, value: "MultidimensionalTime") -> MeasuredExecutionTime:
         """
         AUTOSAR-compliant setter for minimumExecutionTime with method chaining.
 
@@ -975,7 +977,7 @@ class MeasuredExecutionTime(ExecutionTime):
         """
         return self.nominal_execution_time  # Delegates to property
 
-    def setNominalExecutionTime(self, value: "MultidimensionalTime") -> "MeasuredExecutionTime":
+    def setNominalExecutionTime(self, value: "MultidimensionalTime") -> MeasuredExecutionTime:
         """
         AUTOSAR-compliant setter for nominalExecutionTime with method chaining.
 
@@ -993,7 +995,7 @@ class MeasuredExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> "MeasuredExecutionTime":
+    def with_maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> MeasuredExecutionTime:
         """
         Set maximumExecutionTime and return self for chaining.
 
@@ -1009,7 +1011,7 @@ class MeasuredExecutionTime(ExecutionTime):
         self.maximum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> "MeasuredExecutionTime":
+    def with_minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> MeasuredExecutionTime:
         """
         Set minimumExecutionTime and return self for chaining.
 
@@ -1025,7 +1027,7 @@ class MeasuredExecutionTime(ExecutionTime):
         self.minimum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> "MeasuredExecutionTime":
+    def with_nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> MeasuredExecutionTime:
         """
         Set nominalExecutionTime and return self for chaining.
 
@@ -1154,7 +1156,7 @@ class SimulatedExecutionTime(ExecutionTime):
         """
         return self.maximum_execution_time  # Delegates to property
 
-    def setMaximumExecutionTime(self, value: "MultidimensionalTime") -> "SimulatedExecutionTime":
+    def setMaximumExecutionTime(self, value: "MultidimensionalTime") -> SimulatedExecutionTime:
         """
         AUTOSAR-compliant setter for maximumExecutionTime with method chaining.
 
@@ -1182,7 +1184,7 @@ class SimulatedExecutionTime(ExecutionTime):
         """
         return self.minimum_execution_time  # Delegates to property
 
-    def setMinimumExecutionTime(self, value: "MultidimensionalTime") -> "SimulatedExecutionTime":
+    def setMinimumExecutionTime(self, value: "MultidimensionalTime") -> SimulatedExecutionTime:
         """
         AUTOSAR-compliant setter for minimumExecutionTime with method chaining.
 
@@ -1210,7 +1212,7 @@ class SimulatedExecutionTime(ExecutionTime):
         """
         return self.nominal_execution_time  # Delegates to property
 
-    def setNominalExecutionTime(self, value: "MultidimensionalTime") -> "SimulatedExecutionTime":
+    def setNominalExecutionTime(self, value: "MultidimensionalTime") -> SimulatedExecutionTime:
         """
         AUTOSAR-compliant setter for nominalExecutionTime with method chaining.
 
@@ -1228,7 +1230,7 @@ class SimulatedExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> "SimulatedExecutionTime":
+    def with_maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> SimulatedExecutionTime:
         """
         Set maximumExecutionTime and return self for chaining.
 
@@ -1244,7 +1246,7 @@ class SimulatedExecutionTime(ExecutionTime):
         self.maximum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> "SimulatedExecutionTime":
+    def with_minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> SimulatedExecutionTime:
         """
         Set minimumExecutionTime and return self for chaining.
 
@@ -1260,7 +1262,7 @@ class SimulatedExecutionTime(ExecutionTime):
         self.minimum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> "SimulatedExecutionTime":
+    def with_nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> SimulatedExecutionTime:
         """
         Set nominalExecutionTime and return self for chaining.
 
@@ -1362,7 +1364,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         """
         return self.additional  # Delegates to property
 
-    def setAdditional(self, value: "String") -> "RoughEstimateOfExecutionTime":
+    def setAdditional(self, value: "String") -> RoughEstimateOfExecutionTime:
         """
         AUTOSAR-compliant setter for additional with method chaining.
 
@@ -1390,7 +1392,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         """
         return self.estimated_execution_time  # Delegates to property
 
-    def setEstimatedExecutionTime(self, value: "MultidimensionalTime") -> "RoughEstimateOfExecutionTime":
+    def setEstimatedExecutionTime(self, value: "MultidimensionalTime") -> RoughEstimateOfExecutionTime:
         """
         AUTOSAR-compliant setter for estimatedExecutionTime with method chaining.
 
@@ -1408,7 +1410,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_additional(self, value: Optional["String"]) -> "RoughEstimateOfExecutionTime":
+    def with_additional(self, value: Optional["String"]) -> RoughEstimateOfExecutionTime:
         """
         Set additional and return self for chaining.
 
@@ -1424,7 +1426,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         self.additional = value  # Use property setter (gets validation)
         return self
 
-    def with_estimated_execution_time(self, value: Optional["MultidimensionalTime"]) -> "RoughEstimateOfExecutionTime":
+    def with_estimated_execution_time(self, value: Optional["MultidimensionalTime"]) -> RoughEstimateOfExecutionTime:
         """
         Set estimatedExecutionTime and return self for chaining.
 

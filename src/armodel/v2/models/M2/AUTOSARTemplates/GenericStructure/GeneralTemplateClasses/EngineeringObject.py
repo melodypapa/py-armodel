@@ -4,10 +4,12 @@ AUTOSAR Package - EngineeringObject
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -159,7 +161,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "NameToken") -> "EngineeringObject":
+    def setCategory(self, value: "NameToken") -> EngineeringObject:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -187,7 +189,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.domain  # Delegates to property
 
-    def setDomain(self, value: "NameToken") -> "EngineeringObject":
+    def setDomain(self, value: "NameToken") -> EngineeringObject:
         """
         AUTOSAR-compliant setter for domain with method chaining.
 
@@ -227,7 +229,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "NameToken") -> "EngineeringObject":
+    def setShortLabel(self, value: "NameToken") -> EngineeringObject:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -245,7 +247,7 @@ class EngineeringObject(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: "NameToken") -> "EngineeringObject":
+    def with_category(self, value: "NameToken") -> EngineeringObject:
         """
         Set category and return self for chaining.
 
@@ -261,7 +263,7 @@ class EngineeringObject(ARObject, ABC):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_domain(self, value: Optional["NameToken"]) -> "EngineeringObject":
+    def with_domain(self, value: Optional["NameToken"]) -> EngineeringObject:
         """
         Set domain and return self for chaining.
 
@@ -277,7 +279,7 @@ class EngineeringObject(ARObject, ABC):
         self.domain = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: "NameToken") -> "EngineeringObject":
+    def with_short_label(self, value: "NameToken") -> EngineeringObject:
         """
         Set shortLabel and return self for chaining.
 

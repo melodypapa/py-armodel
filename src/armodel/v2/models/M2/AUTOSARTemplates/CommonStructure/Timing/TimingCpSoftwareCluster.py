@@ -4,6 +4,8 @@ AUTOSAR Package - TimingCpSoftwareCluster
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -178,7 +180,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
         """
         return self.provider  # Delegates to property
 
-    def setProvider(self, value: "CpSoftwareCluster") -> "TDCpSoftwareClusterMapping":
+    def setProvider(self, value: "CpSoftwareCluster") -> TDCpSoftwareClusterMapping:
         """
         AUTOSAR-compliant setter for provider with method chaining.
 
@@ -218,7 +220,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
         """
         return self.timing  # Delegates to property
 
-    def setTiming(self, value: "TimingDescription") -> "TDCpSoftwareClusterMapping":
+    def setTiming(self, value: "TimingDescription") -> TDCpSoftwareClusterMapping:
         """
         AUTOSAR-compliant setter for timing with method chaining.
 
@@ -236,7 +238,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provider(self, value: Optional["CpSoftwareCluster"]) -> "TDCpSoftwareClusterMapping":
+    def with_provider(self, value: Optional["CpSoftwareCluster"]) -> TDCpSoftwareClusterMapping:
         """
         Set provider and return self for chaining.
 
@@ -252,7 +254,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
         self.provider = value  # Use property setter (gets validation)
         return self
 
-    def with_timing(self, value: Optional["TimingDescription"]) -> "TDCpSoftwareClusterMapping":
+    def with_timing(self, value: Optional["TimingDescription"]) -> TDCpSoftwareClusterMapping:
         """
         Set timing and return self for chaining.
 
@@ -354,7 +356,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
         """
         return self.resource  # Delegates to property
 
-    def setResource(self, value: "CpSoftwareCluster") -> "TDCpSoftwareClusterResourceMapping":
+    def setResource(self, value: "CpSoftwareCluster") -> TDCpSoftwareClusterResourceMapping:
         """
         AUTOSAR-compliant setter for resource with method chaining.
 
@@ -382,7 +384,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
         """
         return self.timing  # Delegates to property
 
-    def setTiming(self, value: "TimingDescription") -> "TDCpSoftwareClusterResourceMapping":
+    def setTiming(self, value: "TimingDescription") -> TDCpSoftwareClusterResourceMapping:
         """
         AUTOSAR-compliant setter for timing with method chaining.
 
@@ -400,7 +402,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_resource(self, value: Optional["CpSoftwareCluster"]) -> "TDCpSoftwareClusterResourceMapping":
+    def with_resource(self, value: Optional["CpSoftwareCluster"]) -> TDCpSoftwareClusterResourceMapping:
         """
         Set resource and return self for chaining.
 
@@ -416,7 +418,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
         self.resource = value  # Use property setter (gets validation)
         return self
 
-    def with_timing(self, value: Optional["TimingDescription"]) -> "TDCpSoftwareClusterResourceMapping":
+    def with_timing(self, value: Optional["TimingDescription"]) -> TDCpSoftwareClusterResourceMapping:
         """
         Set timing and return self for chaining.
 

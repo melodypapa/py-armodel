@@ -4,9 +4,11 @@ AUTOSAR Package - CryptoDeployment
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
@@ -249,7 +251,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.allocate_shadow  # Delegates to property
 
-    def setAllocateShadow(self, value: "Boolean") -> "CryptoKeySlot":
+    def setAllocateShadow(self, value: "Boolean") -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for allocateShadow with method chaining.
 
@@ -277,7 +279,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.crypto_alg_id  # Delegates to property
 
-    def setCryptoAlgId(self, value: "String") -> "CryptoKeySlot":
+    def setCryptoAlgId(self, value: "String") -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for cryptoAlgId with method chaining.
 
@@ -305,7 +307,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.crypto_object  # Delegates to property
 
-    def setCryptoObject(self, value: "CryptoObjectTypeEnum") -> "CryptoKeySlot":
+    def setCryptoObject(self, value: "CryptoObjectTypeEnum") -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for cryptoObject with method chaining.
 
@@ -333,7 +335,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.key_slot_allowed  # Delegates to property
 
-    def setKeySlotAllowed(self, value: "CryptoKeySlotAllowed") -> "CryptoKeySlot":
+    def setKeySlotAllowed(self, value: "CryptoKeySlotAllowed") -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for keySlotAllowed with method chaining.
 
@@ -373,7 +375,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.slot_capacity  # Delegates to property
 
-    def setSlotCapacity(self, value: "PositiveInteger") -> "CryptoKeySlot":
+    def setSlotCapacity(self, value: "PositiveInteger") -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for slotCapacity with method chaining.
 
@@ -401,7 +403,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.slot_type  # Delegates to property
 
-    def setSlotType(self, value: "CryptoKeySlotType") -> "CryptoKeySlot":
+    def setSlotType(self, value: "CryptoKeySlotType") -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for slotType with method chaining.
 
@@ -419,7 +421,7 @@ class CryptoKeySlot(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_allocate_shadow(self, value: Optional["Boolean"]) -> "CryptoKeySlot":
+    def with_allocate_shadow(self, value: Optional["Boolean"]) -> CryptoKeySlot:
         """
         Set allocateShadow and return self for chaining.
 
@@ -435,7 +437,7 @@ class CryptoKeySlot(Identifiable):
         self.allocate_shadow = value  # Use property setter (gets validation)
         return self
 
-    def with_crypto_alg_id(self, value: Optional["String"]) -> "CryptoKeySlot":
+    def with_crypto_alg_id(self, value: Optional["String"]) -> CryptoKeySlot:
         """
         Set cryptoAlgId and return self for chaining.
 
@@ -451,7 +453,7 @@ class CryptoKeySlot(Identifiable):
         self.crypto_alg_id = value  # Use property setter (gets validation)
         return self
 
-    def with_crypto_object(self, value: Optional["CryptoObjectTypeEnum"]) -> "CryptoKeySlot":
+    def with_crypto_object(self, value: Optional["CryptoObjectTypeEnum"]) -> CryptoKeySlot:
         """
         Set cryptoObject and return self for chaining.
 
@@ -467,7 +469,7 @@ class CryptoKeySlot(Identifiable):
         self.crypto_object = value  # Use property setter (gets validation)
         return self
 
-    def with_key_slot_allowed(self, value: Optional["CryptoKeySlotAllowed"]) -> "CryptoKeySlot":
+    def with_key_slot_allowed(self, value: Optional["CryptoKeySlotAllowed"]) -> CryptoKeySlot:
         """
         Set keySlotAllowed and return self for chaining.
 
@@ -483,7 +485,7 @@ class CryptoKeySlot(Identifiable):
         self.key_slot_allowed = value  # Use property setter (gets validation)
         return self
 
-    def with_slot_capacity(self, value: Optional["PositiveInteger"]) -> "CryptoKeySlot":
+    def with_slot_capacity(self, value: Optional["PositiveInteger"]) -> CryptoKeySlot:
         """
         Set slotCapacity and return self for chaining.
 
@@ -499,7 +501,7 @@ class CryptoKeySlot(Identifiable):
         self.slot_capacity = value  # Use property setter (gets validation)
         return self
 
-    def with_slot_type(self, value: Optional["CryptoKeySlotType"]) -> "CryptoKeySlot":
+    def with_slot_type(self, value: Optional["CryptoKeySlotType"]) -> CryptoKeySlot:
         """
         Set slotType and return self for chaining.
 

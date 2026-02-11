@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
@@ -96,7 +98,7 @@ class TransformerHardErrorEvent(RTEEvent):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: "ClientServerOperation") -> "TransformerHardErrorEvent":
+    def setOperation(self, value: "ClientServerOperation") -> TransformerHardErrorEvent:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -124,7 +126,7 @@ class TransformerHardErrorEvent(RTEEvent):
         """
         return self.required_trigger  # Delegates to property
 
-    def setRequiredTrigger(self, value: RefType) -> "TransformerHardErrorEvent":
+    def setRequiredTrigger(self, value: RefType) -> TransformerHardErrorEvent:
         """
         AUTOSAR-compliant setter for requiredTrigger with method chaining.
 
@@ -142,7 +144,7 @@ class TransformerHardErrorEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation(self, value: Optional["ClientServerOperation"]) -> "TransformerHardErrorEvent":
+    def with_operation(self, value: Optional["ClientServerOperation"]) -> TransformerHardErrorEvent:
         """
         Set operation and return self for chaining.
 
@@ -158,7 +160,7 @@ class TransformerHardErrorEvent(RTEEvent):
         self.operation = value  # Use property setter (gets validation)
         return self
 
-    def with_required_trigger(self, value: Optional[RefType]) -> "TransformerHardErrorEvent":
+    def with_required_trigger(self, value: Optional[RefType]) -> TransformerHardErrorEvent:
         """
         Set requiredTrigger and return self for chaining.
 

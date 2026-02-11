@@ -4,10 +4,12 @@ AUTOSAR Package - BswOverview
 Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
 )
@@ -404,7 +406,7 @@ class BswModuleDescription(ARElement):
         """
         return self.bsw_module  # Delegates to property
 
-    def setBswModule(self, value: "SwComponent") -> "BswModuleDescription":
+    def setBswModule(self, value: "SwComponent") -> BswModuleDescription:
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
 
@@ -468,7 +470,7 @@ class BswModuleDescription(ARElement):
         """
         return self.module_id  # Delegates to property
 
-    def setModuleId(self, value: "PositiveInteger") -> "BswModuleDescription":
+    def setModuleId(self, value: "PositiveInteger") -> BswModuleDescription:
         """
         AUTOSAR-compliant setter for moduleId with method chaining.
 
@@ -582,7 +584,7 @@ class BswModuleDescription(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_module(self, value: Optional["SwComponent"]) -> "BswModuleDescription":
+    def with_bsw_module(self, value: Optional["SwComponent"]) -> BswModuleDescription:
         """
         Set bswModule and return self for chaining.
 
@@ -598,7 +600,7 @@ class BswModuleDescription(ARElement):
         self.bsw_module = value  # Use property setter (gets validation)
         return self
 
-    def with_module_id(self, value: Optional["PositiveInteger"]) -> "BswModuleDescription":
+    def with_module_id(self, value: Optional["PositiveInteger"]) -> BswModuleDescription:
         """
         Set moduleId and return self for chaining.
 
@@ -616,5 +618,5 @@ class BswModuleDescription(ARElement):
 
 
 __all__ = [
-    "BswModuleDescription",
+    BswModuleDescription,
 ]

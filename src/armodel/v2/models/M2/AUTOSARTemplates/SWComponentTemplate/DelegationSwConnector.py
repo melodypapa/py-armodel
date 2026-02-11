@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
@@ -92,7 +94,7 @@ class DelegationSwConnector(SwConnector):
         """
         return self.inner_port_instance_ref  # Delegates to property
 
-    def setInnerPortInstanceRef(self, value: RefType) -> "DelegationSwConnector":
+    def setInnerPortInstanceRef(self, value: RefType) -> DelegationSwConnector:
         """
         AUTOSAR-compliant setter for innerPortInstanceRef with method chaining.
 
@@ -120,7 +122,7 @@ class DelegationSwConnector(SwConnector):
         """
         return self.outer_port  # Delegates to property
 
-    def setOuterPort(self, value: RefType) -> "DelegationSwConnector":
+    def setOuterPort(self, value: RefType) -> DelegationSwConnector:
         """
         AUTOSAR-compliant setter for outerPort with method chaining.
 
@@ -138,7 +140,7 @@ class DelegationSwConnector(SwConnector):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_inner_port_instance_ref(self, value: Optional[RefType]) -> "DelegationSwConnector":
+    def with_inner_port_instance_ref(self, value: Optional[RefType]) -> DelegationSwConnector:
         """
         Set innerPortInstanceRef and return self for chaining.
 
@@ -154,7 +156,7 @@ class DelegationSwConnector(SwConnector):
         self.inner_port_instance_ref = value  # Use property setter (gets validation)
         return self
 
-    def with_outer_port(self, value: Optional[RefType]) -> "DelegationSwConnector":
+    def with_outer_port(self, value: Optional[RefType]) -> DelegationSwConnector:
         """
         Set outerPort and return self for chaining.
 

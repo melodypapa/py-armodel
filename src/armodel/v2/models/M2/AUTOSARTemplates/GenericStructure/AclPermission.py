@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -211,7 +213,7 @@ class AclPermission(ARElement):
         """
         return self.acl_scope  # Delegates to property
 
-    def setAclScope(self, value: "AclScopeEnum") -> "AclPermission":
+    def setAclScope(self, value: "AclScopeEnum") -> AclPermission:
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
 
@@ -229,7 +231,7 @@ class AclPermission(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_acl_scope(self, value: "AclScopeEnum") -> "AclPermission":
+    def with_acl_scope(self, value: "AclScopeEnum") -> AclPermission:
         """
         Set aclScope and return self for chaining.
 

@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
@@ -93,7 +95,7 @@ class NvRequireComSpec(RPortComSpec):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> "NvRequireComSpec":
+    def setInitValue(self, value: "ValueSpecification") -> NvRequireComSpec:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -121,7 +123,7 @@ class NvRequireComSpec(RPortComSpec):
         """
         return self.variable  # Delegates to property
 
-    def setVariable(self, value: RefType) -> "NvRequireComSpec":
+    def setVariable(self, value: RefType) -> NvRequireComSpec:
         """
         AUTOSAR-compliant setter for variable with method chaining.
 
@@ -139,7 +141,7 @@ class NvRequireComSpec(RPortComSpec):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_init_value(self, value: Optional["ValueSpecification"]) -> "NvRequireComSpec":
+    def with_init_value(self, value: Optional["ValueSpecification"]) -> NvRequireComSpec:
         """
         Set initValue and return self for chaining.
 
@@ -155,7 +157,7 @@ class NvRequireComSpec(RPortComSpec):
         self.init_value = value  # Use property setter (gets validation)
         return self
 
-    def with_variable(self, value: Optional[RefType]) -> "NvRequireComSpec":
+    def with_variable(self, value: Optional[RefType]) -> NvRequireComSpec:
         """
         Set variable and return self for chaining.
 

@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from abc import ABC
 from typing import (
     List,
@@ -223,7 +225,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: RefType) -> "SenderComSpec":
+    def setDataElement(self, value: RefType) -> SenderComSpec:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -251,7 +253,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.handle_out_of  # Delegates to property
 
-    def setHandleOutOf(self, value: "HandleOutOfRange") -> "SenderComSpec":
+    def setHandleOutOf(self, value: "HandleOutOfRange") -> SenderComSpec:
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
 
@@ -279,7 +281,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.network  # Delegates to property
 
-    def setNetwork(self, value: "SwDataDefProps") -> "SenderComSpec":
+    def setNetwork(self, value: "SwDataDefProps") -> SenderComSpec:
         """
         AUTOSAR-compliant setter for network with method chaining.
 
@@ -307,7 +309,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "TransmissionComSpec") -> "SenderComSpec":
+    def setTransmission(self, value: "TransmissionComSpec") -> SenderComSpec:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -335,7 +337,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.uses_end_to_end  # Delegates to property
 
-    def setUsesEndToEnd(self, value: "Boolean") -> "SenderComSpec":
+    def setUsesEndToEnd(self, value: "Boolean") -> SenderComSpec:
         """
         AUTOSAR-compliant setter for usesEndToEnd with method chaining.
 
@@ -353,7 +355,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_element(self, value: Optional[RefType]) -> "SenderComSpec":
+    def with_data_element(self, value: Optional[RefType]) -> SenderComSpec:
         """
         Set dataElement and return self for chaining.
 
@@ -369,7 +371,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> "SenderComSpec":
+    def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> SenderComSpec:
         """
         Set handleOutOf and return self for chaining.
 
@@ -385,7 +387,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.handle_out_of = value  # Use property setter (gets validation)
         return self
 
-    def with_network(self, value: Optional["SwDataDefProps"]) -> "SenderComSpec":
+    def with_network(self, value: Optional["SwDataDefProps"]) -> SenderComSpec:
         """
         Set network and return self for chaining.
 
@@ -401,7 +403,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.network = value  # Use property setter (gets validation)
         return self
 
-    def with_transmission(self, value: Optional["TransmissionComSpec"]) -> "SenderComSpec":
+    def with_transmission(self, value: Optional["TransmissionComSpec"]) -> SenderComSpec:
         """
         Set transmission and return self for chaining.
 
@@ -417,7 +419,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.transmission = value  # Use property setter (gets validation)
         return self
 
-    def with_uses_end_to_end(self, value: Optional["Boolean"]) -> "SenderComSpec":
+    def with_uses_end_to_end(self, value: Optional["Boolean"]) -> SenderComSpec:
         """
         Set usesEndToEnd and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - Datatypes
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -120,7 +122,7 @@ class AutosarDataType(ARElement, ABC):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "AutosarDataType":
+    def setSwDataDef(self, value: "SwDataDefProps") -> AutosarDataType:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -138,7 +140,7 @@ class AutosarDataType(ARElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "AutosarDataType":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> AutosarDataType:
         """
         Set swDataDef and return self for chaining.
 
@@ -178,10 +180,10 @@ class DataTypeMappingSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is one particular association between an Application its
         # AbstractImplementationDataType.
-        self._dataTypeMap: List["DataTypeMap"] = []
+        self._dataTypeMap: List[DataTypeMap] = []
 
     @property
-    def data_type_map(self) -> List["DataTypeMap"]:
+    def data_type_map(self) -> List[DataTypeMap]:
         """Get dataTypeMap (Pythonic accessor)."""
         return self._dataTypeMap
         # This is one particular association between an Mode and its
@@ -195,7 +197,7 @@ class DataTypeMappingSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataTypeMap(self) -> List["DataTypeMap"]:
+    def getDataTypeMap(self) -> List[DataTypeMap]:
         """
         AUTOSAR-compliant getter for dataTypeMap.
 
@@ -240,15 +242,15 @@ class DataTypeMap(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the corresponding ApplicationDataType.
-        self._applicationDataType: Optional["ApplicationDataType"] = None
+        self._applicationDataType: Optional[ApplicationDataType] = None
 
     @property
-    def application_data_type(self) -> Optional["ApplicationDataType"]:
+    def application_data_type(self) -> Optional[ApplicationDataType]:
         """Get applicationDataType (Pythonic accessor)."""
         return self._applicationDataType
 
     @application_data_type.setter
-    def application_data_type(self, value: Optional["ApplicationDataType"]) -> None:
+    def application_data_type(self, value: Optional[ApplicationDataType]) -> None:
         """
         Set applicationDataType with validation.
 
@@ -297,7 +299,7 @@ class DataTypeMap(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplicationDataType(self) -> "ApplicationDataType":
+    def getApplicationDataType(self) -> ApplicationDataType:
         """
         AUTOSAR-compliant getter for applicationDataType.
 
@@ -309,7 +311,7 @@ class DataTypeMap(ARObject):
         """
         return self.application_data_type  # Delegates to property
 
-    def setApplicationDataType(self, value: "ApplicationDataType") -> "DataTypeMap":
+    def setApplicationDataType(self, value: ApplicationDataType) -> DataTypeMap:
         """
         AUTOSAR-compliant setter for applicationDataType with method chaining.
 
@@ -337,7 +339,7 @@ class DataTypeMap(ARObject):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: "AbstractImplementation") -> "DataTypeMap":
+    def setImplementation(self, value: "AbstractImplementation") -> DataTypeMap:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -355,7 +357,7 @@ class DataTypeMap(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application_data_type(self, value: Optional["ApplicationDataType"]) -> "DataTypeMap":
+    def with_application_data_type(self, value: Optional[ApplicationDataType]) -> DataTypeMap:
         """
         Set applicationDataType and return self for chaining.
 
@@ -371,7 +373,7 @@ class DataTypeMap(ARObject):
         self.application_data_type = value  # Use property setter (gets validation)
         return self
 
-    def with_implementation(self, value: Optional["AbstractImplementation"]) -> "DataTypeMap":
+    def with_implementation(self, value: Optional["AbstractImplementation"]) -> DataTypeMap:
         """
         Set implementation and return self for chaining.
 
@@ -570,7 +572,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         """
         return self.dynamic_array  # Delegates to property
 
-    def setDynamicArray(self, value: "String") -> "ApplicationArrayDataType":
+    def setDynamicArray(self, value: "String") -> ApplicationArrayDataType:
         """
         AUTOSAR-compliant setter for dynamicArray with method chaining.
 
@@ -598,7 +600,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         """
         return self.element  # Delegates to property
 
-    def setElement(self, value: "ApplicationArray") -> "ApplicationArrayDataType":
+    def setElement(self, value: "ApplicationArray") -> ApplicationArrayDataType:
         """
         AUTOSAR-compliant setter for element with method chaining.
 
@@ -616,7 +618,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dynamic_array(self, value: Optional["String"]) -> "ApplicationArrayDataType":
+    def with_dynamic_array(self, value: Optional["String"]) -> ApplicationArrayDataType:
         """
         Set dynamicArray and return self for chaining.
 
@@ -632,7 +634,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         self.dynamic_array = value  # Use property setter (gets validation)
         return self
 
-    def with_element(self, value: Optional["ApplicationArray"]) -> "ApplicationArrayDataType":
+    def with_element(self, value: Optional["ApplicationArray"]) -> ApplicationArrayDataType:
         """
         Set element and return self for chaining.
 

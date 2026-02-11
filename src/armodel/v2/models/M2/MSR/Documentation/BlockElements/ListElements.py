@@ -4,9 +4,11 @@ AUTOSAR Package - ListElements
 Package: M2::MSR::Documentation::BlockElements::ListElements
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
     String,
 )
@@ -40,15 +42,15 @@ class List(Paginateable):
         # Therefore lists can be arbitrarily is discouraged to have a very deep
                 # nesting.
         # atpVariation.
-        self._item: "Item" = None
+        self._item: Item = None
 
     @property
-    def item(self) -> "Item":
+    def item(self) -> Item:
         """Get item (Pythonic accessor)."""
         return self._item
 
     @item.setter
-    def item(self, value: "Item") -> None:
+    def item(self, value: Item) -> None:
         """
         Set item with validation.
         
@@ -90,7 +92,7 @@ class List(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getItem(self) -> "Item":
+    def getItem(self) -> Item:
         """
         AUTOSAR-compliant getter for item.
         
@@ -102,7 +104,7 @@ class List(Paginateable):
         """
         return self.item  # Delegates to property
 
-    def setItem(self, value: "Item") -> "List":
+    def setItem(self, value: Item) -> List:
         """
         AUTOSAR-compliant setter for item with method chaining.
         
@@ -130,7 +132,7 @@ class List(Paginateable):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "RefType") -> "List":
+    def setType(self, value: "RefType") -> List:
         """
         AUTOSAR-compliant setter for type with method chaining.
         
@@ -148,7 +150,7 @@ class List(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_item(self, value: "Item") -> "List":
+    def with_item(self, value: Item) -> List:
         """
         Set item and return self for chaining.
         
@@ -164,7 +166,7 @@ class List(Paginateable):
         self.item = value  # Use property setter (gets validation)
         return self
 
-    def with_type(self, value: Optional[RefType]) -> "List":
+    def with_type(self, value: Optional[RefType]) -> List:
         """
         Set type and return self for chaining.
         
@@ -237,7 +239,7 @@ class Item(Paginateable):
         """
         return self.item_contents  # Delegates to property
 
-    def setItemContents(self, value: "DocumentationBlock") -> "Item":
+    def setItemContents(self, value: "DocumentationBlock") -> Item:
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
         
@@ -255,7 +257,7 @@ class Item(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_item_contents(self, value: "DocumentationBlock") -> "Item":
+    def with_item_contents(self, value: "DocumentationBlock") -> Item:
         """
         Set itemContents and return self for chaining.
         
@@ -295,15 +297,15 @@ class LabeledList(Paginateable):
         # the indentation specified e.
         # g.
         # in mm.
-        self._indentSample: Optional["IndentSample"] = None
+        self._indentSample: Optional[IndentSample] = None
 
     @property
-    def indent_sample(self) -> Optional["IndentSample"]:
+    def indent_sample(self) -> Optional[IndentSample]:
         """Get indentSample (Pythonic accessor)."""
         return self._indentSample
 
     @indent_sample.setter
-    def indent_sample(self, value: Optional["IndentSample"]) -> None:
+    def indent_sample(self, value: Optional[IndentSample]) -> None:
         """
         Set indentSample with validation.
         
@@ -322,15 +324,15 @@ class LabeledList(Paginateable):
                 f"indentSample must be IndentSample or None, got {type(value).__name__}"
             )
         self._indentSample = value
-        self._labeledItemLabel: "LabeledItem" = None
+        self._labeledItemLabel: LabeledItem = None
 
     @property
-    def labeled_item_label(self) -> "LabeledItem":
+    def labeled_item_label(self) -> LabeledItem:
         """Get labeledItemLabel (Pythonic accessor)."""
         return self._labeledItemLabel
 
     @labeled_item_label.setter
-    def labeled_item_label(self, value: "LabeledItem") -> None:
+    def labeled_item_label(self, value: LabeledItem) -> None:
         """
         Set labeledItemLabel with validation.
         
@@ -348,7 +350,7 @@ class LabeledList(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIndentSample(self) -> "IndentSample":
+    def getIndentSample(self) -> IndentSample:
         """
         AUTOSAR-compliant getter for indentSample.
         
@@ -360,7 +362,7 @@ class LabeledList(Paginateable):
         """
         return self.indent_sample  # Delegates to property
 
-    def setIndentSample(self, value: "IndentSample") -> "LabeledList":
+    def setIndentSample(self, value: IndentSample) -> LabeledList:
         """
         AUTOSAR-compliant setter for indentSample with method chaining.
         
@@ -376,7 +378,7 @@ class LabeledList(Paginateable):
         self.indent_sample = value  # Delegates to property setter
         return self
 
-    def getLabeledItemLabel(self) -> "LabeledItem":
+    def getLabeledItemLabel(self) -> LabeledItem:
         """
         AUTOSAR-compliant getter for labeledItemLabel.
         
@@ -388,7 +390,7 @@ class LabeledList(Paginateable):
         """
         return self.labeled_item_label  # Delegates to property
 
-    def setLabeledItemLabel(self, value: "LabeledItem") -> "LabeledList":
+    def setLabeledItemLabel(self, value: LabeledItem) -> LabeledList:
         """
         AUTOSAR-compliant setter for labeledItemLabel with method chaining.
         
@@ -406,7 +408,7 @@ class LabeledList(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_indent_sample(self, value: Optional["IndentSample"]) -> "LabeledList":
+    def with_indent_sample(self, value: Optional[IndentSample]) -> LabeledList:
         """
         Set indentSample and return self for chaining.
         
@@ -422,7 +424,7 @@ class LabeledList(Paginateable):
         self.indent_sample = value  # Use property setter (gets validation)
         return self
 
-    def with_labeled_item_label(self, value: "LabeledItem") -> "LabeledList":
+    def with_labeled_item_label(self, value: LabeledItem) -> LabeledList:
         """
         Set labeledItemLabel and return self for chaining.
         
@@ -553,7 +555,7 @@ class LabeledItem(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> "LabeledItem":
+    def setHelpEntry(self, value: "String") -> LabeledItem:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
         
@@ -581,7 +583,7 @@ class LabeledItem(Paginateable):
         """
         return self.item_contents  # Delegates to property
 
-    def setItemContents(self, value: "DocumentationBlock") -> "LabeledItem":
+    def setItemContents(self, value: "DocumentationBlock") -> LabeledItem:
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
         
@@ -609,7 +611,7 @@ class LabeledItem(Paginateable):
         """
         return self.item_label  # Delegates to property
 
-    def setItemLabel(self, value: "MultiLanguageOverview") -> "LabeledItem":
+    def setItemLabel(self, value: "MultiLanguageOverview") -> LabeledItem:
         """
         AUTOSAR-compliant setter for itemLabel with method chaining.
         
@@ -627,7 +629,7 @@ class LabeledItem(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_help_entry(self, value: Optional["String"]) -> "LabeledItem":
+    def with_help_entry(self, value: Optional["String"]) -> LabeledItem:
         """
         Set helpEntry and return self for chaining.
         
@@ -643,7 +645,7 @@ class LabeledItem(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_item_contents(self, value: Optional["DocumentationBlock"]) -> "LabeledItem":
+    def with_item_contents(self, value: Optional["DocumentationBlock"]) -> LabeledItem:
         """
         Set itemContents and return self for chaining.
         
@@ -659,7 +661,7 @@ class LabeledItem(Paginateable):
         self.item_contents = value  # Use property setter (gets validation)
         return self
 
-    def with_item_label(self, value: "MultiLanguageOverview") -> "LabeledItem":
+    def with_item_label(self, value: "MultiLanguageOverview") -> LabeledItem:
         """
         Set itemLabel and return self for chaining.
         
@@ -695,15 +697,15 @@ class IndentSample(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The position of the label in case the label is too long.
         # The "NO-NEWLINE".
-        self._itemLabelPos: Optional["ItemLabelPosEnum"] = None
+        self._itemLabelPos: Optional[ItemLabelPosEnum] = None
 
     @property
-    def item_label_pos(self) -> Optional["ItemLabelPosEnum"]:
+    def item_label_pos(self) -> Optional[ItemLabelPosEnum]:
         """Get itemLabelPos (Pythonic accessor)."""
         return self._itemLabelPos
 
     @item_label_pos.setter
-    def item_label_pos(self, value: Optional["ItemLabelPosEnum"]) -> None:
+    def item_label_pos(self, value: Optional[ItemLabelPosEnum]) -> None:
         """
         Set itemLabelPos with validation.
         
@@ -747,7 +749,7 @@ class IndentSample(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getItemLabelPos(self) -> "ItemLabelPosEnum":
+    def getItemLabelPos(self) -> ItemLabelPosEnum:
         """
         AUTOSAR-compliant getter for itemLabelPos.
         
@@ -759,7 +761,7 @@ class IndentSample(ARObject):
         """
         return self.item_label_pos  # Delegates to property
 
-    def setItemLabelPos(self, value: "ItemLabelPosEnum") -> "IndentSample":
+    def setItemLabelPos(self, value: ItemLabelPosEnum) -> IndentSample:
         """
         AUTOSAR-compliant setter for itemLabelPos with method chaining.
         
@@ -787,7 +789,7 @@ class IndentSample(ARObject):
         """
         return self.l2  # Delegates to property
 
-    def setL2(self, value: "LOverviewParagraph") -> "IndentSample":
+    def setL2(self, value: "LOverviewParagraph") -> IndentSample:
         """
         AUTOSAR-compliant setter for l2 with method chaining.
         
@@ -805,7 +807,7 @@ class IndentSample(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_item_label_pos(self, value: Optional["ItemLabelPosEnum"]) -> "IndentSample":
+    def with_item_label_pos(self, value: Optional[ItemLabelPosEnum]) -> IndentSample:
         """
         Set itemLabelPos and return self for chaining.
         
@@ -821,7 +823,7 @@ class IndentSample(ARObject):
         self.item_label_pos = value  # Use property setter (gets validation)
         return self
 
-    def with_l2(self, value: "LOverviewParagraph") -> "IndentSample":
+    def with_l2(self, value: "LOverviewParagraph") -> IndentSample:
         """
         Set l2 and return self for chaining.
         
@@ -856,15 +858,15 @@ class DefList(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # atpVariation.
-        self._defItem: "DefItem" = None
+        self._defItem: DefItem = None
 
     @property
-    def def_item(self) -> "DefItem":
+    def def_item(self) -> DefItem:
         """Get defItem (Pythonic accessor)."""
         return self._defItem
 
     @def_item.setter
-    def def_item(self, value: "DefItem") -> None:
+    def def_item(self, value: DefItem) -> None:
         """
         Set defItem with validation.
         
@@ -882,7 +884,7 @@ class DefList(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefItem(self) -> "DefItem":
+    def getDefItem(self) -> DefItem:
         """
         AUTOSAR-compliant getter for defItem.
         
@@ -894,7 +896,7 @@ class DefList(Paginateable):
         """
         return self.def_item  # Delegates to property
 
-    def setDefItem(self, value: "DefItem") -> "DefList":
+    def setDefItem(self, value: DefItem) -> DefList:
         """
         AUTOSAR-compliant setter for defItem with method chaining.
         
@@ -912,7 +914,7 @@ class DefList(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_def_item(self, value: "DefItem") -> "DefList":
+    def with_def_item(self, value: DefItem) -> DefList:
         """
         Set defItem and return self for chaining.
         
@@ -1014,7 +1016,7 @@ class DefItem(Paginateable):
         """
         return self.definition  # Delegates to property
 
-    def setDefinition(self, value: "DocumentationBlock") -> "DefItem":
+    def setDefinition(self, value: "DocumentationBlock") -> DefItem:
         """
         AUTOSAR-compliant setter for definition with method chaining.
         
@@ -1042,7 +1044,7 @@ class DefItem(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> "DefItem":
+    def setHelpEntry(self, value: "String") -> DefItem:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
         
@@ -1060,7 +1062,7 @@ class DefItem(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_def(self, value: "DocumentationBlock") -> "DefItem":
+    def with_def(self, value: "DocumentationBlock") -> DefItem:
         """
         Set def and return self for chaining.
         
@@ -1076,7 +1078,7 @@ class DefItem(Paginateable):
         self.definition = value  # Use property setter (gets validation)
         return self
 
-    def with_help_entry(self, value: Optional["String"]) -> "DefItem":
+    def with_help_entry(self, value: Optional["String"]) -> DefItem:
         """
         Set helpEntry and return self for chaining.
         

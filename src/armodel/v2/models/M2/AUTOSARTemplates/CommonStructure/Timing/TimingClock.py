@@ -4,6 +4,8 @@ AUTOSAR Package - TimingClock
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
@@ -70,7 +72,7 @@ class TimingClock(Identifiable, ABC):
         """
         return self.platform_time  # Delegates to property
 
-    def setPlatformTime(self, value: "GlobalTimeDomain") -> "TimingClock":
+    def setPlatformTime(self, value: "GlobalTimeDomain") -> TimingClock:
         """
         AUTOSAR-compliant setter for platformTime with method chaining.
 
@@ -88,7 +90,7 @@ class TimingClock(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_platform_time(self, value: Optional["GlobalTimeDomain"]) -> "TimingClock":
+    def with_platform_time(self, value: Optional["GlobalTimeDomain"]) -> TimingClock:
         """
         Set platformTime and return self for chaining.
 
@@ -147,15 +149,15 @@ class TimingClockSyncAccuracy(Identifiable):
                 f"accuracy must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._accuracy = value
-        self._lower: Optional["TimingClock"] = None
+        self._lower: Optional[TimingClock] = None
 
     @property
-    def lower(self) -> Optional["TimingClock"]:
+    def lower(self) -> Optional[TimingClock]:
         """Get lower (Pythonic accessor)."""
         return self._lower
 
     @lower.setter
-    def lower(self, value: Optional["TimingClock"]) -> None:
+    def lower(self, value: Optional[TimingClock]) -> None:
         """
         Set lower with validation.
 
@@ -174,15 +176,15 @@ class TimingClockSyncAccuracy(Identifiable):
                 f"lower must be TimingClock or None, got {type(value).__name__}"
             )
         self._lower = value
-        self._upper: Optional["TimingClock"] = None
+        self._upper: Optional[TimingClock] = None
 
     @property
-    def upper(self) -> Optional["TimingClock"]:
+    def upper(self) -> Optional[TimingClock]:
         """Get upper (Pythonic accessor)."""
         return self._upper
 
     @upper.setter
-    def upper(self, value: Optional["TimingClock"]) -> None:
+    def upper(self, value: Optional[TimingClock]) -> None:
         """
         Set upper with validation.
 
@@ -216,7 +218,7 @@ class TimingClockSyncAccuracy(Identifiable):
         """
         return self.accuracy  # Delegates to property
 
-    def setAccuracy(self, value: "MultidimensionalTime") -> "TimingClockSyncAccuracy":
+    def setAccuracy(self, value: "MultidimensionalTime") -> TimingClockSyncAccuracy:
         """
         AUTOSAR-compliant setter for accuracy with method chaining.
 
@@ -232,7 +234,7 @@ class TimingClockSyncAccuracy(Identifiable):
         self.accuracy = value  # Delegates to property setter
         return self
 
-    def getLower(self) -> "TimingClock":
+    def getLower(self) -> TimingClock:
         """
         AUTOSAR-compliant getter for lower.
 
@@ -244,7 +246,7 @@ class TimingClockSyncAccuracy(Identifiable):
         """
         return self.lower  # Delegates to property
 
-    def setLower(self, value: "TimingClock") -> "TimingClockSyncAccuracy":
+    def setLower(self, value: TimingClock) -> TimingClockSyncAccuracy:
         """
         AUTOSAR-compliant setter for lower with method chaining.
 
@@ -260,7 +262,7 @@ class TimingClockSyncAccuracy(Identifiable):
         self.lower = value  # Delegates to property setter
         return self
 
-    def getUpper(self) -> "TimingClock":
+    def getUpper(self) -> TimingClock:
         """
         AUTOSAR-compliant getter for upper.
 
@@ -272,7 +274,7 @@ class TimingClockSyncAccuracy(Identifiable):
         """
         return self.upper  # Delegates to property
 
-    def setUpper(self, value: "TimingClock") -> "TimingClockSyncAccuracy":
+    def setUpper(self, value: TimingClock) -> TimingClockSyncAccuracy:
         """
         AUTOSAR-compliant setter for upper with method chaining.
 
@@ -290,7 +292,7 @@ class TimingClockSyncAccuracy(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accuracy(self, value: Optional["MultidimensionalTime"]) -> "TimingClockSyncAccuracy":
+    def with_accuracy(self, value: Optional["MultidimensionalTime"]) -> TimingClockSyncAccuracy:
         """
         Set accuracy and return self for chaining.
 
@@ -306,7 +308,7 @@ class TimingClockSyncAccuracy(Identifiable):
         self.accuracy = value  # Use property setter (gets validation)
         return self
 
-    def with_lower(self, value: Optional["TimingClock"]) -> "TimingClockSyncAccuracy":
+    def with_lower(self, value: Optional[TimingClock]) -> TimingClockSyncAccuracy:
         """
         Set lower and return self for chaining.
 
@@ -322,7 +324,7 @@ class TimingClockSyncAccuracy(Identifiable):
         self.lower = value  # Use property setter (gets validation)
         return self
 
-    def with_upper(self, value: Optional["TimingClock"]) -> "TimingClockSyncAccuracy":
+    def with_upper(self, value: Optional[TimingClock]) -> TimingClockSyncAccuracy:
         """
         Set upper and return self for chaining.
 
@@ -423,7 +425,7 @@ class TDLETZoneClock(TimingClock):
         """
         return self.accuracy_ext  # Delegates to property
 
-    def setAccuracyExt(self, value: "MultidimensionalTime") -> "TDLETZoneClock":
+    def setAccuracyExt(self, value: "MultidimensionalTime") -> TDLETZoneClock:
         """
         AUTOSAR-compliant setter for accuracyExt with method chaining.
 
@@ -451,7 +453,7 @@ class TDLETZoneClock(TimingClock):
         """
         return self.accuracy_int  # Delegates to property
 
-    def setAccuracyInt(self, value: "MultidimensionalTime") -> "TDLETZoneClock":
+    def setAccuracyInt(self, value: "MultidimensionalTime") -> TDLETZoneClock:
         """
         AUTOSAR-compliant setter for accuracyInt with method chaining.
 
@@ -469,7 +471,7 @@ class TDLETZoneClock(TimingClock):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accuracy_ext(self, value: Optional["MultidimensionalTime"]) -> "TDLETZoneClock":
+    def with_accuracy_ext(self, value: Optional["MultidimensionalTime"]) -> TDLETZoneClock:
         """
         Set accuracyExt and return self for chaining.
 
@@ -485,7 +487,7 @@ class TDLETZoneClock(TimingClock):
         self.accuracy_ext = value  # Use property setter (gets validation)
         return self
 
-    def with_accuracy_int(self, value: Optional["MultidimensionalTime"]) -> "TDLETZoneClock":
+    def with_accuracy_int(self, value: Optional["MultidimensionalTime"]) -> TDLETZoneClock:
         """
         Set accuracyInt and return self for chaining.
 

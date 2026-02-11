@@ -4,10 +4,12 @@ AUTOSAR Package - RolesAndRights
 Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
 )
@@ -56,30 +58,30 @@ class AclPermission(ARElement):
         """Get aclObject (Pythonic accessor)."""
         return self._aclObject
         # This denotes an operation which is granted by the given.
-        self._aclOperation: List["AclOperation"] = []
+        self._aclOperation: List[AclOperation] = []
 
     @property
-    def acl_operation(self) -> List["AclOperation"]:
+    def acl_operation(self) -> List[AclOperation]:
         """Get aclOperation (Pythonic accessor)."""
         return self._aclOperation
         # This denotes the role (individual or even organization) for AclPermission.
         # is granted.
-        self._aclRole: List["AclRole"] = []
+        self._aclRole: List[AclRole] = []
 
     @property
-    def acl_role(self) -> List["AclRole"]:
+    def acl_role(self) -> List[AclRole]:
         """Get aclRole (Pythonic accessor)."""
         return self._aclRole
         # This indicates the scope of applied permissions: explicit,.
-        self._aclScope: "AclScopeEnum" = None
+        self._aclScope: AclScopeEnum = None
 
     @property
-    def acl_scope(self) -> "AclScopeEnum":
+    def acl_scope(self) -> AclScopeEnum:
         """Get aclScope (Pythonic accessor)."""
         return self._aclScope
 
     @acl_scope.setter
-    def acl_scope(self, value: "AclScopeEnum") -> None:
+    def acl_scope(self, value: AclScopeEnum) -> None:
         """
         Set aclScope with validation.
 
@@ -249,7 +251,7 @@ class AclPermission(ARElement):
         """
         return self.acl_object  # Delegates to property
 
-    def getAclOperation(self) -> List["AclOperation"]:
+    def getAclOperation(self) -> List[AclOperation]:
         """
         AUTOSAR-compliant getter for aclOperation.
 
@@ -261,7 +263,7 @@ class AclPermission(ARElement):
         """
         return self.acl_operation  # Delegates to property
 
-    def getAclRole(self) -> List["AclRole"]:
+    def getAclRole(self) -> List[AclRole]:
         """
         AUTOSAR-compliant getter for aclRole.
 
@@ -273,7 +275,7 @@ class AclPermission(ARElement):
         """
         return self.acl_role  # Delegates to property
 
-    def getAclScope(self) -> "AclScopeEnum":
+    def getAclScope(self) -> AclScopeEnum:
         """
         AUTOSAR-compliant getter for aclScope.
 
@@ -285,7 +287,7 @@ class AclPermission(ARElement):
         """
         return self.acl_scope  # Delegates to property
 
-    def setAclScope(self, value: "AclScopeEnum") -> "AclPermission":
+    def setAclScope(self, value: AclScopeEnum) -> AclPermission:
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
 
@@ -303,7 +305,7 @@ class AclPermission(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_acl_scope(self, value: "AclScopeEnum") -> "AclPermission":
+    def with_acl_scope(self, value: AclScopeEnum) -> AclPermission:
         """
         Set aclScope and return self for chaining.
 
@@ -347,15 +349,15 @@ class AclObjectSet(ARElement):
         """Get aclObjectClass (Pythonic accessor)."""
         return self._aclObjectClass
         # this indicates the scope of the referenced objects.
-        self._aclScope: "AclScopeEnum" = None
+        self._aclScope: AclScopeEnum = None
 
     @property
-    def acl_scope(self) -> "AclScopeEnum":
+    def acl_scope(self) -> AclScopeEnum:
         """Get aclScope (Pythonic accessor)."""
         return self._aclScope
 
     @acl_scope.setter
-    def acl_scope(self, value: "AclScopeEnum") -> None:
+    def acl_scope(self, value: AclScopeEnum) -> None:
         """
         Set aclScope with validation.
 
@@ -425,7 +427,7 @@ class AclObjectSet(ARElement):
         """
         return self.acl_object_class  # Delegates to property
 
-    def getAclScope(self) -> "AclScopeEnum":
+    def getAclScope(self) -> AclScopeEnum:
         """
         AUTOSAR-compliant getter for aclScope.
 
@@ -437,7 +439,7 @@ class AclObjectSet(ARElement):
         """
         return self.acl_scope  # Delegates to property
 
-    def setAclScope(self, value: "AclScopeEnum") -> "AclObjectSet":
+    def setAclScope(self, value: AclScopeEnum) -> AclObjectSet:
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
 
@@ -465,7 +467,7 @@ class AclObjectSet(ARElement):
         """
         return self.collection  # Delegates to property
 
-    def setCollection(self, value: "RefType") -> "AclObjectSet":
+    def setCollection(self, value: "RefType") -> AclObjectSet:
         """
         AUTOSAR-compliant setter for collection with method chaining.
 
@@ -507,7 +509,7 @@ class AclObjectSet(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_acl_scope(self, value: "AclScopeEnum") -> "AclObjectSet":
+    def with_acl_scope(self, value: AclScopeEnum) -> AclObjectSet:
         """
         Set aclScope and return self for chaining.
 
@@ -523,7 +525,7 @@ class AclObjectSet(ARElement):
         self.acl_scope = value  # Use property setter (gets validation)
         return self
 
-    def with_collection(self, value: Optional[RefType]) -> "AclObjectSet":
+    def with_collection(self, value: Optional[RefType]) -> AclObjectSet:
         """
         Set collection and return self for chaining.
 
@@ -584,16 +586,16 @@ class AclOperation(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This indicates that the related operations are also implied.
         # the permission is also granted for this.
-        self._implied: List["AclOperation"] = []
+        self._implied: List[AclOperation] = []
 
     @property
-    def implied(self) -> List["AclOperation"]:
+    def implied(self) -> List[AclOperation]:
         """Get implied (Pythonic accessor)."""
         return self._implied
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getImplied(self) -> List["AclOperation"]:
+    def getImplied(self) -> List[AclOperation]:
         """
         AUTOSAR-compliant getter for implied.
 
@@ -669,7 +671,7 @@ class AclRole(ARElement):
         """
         return self.ldap_url  # Delegates to property
 
-    def setLdapUrl(self, value: "UriString") -> "AclRole":
+    def setLdapUrl(self, value: "UriString") -> AclRole:
         """
         AUTOSAR-compliant setter for ldapUrl with method chaining.
 
@@ -687,7 +689,7 @@ class AclRole(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ldap_url(self, value: Optional["UriString"]) -> "AclRole":
+    def with_ldap_url(self, value: Optional["UriString"]) -> AclRole:
         """
         Set ldapUrl and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - SpecialDataDef
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     NameToken,
 )
@@ -38,10 +40,10 @@ class SdgDef(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The owned sdgClasses which define the structure of the.
-        self._sdgClass: List["SdgClass"] = []
+        self._sdgClass: List[SdgClass] = []
 
     @property
-    def sdg_class(self) -> List["SdgClass"]:
+    def sdg_class(self) -> List[SdgClass]:
         """Get sdgClass (Pythonic accessor)."""
         return self._sdgClass
 
@@ -95,7 +97,7 @@ class SdgDef(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSdgClass(self) -> List["SdgClass"]:
+    def getSdgClass(self) -> List[SdgClass]:
         """
         AUTOSAR-compliant getter for sdgClass.
 
@@ -170,7 +172,7 @@ class SdgElementWithGid(ARObject, ABC):
         """
         return self.gid  # Delegates to property
 
-    def setGid(self, value: "NameToken") -> "SdgElementWithGid":
+    def setGid(self, value: "NameToken") -> SdgElementWithGid:
         """
         AUTOSAR-compliant setter for gid with method chaining.
 
@@ -188,7 +190,7 @@ class SdgElementWithGid(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_gid(self, value: Optional["NameToken"]) -> "SdgElementWithGid":
+    def with_gid(self, value: Optional["NameToken"]) -> SdgElementWithGid:
         """
         Set gid and return self for chaining.
 
@@ -247,10 +249,10 @@ class SdgClass(SdgElementWithGid):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defintion of the structure of the Sdg xml.
         # sequenceOffset=30.
-        self._attribute: List["SdgAttribute"] = []
+        self._attribute: List[SdgAttribute] = []
 
     @property
-    def attribute(self) -> List["SdgAttribute"]:
+    def attribute(self) -> List[SdgAttribute]:
         """Get attribute (Pythonic accessor)."""
         return self._attribute
         # Specifies if a caption is required.
@@ -318,7 +320,7 @@ class SdgClass(SdgElementWithGid):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAttribute(self) -> List["SdgAttribute"]:
+    def getAttribute(self) -> List[SdgAttribute]:
         """
         AUTOSAR-compliant getter for attribute.
 
@@ -342,7 +344,7 @@ class SdgClass(SdgElementWithGid):
         """
         return self.caption  # Delegates to property
 
-    def setCaption(self, value: "Boolean") -> "SdgClass":
+    def setCaption(self, value: "Boolean") -> SdgClass:
         """
         AUTOSAR-compliant setter for caption with method chaining.
 
@@ -370,7 +372,7 @@ class SdgClass(SdgElementWithGid):
         """
         return self.extends_meta  # Delegates to property
 
-    def setExtendsMeta(self, value: "MetaClassName") -> "SdgClass":
+    def setExtendsMeta(self, value: "MetaClassName") -> SdgClass:
         """
         AUTOSAR-compliant setter for extendsMeta with method chaining.
 
@@ -400,7 +402,7 @@ class SdgClass(SdgElementWithGid):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_caption(self, value: Optional["Boolean"]) -> "SdgClass":
+    def with_caption(self, value: Optional["Boolean"]) -> SdgClass:
         """
         Set caption and return self for chaining.
 
@@ -416,7 +418,7 @@ class SdgClass(SdgElementWithGid):
         self.caption = value  # Use property setter (gets validation)
         return self
 
-    def with_extends_meta(self, value: Optional["MetaClassName"]) -> "SdgClass":
+    def with_extends_meta(self, value: Optional["MetaClassName"]) -> SdgClass:
         """
         Set extendsMeta and return self for chaining.
 
@@ -473,15 +475,15 @@ class SdgAggregationWithVariation(SdgElementWithGid):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Supported sub Sdg Class.
-        self._subSdg: Optional["SdgClass"] = None
+        self._subSdg: Optional[SdgClass] = None
 
     @property
-    def sub_sdg(self) -> Optional["SdgClass"]:
+    def sub_sdg(self) -> Optional[SdgClass]:
         """Get subSdg (Pythonic accessor)."""
         return self._subSdg
 
     @sub_sdg.setter
-    def sub_sdg(self, value: Optional["SdgClass"]) -> None:
+    def sub_sdg(self, value: Optional[SdgClass]) -> None:
         """
         Set subSdg with validation.
 
@@ -503,7 +505,7 @@ class SdgAggregationWithVariation(SdgElementWithGid):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSubSdg(self) -> "SdgClass":
+    def getSubSdg(self) -> SdgClass:
         """
         AUTOSAR-compliant getter for subSdg.
 
@@ -515,7 +517,7 @@ class SdgAggregationWithVariation(SdgElementWithGid):
         """
         return self.sub_sdg  # Delegates to property
 
-    def setSubSdg(self, value: "SdgClass") -> "SdgAggregationWithVariation":
+    def setSubSdg(self, value: SdgClass) -> SdgAggregationWithVariation:
         """
         AUTOSAR-compliant setter for subSdg with method chaining.
 
@@ -533,7 +535,7 @@ class SdgAggregationWithVariation(SdgElementWithGid):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sub_sdg(self, value: Optional["SdgClass"]) -> "SdgAggregationWithVariation":
+    def with_sub_sdg(self, value: Optional[SdgClass]) -> SdgAggregationWithVariation:
         """
         Set subSdg and return self for chaining.
 
@@ -611,7 +613,7 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
         """
         return self.dest_meta_class  # Delegates to property
 
-    def setDestMetaClass(self, value: "MetaClassName") -> "SdgAbstractForeignReference":
+    def setDestMetaClass(self, value: "MetaClassName") -> SdgAbstractForeignReference:
         """
         AUTOSAR-compliant setter for destMetaClass with method chaining.
 
@@ -629,7 +631,7 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dest_meta_class(self, value: Optional["MetaClassName"]) -> "SdgAbstractForeignReference":
+    def with_dest_meta_class(self, value: Optional["MetaClassName"]) -> SdgAbstractForeignReference:
         """
         Set destMetaClass and return self for chaining.
 
@@ -666,15 +668,15 @@ class SdgReference(SdgAttribute):
                 # type of the referenced Sdg.
         # On side the reference is realized by means of the defining an sdgx attribute
                 # which refers to of the referenced Sdg.
-        self._destSdg: Optional["SdgClass"] = None
+        self._destSdg: Optional[SdgClass] = None
 
     @property
-    def dest_sdg(self) -> Optional["SdgClass"]:
+    def dest_sdg(self) -> Optional[SdgClass]:
         """Get destSdg (Pythonic accessor)."""
         return self._destSdg
 
     @dest_sdg.setter
-    def dest_sdg(self, value: Optional["SdgClass"]) -> None:
+    def dest_sdg(self, value: Optional[SdgClass]) -> None:
         """
         Set destSdg with validation.
 
@@ -696,7 +698,7 @@ class SdgReference(SdgAttribute):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestSdg(self) -> "SdgClass":
+    def getDestSdg(self) -> SdgClass:
         """
         AUTOSAR-compliant getter for destSdg.
 
@@ -708,7 +710,7 @@ class SdgReference(SdgAttribute):
         """
         return self.dest_sdg  # Delegates to property
 
-    def setDestSdg(self, value: "SdgClass") -> "SdgReference":
+    def setDestSdg(self, value: SdgClass) -> SdgReference:
         """
         AUTOSAR-compliant setter for destSdg with method chaining.
 
@@ -726,7 +728,7 @@ class SdgReference(SdgAttribute):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dest_sdg(self, value: Optional["SdgClass"]) -> "SdgReference":
+    def with_dest_sdg(self, value: Optional[SdgClass]) -> SdgReference:
         """
         Set destSdg and return self for chaining.
 

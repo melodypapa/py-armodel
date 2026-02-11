@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
@@ -93,7 +95,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.context_p_port_prototype  # Delegates to property
 
-    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
 
@@ -121,7 +123,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.target_trigger  # Delegates to property
 
-    def setTargetTrigger(self, value: RefType) -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def setTargetTrigger(self, value: RefType) -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         AUTOSAR-compliant setter for targetTrigger with method chaining.
 
@@ -139,7 +141,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         Set contextPPortPrototype and return self for chaining.
 
@@ -155,7 +157,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
         self.context_p_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_trigger(self, value: Optional[RefType]) -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def with_target_trigger(self, value: Optional[RefType]) -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         Set targetTrigger and return self for chaining.
 

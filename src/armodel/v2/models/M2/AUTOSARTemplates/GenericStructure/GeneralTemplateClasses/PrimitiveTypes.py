@@ -10,6 +10,8 @@ V2 Implementation:
 Compatible with V1 API.
 """
 
+from __future__ import annotations
+
 import re
 from abc import (
     ABC,
@@ -57,7 +59,7 @@ class ARType(ABC):
         """
         return self.value
 
-    def setValue(self, val: Optional[Any]) -> "ARType":
+    def setValue(self, val: Optional[Any]) -> ARType:
         """
         Sets the value of this AUTOSAR type.
         Only sets the value if it is not None.
@@ -156,7 +158,7 @@ class ARNumerical(ARType):
         """
         return self.value
 
-    def setShortLabel(self, val: Optional[str]) -> "ARNumerical":
+    def setShortLabel(self, val: Optional[str]) -> ARNumerical:
         """
         Sets the short label for this numerical type.
         Only sets the value if it is not None.
@@ -296,7 +298,7 @@ class AREnum(ARLiteral):
         """
         return self.enumValues
 
-    def setEnumValues(self, values: List[str]) -> "AREnum":
+    def setEnumValues(self, values: List[str]) -> AREnum:
         """
         Sets the list of possible enum values.
 
@@ -632,7 +634,7 @@ class CIdentifier(ARLiteral):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: str) -> "CIdentifier":
+    def setBlueprintValue(self, value: str) -> CIdentifier:
         """
         Sets the blueprint value of this C identifier.
 
@@ -654,7 +656,7 @@ class CIdentifier(ARLiteral):
         """
         return self.namePattern
 
-    def setNamePattern(self, value: str) -> "CIdentifier":
+    def setNamePattern(self, value: str) -> CIdentifier:
         """
         Sets the name pattern of this C identifier.
 
@@ -703,7 +705,7 @@ class Limit(ARObject):
         """
         return self.intervalType
 
-    def setIntervalType(self, value: str) -> "Limit":
+    def setIntervalType(self, value: str) -> Limit:
         """
         Sets the interval type of this limit.
 
@@ -725,7 +727,7 @@ class Limit(ARObject):
         """
         return self.value
 
-    def setValue(self, value: str) -> "Limit":
+    def setValue(self, value: str) -> Limit:
         """
         Sets the value of this limit.
 
@@ -761,7 +763,7 @@ class RefType(ARObject):
         """
         return self.base
 
-    def setBase(self, value: str) -> "RefType":
+    def setBase(self, value: str) -> RefType:
         """
         Sets the base of this reference type.
 
@@ -783,7 +785,7 @@ class RefType(ARObject):
         """
         return self.dest
 
-    def setDest(self, value: str) -> "RefType":
+    def setDest(self, value: str) -> RefType:
         """
         Sets the destination of this reference type.
 
@@ -805,7 +807,7 @@ class RefType(ARObject):
         """
         return self.value
 
-    def setValue(self, value: str) -> "RefType":
+    def setValue(self, value: str) -> RefType:
         """
         Sets the value of this reference type.
 

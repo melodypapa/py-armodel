@@ -4,6 +4,8 @@ AUTOSAR Package - VariantHandling
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -132,7 +134,7 @@ class VariationPointProxy(Identifiable):
         """
         return self.condition_access  # Delegates to property
 
-    def setConditionAccess(self, value: "ConditionByFormula") -> "VariationPointProxy":
+    def setConditionAccess(self, value: "ConditionByFormula") -> VariationPointProxy:
         """
         AUTOSAR-compliant setter for conditionAccess with method chaining.
 
@@ -160,7 +162,7 @@ class VariationPointProxy(Identifiable):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: "AbstractImplementation") -> "VariationPointProxy":
+    def setImplementation(self, value: "AbstractImplementation") -> VariationPointProxy:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -188,7 +190,7 @@ class VariationPointProxy(Identifiable):
         """
         return self.post_build_value  # Delegates to property
 
-    def setPostBuildValue(self, value: "PostBuildVariant") -> "VariationPointProxy":
+    def setPostBuildValue(self, value: "PostBuildVariant") -> VariationPointProxy:
         """
         AUTOSAR-compliant setter for postBuildValue with method chaining.
 
@@ -206,7 +208,7 @@ class VariationPointProxy(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_condition_access(self, value: Optional["ConditionByFormula"]) -> "VariationPointProxy":
+    def with_condition_access(self, value: Optional["ConditionByFormula"]) -> VariationPointProxy:
         """
         Set conditionAccess and return self for chaining.
 
@@ -222,7 +224,7 @@ class VariationPointProxy(Identifiable):
         self.condition_access = value  # Use property setter (gets validation)
         return self
 
-    def with_implementation(self, value: Optional["AbstractImplementation"]) -> "VariationPointProxy":
+    def with_implementation(self, value: Optional["AbstractImplementation"]) -> VariationPointProxy:
         """
         Set implementation and return self for chaining.
 
@@ -238,7 +240,7 @@ class VariationPointProxy(Identifiable):
         self.implementation = value  # Use property setter (gets validation)
         return self
 
-    def with_post_build_value(self, value: Optional["PostBuildVariant"]) -> "VariationPointProxy":
+    def with_post_build_value(self, value: Optional["PostBuildVariant"]) -> VariationPointProxy:
         """
         Set postBuildValue and return self for chaining.
 

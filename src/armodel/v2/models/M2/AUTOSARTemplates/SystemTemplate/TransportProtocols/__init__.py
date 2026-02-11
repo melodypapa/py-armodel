@@ -4,10 +4,12 @@ AUTOSAR Package - TransportProtocols
 Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     PositiveInteger,
@@ -405,7 +407,7 @@ class DoIpLogicAddress(Identifiable):
         """
         return self.address  # Delegates to property
 
-    def setAddress(self, value: "Integer") -> "DoIpLogicAddress":
+    def setAddress(self, value: "Integer") -> DoIpLogicAddress:
         """
         AUTOSAR-compliant setter for address with method chaining.
 
@@ -433,7 +435,7 @@ class DoIpLogicAddress(Identifiable):
         """
         return self.do_ip_logic  # Delegates to property
 
-    def setDoIpLogic(self, value: "AbstractDoIpLogic") -> "DoIpLogicAddress":
+    def setDoIpLogic(self, value: "AbstractDoIpLogic") -> DoIpLogicAddress:
         """
         AUTOSAR-compliant setter for doIpLogic with method chaining.
 
@@ -451,7 +453,7 @@ class DoIpLogicAddress(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_address(self, value: Optional["Integer"]) -> "DoIpLogicAddress":
+    def with_address(self, value: Optional["Integer"]) -> DoIpLogicAddress:
         """
         Set address and return self for chaining.
 
@@ -467,7 +469,7 @@ class DoIpLogicAddress(Identifiable):
         self.address = value  # Use property setter (gets validation)
         return self
 
-    def with_do_ip_logic(self, value: Optional["AbstractDoIpLogic"]) -> "DoIpLogicAddress":
+    def with_do_ip_logic(self, value: Optional["AbstractDoIpLogic"]) -> DoIpLogicAddress:
         """
         Set doIpLogic and return self for chaining.
 
@@ -543,7 +545,7 @@ class TpConfig(FibexElement, ABC):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: "CommunicationCluster") -> "TpConfig":
+    def setCommunication(self, value: "CommunicationCluster") -> TpConfig:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -561,7 +563,7 @@ class TpConfig(FibexElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication(self, value: Optional["CommunicationCluster"]) -> "TpConfig":
+    def with_communication(self, value: Optional["CommunicationCluster"]) -> TpConfig:
         """
         Set communication and return self for chaining.
 
@@ -637,7 +639,7 @@ class TpAddress(Identifiable):
         """
         return self.tp_address  # Delegates to property
 
-    def setTpAddress(self, value: "Integer") -> "TpAddress":
+    def setTpAddress(self, value: "Integer") -> TpAddress:
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
 
@@ -655,7 +657,7 @@ class TpAddress(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tp_address(self, value: Optional["Integer"]) -> "TpAddress":
+    def with_tp_address(self, value: Optional["Integer"]) -> TpAddress:
         """
         Set tpAddress and return self for chaining.
 
@@ -1055,7 +1057,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.ack_type  # Delegates to property
 
-    def setAckType(self, value: "TpAckType") -> "FlexrayTpConnectionControl":
+    def setAckType(self, value: "TpAckType") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for ackType with method chaining.
 
@@ -1083,7 +1085,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.max_fc_wait  # Delegates to property
 
-    def setMaxFcWait(self, value: "Integer") -> "FlexrayTpConnectionControl":
+    def setMaxFcWait(self, value: "Integer") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for maxFcWait with method chaining.
 
@@ -1111,7 +1113,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "Integer") -> "FlexrayTpConnectionControl":
+    def setMaxNumberOf(self, value: "Integer") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -1139,7 +1141,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.max_retries  # Delegates to property
 
-    def setMaxRetries(self, value: "Integer") -> "FlexrayTpConnectionControl":
+    def setMaxRetries(self, value: "Integer") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for maxRetries with method chaining.
 
@@ -1167,7 +1169,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.separation_cycle  # Delegates to property
 
-    def setSeparationCycle(self, value: "Integer") -> "FlexrayTpConnectionControl":
+    def setSeparationCycle(self, value: "Integer") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for separationCycle with method chaining.
 
@@ -1195,7 +1197,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.time_br  # Delegates to property
 
-    def setTimeBr(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
+    def setTimeBr(self, value: "TimeValue") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for timeBr with method chaining.
 
@@ -1223,7 +1225,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.time_buffer  # Delegates to property
 
-    def setTimeBuffer(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
+    def setTimeBuffer(self, value: "TimeValue") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for timeBuffer with method chaining.
 
@@ -1251,7 +1253,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.time_cs  # Delegates to property
 
-    def setTimeCs(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
+    def setTimeCs(self, value: "TimeValue") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for timeCs with method chaining.
 
@@ -1279,7 +1281,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.timeout_ar  # Delegates to property
 
-    def setTimeoutAr(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
+    def setTimeoutAr(self, value: "TimeValue") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for timeoutAr with method chaining.
 
@@ -1307,7 +1309,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.timeout_as  # Delegates to property
 
-    def setTimeoutAs(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
+    def setTimeoutAs(self, value: "TimeValue") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
 
@@ -1335,7 +1337,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.timeout_bs  # Delegates to property
 
-    def setTimeoutBs(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
+    def setTimeoutBs(self, value: "TimeValue") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for timeoutBs with method chaining.
 
@@ -1363,7 +1365,7 @@ class FlexrayTpConnectionControl(Identifiable):
         """
         return self.timeout_cr  # Delegates to property
 
-    def setTimeoutCr(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
+    def setTimeoutCr(self, value: "TimeValue") -> FlexrayTpConnectionControl:
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
 
@@ -1381,7 +1383,7 @@ class FlexrayTpConnectionControl(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ack_type(self, value: Optional["TpAckType"]) -> "FlexrayTpConnectionControl":
+    def with_ack_type(self, value: Optional["TpAckType"]) -> FlexrayTpConnectionControl:
         """
         Set ackType and return self for chaining.
 
@@ -1397,7 +1399,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.ack_type = value  # Use property setter (gets validation)
         return self
 
-    def with_max_fc_wait(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
+    def with_max_fc_wait(self, value: Optional["Integer"]) -> FlexrayTpConnectionControl:
         """
         Set maxFcWait and return self for chaining.
 
@@ -1413,7 +1415,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.max_fc_wait = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number_of(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
+    def with_max_number_of(self, value: Optional["Integer"]) -> FlexrayTpConnectionControl:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -1429,7 +1431,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_max_retries(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
+    def with_max_retries(self, value: Optional["Integer"]) -> FlexrayTpConnectionControl:
         """
         Set maxRetries and return self for chaining.
 
@@ -1445,7 +1447,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.max_retries = value  # Use property setter (gets validation)
         return self
 
-    def with_separation_cycle(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
+    def with_separation_cycle(self, value: Optional["Integer"]) -> FlexrayTpConnectionControl:
         """
         Set separationCycle and return self for chaining.
 
@@ -1461,7 +1463,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.separation_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_time_br(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
+    def with_time_br(self, value: Optional["TimeValue"]) -> FlexrayTpConnectionControl:
         """
         Set timeBr and return self for chaining.
 
@@ -1477,7 +1479,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.time_br = value  # Use property setter (gets validation)
         return self
 
-    def with_time_buffer(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
+    def with_time_buffer(self, value: Optional["TimeValue"]) -> FlexrayTpConnectionControl:
         """
         Set timeBuffer and return self for chaining.
 
@@ -1493,7 +1495,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.time_buffer = value  # Use property setter (gets validation)
         return self
 
-    def with_time_cs(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
+    def with_time_cs(self, value: Optional["TimeValue"]) -> FlexrayTpConnectionControl:
         """
         Set timeCs and return self for chaining.
 
@@ -1509,7 +1511,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.time_cs = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_ar(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
+    def with_timeout_ar(self, value: Optional["TimeValue"]) -> FlexrayTpConnectionControl:
         """
         Set timeoutAr and return self for chaining.
 
@@ -1525,7 +1527,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.timeout_ar = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_as(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
+    def with_timeout_as(self, value: Optional["TimeValue"]) -> FlexrayTpConnectionControl:
         """
         Set timeoutAs and return self for chaining.
 
@@ -1541,7 +1543,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.timeout_as = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_bs(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
+    def with_timeout_bs(self, value: Optional["TimeValue"]) -> FlexrayTpConnectionControl:
         """
         Set timeoutBs and return self for chaining.
 
@@ -1557,7 +1559,7 @@ class FlexrayTpConnectionControl(Identifiable):
         self.timeout_bs = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_cr(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
+    def with_timeout_cr(self, value: Optional["TimeValue"]) -> FlexrayTpConnectionControl:
         """
         Set timeoutCr and return self for chaining.
 
@@ -1651,15 +1653,15 @@ class FlexrayTpConnection(TpConnection):
             )
         self._directTpSdu = value
         # TP address for 1:n connections.
-        self._multicast: Optional["TpAddress"] = None
+        self._multicast: Optional[TpAddress] = None
 
     @property
-    def multicast(self) -> Optional["TpAddress"]:
+    def multicast(self) -> Optional[TpAddress]:
         """Get multicast (Pythonic accessor)."""
         return self._multicast
 
     @multicast.setter
-    def multicast(self, value: Optional["TpAddress"]) -> None:
+    def multicast(self, value: Optional[TpAddress]) -> None:
         """
         Set multicast with validation.
 
@@ -1679,10 +1681,10 @@ class FlexrayTpConnection(TpConnection):
             )
         self._multicast = value
         # The target of the TP connection.
-        self._receiver: List["FlexrayTpNode"] = []
+        self._receiver: List[FlexrayTpNode] = []
 
     @property
-    def receiver(self) -> List["FlexrayTpNode"]:
+    def receiver(self) -> List[FlexrayTpNode]:
         """Get receiver (Pythonic accessor)."""
         return self._receiver
         # Reference to the IPdu that is segmented by the Transport support of both
@@ -1718,15 +1720,15 @@ class FlexrayTpConnection(TpConnection):
         # receiving data via this constraint is valid only for the System In case this
         # connection is applied to the rxPduPool holds the actually received case this
         # connection is applied to the receiver holds the actually sent NPdus.
-        self._rxPduPool: Optional["FlexrayTpPduPool"] = None
+        self._rxPduPool: Optional[FlexrayTpPduPool] = None
 
     @property
-    def rx_pdu_pool(self) -> Optional["FlexrayTpPduPool"]:
+    def rx_pdu_pool(self) -> Optional[FlexrayTpPduPool]:
         """Get rxPduPool (Pythonic accessor)."""
         return self._rxPduPool
 
     @rx_pdu_pool.setter
-    def rx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> None:
+    def rx_pdu_pool(self, value: Optional[FlexrayTpPduPool]) -> None:
         """
         Set rxPduPool with validation.
 
@@ -1746,15 +1748,15 @@ class FlexrayTpConnection(TpConnection):
             )
         self._rxPduPool = value
         # Reference to the connection control.
-        self._tpConnection: Optional["FlexrayTpConnection"] = None
+        self._tpConnection: Optional[FlexrayTpConnection] = None
 
     @property
-    def tp_connection(self) -> Optional["FlexrayTpConnection"]:
+    def tp_connection(self) -> Optional[FlexrayTpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
 
     @tp_connection.setter
-    def tp_connection(self, value: Optional["FlexrayTpConnection"]) -> None:
+    def tp_connection(self, value: Optional[FlexrayTpConnection]) -> None:
         """
         Set tpConnection with validation.
 
@@ -1774,15 +1776,15 @@ class FlexrayTpConnection(TpConnection):
             )
         self._tpConnection = value
         # The source of the TP connection.
-        self._transmitter: Optional["FlexrayTpNode"] = None
+        self._transmitter: Optional[FlexrayTpNode] = None
 
     @property
-    def transmitter(self) -> Optional["FlexrayTpNode"]:
+    def transmitter(self) -> Optional[FlexrayTpNode]:
         """Get transmitter (Pythonic accessor)."""
         return self._transmitter
 
     @transmitter.setter
-    def transmitter(self, value: Optional["FlexrayTpNode"]) -> None:
+    def transmitter(self, value: Optional[FlexrayTpNode]) -> None:
         """
         Set transmitter with validation.
 
@@ -1805,15 +1807,15 @@ class FlexrayTpConnection(TpConnection):
         # sending data via this constraint is valid only for the System In case this
         # connection is applied to the txPduPool holds the actually sent case this
         # connection is applied to the receiver holds the actually received NPdus.
-        self._txPduPool: Optional["FlexrayTpPduPool"] = None
+        self._txPduPool: Optional[FlexrayTpPduPool] = None
 
     @property
-    def tx_pdu_pool(self) -> Optional["FlexrayTpPduPool"]:
+    def tx_pdu_pool(self) -> Optional[FlexrayTpPduPool]:
         """Get txPduPool (Pythonic accessor)."""
         return self._txPduPool
 
     @tx_pdu_pool.setter
-    def tx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> None:
+    def tx_pdu_pool(self, value: Optional[FlexrayTpPduPool]) -> None:
         """
         Set txPduPool with validation.
 
@@ -1847,7 +1849,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.bandwidth  # Delegates to property
 
-    def setBandwidth(self, value: "Boolean") -> "FlexrayTpConnection":
+    def setBandwidth(self, value: "Boolean") -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for bandwidth with method chaining.
 
@@ -1875,7 +1877,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.direct_tp_sdu  # Delegates to property
 
-    def setDirectTpSdu(self, value: "IPdu") -> "FlexrayTpConnection":
+    def setDirectTpSdu(self, value: "IPdu") -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for directTpSdu with method chaining.
 
@@ -1891,7 +1893,7 @@ class FlexrayTpConnection(TpConnection):
         self.direct_tp_sdu = value  # Delegates to property setter
         return self
 
-    def getMulticast(self) -> "TpAddress":
+    def getMulticast(self) -> TpAddress:
         """
         AUTOSAR-compliant getter for multicast.
 
@@ -1903,7 +1905,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.multicast  # Delegates to property
 
-    def setMulticast(self, value: "TpAddress") -> "FlexrayTpConnection":
+    def setMulticast(self, value: TpAddress) -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for multicast with method chaining.
 
@@ -1919,7 +1921,7 @@ class FlexrayTpConnection(TpConnection):
         self.multicast = value  # Delegates to property setter
         return self
 
-    def getReceiver(self) -> List["FlexrayTpNode"]:
+    def getReceiver(self) -> List[FlexrayTpNode]:
         """
         AUTOSAR-compliant getter for receiver.
 
@@ -1943,7 +1945,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.reversed_tp_sdu  # Delegates to property
 
-    def setReversedTpSdu(self, value: "IPdu") -> "FlexrayTpConnection":
+    def setReversedTpSdu(self, value: "IPdu") -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for reversedTpSdu with method chaining.
 
@@ -1959,7 +1961,7 @@ class FlexrayTpConnection(TpConnection):
         self.reversed_tp_sdu = value  # Delegates to property setter
         return self
 
-    def getRxPduPool(self) -> "FlexrayTpPduPool":
+    def getRxPduPool(self) -> FlexrayTpPduPool:
         """
         AUTOSAR-compliant getter for rxPduPool.
 
@@ -1971,7 +1973,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.rx_pdu_pool  # Delegates to property
 
-    def setRxPduPool(self, value: "FlexrayTpPduPool") -> "FlexrayTpConnection":
+    def setRxPduPool(self, value: FlexrayTpPduPool) -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for rxPduPool with method chaining.
 
@@ -1987,7 +1989,7 @@ class FlexrayTpConnection(TpConnection):
         self.rx_pdu_pool = value  # Delegates to property setter
         return self
 
-    def getTpConnection(self) -> "FlexrayTpConnection":
+    def getTpConnection(self) -> FlexrayTpConnection:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -1999,7 +2001,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.tp_connection  # Delegates to property
 
-    def setTpConnection(self, value: "FlexrayTpConnection") -> "FlexrayTpConnection":
+    def setTpConnection(self, value: FlexrayTpConnection) -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for tpConnection with method chaining.
 
@@ -2015,7 +2017,7 @@ class FlexrayTpConnection(TpConnection):
         self.tp_connection = value  # Delegates to property setter
         return self
 
-    def getTransmitter(self) -> "FlexrayTpNode":
+    def getTransmitter(self) -> FlexrayTpNode:
         """
         AUTOSAR-compliant getter for transmitter.
 
@@ -2027,7 +2029,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.transmitter  # Delegates to property
 
-    def setTransmitter(self, value: "FlexrayTpNode") -> "FlexrayTpConnection":
+    def setTransmitter(self, value: FlexrayTpNode) -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
 
@@ -2043,7 +2045,7 @@ class FlexrayTpConnection(TpConnection):
         self.transmitter = value  # Delegates to property setter
         return self
 
-    def getTxPduPool(self) -> "FlexrayTpPduPool":
+    def getTxPduPool(self) -> FlexrayTpPduPool:
         """
         AUTOSAR-compliant getter for txPduPool.
 
@@ -2055,7 +2057,7 @@ class FlexrayTpConnection(TpConnection):
         """
         return self.tx_pdu_pool  # Delegates to property
 
-    def setTxPduPool(self, value: "FlexrayTpPduPool") -> "FlexrayTpConnection":
+    def setTxPduPool(self, value: FlexrayTpPduPool) -> FlexrayTpConnection:
         """
         AUTOSAR-compliant setter for txPduPool with method chaining.
 
@@ -2073,7 +2075,7 @@ class FlexrayTpConnection(TpConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bandwidth(self, value: Optional["Boolean"]) -> "FlexrayTpConnection":
+    def with_bandwidth(self, value: Optional["Boolean"]) -> FlexrayTpConnection:
         """
         Set bandwidth and return self for chaining.
 
@@ -2089,7 +2091,7 @@ class FlexrayTpConnection(TpConnection):
         self.bandwidth = value  # Use property setter (gets validation)
         return self
 
-    def with_direct_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayTpConnection":
+    def with_direct_tp_sdu(self, value: Optional["IPdu"]) -> FlexrayTpConnection:
         """
         Set directTpSdu and return self for chaining.
 
@@ -2105,7 +2107,7 @@ class FlexrayTpConnection(TpConnection):
         self.direct_tp_sdu = value  # Use property setter (gets validation)
         return self
 
-    def with_multicast(self, value: Optional["TpAddress"]) -> "FlexrayTpConnection":
+    def with_multicast(self, value: Optional[TpAddress]) -> FlexrayTpConnection:
         """
         Set multicast and return self for chaining.
 
@@ -2121,7 +2123,7 @@ class FlexrayTpConnection(TpConnection):
         self.multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_reversed_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayTpConnection":
+    def with_reversed_tp_sdu(self, value: Optional["IPdu"]) -> FlexrayTpConnection:
         """
         Set reversedTpSdu and return self for chaining.
 
@@ -2137,7 +2139,7 @@ class FlexrayTpConnection(TpConnection):
         self.reversed_tp_sdu = value  # Use property setter (gets validation)
         return self
 
-    def with_rx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> "FlexrayTpConnection":
+    def with_rx_pdu_pool(self, value: Optional[FlexrayTpPduPool]) -> FlexrayTpConnection:
         """
         Set rxPduPool and return self for chaining.
 
@@ -2153,7 +2155,7 @@ class FlexrayTpConnection(TpConnection):
         self.rx_pdu_pool = value  # Use property setter (gets validation)
         return self
 
-    def with_tp_connection(self, value: Optional["FlexrayTpConnection"]) -> "FlexrayTpConnection":
+    def with_tp_connection(self, value: Optional[FlexrayTpConnection]) -> FlexrayTpConnection:
         """
         Set tpConnection and return self for chaining.
 
@@ -2169,7 +2171,7 @@ class FlexrayTpConnection(TpConnection):
         self.tp_connection = value  # Use property setter (gets validation)
         return self
 
-    def with_transmitter(self, value: Optional["FlexrayTpNode"]) -> "FlexrayTpConnection":
+    def with_transmitter(self, value: Optional[FlexrayTpNode]) -> FlexrayTpConnection:
         """
         Set transmitter and return self for chaining.
 
@@ -2185,7 +2187,7 @@ class FlexrayTpConnection(TpConnection):
         self.transmitter = value  # Use property setter (gets validation)
         return self
 
-    def with_tx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> "FlexrayTpConnection":
+    def with_tx_pdu_pool(self, value: Optional[FlexrayTpPduPool]) -> FlexrayTpConnection:
         """
         Set txPduPool and return self for chaining.
 
@@ -2270,15 +2272,15 @@ class FlexrayTpNode(Identifiable):
         return self._connector
         # Reference to the TP Address that is used by the TpNode.
         # is optional in case that the multicast TP used (reference from TpConnection).
-        self._tpAddress: Optional["TpAddress"] = None
+        self._tpAddress: Optional[TpAddress] = None
 
     @property
-    def tp_address(self) -> Optional["TpAddress"]:
+    def tp_address(self) -> Optional[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
 
     @tp_address.setter
-    def tp_address(self, value: Optional["TpAddress"]) -> None:
+    def tp_address(self, value: Optional[TpAddress]) -> None:
         """
         Set tpAddress with validation.
 
@@ -2312,7 +2314,7 @@ class FlexrayTpNode(Identifiable):
         """
         return self.connector  # Delegates to property
 
-    def getTpAddress(self) -> "TpAddress":
+    def getTpAddress(self) -> TpAddress:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -2324,7 +2326,7 @@ class FlexrayTpNode(Identifiable):
         """
         return self.tp_address  # Delegates to property
 
-    def setTpAddress(self, value: "TpAddress") -> "FlexrayTpNode":
+    def setTpAddress(self, value: TpAddress) -> FlexrayTpNode:
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
 
@@ -2342,7 +2344,7 @@ class FlexrayTpNode(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tp_address(self, value: Optional["TpAddress"]) -> "FlexrayTpNode":
+    def with_tp_address(self, value: Optional[TpAddress]) -> FlexrayTpNode:
         """
         Set tpAddress and return self for chaining.
 
@@ -2504,7 +2506,7 @@ class FlexrayTpEcu(ARObject):
         """
         return self.cancellation  # Delegates to property
 
-    def setCancellation(self, value: "Boolean") -> "FlexrayTpEcu":
+    def setCancellation(self, value: "Boolean") -> FlexrayTpEcu:
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
 
@@ -2532,7 +2534,7 @@ class FlexrayTpEcu(ARObject):
         """
         return self.cycle_time_main  # Delegates to property
 
-    def setCycleTimeMain(self, value: "TimeValue") -> "FlexrayTpEcu":
+    def setCycleTimeMain(self, value: "TimeValue") -> FlexrayTpEcu:
         """
         AUTOSAR-compliant setter for cycleTimeMain with method chaining.
 
@@ -2560,7 +2562,7 @@ class FlexrayTpEcu(ARObject):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> "FlexrayTpEcu":
+    def setEcuInstance(self, value: "EcuInstance") -> FlexrayTpEcu:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -2588,7 +2590,7 @@ class FlexrayTpEcu(ARObject):
         """
         return self.full_duplex  # Delegates to property
 
-    def setFullDuplex(self, value: "Boolean") -> "FlexrayTpEcu":
+    def setFullDuplex(self, value: "Boolean") -> FlexrayTpEcu:
         """
         AUTOSAR-compliant setter for fullDuplex with method chaining.
 
@@ -2606,7 +2608,7 @@ class FlexrayTpEcu(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cancellation(self, value: Optional["Boolean"]) -> "FlexrayTpEcu":
+    def with_cancellation(self, value: Optional["Boolean"]) -> FlexrayTpEcu:
         """
         Set cancellation and return self for chaining.
 
@@ -2622,7 +2624,7 @@ class FlexrayTpEcu(ARObject):
         self.cancellation = value  # Use property setter (gets validation)
         return self
 
-    def with_cycle_time_main(self, value: Optional["TimeValue"]) -> "FlexrayTpEcu":
+    def with_cycle_time_main(self, value: Optional["TimeValue"]) -> FlexrayTpEcu:
         """
         Set cycleTimeMain and return self for chaining.
 
@@ -2638,7 +2640,7 @@ class FlexrayTpEcu(ARObject):
         self.cycle_time_main = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "FlexrayTpEcu":
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> FlexrayTpEcu:
         """
         Set ecuInstance and return self for chaining.
 
@@ -2654,7 +2656,7 @@ class FlexrayTpEcu(ARObject):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_full_duplex(self, value: Optional["Boolean"]) -> "FlexrayTpEcu":
+    def with_full_duplex(self, value: Optional["Boolean"]) -> FlexrayTpEcu:
         """
         Set fullDuplex and return self for chaining.
 
@@ -2689,15 +2691,15 @@ class FlexrayArTpChannel(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Type of Acknowledgement.
-        self._ackType: Optional["FrArTpAckType"] = None
+        self._ackType: Optional[FrArTpAckType] = None
 
     @property
-    def ack_type(self) -> Optional["FrArTpAckType"]:
+    def ack_type(self) -> Optional[FrArTpAckType]:
         """Get ackType (Pythonic accessor)."""
         return self._ackType
 
     @ack_type.setter
-    def ack_type(self, value: Optional["FrArTpAckType"]) -> None:
+    def ack_type(self, value: Optional[FrArTpAckType]) -> None:
         """
         Set ackType with validation.
 
@@ -3206,16 +3208,16 @@ class FlexrayArTpChannel(ARObject):
             )
         self._timeoutCr = value
         # Group of connections that can be used in this channel.
-        self._tpConnection: List["FlexrayArTpConnection"] = []
+        self._tpConnection: List[FlexrayArTpConnection] = []
 
     @property
-    def tp_connection(self) -> List["FlexrayArTpConnection"]:
+    def tp_connection(self) -> List[FlexrayArTpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAckType(self) -> "FrArTpAckType":
+    def getAckType(self) -> FrArTpAckType:
         """
         AUTOSAR-compliant getter for ackType.
 
@@ -3227,7 +3229,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.ack_type  # Delegates to property
 
-    def setAckType(self, value: "FrArTpAckType") -> "FlexrayArTpChannel":
+    def setAckType(self, value: FrArTpAckType) -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for ackType with method chaining.
 
@@ -3255,7 +3257,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.cancellation  # Delegates to property
 
-    def setCancellation(self, value: "Boolean") -> "FlexrayArTpChannel":
+    def setCancellation(self, value: "Boolean") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
 
@@ -3283,7 +3285,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.extended  # Delegates to property
 
-    def setExtended(self, value: "Boolean") -> "FlexrayArTpChannel":
+    def setExtended(self, value: "Boolean") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for extended with method chaining.
 
@@ -3311,7 +3313,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.max_ar  # Delegates to property
 
-    def setMaxAr(self, value: "Integer") -> "FlexrayArTpChannel":
+    def setMaxAr(self, value: "Integer") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for maxAr with method chaining.
 
@@ -3339,7 +3341,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.max_as  # Delegates to property
 
-    def setMaxAs(self, value: "Integer") -> "FlexrayArTpChannel":
+    def setMaxAs(self, value: "Integer") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for maxAs with method chaining.
 
@@ -3367,7 +3369,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.max_bs  # Delegates to property
 
-    def setMaxBs(self, value: "Integer") -> "FlexrayArTpChannel":
+    def setMaxBs(self, value: "Integer") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for maxBs with method chaining.
 
@@ -3395,7 +3397,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.max_fc_wait  # Delegates to property
 
-    def setMaxFcWait(self, value: "PositiveInteger") -> "FlexrayArTpChannel":
+    def setMaxFcWait(self, value: "PositiveInteger") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for maxFcWait with method chaining.
 
@@ -3423,7 +3425,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.maximum  # Delegates to property
 
-    def setMaximum(self, value: "MaximumMessage") -> "FlexrayArTpChannel":
+    def setMaximum(self, value: "MaximumMessage") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for maximum with method chaining.
 
@@ -3451,7 +3453,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.max_retries  # Delegates to property
 
-    def setMaxRetries(self, value: "Integer") -> "FlexrayArTpChannel":
+    def setMaxRetries(self, value: "Integer") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for maxRetries with method chaining.
 
@@ -3479,7 +3481,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.minimum  # Delegates to property
 
-    def setMinimum(self, value: "TimeValue") -> "FlexrayArTpChannel":
+    def setMinimum(self, value: "TimeValue") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for minimum with method chaining.
 
@@ -3507,7 +3509,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.multicast  # Delegates to property
 
-    def setMulticast(self, value: "Boolean") -> "FlexrayArTpChannel":
+    def setMulticast(self, value: "Boolean") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for multicast with method chaining.
 
@@ -3547,7 +3549,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.time_br  # Delegates to property
 
-    def setTimeBr(self, value: "TimeValue") -> "FlexrayArTpChannel":
+    def setTimeBr(self, value: "TimeValue") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for timeBr with method chaining.
 
@@ -3575,7 +3577,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.time_cs  # Delegates to property
 
-    def setTimeCs(self, value: "TimeValue") -> "FlexrayArTpChannel":
+    def setTimeCs(self, value: "TimeValue") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for timeCs with method chaining.
 
@@ -3603,7 +3605,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.timeout_ar  # Delegates to property
 
-    def setTimeoutAr(self, value: "TimeValue") -> "FlexrayArTpChannel":
+    def setTimeoutAr(self, value: "TimeValue") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for timeoutAr with method chaining.
 
@@ -3631,7 +3633,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.timeout_as  # Delegates to property
 
-    def setTimeoutAs(self, value: "TimeValue") -> "FlexrayArTpChannel":
+    def setTimeoutAs(self, value: "TimeValue") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
 
@@ -3659,7 +3661,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.timeout_bs  # Delegates to property
 
-    def setTimeoutBs(self, value: "TimeValue") -> "FlexrayArTpChannel":
+    def setTimeoutBs(self, value: "TimeValue") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for timeoutBs with method chaining.
 
@@ -3687,7 +3689,7 @@ class FlexrayArTpChannel(ARObject):
         """
         return self.timeout_cr  # Delegates to property
 
-    def setTimeoutCr(self, value: "TimeValue") -> "FlexrayArTpChannel":
+    def setTimeoutCr(self, value: "TimeValue") -> FlexrayArTpChannel:
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
 
@@ -3703,7 +3705,7 @@ class FlexrayArTpChannel(ARObject):
         self.timeout_cr = value  # Delegates to property setter
         return self
 
-    def getTpConnection(self) -> List["FlexrayArTpConnection"]:
+    def getTpConnection(self) -> List[FlexrayArTpConnection]:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -3717,7 +3719,7 @@ class FlexrayArTpChannel(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ack_type(self, value: Optional["FrArTpAckType"]) -> "FlexrayArTpChannel":
+    def with_ack_type(self, value: Optional[FrArTpAckType]) -> FlexrayArTpChannel:
         """
         Set ackType and return self for chaining.
 
@@ -3733,7 +3735,7 @@ class FlexrayArTpChannel(ARObject):
         self.ack_type = value  # Use property setter (gets validation)
         return self
 
-    def with_cancellation(self, value: Optional["Boolean"]) -> "FlexrayArTpChannel":
+    def with_cancellation(self, value: Optional["Boolean"]) -> FlexrayArTpChannel:
         """
         Set cancellation and return self for chaining.
 
@@ -3749,7 +3751,7 @@ class FlexrayArTpChannel(ARObject):
         self.cancellation = value  # Use property setter (gets validation)
         return self
 
-    def with_extended(self, value: Optional["Boolean"]) -> "FlexrayArTpChannel":
+    def with_extended(self, value: Optional["Boolean"]) -> FlexrayArTpChannel:
         """
         Set extended and return self for chaining.
 
@@ -3765,7 +3767,7 @@ class FlexrayArTpChannel(ARObject):
         self.extended = value  # Use property setter (gets validation)
         return self
 
-    def with_max_ar(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
+    def with_max_ar(self, value: Optional["Integer"]) -> FlexrayArTpChannel:
         """
         Set maxAr and return self for chaining.
 
@@ -3781,7 +3783,7 @@ class FlexrayArTpChannel(ARObject):
         self.max_ar = value  # Use property setter (gets validation)
         return self
 
-    def with_max_as(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
+    def with_max_as(self, value: Optional["Integer"]) -> FlexrayArTpChannel:
         """
         Set maxAs and return self for chaining.
 
@@ -3797,7 +3799,7 @@ class FlexrayArTpChannel(ARObject):
         self.max_as = value  # Use property setter (gets validation)
         return self
 
-    def with_max_bs(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
+    def with_max_bs(self, value: Optional["Integer"]) -> FlexrayArTpChannel:
         """
         Set maxBs and return self for chaining.
 
@@ -3813,7 +3815,7 @@ class FlexrayArTpChannel(ARObject):
         self.max_bs = value  # Use property setter (gets validation)
         return self
 
-    def with_max_fc_wait(self, value: Optional["PositiveInteger"]) -> "FlexrayArTpChannel":
+    def with_max_fc_wait(self, value: Optional["PositiveInteger"]) -> FlexrayArTpChannel:
         """
         Set maxFcWait and return self for chaining.
 
@@ -3829,7 +3831,7 @@ class FlexrayArTpChannel(ARObject):
         self.max_fc_wait = value  # Use property setter (gets validation)
         return self
 
-    def with_maximum(self, value: Optional["MaximumMessage"]) -> "FlexrayArTpChannel":
+    def with_maximum(self, value: Optional["MaximumMessage"]) -> FlexrayArTpChannel:
         """
         Set maximum and return self for chaining.
 
@@ -3845,7 +3847,7 @@ class FlexrayArTpChannel(ARObject):
         self.maximum = value  # Use property setter (gets validation)
         return self
 
-    def with_max_retries(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
+    def with_max_retries(self, value: Optional["Integer"]) -> FlexrayArTpChannel:
         """
         Set maxRetries and return self for chaining.
 
@@ -3861,7 +3863,7 @@ class FlexrayArTpChannel(ARObject):
         self.max_retries = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
+    def with_minimum(self, value: Optional["TimeValue"]) -> FlexrayArTpChannel:
         """
         Set minimum and return self for chaining.
 
@@ -3877,7 +3879,7 @@ class FlexrayArTpChannel(ARObject):
         self.minimum = value  # Use property setter (gets validation)
         return self
 
-    def with_multicast(self, value: Optional["Boolean"]) -> "FlexrayArTpChannel":
+    def with_multicast(self, value: Optional["Boolean"]) -> FlexrayArTpChannel:
         """
         Set multicast and return self for chaining.
 
@@ -3893,7 +3895,7 @@ class FlexrayArTpChannel(ARObject):
         self.multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_time_br(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
+    def with_time_br(self, value: Optional["TimeValue"]) -> FlexrayArTpChannel:
         """
         Set timeBr and return self for chaining.
 
@@ -3909,7 +3911,7 @@ class FlexrayArTpChannel(ARObject):
         self.time_br = value  # Use property setter (gets validation)
         return self
 
-    def with_time_cs(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
+    def with_time_cs(self, value: Optional["TimeValue"]) -> FlexrayArTpChannel:
         """
         Set timeCs and return self for chaining.
 
@@ -3925,7 +3927,7 @@ class FlexrayArTpChannel(ARObject):
         self.time_cs = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_ar(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
+    def with_timeout_ar(self, value: Optional["TimeValue"]) -> FlexrayArTpChannel:
         """
         Set timeoutAr and return self for chaining.
 
@@ -3941,7 +3943,7 @@ class FlexrayArTpChannel(ARObject):
         self.timeout_ar = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_as(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
+    def with_timeout_as(self, value: Optional["TimeValue"]) -> FlexrayArTpChannel:
         """
         Set timeoutAs and return self for chaining.
 
@@ -3957,7 +3959,7 @@ class FlexrayArTpChannel(ARObject):
         self.timeout_as = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_bs(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
+    def with_timeout_bs(self, value: Optional["TimeValue"]) -> FlexrayArTpChannel:
         """
         Set timeoutBs and return self for chaining.
 
@@ -3973,7 +3975,7 @@ class FlexrayArTpChannel(ARObject):
         self.timeout_bs = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_cr(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
+    def with_timeout_cr(self, value: Optional["TimeValue"]) -> FlexrayArTpChannel:
         """
         Set timeoutCr and return self for chaining.
 
@@ -4018,15 +4020,15 @@ class FlexrayArTpNode(Identifiable):
         return self._connector
         # Reference to the TP Address that is used by the TpNode.
         # is optional in case that the multicast TP used (reference from TpConnection).
-        self._tpAddress: Optional["TpAddress"] = None
+        self._tpAddress: Optional[TpAddress] = None
 
     @property
-    def tp_address(self) -> Optional["TpAddress"]:
+    def tp_address(self) -> Optional[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
 
     @tp_address.setter
-    def tp_address(self, value: Optional["TpAddress"]) -> None:
+    def tp_address(self, value: Optional[TpAddress]) -> None:
         """
         Set tpAddress with validation.
 
@@ -4060,7 +4062,7 @@ class FlexrayArTpNode(Identifiable):
         """
         return self.connector  # Delegates to property
 
-    def getTpAddress(self) -> "TpAddress":
+    def getTpAddress(self) -> TpAddress:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -4072,7 +4074,7 @@ class FlexrayArTpNode(Identifiable):
         """
         return self.tp_address  # Delegates to property
 
-    def setTpAddress(self, value: "TpAddress") -> "FlexrayArTpNode":
+    def setTpAddress(self, value: TpAddress) -> FlexrayArTpNode:
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
 
@@ -4090,7 +4092,7 @@ class FlexrayArTpNode(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tp_address(self, value: Optional["TpAddress"]) -> "FlexrayArTpNode":
+    def with_tp_address(self, value: Optional[TpAddress]) -> FlexrayArTpNode:
         """
         Set tpAddress and return self for chaining.
 
@@ -4184,15 +4186,15 @@ class FlexrayArTpConnection(TpConnection):
             )
         self._directTpSdu = value
         # TP address for 1:n connections.
-        self._multicast: Optional["TpAddress"] = None
+        self._multicast: Optional[TpAddress] = None
 
     @property
-    def multicast(self) -> Optional["TpAddress"]:
+    def multicast(self) -> Optional[TpAddress]:
         """Get multicast (Pythonic accessor)."""
         return self._multicast
 
     @multicast.setter
-    def multicast(self, value: Optional["TpAddress"]) -> None:
+    def multicast(self, value: Optional[TpAddress]) -> None:
         """
         Set multicast with validation.
 
@@ -4243,15 +4245,15 @@ class FlexrayArTpConnection(TpConnection):
             )
         self._reversedTpSdu = value
         # The source of the TP connection.
-        self._source: Optional["FlexrayArTpNode"] = None
+        self._source: Optional[FlexrayArTpNode] = None
 
     @property
-    def source(self) -> Optional["FlexrayArTpNode"]:
+    def source(self) -> Optional[FlexrayArTpNode]:
         """Get source (Pythonic accessor)."""
         return self._source
 
     @source.setter
-    def source(self, value: Optional["FlexrayArTpNode"]) -> None:
+    def source(self, value: Optional[FlexrayArTpNode]) -> None:
         """
         Set source with validation.
 
@@ -4271,10 +4273,10 @@ class FlexrayArTpConnection(TpConnection):
             )
         self._source = value
         # The target of the TP connection.
-        self._target: List["FlexrayArTpNode"] = []
+        self._target: List[FlexrayArTpNode] = []
 
     @property
-    def target(self) -> List["FlexrayArTpNode"]:
+    def target(self) -> List[FlexrayArTpNode]:
         """Get target (Pythonic accessor)."""
         return self._target
 
@@ -4292,7 +4294,7 @@ class FlexrayArTpConnection(TpConnection):
         """
         return self.connection_prio  # Delegates to property
 
-    def setConnectionPrio(self, value: "Integer") -> "FlexrayArTpConnection":
+    def setConnectionPrio(self, value: "Integer") -> FlexrayArTpConnection:
         """
         AUTOSAR-compliant setter for connectionPrio with method chaining.
 
@@ -4320,7 +4322,7 @@ class FlexrayArTpConnection(TpConnection):
         """
         return self.direct_tp_sdu  # Delegates to property
 
-    def setDirectTpSdu(self, value: "IPdu") -> "FlexrayArTpConnection":
+    def setDirectTpSdu(self, value: "IPdu") -> FlexrayArTpConnection:
         """
         AUTOSAR-compliant setter for directTpSdu with method chaining.
 
@@ -4336,7 +4338,7 @@ class FlexrayArTpConnection(TpConnection):
         self.direct_tp_sdu = value  # Delegates to property setter
         return self
 
-    def getMulticast(self) -> "TpAddress":
+    def getMulticast(self) -> TpAddress:
         """
         AUTOSAR-compliant getter for multicast.
 
@@ -4348,7 +4350,7 @@ class FlexrayArTpConnection(TpConnection):
         """
         return self.multicast  # Delegates to property
 
-    def setMulticast(self, value: "TpAddress") -> "FlexrayArTpConnection":
+    def setMulticast(self, value: TpAddress) -> FlexrayArTpConnection:
         """
         AUTOSAR-compliant setter for multicast with method chaining.
 
@@ -4376,7 +4378,7 @@ class FlexrayArTpConnection(TpConnection):
         """
         return self.reversed_tp_sdu  # Delegates to property
 
-    def setReversedTpSdu(self, value: "IPdu") -> "FlexrayArTpConnection":
+    def setReversedTpSdu(self, value: "IPdu") -> FlexrayArTpConnection:
         """
         AUTOSAR-compliant setter for reversedTpSdu with method chaining.
 
@@ -4392,7 +4394,7 @@ class FlexrayArTpConnection(TpConnection):
         self.reversed_tp_sdu = value  # Delegates to property setter
         return self
 
-    def getSource(self) -> "FlexrayArTpNode":
+    def getSource(self) -> FlexrayArTpNode:
         """
         AUTOSAR-compliant getter for source.
 
@@ -4404,7 +4406,7 @@ class FlexrayArTpConnection(TpConnection):
         """
         return self.source  # Delegates to property
 
-    def setSource(self, value: "FlexrayArTpNode") -> "FlexrayArTpConnection":
+    def setSource(self, value: FlexrayArTpNode) -> FlexrayArTpConnection:
         """
         AUTOSAR-compliant setter for source with method chaining.
 
@@ -4420,7 +4422,7 @@ class FlexrayArTpConnection(TpConnection):
         self.source = value  # Delegates to property setter
         return self
 
-    def getTarget(self) -> List["FlexrayArTpNode"]:
+    def getTarget(self) -> List[FlexrayArTpNode]:
         """
         AUTOSAR-compliant getter for target.
 
@@ -4434,7 +4436,7 @@ class FlexrayArTpConnection(TpConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connection_prio(self, value: Optional["Integer"]) -> "FlexrayArTpConnection":
+    def with_connection_prio(self, value: Optional["Integer"]) -> FlexrayArTpConnection:
         """
         Set connectionPrio and return self for chaining.
 
@@ -4450,7 +4452,7 @@ class FlexrayArTpConnection(TpConnection):
         self.connection_prio = value  # Use property setter (gets validation)
         return self
 
-    def with_direct_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayArTpConnection":
+    def with_direct_tp_sdu(self, value: Optional["IPdu"]) -> FlexrayArTpConnection:
         """
         Set directTpSdu and return self for chaining.
 
@@ -4466,7 +4468,7 @@ class FlexrayArTpConnection(TpConnection):
         self.direct_tp_sdu = value  # Use property setter (gets validation)
         return self
 
-    def with_multicast(self, value: Optional["TpAddress"]) -> "FlexrayArTpConnection":
+    def with_multicast(self, value: Optional[TpAddress]) -> FlexrayArTpConnection:
         """
         Set multicast and return self for chaining.
 
@@ -4482,7 +4484,7 @@ class FlexrayArTpConnection(TpConnection):
         self.multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_reversed_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayArTpConnection":
+    def with_reversed_tp_sdu(self, value: Optional["IPdu"]) -> FlexrayArTpConnection:
         """
         Set reversedTpSdu and return self for chaining.
 
@@ -4498,7 +4500,7 @@ class FlexrayArTpConnection(TpConnection):
         self.reversed_tp_sdu = value  # Use property setter (gets validation)
         return self
 
-    def with_source(self, value: Optional["FlexrayArTpNode"]) -> "FlexrayArTpConnection":
+    def with_source(self, value: Optional[FlexrayArTpNode]) -> FlexrayArTpConnection:
         """
         Set source and return self for chaining.
 
@@ -4573,7 +4575,7 @@ class CanTpChannel(Identifiable):
         """
         return self.channel_id  # Delegates to property
 
-    def setChannelId(self, value: "PositiveInteger") -> "CanTpChannel":
+    def setChannelId(self, value: "PositiveInteger") -> CanTpChannel:
         """
         AUTOSAR-compliant setter for channelId with method chaining.
 
@@ -4591,7 +4593,7 @@ class CanTpChannel(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_channel_id(self, value: Optional["PositiveInteger"]) -> "CanTpChannel":
+    def with_channel_id(self, value: Optional["PositiveInteger"]) -> CanTpChannel:
         """
         Set channelId and return self for chaining.
 
@@ -4682,15 +4684,15 @@ class CanTpConnection(TpConnection):
             )
         self._cancellation = value
         # Reference to the CanTpChannel on which this CanTp realized.
-        self._canTpChannel: Optional["CanTpChannel"] = None
+        self._canTpChannel: Optional[CanTpChannel] = None
 
     @property
-    def can_tp_channel(self) -> Optional["CanTpChannel"]:
+    def can_tp_channel(self) -> Optional[CanTpChannel]:
         """Get canTpChannel (Pythonic accessor)."""
         return self._canTpChannel
 
     @can_tp_channel.setter
-    def can_tp_channel(self, value: Optional["CanTpChannel"]) -> None:
+    def can_tp_channel(self, value: Optional[CanTpChannel]) -> None:
         """
         Set canTpChannel with validation.
 
@@ -4798,15 +4800,15 @@ class CanTpConnection(TpConnection):
             )
         self._maxBlockSize = value
         # TP address for 1:n connections.
-        self._multicast: Optional["CanTpAddress"] = None
+        self._multicast: Optional[CanTpAddress] = None
 
     @property
-    def multicast(self) -> Optional["CanTpAddress"]:
+    def multicast(self) -> Optional[CanTpAddress]:
         """Get multicast (Pythonic accessor)."""
         return self._multicast
 
     @multicast.setter
-    def multicast(self, value: Optional["CanTpAddress"]) -> None:
+    def multicast(self, value: Optional[CanTpAddress]) -> None:
         """
         Set multicast with validation.
 
@@ -4859,10 +4861,10 @@ class CanTpConnection(TpConnection):
             )
         self._padding = value
         # The target of the TP connection.
-        self._receiver: List["CanTpNode"] = []
+        self._receiver: List[CanTpNode] = []
 
     @property
-    def receiver(self) -> List["CanTpNode"]:
+    def receiver(self) -> List[CanTpNode]:
         """Get receiver (Pythonic accessor)."""
         return self._receiver
         # Network Target Address type.
@@ -5042,15 +5044,15 @@ class CanTpConnection(TpConnection):
             )
         self._tpSdu = value
         # The source of the TP connection.
-        self._transmitter: Optional["CanTpNode"] = None
+        self._transmitter: Optional[CanTpNode] = None
 
     @property
-    def transmitter(self) -> Optional["CanTpNode"]:
+    def transmitter(self) -> Optional[CanTpNode]:
         """Get transmitter (Pythonic accessor)."""
         return self._transmitter
 
     @transmitter.setter
-    def transmitter(self, value: Optional["CanTpNode"]) -> None:
+    def transmitter(self, value: Optional[CanTpNode]) -> None:
         """
         Set transmitter with validation.
 
@@ -5084,7 +5086,7 @@ class CanTpConnection(TpConnection):
         """
         return self.addressing  # Delegates to property
 
-    def setAddressing(self, value: "CanTpAddressing") -> "CanTpConnection":
+    def setAddressing(self, value: "CanTpAddressing") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for addressing with method chaining.
 
@@ -5112,7 +5114,7 @@ class CanTpConnection(TpConnection):
         """
         return self.cancellation  # Delegates to property
 
-    def setCancellation(self, value: "Boolean") -> "CanTpConnection":
+    def setCancellation(self, value: "Boolean") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
 
@@ -5128,7 +5130,7 @@ class CanTpConnection(TpConnection):
         self.cancellation = value  # Delegates to property setter
         return self
 
-    def getCanTpChannel(self) -> "CanTpChannel":
+    def getCanTpChannel(self) -> CanTpChannel:
         """
         AUTOSAR-compliant getter for canTpChannel.
 
@@ -5140,7 +5142,7 @@ class CanTpConnection(TpConnection):
         """
         return self.can_tp_channel  # Delegates to property
 
-    def setCanTpChannel(self, value: "CanTpChannel") -> "CanTpConnection":
+    def setCanTpChannel(self, value: CanTpChannel) -> CanTpConnection:
         """
         AUTOSAR-compliant setter for canTpChannel with method chaining.
 
@@ -5168,7 +5170,7 @@ class CanTpConnection(TpConnection):
         """
         return self.data_pdu  # Delegates to property
 
-    def setDataPdu(self, value: "NPdu") -> "CanTpConnection":
+    def setDataPdu(self, value: "NPdu") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for dataPdu with method chaining.
 
@@ -5196,7 +5198,7 @@ class CanTpConnection(TpConnection):
         """
         return self.flow_control_pdu  # Delegates to property
 
-    def setFlowControlPdu(self, value: "NPdu") -> "CanTpConnection":
+    def setFlowControlPdu(self, value: "NPdu") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for flowControlPdu with method chaining.
 
@@ -5224,7 +5226,7 @@ class CanTpConnection(TpConnection):
         """
         return self.max_block_size  # Delegates to property
 
-    def setMaxBlockSize(self, value: "Integer") -> "CanTpConnection":
+    def setMaxBlockSize(self, value: "Integer") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for maxBlockSize with method chaining.
 
@@ -5240,7 +5242,7 @@ class CanTpConnection(TpConnection):
         self.max_block_size = value  # Delegates to property setter
         return self
 
-    def getMulticast(self) -> "CanTpAddress":
+    def getMulticast(self) -> CanTpAddress:
         """
         AUTOSAR-compliant getter for multicast.
 
@@ -5252,7 +5254,7 @@ class CanTpConnection(TpConnection):
         """
         return self.multicast  # Delegates to property
 
-    def setMulticast(self, value: "CanTpAddress") -> "CanTpConnection":
+    def setMulticast(self, value: CanTpAddress) -> CanTpConnection:
         """
         AUTOSAR-compliant setter for multicast with method chaining.
 
@@ -5280,7 +5282,7 @@ class CanTpConnection(TpConnection):
         """
         return self.padding  # Delegates to property
 
-    def setPadding(self, value: "Boolean") -> "CanTpConnection":
+    def setPadding(self, value: "Boolean") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for padding with method chaining.
 
@@ -5296,7 +5298,7 @@ class CanTpConnection(TpConnection):
         self.padding = value  # Delegates to property setter
         return self
 
-    def getReceiver(self) -> List["CanTpNode"]:
+    def getReceiver(self) -> List[CanTpNode]:
         """
         AUTOSAR-compliant getter for receiver.
 
@@ -5320,7 +5322,7 @@ class CanTpConnection(TpConnection):
         """
         return self.ta_type_type  # Delegates to property
 
-    def setTaTypeType(self, value: "NetworkTargetAddress") -> "CanTpConnection":
+    def setTaTypeType(self, value: "NetworkTargetAddress") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for taTypeType with method chaining.
 
@@ -5348,7 +5350,7 @@ class CanTpConnection(TpConnection):
         """
         return self.timeout_br  # Delegates to property
 
-    def setTimeoutBr(self, value: "TimeValue") -> "CanTpConnection":
+    def setTimeoutBr(self, value: "TimeValue") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for timeoutBr with method chaining.
 
@@ -5376,7 +5378,7 @@ class CanTpConnection(TpConnection):
         """
         return self.timeout_bs  # Delegates to property
 
-    def setTimeoutBs(self, value: "TimeValue") -> "CanTpConnection":
+    def setTimeoutBs(self, value: "TimeValue") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for timeoutBs with method chaining.
 
@@ -5404,7 +5406,7 @@ class CanTpConnection(TpConnection):
         """
         return self.timeout_cr  # Delegates to property
 
-    def setTimeoutCr(self, value: "TimeValue") -> "CanTpConnection":
+    def setTimeoutCr(self, value: "TimeValue") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
 
@@ -5432,7 +5434,7 @@ class CanTpConnection(TpConnection):
         """
         return self.timeout_cs  # Delegates to property
 
-    def setTimeoutCs(self, value: "TimeValue") -> "CanTpConnection":
+    def setTimeoutCs(self, value: "TimeValue") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for timeoutCs with method chaining.
 
@@ -5460,7 +5462,7 @@ class CanTpConnection(TpConnection):
         """
         return self.tp_sdu  # Delegates to property
 
-    def setTpSdu(self, value: "IPdu") -> "CanTpConnection":
+    def setTpSdu(self, value: "IPdu") -> CanTpConnection:
         """
         AUTOSAR-compliant setter for tpSdu with method chaining.
 
@@ -5476,7 +5478,7 @@ class CanTpConnection(TpConnection):
         self.tp_sdu = value  # Delegates to property setter
         return self
 
-    def getTransmitter(self) -> "CanTpNode":
+    def getTransmitter(self) -> CanTpNode:
         """
         AUTOSAR-compliant getter for transmitter.
 
@@ -5488,7 +5490,7 @@ class CanTpConnection(TpConnection):
         """
         return self.transmitter  # Delegates to property
 
-    def setTransmitter(self, value: "CanTpNode") -> "CanTpConnection":
+    def setTransmitter(self, value: CanTpNode) -> CanTpConnection:
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
 
@@ -5506,7 +5508,7 @@ class CanTpConnection(TpConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_addressing(self, value: Optional["CanTpAddressing"]) -> "CanTpConnection":
+    def with_addressing(self, value: Optional["CanTpAddressing"]) -> CanTpConnection:
         """
         Set addressing and return self for chaining.
 
@@ -5522,7 +5524,7 @@ class CanTpConnection(TpConnection):
         self.addressing = value  # Use property setter (gets validation)
         return self
 
-    def with_cancellation(self, value: Optional["Boolean"]) -> "CanTpConnection":
+    def with_cancellation(self, value: Optional["Boolean"]) -> CanTpConnection:
         """
         Set cancellation and return self for chaining.
 
@@ -5538,7 +5540,7 @@ class CanTpConnection(TpConnection):
         self.cancellation = value  # Use property setter (gets validation)
         return self
 
-    def with_can_tp_channel(self, value: Optional["CanTpChannel"]) -> "CanTpConnection":
+    def with_can_tp_channel(self, value: Optional[CanTpChannel]) -> CanTpConnection:
         """
         Set canTpChannel and return self for chaining.
 
@@ -5554,7 +5556,7 @@ class CanTpConnection(TpConnection):
         self.can_tp_channel = value  # Use property setter (gets validation)
         return self
 
-    def with_data_pdu(self, value: Optional["NPdu"]) -> "CanTpConnection":
+    def with_data_pdu(self, value: Optional["NPdu"]) -> CanTpConnection:
         """
         Set dataPdu and return self for chaining.
 
@@ -5570,7 +5572,7 @@ class CanTpConnection(TpConnection):
         self.data_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_flow_control_pdu(self, value: Optional["NPdu"]) -> "CanTpConnection":
+    def with_flow_control_pdu(self, value: Optional["NPdu"]) -> CanTpConnection:
         """
         Set flowControlPdu and return self for chaining.
 
@@ -5586,7 +5588,7 @@ class CanTpConnection(TpConnection):
         self.flow_control_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_max_block_size(self, value: Optional["Integer"]) -> "CanTpConnection":
+    def with_max_block_size(self, value: Optional["Integer"]) -> CanTpConnection:
         """
         Set maxBlockSize and return self for chaining.
 
@@ -5602,7 +5604,7 @@ class CanTpConnection(TpConnection):
         self.max_block_size = value  # Use property setter (gets validation)
         return self
 
-    def with_multicast(self, value: Optional["CanTpAddress"]) -> "CanTpConnection":
+    def with_multicast(self, value: Optional[CanTpAddress]) -> CanTpConnection:
         """
         Set multicast and return self for chaining.
 
@@ -5618,7 +5620,7 @@ class CanTpConnection(TpConnection):
         self.multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_padding(self, value: Optional["Boolean"]) -> "CanTpConnection":
+    def with_padding(self, value: Optional["Boolean"]) -> CanTpConnection:
         """
         Set padding and return self for chaining.
 
@@ -5634,7 +5636,7 @@ class CanTpConnection(TpConnection):
         self.padding = value  # Use property setter (gets validation)
         return self
 
-    def with_ta_type_type(self, value: Optional["NetworkTargetAddress"]) -> "CanTpConnection":
+    def with_ta_type_type(self, value: Optional["NetworkTargetAddress"]) -> CanTpConnection:
         """
         Set taTypeType and return self for chaining.
 
@@ -5650,7 +5652,7 @@ class CanTpConnection(TpConnection):
         self.ta_type_type = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_br(self, value: Optional["TimeValue"]) -> "CanTpConnection":
+    def with_timeout_br(self, value: Optional["TimeValue"]) -> CanTpConnection:
         """
         Set timeoutBr and return self for chaining.
 
@@ -5666,7 +5668,7 @@ class CanTpConnection(TpConnection):
         self.timeout_br = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_bs(self, value: Optional["TimeValue"]) -> "CanTpConnection":
+    def with_timeout_bs(self, value: Optional["TimeValue"]) -> CanTpConnection:
         """
         Set timeoutBs and return self for chaining.
 
@@ -5682,7 +5684,7 @@ class CanTpConnection(TpConnection):
         self.timeout_bs = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_cr(self, value: Optional["TimeValue"]) -> "CanTpConnection":
+    def with_timeout_cr(self, value: Optional["TimeValue"]) -> CanTpConnection:
         """
         Set timeoutCr and return self for chaining.
 
@@ -5698,7 +5700,7 @@ class CanTpConnection(TpConnection):
         self.timeout_cr = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_cs(self, value: Optional["TimeValue"]) -> "CanTpConnection":
+    def with_timeout_cs(self, value: Optional["TimeValue"]) -> CanTpConnection:
         """
         Set timeoutCs and return self for chaining.
 
@@ -5714,7 +5716,7 @@ class CanTpConnection(TpConnection):
         self.timeout_cs = value  # Use property setter (gets validation)
         return self
 
-    def with_tp_sdu(self, value: Optional["IPdu"]) -> "CanTpConnection":
+    def with_tp_sdu(self, value: Optional["IPdu"]) -> CanTpConnection:
         """
         Set tpSdu and return self for chaining.
 
@@ -5730,7 +5732,7 @@ class CanTpConnection(TpConnection):
         self.tp_sdu = value  # Use property setter (gets validation)
         return self
 
-    def with_transmitter(self, value: Optional["CanTpNode"]) -> "CanTpConnection":
+    def with_transmitter(self, value: Optional[CanTpNode]) -> CanTpConnection:
         """
         Set transmitter and return self for chaining.
 
@@ -5806,7 +5808,7 @@ class CanTpAddress(Identifiable):
         """
         return self.tp_address  # Delegates to property
 
-    def setTpAddress(self, value: "Integer") -> "CanTpAddress":
+    def setTpAddress(self, value: "Integer") -> CanTpAddress:
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
 
@@ -5824,7 +5826,7 @@ class CanTpAddress(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tp_address(self, value: Optional["Integer"]) -> "CanTpAddress":
+    def with_tp_address(self, value: Optional["Integer"]) -> CanTpAddress:
         """
         Set tpAddress and return self for chaining.
 
@@ -5928,7 +5930,7 @@ class CanTpEcu(ARObject):
         """
         return self.cycle_time_main  # Delegates to property
 
-    def setCycleTimeMain(self, value: "TimeValue") -> "CanTpEcu":
+    def setCycleTimeMain(self, value: "TimeValue") -> CanTpEcu:
         """
         AUTOSAR-compliant setter for cycleTimeMain with method chaining.
 
@@ -5956,7 +5958,7 @@ class CanTpEcu(ARObject):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> "CanTpEcu":
+    def setEcuInstance(self, value: "EcuInstance") -> CanTpEcu:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -5974,7 +5976,7 @@ class CanTpEcu(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cycle_time_main(self, value: Optional["TimeValue"]) -> "CanTpEcu":
+    def with_cycle_time_main(self, value: Optional["TimeValue"]) -> CanTpEcu:
         """
         Set cycleTimeMain and return self for chaining.
 
@@ -5990,7 +5992,7 @@ class CanTpEcu(ARObject):
         self.cycle_time_main = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "CanTpEcu":
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> CanTpEcu:
         """
         Set ecuInstance and return self for chaining.
 
@@ -6177,15 +6179,15 @@ class CanTpNode(Identifiable):
         self._timeoutAs = value
         # Reference to the TP Address that is used by the TpNode.
         # is optional in case that the multicast TP used (reference from TpConnection).
-        self._tpAddress: Optional["CanTpAddress"] = None
+        self._tpAddress: Optional[CanTpAddress] = None
 
     @property
-    def tp_address(self) -> Optional["CanTpAddress"]:
+    def tp_address(self) -> Optional[CanTpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
 
     @tp_address.setter
-    def tp_address(self, value: Optional["CanTpAddress"]) -> None:
+    def tp_address(self, value: Optional[CanTpAddress]) -> None:
         """
         Set tpAddress with validation.
 
@@ -6219,7 +6221,7 @@ class CanTpNode(Identifiable):
         """
         return self.connector  # Delegates to property
 
-    def setConnector(self, value: "Communication") -> "CanTpNode":
+    def setConnector(self, value: "Communication") -> CanTpNode:
         """
         AUTOSAR-compliant setter for connector with method chaining.
 
@@ -6247,7 +6249,7 @@ class CanTpNode(Identifiable):
         """
         return self.max_fc_wait  # Delegates to property
 
-    def setMaxFcWait(self, value: "Integer") -> "CanTpNode":
+    def setMaxFcWait(self, value: "Integer") -> CanTpNode:
         """
         AUTOSAR-compliant setter for maxFcWait with method chaining.
 
@@ -6275,7 +6277,7 @@ class CanTpNode(Identifiable):
         """
         return self.st_min  # Delegates to property
 
-    def setStMin(self, value: "TimeValue") -> "CanTpNode":
+    def setStMin(self, value: "TimeValue") -> CanTpNode:
         """
         AUTOSAR-compliant setter for stMin with method chaining.
 
@@ -6303,7 +6305,7 @@ class CanTpNode(Identifiable):
         """
         return self.timeout_ar  # Delegates to property
 
-    def setTimeoutAr(self, value: "TimeValue") -> "CanTpNode":
+    def setTimeoutAr(self, value: "TimeValue") -> CanTpNode:
         """
         AUTOSAR-compliant setter for timeoutAr with method chaining.
 
@@ -6331,7 +6333,7 @@ class CanTpNode(Identifiable):
         """
         return self.timeout_as  # Delegates to property
 
-    def setTimeoutAs(self, value: "TimeValue") -> "CanTpNode":
+    def setTimeoutAs(self, value: "TimeValue") -> CanTpNode:
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
 
@@ -6347,7 +6349,7 @@ class CanTpNode(Identifiable):
         self.timeout_as = value  # Delegates to property setter
         return self
 
-    def getTpAddress(self) -> "CanTpAddress":
+    def getTpAddress(self) -> CanTpAddress:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -6359,7 +6361,7 @@ class CanTpNode(Identifiable):
         """
         return self.tp_address  # Delegates to property
 
-    def setTpAddress(self, value: "CanTpAddress") -> "CanTpNode":
+    def setTpAddress(self, value: CanTpAddress) -> CanTpNode:
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
 
@@ -6377,7 +6379,7 @@ class CanTpNode(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connector(self, value: Optional["Communication"]) -> "CanTpNode":
+    def with_connector(self, value: Optional["Communication"]) -> CanTpNode:
         """
         Set connector and return self for chaining.
 
@@ -6393,7 +6395,7 @@ class CanTpNode(Identifiable):
         self.connector = value  # Use property setter (gets validation)
         return self
 
-    def with_max_fc_wait(self, value: Optional["Integer"]) -> "CanTpNode":
+    def with_max_fc_wait(self, value: Optional["Integer"]) -> CanTpNode:
         """
         Set maxFcWait and return self for chaining.
 
@@ -6409,7 +6411,7 @@ class CanTpNode(Identifiable):
         self.max_fc_wait = value  # Use property setter (gets validation)
         return self
 
-    def with_st_min(self, value: Optional["TimeValue"]) -> "CanTpNode":
+    def with_st_min(self, value: Optional["TimeValue"]) -> CanTpNode:
         """
         Set stMin and return self for chaining.
 
@@ -6425,7 +6427,7 @@ class CanTpNode(Identifiable):
         self.st_min = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_ar(self, value: Optional["TimeValue"]) -> "CanTpNode":
+    def with_timeout_ar(self, value: Optional["TimeValue"]) -> CanTpNode:
         """
         Set timeoutAr and return self for chaining.
 
@@ -6441,7 +6443,7 @@ class CanTpNode(Identifiable):
         self.timeout_ar = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_as(self, value: Optional["TimeValue"]) -> "CanTpNode":
+    def with_timeout_as(self, value: Optional["TimeValue"]) -> CanTpNode:
         """
         Set timeoutAs and return self for chaining.
 
@@ -6457,7 +6459,7 @@ class CanTpNode(Identifiable):
         self.timeout_as = value  # Use property setter (gets validation)
         return self
 
-    def with_tp_address(self, value: Optional["CanTpAddress"]) -> "CanTpNode":
+    def with_tp_address(self, value: Optional[CanTpAddress]) -> CanTpNode:
         """
         Set tpAddress and return self for chaining.
 
@@ -6636,15 +6638,15 @@ class LinTpNode(Identifiable):
         self._p2Timing = value
         # Reference to the TP Address that is used by the TpNode.
         # is optional in case that the multicast TP used (reference from TpConnection).
-        self._tpAddress: Optional["TpAddress"] = None
+        self._tpAddress: Optional[TpAddress] = None
 
     @property
-    def tp_address(self) -> Optional["TpAddress"]:
+    def tp_address(self) -> Optional[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
 
     @tp_address.setter
-    def tp_address(self, value: Optional["TpAddress"]) -> None:
+    def tp_address(self, value: Optional[TpAddress]) -> None:
         """
         Set tpAddress with validation.
 
@@ -6678,7 +6680,7 @@ class LinTpNode(Identifiable):
         """
         return self.connector  # Delegates to property
 
-    def setConnector(self, value: "Communication") -> "LinTpNode":
+    def setConnector(self, value: "Communication") -> LinTpNode:
         """
         AUTOSAR-compliant setter for connector with method chaining.
 
@@ -6706,7 +6708,7 @@ class LinTpNode(Identifiable):
         """
         return self.drop_not  # Delegates to property
 
-    def setDropNot(self, value: "Boolean") -> "LinTpNode":
+    def setDropNot(self, value: "Boolean") -> LinTpNode:
         """
         AUTOSAR-compliant setter for dropNot with method chaining.
 
@@ -6734,7 +6736,7 @@ class LinTpNode(Identifiable):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "Integer") -> "LinTpNode":
+    def setMaxNumberOf(self, value: "Integer") -> LinTpNode:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -6762,7 +6764,7 @@ class LinTpNode(Identifiable):
         """
         return self.p2_max  # Delegates to property
 
-    def setP2Max(self, value: "TimeValue") -> "LinTpNode":
+    def setP2Max(self, value: "TimeValue") -> LinTpNode:
         """
         AUTOSAR-compliant setter for p2Max with method chaining.
 
@@ -6790,7 +6792,7 @@ class LinTpNode(Identifiable):
         """
         return self.p2_timing  # Delegates to property
 
-    def setP2Timing(self, value: "TimeValue") -> "LinTpNode":
+    def setP2Timing(self, value: "TimeValue") -> LinTpNode:
         """
         AUTOSAR-compliant setter for p2Timing with method chaining.
 
@@ -6806,7 +6808,7 @@ class LinTpNode(Identifiable):
         self.p2_timing = value  # Delegates to property setter
         return self
 
-    def getTpAddress(self) -> "TpAddress":
+    def getTpAddress(self) -> TpAddress:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -6818,7 +6820,7 @@ class LinTpNode(Identifiable):
         """
         return self.tp_address  # Delegates to property
 
-    def setTpAddress(self, value: "TpAddress") -> "LinTpNode":
+    def setTpAddress(self, value: TpAddress) -> LinTpNode:
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
 
@@ -6836,7 +6838,7 @@ class LinTpNode(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connector(self, value: Optional["Communication"]) -> "LinTpNode":
+    def with_connector(self, value: Optional["Communication"]) -> LinTpNode:
         """
         Set connector and return self for chaining.
 
@@ -6852,7 +6854,7 @@ class LinTpNode(Identifiable):
         self.connector = value  # Use property setter (gets validation)
         return self
 
-    def with_drop_not(self, value: Optional["Boolean"]) -> "LinTpNode":
+    def with_drop_not(self, value: Optional["Boolean"]) -> LinTpNode:
         """
         Set dropNot and return self for chaining.
 
@@ -6868,7 +6870,7 @@ class LinTpNode(Identifiable):
         self.drop_not = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number_of(self, value: Optional["Integer"]) -> "LinTpNode":
+    def with_max_number_of(self, value: Optional["Integer"]) -> LinTpNode:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -6884,7 +6886,7 @@ class LinTpNode(Identifiable):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_p2_max(self, value: Optional["TimeValue"]) -> "LinTpNode":
+    def with_p2_max(self, value: Optional["TimeValue"]) -> LinTpNode:
         """
         Set p2Max and return self for chaining.
 
@@ -6900,7 +6902,7 @@ class LinTpNode(Identifiable):
         self.p2_max = value  # Use property setter (gets validation)
         return self
 
-    def with_p2_timing(self, value: Optional["TimeValue"]) -> "LinTpNode":
+    def with_p2_timing(self, value: Optional["TimeValue"]) -> LinTpNode:
         """
         Set p2Timing and return self for chaining.
 
@@ -6916,7 +6918,7 @@ class LinTpNode(Identifiable):
         self.p2_timing = value  # Use property setter (gets validation)
         return self
 
-    def with_tp_address(self, value: Optional["TpAddress"]) -> "LinTpNode":
+    def with_tp_address(self, value: Optional[TpAddress]) -> LinTpNode:
         """
         Set tpAddress and return self for chaining.
 
@@ -7059,15 +7061,15 @@ class LinTpConnection(TpConnection):
             )
         self._linTpNSdu = value
         # TP address for 1:n connections.
-        self._multicast: Optional["TpAddress"] = None
+        self._multicast: Optional[TpAddress] = None
 
     @property
-    def multicast(self) -> Optional["TpAddress"]:
+    def multicast(self) -> Optional[TpAddress]:
         """Get multicast (Pythonic accessor)."""
         return self._multicast
 
     @multicast.setter
-    def multicast(self, value: Optional["TpAddress"]) -> None:
+    def multicast(self, value: Optional[TpAddress]) -> None:
         """
         Set multicast with validation.
 
@@ -7087,10 +7089,10 @@ class LinTpConnection(TpConnection):
             )
         self._multicast = value
         # The target of the TP connection.
-        self._receiver: List["LinTpNode"] = []
+        self._receiver: List[LinTpNode] = []
 
     @property
-    def receiver(self) -> List["LinTpNode"]:
+    def receiver(self) -> List[LinTpNode]:
         """Get receiver (Pythonic accessor)."""
         return self._receiver
         # Time for transmission of the LIN frame (any N-PDU) on side.
@@ -7182,15 +7184,15 @@ class LinTpConnection(TpConnection):
             )
         self._timeoutCs = value
         # The source of the TP connection.
-        self._transmitter: Optional["LinTpNode"] = None
+        self._transmitter: Optional[LinTpNode] = None
 
     @property
-    def transmitter(self) -> Optional["LinTpNode"]:
+    def transmitter(self) -> Optional[LinTpNode]:
         """Get transmitter (Pythonic accessor)."""
         return self._transmitter
 
     @transmitter.setter
-    def transmitter(self, value: Optional["LinTpNode"]) -> None:
+    def transmitter(self, value: Optional[LinTpNode]) -> None:
         """
         Set transmitter with validation.
 
@@ -7224,7 +7226,7 @@ class LinTpConnection(TpConnection):
         """
         return self.data_pdu  # Delegates to property
 
-    def setDataPdu(self, value: "NPdu") -> "LinTpConnection":
+    def setDataPdu(self, value: "NPdu") -> LinTpConnection:
         """
         AUTOSAR-compliant setter for dataPdu with method chaining.
 
@@ -7252,7 +7254,7 @@ class LinTpConnection(TpConnection):
         """
         return self.flow_control  # Delegates to property
 
-    def setFlowControl(self, value: "NPdu") -> "LinTpConnection":
+    def setFlowControl(self, value: "NPdu") -> LinTpConnection:
         """
         AUTOSAR-compliant setter for flowControl with method chaining.
 
@@ -7280,7 +7282,7 @@ class LinTpConnection(TpConnection):
         """
         return self.lin_tp_n_sdu  # Delegates to property
 
-    def setLinTpNSdu(self, value: "IPdu") -> "LinTpConnection":
+    def setLinTpNSdu(self, value: "IPdu") -> LinTpConnection:
         """
         AUTOSAR-compliant setter for linTpNSdu with method chaining.
 
@@ -7296,7 +7298,7 @@ class LinTpConnection(TpConnection):
         self.lin_tp_n_sdu = value  # Delegates to property setter
         return self
 
-    def getMulticast(self) -> "TpAddress":
+    def getMulticast(self) -> TpAddress:
         """
         AUTOSAR-compliant getter for multicast.
 
@@ -7308,7 +7310,7 @@ class LinTpConnection(TpConnection):
         """
         return self.multicast  # Delegates to property
 
-    def setMulticast(self, value: "TpAddress") -> "LinTpConnection":
+    def setMulticast(self, value: TpAddress) -> LinTpConnection:
         """
         AUTOSAR-compliant setter for multicast with method chaining.
 
@@ -7324,7 +7326,7 @@ class LinTpConnection(TpConnection):
         self.multicast = value  # Delegates to property setter
         return self
 
-    def getReceiver(self) -> List["LinTpNode"]:
+    def getReceiver(self) -> List[LinTpNode]:
         """
         AUTOSAR-compliant getter for receiver.
 
@@ -7348,7 +7350,7 @@ class LinTpConnection(TpConnection):
         """
         return self.timeout_as  # Delegates to property
 
-    def setTimeoutAs(self, value: "TimeValue") -> "LinTpConnection":
+    def setTimeoutAs(self, value: "TimeValue") -> LinTpConnection:
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
 
@@ -7376,7 +7378,7 @@ class LinTpConnection(TpConnection):
         """
         return self.timeout_cr  # Delegates to property
 
-    def setTimeoutCr(self, value: "TimeValue") -> "LinTpConnection":
+    def setTimeoutCr(self, value: "TimeValue") -> LinTpConnection:
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
 
@@ -7404,7 +7406,7 @@ class LinTpConnection(TpConnection):
         """
         return self.timeout_cs  # Delegates to property
 
-    def setTimeoutCs(self, value: "TimeValue") -> "LinTpConnection":
+    def setTimeoutCs(self, value: "TimeValue") -> LinTpConnection:
         """
         AUTOSAR-compliant setter for timeoutCs with method chaining.
 
@@ -7420,7 +7422,7 @@ class LinTpConnection(TpConnection):
         self.timeout_cs = value  # Delegates to property setter
         return self
 
-    def getTransmitter(self) -> "LinTpNode":
+    def getTransmitter(self) -> LinTpNode:
         """
         AUTOSAR-compliant getter for transmitter.
 
@@ -7432,7 +7434,7 @@ class LinTpConnection(TpConnection):
         """
         return self.transmitter  # Delegates to property
 
-    def setTransmitter(self, value: "LinTpNode") -> "LinTpConnection":
+    def setTransmitter(self, value: LinTpNode) -> LinTpConnection:
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
 
@@ -7450,7 +7452,7 @@ class LinTpConnection(TpConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_pdu(self, value: Optional["NPdu"]) -> "LinTpConnection":
+    def with_data_pdu(self, value: Optional["NPdu"]) -> LinTpConnection:
         """
         Set dataPdu and return self for chaining.
 
@@ -7466,7 +7468,7 @@ class LinTpConnection(TpConnection):
         self.data_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_flow_control(self, value: Optional["NPdu"]) -> "LinTpConnection":
+    def with_flow_control(self, value: Optional["NPdu"]) -> LinTpConnection:
         """
         Set flowControl and return self for chaining.
 
@@ -7482,7 +7484,7 @@ class LinTpConnection(TpConnection):
         self.flow_control = value  # Use property setter (gets validation)
         return self
 
-    def with_lin_tp_n_sdu(self, value: Optional["IPdu"]) -> "LinTpConnection":
+    def with_lin_tp_n_sdu(self, value: Optional["IPdu"]) -> LinTpConnection:
         """
         Set linTpNSdu and return self for chaining.
 
@@ -7498,7 +7500,7 @@ class LinTpConnection(TpConnection):
         self.lin_tp_n_sdu = value  # Use property setter (gets validation)
         return self
 
-    def with_multicast(self, value: Optional["TpAddress"]) -> "LinTpConnection":
+    def with_multicast(self, value: Optional[TpAddress]) -> LinTpConnection:
         """
         Set multicast and return self for chaining.
 
@@ -7514,7 +7516,7 @@ class LinTpConnection(TpConnection):
         self.multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_as(self, value: Optional["TimeValue"]) -> "LinTpConnection":
+    def with_timeout_as(self, value: Optional["TimeValue"]) -> LinTpConnection:
         """
         Set timeoutAs and return self for chaining.
 
@@ -7530,7 +7532,7 @@ class LinTpConnection(TpConnection):
         self.timeout_as = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_cr(self, value: Optional["TimeValue"]) -> "LinTpConnection":
+    def with_timeout_cr(self, value: Optional["TimeValue"]) -> LinTpConnection:
         """
         Set timeoutCr and return self for chaining.
 
@@ -7546,7 +7548,7 @@ class LinTpConnection(TpConnection):
         self.timeout_cr = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout_cs(self, value: Optional["TimeValue"]) -> "LinTpConnection":
+    def with_timeout_cs(self, value: Optional["TimeValue"]) -> LinTpConnection:
         """
         Set timeoutCs and return self for chaining.
 
@@ -7562,7 +7564,7 @@ class LinTpConnection(TpConnection):
         self.timeout_cs = value  # Use property setter (gets validation)
         return self
 
-    def with_transmitter(self, value: Optional["LinTpNode"]) -> "LinTpConnection":
+    def with_transmitter(self, value: Optional[LinTpNode]) -> LinTpConnection:
         """
         Set transmitter and return self for chaining.
 
@@ -7635,15 +7637,15 @@ class SomeipTpConnection(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Assignment of configuration properties valid for this.
-        self._tpChannel: Optional["SomeipTpChannel"] = None
+        self._tpChannel: Optional[SomeipTpChannel] = None
 
     @property
-    def tp_channel(self) -> Optional["SomeipTpChannel"]:
+    def tp_channel(self) -> Optional[SomeipTpChannel]:
         """Get tpChannel (Pythonic accessor)."""
         return self._tpChannel
 
     @tp_channel.setter
-    def tp_channel(self, value: Optional["SomeipTpChannel"]) -> None:
+    def tp_channel(self, value: Optional[SomeipTpChannel]) -> None:
         """
         Set tpChannel with validation.
 
@@ -7713,7 +7715,7 @@ class SomeipTpConnection(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTpChannel(self) -> "SomeipTpChannel":
+    def getTpChannel(self) -> SomeipTpChannel:
         """
         AUTOSAR-compliant getter for tpChannel.
 
@@ -7725,7 +7727,7 @@ class SomeipTpConnection(ARObject):
         """
         return self.tp_channel  # Delegates to property
 
-    def setTpChannel(self, value: "SomeipTpChannel") -> "SomeipTpConnection":
+    def setTpChannel(self, value: SomeipTpChannel) -> SomeipTpConnection:
         """
         AUTOSAR-compliant setter for tpChannel with method chaining.
 
@@ -7753,7 +7755,7 @@ class SomeipTpConnection(ARObject):
         """
         return self.tp_sdu  # Delegates to property
 
-    def setTpSdu(self, value: "RefType") -> "SomeipTpConnection":
+    def setTpSdu(self, value: "RefType") -> SomeipTpConnection:
         """
         AUTOSAR-compliant setter for tpSdu with method chaining.
 
@@ -7781,7 +7783,7 @@ class SomeipTpConnection(ARObject):
         """
         return self.transport_pdu  # Delegates to property
 
-    def setTransportPdu(self, value: "RefType") -> "SomeipTpConnection":
+    def setTransportPdu(self, value: "RefType") -> SomeipTpConnection:
         """
         AUTOSAR-compliant setter for transportPdu with method chaining.
 
@@ -7799,7 +7801,7 @@ class SomeipTpConnection(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tp_channel(self, value: Optional["SomeipTpChannel"]) -> "SomeipTpConnection":
+    def with_tp_channel(self, value: Optional[SomeipTpChannel]) -> SomeipTpConnection:
         """
         Set tpChannel and return self for chaining.
 
@@ -7815,7 +7817,7 @@ class SomeipTpConnection(ARObject):
         self.tp_channel = value  # Use property setter (gets validation)
         return self
 
-    def with_tp_sdu(self, value: Optional[RefType]) -> "SomeipTpConnection":
+    def with_tp_sdu(self, value: Optional[RefType]) -> SomeipTpConnection:
         """
         Set tpSdu and return self for chaining.
 
@@ -7831,7 +7833,7 @@ class SomeipTpConnection(ARObject):
         self.tp_sdu = value  # Use property setter (gets validation)
         return self
 
-    def with_transport_pdu(self, value: Optional[RefType]) -> "SomeipTpConnection":
+    def with_transport_pdu(self, value: Optional[RefType]) -> SomeipTpConnection:
         """
         Set transportPdu and return self for chaining.
 
@@ -7968,7 +7970,7 @@ class SomeipTpChannel(Identifiable):
         """
         return self.burst_size  # Delegates to property
 
-    def setBurstSize(self, value: "PositiveInteger") -> "SomeipTpChannel":
+    def setBurstSize(self, value: "PositiveInteger") -> SomeipTpChannel:
         """
         AUTOSAR-compliant setter for burstSize with method chaining.
 
@@ -7996,7 +7998,7 @@ class SomeipTpChannel(Identifiable):
         """
         return self.rx_timeout_time  # Delegates to property
 
-    def setRxTimeoutTime(self, value: "TimeValue") -> "SomeipTpChannel":
+    def setRxTimeoutTime(self, value: "TimeValue") -> SomeipTpChannel:
         """
         AUTOSAR-compliant setter for rxTimeoutTime with method chaining.
 
@@ -8024,7 +8026,7 @@ class SomeipTpChannel(Identifiable):
         """
         return self.separation_time  # Delegates to property
 
-    def setSeparationTime(self, value: "TimeValue") -> "SomeipTpChannel":
+    def setSeparationTime(self, value: "TimeValue") -> SomeipTpChannel:
         """
         AUTOSAR-compliant setter for separationTime with method chaining.
 
@@ -8042,7 +8044,7 @@ class SomeipTpChannel(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_burst_size(self, value: Optional["PositiveInteger"]) -> "SomeipTpChannel":
+    def with_burst_size(self, value: Optional["PositiveInteger"]) -> SomeipTpChannel:
         """
         Set burstSize and return self for chaining.
 
@@ -8058,7 +8060,7 @@ class SomeipTpChannel(Identifiable):
         self.burst_size = value  # Use property setter (gets validation)
         return self
 
-    def with_rx_timeout_time(self, value: Optional["TimeValue"]) -> "SomeipTpChannel":
+    def with_rx_timeout_time(self, value: Optional["TimeValue"]) -> SomeipTpChannel:
         """
         Set rxTimeoutTime and return self for chaining.
 
@@ -8074,7 +8076,7 @@ class SomeipTpChannel(Identifiable):
         self.rx_timeout_time = value  # Use property setter (gets validation)
         return self
 
-    def with_separation_time(self, value: Optional["TimeValue"]) -> "SomeipTpChannel":
+    def with_separation_time(self, value: Optional["TimeValue"]) -> SomeipTpChannel:
         """
         Set separationTime and return self for chaining.
 
@@ -8342,10 +8344,10 @@ class J1939TpConnection(TpConnection):
             )
         self._maxExpBs = value
         # The target of the TP connection.
-        self._receiver: List["J1939TpNode"] = []
+        self._receiver: List[J1939TpNode] = []
 
     @property
-    def receiver(self) -> List["J1939TpNode"]:
+    def receiver(self) -> List[J1939TpNode]:
         """Get receiver (Pythonic accessor)."""
         return self._receiver
         # Enable support for protocol retry.
@@ -8377,22 +8379,22 @@ class J1939TpConnection(TpConnection):
             )
         self._retry = value
         # J1939 messages (parameter groups, PGs) that can be this connection.
-        self._tpPg: List["J1939TpPg"] = []
+        self._tpPg: List[J1939TpPg] = []
 
     @property
-    def tp_pg(self) -> List["J1939TpPg"]:
+    def tp_pg(self) -> List[J1939TpPg]:
         """Get tpPg (Pythonic accessor)."""
         return self._tpPg
         # The source of the TP connection.
-        self._transmitter: Optional["J1939TpNode"] = None
+        self._transmitter: Optional[J1939TpNode] = None
 
     @property
-    def transmitter(self) -> Optional["J1939TpNode"]:
+    def transmitter(self) -> Optional[J1939TpNode]:
         """Get transmitter (Pythonic accessor)."""
         return self._transmitter
 
     @transmitter.setter
-    def transmitter(self, value: Optional["J1939TpNode"]) -> None:
+    def transmitter(self, value: Optional[J1939TpNode]) -> None:
         """
         Set transmitter with validation.
 
@@ -8426,7 +8428,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.broadcast  # Delegates to property
 
-    def setBroadcast(self, value: "Boolean") -> "J1939TpConnection":
+    def setBroadcast(self, value: "Boolean") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for broadcast with method chaining.
 
@@ -8454,7 +8456,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.buffer_ratio  # Delegates to property
 
-    def setBufferRatio(self, value: "PositiveInteger") -> "J1939TpConnection":
+    def setBufferRatio(self, value: "PositiveInteger") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for bufferRatio with method chaining.
 
@@ -8482,7 +8484,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.cancellation  # Delegates to property
 
-    def setCancellation(self, value: "Boolean") -> "J1939TpConnection":
+    def setCancellation(self, value: "Boolean") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
 
@@ -8510,7 +8512,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.data_pdu  # Delegates to property
 
-    def setDataPdu(self, value: "NPdu") -> "J1939TpConnection":
+    def setDataPdu(self, value: "NPdu") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for dataPdu with method chaining.
 
@@ -8538,7 +8540,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.dynamic_bs  # Delegates to property
 
-    def setDynamicBs(self, value: "Boolean") -> "J1939TpConnection":
+    def setDynamicBs(self, value: "Boolean") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for dynamicBs with method chaining.
 
@@ -8566,7 +8568,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.flow_control_pdu  # Delegates to property
 
-    def setFlowControlPdu(self, value: "NPdu") -> "J1939TpConnection":
+    def setFlowControlPdu(self, value: "NPdu") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for flowControlPdu with method chaining.
 
@@ -8594,7 +8596,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.max_bs  # Delegates to property
 
-    def setMaxBs(self, value: "PositiveInteger") -> "J1939TpConnection":
+    def setMaxBs(self, value: "PositiveInteger") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for maxBs with method chaining.
 
@@ -8622,7 +8624,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.max_exp_bs  # Delegates to property
 
-    def setMaxExpBs(self, value: "PositiveInteger") -> "J1939TpConnection":
+    def setMaxExpBs(self, value: "PositiveInteger") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for maxExpBs with method chaining.
 
@@ -8638,7 +8640,7 @@ class J1939TpConnection(TpConnection):
         self.max_exp_bs = value  # Delegates to property setter
         return self
 
-    def getReceiver(self) -> List["J1939TpNode"]:
+    def getReceiver(self) -> List[J1939TpNode]:
         """
         AUTOSAR-compliant getter for receiver.
 
@@ -8662,7 +8664,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.retry  # Delegates to property
 
-    def setRetry(self, value: "Boolean") -> "J1939TpConnection":
+    def setRetry(self, value: "Boolean") -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for retry with method chaining.
 
@@ -8678,7 +8680,7 @@ class J1939TpConnection(TpConnection):
         self.retry = value  # Delegates to property setter
         return self
 
-    def getTpPg(self) -> List["J1939TpPg"]:
+    def getTpPg(self) -> List[J1939TpPg]:
         """
         AUTOSAR-compliant getter for tpPg.
 
@@ -8690,7 +8692,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.tp_pg  # Delegates to property
 
-    def getTransmitter(self) -> "J1939TpNode":
+    def getTransmitter(self) -> J1939TpNode:
         """
         AUTOSAR-compliant getter for transmitter.
 
@@ -8702,7 +8704,7 @@ class J1939TpConnection(TpConnection):
         """
         return self.transmitter  # Delegates to property
 
-    def setTransmitter(self, value: "J1939TpNode") -> "J1939TpConnection":
+    def setTransmitter(self, value: J1939TpNode) -> J1939TpConnection:
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
 
@@ -8720,7 +8722,7 @@ class J1939TpConnection(TpConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_broadcast(self, value: Optional["Boolean"]) -> "J1939TpConnection":
+    def with_broadcast(self, value: Optional["Boolean"]) -> J1939TpConnection:
         """
         Set broadcast and return self for chaining.
 
@@ -8736,7 +8738,7 @@ class J1939TpConnection(TpConnection):
         self.broadcast = value  # Use property setter (gets validation)
         return self
 
-    def with_buffer_ratio(self, value: Optional["PositiveInteger"]) -> "J1939TpConnection":
+    def with_buffer_ratio(self, value: Optional["PositiveInteger"]) -> J1939TpConnection:
         """
         Set bufferRatio and return self for chaining.
 
@@ -8752,7 +8754,7 @@ class J1939TpConnection(TpConnection):
         self.buffer_ratio = value  # Use property setter (gets validation)
         return self
 
-    def with_cancellation(self, value: Optional["Boolean"]) -> "J1939TpConnection":
+    def with_cancellation(self, value: Optional["Boolean"]) -> J1939TpConnection:
         """
         Set cancellation and return self for chaining.
 
@@ -8768,7 +8770,7 @@ class J1939TpConnection(TpConnection):
         self.cancellation = value  # Use property setter (gets validation)
         return self
 
-    def with_data_pdu(self, value: Optional["NPdu"]) -> "J1939TpConnection":
+    def with_data_pdu(self, value: Optional["NPdu"]) -> J1939TpConnection:
         """
         Set dataPdu and return self for chaining.
 
@@ -8784,7 +8786,7 @@ class J1939TpConnection(TpConnection):
         self.data_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_dynamic_bs(self, value: Optional["Boolean"]) -> "J1939TpConnection":
+    def with_dynamic_bs(self, value: Optional["Boolean"]) -> J1939TpConnection:
         """
         Set dynamicBs and return self for chaining.
 
@@ -8800,7 +8802,7 @@ class J1939TpConnection(TpConnection):
         self.dynamic_bs = value  # Use property setter (gets validation)
         return self
 
-    def with_flow_control_pdu(self, value: "NPdu") -> "J1939TpConnection":
+    def with_flow_control_pdu(self, value: "NPdu") -> J1939TpConnection:
         """
         Set flowControlPdu and return self for chaining.
 
@@ -8816,7 +8818,7 @@ class J1939TpConnection(TpConnection):
         self.flow_control_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_max_bs(self, value: Optional["PositiveInteger"]) -> "J1939TpConnection":
+    def with_max_bs(self, value: Optional["PositiveInteger"]) -> J1939TpConnection:
         """
         Set maxBs and return self for chaining.
 
@@ -8832,7 +8834,7 @@ class J1939TpConnection(TpConnection):
         self.max_bs = value  # Use property setter (gets validation)
         return self
 
-    def with_max_exp_bs(self, value: Optional["PositiveInteger"]) -> "J1939TpConnection":
+    def with_max_exp_bs(self, value: Optional["PositiveInteger"]) -> J1939TpConnection:
         """
         Set maxExpBs and return self for chaining.
 
@@ -8848,7 +8850,7 @@ class J1939TpConnection(TpConnection):
         self.max_exp_bs = value  # Use property setter (gets validation)
         return self
 
-    def with_retry(self, value: Optional["Boolean"]) -> "J1939TpConnection":
+    def with_retry(self, value: Optional["Boolean"]) -> J1939TpConnection:
         """
         Set retry and return self for chaining.
 
@@ -8864,7 +8866,7 @@ class J1939TpConnection(TpConnection):
         self.retry = value  # Use property setter (gets validation)
         return self
 
-    def with_transmitter(self, value: Optional["J1939TpNode"]) -> "J1939TpConnection":
+    def with_transmitter(self, value: Optional[J1939TpNode]) -> J1939TpConnection:
         """
         Set transmitter and return self for chaining.
 
@@ -9010,7 +9012,7 @@ class J1939TpPg(ARObject):
         """
         return self.direct_pdu  # Delegates to property
 
-    def setDirectPdu(self, value: "NPdu") -> "J1939TpPg":
+    def setDirectPdu(self, value: "NPdu") -> J1939TpPg:
         """
         AUTOSAR-compliant setter for directPdu with method chaining.
 
@@ -9038,7 +9040,7 @@ class J1939TpPg(ARObject):
         """
         return self.pgn  # Delegates to property
 
-    def setPgn(self, value: "Integer") -> "J1939TpPg":
+    def setPgn(self, value: "Integer") -> J1939TpPg:
         """
         AUTOSAR-compliant setter for pgn with method chaining.
 
@@ -9066,7 +9068,7 @@ class J1939TpPg(ARObject):
         """
         return self.requestable  # Delegates to property
 
-    def setRequestable(self, value: "Boolean") -> "J1939TpPg":
+    def setRequestable(self, value: "Boolean") -> J1939TpPg:
         """
         AUTOSAR-compliant setter for requestable with method chaining.
 
@@ -9096,7 +9098,7 @@ class J1939TpPg(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_direct_pdu(self, value: Optional["NPdu"]) -> "J1939TpPg":
+    def with_direct_pdu(self, value: Optional["NPdu"]) -> J1939TpPg:
         """
         Set directPdu and return self for chaining.
 
@@ -9112,7 +9114,7 @@ class J1939TpPg(ARObject):
         self.direct_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_pgn(self, value: Optional["Integer"]) -> "J1939TpPg":
+    def with_pgn(self, value: Optional["Integer"]) -> J1939TpPg:
         """
         Set pgn and return self for chaining.
 
@@ -9128,7 +9130,7 @@ class J1939TpPg(ARObject):
         self.pgn = value  # Use property setter (gets validation)
         return self
 
-    def with_requestable(self, value: Optional["Boolean"]) -> "J1939TpPg":
+    def with_requestable(self, value: Optional["Boolean"]) -> J1939TpPg:
         """
         Set requestable and return self for chaining.
 
@@ -9193,15 +9195,15 @@ class J1939TpNode(Identifiable):
         self._connector = value
         # Reference to the TP Address that is used by the TpNode.
         # is optional only when no TP is sent and is received.
-        self._tpAddress: Optional["TpAddress"] = None
+        self._tpAddress: Optional[TpAddress] = None
 
     @property
-    def tp_address(self) -> Optional["TpAddress"]:
+    def tp_address(self) -> Optional[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
 
     @tp_address.setter
-    def tp_address(self, value: Optional["TpAddress"]) -> None:
+    def tp_address(self, value: Optional[TpAddress]) -> None:
         """
         Set tpAddress with validation.
 
@@ -9235,7 +9237,7 @@ class J1939TpNode(Identifiable):
         """
         return self.connector  # Delegates to property
 
-    def setConnector(self, value: "Communication") -> "J1939TpNode":
+    def setConnector(self, value: "Communication") -> J1939TpNode:
         """
         AUTOSAR-compliant setter for connector with method chaining.
 
@@ -9251,7 +9253,7 @@ class J1939TpNode(Identifiable):
         self.connector = value  # Delegates to property setter
         return self
 
-    def getTpAddress(self) -> "TpAddress":
+    def getTpAddress(self) -> TpAddress:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -9263,7 +9265,7 @@ class J1939TpNode(Identifiable):
         """
         return self.tp_address  # Delegates to property
 
-    def setTpAddress(self, value: "TpAddress") -> "J1939TpNode":
+    def setTpAddress(self, value: TpAddress) -> J1939TpNode:
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
 
@@ -9281,7 +9283,7 @@ class J1939TpNode(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connector(self, value: Optional["Communication"]) -> "J1939TpNode":
+    def with_connector(self, value: Optional["Communication"]) -> J1939TpNode:
         """
         Set connector and return self for chaining.
 
@@ -9297,7 +9299,7 @@ class J1939TpNode(Identifiable):
         self.connector = value  # Use property setter (gets validation)
         return self
 
-    def with_tp_address(self, value: Optional["TpAddress"]) -> "J1939TpNode":
+    def with_tp_address(self, value: Optional[TpAddress]) -> J1939TpNode:
         """
         Set tpAddress and return self for chaining.
 
@@ -9332,10 +9334,10 @@ class DoIpTpConfig(TpConfig):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of logical DoIP Addresses.
-        self._doIpLogicAddress: List["DoIpLogicAddress"] = []
+        self._doIpLogicAddress: List[DoIpLogicAddress] = []
 
     @property
-    def do_ip_logic_address(self) -> List["DoIpLogicAddress"]:
+    def do_ip_logic_address(self) -> List[DoIpLogicAddress]:
         """Get doIpLogicAddress (Pythonic accessor)."""
         return self._doIpLogicAddress
         # Collection of unidirectional connections between a source a target address.
@@ -9348,7 +9350,7 @@ class DoIpTpConfig(TpConfig):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDoIpLogicAddress(self) -> List["DoIpLogicAddress"]:
+    def getDoIpLogicAddress(self) -> List[DoIpLogicAddress]:
         """
         AUTOSAR-compliant getter for doIpLogicAddress.
 
@@ -9393,50 +9395,50 @@ class FlexrayTpConfig(TpConfig):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Configuration of FlexRay TP Pdu Pools.
         # atpVariation.
-        self._pduPool: List["FlexrayTpPduPool"] = []
+        self._pduPool: List[FlexrayTpPduPool] = []
 
     @property
-    def pdu_pool(self) -> List["FlexrayTpPduPool"]:
+    def pdu_pool(self) -> List[FlexrayTpPduPool]:
         """Get pduPool (Pythonic accessor)."""
         return self._pduPool
         # Collection of TpAddresses.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpAddress: List["TpAddress"] = []
+        self._tpAddress: List[TpAddress] = []
 
     @property
-    def tp_address(self) -> List["TpAddress"]:
+    def tp_address(self) -> List[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
         # Configuration of FlexRay TP Connection Controls.
         # Stereotypes: atpSplitable; atpVariation.
-        self._tpConnection: List["FlexrayTpConnection"] = []
+        self._tpConnection: List[FlexrayTpConnection] = []
 
     @property
-    def tp_connection(self) -> List["FlexrayTpConnection"]:
+    def tp_connection(self) -> List[FlexrayTpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
         # Collection of TP Ecus because EcuInstance can vary.
         # atpVariation.
-        self._tpEcu: List["FlexrayTpEcu"] = []
+        self._tpEcu: List[FlexrayTpEcu] = []
 
     @property
-    def tp_ecu(self) -> List["FlexrayTpEcu"]:
+    def tp_ecu(self) -> List[FlexrayTpEcu]:
         """Get tpEcu (Pythonic accessor)."""
         return self._tpEcu
         # Senders and receivers of FlexRay TP messages.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpNode: List["FlexrayTpNode"] = []
+        self._tpNode: List[FlexrayTpNode] = []
 
     @property
-    def tp_node(self) -> List["FlexrayTpNode"]:
+    def tp_node(self) -> List[FlexrayTpNode]:
         """Get tpNode (Pythonic accessor)."""
         return self._tpNode
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPduPool(self) -> List["FlexrayTpPduPool"]:
+    def getPduPool(self) -> List[FlexrayTpPduPool]:
         """
         AUTOSAR-compliant getter for pduPool.
 
@@ -9448,7 +9450,7 @@ class FlexrayTpConfig(TpConfig):
         """
         return self.pdu_pool  # Delegates to property
 
-    def getTpAddress(self) -> List["TpAddress"]:
+    def getTpAddress(self) -> List[TpAddress]:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -9460,7 +9462,7 @@ class FlexrayTpConfig(TpConfig):
         """
         return self.tp_address  # Delegates to property
 
-    def getTpConnection(self) -> List["FlexrayTpConnection"]:
+    def getTpConnection(self) -> List[FlexrayTpConnection]:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -9472,7 +9474,7 @@ class FlexrayTpConfig(TpConfig):
         """
         return self.tp_connection  # Delegates to property
 
-    def getTpEcu(self) -> List["FlexrayTpEcu"]:
+    def getTpEcu(self) -> List[FlexrayTpEcu]:
         """
         AUTOSAR-compliant getter for tpEcu.
 
@@ -9484,7 +9486,7 @@ class FlexrayTpConfig(TpConfig):
         """
         return self.tp_ecu  # Delegates to property
 
-    def getTpNode(self) -> List["FlexrayTpNode"]:
+    def getTpNode(self) -> List[FlexrayTpNode]:
         """
         AUTOSAR-compliant getter for tpNode.
 
@@ -9517,31 +9519,31 @@ class FlexrayArTpConfig(TpConfig):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of TpAddresses.
         # atpVariation.
-        self._tpAddress: List["TpAddress"] = []
+        self._tpAddress: List[TpAddress] = []
 
     @property
-    def tp_address(self) -> List["TpAddress"]:
+    def tp_address(self) -> List[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
         # Configuration of FlexRay Autosar Transport Protocol atpVariation.
-        self._tpChannel: List["FlexrayArTpChannel"] = []
+        self._tpChannel: List[FlexrayArTpChannel] = []
 
     @property
-    def tp_channel(self) -> List["FlexrayArTpChannel"]:
+    def tp_channel(self) -> List[FlexrayArTpChannel]:
         """Get tpChannel (Pythonic accessor)."""
         return self._tpChannel
         # Senders and receivers of TP messages.
         # atpVariation.
-        self._tpNode: List["FlexrayArTpNode"] = []
+        self._tpNode: List[FlexrayArTpNode] = []
 
     @property
-    def tp_node(self) -> List["FlexrayArTpNode"]:
+    def tp_node(self) -> List[FlexrayArTpNode]:
         """Get tpNode (Pythonic accessor)."""
         return self._tpNode
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTpAddress(self) -> List["TpAddress"]:
+    def getTpAddress(self) -> List[TpAddress]:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -9553,7 +9555,7 @@ class FlexrayArTpConfig(TpConfig):
         """
         return self.tp_address  # Delegates to property
 
-    def getTpChannel(self) -> List["FlexrayArTpChannel"]:
+    def getTpChannel(self) -> List[FlexrayArTpChannel]:
         """
         AUTOSAR-compliant getter for tpChannel.
 
@@ -9565,7 +9567,7 @@ class FlexrayArTpConfig(TpConfig):
         """
         return self.tp_channel  # Delegates to property
 
-    def getTpNode(self) -> List["FlexrayArTpNode"]:
+    def getTpNode(self) -> List[FlexrayArTpNode]:
         """
         AUTOSAR-compliant getter for tpNode.
 
@@ -9598,50 +9600,50 @@ class CanTpConfig(TpConfig):
         # Collection of TP Addresses.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpAddress: List["CanTpAddress"] = []
+        self._tpAddress: List[CanTpAddress] = []
 
     @property
-    def tp_address(self) -> List["CanTpAddress"]:
+    def tp_address(self) -> List[CanTpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
         # Configuration of CAN TP channels.
         # atpVariation.
-        self._tpChannel: List["CanTpChannel"] = []
+        self._tpChannel: List[CanTpChannel] = []
 
     @property
-    def tp_channel(self) -> List["CanTpChannel"]:
+    def tp_channel(self) -> List[CanTpChannel]:
         """Get tpChannel (Pythonic accessor)."""
         return self._tpChannel
         # Senders and receivers of CAN TP messages.
         # because TpNode can vary.
         # atpVariation.
-        self._tpConnection: List["CanTpConnection"] = []
+        self._tpConnection: List[CanTpConnection] = []
 
     @property
-    def tp_connection(self) -> List["CanTpConnection"]:
+    def tp_connection(self) -> List[CanTpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
         # Collection of TP Ecus because EcuInstance can vary.
         # atpVariation.
-        self._tpEcu: List["CanTpEcu"] = []
+        self._tpEcu: List[CanTpEcu] = []
 
     @property
-    def tp_ecu(self) -> List["CanTpEcu"]:
+    def tp_ecu(self) -> List[CanTpEcu]:
         """Get tpEcu (Pythonic accessor)."""
         return self._tpEcu
         # Senders and receivers of Can TP messages.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpNode: List["CanTpNode"] = []
+        self._tpNode: List[CanTpNode] = []
 
     @property
-    def tp_node(self) -> List["CanTpNode"]:
+    def tp_node(self) -> List[CanTpNode]:
         """Get tpNode (Pythonic accessor)."""
         return self._tpNode
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTpAddress(self) -> List["CanTpAddress"]:
+    def getTpAddress(self) -> List[CanTpAddress]:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -9653,7 +9655,7 @@ class CanTpConfig(TpConfig):
         """
         return self.tp_address  # Delegates to property
 
-    def getTpChannel(self) -> List["CanTpChannel"]:
+    def getTpChannel(self) -> List[CanTpChannel]:
         """
         AUTOSAR-compliant getter for tpChannel.
 
@@ -9665,7 +9667,7 @@ class CanTpConfig(TpConfig):
         """
         return self.tp_channel  # Delegates to property
 
-    def getTpConnection(self) -> List["CanTpConnection"]:
+    def getTpConnection(self) -> List[CanTpConnection]:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -9677,7 +9679,7 @@ class CanTpConfig(TpConfig):
         """
         return self.tp_connection  # Delegates to property
 
-    def getTpEcu(self) -> List["CanTpEcu"]:
+    def getTpEcu(self) -> List[CanTpEcu]:
         """
         AUTOSAR-compliant getter for tpEcu.
 
@@ -9689,7 +9691,7 @@ class CanTpConfig(TpConfig):
         """
         return self.tp_ecu  # Delegates to property
 
-    def getTpNode(self) -> List["CanTpNode"]:
+    def getTpNode(self) -> List[CanTpNode]:
         """
         AUTOSAR-compliant getter for tpNode.
 
@@ -9722,34 +9724,34 @@ class LinTpConfig(TpConfig):
         # Collection of TpAddresses.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpAddress: List["TpAddress"] = []
+        self._tpAddress: List[TpAddress] = []
 
     @property
-    def tp_address(self) -> List["TpAddress"]:
+    def tp_address(self) -> List[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
         # Configuration of LIN TP channels.
         # because TpNode can vary.
         # atpVariation.
-        self._tpConnection: List["LinTpConnection"] = []
+        self._tpConnection: List[LinTpConnection] = []
 
     @property
-    def tp_connection(self) -> List["LinTpConnection"]:
+    def tp_connection(self) -> List[LinTpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
         # Senders and receivers of LIN TP messages.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpNode: List["LinTpNode"] = []
+        self._tpNode: List[LinTpNode] = []
 
     @property
-    def tp_node(self) -> List["LinTpNode"]:
+    def tp_node(self) -> List[LinTpNode]:
         """Get tpNode (Pythonic accessor)."""
         return self._tpNode
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTpAddress(self) -> List["TpAddress"]:
+    def getTpAddress(self) -> List[TpAddress]:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -9761,7 +9763,7 @@ class LinTpConfig(TpConfig):
         """
         return self.tp_address  # Delegates to property
 
-    def getTpConnection(self) -> List["LinTpConnection"]:
+    def getTpConnection(self) -> List[LinTpConnection]:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -9773,7 +9775,7 @@ class LinTpConfig(TpConfig):
         """
         return self.tp_connection  # Delegates to property
 
-    def getTpNode(self) -> List["LinTpNode"]:
+    def getTpNode(self) -> List[LinTpNode]:
         """
         AUTOSAR-compliant getter for tpNode.
 
@@ -9804,16 +9806,16 @@ class EthTpConfig(TpConfig):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Senders and receivers of SOME/IP TP messages.
-        self._tpConnection: List["EthTpConnection"] = []
+        self._tpConnection: List[EthTpConnection] = []
 
     @property
-    def tp_connection(self) -> List["EthTpConnection"]:
+    def tp_connection(self) -> List[EthTpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTpConnection(self) -> List["EthTpConnection"]:
+    def getTpConnection(self) -> List[EthTpConnection]:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -9844,23 +9846,23 @@ class SomeipTpConfig(TpConfig):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of SomeipTpChannels that are collecting that are valid for a
         # collection of.
-        self._tpChannel: List["SomeipTpChannel"] = []
+        self._tpChannel: List[SomeipTpChannel] = []
 
     @property
-    def tp_channel(self) -> List["SomeipTpChannel"]:
+    def tp_channel(self) -> List[SomeipTpChannel]:
         """Get tpChannel (Pythonic accessor)."""
         return self._tpChannel
         # Senders and receivers of SOME/IP TP messages.
-        self._tpConnection: List["SomeipTpConnection"] = []
+        self._tpConnection: List[SomeipTpConnection] = []
 
     @property
-    def tp_connection(self) -> List["SomeipTpConnection"]:
+    def tp_connection(self) -> List[SomeipTpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTpChannel(self) -> List["SomeipTpChannel"]:
+    def getTpChannel(self) -> List[SomeipTpChannel]:
         """
         AUTOSAR-compliant getter for tpChannel.
 
@@ -9872,7 +9874,7 @@ class SomeipTpConfig(TpConfig):
         """
         return self.tp_channel  # Delegates to property
 
-    def getTpConnection(self) -> List["SomeipTpConnection"]:
+    def getTpConnection(self) -> List[SomeipTpConnection]:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -9905,34 +9907,34 @@ class J1939TpConfig(TpConfig):
         # Collection of TP Adresses.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpAddress: List["TpAddress"] = []
+        self._tpAddress: List[TpAddress] = []
 
     @property
-    def tp_address(self) -> List["TpAddress"]:
+    def tp_address(self) -> List[TpAddress]:
         """Get tpAddress (Pythonic accessor)."""
         return self._tpAddress
         # Configuration of J1939 TP connections.
         # because TpNode can vary.
         # atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._tpConnection: List["J1939TpConnection"] = []
+        self._tpConnection: List[J1939TpConnection] = []
 
     @property
-    def tp_connection(self) -> List["J1939TpConnection"]:
+    def tp_connection(self) -> List[J1939TpConnection]:
         """Get tpConnection (Pythonic accessor)."""
         return self._tpConnection
         # Senders and receivers of J1939 TP messages.
         # because EcuInstance can vary.
         # atpVariation.
-        self._tpNode: List["J1939TpNode"] = []
+        self._tpNode: List[J1939TpNode] = []
 
     @property
-    def tp_node(self) -> List["J1939TpNode"]:
+    def tp_node(self) -> List[J1939TpNode]:
         """Get tpNode (Pythonic accessor)."""
         return self._tpNode
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTpAddress(self) -> List["TpAddress"]:
+    def getTpAddress(self) -> List[TpAddress]:
         """
         AUTOSAR-compliant getter for tpAddress.
 
@@ -9944,7 +9946,7 @@ class J1939TpConfig(TpConfig):
         """
         return self.tp_address  # Delegates to property
 
-    def getTpConnection(self) -> List["J1939TpConnection"]:
+    def getTpConnection(self) -> List[J1939TpConnection]:
         """
         AUTOSAR-compliant getter for tpConnection.
 
@@ -9956,7 +9958,7 @@ class J1939TpConfig(TpConfig):
         """
         return self.tp_connection  # Delegates to property
 
-    def getTpNode(self) -> List["J1939TpNode"]:
+    def getTpNode(self) -> List[J1939TpNode]:
         """
         AUTOSAR-compliant getter for tpNode.
 
@@ -10059,40 +10061,40 @@ Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
 
 __all__ = [
-    "DoIpLogicAddress",
-    "TpConfig",
-    "TpAddress",
-    "FlexrayTpConnectionControl",
-    "FlexrayTpConnection",
-    "FlexrayTpPduPool",
-    "FlexrayTpNode",
-    "FlexrayTpEcu",
-    "FlexrayArTpChannel",
-    "FlexrayArTpNode",
-    "FlexrayArTpConnection",
-    "CanTpChannel",
-    "CanTpConnection",
-    "CanTpAddress",
-    "CanTpEcu",
-    "CanTpNode",
-    "LinTpNode",
-    "LinTpConnection",
-    "EthTpConnection",
-    "SomeipTpConnection",
-    "SomeipTpChannel",
-    "J1939TpConnection",
-    "J1939TpPg",
-    "J1939TpNode",
-    "DoIpTpConfig",
-    "FlexrayTpConfig",
-    "FlexrayArTpConfig",
-    "CanTpConfig",
-    "LinTpConfig",
-    "EthTpConfig",
-    "SomeipTpConfig",
-    "J1939TpConfig",
-    "FrArTpAckType",
-    "MaximumMessageLengthType",
-    "CanTpAddressingFormatType",
-    "NetworkTargetAddressType",
+    DoIpLogicAddress,
+    TpConfig,
+    TpAddress,
+    FlexrayTpConnectionControl,
+    FlexrayTpConnection,
+    FlexrayTpPduPool,
+    FlexrayTpNode,
+    FlexrayTpEcu,
+    FlexrayArTpChannel,
+    FlexrayArTpNode,
+    FlexrayArTpConnection,
+    CanTpChannel,
+    CanTpConnection,
+    CanTpAddress,
+    CanTpEcu,
+    CanTpNode,
+    LinTpNode,
+    LinTpConnection,
+    EthTpConnection,
+    SomeipTpConnection,
+    SomeipTpChannel,
+    J1939TpConnection,
+    J1939TpPg,
+    J1939TpNode,
+    DoIpTpConfig,
+    FlexrayTpConfig,
+    FlexrayArTpConfig,
+    CanTpConfig,
+    LinTpConfig,
+    EthTpConfig,
+    SomeipTpConfig,
+    J1939TpConfig,
+    FrArTpAckType,
+    MaximumMessageLengthType,
+    CanTpAddressingFormatType,
+    NetworkTargetAddressType,
 ]

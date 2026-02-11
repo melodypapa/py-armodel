@@ -4,6 +4,8 @@ AUTOSAR Package - Mode_0x01_RequestCurrentPowertrain
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x01_RequestCurrentPowertrain
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -101,7 +103,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
         """
         return self.pid  # Delegates to property
 
-    def setPid(self, value: "DiagnosticParameter") -> "DiagnosticRequestCurrentPowertrainData":
+    def setPid(self, value: "DiagnosticParameter") -> DiagnosticRequestCurrentPowertrainData:
         """
         AUTOSAR-compliant setter for pid with method chaining.
 
@@ -129,7 +131,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
         """
         return self.request_current  # Delegates to property
 
-    def setRequestCurrent(self, value: "DiagnosticRequest") -> "DiagnosticRequestCurrentPowertrainData":
+    def setRequestCurrent(self, value: "DiagnosticRequest") -> DiagnosticRequestCurrentPowertrainData:
         """
         AUTOSAR-compliant setter for requestCurrent with method chaining.
 
@@ -147,7 +149,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_pid(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticRequestCurrentPowertrainData":
+    def with_pid(self, value: Optional["DiagnosticParameter"]) -> DiagnosticRequestCurrentPowertrainData:
         """
         Set pid and return self for chaining.
 
@@ -163,7 +165,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
         self.pid = value  # Use property setter (gets validation)
         return self
 
-    def with_request_current(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestCurrentPowertrainData":
+    def with_request_current(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestCurrentPowertrainData:
         """
         Set requestCurrent and return self for chaining.
 

@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
@@ -100,7 +102,7 @@ class VariableAccess(AbstractAccessPoint):
         """
         return self.accessed_variable  # Delegates to property
 
-    def setAccessedVariable(self, value: RefType) -> "VariableAccess":
+    def setAccessedVariable(self, value: RefType) -> VariableAccess:
         """
         AUTOSAR-compliant setter for accessedVariable with method chaining.
 
@@ -128,7 +130,7 @@ class VariableAccess(AbstractAccessPoint):
         """
         return self.scope  # Delegates to property
 
-    def setScope(self, value: "VariableAccessScope") -> "VariableAccess":
+    def setScope(self, value: "VariableAccessScope") -> VariableAccess:
         """
         AUTOSAR-compliant setter for scope with method chaining.
 
@@ -146,7 +148,7 @@ class VariableAccess(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accessed_variable(self, value: Optional[RefType]) -> "VariableAccess":
+    def with_accessed_variable(self, value: Optional[RefType]) -> VariableAccess:
         """
         Set accessedVariable and return self for chaining.
 
@@ -162,7 +164,7 @@ class VariableAccess(AbstractAccessPoint):
         self.accessed_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_scope(self, value: Optional["VariableAccessScope"]) -> "VariableAccess":
+    def with_scope(self, value: Optional["VariableAccessScope"]) -> VariableAccess:
         """
         Set scope and return self for chaining.
 

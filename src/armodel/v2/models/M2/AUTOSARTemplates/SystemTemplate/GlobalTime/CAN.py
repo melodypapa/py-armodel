@@ -4,9 +4,11 @@ AUTOSAR Package - CAN
 Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.__init__ import (
@@ -102,7 +104,7 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
         """
         return self.crc_secured  # Delegates to property
 
-    def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> "GlobalTimeCanMaster":
+    def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> GlobalTimeCanMaster:
         """
         AUTOSAR-compliant setter for crcSecured with method chaining.
 
@@ -130,7 +132,7 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
         """
         return self.sync  # Delegates to property
 
-    def setSync(self, value: "TimeValue") -> "GlobalTimeCanMaster":
+    def setSync(self, value: "TimeValue") -> GlobalTimeCanMaster:
         """
         AUTOSAR-compliant setter for sync with method chaining.
 
@@ -148,7 +150,7 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> "GlobalTimeCanMaster":
+    def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> GlobalTimeCanMaster:
         """
         Set crcSecured and return self for chaining.
 
@@ -164,7 +166,7 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
         self.crc_secured = value  # Use property setter (gets validation)
         return self
 
-    def with_sync(self, value: Optional["TimeValue"]) -> "GlobalTimeCanMaster":
+    def with_sync(self, value: Optional["TimeValue"]) -> GlobalTimeCanMaster:
         """
         Set sync and return self for chaining.
 
@@ -267,7 +269,7 @@ class GlobalTimeCanSlave(GlobalTimeSlave):
         """
         return self.crc_validated  # Delegates to property
 
-    def setCrcValidated(self, value: "GlobalTimeCrc") -> "GlobalTimeCanSlave":
+    def setCrcValidated(self, value: "GlobalTimeCrc") -> GlobalTimeCanSlave:
         """
         AUTOSAR-compliant setter for crcValidated with method chaining.
 
@@ -295,7 +297,7 @@ class GlobalTimeCanSlave(GlobalTimeSlave):
         """
         return self.sequence  # Delegates to property
 
-    def setSequence(self, value: "PositiveInteger") -> "GlobalTimeCanSlave":
+    def setSequence(self, value: "PositiveInteger") -> GlobalTimeCanSlave:
         """
         AUTOSAR-compliant setter for sequence with method chaining.
 
@@ -313,7 +315,7 @@ class GlobalTimeCanSlave(GlobalTimeSlave):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_validated(self, value: Optional["GlobalTimeCrc"]) -> "GlobalTimeCanSlave":
+    def with_crc_validated(self, value: Optional["GlobalTimeCrc"]) -> GlobalTimeCanSlave:
         """
         Set crcValidated and return self for chaining.
 
@@ -329,7 +331,7 @@ class GlobalTimeCanSlave(GlobalTimeSlave):
         self.crc_validated = value  # Use property setter (gets validation)
         return self
 
-    def with_sequence(self, value: Optional["PositiveInteger"]) -> "GlobalTimeCanSlave":
+    def with_sequence(self, value: Optional["PositiveInteger"]) -> GlobalTimeCanSlave:
         """
         Set sequence and return self for chaining.
 
@@ -464,7 +466,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.fup_data_id_list  # Delegates to property
 
-    def setFupDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def setFupDataIDList(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for fupDataIDList with method chaining.
 
@@ -492,7 +494,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.ofns_data_id_list  # Delegates to property
 
-    def setOfnsDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def setOfnsDataIDList(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for ofnsDataIDList with method chaining.
 
@@ -520,7 +522,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.ofs_data_id_list  # Delegates to property
 
-    def setOfsDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def setOfsDataIDList(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for ofsDataIDList with method chaining.
 
@@ -548,7 +550,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.sync_data_id_list  # Delegates to property
 
-    def setSyncDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def setSyncDataIDList(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for syncDataIDList with method chaining.
 
@@ -566,7 +568,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fup_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def with_fup_data_id_list(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         Set fupDataIDList and return self for chaining.
 
@@ -582,7 +584,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.fup_data_id_list = value  # Use property setter (gets validation)
         return self
 
-    def with_ofns_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def with_ofns_data_id_list(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         Set ofnsDataIDList and return self for chaining.
 
@@ -598,7 +600,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.ofns_data_id_list = value  # Use property setter (gets validation)
         return self
 
-    def with_ofs_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def with_ofs_data_id_list(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         Set ofsDataIDList and return self for chaining.
 
@@ -614,7 +616,7 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.ofs_data_id_list = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
+    def with_sync_data_id_list(self, value: "PositiveInteger") -> CanGlobalTimeDomainProps:
         """
         Set syncDataIDList and return self for chaining.
 

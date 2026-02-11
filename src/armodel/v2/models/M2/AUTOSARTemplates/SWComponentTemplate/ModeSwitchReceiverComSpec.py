@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
@@ -127,7 +129,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
         """
         return self.enhanced_mode  # Delegates to property
 
-    def setEnhancedMode(self, value: "Boolean") -> "ModeSwitchReceiverComSpec":
+    def setEnhancedMode(self, value: "Boolean") -> ModeSwitchReceiverComSpec:
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
 
@@ -155,7 +157,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: RefType) -> "ModeSwitchReceiverComSpec":
+    def setModeGroup(self, value: RefType) -> ModeSwitchReceiverComSpec:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -183,7 +185,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
         """
         return self.supports  # Delegates to property
 
-    def setSupports(self, value: "Boolean") -> "ModeSwitchReceiverComSpec":
+    def setSupports(self, value: "Boolean") -> ModeSwitchReceiverComSpec:
         """
         AUTOSAR-compliant setter for supports with method chaining.
 
@@ -201,7 +203,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_enhanced_mode(self, value: Optional["Boolean"]) -> "ModeSwitchReceiverComSpec":
+    def with_enhanced_mode(self, value: Optional["Boolean"]) -> ModeSwitchReceiverComSpec:
         """
         Set enhancedMode and return self for chaining.
 
@@ -217,7 +219,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
         self.enhanced_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_mode_group(self, value: Optional[RefType]) -> "ModeSwitchReceiverComSpec":
+    def with_mode_group(self, value: Optional[RefType]) -> ModeSwitchReceiverComSpec:
         """
         Set modeGroup and return self for chaining.
 
@@ -233,7 +235,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
         self.mode_group = value  # Use property setter (gets validation)
         return self
 
-    def with_supports(self, value: Optional["Boolean"]) -> "ModeSwitchReceiverComSpec":
+    def with_supports(self, value: Optional["Boolean"]) -> ModeSwitchReceiverComSpec:
         """
         Set supports and return self for chaining.
 

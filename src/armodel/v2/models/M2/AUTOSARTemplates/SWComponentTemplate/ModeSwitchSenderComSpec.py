@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
@@ -156,7 +158,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         """
         return self.enhanced_mode  # Delegates to property
 
-    def setEnhancedMode(self, value: "Boolean") -> "ModeSwitchSenderComSpec":
+    def setEnhancedMode(self, value: "Boolean") -> ModeSwitchSenderComSpec:
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
 
@@ -184,7 +186,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: RefType) -> "ModeSwitchSenderComSpec":
+    def setModeGroup(self, value: RefType) -> ModeSwitchSenderComSpec:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -212,7 +214,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         """
         return self.mode_switched  # Delegates to property
 
-    def setModeSwitched(self, value: "ModeSwitchedAck") -> "ModeSwitchSenderComSpec":
+    def setModeSwitched(self, value: "ModeSwitchedAck") -> ModeSwitchSenderComSpec:
         """
         AUTOSAR-compliant setter for modeSwitched with method chaining.
 
@@ -240,7 +242,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         """
         return self.queue_length  # Delegates to property
 
-    def setQueueLength(self, value: "PositiveInteger") -> "ModeSwitchSenderComSpec":
+    def setQueueLength(self, value: "PositiveInteger") -> ModeSwitchSenderComSpec:
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
 
@@ -258,7 +260,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_enhanced_mode(self, value: Optional["Boolean"]) -> "ModeSwitchSenderComSpec":
+    def with_enhanced_mode(self, value: Optional["Boolean"]) -> ModeSwitchSenderComSpec:
         """
         Set enhancedMode and return self for chaining.
 
@@ -274,7 +276,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         self.enhanced_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_mode_group(self, value: Optional[RefType]) -> "ModeSwitchSenderComSpec":
+    def with_mode_group(self, value: Optional[RefType]) -> ModeSwitchSenderComSpec:
         """
         Set modeGroup and return self for chaining.
 
@@ -290,7 +292,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         self.mode_group = value  # Use property setter (gets validation)
         return self
 
-    def with_mode_switched(self, value: Optional["ModeSwitchedAck"]) -> "ModeSwitchSenderComSpec":
+    def with_mode_switched(self, value: Optional["ModeSwitchedAck"]) -> ModeSwitchSenderComSpec:
         """
         Set modeSwitched and return self for chaining.
 
@@ -306,7 +308,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         self.mode_switched = value  # Use property setter (gets validation)
         return self
 
-    def with_queue_length(self, value: Optional["PositiveInteger"]) -> "ModeSwitchSenderComSpec":
+    def with_queue_length(self, value: Optional["PositiveInteger"]) -> ModeSwitchSenderComSpec:
         """
         Set queueLength and return self for chaining.
 

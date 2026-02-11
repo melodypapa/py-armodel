@@ -4,10 +4,12 @@ AUTOSAR Package - StackUsage
 Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
 )
@@ -159,7 +161,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.executable_entity  # Delegates to property
 
-    def setExecutableEntity(self, value: "ExecutableEntity") -> "StackUsage":
+    def setExecutableEntity(self, value: "ExecutableEntity") -> StackUsage:
         """
         AUTOSAR-compliant setter for executableEntity with method chaining.
 
@@ -187,7 +189,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.hardware  # Delegates to property
 
-    def setHardware(self, value: "HardwareConfiguration") -> "StackUsage":
+    def setHardware(self, value: "HardwareConfiguration") -> StackUsage:
         """
         AUTOSAR-compliant setter for hardware with method chaining.
 
@@ -215,7 +217,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.hw_element  # Delegates to property
 
-    def setHwElement(self, value: "HwElement") -> "StackUsage":
+    def setHwElement(self, value: "HwElement") -> StackUsage:
         """
         AUTOSAR-compliant setter for hwElement with method chaining.
 
@@ -243,7 +245,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.software_context  # Delegates to property
 
-    def setSoftwareContext(self, value: "SoftwareContext") -> "StackUsage":
+    def setSoftwareContext(self, value: "SoftwareContext") -> StackUsage:
         """
         AUTOSAR-compliant setter for softwareContext with method chaining.
 
@@ -261,7 +263,7 @@ class StackUsage(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> "StackUsage":
+    def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> StackUsage:
         """
         Set executableEntity and return self for chaining.
 
@@ -277,7 +279,7 @@ class StackUsage(Identifiable, ABC):
         self.executable_entity = value  # Use property setter (gets validation)
         return self
 
-    def with_hardware(self, value: Optional["HardwareConfiguration"]) -> "StackUsage":
+    def with_hardware(self, value: Optional["HardwareConfiguration"]) -> StackUsage:
         """
         Set hardware and return self for chaining.
 
@@ -293,7 +295,7 @@ class StackUsage(Identifiable, ABC):
         self.hardware = value  # Use property setter (gets validation)
         return self
 
-    def with_hw_element(self, value: Optional["HwElement"]) -> "StackUsage":
+    def with_hw_element(self, value: Optional["HwElement"]) -> StackUsage:
         """
         Set hwElement and return self for chaining.
 
@@ -309,7 +311,7 @@ class StackUsage(Identifiable, ABC):
         self.hw_element = value  # Use property setter (gets validation)
         return self
 
-    def with_software_context(self, value: Optional["SoftwareContext"]) -> "StackUsage":
+    def with_software_context(self, value: Optional["SoftwareContext"]) -> StackUsage:
         """
         Set softwareContext and return self for chaining.
 
@@ -385,7 +387,7 @@ class WorstCaseStackUsage(StackUsage):
         """
         return self.memory_consumption  # Delegates to property
 
-    def setMemoryConsumption(self, value: "PositiveInteger") -> "WorstCaseStackUsage":
+    def setMemoryConsumption(self, value: "PositiveInteger") -> WorstCaseStackUsage:
         """
         AUTOSAR-compliant setter for memoryConsumption with method chaining.
 
@@ -403,7 +405,7 @@ class WorstCaseStackUsage(StackUsage):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> "WorstCaseStackUsage":
+    def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> WorstCaseStackUsage:
         """
         Set memoryConsumption and return self for chaining.
 
@@ -562,7 +564,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.average_memory_consumption  # Delegates to property
 
-    def setAverageMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
+    def setAverageMemoryConsumption(self, value: "PositiveInteger") -> MeasuredStackUsage:
         """
         AUTOSAR-compliant setter for averageMemoryConsumption with method chaining.
 
@@ -590,7 +592,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.maximum_memory_consumption  # Delegates to property
 
-    def setMaximumMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
+    def setMaximumMemoryConsumption(self, value: "PositiveInteger") -> MeasuredStackUsage:
         """
         AUTOSAR-compliant setter for maximumMemoryConsumption with method chaining.
 
@@ -618,7 +620,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.minimum_memory_consumption  # Delegates to property
 
-    def setMinimumMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
+    def setMinimumMemoryConsumption(self, value: "PositiveInteger") -> MeasuredStackUsage:
         """
         AUTOSAR-compliant setter for minimumMemoryConsumption with method chaining.
 
@@ -646,7 +648,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.test_pattern  # Delegates to property
 
-    def setTestPattern(self, value: "String") -> "MeasuredStackUsage":
+    def setTestPattern(self, value: "String") -> MeasuredStackUsage:
         """
         AUTOSAR-compliant setter for testPattern with method chaining.
 
@@ -664,7 +666,7 @@ class MeasuredStackUsage(StackUsage):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_average_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
+    def with_average_memory_consumption(self, value: Optional["PositiveInteger"]) -> MeasuredStackUsage:
         """
         Set averageMemoryConsumption and return self for chaining.
 
@@ -680,7 +682,7 @@ class MeasuredStackUsage(StackUsage):
         self.average_memory_consumption = value  # Use property setter (gets validation)
         return self
 
-    def with_maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
+    def with_maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> MeasuredStackUsage:
         """
         Set maximumMemoryConsumption and return self for chaining.
 
@@ -696,7 +698,7 @@ class MeasuredStackUsage(StackUsage):
         self.maximum_memory_consumption = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
+    def with_minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> MeasuredStackUsage:
         """
         Set minimumMemoryConsumption and return self for chaining.
 
@@ -712,7 +714,7 @@ class MeasuredStackUsage(StackUsage):
         self.minimum_memory_consumption = value  # Use property setter (gets validation)
         return self
 
-    def with_test_pattern(self, value: Optional["String"]) -> "MeasuredStackUsage":
+    def with_test_pattern(self, value: Optional["String"]) -> MeasuredStackUsage:
         """
         Set testPattern and return self for chaining.
 
@@ -788,7 +790,7 @@ class RoughEstimateStackUsage(StackUsage):
         """
         return self.memory_consumption  # Delegates to property
 
-    def setMemoryConsumption(self, value: "PositiveInteger") -> "RoughEstimateStackUsage":
+    def setMemoryConsumption(self, value: "PositiveInteger") -> RoughEstimateStackUsage:
         """
         AUTOSAR-compliant setter for memoryConsumption with method chaining.
 
@@ -806,7 +808,7 @@ class RoughEstimateStackUsage(StackUsage):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> "RoughEstimateStackUsage":
+    def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> RoughEstimateStackUsage:
         """
         Set memoryConsumption and return self for chaining.
 

@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import (
     List,
     Optional,
@@ -40,10 +42,10 @@ class RunnableEntity(ExecutableEntity):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the formal definition of a an argument to a RunnableEntity.
-        self._argument: List["RunnableEntity"] = []
+        self._argument: List[RunnableEntity] = []
 
     @property
-    def argument(self) -> List["RunnableEntity"]:
+    def argument(self) -> List[RunnableEntity]:
         """Get argument (Pythonic accessor)."""
         return self._argument
         # The server call result point admits a runnable to fetch the result of an
@@ -501,7 +503,7 @@ class RunnableEntity(ExecutableEntity):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArgument(self) -> List["RunnableEntity"]:
+    def getArgument(self) -> List[RunnableEntity]:
         """
         AUTOSAR-compliant getter for argument.
 
@@ -537,7 +539,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.can_be_invoked  # Delegates to property
 
-    def setCanBeInvoked(self, value: "Boolean") -> "RunnableEntity":
+    def setCanBeInvoked(self, value: "Boolean") -> RunnableEntity:
         """
         AUTOSAR-compliant setter for canBeInvoked with method chaining.
 
@@ -697,7 +699,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> "RunnableEntity":
+    def setSymbol(self, value: "CIdentifier") -> RunnableEntity:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -739,7 +741,7 @@ class RunnableEntity(ExecutableEntity):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_can_be_invoked(self, value: Optional["Boolean"]) -> "RunnableEntity":
+    def with_can_be_invoked(self, value: Optional["Boolean"]) -> RunnableEntity:
         """
         Set canBeInvoked and return self for chaining.
 
@@ -755,7 +757,7 @@ class RunnableEntity(ExecutableEntity):
         self.can_be_invoked = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> "RunnableEntity":
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RunnableEntity:
         """
         Set symbol and return self for chaining.
 

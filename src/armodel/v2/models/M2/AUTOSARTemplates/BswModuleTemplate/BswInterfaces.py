@@ -4,9 +4,11 @@ AUTOSAR Package - BswInterfaces
 Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     NameToken,
@@ -63,15 +65,15 @@ class BswModuleEntry(ARElement):
         return self._argument
         # This describes whether the entry is concrete or abstract.
         # attribute is missing the entry is considered as.
-        self._bswEntryKind: Optional["BswEntryKindEnum"] = None
+        self._bswEntryKind: Optional[BswEntryKindEnum] = None
 
     @property
-    def bsw_entry_kind(self) -> Optional["BswEntryKindEnum"]:
+    def bsw_entry_kind(self) -> Optional[BswEntryKindEnum]:
         """Get bswEntryKind (Pythonic accessor)."""
         return self._bswEntryKind
 
     @bsw_entry_kind.setter
-    def bsw_entry_kind(self, value: Optional["BswEntryKindEnum"]) -> None:
+    def bsw_entry_kind(self, value: Optional[BswEntryKindEnum]) -> None:
         """
         Set bswEntryKind with validation.
         
@@ -90,15 +92,15 @@ class BswModuleEntry(ARElement):
                 f"bswEntryKind must be BswEntryKindEnum or None, got {type(value).__name__}"
             )
         self._bswEntryKind = value
-        self._callType: Optional["BswCallType"] = None
+        self._callType: Optional[BswCallType] = None
 
     @property
-    def call_type(self) -> Optional["BswCallType"]:
+    def call_type(self) -> Optional[BswCallType]:
         """Get callType (Pythonic accessor)."""
         return self._callType
 
     @call_type.setter
-    def call_type(self, value: Optional["BswCallType"]) -> None:
+    def call_type(self, value: Optional[BswCallType]) -> None:
         """
         Set callType with validation.
         
@@ -118,15 +120,15 @@ class BswModuleEntry(ARElement):
             )
         self._callType = value
         # module) or guaranteed (in case of from this module) for this service.
-        self._execution: Optional["BswExecutionContext"] = None
+        self._execution: Optional[BswExecutionContext] = None
 
     @property
-    def execution(self) -> Optional["BswExecutionContext"]:
+    def execution(self) -> Optional[BswExecutionContext]:
         """Get execution (Pythonic accessor)."""
         return self._execution
 
     @execution.setter
-    def execution(self, value: Optional["BswExecutionContext"]) -> None:
+    def execution(self, value: Optional[BswExecutionContext]) -> None:
         """
         Set execution with validation.
         
@@ -398,7 +400,7 @@ class BswModuleEntry(ARElement):
         """
         return self.argument  # Delegates to property
 
-    def getBswEntryKind(self) -> "BswEntryKindEnum":
+    def getBswEntryKind(self) -> BswEntryKindEnum:
         """
         AUTOSAR-compliant getter for bswEntryKind.
         
@@ -410,7 +412,7 @@ class BswModuleEntry(ARElement):
         """
         return self.bsw_entry_kind  # Delegates to property
 
-    def setBswEntryKind(self, value: "BswEntryKindEnum") -> "BswModuleEntry":
+    def setBswEntryKind(self, value: BswEntryKindEnum) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for bswEntryKind with method chaining.
         
@@ -426,7 +428,7 @@ class BswModuleEntry(ARElement):
         self.bsw_entry_kind = value  # Delegates to property setter
         return self
 
-    def getCallType(self) -> "BswCallType":
+    def getCallType(self) -> BswCallType:
         """
         AUTOSAR-compliant getter for callType.
         
@@ -438,7 +440,7 @@ class BswModuleEntry(ARElement):
         """
         return self.call_type  # Delegates to property
 
-    def setCallType(self, value: "BswCallType") -> "BswModuleEntry":
+    def setCallType(self, value: BswCallType) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for callType with method chaining.
         
@@ -454,7 +456,7 @@ class BswModuleEntry(ARElement):
         self.call_type = value  # Delegates to property setter
         return self
 
-    def getExecution(self) -> "BswExecutionContext":
+    def getExecution(self) -> BswExecutionContext:
         """
         AUTOSAR-compliant getter for execution.
         
@@ -466,7 +468,7 @@ class BswModuleEntry(ARElement):
         """
         return self.execution  # Delegates to property
 
-    def setExecution(self, value: "BswExecutionContext") -> "BswModuleEntry":
+    def setExecution(self, value: BswExecutionContext) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for execution with method chaining.
         
@@ -494,7 +496,7 @@ class BswModuleEntry(ARElement):
         """
         return self.function  # Delegates to property
 
-    def setFunction(self, value: "NameToken") -> "BswModuleEntry":
+    def setFunction(self, value: "NameToken") -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for function with method chaining.
         
@@ -522,7 +524,7 @@ class BswModuleEntry(ARElement):
         """
         return self.is_reentrant  # Delegates to property
 
-    def setIsReentrant(self, value: "Boolean") -> "BswModuleEntry":
+    def setIsReentrant(self, value: "Boolean") -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for isReentrant with method chaining.
         
@@ -550,7 +552,7 @@ class BswModuleEntry(ARElement):
         """
         return self.is_synchronous  # Delegates to property
 
-    def setIsSynchronous(self, value: "Boolean") -> "BswModuleEntry":
+    def setIsSynchronous(self, value: "Boolean") -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for isSynchronous with method chaining.
         
@@ -578,7 +580,7 @@ class BswModuleEntry(ARElement):
         """
         return self.return_type  # Delegates to property
 
-    def setReturnType(self, value: "SwServiceArg") -> "BswModuleEntry":
+    def setReturnType(self, value: "SwServiceArg") -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for returnType with method chaining.
         
@@ -606,7 +608,7 @@ class BswModuleEntry(ARElement):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "BswModuleEntry":
+    def setRole(self, value: "Identifier") -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for role with method chaining.
         
@@ -634,7 +636,7 @@ class BswModuleEntry(ARElement):
         """
         return self.service_id  # Delegates to property
 
-    def setServiceId(self, value: "PositiveInteger") -> "BswModuleEntry":
+    def setServiceId(self, value: "PositiveInteger") -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for serviceId with method chaining.
         
@@ -662,7 +664,7 @@ class BswModuleEntry(ARElement):
         """
         return self.sw_service_impl  # Delegates to property
 
-    def setSwServiceImpl(self, value: "SwServiceImplPolicy") -> "BswModuleEntry":
+    def setSwServiceImpl(self, value: "SwServiceImplPolicy") -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for swServiceImpl with method chaining.
         
@@ -680,7 +682,7 @@ class BswModuleEntry(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_entry_kind(self, value: Optional["BswEntryKindEnum"]) -> "BswModuleEntry":
+    def with_bsw_entry_kind(self, value: Optional[BswEntryKindEnum]) -> BswModuleEntry:
         """
         Set bswEntryKind and return self for chaining.
         
@@ -696,7 +698,7 @@ class BswModuleEntry(ARElement):
         self.bsw_entry_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_call_type(self, value: Optional["BswCallType"]) -> "BswModuleEntry":
+    def with_call_type(self, value: Optional[BswCallType]) -> BswModuleEntry:
         """
         Set callType and return self for chaining.
         
@@ -712,7 +714,7 @@ class BswModuleEntry(ARElement):
         self.call_type = value  # Use property setter (gets validation)
         return self
 
-    def with_execution(self, value: Optional["BswExecutionContext"]) -> "BswModuleEntry":
+    def with_execution(self, value: Optional[BswExecutionContext]) -> BswModuleEntry:
         """
         Set execution and return self for chaining.
         
@@ -728,7 +730,7 @@ class BswModuleEntry(ARElement):
         self.execution = value  # Use property setter (gets validation)
         return self
 
-    def with_function(self, value: Optional["NameToken"]) -> "BswModuleEntry":
+    def with_function(self, value: Optional["NameToken"]) -> BswModuleEntry:
         """
         Set function and return self for chaining.
         
@@ -744,7 +746,7 @@ class BswModuleEntry(ARElement):
         self.function = value  # Use property setter (gets validation)
         return self
 
-    def with_is_reentrant(self, value: Optional["Boolean"]) -> "BswModuleEntry":
+    def with_is_reentrant(self, value: Optional["Boolean"]) -> BswModuleEntry:
         """
         Set isReentrant and return self for chaining.
         
@@ -760,7 +762,7 @@ class BswModuleEntry(ARElement):
         self.is_reentrant = value  # Use property setter (gets validation)
         return self
 
-    def with_is_synchronous(self, value: Optional["Boolean"]) -> "BswModuleEntry":
+    def with_is_synchronous(self, value: Optional["Boolean"]) -> BswModuleEntry:
         """
         Set isSynchronous and return self for chaining.
         
@@ -776,7 +778,7 @@ class BswModuleEntry(ARElement):
         self.is_synchronous = value  # Use property setter (gets validation)
         return self
 
-    def with_return_type(self, value: Optional["SwServiceArg"]) -> "BswModuleEntry":
+    def with_return_type(self, value: Optional["SwServiceArg"]) -> BswModuleEntry:
         """
         Set returnType and return self for chaining.
         
@@ -792,7 +794,7 @@ class BswModuleEntry(ARElement):
         self.return_type = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: Optional["Identifier"]) -> "BswModuleEntry":
+    def with_role(self, value: Optional["Identifier"]) -> BswModuleEntry:
         """
         Set role and return self for chaining.
         
@@ -808,7 +810,7 @@ class BswModuleEntry(ARElement):
         self.role = value  # Use property setter (gets validation)
         return self
 
-    def with_service_id(self, value: Optional["PositiveInteger"]) -> "BswModuleEntry":
+    def with_service_id(self, value: Optional["PositiveInteger"]) -> BswModuleEntry:
         """
         Set serviceId and return self for chaining.
         
@@ -824,7 +826,7 @@ class BswModuleEntry(ARElement):
         self.service_id = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_service_impl(self, value: Optional["SwServiceImplPolicy"]) -> "BswModuleEntry":
+    def with_sw_service_impl(self, value: Optional["SwServiceImplPolicy"]) -> BswModuleEntry:
         """
         Set swServiceImpl and return self for chaining.
         
@@ -932,7 +934,7 @@ class BswModuleDependency(Identifiable):
         """
         return self.target_module_id  # Delegates to property
 
-    def setTargetModuleId(self, value: "PositiveInteger") -> "BswModuleDependency":
+    def setTargetModuleId(self, value: "PositiveInteger") -> BswModuleDependency:
         """
         AUTOSAR-compliant setter for targetModuleId with method chaining.
         
@@ -960,7 +962,7 @@ class BswModuleDependency(Identifiable):
         """
         return self.target_module  # Delegates to property
 
-    def setTargetModule(self, value: "BswModuleDescription") -> "BswModuleDependency":
+    def setTargetModule(self, value: "BswModuleDescription") -> BswModuleDependency:
         """
         AUTOSAR-compliant setter for targetModule with method chaining.
         
@@ -978,7 +980,7 @@ class BswModuleDependency(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_target_module_id(self, value: Optional["PositiveInteger"]) -> "BswModuleDependency":
+    def with_target_module_id(self, value: Optional["PositiveInteger"]) -> BswModuleDependency:
         """
         Set targetModuleId and return self for chaining.
         
@@ -994,7 +996,7 @@ class BswModuleDependency(Identifiable):
         self.target_module_id = value  # Use property setter (gets validation)
         return self
 
-    def with_target_module(self, value: Optional["BswModuleDescription"]) -> "BswModuleDependency":
+    def with_target_module(self, value: Optional["BswModuleDescription"]) -> BswModuleDependency:
         """
         Set targetModule and return self for chaining.
         
@@ -1028,16 +1030,16 @@ class BswEntryRelationshipSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Relationship between two BswModuleEntrys.
-        self._bswEntryRelationship: List["BswEntryRelationship"] = []
+        self._bswEntryRelationship: List[BswEntryRelationship] = []
 
     @property
-    def bsw_entry_relationship(self) -> List["BswEntryRelationship"]:
+    def bsw_entry_relationship(self) -> List[BswEntryRelationship]:
         """Get bswEntryRelationship (Pythonic accessor)."""
         return self._bswEntryRelationship
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBswEntryRelationship(self) -> List["BswEntryRelationship"]:
+    def getBswEntryRelationship(self) -> List[BswEntryRelationship]:
         """
         AUTOSAR-compliant getter for bswEntryRelationship.
         
@@ -1072,15 +1074,15 @@ class BswEntryRelationship(ARObject):
         # Denotes the type of the relationship.
         # Tags: xml.
         # sequenceOffset=5 Type.
-        self._bswEntry: Optional["BswEntryRelationship"] = None
+        self._bswEntry: Optional[BswEntryRelationship] = None
 
     @property
-    def bsw_entry(self) -> Optional["BswEntryRelationship"]:
+    def bsw_entry(self) -> Optional[BswEntryRelationship]:
         """Get bswEntry (Pythonic accessor)."""
         return self._bswEntry
 
     @bsw_entry.setter
-    def bsw_entry(self, value: Optional["BswEntryRelationship"]) -> None:
+    def bsw_entry(self, value: Optional[BswEntryRelationship]) -> None:
         """
         Set bswEntry with validation.
         
@@ -1100,15 +1102,15 @@ class BswEntryRelationship(ARObject):
             )
         self._bswEntry = value
         # this case the bswEntry be set to drivedFrom.
-        self._from_module: Optional["BswModuleEntry"] = None
+        self._from_module: Optional[BswModuleEntry] = None
 
     @property
-    def from_module(self) -> Optional["BswModuleEntry"]:
+    def from_module(self) -> Optional[BswModuleEntry]:
         """Get from_module (Pythonic accessor)."""
         return self._from_module
 
     @from_module.setter
-    def from_module(self, value: Optional["BswModuleEntry"]) -> None:
+    def from_module(self, value: Optional[BswModuleEntry]) -> None:
         """
         Set from_module with validation.
         
@@ -1127,15 +1129,15 @@ class BswEntryRelationship(ARObject):
                 f"from_module must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._from_module = value
-        self._to: Optional["BswModuleEntry"] = None
+        self._to: Optional[BswModuleEntry] = None
 
     @property
-    def to(self) -> Optional["BswModuleEntry"]:
+    def to(self) -> Optional[BswModuleEntry]:
         """Get to (Pythonic accessor)."""
         return self._to
 
     @to.setter
-    def to(self, value: Optional["BswModuleEntry"]) -> None:
+    def to(self, value: Optional[BswModuleEntry]) -> None:
         """
         Set to with validation.
         
@@ -1157,7 +1159,7 @@ class BswEntryRelationship(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBswEntry(self) -> "BswEntryRelationship":
+    def getBswEntry(self) -> BswEntryRelationship:
         """
         AUTOSAR-compliant getter for bswEntry.
         
@@ -1169,7 +1171,7 @@ class BswEntryRelationship(ARObject):
         """
         return self.bsw_entry  # Delegates to property
 
-    def setBswEntry(self, value: "BswEntryRelationship") -> "BswEntryRelationship":
+    def setBswEntry(self, value: BswEntryRelationship) -> BswEntryRelationship:
         """
         AUTOSAR-compliant setter for bswEntry with method chaining.
         
@@ -1185,7 +1187,7 @@ class BswEntryRelationship(ARObject):
         self.bsw_entry = value  # Delegates to property setter
         return self
 
-    def getFrom(self) -> "BswModuleEntry":
+    def getFrom(self) -> BswModuleEntry:
         """
         AUTOSAR-compliant getter for from_module.
 
@@ -1197,7 +1199,7 @@ class BswEntryRelationship(ARObject):
         """
         return self.from_module  # Delegates to property
 
-    def setFrom(self, value: "BswModuleEntry") -> "BswEntryRelationship":
+    def setFrom(self, value: BswModuleEntry) -> BswEntryRelationship:
         """
         AUTOSAR-compliant setter for from_module with method chaining.
 
@@ -1213,7 +1215,7 @@ class BswEntryRelationship(ARObject):
         self.from_module = value  # Delegates to property setter
         return self
 
-    def getTo(self) -> "BswModuleEntry":
+    def getTo(self) -> BswModuleEntry:
         """
         AUTOSAR-compliant getter for to.
         
@@ -1225,7 +1227,7 @@ class BswEntryRelationship(ARObject):
         """
         return self.to  # Delegates to property
 
-    def setTo(self, value: "BswModuleEntry") -> "BswEntryRelationship":
+    def setTo(self, value: BswModuleEntry) -> BswEntryRelationship:
         """
         AUTOSAR-compliant setter for to with method chaining.
         
@@ -1243,7 +1245,7 @@ class BswEntryRelationship(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_entry(self, value: Optional["BswEntryRelationship"]) -> "BswEntryRelationship":
+    def with_bsw_entry(self, value: Optional[BswEntryRelationship]) -> BswEntryRelationship:
         """
         Set bswEntry and return self for chaining.
         
@@ -1259,7 +1261,7 @@ class BswEntryRelationship(ARObject):
         self.bsw_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_from_module(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
+    def with_from_module(self, value: Optional[BswModuleEntry]) -> BswEntryRelationship:
         """
         Set from_module and return self for chaining.
 
@@ -1275,7 +1277,7 @@ class BswEntryRelationship(ARObject):
         self.from_module = value  # Use property setter (gets validation)
         return self
 
-    def with_to(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
+    def with_to(self, value: Optional[BswModuleEntry]) -> BswEntryRelationship:
         """
         Set to and return self for chaining.
         
@@ -1314,15 +1316,15 @@ class BswModuleClientServerEntry(Referrable):
         # The underlying BswModuleEntry.
         # xml.
         # sequenceOffset=5.
-        self._encapsulated: Optional["BswModuleEntry"] = None
+        self._encapsulated: Optional[BswModuleEntry] = None
 
     @property
-    def encapsulated(self) -> Optional["BswModuleEntry"]:
+    def encapsulated(self) -> Optional[BswModuleEntry]:
         """Get encapsulated (Pythonic accessor)."""
         return self._encapsulated
 
     @encapsulated.setter
-    def encapsulated(self, value: Optional["BswModuleEntry"]) -> None:
+    def encapsulated(self, value: Optional[BswModuleEntry]) -> None:
         """
         Set encapsulated with validation.
         
@@ -1406,7 +1408,7 @@ class BswModuleClientServerEntry(Referrable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEncapsulated(self) -> "BswModuleEntry":
+    def getEncapsulated(self) -> BswModuleEntry:
         """
         AUTOSAR-compliant getter for encapsulated.
         
@@ -1418,7 +1420,7 @@ class BswModuleClientServerEntry(Referrable):
         """
         return self.encapsulated  # Delegates to property
 
-    def setEncapsulated(self, value: "BswModuleEntry") -> "BswModuleClientServerEntry":
+    def setEncapsulated(self, value: BswModuleEntry) -> BswModuleClientServerEntry:
         """
         AUTOSAR-compliant setter for encapsulated with method chaining.
         
@@ -1446,7 +1448,7 @@ class BswModuleClientServerEntry(Referrable):
         """
         return self.is_reentrant  # Delegates to property
 
-    def setIsReentrant(self, value: "Boolean") -> "BswModuleClientServerEntry":
+    def setIsReentrant(self, value: "Boolean") -> BswModuleClientServerEntry:
         """
         AUTOSAR-compliant setter for isReentrant with method chaining.
         
@@ -1474,7 +1476,7 @@ class BswModuleClientServerEntry(Referrable):
         """
         return self.is_synchronous  # Delegates to property
 
-    def setIsSynchronous(self, value: "Boolean") -> "BswModuleClientServerEntry":
+    def setIsSynchronous(self, value: "Boolean") -> BswModuleClientServerEntry:
         """
         AUTOSAR-compliant setter for isSynchronous with method chaining.
         
@@ -1492,7 +1494,7 @@ class BswModuleClientServerEntry(Referrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_encapsulated(self, value: Optional["BswModuleEntry"]) -> "BswModuleClientServerEntry":
+    def with_encapsulated(self, value: Optional[BswModuleEntry]) -> BswModuleClientServerEntry:
         """
         Set encapsulated and return self for chaining.
         
@@ -1508,7 +1510,7 @@ class BswModuleClientServerEntry(Referrable):
         self.encapsulated = value  # Use property setter (gets validation)
         return self
 
-    def with_is_reentrant(self, value: Optional["Boolean"]) -> "BswModuleClientServerEntry":
+    def with_is_reentrant(self, value: Optional["Boolean"]) -> BswModuleClientServerEntry:
         """
         Set isReentrant and return self for chaining.
         
@@ -1524,7 +1526,7 @@ class BswModuleClientServerEntry(Referrable):
         self.is_reentrant = value  # Use property setter (gets validation)
         return self
 
-    def with_is_synchronous(self, value: Optional["Boolean"]) -> "BswModuleClientServerEntry":
+    def with_is_synchronous(self, value: Optional["Boolean"]) -> BswModuleClientServerEntry:
         """
         Set isSynchronous and return self for chaining.
         

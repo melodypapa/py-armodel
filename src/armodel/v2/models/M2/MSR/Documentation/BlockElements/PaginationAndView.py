@@ -4,6 +4,8 @@ AUTOSAR Package - PaginationAndView
 Package: M2::MSR::Documentation::BlockElements::PaginationAndView
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
@@ -60,15 +62,15 @@ class DocumentViewSelectable(ARObject, ABC):
             )
         self._si = value
         # the object appears in all.
-        self._view: Optional["ViewTokens"] = None
+        self._view: Optional[ViewTokens] = None
 
     @property
-    def view(self) -> Optional["ViewTokens"]:
+    def view(self) -> Optional[ViewTokens]:
         """Get view (Pythonic accessor)."""
         return self._view
 
     @view.setter
-    def view(self, value: Optional["ViewTokens"]) -> None:
+    def view(self, value: Optional[ViewTokens]) -> None:
         """
         Set view with validation.
         
@@ -102,7 +104,7 @@ class DocumentViewSelectable(ARObject, ABC):
         """
         return self.si  # Delegates to property
 
-    def setSi(self, value: "NameTokens") -> "DocumentViewSelectable":
+    def setSi(self, value: "NameTokens") -> DocumentViewSelectable:
         """
         AUTOSAR-compliant setter for si with method chaining.
         
@@ -118,7 +120,7 @@ class DocumentViewSelectable(ARObject, ABC):
         self.si = value  # Delegates to property setter
         return self
 
-    def getView(self) -> "ViewTokens":
+    def getView(self) -> ViewTokens:
         """
         AUTOSAR-compliant getter for view.
         
@@ -130,7 +132,7 @@ class DocumentViewSelectable(ARObject, ABC):
         """
         return self.view  # Delegates to property
 
-    def setView(self, value: "ViewTokens") -> "DocumentViewSelectable":
+    def setView(self, value: ViewTokens) -> DocumentViewSelectable:
         """
         AUTOSAR-compliant setter for view with method chaining.
         
@@ -148,7 +150,7 @@ class DocumentViewSelectable(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_si(self, value: "NameTokens") -> "DocumentViewSelectable":
+    def with_si(self, value: "NameTokens") -> DocumentViewSelectable:
         """
         Set si and return self for chaining.
         
@@ -164,7 +166,7 @@ class DocumentViewSelectable(ARObject, ABC):
         self.si = value  # Use property setter (gets validation)
         return self
 
-    def with_view(self, value: Optional["ViewTokens"]) -> "DocumentViewSelectable":
+    def with_view(self, value: Optional[ViewTokens]) -> DocumentViewSelectable:
         """
         Set view and return self for chaining.
         
@@ -200,15 +202,15 @@ class Paginateable(DocumentViewSelectable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attributes allows to specify a forced page break.
-        self._break: Optional["ChapterEnumBreak"] = None
+        self._break: Optional[ChapterEnumBreak] = None
 
     @property
-    def chapter_break(self) -> Optional["ChapterEnumBreak"]:
+    def chapter_break(self) -> Optional[ChapterEnumBreak]:
         """Get chapter_break (Pythonic accessor) - renamed from AUTOSAR 'break' to avoid Python keyword."""
         return self._chapterBreak
 
     @chapter_break.setter
-    def chapter_break(self, value: Optional["ChapterEnumBreak"]) -> None:
+    def chapter_break(self, value: Optional[ChapterEnumBreak]) -> None:
         """
         Set chapter_break with validation.
 
@@ -233,15 +235,15 @@ class Paginateable(DocumentViewSelectable, ABC):
         self._chapterBreak = value
         # In particular it if the containing text block shall be kept together previous
                 # block.
-        self._keepWith: Optional["KeepWithPreviousEnum"] = None
+        self._keepWith: Optional[KeepWithPreviousEnum] = None
 
     @property
-    def keep_with(self) -> Optional["KeepWithPreviousEnum"]:
+    def keep_with(self) -> Optional[KeepWithPreviousEnum]:
         """Get keepWith (Pythonic accessor)."""
         return self._keepWith
 
     @keep_with.setter
-    def keep_with(self, value: Optional["KeepWithPreviousEnum"]) -> None:
+    def keep_with(self, value: Optional[KeepWithPreviousEnum]) -> None:
         """
         Set keepWith with validation.
         
@@ -263,7 +265,7 @@ class Paginateable(DocumentViewSelectable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBreak(self) -> "ChapterEnumBreak":
+    def getBreak(self) -> ChapterEnumBreak:
         """
         AUTOSAR-compliant getter for break.
         
@@ -275,7 +277,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         """
         return self.chapter_break  # Delegates to property
 
-    def setBreak(self, value: "ChapterEnumBreak") -> "Paginateable":
+    def setBreak(self, value: ChapterEnumBreak) -> Paginateable:
         """
         AUTOSAR-compliant setter for break with method chaining.
         
@@ -291,7 +293,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         self.chapter_break = value  # Delegates to property setter
         return self
 
-    def getKeepWith(self) -> "KeepWithPreviousEnum":
+    def getKeepWith(self) -> KeepWithPreviousEnum:
         """
         AUTOSAR-compliant getter for keepWith.
         
@@ -303,7 +305,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         """
         return self.keep_with  # Delegates to property
 
-    def setKeepWith(self, value: "KeepWithPreviousEnum") -> "Paginateable":
+    def setKeepWith(self, value: KeepWithPreviousEnum) -> Paginateable:
         """
         AUTOSAR-compliant setter for keepWith with method chaining.
         
@@ -321,7 +323,7 @@ class Paginateable(DocumentViewSelectable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_break(self, value: Optional["ChapterEnumBreak"]) -> "Paginateable":
+    def with_break(self, value: Optional[ChapterEnumBreak]) -> Paginateable:
         """
         Set break and return self for chaining.
         
@@ -337,7 +339,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         self.chapter_break = value  # Use property setter (gets validation)
         return self
 
-    def with_keep_with(self, value: Optional["KeepWithPreviousEnum"]) -> "Paginateable":
+    def with_keep_with(self, value: Optional[KeepWithPreviousEnum]) -> Paginateable:
         """
         Set keepWith and return self for chaining.
         

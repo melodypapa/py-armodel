@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
@@ -93,7 +95,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.context_r_port_prototype  # Delegates to property
 
-    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RTriggerInAtomicSwcInstanceRef":
+    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> RTriggerInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
 
@@ -121,7 +123,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.target_trigger  # Delegates to property
 
-    def setTargetTrigger(self, value: RefType) -> "RTriggerInAtomicSwcInstanceRef":
+    def setTargetTrigger(self, value: RefType) -> RTriggerInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetTrigger with method chaining.
 
@@ -139,7 +141,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RTriggerInAtomicSwcInstanceRef":
+    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RTriggerInAtomicSwcInstanceRef:
         """
         Set contextRPortPrototype and return self for chaining.
 
@@ -155,7 +157,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
         self.context_r_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_trigger(self, value: Optional[RefType]) -> "RTriggerInAtomicSwcInstanceRef":
+    def with_target_trigger(self, value: Optional[RefType]) -> RTriggerInAtomicSwcInstanceRef:
         """
         Set targetTrigger and return self for chaining.
 

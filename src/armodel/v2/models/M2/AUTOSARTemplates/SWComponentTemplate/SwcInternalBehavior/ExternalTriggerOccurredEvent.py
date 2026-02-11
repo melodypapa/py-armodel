@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
@@ -65,7 +67,7 @@ class ExternalTriggerOccurredEvent(RTEEvent):
         """
         return self.trigger_instance_ref  # Delegates to property
 
-    def setTriggerInstanceRef(self, value: RefType) -> "ExternalTriggerOccurredEvent":
+    def setTriggerInstanceRef(self, value: RefType) -> ExternalTriggerOccurredEvent:
         """
         AUTOSAR-compliant setter for triggerInstanceRef with method chaining.
 
@@ -83,7 +85,7 @@ class ExternalTriggerOccurredEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_trigger_instance_ref(self, value: Optional[RefType]) -> "ExternalTriggerOccurredEvent":
+    def with_trigger_instance_ref(self, value: Optional[RefType]) -> ExternalTriggerOccurredEvent:
         """
         Set triggerInstanceRef and return self for chaining.
 

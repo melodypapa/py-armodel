@@ -4,10 +4,12 @@ AUTOSAR Package - EthernetFrame
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__ import (
@@ -239,7 +241,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         """
         return self.relative  # Delegates to property
 
-    def setRelative(self, value: "TimeValue") -> "Ieee1722TpEthernetFrame":
+    def setRelative(self, value: "TimeValue") -> Ieee1722TpEthernetFrame:
         """
         AUTOSAR-compliant setter for relative with method chaining.
 
@@ -267,7 +269,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         """
         return self.stream_identifier  # Delegates to property
 
-    def setStreamIdentifier(self, value: "PositiveInteger") -> "Ieee1722TpEthernetFrame":
+    def setStreamIdentifier(self, value: "PositiveInteger") -> Ieee1722TpEthernetFrame:
         """
         AUTOSAR-compliant setter for streamIdentifier with method chaining.
 
@@ -295,7 +297,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         """
         return self.sub_type  # Delegates to property
 
-    def setSubType(self, value: "PositiveInteger") -> "Ieee1722TpEthernetFrame":
+    def setSubType(self, value: "PositiveInteger") -> Ieee1722TpEthernetFrame:
         """
         AUTOSAR-compliant setter for subType with method chaining.
 
@@ -323,7 +325,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         """
         return self.version  # Delegates to property
 
-    def setVersion(self, value: "PositiveInteger") -> "Ieee1722TpEthernetFrame":
+    def setVersion(self, value: "PositiveInteger") -> Ieee1722TpEthernetFrame:
         """
         AUTOSAR-compliant setter for version with method chaining.
 
@@ -341,7 +343,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_relative(self, value: Optional["TimeValue"]) -> "Ieee1722TpEthernetFrame":
+    def with_relative(self, value: Optional["TimeValue"]) -> Ieee1722TpEthernetFrame:
         """
         Set relative and return self for chaining.
 
@@ -357,7 +359,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         self.relative = value  # Use property setter (gets validation)
         return self
 
-    def with_stream_identifier(self, value: Optional["PositiveInteger"]) -> "Ieee1722TpEthernetFrame":
+    def with_stream_identifier(self, value: Optional["PositiveInteger"]) -> Ieee1722TpEthernetFrame:
         """
         Set streamIdentifier and return self for chaining.
 
@@ -373,7 +375,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         self.stream_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_sub_type(self, value: Optional["PositiveInteger"]) -> "Ieee1722TpEthernetFrame":
+    def with_sub_type(self, value: Optional["PositiveInteger"]) -> Ieee1722TpEthernetFrame:
         """
         Set subType and return self for chaining.
 
@@ -389,7 +391,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         self.sub_type = value  # Use property setter (gets validation)
         return self
 
-    def with_version(self, value: Optional["PositiveInteger"]) -> "Ieee1722TpEthernetFrame":
+    def with_version(self, value: Optional["PositiveInteger"]) -> Ieee1722TpEthernetFrame:
         """
         Set version and return self for chaining.
 

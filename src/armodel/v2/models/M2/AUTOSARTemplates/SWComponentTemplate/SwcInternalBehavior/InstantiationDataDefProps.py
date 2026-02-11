@@ -4,9 +4,11 @@ AUTOSAR Package - InstantiationDataDefProps
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstantiationDataDefProps
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -132,7 +134,7 @@ class InstantiationDataDefProps(ARObject):
         """
         return self.parameter  # Delegates to property
 
-    def setParameter(self, value: "RefType") -> "InstantiationDataDefProps":
+    def setParameter(self, value: "RefType") -> InstantiationDataDefProps:
         """
         AUTOSAR-compliant setter for parameter with method chaining.
 
@@ -160,7 +162,7 @@ class InstantiationDataDefProps(ARObject):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "InstantiationDataDefProps":
+    def setSwDataDef(self, value: "SwDataDefProps") -> InstantiationDataDefProps:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -188,7 +190,7 @@ class InstantiationDataDefProps(ARObject):
         """
         return self.variable_instance  # Delegates to property
 
-    def setVariableInstance(self, value: "RefType") -> "InstantiationDataDefProps":
+    def setVariableInstance(self, value: "RefType") -> InstantiationDataDefProps:
         """
         AUTOSAR-compliant setter for variableInstance with method chaining.
 
@@ -206,7 +208,7 @@ class InstantiationDataDefProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_parameter(self, value: Optional[RefType]) -> "InstantiationDataDefProps":
+    def with_parameter(self, value: Optional[RefType]) -> InstantiationDataDefProps:
         """
         Set parameter and return self for chaining.
 
@@ -222,7 +224,7 @@ class InstantiationDataDefProps(ARObject):
         self.parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "InstantiationDataDefProps":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> InstantiationDataDefProps:
         """
         Set swDataDef and return self for chaining.
 
@@ -238,7 +240,7 @@ class InstantiationDataDefProps(ARObject):
         self.sw_data_def = value  # Use property setter (gets validation)
         return self
 
-    def with_variable_instance(self, value: Optional[RefType]) -> "InstantiationDataDefProps":
+    def with_variable_instance(self, value: Optional[RefType]) -> InstantiationDataDefProps:
         """
         Set variableInstance and return self for chaining.
 

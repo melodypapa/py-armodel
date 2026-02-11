@@ -11,7 +11,7 @@ from armodel.v2.models.M2.MSR.DataDictionary.SwCalprmAxisTypeProps import (
 
 __all__ = [
     "CalprmAxisCategoryEnum",
-    "SwCalprmAxis",
+    SwCalprmAxis,
     "SwCalprmAxisSet",
     "SwCalprmAxisTypeProps",
 ]

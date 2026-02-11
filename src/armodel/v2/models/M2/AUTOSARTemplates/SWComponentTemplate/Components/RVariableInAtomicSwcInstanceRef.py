@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
@@ -93,7 +95,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         """
         return self.context_r_port_prototype  # Delegates to property
 
-    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RVariableInAtomicSwcInstanceRef":
+    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> RVariableInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
 
@@ -121,7 +123,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         """
         return self.target_data_element  # Delegates to property
 
-    def setTargetDataElement(self, value: RefType) -> "RVariableInAtomicSwcInstanceRef":
+    def setTargetDataElement(self, value: RefType) -> RVariableInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetDataElement with method chaining.
 
@@ -139,7 +141,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RVariableInAtomicSwcInstanceRef":
+    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RVariableInAtomicSwcInstanceRef:
         """
         Set contextRPortPrototype and return self for chaining.
 
@@ -155,7 +157,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         self.context_r_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data_element(self, value: Optional[RefType]) -> "RVariableInAtomicSwcInstanceRef":
+    def with_target_data_element(self, value: Optional[RefType]) -> RVariableInAtomicSwcInstanceRef:
         """
         Set targetDataElement and return self for chaining.
 

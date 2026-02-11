@@ -44,8 +44,8 @@ __version__ = "2.0.0"
 
 __all__ = [
     "ARObject",
-    "AUTOSAR",
-    "ARPackage",
+    AUTOSAR,
+    ARPackage,
     "Identifiable",
     "__version__",
 ]

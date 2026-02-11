@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
@@ -93,7 +95,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.context_p_port_prototype  # Delegates to property
 
-    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "PModeGroupInAtomicSwcInstanceRef":
+    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> PModeGroupInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
 
@@ -121,7 +123,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.target_mode  # Delegates to property
 
-    def setTargetMode(self, value: RefType) -> "PModeGroupInAtomicSwcInstanceRef":
+    def setTargetMode(self, value: RefType) -> PModeGroupInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
 
@@ -139,7 +141,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PModeGroupInAtomicSwcInstanceRef":
+    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PModeGroupInAtomicSwcInstanceRef:
         """
         Set contextPPortPrototype and return self for chaining.
 
@@ -155,7 +157,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         self.context_p_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_mode(self, value: Optional[RefType]) -> "PModeGroupInAtomicSwcInstanceRef":
+    def with_target_mode(self, value: Optional[RefType]) -> PModeGroupInAtomicSwcInstanceRef:
         """
         Set targetMode and return self for chaining.
 

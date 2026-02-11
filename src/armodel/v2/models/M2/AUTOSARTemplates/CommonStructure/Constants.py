@@ -4,10 +4,12 @@ AUTOSAR Package - Constants
 Package: M2::AUTOSARTemplates::CommonStructure::Constants
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     Integer,
     PositiveInteger,
@@ -40,15 +42,15 @@ class ConstantSpecification(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specification of an expression leading to a value for this.
-        self._valueSpec: Optional["ValueSpecification"] = None
+        self._valueSpec: Optional[ValueSpecification] = None
 
     @property
-    def value_spec(self) -> Optional["ValueSpecification"]:
+    def value_spec(self) -> Optional[ValueSpecification]:
         """Get valueSpec (Pythonic accessor)."""
         return self._valueSpec
 
     @value_spec.setter
-    def value_spec(self, value: Optional["ValueSpecification"]) -> None:
+    def value_spec(self, value: Optional[ValueSpecification]) -> None:
         """
         Set valueSpec with validation.
 
@@ -166,7 +168,7 @@ class ConstantSpecification(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValueSpec(self) -> "ValueSpecification":
+    def getValueSpec(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for valueSpec.
 
@@ -178,7 +180,7 @@ class ConstantSpecification(ARElement):
         """
         return self.value_spec  # Delegates to property
 
-    def setValueSpec(self, value: "ValueSpecification") -> "ConstantSpecification":
+    def setValueSpec(self, value: ValueSpecification) -> ConstantSpecification:
         """
         AUTOSAR-compliant setter for valueSpec with method chaining.
 
@@ -196,7 +198,7 @@ class ConstantSpecification(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value_spec(self, value: Optional["ValueSpecification"]) -> "ConstantSpecification":
+    def with_value_spec(self, value: Optional[ValueSpecification]) -> ConstantSpecification:
         """
         Set valueSpec and return self for chaining.
 
@@ -305,7 +307,7 @@ class NumericalOrText(ARObject):
         """
         return self.vf  # Delegates to property
 
-    def setVf(self, value: "Numerical") -> "NumericalOrText":
+    def setVf(self, value: "Numerical") -> NumericalOrText:
         """
         AUTOSAR-compliant setter for vf with method chaining.
 
@@ -333,7 +335,7 @@ class NumericalOrText(ARObject):
         """
         return self.vt  # Delegates to property
 
-    def setVt(self, value: "String") -> "NumericalOrText":
+    def setVt(self, value: "String") -> NumericalOrText:
         """
         AUTOSAR-compliant setter for vt with method chaining.
 
@@ -351,7 +353,7 @@ class NumericalOrText(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_vf(self, value: Optional["Numerical"]) -> "NumericalOrText":
+    def with_vf(self, value: Optional["Numerical"]) -> NumericalOrText:
         """
         Set vf and return self for chaining.
 
@@ -367,7 +369,7 @@ class NumericalOrText(ARObject):
         self.vf = value  # Use property setter (gets validation)
         return self
 
-    def with_vt(self, value: Optional["String"]) -> "NumericalOrText":
+    def with_vt(self, value: Optional["String"]) -> NumericalOrText:
         """
         Set vt and return self for chaining.
 
@@ -486,15 +488,15 @@ class RuleArguments(ARObject):
             )
         self._vt = value
         # or text which existence is subject atpVariation.
-        self._vtf: Optional["NumericalOrText"] = None
+        self._vtf: Optional[NumericalOrText] = None
 
     @property
-    def vtf(self) -> Optional["NumericalOrText"]:
+    def vtf(self) -> Optional[NumericalOrText]:
         """Get vtf (Pythonic accessor)."""
         return self._vtf
 
     @vtf.setter
-    def vtf(self, value: Optional["NumericalOrText"]) -> None:
+    def vtf(self, value: Optional[NumericalOrText]) -> None:
         """
         Set vtf with validation.
 
@@ -528,7 +530,7 @@ class RuleArguments(ARObject):
         """
         return self.v  # Delegates to property
 
-    def setV(self, value: "Numerical") -> "RuleArguments":
+    def setV(self, value: "Numerical") -> RuleArguments:
         """
         AUTOSAR-compliant setter for v with method chaining.
 
@@ -556,7 +558,7 @@ class RuleArguments(ARObject):
         """
         return self.vf  # Delegates to property
 
-    def setVf(self, value: "Numerical") -> "RuleArguments":
+    def setVf(self, value: "Numerical") -> RuleArguments:
         """
         AUTOSAR-compliant setter for vf with method chaining.
 
@@ -584,7 +586,7 @@ class RuleArguments(ARObject):
         """
         return self.vt  # Delegates to property
 
-    def setVt(self, value: "VerbatimString") -> "RuleArguments":
+    def setVt(self, value: "VerbatimString") -> RuleArguments:
         """
         AUTOSAR-compliant setter for vt with method chaining.
 
@@ -600,7 +602,7 @@ class RuleArguments(ARObject):
         self.vt = value  # Delegates to property setter
         return self
 
-    def getVtf(self) -> "NumericalOrText":
+    def getVtf(self) -> NumericalOrText:
         """
         AUTOSAR-compliant getter for vtf.
 
@@ -612,7 +614,7 @@ class RuleArguments(ARObject):
         """
         return self.vtf  # Delegates to property
 
-    def setVtf(self, value: "NumericalOrText") -> "RuleArguments":
+    def setVtf(self, value: NumericalOrText) -> RuleArguments:
         """
         AUTOSAR-compliant setter for vtf with method chaining.
 
@@ -630,7 +632,7 @@ class RuleArguments(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_v(self, value: Optional["Numerical"]) -> "RuleArguments":
+    def with_v(self, value: Optional["Numerical"]) -> RuleArguments:
         """
         Set v and return self for chaining.
 
@@ -646,7 +648,7 @@ class RuleArguments(ARObject):
         self.v = value  # Use property setter (gets validation)
         return self
 
-    def with_vf(self, value: Optional["Numerical"]) -> "RuleArguments":
+    def with_vf(self, value: Optional["Numerical"]) -> RuleArguments:
         """
         Set vf and return self for chaining.
 
@@ -662,7 +664,7 @@ class RuleArguments(ARObject):
         self.vf = value  # Use property setter (gets validation)
         return self
 
-    def with_vt(self, value: Optional["VerbatimString"]) -> "RuleArguments":
+    def with_vt(self, value: Optional["VerbatimString"]) -> RuleArguments:
         """
         Set vt and return self for chaining.
 
@@ -678,7 +680,7 @@ class RuleArguments(ARObject):
         self.vt = value  # Use property setter (gets validation)
         return self
 
-    def with_vtf(self, value: Optional["NumericalOrText"]) -> "RuleArguments":
+    def with_vtf(self, value: Optional[NumericalOrText]) -> RuleArguments:
         """
         Set vtf and return self for chaining.
 
@@ -811,7 +813,7 @@ class RuleBasedValueCont(ARObject):
         """
         return self.rule_based  # Delegates to property
 
-    def setRuleBased(self, value: "RuleBasedValue") -> "RuleBasedValueCont":
+    def setRuleBased(self, value: "RuleBasedValue") -> RuleBasedValueCont:
         """
         AUTOSAR-compliant setter for ruleBased with method chaining.
 
@@ -839,7 +841,7 @@ class RuleBasedValueCont(ARObject):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> "RuleBasedValueCont":
+    def setSwArraysize(self, value: "RefType") -> RuleBasedValueCont:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -867,7 +869,7 @@ class RuleBasedValueCont(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "RuleBasedValueCont":
+    def setUnit(self, value: "Unit") -> RuleBasedValueCont:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -885,7 +887,7 @@ class RuleBasedValueCont(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_rule_based(self, value: Optional["RuleBasedValue"]) -> "RuleBasedValueCont":
+    def with_rule_based(self, value: Optional["RuleBasedValue"]) -> RuleBasedValueCont:
         """
         Set ruleBased and return self for chaining.
 
@@ -901,7 +903,7 @@ class RuleBasedValueCont(ARObject):
         self.rule_based = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_arraysize(self, value: Optional[RefType]) -> "RuleBasedValueCont":
+    def with_sw_arraysize(self, value: Optional[RefType]) -> RuleBasedValueCont:
         """
         Set swArraysize and return self for chaining.
 
@@ -917,7 +919,7 @@ class RuleBasedValueCont(ARObject):
         self.sw_arraysize = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "RuleBasedValueCont":
+    def with_unit(self, value: Optional["Unit"]) -> RuleBasedValueCont:
         """
         Set unit and return self for chaining.
 
@@ -955,15 +957,15 @@ class RuleBasedValueSpecification(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the arguments for the RuleBasedValue atpVariation.
-        self._arguments: Optional["RuleArguments"] = None
+        self._arguments: Optional[RuleArguments] = None
 
     @property
-    def arguments(self) -> Optional["RuleArguments"]:
+    def arguments(self) -> Optional[RuleArguments]:
         """Get arguments (Pythonic accessor)."""
         return self._arguments
 
     @arguments.setter
-    def arguments(self, value: Optional["RuleArguments"]) -> None:
+    def arguments(self, value: Optional[RuleArguments]) -> None:
         """
         Set arguments with validation.
 
@@ -1041,7 +1043,7 @@ class RuleBasedValueSpecification(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArguments(self) -> "RuleArguments":
+    def getArguments(self) -> RuleArguments:
         """
         AUTOSAR-compliant getter for arguments.
 
@@ -1053,7 +1055,7 @@ class RuleBasedValueSpecification(ARObject):
         """
         return self.arguments  # Delegates to property
 
-    def setArguments(self, value: "RuleArguments") -> "RuleBasedValueSpecification":
+    def setArguments(self, value: RuleArguments) -> RuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for arguments with method chaining.
 
@@ -1081,7 +1083,7 @@ class RuleBasedValueSpecification(ARObject):
         """
         return self.max_size_to_fill  # Delegates to property
 
-    def setMaxSizeToFill(self, value: "Integer") -> "RuleBasedValueSpecification":
+    def setMaxSizeToFill(self, value: "Integer") -> RuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for maxSizeToFill with method chaining.
 
@@ -1109,7 +1111,7 @@ class RuleBasedValueSpecification(ARObject):
         """
         return self.rule  # Delegates to property
 
-    def setRule(self, value: "Identifier") -> "RuleBasedValueSpecification":
+    def setRule(self, value: "Identifier") -> RuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for rule with method chaining.
 
@@ -1127,7 +1129,7 @@ class RuleBasedValueSpecification(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_arguments(self, value: Optional["RuleArguments"]) -> "RuleBasedValueSpecification":
+    def with_arguments(self, value: Optional[RuleArguments]) -> RuleBasedValueSpecification:
         """
         Set arguments and return self for chaining.
 
@@ -1143,7 +1145,7 @@ class RuleBasedValueSpecification(ARObject):
         self.arguments = value  # Use property setter (gets validation)
         return self
 
-    def with_max_size_to_fill(self, value: Optional["Integer"]) -> "RuleBasedValueSpecification":
+    def with_max_size_to_fill(self, value: Optional["Integer"]) -> RuleBasedValueSpecification:
         """
         Set maxSizeToFill and return self for chaining.
 
@@ -1159,7 +1161,7 @@ class RuleBasedValueSpecification(ARObject):
         self.max_size_to_fill = value  # Use property setter (gets validation)
         return self
 
-    def with_rule(self, value: Optional["Identifier"]) -> "RuleBasedValueSpecification":
+    def with_rule(self, value: Optional["Identifier"]) -> RuleBasedValueSpecification:
         """
         Set rule and return self for chaining.
 
@@ -1241,7 +1243,7 @@ class ValueSpecification(ARObject, ABC):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> "ValueSpecification":
+    def setShortLabel(self, value: "Identifier") -> ValueSpecification:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -1259,7 +1261,7 @@ class ValueSpecification(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_short_label(self, value: Optional["Identifier"]) -> "ValueSpecification":
+    def with_short_label(self, value: Optional["Identifier"]) -> ValueSpecification:
         """
         Set shortLabel and return self for chaining.
 
@@ -1298,15 +1300,15 @@ class ConstantSpecificationMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # A ConstantSpecification defined in the application.
-        self._applConstant: Optional["ConstantSpecification"] = None
+        self._applConstant: Optional[ConstantSpecification] = None
 
     @property
-    def appl_constant(self) -> Optional["ConstantSpecification"]:
+    def appl_constant(self) -> Optional[ConstantSpecification]:
         """Get applConstant (Pythonic accessor)."""
         return self._applConstant
 
     @appl_constant.setter
-    def appl_constant(self, value: Optional["ConstantSpecification"]) -> None:
+    def appl_constant(self, value: Optional[ConstantSpecification]) -> None:
         """
         Set applConstant with validation.
 
@@ -1325,15 +1327,15 @@ class ConstantSpecificationMapping(ARObject):
                 f"applConstant must be ConstantSpecification or None, got {type(value).__name__}"
             )
         self._applConstant = value
-        self._implConstant: Optional["ConstantSpecification"] = None
+        self._implConstant: Optional[ConstantSpecification] = None
 
     @property
-    def impl_constant(self) -> Optional["ConstantSpecification"]:
+    def impl_constant(self) -> Optional[ConstantSpecification]:
         """Get implConstant (Pythonic accessor)."""
         return self._implConstant
 
     @impl_constant.setter
-    def impl_constant(self, value: Optional["ConstantSpecification"]) -> None:
+    def impl_constant(self, value: Optional[ConstantSpecification]) -> None:
         """
         Set implConstant with validation.
 
@@ -1355,7 +1357,7 @@ class ConstantSpecificationMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplConstant(self) -> "ConstantSpecification":
+    def getApplConstant(self) -> ConstantSpecification:
         """
         AUTOSAR-compliant getter for applConstant.
 
@@ -1367,7 +1369,7 @@ class ConstantSpecificationMapping(ARObject):
         """
         return self.appl_constant  # Delegates to property
 
-    def setApplConstant(self, value: "ConstantSpecification") -> "ConstantSpecificationMapping":
+    def setApplConstant(self, value: ConstantSpecification) -> ConstantSpecificationMapping:
         """
         AUTOSAR-compliant setter for applConstant with method chaining.
 
@@ -1383,7 +1385,7 @@ class ConstantSpecificationMapping(ARObject):
         self.appl_constant = value  # Delegates to property setter
         return self
 
-    def getImplConstant(self) -> "ConstantSpecification":
+    def getImplConstant(self) -> ConstantSpecification:
         """
         AUTOSAR-compliant getter for implConstant.
 
@@ -1395,7 +1397,7 @@ class ConstantSpecificationMapping(ARObject):
         """
         return self.impl_constant  # Delegates to property
 
-    def setImplConstant(self, value: "ConstantSpecification") -> "ConstantSpecificationMapping":
+    def setImplConstant(self, value: ConstantSpecification) -> ConstantSpecificationMapping:
         """
         AUTOSAR-compliant setter for implConstant with method chaining.
 
@@ -1413,7 +1415,7 @@ class ConstantSpecificationMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_appl_constant(self, value: Optional["ConstantSpecification"]) -> "ConstantSpecificationMapping":
+    def with_appl_constant(self, value: Optional[ConstantSpecification]) -> ConstantSpecificationMapping:
         """
         Set applConstant and return self for chaining.
 
@@ -1429,7 +1431,7 @@ class ConstantSpecificationMapping(ARObject):
         self.appl_constant = value  # Use property setter (gets validation)
         return self
 
-    def with_impl_constant(self, value: Optional["ConstantSpecification"]) -> "ConstantSpecificationMapping":
+    def with_impl_constant(self, value: Optional[ConstantSpecification]) -> ConstantSpecificationMapping:
         """
         Set implConstant and return self for chaining.
 
@@ -1465,16 +1467,16 @@ class ConstantSpecificationMappingSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # ConstantSpecificationMappings owned by the Constant.
-        self._mapping: List["ConstantSpecification"] = []
+        self._mapping: List[ConstantSpecification] = []
 
     @property
-    def mapping(self) -> List["ConstantSpecification"]:
+    def mapping(self) -> List[ConstantSpecification]:
         """Get mapping (Pythonic accessor)."""
         return self._mapping
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMapping(self) -> List["ConstantSpecification"]:
+    def getMapping(self) -> List[ConstantSpecification]:
         """
         AUTOSAR-compliant getter for mapping.
 
@@ -1661,7 +1663,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CalprmAxisCategory") -> "RuleBasedAxisCont":
+    def setCategory(self, value: "CalprmAxisCategory") -> RuleBasedAxisCont:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -1689,7 +1691,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.rule_based  # Delegates to property
 
-    def setRuleBased(self, value: "RuleBasedValue") -> "RuleBasedAxisCont":
+    def setRuleBased(self, value: "RuleBasedValue") -> RuleBasedAxisCont:
         """
         AUTOSAR-compliant setter for ruleBased with method chaining.
 
@@ -1717,7 +1719,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> "RuleBasedAxisCont":
+    def setSwArraysize(self, value: "RefType") -> RuleBasedAxisCont:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -1745,7 +1747,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.sw_axis_index  # Delegates to property
 
-    def setSwAxisIndex(self, value: "AxisIndexType") -> "RuleBasedAxisCont":
+    def setSwAxisIndex(self, value: "AxisIndexType") -> RuleBasedAxisCont:
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
 
@@ -1773,7 +1775,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "RuleBasedAxisCont":
+    def setUnit(self, value: "Unit") -> RuleBasedAxisCont:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -1791,7 +1793,7 @@ class RuleBasedAxisCont(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["CalprmAxisCategory"]) -> "RuleBasedAxisCont":
+    def with_category(self, value: Optional["CalprmAxisCategory"]) -> RuleBasedAxisCont:
         """
         Set category and return self for chaining.
 
@@ -1807,7 +1809,7 @@ class RuleBasedAxisCont(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_rule_based(self, value: Optional["RuleBasedValue"]) -> "RuleBasedAxisCont":
+    def with_rule_based(self, value: Optional["RuleBasedValue"]) -> RuleBasedAxisCont:
         """
         Set ruleBased and return self for chaining.
 
@@ -1823,7 +1825,7 @@ class RuleBasedAxisCont(ARObject):
         self.rule_based = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_arraysize(self, value: Optional[RefType]) -> "RuleBasedAxisCont":
+    def with_sw_arraysize(self, value: Optional[RefType]) -> RuleBasedAxisCont:
         """
         Set swArraysize and return self for chaining.
 
@@ -1839,7 +1841,7 @@ class RuleBasedAxisCont(ARObject):
         self.sw_arraysize = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "RuleBasedAxisCont":
+    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> RuleBasedAxisCont:
         """
         Set swAxisIndex and return self for chaining.
 
@@ -1855,7 +1857,7 @@ class RuleBasedAxisCont(ARObject):
         self.sw_axis_index = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "RuleBasedAxisCont":
+    def with_unit(self, value: Optional["Unit"]) -> RuleBasedAxisCont:
         """
         Set unit and return self for chaining.
 
@@ -1959,7 +1961,7 @@ class NumericalValueSpecification(ValueSpecification):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> "NumericalValueSpecification":
+    def setValue(self, value: "Numerical") -> NumericalValueSpecification:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1977,7 +1979,7 @@ class NumericalValueSpecification(ValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional["Numerical"]) -> "NumericalValueSpecification":
+    def with_value(self, value: Optional["Numerical"]) -> NumericalValueSpecification:
         """
         Set value and return self for chaining.
 
@@ -2098,7 +2100,7 @@ class ApplicationValueSpecification(ValueSpecification):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "Identifier") -> "ApplicationValueSpecification":
+    def setCategory(self, value: "Identifier") -> ApplicationValueSpecification:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -2138,7 +2140,7 @@ class ApplicationValueSpecification(ValueSpecification):
         """
         return self.sw_value_cont  # Delegates to property
 
-    def setSwValueCont(self, value: "SwValueCont") -> "ApplicationValueSpecification":
+    def setSwValueCont(self, value: "SwValueCont") -> ApplicationValueSpecification:
         """
         AUTOSAR-compliant setter for swValueCont with method chaining.
 
@@ -2156,7 +2158,7 @@ class ApplicationValueSpecification(ValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["Identifier"]) -> "ApplicationValueSpecification":
+    def with_category(self, value: Optional["Identifier"]) -> ApplicationValueSpecification:
         """
         Set category and return self for chaining.
 
@@ -2172,7 +2174,7 @@ class ApplicationValueSpecification(ValueSpecification):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_value_cont(self, value: Optional["SwValueCont"]) -> "ApplicationValueSpecification":
+    def with_sw_value_cont(self, value: Optional["SwValueCont"]) -> ApplicationValueSpecification:
         """
         Set swValueCont and return self for chaining.
 
@@ -2278,7 +2280,7 @@ class TextValueSpecification(ValueSpecification):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "VerbatimString") -> "TextValueSpecification":
+    def setValue(self, value: "VerbatimString") -> TextValueSpecification:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -2296,7 +2298,7 @@ class TextValueSpecification(ValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional["VerbatimString"]) -> "TextValueSpecification":
+    def with_value(self, value: Optional["VerbatimString"]) -> TextValueSpecification:
         """
         Set value and return self for chaining.
 
@@ -2368,7 +2370,7 @@ class ReferenceValueSpecification(ValueSpecification):
         """
         return self.reference_value  # Delegates to property
 
-    def setReferenceValue(self, value: "RefType") -> "ReferenceValueSpecification":
+    def setReferenceValue(self, value: "RefType") -> ReferenceValueSpecification:
         """
         AUTOSAR-compliant setter for referenceValue with method chaining.
 
@@ -2386,7 +2388,7 @@ class ReferenceValueSpecification(ValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_reference_value(self, value: Optional[RefType]) -> "ReferenceValueSpecification":
+    def with_reference_value(self, value: Optional[RefType]) -> ReferenceValueSpecification:
         """
         Set referenceValue and return self for chaining.
 
@@ -2467,7 +2469,7 @@ class NotAvailableValueSpecification(ValueSpecification):
         """
         return self.default_pattern  # Delegates to property
 
-    def setDefaultPattern(self, value: "PositiveInteger") -> "NotAvailableValueSpecification":
+    def setDefaultPattern(self, value: "PositiveInteger") -> NotAvailableValueSpecification:
         """
         AUTOSAR-compliant setter for defaultPattern with method chaining.
 
@@ -2485,7 +2487,7 @@ class NotAvailableValueSpecification(ValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_pattern(self, value: Optional["PositiveInteger"]) -> "NotAvailableValueSpecification":
+    def with_default_pattern(self, value: Optional["PositiveInteger"]) -> NotAvailableValueSpecification:
         """
         Set defaultPattern and return self for chaining.
 
@@ -2518,15 +2520,15 @@ class ConstantReference(ValueSpecification):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referenced constant.
-        self._constant: Optional["ConstantSpecification"] = None
+        self._constant: Optional[ConstantSpecification] = None
 
     @property
-    def constant(self) -> Optional["ConstantSpecification"]:
+    def constant(self) -> Optional[ConstantSpecification]:
         """Get constant (Pythonic accessor)."""
         return self._constant
 
     @constant.setter
-    def constant(self, value: Optional["ConstantSpecification"]) -> None:
+    def constant(self, value: Optional[ConstantSpecification]) -> None:
         """
         Set constant with validation.
 
@@ -2548,7 +2550,7 @@ class ConstantReference(ValueSpecification):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConstant(self) -> "ConstantSpecification":
+    def getConstant(self) -> ConstantSpecification:
         """
         AUTOSAR-compliant getter for constant.
 
@@ -2560,7 +2562,7 @@ class ConstantReference(ValueSpecification):
         """
         return self.constant  # Delegates to property
 
-    def setConstant(self, value: "ConstantSpecification") -> "ConstantReference":
+    def setConstant(self, value: ConstantSpecification) -> ConstantReference:
         """
         AUTOSAR-compliant setter for constant with method chaining.
 
@@ -2578,7 +2580,7 @@ class ConstantReference(ValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_constant(self, value: Optional["ConstantSpecification"]) -> "ConstantReference":
+    def with_constant(self, value: Optional[ConstantSpecification]) -> ConstantReference:
         """
         Set constant and return self for chaining.
 
@@ -2669,22 +2671,22 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         # swAxisCont describes the x-axis, the second sw the y-axis, the third
                 # swAxisCont z-axis.
         # In addition to this, the axis can be swAxisIndex.
-        self._swAxisCont: List["RuleBasedAxisCont"] = []
+        self._swAxisCont: List[RuleBasedAxisCont] = []
 
     @property
-    def sw_axis_cont(self) -> List["RuleBasedAxisCont"]:
+    def sw_axis_cont(self) -> List[RuleBasedAxisCont]:
         """Get swAxisCont (Pythonic accessor)."""
         return self._swAxisCont
         # This represents the values of an array or Compound.
-        self._swValueCont: Optional["RuleBasedValueCont"] = None
+        self._swValueCont: Optional[RuleBasedValueCont] = None
 
     @property
-    def sw_value_cont(self) -> Optional["RuleBasedValueCont"]:
+    def sw_value_cont(self) -> Optional[RuleBasedValueCont]:
         """Get swValueCont (Pythonic accessor)."""
         return self._swValueCont
 
     @sw_value_cont.setter
-    def sw_value_cont(self, value: Optional["RuleBasedValueCont"]) -> None:
+    def sw_value_cont(self, value: Optional[RuleBasedValueCont]) -> None:
         """
         Set swValueCont with validation.
 
@@ -2718,7 +2720,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "Identifier") -> "ApplicationRuleBasedValueSpecification":
+    def setCategory(self, value: "Identifier") -> ApplicationRuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -2734,7 +2736,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         self.category = value  # Delegates to property setter
         return self
 
-    def getSwAxisCont(self) -> List["RuleBasedAxisCont"]:
+    def getSwAxisCont(self) -> List[RuleBasedAxisCont]:
         """
         AUTOSAR-compliant getter for swAxisCont.
 
@@ -2746,7 +2748,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         """
         return self.sw_axis_cont  # Delegates to property
 
-    def getSwValueCont(self) -> "RuleBasedValueCont":
+    def getSwValueCont(self) -> RuleBasedValueCont:
         """
         AUTOSAR-compliant getter for swValueCont.
 
@@ -2758,7 +2760,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         """
         return self.sw_value_cont  # Delegates to property
 
-    def setSwValueCont(self, value: "RuleBasedValueCont") -> "ApplicationRuleBasedValueSpecification":
+    def setSwValueCont(self, value: RuleBasedValueCont) -> ApplicationRuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for swValueCont with method chaining.
 
@@ -2776,7 +2778,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["Identifier"]) -> "ApplicationRuleBasedValueSpecification":
+    def with_category(self, value: Optional["Identifier"]) -> ApplicationRuleBasedValueSpecification:
         """
         Set category and return self for chaining.
 
@@ -2792,7 +2794,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_value_cont(self, value: Optional["RuleBasedValueCont"]) -> "ApplicationRuleBasedValueSpecification":
+    def with_sw_value_cont(self, value: Optional[RuleBasedValueCont]) -> ApplicationRuleBasedValueSpecification:
         """
         Set swValueCont and return self for chaining.
 
@@ -2830,10 +2832,10 @@ class ArrayValueSpecification(CompositeValueSpecification):
         # The value for a single array element.
         # All Value aggregated by ArrayValueSpecification the same structure.
         # atpVariation.
-        self._element: List["ValueSpecification"] = []
+        self._element: List[ValueSpecification] = []
 
     @property
-    def element(self) -> List["ValueSpecification"]:
+    def element(self) -> List[ValueSpecification]:
         """Get element (Pythonic accessor)."""
         return self._element
         # This attribute shall only have a meaning for dynamic and shall be taken as a
@@ -2869,7 +2871,7 @@ class ArrayValueSpecification(CompositeValueSpecification):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getElement(self) -> List["ValueSpecification"]:
+    def getElement(self) -> List[ValueSpecification]:
         """
         AUTOSAR-compliant getter for element.
 
@@ -2893,7 +2895,7 @@ class ArrayValueSpecification(CompositeValueSpecification):
         """
         return self.intended_partial  # Delegates to property
 
-    def setIntendedPartial(self, value: "PositiveInteger") -> "ArrayValueSpecification":
+    def setIntendedPartial(self, value: "PositiveInteger") -> ArrayValueSpecification:
         """
         AUTOSAR-compliant setter for intendedPartial with method chaining.
 
@@ -2911,7 +2913,7 @@ class ArrayValueSpecification(CompositeValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_intended_partial(self, value: Optional["PositiveInteger"]) -> "ArrayValueSpecification":
+    def with_intended_partial(self, value: Optional["PositiveInteger"]) -> ArrayValueSpecification:
         """
         Set intendedPartial and return self for chaining.
 
@@ -3010,7 +3012,7 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         """
         return self.rule_based  # Delegates to property
 
-    def setRuleBased(self, value: "RuleBasedValue") -> "NumericalRuleBasedValueSpecification":
+    def setRuleBased(self, value: "RuleBasedValue") -> NumericalRuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for ruleBased with method chaining.
 
@@ -3028,7 +3030,7 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_rule_based(self, value: Optional["RuleBasedValue"]) -> "NumericalRuleBasedValueSpecification":
+    def with_rule_based(self, value: Optional["RuleBasedValue"]) -> NumericalRuleBasedValueSpecification:
         """
         Set ruleBased and return self for chaining.
 
@@ -3173,7 +3175,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         """
         return self.max_size_to_fill  # Delegates to property
 
-    def setMaxSizeToFill(self, value: "PositiveInteger") -> "CompositeRuleBasedValueSpecification":
+    def setMaxSizeToFill(self, value: "PositiveInteger") -> CompositeRuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for maxSizeToFill with method chaining.
 
@@ -3201,7 +3203,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         """
         return self.rule  # Delegates to property
 
-    def setRule(self, value: "Identifier") -> "CompositeRuleBasedValueSpecification":
+    def setRule(self, value: "Identifier") -> CompositeRuleBasedValueSpecification:
         """
         AUTOSAR-compliant setter for rule with method chaining.
 
@@ -3219,7 +3221,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_size_to_fill(self, value: Optional["PositiveInteger"]) -> "CompositeRuleBasedValueSpecification":
+    def with_max_size_to_fill(self, value: Optional["PositiveInteger"]) -> CompositeRuleBasedValueSpecification:
         """
         Set maxSizeToFill and return self for chaining.
 
@@ -3235,7 +3237,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         self.max_size_to_fill = value  # Use property setter (gets validation)
         return self
 
-    def with_rule(self, value: Optional["Identifier"]) -> "CompositeRuleBasedValueSpecification":
+    def with_rule(self, value: Optional["Identifier"]) -> CompositeRuleBasedValueSpecification:
         """
         Set rule and return self for chaining.
 

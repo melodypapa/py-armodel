@@ -4,9 +4,11 @@ AUTOSAR Package - ModeDeclarationGroup
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
 )
@@ -123,7 +125,7 @@ class ModeAccessPoint(ARObject):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "ModeAccessPointIdent") -> "ModeAccessPoint":
+    def setIdent(self, value: "ModeAccessPointIdent") -> ModeAccessPoint:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -151,7 +153,7 @@ class ModeAccessPoint(ARObject):
         """
         return self.mode_group_instance_ref  # Delegates to property
 
-    def setModeGroupInstanceRef(self, value: "RefType") -> "ModeAccessPoint":
+    def setModeGroupInstanceRef(self, value: "RefType") -> ModeAccessPoint:
         """
         AUTOSAR-compliant setter for modeGroupInstanceRef with method chaining.
 
@@ -169,7 +171,7 @@ class ModeAccessPoint(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ident(self, value: Optional["ModeAccessPointIdent"]) -> "ModeAccessPoint":
+    def with_ident(self, value: Optional["ModeAccessPointIdent"]) -> ModeAccessPoint:
         """
         Set ident and return self for chaining.
 
@@ -185,7 +187,7 @@ class ModeAccessPoint(ARObject):
         self.ident = value  # Use property setter (gets validation)
         return self
 
-    def with_mode_group_instance_ref(self, value: Optional[RefType]) -> "ModeAccessPoint":
+    def with_mode_group_instance_ref(self, value: Optional[RefType]) -> ModeAccessPoint:
         """
         Set modeGroupInstanceRef and return self for chaining.
 
@@ -259,7 +261,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
         """
         return self.mode_group_swc_instance_ref  # Delegates to property
 
-    def setModeGroupSwcInstanceRef(self, value: "RefType") -> "ModeSwitchPoint":
+    def setModeGroupSwcInstanceRef(self, value: "RefType") -> ModeSwitchPoint:
         """
         AUTOSAR-compliant setter for modeGroupSwcInstanceRef with method chaining.
 
@@ -277,7 +279,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> "ModeSwitchPoint":
+    def with_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> ModeSwitchPoint:
         """
         Set modeGroupSwcInstanceRef and return self for chaining.
 
@@ -374,7 +376,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
         """
         return self.prefix  # Delegates to property
 
-    def setPrefix(self, value: "Identifier") -> "IncludedModeDeclarationGroupSet":
+    def setPrefix(self, value: "Identifier") -> IncludedModeDeclarationGroupSet:
         """
         AUTOSAR-compliant setter for prefix with method chaining.
 
@@ -392,7 +394,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_prefix(self, value: Optional["Identifier"]) -> "IncludedModeDeclarationGroupSet":
+    def with_prefix(self, value: Optional["Identifier"]) -> IncludedModeDeclarationGroupSet:
         """
         Set prefix and return self for chaining.
 
