@@ -51,14 +51,14 @@
           "is_ref": false,
           "note": "This represents the network ID for the J1939 cluster."
         },
-        "re-": {
+        "request2Support": {
           "type": "Boolean",
           "multiplicity": "0..1",
           "kind": "attribute",
           "is_ref": false,
           "note": "Enables support for the Request2 PGN (RQST2)."
         },
-        "usesAddress": {
+        "usesAddressArbitration": {
           "type": "Boolean",
           "multiplicity": "0..1",
           "kind": "attribute",

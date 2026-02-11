@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 py-armodel is a Python library for parsing, manipulating, and writing AUTOSAR XML (ARXML) files. It follows the AUTOSAR standard specifications and supports versions from 4.0.3 to R24-11, with particular focus on CP R23-11 standard compliance.
 
 **Current Version**: 1.9.2
-**Python Requirements**: >= 3.5 (CI tests on 3.8-3.13)
+**Python Requirements**: >= 3.7 (CI tests on 3.8-3.12)
 **License**: MIT
 **Repository**: http://github.com/melodypapa/py-armodel
 
@@ -164,6 +164,23 @@ pytest -s  # Show print output
 - `slow`: Slow-running tests (skip with `-m "not slow"`)
 - `datatypes`, `components`, `bsw`, `system`, `blueprint`, `lifecycle`: Domain-specific tests
 
+### Integration Tests
+
+The project includes comprehensive integration tests in `tests/integration_tests/`:
+- 29 ARXML files tested from `test_files/` directory
+- Round-trip validation: Parse → Write → Re-parse → Compare
+- Auto-detects AUTOSAR version from XSD schema (4.0.3 to R24-11)
+- Configurable via `tests/integration_tests/config.yaml`
+
+```bash
+# Run integration tests
+python scripts/run_tests.py --integration
+
+# Run specific test categories
+pytest tests/integration_tests/ -k "datatypes"
+pytest tests/integration_tests/ -k "bsw"
+```
+
 ### Linting
 
 **Primary linter: Ruff**
@@ -224,6 +241,34 @@ src/armodel/
 - `armodel-file-list` - List files
 - `armodel-uuid-checker` - UUID validation
 - `format-xml` - XML formatting
+
+### Development Scripts
+
+The `scripts/` directory contains utility scripts for development:
+
+**Testing and Quality:**
+- `run_tests.py` - Comprehensive test runner with colored output (recommended)
+- `check_v2_deviation.py` - Check V2 model deviations
+
+**Code Generation and Migration:**
+- `generate_v2_models.py` - Generate V2 model classes
+- `generate_class_package_json.py` - Generate class package mapping
+- `migrate_bsw_classes.py` - Migrate BSW module classes
+- `migrate_common_classes.py` - Migrate common structure classes
+- `migrate_diagnostic_classes.py` - Migrate diagnostic classes
+- `migrate_generic_classes.py` - Migrate generic structure classes
+- `migrate_swcomponent_classes.py` - Migrate SW component classes
+- `migrate_system_classes.py` - Migrate system template classes
+
+**Validation and Analysis:**
+- `deviation-package.py` - Generate package structure deviation reports
+- `deviation-class-hierarchy.py` - Generate class hierarchy deviation reports
+- `scan_existing_classes.py` - Scan and catalog existing classes
+- `compare-package-implementation.py` - Compare package structure
+
+**Utilities:**
+- `add_validate_abstract.py` - Add abstract validation to V2 models
+- `copy_base_classes.py` - Copy base classes during migration
 
 ## Common Development Tasks
 
@@ -316,10 +361,39 @@ if component is not None:
 - **V2 models**: Use string annotations for forward refs (no TYPE_CHECKING blocks)
 
 ### Package Structure Rules
-- **Leaf packages** (no subdirectories): Classes defined in `.py` file with package name = filename
-- **Non-leaf packages** (have subdirectories): Classes defined in `__init__.py` of the directory
-- **Never** create double nesting like `ImplementationDataTypes/ImplementationDataTypes.py`
-- Always verify package exists before adding classes
+
+**CODING_RULE_STYLE_00008: Class Location and Package Structure**
+
+Classes must be located in the correct package according to AUTOSAR M2 model hierarchy.
+
+**Leaf packages** (no subdirectories): Classes defined in `.py` file with package name = filename
+**Non-leaf packages** (have subdirectories): Classes defined in `__init__.py` of the directory
+**Never** create double nesting like `ImplementationDataTypes/ImplementationDataTypes.py`
+Always verify package exists before adding classes
+
+**Example - Leaf Package (actual project file):**
+```
+src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
+```
+This file defines: `ImplementationDataType`, `AbstractImplementationDataTypeElement`, `ImplementationDataTypeElement`
+Import: `from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType`
+
+**Example - Non-Leaf Package (actual project directory):**
+```
+src/armodel/models/M2/AUTOSARTemplates/CommonStructure/
+├── __init__.py          # Defines: ValueSpecification, ConstantSpecification
+├── ImplementationDataTypes.py
+├── SwDataDefProps.py
+└── FlatMap.py
+```
+Import: `from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification`
+
+**CODING_RULE_STYLE_00009: Class Export and Module Organization**
+
+All classes must be properly exported from their modules and be importable via the expected AUTOSAR M2 path.
+- All classes must be exportable via wildcard imports (`from .module import *`)
+- Classes must be importable from the module path specified in `docs/requirements/mapping.json`
+- Run `python scripts/deviation-package.py` to verify compliance
 
 ### Parent-Child Relationships
 - Always maintain parent-child relationships
@@ -332,17 +406,6 @@ if component is not None:
 - Ensure proper package structure when adding new classes
 - Check that wildcard imports in `__init__.py` files include new classes (V1)
 - Check that `__all__` lists include new classes (V2)
-
-**Package Structure (CODING_RULE_STYLE_00008)**:
-- **Leaf packages**: Create `.py` file (e.g., `ImplementationDataTypes.py`)
-- **Non-leaf packages**: Create directory with `__init__.py`
-- **Never** create double nesting
-- Always verify package exists before adding classes
-
-**Class Export (CODING_RULE_STYLE_00009)**:
-- All classes must be properly exported from their modules
-- V1: Use wildcard imports in `__init__.py`
-- V2: Add to `__all__` list with explicit imports
 - Run `python scripts/deviation-package.py` to verify compliance
 
 **Enum Usage**:
@@ -350,29 +413,159 @@ if component is not None:
 - Import from `armodel.models.base import AREnum`
 - Parser and writer expect AREnum instances for proper serialization
 
+## Troubleshooting
+
+### Common Issues
+
+**ImportError when adding new classes:**
+- Verify the class is in the correct package (leaf vs. non-leaf)
+- Check that wildcard imports in `__init__.py` include the new class (V1)
+- Check that `__all__` lists include the new class (V2)
+- Run `python scripts/deviation-package.py` to verify package structure
+
+**Type checking errors with mypy:**
+- Use `from __future__ import annotations` for forward references
+- Use string annotations for circular dependencies: `"ClassName"`
+- Only reference classes that actually exist in the codebase
+- Check V2 coding rules in `docs/development/coding_rules_v2.md`
+
+**Linting errors with ruff:**
+- AUTOSAR methods use camelCase (N802 ignored)
+- AUTOSAR modules use PascalCase (N999 ignored)
+- Line length warnings are allowed for clarity (E501, W505 ignored)
+- V2 models have specific ignores for AUTOSAR patterns
+
+**Test failures:**
+- Always set AUTOSAR version before parsing: `AUTOSAR.setARRelease("R23-11")`
+- Clear singleton between tests: `AUTOSAR.getInstance().clear()`
+- Use `ARXMLParser(options={"warning": True})` for development
+- Check that test file structure mirrors source structure
+
+**Package structure violations:**
+- Run `python scripts/deviation-package.py` to identify issues
+- Check `reports/deviation_package.md` for current status
+- Follow CODING_RULE_STYLE_00008 and CODING_RULE_STYLE_00009
+- Use actual project file paths as examples
+
+### Getting Help
+
+1. Check project documentation in `docs/` directory
+2. Review design documents in `docs/plans/`
+3. Run deviation reports to identify structural issues
+4. Use custom slash commands: `/quality`, `/test`, `/req`
+
 ## CI/CD
 
 GitHub Actions (`.github/workflows/python-package.yml`):
-- Python versions: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
-- Linting: `ruff check .` with comprehensive rules (E, W, F, I, N, B, C4, SIM)
-- Ignores: F403/F405 (wildcard imports), N802 (AUTOSAR camelCase), N999 (AUTOSAR PascalCase modules)
-- Steps: Install dependencies → Lint → Test
+- Python versions: 3.8, 3.9, 3.10, 3.11, 3.12
+- Linting with flake8:
+  - Critical errors: `flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics`
+  - All errors: `flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics`
+- Testing: `pytest --ignore=tests/integration_tests/test_class_mapping.py`
+- Auto-merge: PRs by repo owner (melodypapa) are automatically merged after CI passes
 - All lint and test checks must pass before merge
 
+### Local Linting with Ruff
+```bash
+ruff check .               # Check all files
+ruff check --fix .         # Auto-fix issues
+ruff check --show-source . # Show detailed violations
+ruff check src/armodel/v2/ # V2 models only
+```
+
 ### V2 Quality Status
+- **V2 Validation**: 1937 classes, 100% verified (all in correct locations)
 - **V2 Linting**: 113 ruff errors (all intentional patterns: AUTOSAR naming, circular dependencies)
 - **V2 Type Checking**: 6348 mypy errors (mostly missing type annotations)
 - **V2 Tests**: All 2357 tests passing (unit + integration)
+
+## Reports and Tracking
+
+The project maintains comprehensive tracking reports in the `reports/` directory:
+
+- **`deviation_package.md`** - Package structure deviations between documented AUTOSAR M2 model and implementation (610 match, 1189 missing, 87 path mismatch, 207 extra)
+- **`v2_validation_report.md`** - V2 models validation status (1937 classes verified)
+- **`run_tests_report.md`** - Test execution reports
+
+### Deviation Tracking Scripts
+
+```bash
+# Generate package structure deviation report
+python scripts/deviation-package.py
+
+# Generate class hierarchy deviation report
+python scripts/deviation-class-hierarchy.py
+
+# Check V2 deviations
+python scripts/check_v2_deviation.py
+
+# Scan existing classes in the codebase
+python scripts/scan_existing_classes.py
+```
+
+## Custom Slash Commands
+
+The project includes custom slash commands in `.claude/commands/` for automating common workflows:
+
+### `/gh-workflow` - GitHub Workflow Automation
+Automates the complete GitHub workflow: create issue → create branch → commit → push → create PR.
+
+```bash
+/gh-workflow
+/gh-workflow Implement new parser for AUTOSAR models
+```
+
+### `/test` - Test Runner
+Run the project test suite with comprehensive reporting.
+
+```bash
+/test                    # Run all tests
+/test --unit            # Run only unit tests
+/test --integration     # Run only integration tests
+```
+
+### `/quality` - Quality Check
+Run all quality checks (linting, type checking, testing).
+
+```bash
+/quality        # Run all quality checks
+/quality --fix  # Auto-fix linting issues
+```
+
+### `/req` - Requirement Management
+Manage AUTOSAR project requirements with traceability.
+
+```bash
+/req add SWR_WRITER_00007 "Add support for custom markdown templates"
+/req check traceability
+/req list draft
+```
+
+### `/merge-pr` - Pull Request Merging
+Merge pull requests with proper validation.
+
+See `.claude/commands/README.md` for complete command documentation.
 
 ## Additional Documentation
 
 - `AGENTS.md` - Additional guidelines for AI agents
 - `IFLOW.md` - Chinese language project guide
 - `docs/development/coding_rules.md` - Comprehensive coding rules (V1)
-- `docs/development/coding_rules_v2.md` - V2-specific coding rules (13 rules)
+- `docs/development/coding_rules_v2.md` - V2-specific coding rules (15 rules)
 - `docs/development/v2_migration_guide.md` - V1 to V2 migration guide
 - `docs/requirements/software_components_hierarchy.md` - Complete class hierarchy
 - `.claude/commands/README.md` - Custom slash commands documentation
+
+### Design and Planning Documents
+
+The `docs/plans/` directory contains design and implementation documents:
+
+- `2025-02-05-models-v2-design.md` - V2 models architecture design
+- `2025-02-05-models-v2-implementation.md` - V2 models implementation details
+- `2026-02-07-v2-arxml-reader-writer-design.md` - V2 reader/writer architecture
+- `2026-02-01-package-structure-migration-design.md` - Package structure migration plan
+- `2026-02-06-mypy-v2-fixes-design.md` - MyPy type checking fixes
+- `2025-01-31-autosar-m2-class-generation-design.md` - Automated class generation design
 
 ## References
 
