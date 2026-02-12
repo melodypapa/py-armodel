@@ -11,7 +11,7 @@ file with complex nested structures including:
 import pytest
 from pathlib import Path
 
-from armodel.v2.models.models import AUTOSAR
+from armodel.v2.models import AUTOSAR
 from armodel.v2.reader.base_reader import ARXMLReader
 from armodel.v2.writer.base_writer import ARXMLWriter
 
@@ -19,7 +19,7 @@ from armodel.v2.writer.base_writer import ARXMLWriter
 class TestV2DatatypesArxml:
     """Integration tests for V2 ARXML reader/writer with AUTOSAR_Datatypes.arxml."""
 
-    def test_read_datatypes_arxml(self, datatypes_arxml_file: Path) -> None:
+    def test_read_datatypes_arxml(self, autosar_reset, datatypes_arxml_file: Path) -> None:
         """Test reading AUTOSAR_Datatypes.arxml with V2 reader.
 
         Args:
@@ -33,12 +33,12 @@ class TestV2DatatypesArxml:
         reader.load(str(datatypes_arxml_file), document)
 
         # Verify top-level package structure
-        assert len(document.ar_packages) >= 1
-        top_package = document.ar_packages[0]
+        assert len(document.ar_package) >= 1
+        top_package = document.ar_package[0]
         assert top_package.short_name is not None
         assert top_package.short_name.value == "AUTOSAR_Platform"
 
-    def test_roundtrip_datatypes_arxml(self, datatypes_arxml_file: Path, tmp_path: Path) -> None:
+    def test_roundtrip_datatypes_arxml(self, autosar_reset, datatypes_arxml_file: Path, tmp_path: Path) -> None:
         """Test round-trip parsing and writing for AUTOSAR_Datatypes.arxml.
 
         Args:
@@ -61,11 +61,11 @@ class TestV2DatatypesArxml:
         reader2.load(str(output_file), document2)
 
         # Verify basic structure is preserved
-        assert len(document1.ar_packages) == len(document2.ar_packages)
+        assert len(document1.ar_package) == len(document2.ar_package)
 
         # Verify top-level package
-        pkg1 = document1.ar_packages[0]
-        pkg2 = document2.ar_packages[0]
+        pkg1 = document1.ar_package[0]
+        pkg2 = document2.ar_package[0]
         assert pkg1.short_name.value == pkg2.short_name.value
         assert pkg1.short_name.value == "AUTOSAR_Platform"
 

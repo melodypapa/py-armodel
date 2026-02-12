@@ -5,7 +5,7 @@ Test-Driven Development: Write test first, watch it fail, then implement.
 
 Following V1 test structure pattern from tests/test_armodel/parser/test_arxml_parser.py
 """
-from armodel.v2.models.models import AUTOSAR
+from armodel.v2.models import AUTOSAR
 from armodel.v2.reader.base_reader import ARXMLReader
 
 
@@ -31,15 +31,16 @@ class TestARXMLReader:
         arxml_file.write_text(arxml_content)
 
         # Act: Load the ARXML file
+        AUTOSAR.resetInstance()
         document = AUTOSAR()
         reader = ARXMLReader()
         reader.load(str(arxml_file), document)
 
         # Assert: Verify the package was loaded
-        assert len(document.ar_packages) == 1, "Should have one AR package"
-        assert document.ar_packages[0].short_name == "TestPackage", "Package name should match"
+        assert len(document.ar_package) == 1, "Should have one AR package"
+        assert document.ar_package[0].short_name == "TestPackage", "Package name should match"
 
-    def test_load_arxml_with_multiple_packages(self, tmp_path):
+    def test_load_arxml_with_multiple_packages(self, autosar_reset, tmp_path):
         """
         Test loading ARXML file with multiple AR-PACKAGE elements.
         """
@@ -65,11 +66,11 @@ class TestARXMLReader:
         reader.load(str(arxml_file), document)
 
         # Assert
-        assert len(document.ar_packages) == 2, "Should have two AR packages"
-        assert document.ar_packages[0].short_name == "Package1"
-        assert document.ar_packages[1].short_name == "Package2"
+        assert len(document.ar_package) == 2, "Should have two AR packages"
+        assert document.ar_package[0].short_name == "Package1"
+        assert document.ar_package[1].short_name == "Package2"
 
-    def test_load_arxml_with_nested_packages(self, tmp_path):
+    def test_load_arxml_with_nested_packages(self, autosar_reset, tmp_path):
         """
         Test loading ARXML file with nested AR-PACKAGE elements.
         """
@@ -97,8 +98,8 @@ class TestARXMLReader:
         reader.load(str(arxml_file), document)
 
         # Assert
-        assert len(document.ar_packages) == 1, "Should have one top-level package"
-        parent_pkg = document.ar_packages[0]
+        assert len(document.ar_package) == 1, "Should have one top-level package"
+        parent_pkg = document.ar_package[0]
         assert parent_pkg.short_name == "ParentPackage"
-        assert len(parent_pkg.ar_packages) == 1, "Should have one nested package"
-        assert parent_pkg.ar_packages[0].short_name == "ChildPackage"
+        assert len(parent_pkg.ar_package) == 1, "Should have one nested package"
+        assert parent_pkg.ar_package[0].short_name == "ChildPackage"

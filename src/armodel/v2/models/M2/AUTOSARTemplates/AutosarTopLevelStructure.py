@@ -63,9 +63,14 @@ class AUTOSAR(ARObject):
         AUTOSAR.__instance = self
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This represents the administrative data of an Autosar file.
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This property allows to keep special data which is not the standard model.
+        # It can be utilized to tool specific data.
         self._adminData: Optional["AdminData"] = None
+
+        # arPackage represents AR packages
+        self._arPackage: List["ARPackage"] = []
+
 
     @property
     def admin_data(self) -> Optional["AdminData"]:
@@ -92,8 +97,6 @@ class AUTOSAR(ARObject):
                 f"adminData must be AdminData or None, got {type(value).__name__}"
             )
         self._adminData = value
-        # atpVariation.
-        self._arPackage: List["ARPackage"] = []
 
     @property
     def ar_package(self) -> List["ARPackage"]:

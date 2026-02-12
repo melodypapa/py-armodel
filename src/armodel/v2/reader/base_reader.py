@@ -11,7 +11,7 @@ from typing import (
     cast,
 )
 
-from armodel.v2.models.models import AUTOSAR
+from armodel.v2.models import AUTOSAR
 from armodel.v2.reader.element_handler import ElementHandler
 from armodel.v2.reader.schema_registry import SchemaRegistry
 from armodel.utils.context import DeserializationContext

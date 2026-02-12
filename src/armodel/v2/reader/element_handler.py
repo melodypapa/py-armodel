@@ -2,7 +2,7 @@
 Element handler for V2 ARXML reader.
 Maps XML tag names to model classes.
 """
-from armodel.v2.models.models import (
+from armodel.v2.models import (
     AUTOSAR,
     ARPackage,
 )
