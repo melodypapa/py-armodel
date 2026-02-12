@@ -292,12 +292,9 @@ class AbstractARXMLParser(ABC):
         ar_object.timestamp = self.readElementOptionalAttrib(element, "T")              # read the timestamp
         ar_object.uuid = self.readElementOptionalAttrib(element, "UUID")                # read the uuid
 
-        AUTOSAR.getInstance().addARObject(ar_object)
-
         # if ar_object.timestamp is not None:
         #    self.logger.debug("Timestamp: %s" % ar_object.timestamp)
 
-        '''
         if ar_object.uuid is not None:
             instance = AUTOSAR.getInstance()
             old_ar_object = instance.getARObjectByUUID(ar_object.uuid)
@@ -306,7 +303,6 @@ class AbstractARXMLParser(ABC):
             else:
                 instance.addARObject(ar_object)
             # self.logger.debug("UUID: %s" % ar_object.uuid)
-        '''
 
     def getAUTOSARInfo(self, element: ET.Element, document: AUTOSAR):
         key = "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation"

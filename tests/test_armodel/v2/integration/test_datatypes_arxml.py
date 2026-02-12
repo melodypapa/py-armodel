@@ -25,8 +25,8 @@ class TestV2DatatypesArxml:
         Args:
             datatypes_arxml_file: Path to AUTOSAR_Datatypes.arxml test file
         """
-        # Create new AUTOSAR document
-        document = AUTOSAR()
+        # Get singleton AUTOSAR document
+        document = AUTOSAR.getInstance()
 
         # Read ARXML file using V2 reader
         reader = ARXMLReader()
@@ -46,7 +46,7 @@ class TestV2DatatypesArxml:
             tmp_path: Temporary directory path
         """
         # Create document and read original file
-        document1 = AUTOSAR()
+        document1 = AUTOSAR.getInstance()
         reader1 = ARXMLReader()
         reader1.load(str(datatypes_arxml_file), document1)
 
@@ -55,8 +55,9 @@ class TestV2DatatypesArxml:
         writer = ARXMLWriter()
         writer.save(str(output_file), document1)
 
-        # Read the written file
-        document2 = AUTOSAR()
+        # Reset and get new instance for round-trip verification
+        AUTOSAR.resetInstance()
+        document2 = AUTOSAR.getInstance()
         reader2 = ARXMLReader()
         reader2.load(str(output_file), document2)
 

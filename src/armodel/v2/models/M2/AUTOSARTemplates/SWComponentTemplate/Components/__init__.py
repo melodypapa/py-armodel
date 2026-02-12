@@ -22,13 +22,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.__init__ import (
-    AbstractProvidedPortPrototype,
-    AbstractRequiredPortPrototype,
-    AtomicSwComponentType,
-    PortPrototype,
-    SwComponentType,
-)
 
 
 class PortPrototype(Identifiable, ABC):

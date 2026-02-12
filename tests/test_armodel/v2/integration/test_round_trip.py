@@ -25,7 +25,7 @@ class TestRoundTrip:
         input_file.write_text(arxml_content)
 
         # Read
-        document1 = AUTOSAR()
+        document1 = AUTOSAR.getInstance()
         reader = ARXMLReader()
         reader.load(str(input_file), document1)
 
@@ -34,8 +34,9 @@ class TestRoundTrip:
         writer = ARXMLWriter()
         writer.save(str(output_file), document1)
 
-        # Read again
-        document2 = AUTOSAR()
+        # Reset and read again
+        AUTOSAR.resetInstance()
+        document2 = AUTOSAR.getInstance()
         reader.load(str(output_file), document2)
 
         # Compare
@@ -61,7 +62,7 @@ class TestRoundTrip:
         input_file.write_text(arxml_content)
 
         # Read
-        document1 = AUTOSAR()
+        document1 = AUTOSAR.getInstance()
         reader = ARXMLReader()
         reader.load(str(input_file), document1)
 
@@ -70,8 +71,9 @@ class TestRoundTrip:
         writer = ARXMLWriter()
         writer.save(str(output_file), document1)
 
-        # Read again
-        document2 = AUTOSAR()
+        # Reset and read again
+        AUTOSAR.resetInstance()
+        document2 = AUTOSAR.getInstance()
         reader.load(str(output_file), document2)
 
         # Compare
@@ -100,7 +102,7 @@ class TestRoundTrip:
         input_file.write_text(arxml_content)
 
         # Read
-        document1 = AUTOSAR()
+        document1 = AUTOSAR.getInstance()
         reader = ARXMLReader()
         reader.load(str(input_file), document1)
 
@@ -109,8 +111,9 @@ class TestRoundTrip:
         writer = ARXMLWriter()
         writer.save(str(output_file), document1)
 
-        # Read again
-        document2 = AUTOSAR()
+        # Reset and read again
+        AUTOSAR.resetInstance()
+        document2 = AUTOSAR.getInstance()
         reader.load(str(output_file), document2)
 
         # Compare

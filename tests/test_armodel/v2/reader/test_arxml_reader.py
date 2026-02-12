@@ -32,7 +32,7 @@ class TestARXMLReader:
 
         # Act: Load the ARXML file
         AUTOSAR.resetInstance()
-        document = AUTOSAR()
+        document = AUTOSAR.getInstance()
         reader = ARXMLReader()
         reader.load(str(arxml_file), document)
 
@@ -61,7 +61,7 @@ class TestARXMLReader:
         arxml_file.write_text(arxml_content)
 
         # Act
-        document = AUTOSAR()
+        document = AUTOSAR.getInstance()
         reader = ARXMLReader()
         reader.load(str(arxml_file), document)
 
@@ -93,7 +93,7 @@ class TestARXMLReader:
         arxml_file.write_text(arxml_content)
 
         # Act
-        document = AUTOSAR()
+        document = AUTOSAR.getInstance()
         reader = ARXMLReader()
         reader.load(str(arxml_file), document)
 

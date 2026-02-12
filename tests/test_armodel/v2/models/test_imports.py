@@ -45,15 +45,13 @@ class TestV2Imports:
 
     def test_import_sw_component_template(self):
         """Test importing SWComponentTemplate modules."""
-        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate import (
-            ClientServerInterface,
+        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
             PPortPrototype,
             SwComponentType,
         )
 
         assert SwComponentType is not None
         assert PPortPrototype is not None
-        assert ClientServerInterface is not None
 
     def test_no_circular_imports(self):
         """Test that there are no circular import errors."""

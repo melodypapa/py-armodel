@@ -44,6 +44,7 @@ class AUTOSAR(ARObject):
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 157, Foundation R23-11)
     """
     __instance = None
+    __ar_release = None
 
     @staticmethod
     def getInstance():
@@ -55,13 +56,42 @@ class AUTOSAR(ARObject):
     @staticmethod
     def resetInstance():
         """Reset the singleton AUTOSAR instance."""
-        AUTOSAR.__instance = None
+        AUTOSAR._AUTOSAR__instance = None
+        AUTOSAR._AUTOSAR__ar_release = None
+
+    @staticmethod
+    def setARRelease(version: str) -> None:
+        """
+        Set the AUTOSAR release version.
+
+        Args:
+            version: The AUTOSAR version (e.g., "R23-11", "4.0.3")
+        """
+        AUTOSAR.__ar_release = version
+        if AUTOSAR.__instance is not None:
+            AUTOSAR.__instance.setExtendedAttribute("ar_release", version)
+
+    @staticmethod
+    def getARRelease() -> Optional[str]:
+        """
+        Get the AUTOSAR release version.
+
+        Returns:
+            The AUTOSAR version or None if not set
+        """
+        if AUTOSAR.__instance is not None:
+            return AUTOSAR.__instance.getExtendedAttribute("ar_release") or AUTOSAR.__ar_release
+        return AUTOSAR.__ar_release
 
     def __init__(self):
         if AUTOSAR.__instance is not None:
             raise Exception("The AUTOSAR is singleton!")
         AUTOSAR.__instance = self
         super().__init__()
+
+        # Set default extended attributes for AUTOSAR
+        self.setExtendedAttribute("schema_version", "3.2.3")
+        self.setExtendedAttribute("xmlns", "http://autosar.org/3.2.3")
 
         # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This property allows to keep special data which is not the standard model.
@@ -71,6 +101,23 @@ class AUTOSAR(ARObject):
         # arPackage represents AR packages
         self._arPackage: List["ARPackage"] = []
 
+        # This represents a possibility to provide a structured in an AUTOSAR file.
+        # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
+        # Description Template R23-11.
+        self._fileInfo: Optional[FileInfoComment] = None
+
+        # It is example to represent disclaimers and legal.
+        self._introduction: Optional["DocumentationBlock"] = None
+
+    def clear(self) -> None:
+        """Clear all properties of the AUTOSAR instance."""
+        self._adminData = None
+        self._arPackage = []
+        self._fileInfo = None
+        self._introduction = None
+        self._extended_attributes.clear()
+        self.setExtendedAttribute("schema_version", "3.2.3")
+        self.setExtendedAttribute("xmlns", "http://autosar.org/3.2.3")
 
     @property
     def admin_data(self) -> Optional["AdminData"]:
@@ -92,20 +139,49 @@ class AUTOSAR(ARObject):
             self._adminData = None
             return
 
-        if not isinstance(value, AdminData):
-            raise TypeError(
-                f"adminData must be AdminData or None, got {type(value).__name__}"
-            )
+        # Skip type check for non-string types to avoid import issues
+        # In V2, we use duck typing for flexibility
         self._adminData = value
 
     @property
     def ar_package(self) -> List["ARPackage"]:
         """Get arPackage (Pythonic accessor)."""
         return self._arPackage
-        # This represents a possibility to provide a structured in an AUTOSAR file.
-        # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
-                # Description Template R23-11.
-        self._fileInfo: Optional[FileInfoComment] = None
+
+    @ar_package.setter
+    def ar_package(self, value: List["ARPackage"]) -> None:
+        """
+        Set arPackage with validation.
+
+        Args:
+            value: The arPackage to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if not isinstance(value, list):
+            raise TypeError(
+                f"ar_package must be a list or None, got {type(value).__name__}"
+            )
+        self._arPackage = value
+
+    @property
+    def ar_packages(self) -> List["ARPackage"]:
+        """Get arPackage (alias property)."""
+        return self._arPackage
+
+    @ar_packages.setter
+    def ar_packages(self, value: List["ARPackage"]) -> None:
+        """
+        Set arPackage with validation (alias setter).
+
+        Args:
+            value: The arPackage to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        self.ar_package = value
 
     @property
     def file_info(self) -> Optional[FileInfoComment]:
@@ -127,13 +203,9 @@ class AUTOSAR(ARObject):
             self._fileInfo = None
             return
 
-        if not isinstance(value, FileInfoComment):
-            raise TypeError(
-                f"fileInfo must be FileInfoComment or None, got {type(value).__name__}"
-            )
+        # Skip type check for non-string types to avoid import issues
+        # In V2, we use duck typing for flexibility
         self._fileInfo = value
-        # It is example to represent disclaimers and legal.
-        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
     def introduction(self) -> Optional["DocumentationBlock"]:
@@ -155,11 +227,13 @@ class AUTOSAR(ARObject):
             self._introduction = None
             return
 
-        if not isinstance(value, DocumentationBlock):
-            raise TypeError(
-                f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
-            )
+        # Skip type check for non-string types to avoid import issues
+        # In V2, we use duck typing for flexibility
         self._introduction = value
+
+    def getTagName(self) -> str:
+        """Get the XML tag name for AUTOSAR."""
+        return "AUTOSAR"
 
     def with_ar_package(self, value):
         """
@@ -342,7 +416,6 @@ class AUTOSAR(ARObject):
         return self
 
 
-
 class FileInfoComment(ARObject):
     """
     This class supports StructuredComment to provide auxiliary information with
@@ -356,10 +429,11 @@ class FileInfoComment(ARObject):
     def __init__(self):
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This property allows to keep special data which is not the standard model.
         # It can be utilized to tool specific data.
         self._sdg: List["Sdg"] = []
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
     @property
     def sdg(self) -> List["Sdg"]:

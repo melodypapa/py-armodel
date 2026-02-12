@@ -111,9 +111,9 @@ class ARPackage(CollectableElement):
         Get the XML tag name for this element.
 
         Returns:
-            The tag name ARPackage
+            The tag name "ARPackage"
         """
-        return ARPackage
+        return "ARPackage"
 
     # ===== V1-compatible collection methods =====
     def getARPackages(self) -> List[ARPackage]:

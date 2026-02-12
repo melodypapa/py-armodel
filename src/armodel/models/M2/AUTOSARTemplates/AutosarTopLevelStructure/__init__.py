@@ -61,6 +61,7 @@ from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock as DocumentationBlock,
 )
+from armodel.utils.uuid_mgr import UUIDMgr
 
 
 class FileInfoComment(ARObject):
@@ -144,7 +145,6 @@ class AbstractAUTOSAR(CollectableElement):
         self._behavior_impl_maps = {}                       # type: Dict[str, str]
         self._impl_behavior_maps = {}                       # type: Dict[str, str]
 
-
         self.systems = {}                                   # type: Dict[str, System]
         self.compositionSwComponentTypes = {}               # type: Dict[str, CompositionSwComponentType]
 
@@ -154,6 +154,8 @@ class AbstractAUTOSAR(CollectableElement):
         self.arPackages = {}                                # type: Dict[str, ARPackage]
         self.fileInfoComment = None                         # type: FileInfoComment
         self.introduction = None                            # type: DocumentationBlock
+
+        self.uuid_mgr = UUIDMgr()                           # type: UUIDMgr
 
     def getElement(self, short_name: str) -> Referrable:
         if (short_name in self.arPackages):
@@ -314,6 +316,41 @@ class AbstractAUTOSAR(CollectableElement):
             if short_name not in self.compositionSwComponentTypes:
                 self.compositionSwComponentTypes[short_name] = sw_component_type
         return self
+
+    def addARObject(self, ar_object):
+        """
+        Add an ARObject to the UUID manager for tracking.
+
+        Args:
+            ar_object: The ARObject to track
+
+        Returns:
+            self for method chaining
+        """
+        if ar_object is not None:
+            self.uuid_mgr.addObject(ar_object)
+        return self
+
+    def getARObjectByUUID(self, uuid):
+        """
+        Get an ARObject by its UUID.
+
+        Args:
+            uuid: The UUID to look up
+
+        Returns:
+            List of ARObjects with the given UUID (or empty list if not found)
+        """
+        return self.uuid_mgr.getObjects(uuid)
+
+    def getDuplicateUUIDs(self):
+        """
+        Get all duplicate UUIDs in the document.
+
+        Returns:
+            List of duplicate UUIDs
+        """
+        return self.uuid_mgr.getDuplicateUUIDs()
 
     def setARRelease(self, release: str):
         if release not in self.release_xsd_mappings:

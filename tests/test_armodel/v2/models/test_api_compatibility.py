@@ -38,7 +38,7 @@ class TestV2APICompatibility:
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
             SwComponentType as V1_SwComponentType,
         )
-        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
             SwComponentType as V2_SwComponentType,
         )
 
