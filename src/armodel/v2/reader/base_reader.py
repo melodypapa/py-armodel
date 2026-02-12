@@ -14,8 +14,8 @@ from typing import (
 from armodel.v2.models.models import AUTOSAR
 from armodel.v2.reader.element_handler import ElementHandler
 from armodel.v2.reader.schema_registry import SchemaRegistry
-from armodel.v2.utils.context import DeserializationContext
-from armodel.v2.utils.errors import ReadError
+from armodel.utils.context import DeserializationContext
+from armodel.utils.errors import ReadError
 
 
 class ARXMLReader:

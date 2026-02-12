@@ -27,7 +27,7 @@ class DeserializationContext:
         if self.warning:
             self.logger.warning("%s: %s", self._format_location(line_number), message)
         else:
-            from armodel.v2.utils.errors import ReadError
+            from armodel.utils.errors import ReadError
             raise ReadError(
                 message=message,
                 element_path=self.get_path(),

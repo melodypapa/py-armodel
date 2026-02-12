@@ -7,7 +7,7 @@
 - **Wrong location**: 0
 - **Duplicate definitions**: 0
 - **Missing**: 0
-- **Extra files**: 8
+- **Extra files**: 6
 - **Conflicts**: 4
 
 ## Status

@@ -311,6 +311,65 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import
 
 ---
 
+### CODING_RULE_V2_00020: No V1 Model References in V2 Modules
+
+**Maturity**: accept
+
+**Scope**: All V2 models (`src/armodel/v2/models/`)
+
+**Description**: V2 models MUST NOT reference V1 models (`armodel.models`). V2 modules must maintain complete architectural separation from V1.
+
+**Example:**
+```python
+# CORRECT - V2 models reference other V2 models
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    InternalBehavior,
+)
+
+# WRONG - V2 models importing from V1
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,  # Wrong: V1 import in V2 module
+)
+
+# WRONG - V2 models using V1 base classes
+from armodel.models.base import ARObject  # Wrong: Use V2 ARObject
+```
+
+**Requirements:**
+
+1. **Absolute V2 Imports Only**: All V2 model imports MUST use `armodel.v2.models` path
+   ```python
+   from armodel.v2.models.M2.AUTOSARTemplates... import SomeClass
+   ```
+
+2. **No V1 Base Classes**: V2 models MUST inherit from V2 base classes only
+   ```python
+   # Correct - Use V2 ARObject
+   from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+       ARObject,
+   )
+
+   class SwComponentType(ARObject):  # Correct
+       pass
+   ```
+
+3. **Detection**: Use import validation to detect V1 references in V2 modules
+   ```bash
+   # Check for V1 imports in V2 modules
+   grep -r "from armodel.models" src/armodel/v2/models/
+   ```
+
+**Rationale**: V2 is designed as a clean architectural break from V1 with improved patterns (absolute imports, explicit exports, no circular dependencies). Referencing V1 from V2 breaks this architecture and prevents V2 from being standalone. The separation ensures V2 can be used independently and follows the Open/Closed principle for extensibility.
+
+**References**:
+- V2 Architecture: `docs/plans/2025-02-05-models-v2-design.md`
+- V2 Migration Guide: `docs/development/v2_migration_guide.md`
+
+---
+
 ## Type System Rules
 
 ### CODING_RULE_V2_00005: Direct Imports for Non-Self Types
