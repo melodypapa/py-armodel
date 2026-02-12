@@ -315,14 +315,6 @@ class AbstractAUTOSAR(CollectableElement):
                 self.compositionSwComponentTypes[short_name] = sw_component_type
         return self
 
-        return self.uuid_mgr.getObjects(uuid)
-
-        if value is not None:
-            self.uuid_mgr.addObject(value)
-        return self
-
-        return self.uuid_mgr.getDuplicateUUIDs()
-
     def setARRelease(self, release: str):
         if release not in self.release_xsd_mappings:
             raise ValueError("invalid AUTOSAR Release <%s>" % release)
