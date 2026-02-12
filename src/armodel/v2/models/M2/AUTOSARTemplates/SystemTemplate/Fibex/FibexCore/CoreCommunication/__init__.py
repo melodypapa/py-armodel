@@ -9523,10 +9523,16 @@ Describes the communication direction. Aggregated by CommConnectorPort.communica
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
     """
     # Reception (Input)
-    in = "0"
+    in_ = "0"
 
     # Transmission (Output)
     out = "1"
+
+    def __init__(self) -> None:
+        super().__init__([
+            CommunicationDirectionType.in_,
+            CommunicationDirectionType.out,
+        ])
 
 
 

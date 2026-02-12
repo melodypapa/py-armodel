@@ -1078,3 +1078,270 @@ class RegularExpression(ARLiteral):
         """
         self.value = value  # Use property setter (gets validation)
         return self
+
+
+class AlignmentType(AREnum):
+    """
+    This enumerator specifies the alignment of a data element.
+    """
+
+    unspecified = 'unspecified'
+    boolean = 'boolean'
+    uint8 = 'uint8'
+    uint16 = 'uint16'
+    uint32 = 'uint32'
+    uint64 = 'uint64'
+
+    def __init__(self) -> None:
+        super().__init__([
+            AlignmentType.unspecified,
+            AlignmentType.boolean,
+            AlignmentType.uint8,
+            AlignmentType.uint16,
+            AlignmentType.uint32,
+            AlignmentType.uint64,
+        ])
+
+
+class SectionInitializationPolicyType(AREnum):
+    """
+    This enumerator specifies how to initialize sections.
+    """
+
+    unspecified = 'unspecified'
+    initialize_by_constructor = 'initialize by constructor'
+    initialize_before_start = 'initialize before start'
+
+    def __init__(self) -> None:
+        super().__init__([
+            SectionInitializationPolicyType.unspecified,
+            SectionInitializationPolicyType.initialize_by_constructor,
+            SectionInitializationPolicyType.initialize_before_start,
+        ])
+
+
+class Ref(ARLiteral):
+    """
+    This primitive type is used for referencing an element by a unique identifier.
+
+    Tags:
+        * xml.xsd.customType=REF
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class IntervalTypeEnum(AREnum):
+    """
+    This enumerator defines interval types for limit specifications.
+    """
+
+    CLOSED = 'CLOSED'
+    OPEN = 'OPEN'
+    INFINITE = 'INFINITE'
+
+    def __init__(self) -> None:
+        super().__init__([
+            IntervalTypeEnum.CLOSED,
+            IntervalTypeEnum.OPEN,
+            IntervalTypeEnum.INFINITE,
+        ])
+
+
+class CseCodeType(ARLiteral):
+    """
+    This primitive type is used for CSE codes.
+
+    Tags:
+        * xml.xsd.customType=CSE-CODE-TYPE
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class NativeDeclarationString(ARLiteral):
+    """
+    This primitive type is used for native declarations.
+
+    Tags:
+        * xml.xsd.customType=NATIVE-DECLARATION-STRING
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class Numerical(ARNumerical):
+    """
+    This primitive type is used for numerical values.
+
+    Tags:
+        * xml.xsd.customType=NUMERICAL
+        * xml.xsd.type=double
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class MetaClassName(ARLiteral):
+    """
+    This primitive type is used for meta class names.
+
+    Tags:
+        * xml.xsd.customType=META-CLASS-NAME
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class Address(ARLiteral):
+    """
+    This primitive type is used for address values.
+
+    Tags:
+        * xml.xsd.customType=ADDRESS
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class CIdentifierWithIndex(ARLiteral):
+    r"""
+    This primitive type is used for C identifiers with indices.
+
+    Tags:
+        * xml.xsd.customType=C-IDENTIFIER-WITH-INDEX
+        * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*(\[[0-9]+\])?
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class McdIdentifier(ARLiteral):
+    """
+    This primitive type is used for MCD identifiers.
+
+    Tags:
+        * xml.xsd.customType=MCD-IDENTIFIER
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class MimeTypeString(ARLiteral):
+    r"""
+    This primitive type is used for MIME type strings.
+
+    Tags:
+        * xml.xsd.customType=MIME-TYPE-STRING
+        * xml.xsd.pattern=[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]{0,126}/[a-zA-Z0-9][a-zA-Z0-9!#$&\-\^_+.]{0,126}
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class NameTokens(ARLiteral):
+    """
+    This primitive type is used for multiple name tokens.
+
+    Tags:
+        * xml.xsd.customType=NAME-TOKENS
+        * xml.xsd.type=NMTOKENS
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class PrimitiveIdentifier(ARLiteral):
+    """
+    This primitive type is used for primitive identifiers.
+
+    Tags:
+        * xml.xsd.customType=PRIMITIVE-IDENTIFIER
+        * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class StrongRevisionLabelString(RevisionLabelString):
+    """
+    This primitive represents a strong revision label which is a RevisionLabelString
+    that has to be interpreted as a valid revision label, i.e. it has to follow the
+    pattern exactly. This type is used for referencing specific revisions.
+
+    Tags:
+        * xml.xsd.customType=STRONG-REVISION-LABEL-STRING
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class SymbolString(ARLiteral):
+    """
+    This primitive type is used for symbol strings.
+
+    Tags:
+        * xml.xsd.customType=SYMBOL-STRING
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class UriString(ARLiteral):
+    """
+    This primitive type is used for URI strings.
+
+    Tags:
+        * xml.xsd.customType=URI-STRING
+        * xml.xsd.type=anyURI
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class VerbatimStringPlain(ARLiteral):
+    """
+    This primitive type is used for plain verbatim strings.
+
+    Tags:
+        * xml.xsd.customType=VERBATIM-STRING-PLAIN
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class AnyServiceInstanceId(ARLiteral):
+    """
+    This primitive type is used for any service instance IDs.
+
+    Tags:
+        * xml.xsd.customType=ANY-SERVICE-INSTANCE-ID
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class AnyVersionString(ARLiteral):
+    r"""
+    This primitive type is used for any version strings.
+
+    Tags:
+        * xml.xsd.customType=ANY-VERSION-STRING
+        * xml.xsd.pattern=[0-9]+\.[0-9]+\.[0-9]+(.*)
+        * xml.xsd.type=string
+    """
+    def __init__(self) -> None:
+        super().__init__()
