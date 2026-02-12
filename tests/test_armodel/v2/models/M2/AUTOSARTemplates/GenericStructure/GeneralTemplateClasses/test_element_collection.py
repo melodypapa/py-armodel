@@ -22,8 +22,6 @@ import pytest
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
     AutoCollectEnum,
     Collection,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.CollectableElement import (
     CollectableElement,
 )
 

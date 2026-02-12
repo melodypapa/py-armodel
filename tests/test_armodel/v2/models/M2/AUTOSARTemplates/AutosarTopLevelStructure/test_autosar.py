@@ -15,7 +15,7 @@ Tests cover:
 """
 import pytest
 
-from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure.AUTOSAR import (
+from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
 )
 

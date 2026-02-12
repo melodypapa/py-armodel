@@ -2,19 +2,24 @@
 AUTOSAR Package - ElementCollection
 
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
+
+DEVATION NOTE: This file has a circular import with ARPackage.py.
+Uses TYPE_CHECKING to resolve the circular dependency.
 """
 
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+        ARElement,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Identifier,
@@ -88,7 +93,7 @@ class CollectableElement(Identifiable, ABC):
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
 
-class Collection(ARElement, CollectableElement):
+class Collection(CollectableElement):
     """
     This meta-class represents a collection of elements.
 
@@ -104,6 +109,9 @@ class Collection(ARElement, CollectableElement):
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2009, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 399, Foundation R23-11)
+
+    DEVIATION: Does not inherit from ARElement due to circular import with ARPackage.py.
+    ARElement inheritance is omitted to avoid circular dependency (see module docstring).
     """
     def __init__(self):
         super().__init__()
@@ -111,6 +119,14 @@ class Collection(ARElement, CollectableElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute reflects how far the referenced objects are the collection.
         self._autoCollect: Optional[AutoCollectEnum] = None
+        # Provides the ability to express the semantics of a depending on the intended use case.
+        self._collection: Optional[NameToken] = None
+        # ARElement properties added due to circular import deviation
+        self._collected: List = []
+        self._element: List = []
+        self._elementRole: Optional[Identifier] = None
+        self._sourceElement: List = []
+        self._sourceInstance: List = []
 
     @property
     def auto_collect(self) -> Optional[AutoCollectEnum]:
@@ -123,7 +139,7 @@ class Collection(ARElement, CollectableElement):
         Set autoCollect with validation.
 
         Args:
-            value: The autoCollect to set
+            value: The autoCollect to set (AutoCollectEnum, valid str, or None)
 
         Raises:
             TypeError: If value type is incorrect
@@ -132,14 +148,20 @@ class Collection(ARElement, CollectableElement):
             self._autoCollect = None
             return
 
-        if not isinstance(value, AutoCollectEnum):
-            raise TypeError(
-                f"autoCollect must be AutoCollectEnum or None, got {type(value).__name__}"
-            )
-        self._autoCollect = value
-        # Provides the ability to express the semantics of a depending on the
-        # intended use case.
-        self._collection: Optional[NameToken] = None
+        # Accept AutoCollectEnum instances
+        if isinstance(value, AutoCollectEnum):
+            self._autoCollect = value
+            return
+
+        # Accept valid enum string values
+        valid_values = [AutoCollectEnum.refAll, AutoCollectEnum.refNone, AutoCollectEnum.refNonStandard]
+        if isinstance(value, str) and value in valid_values:
+            self._autoCollect = value
+            return
+
+        raise TypeError(
+            f"autoCollect must be AutoCollectEnum or None, got {type(value).__name__}"
+        )
 
     @property
     def collection(self) -> Optional[NameToken]:
@@ -166,6 +188,53 @@ class Collection(ARElement, CollectableElement):
                 f"collection must be NameToken or str or None, got {type(value).__name__}"
             )
         self._collection = value
+
+    # Properties inherited from ARElement (added due to circular import deviation)
+    @property
+    def collected(self) -> List:
+        """Get collected (Pythonic accessor)."""
+        return self._collected
+
+    @property
+    def element(self) -> List:
+        """Get element (Pythonic accessor)."""
+        return self._element
+
+    @property
+    def element_role(self) -> Optional[Identifier]:
+        """Get elementRole (Pythonic accessor)."""
+        return self._elementRole
+
+    @element_role.setter
+    def element_role(self, value: Optional[Identifier]) -> None:
+        """
+        Set elementRole with validation.
+
+        Args:
+            value: The elementRole to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._elementRole = None
+            return
+
+        if not isinstance(value, (Identifier, str)):
+            raise TypeError(
+                f"elementRole must be Identifier or str or None, got {type(value).__name__}"
+            )
+        self._elementRole = value
+
+    @property
+    def source_element(self) -> List:
+        """Get sourceElement (Pythonic accessor)."""
+        return self._sourceElement
+
+    @property
+    def source_instance(self) -> List:
+        """Get sourceInstance (Pythonic accessor)."""
+        return self._sourceInstance
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -225,6 +294,83 @@ class Collection(ARElement, CollectableElement):
         self.collection = value  # Delegates to property setter
         return self
 
+    # AUTOSAR-compatible methods for ARElement properties (added due to circular import deviation)
+    def getCollected(self) -> List:
+        """
+        AUTOSAR-compliant getter for collected.
+
+        Returns:
+            The collected value
+
+        Note:
+            Delegates to collected property (CODING_RULE_V2_00017)
+        """
+        return self.collected  # Delegates to property
+
+    def getElement(self) -> List:
+        """
+        AUTOSAR-compliant getter for element.
+
+        Returns:
+            The element value
+
+        Note:
+            Delegates to element property (CODING_RULE_V2_00017)
+        """
+        return self.element  # Delegates to property
+
+    def getElementRole(self) -> Optional[Identifier]:
+        """
+        AUTOSAR-compliant getter for elementRole.
+
+        Returns:
+            The elementRole value
+
+        Note:
+            Delegates to element_role property (CODING_RULE_V2_00017)
+        """
+        return self.element_role  # Delegates to property
+
+    def setElementRole(self, value: Optional[Identifier]) -> Collection:
+        """
+        AUTOSAR-compliant setter for elementRole with method chaining.
+
+        Args:
+            value: The elementRole to set
+
+        Returns:
+            self for method chaining
+
+        Note:
+            Delegates to element_role property setter (gets validation automatically)
+        """
+        self.element_role = value  # Delegates to property setter
+        return self
+
+    def getSourceElement(self) -> List:
+        """
+        AUTOSAR-compliant getter for sourceElement.
+
+        Returns:
+            The sourceElement value
+
+        Note:
+            Delegates to source_element property (CODING_RULE_V2_00017)
+        """
+        return self.source_element  # Delegates to property
+
+    def getSourceInstance(self) -> List:
+        """
+        AUTOSAR-compliant getter for sourceInstance.
+
+        Returns:
+            The sourceInstance value
+
+        Note:
+            Delegates to source_instance property (CODING_RULE_V2_00017)
+        """
+        return self.source_instance  # Delegates to property
+
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
     def with_auto_collect(self, value: Optional[AutoCollectEnum]) -> Collection:
@@ -257,4 +403,20 @@ class Collection(ARElement, CollectableElement):
             >>> obj.with_collection("SET")
         """
         self.collection = value  # Use property setter (gets validation)
+        return self
+
+    def with_element_role(self, value: Optional[Identifier]) -> Collection:
+        """
+        Set elementRole and return self for chaining.
+
+        Args:
+            value: The elementRole to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_element_role("TestRole")
+        """
+        self.element_role = value  # Use property setter (gets validation)
         return self
