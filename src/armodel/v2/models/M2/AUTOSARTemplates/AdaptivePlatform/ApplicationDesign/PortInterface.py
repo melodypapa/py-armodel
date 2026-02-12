@@ -4,9 +4,11 @@ AUTOSAR Package - PortInterface
 Package: M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
@@ -127,7 +129,7 @@ class Field(AutosarDataPrototype):
         """
         return self.has_getter  # Delegates to property
 
-    def setHasGetter(self, value: "Boolean") -> "Field":
+    def setHasGetter(self, value: "Boolean") -> Field:
         """
         AUTOSAR-compliant setter for hasGetter with method chaining.
 
@@ -155,7 +157,7 @@ class Field(AutosarDataPrototype):
         """
         return self.has_notifier  # Delegates to property
 
-    def setHasNotifier(self, value: "Boolean") -> "Field":
+    def setHasNotifier(self, value: "Boolean") -> Field:
         """
         AUTOSAR-compliant setter for hasNotifier with method chaining.
 
@@ -183,7 +185,7 @@ class Field(AutosarDataPrototype):
         """
         return self.has_setter  # Delegates to property
 
-    def setHasSetter(self, value: "Boolean") -> "Field":
+    def setHasSetter(self, value: "Boolean") -> Field:
         """
         AUTOSAR-compliant setter for hasSetter with method chaining.
 
@@ -201,7 +203,7 @@ class Field(AutosarDataPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_has_getter(self, value: Optional["Boolean"]) -> "Field":
+    def with_has_getter(self, value: Optional["Boolean"]) -> Field:
         """
         Set hasGetter and return self for chaining.
 
@@ -217,7 +219,7 @@ class Field(AutosarDataPrototype):
         self.has_getter = value  # Use property setter (gets validation)
         return self
 
-    def with_has_notifier(self, value: Optional["Boolean"]) -> "Field":
+    def with_has_notifier(self, value: Optional["Boolean"]) -> Field:
         """
         Set hasNotifier and return self for chaining.
 
@@ -233,7 +235,7 @@ class Field(AutosarDataPrototype):
         self.has_notifier = value  # Use property setter (gets validation)
         return self
 
-    def with_has_setter(self, value: Optional["Boolean"]) -> "Field":
+    def with_has_setter(self, value: Optional["Boolean"]) -> Field:
         """
         Set hasSetter and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - Dlt
 Package: M2::AUTOSARTemplates::SystemTemplate::Dlt
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
     String,
@@ -63,10 +65,10 @@ class DltConfig(ARObject):
                 f"dltEcu must be DltEcu or None, got {type(value).__name__}"
             )
         self._dltEcu = value
-        self._dltLogChannel: List["DltLogChannel"] = []
+        self._dltLogChannel: List[DltLogChannel] = []
 
     @property
-    def dlt_log_channel(self) -> List["DltLogChannel"]:
+    def dlt_log_channel(self) -> List[DltLogChannel]:
         """Get dltLogChannel (Pythonic accessor)."""
         return self._dltLogChannel
         # This attribute defines whether the sessionId is used or.
@@ -188,7 +190,7 @@ class DltConfig(ARObject):
         """
         return self.dlt_ecu  # Delegates to property
 
-    def setDltEcu(self, value: "DltEcu") -> "DltConfig":
+    def setDltEcu(self, value: "DltEcu") -> DltConfig:
         """
         AUTOSAR-compliant setter for dltEcu with method chaining.
 
@@ -204,7 +206,7 @@ class DltConfig(ARObject):
         self.dlt_ecu = value  # Delegates to property setter
         return self
 
-    def getDltLogChannel(self) -> List["DltLogChannel"]:
+    def getDltLogChannel(self) -> List[DltLogChannel]:
         """
         AUTOSAR-compliant getter for dltLogChannel.
 
@@ -228,7 +230,7 @@ class DltConfig(ARObject):
         """
         return self.session_id  # Delegates to property
 
-    def setSessionId(self, value: "Boolean") -> "DltConfig":
+    def setSessionId(self, value: "Boolean") -> DltConfig:
         """
         AUTOSAR-compliant setter for sessionId with method chaining.
 
@@ -256,7 +258,7 @@ class DltConfig(ARObject):
         """
         return self.timestamp  # Delegates to property
 
-    def setTimestamp(self, value: "Boolean") -> "DltConfig":
+    def setTimestamp(self, value: "Boolean") -> DltConfig:
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
 
@@ -274,7 +276,7 @@ class DltConfig(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dlt_ecu(self, value: Optional["DltEcu"]) -> "DltConfig":
+    def with_dlt_ecu(self, value: Optional["DltEcu"]) -> DltConfig:
         """
         Set dltEcu and return self for chaining.
 
@@ -290,7 +292,7 @@ class DltConfig(ARObject):
         self.dlt_ecu = value  # Use property setter (gets validation)
         return self
 
-    def with_session_id(self, value: Optional["Boolean"]) -> "DltConfig":
+    def with_session_id(self, value: Optional["Boolean"]) -> DltConfig:
         """
         Set sessionId and return self for chaining.
 
@@ -306,7 +308,7 @@ class DltConfig(ARObject):
         self.session_id = value  # Use property setter (gets validation)
         return self
 
-    def with_timestamp(self, value: Optional["Boolean"]) -> "DltConfig":
+    def with_timestamp(self, value: Optional["Boolean"]) -> DltConfig:
         """
         Set timestamp and return self for chaining.
 
@@ -568,7 +570,7 @@ class DltLogChannel(Identifiable):
         """
         return self.default_trace  # Delegates to property
 
-    def setDefaultTrace(self, value: "DltDefaultTraceState") -> "DltLogChannel":
+    def setDefaultTrace(self, value: "DltDefaultTraceState") -> DltLogChannel:
         """
         AUTOSAR-compliant setter for defaultTrace with method chaining.
 
@@ -608,7 +610,7 @@ class DltLogChannel(Identifiable):
         """
         return self.log_channel_id  # Delegates to property
 
-    def setLogChannelId(self, value: "String") -> "DltLogChannel":
+    def setLogChannelId(self, value: "String") -> DltLogChannel:
         """
         AUTOSAR-compliant setter for logChannelId with method chaining.
 
@@ -636,7 +638,7 @@ class DltLogChannel(Identifiable):
         """
         return self.log_trace_default  # Delegates to property
 
-    def setLogTraceDefault(self, value: "LogTraceDefaultLog") -> "DltLogChannel":
+    def setLogTraceDefault(self, value: "LogTraceDefaultLog") -> DltLogChannel:
         """
         AUTOSAR-compliant setter for logTraceDefault with method chaining.
 
@@ -664,7 +666,7 @@ class DltLogChannel(Identifiable):
         """
         return self.non_verbose  # Delegates to property
 
-    def setNonVerbose(self, value: "Boolean") -> "DltLogChannel":
+    def setNonVerbose(self, value: "Boolean") -> DltLogChannel:
         """
         AUTOSAR-compliant setter for nonVerbose with method chaining.
 
@@ -692,7 +694,7 @@ class DltLogChannel(Identifiable):
         """
         return self.rx_pdu_triggering  # Delegates to property
 
-    def setRxPduTriggering(self, value: "RefType") -> "DltLogChannel":
+    def setRxPduTriggering(self, value: "RefType") -> DltLogChannel:
         """
         AUTOSAR-compliant setter for rxPduTriggering with method chaining.
 
@@ -720,7 +722,7 @@ class DltLogChannel(Identifiable):
         """
         return self.segmentation  # Delegates to property
 
-    def setSegmentation(self, value: "Boolean") -> "DltLogChannel":
+    def setSegmentation(self, value: "Boolean") -> DltLogChannel:
         """
         AUTOSAR-compliant setter for segmentation with method chaining.
 
@@ -748,7 +750,7 @@ class DltLogChannel(Identifiable):
         """
         return self.tx_pdu_triggering  # Delegates to property
 
-    def setTxPduTriggering(self, value: "RefType") -> "DltLogChannel":
+    def setTxPduTriggering(self, value: "RefType") -> DltLogChannel:
         """
         AUTOSAR-compliant setter for txPduTriggering with method chaining.
 
@@ -766,7 +768,7 @@ class DltLogChannel(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_trace(self, value: Optional["DltDefaultTraceState"]) -> "DltLogChannel":
+    def with_default_trace(self, value: Optional["DltDefaultTraceState"]) -> DltLogChannel:
         """
         Set defaultTrace and return self for chaining.
 
@@ -782,7 +784,7 @@ class DltLogChannel(Identifiable):
         self.default_trace = value  # Use property setter (gets validation)
         return self
 
-    def with_log_channel_id(self, value: Optional["String"]) -> "DltLogChannel":
+    def with_log_channel_id(self, value: Optional["String"]) -> DltLogChannel:
         """
         Set logChannelId and return self for chaining.
 
@@ -798,7 +800,7 @@ class DltLogChannel(Identifiable):
         self.log_channel_id = value  # Use property setter (gets validation)
         return self
 
-    def with_log_trace_default(self, value: Optional["LogTraceDefaultLog"]) -> "DltLogChannel":
+    def with_log_trace_default(self, value: Optional["LogTraceDefaultLog"]) -> DltLogChannel:
         """
         Set logTraceDefault and return self for chaining.
 
@@ -814,7 +816,7 @@ class DltLogChannel(Identifiable):
         self.log_trace_default = value  # Use property setter (gets validation)
         return self
 
-    def with_non_verbose(self, value: Optional["Boolean"]) -> "DltLogChannel":
+    def with_non_verbose(self, value: Optional["Boolean"]) -> DltLogChannel:
         """
         Set nonVerbose and return self for chaining.
 
@@ -830,7 +832,7 @@ class DltLogChannel(Identifiable):
         self.non_verbose = value  # Use property setter (gets validation)
         return self
 
-    def with_rx_pdu_triggering(self, value: Optional[RefType]) -> "DltLogChannel":
+    def with_rx_pdu_triggering(self, value: Optional[RefType]) -> DltLogChannel:
         """
         Set rxPduTriggering and return self for chaining.
 
@@ -846,7 +848,7 @@ class DltLogChannel(Identifiable):
         self.rx_pdu_triggering = value  # Use property setter (gets validation)
         return self
 
-    def with_segmentation(self, value: Optional["Boolean"]) -> "DltLogChannel":
+    def with_segmentation(self, value: Optional["Boolean"]) -> DltLogChannel:
         """
         Set segmentation and return self for chaining.
 
@@ -862,7 +864,7 @@ class DltLogChannel(Identifiable):
         self.segmentation = value  # Use property setter (gets validation)
         return self
 
-    def with_tx_pdu_triggering(self, value: Optional[RefType]) -> "DltLogChannel":
+    def with_tx_pdu_triggering(self, value: Optional[RefType]) -> DltLogChannel:
         """
         Set txPduTriggering and return self for chaining.
 

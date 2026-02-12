@@ -27,7 +27,7 @@ Usage:
     pkg.setExtendedAttribute("vendor", "MyCompany")
     vendor = pkg.getExtendedAttribute("vendor")
 """
-from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure.AUTOSAR import (
+from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -44,8 +44,8 @@ __version__ = "2.0.0"
 
 __all__ = [
     "ARObject",
-    "AUTOSAR",
-    "ARPackage",
+    AUTOSAR,
+    ARPackage,
     "Identifiable",
     "__version__",
 ]

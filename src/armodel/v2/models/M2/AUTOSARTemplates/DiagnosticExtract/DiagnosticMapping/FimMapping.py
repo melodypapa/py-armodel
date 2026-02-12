@@ -4,6 +4,8 @@ AUTOSAR Package - FimMapping
 Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.__init__ import (
@@ -129,7 +131,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
         """
         return self.diagnostic_event  # Delegates to property
 
-    def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticInhibitSourceEventMapping":
+    def setDiagnosticEvent(self, value: "DiagnosticEvent") -> DiagnosticInhibitSourceEventMapping:
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
 
@@ -157,7 +159,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
         """
         return self.event_group_group  # Delegates to property
 
-    def setEventGroupGroup(self, value: "DiagnosticFimEvent") -> "DiagnosticInhibitSourceEventMapping":
+    def setEventGroupGroup(self, value: "DiagnosticFimEvent") -> DiagnosticInhibitSourceEventMapping:
         """
         AUTOSAR-compliant setter for eventGroupGroup with method chaining.
 
@@ -185,7 +187,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
         """
         return self.inhibition_source  # Delegates to property
 
-    def setInhibitionSource(self, value: "DiagnosticFunction") -> "DiagnosticInhibitSourceEventMapping":
+    def setInhibitionSource(self, value: "DiagnosticFunction") -> DiagnosticInhibitSourceEventMapping:
         """
         AUTOSAR-compliant setter for inhibitionSource with method chaining.
 
@@ -203,7 +205,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticInhibitSourceEventMapping":
+    def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticInhibitSourceEventMapping:
         """
         Set diagnosticEvent and return self for chaining.
 
@@ -219,7 +221,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
         self.diagnostic_event = value  # Use property setter (gets validation)
         return self
 
-    def with_event_group_group(self, value: Optional["DiagnosticFimEvent"]) -> "DiagnosticInhibitSourceEventMapping":
+    def with_event_group_group(self, value: Optional["DiagnosticFimEvent"]) -> DiagnosticInhibitSourceEventMapping:
         """
         Set eventGroupGroup and return self for chaining.
 
@@ -235,7 +237,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
         self.event_group_group = value  # Use property setter (gets validation)
         return self
 
-    def with_inhibition_source(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticInhibitSourceEventMapping":
+    def with_inhibition_source(self, value: Optional["DiagnosticFunction"]) -> DiagnosticInhibitSourceEventMapping:
         """
         Set inhibitionSource and return self for chaining.
 
@@ -339,7 +341,7 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
         """
         return self.actual_event  # Delegates to property
 
-    def setActualEvent(self, value: "DiagnosticFimEvent") -> "DiagnosticFimAliasEventGroupMapping":
+    def setActualEvent(self, value: "DiagnosticFimEvent") -> DiagnosticFimAliasEventGroupMapping:
         """
         AUTOSAR-compliant setter for actualEvent with method chaining.
 
@@ -367,7 +369,7 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
         """
         return self.alias_event  # Delegates to property
 
-    def setAliasEvent(self, value: "DiagnosticFimAlias") -> "DiagnosticFimAliasEventGroupMapping":
+    def setAliasEvent(self, value: "DiagnosticFimAlias") -> DiagnosticFimAliasEventGroupMapping:
         """
         AUTOSAR-compliant setter for aliasEvent with method chaining.
 
@@ -385,7 +387,7 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_actual_event(self, value: Optional["DiagnosticFimEvent"]) -> "DiagnosticFimAliasEventGroupMapping":
+    def with_actual_event(self, value: Optional["DiagnosticFimEvent"]) -> DiagnosticFimAliasEventGroupMapping:
         """
         Set actualEvent and return self for chaining.
 
@@ -401,7 +403,7 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
         self.actual_event = value  # Use property setter (gets validation)
         return self
 
-    def with_alias_event(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFimAliasEventGroupMapping":
+    def with_alias_event(self, value: Optional["DiagnosticFimAlias"]) -> DiagnosticFimAliasEventGroupMapping:
         """
         Set aliasEvent and return self for chaining.
 

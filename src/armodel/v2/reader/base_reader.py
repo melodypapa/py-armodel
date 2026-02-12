@@ -11,11 +11,11 @@ from typing import (
     cast,
 )
 
-from armodel.v2.models.models import AUTOSAR
+from armodel.v2.models import AUTOSAR
 from armodel.v2.reader.element_handler import ElementHandler
 from armodel.v2.reader.schema_registry import SchemaRegistry
-from armodel.v2.utils.context import DeserializationContext
-from armodel.v2.utils.errors import ReadError
+from armodel.utils.context import DeserializationContext
+from armodel.utils.errors import ReadError
 
 
 class ARXMLReader:
@@ -137,13 +137,22 @@ class ARXMLReader:
         )
 
         # Deserialize root element
-        root_obj = self._deserialize_element(root, None, ctx)
-
-        # Update document
-        if isinstance(root_obj, AUTOSAR):
-            document.ar_packages = root_obj.ar_packages
+        # For AUTOSAR, use the document instance directly (singleton)
+        tag_name = self._strip_namespace(root.tag)
+        if tag_name == "AUTOSAR":
+            root_obj = document
+            # Process children of AUTOSAR
+            for child_elem in root:
+                child_obj = self._deserialize_element(child_elem, document, ctx)
+                if child_obj is not None:
+                    self._add_child_to_parent(root_obj, child_obj, child_elem, ctx)
         else:
-            raise ReadError(f"Root element must be AUTOSAR, got {type(root_obj).__name__}")
+            root_obj = self._deserialize_element(root, None, ctx)
+            # Update document
+            if isinstance(root_obj, AUTOSAR):
+                document.ar_packages = root_obj.ar_packages
+            else:
+                raise ReadError(f"Root element must be AUTOSAR, got {type(root_obj).__name__}")
 
     def _deserialize_element(self, elem: ET.Element, parent_obj: Any,
                             ctx: DeserializationContext) -> Any:

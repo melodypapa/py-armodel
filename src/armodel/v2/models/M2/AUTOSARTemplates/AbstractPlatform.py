@@ -4,6 +4,8 @@ AUTOSAR Package - AbstractPlatform
 Package: M2::AUTOSARTemplates::AbstractPlatform
 """
 
+
+from __future__ import annotations
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import (
@@ -155,7 +157,7 @@ class ApplicationInterface(PortInterface):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_attribute(self, value: List[Field]) -> "ApplicationInterface":
+    def with_attribute(self, value: List[Field]) -> ApplicationInterface:
         """
         Set attribute and return self for chaining.
 
@@ -171,7 +173,7 @@ class ApplicationInterface(PortInterface):
         self.attribute = value  # Use property setter (gets validation)
         return self
 
-    def with_command(self, value: List[ClientServerOperation]) -> "ApplicationInterface":
+    def with_command(self, value: List[ClientServerOperation]) -> ApplicationInterface:
         """
         Set command and return self for chaining.
 
@@ -187,7 +189,7 @@ class ApplicationInterface(PortInterface):
         self.command = value  # Use property setter (gets validation)
         return self
 
-    def with_indication(self, value: List[RefType]) -> "ApplicationInterface":
+    def with_indication(self, value: List[RefType]) -> ApplicationInterface:
         """
         Set indication and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - InstanceRefs
 Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -217,7 +219,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "System") -> "DataPrototypeInSystemInstanceRef":
+    def setBase(self, value: "System") -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -269,7 +271,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: "RefType") -> "DataPrototypeInSystemInstanceRef":
+    def setContextPort(self, value: "RefType") -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
 
@@ -297,7 +299,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.context_root  # Delegates to property
 
-    def setContextRoot(self, value: "RootSwComposition") -> "DataPrototypeInSystemInstanceRef":
+    def setContextRoot(self, value: "RootSwComposition") -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextRoot with method chaining.
 
@@ -325,7 +327,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.root_data_prototype  # Delegates to property
 
-    def setRootDataPrototype(self, value: "RefType") -> "DataPrototypeInSystemInstanceRef":
+    def setRootDataPrototype(self, value: "RefType") -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for rootDataPrototype with method chaining.
 
@@ -353,7 +355,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "RefType") -> "DataPrototypeInSystemInstanceRef":
+    def setTargetData(self, value: "RefType") -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -371,7 +373,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["System"]) -> "DataPrototypeInSystemInstanceRef":
+    def with_base(self, value: Optional["System"]) -> DataPrototypeInSystemInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -387,7 +389,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context_port(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
+    def with_context_port(self, value: Optional[RefType]) -> DataPrototypeInSystemInstanceRef:
         """
         Set contextPort and return self for chaining.
 
@@ -403,7 +405,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         self.context_port = value  # Use property setter (gets validation)
         return self
 
-    def with_context_root(self, value: Optional["RootSwComposition"]) -> "DataPrototypeInSystemInstanceRef":
+    def with_context_root(self, value: Optional["RootSwComposition"]) -> DataPrototypeInSystemInstanceRef:
         """
         Set contextRoot and return self for chaining.
 
@@ -419,7 +421,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         self.context_root = value  # Use property setter (gets validation)
         return self
 
-    def with_root_data_prototype(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
+    def with_root_data_prototype(self, value: Optional[RefType]) -> DataPrototypeInSystemInstanceRef:
         """
         Set rootDataPrototype and return self for chaining.
 
@@ -435,7 +437,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         self.root_data_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
+    def with_target_data(self, value: Optional[RefType]) -> DataPrototypeInSystemInstanceRef:
         """
         Set targetData and return self for chaining.
 
@@ -542,7 +544,7 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
         """
         return self.context_root_sw  # Delegates to property
 
-    def setContextRootSw(self, value: "RootSwComposition") -> "SwcServiceDependencyInSystemInstanceRef":
+    def setContextRootSw(self, value: "RootSwComposition") -> SwcServiceDependencyInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextRootSw with method chaining.
 
@@ -582,7 +584,7 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
         """
         return self.target_swc  # Delegates to property
 
-    def setTargetSwc(self, value: "SwcService") -> "SwcServiceDependencyInSystemInstanceRef":
+    def setTargetSwc(self, value: "SwcService") -> SwcServiceDependencyInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for targetSwc with method chaining.
 
@@ -600,7 +602,7 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_root_sw(self, value: Optional["RootSwComposition"]) -> "SwcServiceDependencyInSystemInstanceRef":
+    def with_context_root_sw(self, value: Optional["RootSwComposition"]) -> SwcServiceDependencyInSystemInstanceRef:
         """
         Set contextRootSw and return self for chaining.
 
@@ -616,7 +618,7 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
         self.context_root_sw = value  # Use property setter (gets validation)
         return self
 
-    def with_target_swc(self, value: Optional["SwcService"]) -> "SwcServiceDependencyInSystemInstanceRef":
+    def with_target_swc(self, value: Optional["SwcService"]) -> SwcServiceDependencyInSystemInstanceRef:
         """
         Set targetSwc and return self for chaining.
 
@@ -798,7 +800,7 @@ class PModeInSystemInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "System") -> "PModeInSystemInstanceRef":
+    def setBase(self, value: "System") -> PModeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -826,7 +828,7 @@ class PModeInSystemInstanceRef(ARObject):
         """
         return self.context  # Delegates to property
 
-    def setContext(self, value: "RootSwComposition") -> "PModeInSystemInstanceRef":
+    def setContext(self, value: "RootSwComposition") -> PModeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for context with method chaining.
 
@@ -854,7 +856,7 @@ class PModeInSystemInstanceRef(ARObject):
         """
         return self.context_mode_group  # Delegates to property
 
-    def setContextModeGroup(self, value: "RefType") -> "PModeInSystemInstanceRef":
+    def setContextModeGroup(self, value: "RefType") -> PModeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextModeGroup with method chaining.
 
@@ -882,7 +884,7 @@ class PModeInSystemInstanceRef(ARObject):
         """
         return self.context_p_port_prototype  # Delegates to property
 
-    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "PModeInSystemInstanceRef":
+    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> PModeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
 
@@ -910,7 +912,7 @@ class PModeInSystemInstanceRef(ARObject):
         """
         return self.target_mode  # Delegates to property
 
-    def setTargetMode(self, value: "ModeDeclaration") -> "PModeInSystemInstanceRef":
+    def setTargetMode(self, value: "ModeDeclaration") -> PModeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
 
@@ -928,7 +930,7 @@ class PModeInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["System"]) -> "PModeInSystemInstanceRef":
+    def with_base(self, value: Optional["System"]) -> PModeInSystemInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -944,7 +946,7 @@ class PModeInSystemInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context(self, value: Optional["RootSwComposition"]) -> "PModeInSystemInstanceRef":
+    def with_context(self, value: Optional["RootSwComposition"]) -> PModeInSystemInstanceRef:
         """
         Set context and return self for chaining.
 
@@ -960,7 +962,7 @@ class PModeInSystemInstanceRef(ARObject):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_context_mode_group(self, value: Optional[RefType]) -> "PModeInSystemInstanceRef":
+    def with_context_mode_group(self, value: Optional[RefType]) -> PModeInSystemInstanceRef:
         """
         Set contextModeGroup and return self for chaining.
 
@@ -976,7 +978,7 @@ class PModeInSystemInstanceRef(ARObject):
         self.context_mode_group = value  # Use property setter (gets validation)
         return self
 
-    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PModeInSystemInstanceRef":
+    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PModeInSystemInstanceRef:
         """
         Set contextPPortPrototype and return self for chaining.
 
@@ -992,7 +994,7 @@ class PModeInSystemInstanceRef(ARObject):
         self.context_p_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_mode(self, value: Optional["ModeDeclaration"]) -> "PModeInSystemInstanceRef":
+    def with_target_mode(self, value: Optional["ModeDeclaration"]) -> PModeInSystemInstanceRef:
         """
         Set targetMode and return self for chaining.
 

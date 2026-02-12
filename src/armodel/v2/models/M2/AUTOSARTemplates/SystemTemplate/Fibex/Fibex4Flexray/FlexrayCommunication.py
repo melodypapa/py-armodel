@@ -4,9 +4,11 @@ AUTOSAR Package - FlexrayCommunication
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -189,7 +191,7 @@ class FlexrayFrameTriggering(FrameTriggering):
         """
         return self.allow_dynamic  # Delegates to property
 
-    def setAllowDynamic(self, value: "Boolean") -> "FlexrayFrameTriggering":
+    def setAllowDynamic(self, value: "Boolean") -> FlexrayFrameTriggering:
         """
         AUTOSAR-compliant setter for allowDynamic with method chaining.
 
@@ -217,7 +219,7 @@ class FlexrayFrameTriggering(FrameTriggering):
         """
         return self.message_id  # Delegates to property
 
-    def setMessageId(self, value: "PositiveInteger") -> "FlexrayFrameTriggering":
+    def setMessageId(self, value: "PositiveInteger") -> FlexrayFrameTriggering:
         """
         AUTOSAR-compliant setter for messageId with method chaining.
 
@@ -245,7 +247,7 @@ class FlexrayFrameTriggering(FrameTriggering):
         """
         return self.payload_preamble_indicator  # Delegates to property
 
-    def setPayloadPreambleIndicator(self, value: "Boolean") -> "FlexrayFrameTriggering":
+    def setPayloadPreambleIndicator(self, value: "Boolean") -> FlexrayFrameTriggering:
         """
         AUTOSAR-compliant setter for payloadPreambleIndicator with method chaining.
 
@@ -263,7 +265,7 @@ class FlexrayFrameTriggering(FrameTriggering):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_allow_dynamic(self, value: Optional["Boolean"]) -> "FlexrayFrameTriggering":
+    def with_allow_dynamic(self, value: Optional["Boolean"]) -> FlexrayFrameTriggering:
         """
         Set allowDynamic and return self for chaining.
 
@@ -279,7 +281,7 @@ class FlexrayFrameTriggering(FrameTriggering):
         self.allow_dynamic = value  # Use property setter (gets validation)
         return self
 
-    def with_message_id(self, value: Optional["PositiveInteger"]) -> "FlexrayFrameTriggering":
+    def with_message_id(self, value: Optional["PositiveInteger"]) -> FlexrayFrameTriggering:
         """
         Set messageId and return self for chaining.
 
@@ -295,7 +297,7 @@ class FlexrayFrameTriggering(FrameTriggering):
         self.message_id = value  # Use property setter (gets validation)
         return self
 
-    def with_payload_preamble_indicator(self, value: Optional["Boolean"]) -> "FlexrayFrameTriggering":
+    def with_payload_preamble_indicator(self, value: Optional["Boolean"]) -> FlexrayFrameTriggering:
         """
         Set payloadPreambleIndicator and return self for chaining.
 
@@ -406,7 +408,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
         """
         return self.communication_cycle  # Delegates to property
 
-    def setCommunicationCycle(self, value: "CommunicationCycle") -> "FlexrayAbsolutelyScheduledTiming":
+    def setCommunicationCycle(self, value: "CommunicationCycle") -> FlexrayAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for communicationCycle with method chaining.
 
@@ -434,7 +436,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
         """
         return self.slot_id  # Delegates to property
 
-    def setSlotID(self, value: "PositiveInteger") -> "FlexrayAbsolutelyScheduledTiming":
+    def setSlotID(self, value: "PositiveInteger") -> FlexrayAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for slotID with method chaining.
 
@@ -452,7 +454,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication_cycle(self, value: Optional["CommunicationCycle"]) -> "FlexrayAbsolutelyScheduledTiming":
+    def with_communication_cycle(self, value: Optional["CommunicationCycle"]) -> FlexrayAbsolutelyScheduledTiming:
         """
         Set communicationCycle and return self for chaining.
 
@@ -468,7 +470,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
         self.communication_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_slot_id(self, value: Optional["PositiveInteger"]) -> "FlexrayAbsolutelyScheduledTiming":
+    def with_slot_id(self, value: Optional["PositiveInteger"]) -> FlexrayAbsolutelyScheduledTiming:
         """
         Set slotID and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - CanCommunication
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     PositiveInteger,
@@ -248,15 +250,15 @@ class CanFrameTriggering(FrameTriggering):
             )
         self._j1939requestable = value
         # Optional definition of a CanId range.
-        self._rxIdentifierRange: Optional["RxIdentifierRange"] = None
+        self._rxIdentifierRange: Optional[RxIdentifierRange] = None
 
     @property
-    def rx_identifier_range(self) -> Optional["RxIdentifierRange"]:
+    def rx_identifier_range(self) -> Optional[RxIdentifierRange]:
         """Get rxIdentifierRange (Pythonic accessor)."""
         return self._rxIdentifierRange
 
     @rx_identifier_range.setter
-    def rx_identifier_range(self, value: Optional["RxIdentifierRange"]) -> None:
+    def rx_identifier_range(self, value: Optional[RxIdentifierRange]) -> None:
         """
         Set rxIdentifierRange with validation.
 
@@ -358,7 +360,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.can_addressing  # Delegates to property
 
-    def setCanAddressing(self, value: "CanAddressingMode") -> "CanFrameTriggering":
+    def setCanAddressing(self, value: "CanAddressingMode") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for canAddressing with method chaining.
 
@@ -386,7 +388,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.can_frame_rx  # Delegates to property
 
-    def setCanFrameRx(self, value: "CanFrameRxBehavior") -> "CanFrameTriggering":
+    def setCanFrameRx(self, value: "CanFrameRxBehavior") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for canFrameRx with method chaining.
 
@@ -414,7 +416,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.can_frame_tx  # Delegates to property
 
-    def setCanFrameTx(self, value: "CanFrameTxBehavior") -> "CanFrameTriggering":
+    def setCanFrameTx(self, value: "CanFrameTxBehavior") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for canFrameTx with method chaining.
 
@@ -442,7 +444,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.can_xl_frame  # Delegates to property
 
-    def setCanXlFrame(self, value: "RefType") -> "CanFrameTriggering":
+    def setCanXlFrame(self, value: "RefType") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for canXlFrame with method chaining.
 
@@ -470,7 +472,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.identifier  # Delegates to property
 
-    def setIdentifier(self, value: "Integer") -> "CanFrameTriggering":
+    def setIdentifier(self, value: "Integer") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for identifier with method chaining.
 
@@ -498,7 +500,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.j1939requestable  # Delegates to property
 
-    def setJ1939requestable(self, value: "Boolean") -> "CanFrameTriggering":
+    def setJ1939requestable(self, value: "Boolean") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for j1939requestable with method chaining.
 
@@ -514,7 +516,7 @@ class CanFrameTriggering(FrameTriggering):
         self.j1939requestable = value  # Delegates to property setter
         return self
 
-    def getRxIdentifierRange(self) -> "RxIdentifierRange":
+    def getRxIdentifierRange(self) -> RxIdentifierRange:
         """
         AUTOSAR-compliant getter for rxIdentifierRange.
 
@@ -526,7 +528,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.rx_identifier_range  # Delegates to property
 
-    def setRxIdentifierRange(self, value: "RxIdentifierRange") -> "CanFrameTriggering":
+    def setRxIdentifierRange(self, value: RxIdentifierRange) -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for rxIdentifierRange with method chaining.
 
@@ -554,7 +556,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.rx_mask  # Delegates to property
 
-    def setRxMask(self, value: "PositiveInteger") -> "CanFrameTriggering":
+    def setRxMask(self, value: "PositiveInteger") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for rxMask with method chaining.
 
@@ -582,7 +584,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.tx_mask  # Delegates to property
 
-    def setTxMask(self, value: "PositiveInteger") -> "CanFrameTriggering":
+    def setTxMask(self, value: "PositiveInteger") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for txMask with method chaining.
 
@@ -600,7 +602,7 @@ class CanFrameTriggering(FrameTriggering):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_can_addressing(self, value: Optional["CanAddressingMode"]) -> "CanFrameTriggering":
+    def with_can_addressing(self, value: Optional["CanAddressingMode"]) -> CanFrameTriggering:
         """
         Set canAddressing and return self for chaining.
 
@@ -616,7 +618,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_addressing = value  # Use property setter (gets validation)
         return self
 
-    def with_can_frame_rx(self, value: Optional["CanFrameRxBehavior"]) -> "CanFrameTriggering":
+    def with_can_frame_rx(self, value: Optional["CanFrameRxBehavior"]) -> CanFrameTriggering:
         """
         Set canFrameRx and return self for chaining.
 
@@ -632,7 +634,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_frame_rx = value  # Use property setter (gets validation)
         return self
 
-    def with_can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> "CanFrameTriggering":
+    def with_can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> CanFrameTriggering:
         """
         Set canFrameTx and return self for chaining.
 
@@ -648,7 +650,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_frame_tx = value  # Use property setter (gets validation)
         return self
 
-    def with_can_xl_frame(self, value: Optional[RefType]) -> "CanFrameTriggering":
+    def with_can_xl_frame(self, value: Optional[RefType]) -> CanFrameTriggering:
         """
         Set canXlFrame and return self for chaining.
 
@@ -664,7 +666,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_xl_frame = value  # Use property setter (gets validation)
         return self
 
-    def with_identifier(self, value: Optional["Integer"]) -> "CanFrameTriggering":
+    def with_identifier(self, value: Optional["Integer"]) -> CanFrameTriggering:
         """
         Set identifier and return self for chaining.
 
@@ -680,7 +682,7 @@ class CanFrameTriggering(FrameTriggering):
         self.identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_j1939requestable(self, value: Optional["Boolean"]) -> "CanFrameTriggering":
+    def with_j1939requestable(self, value: Optional["Boolean"]) -> CanFrameTriggering:
         """
         Set j1939requestable and return self for chaining.
 
@@ -696,7 +698,7 @@ class CanFrameTriggering(FrameTriggering):
         self.j1939requestable = value  # Use property setter (gets validation)
         return self
 
-    def with_rx_identifier_range(self, value: Optional["RxIdentifierRange"]) -> "CanFrameTriggering":
+    def with_rx_identifier_range(self, value: Optional[RxIdentifierRange]) -> CanFrameTriggering:
         """
         Set rxIdentifierRange and return self for chaining.
 
@@ -712,7 +714,7 @@ class CanFrameTriggering(FrameTriggering):
         self.rx_identifier_range = value  # Use property setter (gets validation)
         return self
 
-    def with_rx_mask(self, value: Optional["PositiveInteger"]) -> "CanFrameTriggering":
+    def with_rx_mask(self, value: Optional["PositiveInteger"]) -> CanFrameTriggering:
         """
         Set rxMask and return self for chaining.
 
@@ -728,7 +730,7 @@ class CanFrameTriggering(FrameTriggering):
         self.rx_mask = value  # Use property setter (gets validation)
         return self
 
-    def with_tx_mask(self, value: Optional["PositiveInteger"]) -> "CanFrameTriggering":
+    def with_tx_mask(self, value: Optional["PositiveInteger"]) -> CanFrameTriggering:
         """
         Set txMask and return self for chaining.
 
@@ -834,7 +836,7 @@ class RxIdentifierRange(ARObject):
         """
         return self.lower_can_id  # Delegates to property
 
-    def setLowerCanId(self, value: "PositiveInteger") -> "RxIdentifierRange":
+    def setLowerCanId(self, value: "PositiveInteger") -> RxIdentifierRange:
         """
         AUTOSAR-compliant setter for lowerCanId with method chaining.
 
@@ -862,7 +864,7 @@ class RxIdentifierRange(ARObject):
         """
         return self.upper_can_id  # Delegates to property
 
-    def setUpperCanId(self, value: "PositiveInteger") -> "RxIdentifierRange":
+    def setUpperCanId(self, value: "PositiveInteger") -> RxIdentifierRange:
         """
         AUTOSAR-compliant setter for upperCanId with method chaining.
 
@@ -880,7 +882,7 @@ class RxIdentifierRange(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lower_can_id(self, value: Optional["PositiveInteger"]) -> "RxIdentifierRange":
+    def with_lower_can_id(self, value: Optional["PositiveInteger"]) -> RxIdentifierRange:
         """
         Set lowerCanId and return self for chaining.
 
@@ -896,7 +898,7 @@ class RxIdentifierRange(ARObject):
         self.lower_can_id = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_can_id(self, value: Optional["PositiveInteger"]) -> "RxIdentifierRange":
+    def with_upper_can_id(self, value: Optional["PositiveInteger"]) -> RxIdentifierRange:
         """
         Set upperCanId and return self for chaining.
 
@@ -1052,7 +1054,7 @@ class CanXlFrameTriggeringProps(ARObject):
         """
         return self.acceptance_field  # Delegates to property
 
-    def setAcceptanceField(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
+    def setAcceptanceField(self, value: "PositiveInteger") -> CanXlFrameTriggeringProps:
         """
         AUTOSAR-compliant setter for acceptanceField with method chaining.
 
@@ -1080,7 +1082,7 @@ class CanXlFrameTriggeringProps(ARObject):
         """
         return self.priority_id  # Delegates to property
 
-    def setPriorityId(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
+    def setPriorityId(self, value: "PositiveInteger") -> CanXlFrameTriggeringProps:
         """
         AUTOSAR-compliant setter for priorityId with method chaining.
 
@@ -1108,7 +1110,7 @@ class CanXlFrameTriggeringProps(ARObject):
         """
         return self.sdu_type  # Delegates to property
 
-    def setSduType(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
+    def setSduType(self, value: "PositiveInteger") -> CanXlFrameTriggeringProps:
         """
         AUTOSAR-compliant setter for sduType with method chaining.
 
@@ -1136,7 +1138,7 @@ class CanXlFrameTriggeringProps(ARObject):
         """
         return self.vcid  # Delegates to property
 
-    def setVcid(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
+    def setVcid(self, value: "PositiveInteger") -> CanXlFrameTriggeringProps:
         """
         AUTOSAR-compliant setter for vcid with method chaining.
 
@@ -1154,7 +1156,7 @@ class CanXlFrameTriggeringProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_acceptance_field(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
+    def with_acceptance_field(self, value: Optional["PositiveInteger"]) -> CanXlFrameTriggeringProps:
         """
         Set acceptanceField and return self for chaining.
 
@@ -1170,7 +1172,7 @@ class CanXlFrameTriggeringProps(ARObject):
         self.acceptance_field = value  # Use property setter (gets validation)
         return self
 
-    def with_priority_id(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
+    def with_priority_id(self, value: Optional["PositiveInteger"]) -> CanXlFrameTriggeringProps:
         """
         Set priorityId and return self for chaining.
 
@@ -1186,7 +1188,7 @@ class CanXlFrameTriggeringProps(ARObject):
         self.priority_id = value  # Use property setter (gets validation)
         return self
 
-    def with_sdu_type(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
+    def with_sdu_type(self, value: Optional["PositiveInteger"]) -> CanXlFrameTriggeringProps:
         """
         Set sduType and return self for chaining.
 
@@ -1202,7 +1204,7 @@ class CanXlFrameTriggeringProps(ARObject):
         self.sdu_type = value  # Use property setter (gets validation)
         return self
 
-    def with_vcid(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
+    def with_vcid(self, value: Optional["PositiveInteger"]) -> CanXlFrameTriggeringProps:
         """
         Set vcid and return self for chaining.
 

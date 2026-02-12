@@ -4,9 +4,11 @@ AUTOSAR Package - IncludedDataTypes
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -115,7 +117,7 @@ class IncludedDataTypeSet(ARObject):
         """
         return self.literal_prefix  # Delegates to property
 
-    def setLiteralPrefix(self, value: "Identifier") -> "IncludedDataTypeSet":
+    def setLiteralPrefix(self, value: "Identifier") -> IncludedDataTypeSet:
         """
         AUTOSAR-compliant setter for literalPrefix with method chaining.
 
@@ -133,7 +135,7 @@ class IncludedDataTypeSet(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_literal_prefix(self, value: Optional["Identifier"]) -> "IncludedDataTypeSet":
+    def with_literal_prefix(self, value: Optional["Identifier"]) -> IncludedDataTypeSet:
         """
         Set literalPrefix and return self for chaining.
 

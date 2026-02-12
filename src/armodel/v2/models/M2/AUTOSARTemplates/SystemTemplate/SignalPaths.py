@@ -4,10 +4,12 @@ AUTOSAR Package - SignalPaths
 Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -49,7 +51,7 @@ class SwcToSwcSignal(ARObject):
         # by: VariableDataPrototypeIn.
         self._dataElement: List[RefType] = []
         self._operation: Optional[ClientServerOperation] = None
-        self._signal: Optional["SwcToSwcSignal"] = None
+        self._signal: Optional[SwcToSwcSignal] = None
         self._physical: Optional[PhysicalChannel] = None
 
     @property
@@ -101,12 +103,12 @@ class SwcToSwcSignal(ARObject):
         self._operation = value
 
     @property
-    def signal(self) -> Optional["SwcToSwcSignal"]:
+    def signal(self) -> Optional[SwcToSwcSignal]:
         """Get signal (Pythonic accessor)."""
         return self._signal
 
     @signal.setter
-    def signal(self, value: Optional["SwcToSwcSignal"]) -> None:
+    def signal(self, value: Optional[SwcToSwcSignal]) -> None:
         """
         Set signal with validation.
 
@@ -168,7 +170,7 @@ class SwcToSwcSignal(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_element(self, value: List[RefType]) -> "SwcToSwcSignal":
+    def with_data_element(self, value: List[RefType]) -> SwcToSwcSignal:
         """
         Set data_element and return self for chaining.
 
@@ -184,7 +186,7 @@ class SwcToSwcSignal(ARObject):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_operation(self, value: Optional[ClientServerOperation]) -> "SwcToSwcSignal":
+    def with_operation(self, value: Optional[ClientServerOperation]) -> SwcToSwcSignal:
         """
         Set operation and return self for chaining.
 
@@ -200,7 +202,7 @@ class SwcToSwcSignal(ARObject):
         self.operation = value  # Use property setter (gets validation)
         return self
 
-    def with_signal(self, value: Optional["SwcToSwcSignal"]) -> "SwcToSwcSignal":
+    def with_signal(self, value: Optional[SwcToSwcSignal]) -> SwcToSwcSignal:
         """
         Set signal and return self for chaining.
 
@@ -216,7 +218,7 @@ class SwcToSwcSignal(ARObject):
         self.signal = value  # Use property setter (gets validation)
         return self
 
-    def with_physical(self, value: Optional[PhysicalChannel]) -> "SwcToSwcSignal":
+    def with_physical(self, value: Optional[PhysicalChannel]) -> SwcToSwcSignal:
         """
         Set physical and return self for chaining.
 
@@ -271,17 +273,17 @@ class SwcToSwcOperationArguments(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Direction addressed by this SwcToSwcClientServer element.
-        self._direction: Optional["SwcToSwcOperationArgumentsDirectionEnum"] = None
+        self._direction: Optional[SwcToSwcOperationArgumentsDirectionEnum] = None
         # in the software component by: OperationInSystem.
         self._operation: List[ClientServerOperation] = []
 
     @property
-    def direction(self) -> Optional["SwcToSwcOperationArgumentsDirectionEnum"]:
+    def direction(self) -> Optional[SwcToSwcOperationArgumentsDirectionEnum]:
         """Get direction (Pythonic accessor)."""
         return self._direction
 
     @direction.setter
-    def direction(self, value: Optional["SwcToSwcOperationArgumentsDirectionEnum"]) -> None:
+    def direction(self, value: Optional[SwcToSwcOperationArgumentsDirectionEnum]) -> None:
         """
         Set direction with validation.
 
@@ -325,7 +327,7 @@ class SwcToSwcOperationArguments(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDirection(self) -> Optional["SwcToSwcOperationArgumentsDirectionEnum"]:
+    def getDirection(self) -> Optional[SwcToSwcOperationArgumentsDirectionEnum]:
         """
         AUTOSAR-compliant getter for direction.
 
@@ -337,7 +339,7 @@ class SwcToSwcOperationArguments(ARObject):
         """
         return self.direction  # Delegates to property
 
-    def setDirection(self, value: Optional["SwcToSwcOperationArgumentsDirectionEnum"]) -> "SwcToSwcOperationArguments":
+    def setDirection(self, value: Optional[SwcToSwcOperationArgumentsDirectionEnum]) -> SwcToSwcOperationArguments:
         """
         AUTOSAR-compliant setter for direction with method chaining.
 
@@ -367,7 +369,7 @@ class SwcToSwcOperationArguments(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_direction(self, value: Optional["SwcToSwcOperationArgumentsDirectionEnum"]) -> "SwcToSwcOperationArguments":
+    def with_direction(self, value: Optional[SwcToSwcOperationArgumentsDirectionEnum]) -> SwcToSwcOperationArguments:
         """
         Set direction and return self for chaining.
 
@@ -445,7 +447,7 @@ class SignalPathConstraint(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "SignalPathConstraint":
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> SignalPathConstraint:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -463,7 +465,7 @@ class SignalPathConstraint(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> "SignalPathConstraint":
+    def with_introduction(self, value: Optional[DocumentationBlock]) -> SignalPathConstraint:
         """
         Set introduction and return self for chaining.
 

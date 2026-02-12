@@ -4,9 +4,11 @@ AUTOSAR Package - Trigger
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -100,7 +102,7 @@ class ExternalTriggeringPoint(ARObject):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "RefType") -> "ExternalTriggeringPoint":
+    def setIdent(self, value: "RefType") -> ExternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -128,7 +130,7 @@ class ExternalTriggeringPoint(ARObject):
         """
         return self.trigger_type_instance_ref  # Delegates to property
 
-    def setTriggerTypeInstanceRef(self, value: "RefType") -> "ExternalTriggeringPoint":
+    def setTriggerTypeInstanceRef(self, value: "RefType") -> ExternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for triggerTypeInstanceRef with method chaining.
 
@@ -146,7 +148,7 @@ class ExternalTriggeringPoint(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ident(self, value: Optional[RefType]) -> "ExternalTriggeringPoint":
+    def with_ident(self, value: Optional[RefType]) -> ExternalTriggeringPoint:
         """
         Set ident and return self for chaining.
 
@@ -162,7 +164,7 @@ class ExternalTriggeringPoint(ARObject):
         self.ident = value  # Use property setter (gets validation)
         return self
 
-    def with_trigger_type_instance_ref(self, value: Optional[RefType]) -> "ExternalTriggeringPoint":
+    def with_trigger_type_instance_ref(self, value: Optional[RefType]) -> ExternalTriggeringPoint:
         """
         Set triggerTypeInstanceRef and return self for chaining.
 
@@ -241,7 +243,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
         """
         return self.sw_impl_policy  # Delegates to property
 
-    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> "InternalTriggeringPoint":
+    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> InternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
 
@@ -259,7 +261,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> "InternalTriggeringPoint":
+    def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> InternalTriggeringPoint:
         """
         Set swImplPolicy and return self for chaining.
 

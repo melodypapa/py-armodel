@@ -4,10 +4,12 @@ AUTOSAR Package - TimingDescription
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     RefType,
@@ -117,7 +119,7 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
         """
         return self.component_composition_instance_ref  # Delegates to property
 
-    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> "TDEventVfb":
+    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> TDEventVfb:
         """
         AUTOSAR-compliant setter for componentCompositionInstanceRef with method chaining.
 
@@ -135,7 +137,7 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "TDEventVfb":
+    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> TDEventVfb:
         """
         Set componentCompositionInstanceRef and return self for chaining.
 
@@ -212,7 +214,7 @@ class TDEventSwc(TimingDescriptionEvent, ABC):
         """
         return self.component_composition_instance_ref  # Delegates to property
 
-    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> "TDEventSwc":
+    def setComponentCompositionInstanceRef(self, value: "SwComponent") -> TDEventSwc:
         """
         AUTOSAR-compliant setter for componentCompositionInstanceRef with method chaining.
 
@@ -230,7 +232,7 @@ class TDEventSwc(TimingDescriptionEvent, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "TDEventSwc":
+    def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> TDEventSwc:
         """
         Set componentCompositionInstanceRef and return self for chaining.
 
@@ -308,7 +310,7 @@ class TDEventCom(TimingDescriptionEvent, ABC):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> "TDEventCom":
+    def setEcuInstance(self, value: "EcuInstance") -> TDEventCom:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -326,7 +328,7 @@ class TDEventCom(TimingDescriptionEvent, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "TDEventCom":
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> TDEventCom:
         """
         Set ecuInstance and return self for chaining.
 
@@ -431,7 +433,7 @@ class TDHeaderIdRange(ARObject):
         """
         return self.max_header_id  # Delegates to property
 
-    def setMaxHeaderId(self, value: "Integer") -> "TDHeaderIdRange":
+    def setMaxHeaderId(self, value: "Integer") -> TDHeaderIdRange:
         """
         AUTOSAR-compliant setter for maxHeaderId with method chaining.
 
@@ -459,7 +461,7 @@ class TDHeaderIdRange(ARObject):
         """
         return self.min_header_id  # Delegates to property
 
-    def setMinHeaderId(self, value: "Integer") -> "TDHeaderIdRange":
+    def setMinHeaderId(self, value: "Integer") -> TDHeaderIdRange:
         """
         AUTOSAR-compliant setter for minHeaderId with method chaining.
 
@@ -477,7 +479,7 @@ class TDHeaderIdRange(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_header_id(self, value: Optional["Integer"]) -> "TDHeaderIdRange":
+    def with_max_header_id(self, value: Optional["Integer"]) -> TDHeaderIdRange:
         """
         Set maxHeaderId and return self for chaining.
 
@@ -493,7 +495,7 @@ class TDHeaderIdRange(ARObject):
         self.max_header_id = value  # Use property setter (gets validation)
         return self
 
-    def with_min_header_id(self, value: Optional["Integer"]) -> "TDHeaderIdRange":
+    def with_min_header_id(self, value: Optional["Integer"]) -> TDHeaderIdRange:
         """
         Set minHeaderId and return self for chaining.
 
@@ -595,7 +597,7 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
         """
         return self.bsw_module_entity  # Delegates to property
 
-    def setBswModuleEntity(self, value: "BswModuleEntity") -> "TDEventBswInternalBehavior":
+    def setBswModuleEntity(self, value: "BswModuleEntity") -> TDEventBswInternalBehavior:
         """
         AUTOSAR-compliant setter for bswModuleEntity with method chaining.
 
@@ -623,7 +625,7 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
         """
         return self.td_event_bsw_behavior_type  # Delegates to property
 
-    def setTdEventBswBehaviorType(self, value: "TDEventBswInternal") -> "TDEventBswInternalBehavior":
+    def setTdEventBswBehaviorType(self, value: "TDEventBswInternal") -> TDEventBswInternalBehavior:
         """
         AUTOSAR-compliant setter for tdEventBswBehaviorType with method chaining.
 
@@ -641,7 +643,7 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_module_entity(self, value: Optional["BswModuleEntity"]) -> "TDEventBswInternalBehavior":
+    def with_bsw_module_entity(self, value: Optional["BswModuleEntity"]) -> TDEventBswInternalBehavior:
         """
         Set bswModuleEntity and return self for chaining.
 
@@ -657,7 +659,7 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
         self.bsw_module_entity = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_bsw_behavior_type(self, value: Optional["TDEventBswInternal"]) -> "TDEventBswInternalBehavior":
+    def with_td_event_bsw_behavior_type(self, value: Optional["TDEventBswInternal"]) -> TDEventBswInternalBehavior:
         """
         Set tdEventBswBehaviorType and return self for chaining.
 
@@ -797,7 +799,7 @@ class TDEventOccurrenceExpression(ARObject):
         """
         return self.formula  # Delegates to property
 
-    def setFormula(self, value: "TDEventOccurrence") -> "TDEventOccurrenceExpression":
+    def setFormula(self, value: "TDEventOccurrence") -> TDEventOccurrenceExpression:
         """
         AUTOSAR-compliant setter for formula with method chaining.
 
@@ -839,7 +841,7 @@ class TDEventOccurrenceExpression(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_formula(self, value: Optional["TDEventOccurrence"]) -> "TDEventOccurrenceExpression":
+    def with_formula(self, value: Optional["TDEventOccurrence"]) -> TDEventOccurrenceExpression:
         """
         Set formula and return self for chaining.
 
@@ -999,7 +1001,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
         """
         return self.argument  # Delegates to property
 
-    def setArgument(self, value: "AutosarOperation") -> "TDEventOccurrenceExpressionFormula":
+    def setArgument(self, value: "AutosarOperation") -> TDEventOccurrenceExpressionFormula:
         """
         AUTOSAR-compliant setter for argument with method chaining.
 
@@ -1027,7 +1029,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "TimingDescriptionEvent") -> "TDEventOccurrenceExpressionFormula":
+    def setEvent(self, value: "TimingDescriptionEvent") -> TDEventOccurrenceExpressionFormula:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -1055,7 +1057,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "TimingModeInstance") -> "TDEventOccurrenceExpressionFormula":
+    def setMode(self, value: "TimingModeInstance") -> TDEventOccurrenceExpressionFormula:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -1083,7 +1085,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
         """
         return self.variable  # Delegates to property
 
-    def setVariable(self, value: "AutosarVariable") -> "TDEventOccurrenceExpressionFormula":
+    def setVariable(self, value: "AutosarVariable") -> TDEventOccurrenceExpressionFormula:
         """
         AUTOSAR-compliant setter for variable with method chaining.
 
@@ -1101,7 +1103,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_argument(self, value: Optional["AutosarOperation"]) -> "TDEventOccurrenceExpressionFormula":
+    def with_argument(self, value: Optional["AutosarOperation"]) -> TDEventOccurrenceExpressionFormula:
         """
         Set argument and return self for chaining.
 
@@ -1117,7 +1119,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
         self.argument = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional["TimingDescriptionEvent"]) -> "TDEventOccurrenceExpressionFormula":
+    def with_event(self, value: Optional["TimingDescriptionEvent"]) -> TDEventOccurrenceExpressionFormula:
         """
         Set event and return self for chaining.
 
@@ -1133,7 +1135,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
         self.event = value  # Use property setter (gets validation)
         return self
 
-    def with_mode(self, value: Optional["TimingModeInstance"]) -> "TDEventOccurrenceExpressionFormula":
+    def with_mode(self, value: Optional["TimingModeInstance"]) -> TDEventOccurrenceExpressionFormula:
         """
         Set mode and return self for chaining.
 
@@ -1149,7 +1151,7 @@ class TDEventOccurrenceExpressionFormula(ARObject):
         self.mode = value  # Use property setter (gets validation)
         return self
 
-    def with_variable(self, value: Optional["AutosarVariable"]) -> "TDEventOccurrenceExpressionFormula":
+    def with_variable(self, value: Optional["AutosarVariable"]) -> TDEventOccurrenceExpressionFormula:
         """
         Set variable and return self for chaining.
 
@@ -1223,7 +1225,7 @@ class AutosarVariableInstance(Identifiable):
         """
         return self.variable_instance_instance_ref  # Delegates to property
 
-    def setVariableInstanceInstanceRef(self, value: "RefType") -> "AutosarVariableInstance":
+    def setVariableInstanceInstanceRef(self, value: "RefType") -> AutosarVariableInstance:
         """
         AUTOSAR-compliant setter for variableInstanceInstanceRef with method chaining.
 
@@ -1241,7 +1243,7 @@ class AutosarVariableInstance(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_variable_instance_instance_ref(self, value: Optional[RefType]) -> "AutosarVariableInstance":
+    def with_variable_instance_instance_ref(self, value: Optional[RefType]) -> AutosarVariableInstance:
         """
         Set variableInstanceInstanceRef and return self for chaining.
 
@@ -1316,7 +1318,7 @@ class AutosarOperationArgumentInstance(Identifiable):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: "RefType") -> "AutosarOperationArgumentInstance":
+    def setOperation(self, value: "RefType") -> AutosarOperationArgumentInstance:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -1334,7 +1336,7 @@ class AutosarOperationArgumentInstance(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation(self, value: Optional[RefType]) -> "AutosarOperationArgumentInstance":
+    def with_operation(self, value: Optional[RefType]) -> AutosarOperationArgumentInstance:
         """
         Set operation and return self for chaining.
 
@@ -1410,7 +1412,7 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
         """
         return self.bsw_module_description  # Delegates to property
 
-    def setBswModuleDescription(self, value: "BswModuleDescription") -> "TDEventBsw":
+    def setBswModuleDescription(self, value: "BswModuleDescription") -> TDEventBsw:
         """
         AUTOSAR-compliant setter for bswModuleDescription with method chaining.
 
@@ -1428,7 +1430,7 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_module_description(self, value: Optional["BswModuleDescription"]) -> "TDEventBsw":
+    def with_bsw_module_description(self, value: Optional["BswModuleDescription"]) -> TDEventBsw:
         """
         Set bswModuleDescription and return self for chaining.
 
@@ -1483,15 +1485,15 @@ class TDEventVfbReference(TDEventVfb):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referenced timing description event.
-        self._referencedTDEventVfb: Optional["TDEventVfb"] = None
+        self._referencedTDEventVfb: Optional[TDEventVfb] = None
 
     @property
-    def referenced_td_event_vfb(self) -> Optional["TDEventVfb"]:
+    def referenced_td_event_vfb(self) -> Optional[TDEventVfb]:
         """Get referencedTDEventVfb (Pythonic accessor)."""
         return self._referencedTDEventVfb
 
     @referenced_td_event_vfb.setter
-    def referenced_td_event_vfb(self, value: Optional["TDEventVfb"]) -> None:
+    def referenced_td_event_vfb(self, value: Optional[TDEventVfb]) -> None:
         """
         Set referencedTDEventVfb with validation.
 
@@ -1513,7 +1515,7 @@ class TDEventVfbReference(TDEventVfb):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getReferencedTDEventVfb(self) -> "TDEventVfb":
+    def getReferencedTDEventVfb(self) -> TDEventVfb:
         """
         AUTOSAR-compliant getter for referencedTDEventVfb.
 
@@ -1525,7 +1527,7 @@ class TDEventVfbReference(TDEventVfb):
         """
         return self.referenced_td_event_vfb  # Delegates to property
 
-    def setReferencedTDEventVfb(self, value: "TDEventVfb") -> "TDEventVfbReference":
+    def setReferencedTDEventVfb(self, value: TDEventVfb) -> TDEventVfbReference:
         """
         AUTOSAR-compliant setter for referencedTDEventVfb with method chaining.
 
@@ -1543,7 +1545,7 @@ class TDEventVfbReference(TDEventVfb):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_referenced_td_event_vfb(self, value: Optional["TDEventVfb"]) -> "TDEventVfbReference":
+    def with_referenced_td_event_vfb(self, value: Optional[TDEventVfb]) -> TDEventVfbReference:
         """
         Set referencedTDEventVfb and return self for chaining.
 
@@ -1669,7 +1671,7 @@ class TDEventVfbPort(TDEventVfb, ABC):
         """
         return self.is_external  # Delegates to property
 
-    def setIsExternal(self, value: "Boolean") -> "TDEventVfbPort":
+    def setIsExternal(self, value: "Boolean") -> TDEventVfbPort:
         """
         AUTOSAR-compliant setter for isExternal with method chaining.
 
@@ -1697,7 +1699,7 @@ class TDEventVfbPort(TDEventVfb, ABC):
         """
         return self.port  # Delegates to property
 
-    def setPort(self, value: "RefType") -> "TDEventVfbPort":
+    def setPort(self, value: "RefType") -> TDEventVfbPort:
         """
         AUTOSAR-compliant setter for port with method chaining.
 
@@ -1725,7 +1727,7 @@ class TDEventVfbPort(TDEventVfb, ABC):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> "TDEventVfbPort":
+    def setPortPrototype(self, value: "RefType") -> TDEventVfbPort:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -1743,7 +1745,7 @@ class TDEventVfbPort(TDEventVfb, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_external(self, value: Optional["Boolean"]) -> "TDEventVfbPort":
+    def with_is_external(self, value: Optional["Boolean"]) -> TDEventVfbPort:
         """
         Set isExternal and return self for chaining.
 
@@ -1759,7 +1761,7 @@ class TDEventVfbPort(TDEventVfb, ABC):
         self.is_external = value  # Use property setter (gets validation)
         return self
 
-    def with_port(self, value: Optional[RefType]) -> "TDEventVfbPort":
+    def with_port(self, value: Optional[RefType]) -> TDEventVfbPort:
         """
         Set port and return self for chaining.
 
@@ -1775,7 +1777,7 @@ class TDEventVfbPort(TDEventVfb, ABC):
         self.port = value  # Use property setter (gets validation)
         return self
 
-    def with_port_prototype(self, value: Optional[RefType]) -> "TDEventVfbPort":
+    def with_port_prototype(self, value: Optional[RefType]) -> TDEventVfbPort:
         """
         Set portPrototype and return self for chaining.
 
@@ -1906,7 +1908,7 @@ class TDEventSwcInternalBehavior(TDEventSwc):
         """
         return self.runnable  # Delegates to property
 
-    def setRunnable(self, value: "RunnableEntity") -> "TDEventSwcInternalBehavior":
+    def setRunnable(self, value: "RunnableEntity") -> TDEventSwcInternalBehavior:
         """
         AUTOSAR-compliant setter for runnable with method chaining.
 
@@ -1934,7 +1936,7 @@ class TDEventSwcInternalBehavior(TDEventSwc):
         """
         return self.td_event_swc_behavior_type  # Delegates to property
 
-    def setTdEventSwcBehaviorType(self, value: "TDEventSwcInternal") -> "TDEventSwcInternalBehavior":
+    def setTdEventSwcBehaviorType(self, value: "TDEventSwcInternal") -> TDEventSwcInternalBehavior:
         """
         AUTOSAR-compliant setter for tdEventSwcBehaviorType with method chaining.
 
@@ -1962,7 +1964,7 @@ class TDEventSwcInternalBehavior(TDEventSwc):
         """
         return self.variable_access  # Delegates to property
 
-    def setVariableAccess(self, value: "VariableAccess") -> "TDEventSwcInternalBehavior":
+    def setVariableAccess(self, value: "VariableAccess") -> TDEventSwcInternalBehavior:
         """
         AUTOSAR-compliant setter for variableAccess with method chaining.
 
@@ -1980,7 +1982,7 @@ class TDEventSwcInternalBehavior(TDEventSwc):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_runnable(self, value: Optional["RunnableEntity"]) -> "TDEventSwcInternalBehavior":
+    def with_runnable(self, value: Optional["RunnableEntity"]) -> TDEventSwcInternalBehavior:
         """
         Set runnable and return self for chaining.
 
@@ -1996,7 +1998,7 @@ class TDEventSwcInternalBehavior(TDEventSwc):
         self.runnable = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_swc_behavior_type(self, value: Optional["TDEventSwcInternal"]) -> "TDEventSwcInternalBehavior":
+    def with_td_event_swc_behavior_type(self, value: Optional["TDEventSwcInternal"]) -> TDEventSwcInternalBehavior:
         """
         Set tdEventSwcBehaviorType and return self for chaining.
 
@@ -2012,7 +2014,7 @@ class TDEventSwcInternalBehavior(TDEventSwc):
         self.td_event_swc_behavior_type = value  # Use property setter (gets validation)
         return self
 
-    def with_variable_access(self, value: Optional["VariableAccess"]) -> "TDEventSwcInternalBehavior":
+    def with_variable_access(self, value: Optional["VariableAccess"]) -> TDEventSwcInternalBehavior:
         """
         Set variableAccess and return self for chaining.
 
@@ -2045,15 +2047,15 @@ class TDEventSwcInternalBehaviorReference(TDEventSwc):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referenced timing description event.
-        self._referencedTDEventSwc: Optional["TDEventSwc"] = None
+        self._referencedTDEventSwc: Optional[TDEventSwc] = None
 
     @property
-    def referenced_td_event_swc(self) -> Optional["TDEventSwc"]:
+    def referenced_td_event_swc(self) -> Optional[TDEventSwc]:
         """Get referencedTDEventSwc (Pythonic accessor)."""
         return self._referencedTDEventSwc
 
     @referenced_td_event_swc.setter
-    def referenced_td_event_swc(self, value: Optional["TDEventSwc"]) -> None:
+    def referenced_td_event_swc(self, value: Optional[TDEventSwc]) -> None:
         """
         Set referencedTDEventSwc with validation.
 
@@ -2075,7 +2077,7 @@ class TDEventSwcInternalBehaviorReference(TDEventSwc):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getReferencedTDEventSwc(self) -> "TDEventSwc":
+    def getReferencedTDEventSwc(self) -> TDEventSwc:
         """
         AUTOSAR-compliant getter for referencedTDEventSwc.
 
@@ -2087,7 +2089,7 @@ class TDEventSwcInternalBehaviorReference(TDEventSwc):
         """
         return self.referenced_td_event_swc  # Delegates to property
 
-    def setReferencedTDEventSwc(self, value: "TDEventSwc") -> "TDEventSwcInternalBehaviorReference":
+    def setReferencedTDEventSwc(self, value: TDEventSwc) -> TDEventSwcInternalBehaviorReference:
         """
         AUTOSAR-compliant setter for referencedTDEventSwc with method chaining.
 
@@ -2105,7 +2107,7 @@ class TDEventSwcInternalBehaviorReference(TDEventSwc):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_referenced_td_event_swc(self, value: Optional["TDEventSwc"]) -> "TDEventSwcInternalBehaviorReference":
+    def with_referenced_td_event_swc(self, value: Optional[TDEventSwc]) -> TDEventSwcInternalBehaviorReference:
         """
         Set referencedTDEventSwc and return self for chaining.
 
@@ -2234,7 +2236,7 @@ class TDEventISignal(TDEventCom):
         """
         return self.i_signal  # Delegates to property
 
-    def setISignal(self, value: "ISignal") -> "TDEventISignal":
+    def setISignal(self, value: "ISignal") -> TDEventISignal:
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
 
@@ -2262,7 +2264,7 @@ class TDEventISignal(TDEventCom):
         """
         return self.physical  # Delegates to property
 
-    def setPhysical(self, value: "PhysicalChannel") -> "TDEventISignal":
+    def setPhysical(self, value: "PhysicalChannel") -> TDEventISignal:
         """
         AUTOSAR-compliant setter for physical with method chaining.
 
@@ -2290,7 +2292,7 @@ class TDEventISignal(TDEventCom):
         """
         return self.td_event_type_enum  # Delegates to property
 
-    def setTdEventTypeEnum(self, value: "TDEventISignalType") -> "TDEventISignal":
+    def setTdEventTypeEnum(self, value: "TDEventISignalType") -> TDEventISignal:
         """
         AUTOSAR-compliant setter for tdEventTypeEnum with method chaining.
 
@@ -2308,7 +2310,7 @@ class TDEventISignal(TDEventCom):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_i_signal(self, value: Optional["ISignal"]) -> "TDEventISignal":
+    def with_i_signal(self, value: Optional["ISignal"]) -> TDEventISignal:
         """
         Set iSignal and return self for chaining.
 
@@ -2324,7 +2326,7 @@ class TDEventISignal(TDEventCom):
         self.i_signal = value  # Use property setter (gets validation)
         return self
 
-    def with_physical(self, value: Optional["PhysicalChannel"]) -> "TDEventISignal":
+    def with_physical(self, value: Optional["PhysicalChannel"]) -> TDEventISignal:
         """
         Set physical and return self for chaining.
 
@@ -2340,7 +2342,7 @@ class TDEventISignal(TDEventCom):
         self.physical = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_type_enum(self, value: Optional["TDEventISignalType"]) -> "TDEventISignal":
+    def with_td_event_type_enum(self, value: Optional["TDEventISignalType"]) -> TDEventISignal:
         """
         Set tdEventTypeEnum and return self for chaining.
 
@@ -2428,15 +2430,15 @@ class TDEventIPdu(TDEventCom):
                 f"physical must be PhysicalChannel or None, got {type(value).__name__}"
             )
         self._physical = value
-        self._tdEventType: Optional["TDEventIPduTypeEnum"] = None
+        self._tdEventType: Optional[TDEventIPduTypeEnum] = None
 
     @property
-    def td_event_type(self) -> Optional["TDEventIPduTypeEnum"]:
+    def td_event_type(self) -> Optional[TDEventIPduTypeEnum]:
         """Get tdEventType (Pythonic accessor)."""
         return self._tdEventType
 
     @td_event_type.setter
-    def td_event_type(self, value: Optional["TDEventIPduTypeEnum"]) -> None:
+    def td_event_type(self, value: Optional[TDEventIPduTypeEnum]) -> None:
         """
         Set tdEventType with validation.
 
@@ -2470,7 +2472,7 @@ class TDEventIPdu(TDEventCom):
         """
         return self.i_pdu  # Delegates to property
 
-    def setIPdu(self, value: "IPdu") -> "TDEventIPdu":
+    def setIPdu(self, value: "IPdu") -> TDEventIPdu:
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
 
@@ -2498,7 +2500,7 @@ class TDEventIPdu(TDEventCom):
         """
         return self.physical  # Delegates to property
 
-    def setPhysical(self, value: "PhysicalChannel") -> "TDEventIPdu":
+    def setPhysical(self, value: "PhysicalChannel") -> TDEventIPdu:
         """
         AUTOSAR-compliant setter for physical with method chaining.
 
@@ -2514,7 +2516,7 @@ class TDEventIPdu(TDEventCom):
         self.physical = value  # Delegates to property setter
         return self
 
-    def getTdEventType(self) -> "TDEventIPduTypeEnum":
+    def getTdEventType(self) -> TDEventIPduTypeEnum:
         """
         AUTOSAR-compliant getter for tdEventType.
 
@@ -2526,7 +2528,7 @@ class TDEventIPdu(TDEventCom):
         """
         return self.td_event_type  # Delegates to property
 
-    def setTdEventType(self, value: "TDEventIPduTypeEnum") -> "TDEventIPdu":
+    def setTdEventType(self, value: TDEventIPduTypeEnum) -> TDEventIPdu:
         """
         AUTOSAR-compliant setter for tdEventType with method chaining.
 
@@ -2544,7 +2546,7 @@ class TDEventIPdu(TDEventCom):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_i_pdu(self, value: Optional["IPdu"]) -> "TDEventIPdu":
+    def with_i_pdu(self, value: Optional["IPdu"]) -> TDEventIPdu:
         """
         Set iPdu and return self for chaining.
 
@@ -2560,7 +2562,7 @@ class TDEventIPdu(TDEventCom):
         self.i_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_physical(self, value: Optional["PhysicalChannel"]) -> "TDEventIPdu":
+    def with_physical(self, value: Optional["PhysicalChannel"]) -> TDEventIPdu:
         """
         Set physical and return self for chaining.
 
@@ -2576,7 +2578,7 @@ class TDEventIPdu(TDEventCom):
         self.physical = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_type(self, value: Optional["TDEventIPduTypeEnum"]) -> "TDEventIPdu":
+    def with_td_event_type(self, value: Optional[TDEventIPduTypeEnum]) -> TDEventIPdu:
         """
         Set tdEventType and return self for chaining.
 
@@ -2708,7 +2710,7 @@ class TDEventFrame(TDEventCom):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: "Frame") -> "TDEventFrame":
+    def setFrame(self, value: "Frame") -> TDEventFrame:
         """
         AUTOSAR-compliant setter for frame with method chaining.
 
@@ -2736,7 +2738,7 @@ class TDEventFrame(TDEventCom):
         """
         return self.physical  # Delegates to property
 
-    def setPhysical(self, value: "PhysicalChannel") -> "TDEventFrame":
+    def setPhysical(self, value: "PhysicalChannel") -> TDEventFrame:
         """
         AUTOSAR-compliant setter for physical with method chaining.
 
@@ -2764,7 +2766,7 @@ class TDEventFrame(TDEventCom):
         """
         return self.td_event_type_enum  # Delegates to property
 
-    def setTdEventTypeEnum(self, value: "TDEventFrameType") -> "TDEventFrame":
+    def setTdEventTypeEnum(self, value: "TDEventFrameType") -> TDEventFrame:
         """
         AUTOSAR-compliant setter for tdEventTypeEnum with method chaining.
 
@@ -2782,7 +2784,7 @@ class TDEventFrame(TDEventCom):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_frame(self, value: Optional["Frame"]) -> "TDEventFrame":
+    def with_frame(self, value: Optional["Frame"]) -> TDEventFrame:
         """
         Set frame and return self for chaining.
 
@@ -2798,7 +2800,7 @@ class TDEventFrame(TDEventCom):
         self.frame = value  # Use property setter (gets validation)
         return self
 
-    def with_physical(self, value: Optional["PhysicalChannel"]) -> "TDEventFrame":
+    def with_physical(self, value: Optional["PhysicalChannel"]) -> TDEventFrame:
         """
         Set physical and return self for chaining.
 
@@ -2814,7 +2816,7 @@ class TDEventFrame(TDEventCom):
         self.physical = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_type_enum(self, value: Optional["TDEventFrameType"]) -> "TDEventFrame":
+    def with_td_event_type_enum(self, value: Optional["TDEventFrameType"]) -> TDEventFrame:
         """
         Set tdEventTypeEnum and return self for chaining.
 
@@ -2876,15 +2878,15 @@ class TDEventFrameEthernet(TDEventCom):
                 f"staticSocket must be StaticSocketConnection or None, got {type(value).__name__}"
             )
         self._staticSocket = value
-        self._tdEventType: Optional["TDEventFrameEthernet"] = None
+        self._tdEventType: Optional[TDEventFrameEthernet] = None
 
     @property
-    def td_event_type(self) -> Optional["TDEventFrameEthernet"]:
+    def td_event_type(self) -> Optional[TDEventFrameEthernet]:
         """Get tdEventType (Pythonic accessor)."""
         return self._tdEventType
 
     @td_event_type.setter
-    def td_event_type(self, value: Optional["TDEventFrameEthernet"]) -> None:
+    def td_event_type(self, value: Optional[TDEventFrameEthernet]) -> None:
         """
         Set tdEventType with validation.
 
@@ -2904,10 +2906,10 @@ class TDEventFrameEthernet(TDEventCom):
             )
         self._tdEventType = value
         # Ethernet frame let the.
-        self._tdHeaderIdFilter: List["TDHeaderIdRange"] = []
+        self._tdHeaderIdFilter: List[TDHeaderIdRange] = []
 
     @property
-    def td_header_id_filter(self) -> List["TDHeaderIdRange"]:
+    def td_header_id_filter(self) -> List[TDHeaderIdRange]:
         """Get tdHeaderIdFilter (Pythonic accessor)."""
         return self._tdHeaderIdFilter
         # Specifies the PDU that if contained in the Ethernet frame the
@@ -2933,7 +2935,7 @@ class TDEventFrameEthernet(TDEventCom):
         """
         return self.static_socket  # Delegates to property
 
-    def setStaticSocket(self, value: "StaticSocketConnection") -> "TDEventFrameEthernet":
+    def setStaticSocket(self, value: "StaticSocketConnection") -> TDEventFrameEthernet:
         """
         AUTOSAR-compliant setter for staticSocket with method chaining.
 
@@ -2949,7 +2951,7 @@ class TDEventFrameEthernet(TDEventCom):
         self.static_socket = value  # Delegates to property setter
         return self
 
-    def getTdEventType(self) -> "TDEventFrameEthernet":
+    def getTdEventType(self) -> TDEventFrameEthernet:
         """
         AUTOSAR-compliant getter for tdEventType.
 
@@ -2961,7 +2963,7 @@ class TDEventFrameEthernet(TDEventCom):
         """
         return self.td_event_type  # Delegates to property
 
-    def setTdEventType(self, value: "TDEventFrameEthernet") -> "TDEventFrameEthernet":
+    def setTdEventType(self, value: TDEventFrameEthernet) -> TDEventFrameEthernet:
         """
         AUTOSAR-compliant setter for tdEventType with method chaining.
 
@@ -2977,7 +2979,7 @@ class TDEventFrameEthernet(TDEventCom):
         self.td_event_type = value  # Delegates to property setter
         return self
 
-    def getTdHeaderIdFilter(self) -> List["TDHeaderIdRange"]:
+    def getTdHeaderIdFilter(self) -> List[TDHeaderIdRange]:
         """
         AUTOSAR-compliant getter for tdHeaderIdFilter.
 
@@ -3003,7 +3005,7 @@ class TDEventFrameEthernet(TDEventCom):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_static_socket(self, value: Optional["StaticSocketConnection"]) -> "TDEventFrameEthernet":
+    def with_static_socket(self, value: Optional["StaticSocketConnection"]) -> TDEventFrameEthernet:
         """
         Set staticSocket and return self for chaining.
 
@@ -3019,7 +3021,7 @@ class TDEventFrameEthernet(TDEventCom):
         self.static_socket = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_type(self, value: Optional["TDEventFrameEthernet"]) -> "TDEventFrameEthernet":
+    def with_td_event_type(self, value: Optional[TDEventFrameEthernet]) -> TDEventFrameEthernet:
         """
         Set tdEventType and return self for chaining.
 
@@ -3097,7 +3099,7 @@ class TDEventCycleStart(TDEventCom, ABC):
         """
         return self.cycle_repetition  # Delegates to property
 
-    def setCycleRepetition(self, value: "Integer") -> "TDEventCycleStart":
+    def setCycleRepetition(self, value: "Integer") -> TDEventCycleStart:
         """
         AUTOSAR-compliant setter for cycleRepetition with method chaining.
 
@@ -3115,7 +3117,7 @@ class TDEventCycleStart(TDEventCom, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cycle_repetition(self, value: Optional["Integer"]) -> "TDEventCycleStart":
+    def with_cycle_repetition(self, value: Optional["Integer"]) -> TDEventCycleStart:
         """
         Set cycleRepetition and return self for chaining.
 
@@ -3175,15 +3177,15 @@ class TDEventBswModule(TDEventBsw):
                 f"bswModuleEntry must be BswModuleEntry or None, got {type(value).__name__}"
             )
         self._bswModuleEntry = value
-        self._tdEventBsw: Optional["TDEventBswModule"] = None
+        self._tdEventBsw: Optional[TDEventBswModule] = None
 
     @property
-    def td_event_bsw(self) -> Optional["TDEventBswModule"]:
+    def td_event_bsw(self) -> Optional[TDEventBswModule]:
         """Get tdEventBsw (Pythonic accessor)."""
         return self._tdEventBsw
 
     @td_event_bsw.setter
-    def td_event_bsw(self, value: Optional["TDEventBswModule"]) -> None:
+    def td_event_bsw(self, value: Optional[TDEventBswModule]) -> None:
         """
         Set tdEventBsw with validation.
 
@@ -3217,7 +3219,7 @@ class TDEventBswModule(TDEventBsw):
         """
         return self.bsw_module_entry  # Delegates to property
 
-    def setBswModuleEntry(self, value: "BswModuleEntry") -> "TDEventBswModule":
+    def setBswModuleEntry(self, value: "BswModuleEntry") -> TDEventBswModule:
         """
         AUTOSAR-compliant setter for bswModuleEntry with method chaining.
 
@@ -3233,7 +3235,7 @@ class TDEventBswModule(TDEventBsw):
         self.bsw_module_entry = value  # Delegates to property setter
         return self
 
-    def getTdEventBsw(self) -> "TDEventBswModule":
+    def getTdEventBsw(self) -> TDEventBswModule:
         """
         AUTOSAR-compliant getter for tdEventBsw.
 
@@ -3245,7 +3247,7 @@ class TDEventBswModule(TDEventBsw):
         """
         return self.td_event_bsw  # Delegates to property
 
-    def setTdEventBsw(self, value: "TDEventBswModule") -> "TDEventBswModule":
+    def setTdEventBsw(self, value: TDEventBswModule) -> TDEventBswModule:
         """
         AUTOSAR-compliant setter for tdEventBsw with method chaining.
 
@@ -3263,7 +3265,7 @@ class TDEventBswModule(TDEventBsw):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_module_entry(self, value: Optional["BswModuleEntry"]) -> "TDEventBswModule":
+    def with_bsw_module_entry(self, value: Optional["BswModuleEntry"]) -> TDEventBswModule:
         """
         Set bswModuleEntry and return self for chaining.
 
@@ -3279,7 +3281,7 @@ class TDEventBswModule(TDEventBsw):
         self.bsw_module_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_bsw(self, value: Optional["TDEventBswModule"]) -> "TDEventBswModule":
+    def with_td_event_bsw(self, value: Optional[TDEventBswModule]) -> TDEventBswModule:
         """
         Set tdEventBsw and return self for chaining.
 
@@ -3437,7 +3439,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
         """
         return self.entry_mode  # Delegates to property
 
-    def setEntryMode(self, value: "ModeDeclaration") -> "TDEventBswModeDeclaration":
+    def setEntryMode(self, value: "ModeDeclaration") -> TDEventBswModeDeclaration:
         """
         AUTOSAR-compliant setter for entryMode with method chaining.
 
@@ -3465,7 +3467,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
         """
         return self.exit_mode  # Delegates to property
 
-    def setExitMode(self, value: "ModeDeclaration") -> "TDEventBswModeDeclaration":
+    def setExitMode(self, value: "ModeDeclaration") -> TDEventBswModeDeclaration:
         """
         AUTOSAR-compliant setter for exitMode with method chaining.
 
@@ -3493,7 +3495,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "RefType") -> "TDEventBswModeDeclaration":
+    def setMode(self, value: "RefType") -> TDEventBswModeDeclaration:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -3521,7 +3523,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
         """
         return self.td_event_bsw_declaration_type  # Delegates to property
 
-    def setTdEventBswDeclarationType(self, value: "TDEventBswMode") -> "TDEventBswModeDeclaration":
+    def setTdEventBswDeclarationType(self, value: "TDEventBswMode") -> TDEventBswModeDeclaration:
         """
         AUTOSAR-compliant setter for tdEventBswDeclarationType with method chaining.
 
@@ -3539,7 +3541,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_entry_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventBswModeDeclaration":
+    def with_entry_mode(self, value: Optional["ModeDeclaration"]) -> TDEventBswModeDeclaration:
         """
         Set entryMode and return self for chaining.
 
@@ -3555,7 +3557,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
         self.entry_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_exit_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventBswModeDeclaration":
+    def with_exit_mode(self, value: Optional["ModeDeclaration"]) -> TDEventBswModeDeclaration:
         """
         Set exitMode and return self for chaining.
 
@@ -3571,7 +3573,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
         self.exit_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_mode(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
+    def with_mode(self, value: Optional[RefType]) -> TDEventBswModeDeclaration:
         """
         Set mode and return self for chaining.
 
@@ -3587,7 +3589,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
         self.mode = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_bsw_declaration_type(self, value: Optional["TDEventBswMode"]) -> "TDEventBswModeDeclaration":
+    def with_td_event_bsw_declaration_type(self, value: Optional["TDEventBswMode"]) -> TDEventBswModeDeclaration:
         """
         Set tdEventBswDeclarationType and return self for chaining.
 
@@ -3657,7 +3659,7 @@ class TDEventSLLETPort(TDEventSLLET):
         """
         return self.port  # Delegates to property
 
-    def setPort(self, value: "RefType") -> "TDEventSLLETPort":
+    def setPort(self, value: "RefType") -> TDEventSLLETPort:
         """
         AUTOSAR-compliant setter for port with method chaining.
 
@@ -3675,7 +3677,7 @@ class TDEventSLLETPort(TDEventSLLET):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_port(self, value: Optional[RefType]) -> "TDEventSLLETPort":
+    def with_port(self, value: Optional[RefType]) -> TDEventSLLETPort:
         """
         Set port and return self for chaining.
 
@@ -3773,7 +3775,7 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "RefType") -> "TDEventVariableDataPrototype":
+    def setDataElement(self, value: "RefType") -> TDEventVariableDataPrototype:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -3801,7 +3803,7 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
         """
         return self.td_event_variable_type  # Delegates to property
 
-    def setTdEventVariableType(self, value: "TDEventVariableData") -> "TDEventVariableDataPrototype":
+    def setTdEventVariableType(self, value: "TDEventVariableData") -> TDEventVariableDataPrototype:
         """
         AUTOSAR-compliant setter for tdEventVariableType with method chaining.
 
@@ -3819,7 +3821,7 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_element(self, value: Optional[RefType]) -> "TDEventVariableDataPrototype":
+    def with_data_element(self, value: Optional[RefType]) -> TDEventVariableDataPrototype:
         """
         Set dataElement and return self for chaining.
 
@@ -3835,7 +3837,7 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_variable_type(self, value: Optional["TDEventVariableData"]) -> "TDEventVariableDataPrototype":
+    def with_td_event_variable_type(self, value: Optional["TDEventVariableData"]) -> TDEventVariableDataPrototype:
         """
         Set tdEventVariableType and return self for chaining.
 
@@ -3937,7 +3939,7 @@ class TDEventOperation(TDEventVfbPort):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: "ClientServerOperation") -> "TDEventOperation":
+    def setOperation(self, value: "ClientServerOperation") -> TDEventOperation:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -3965,7 +3967,7 @@ class TDEventOperation(TDEventVfbPort):
         """
         return self.td_event  # Delegates to property
 
-    def setTdEvent(self, value: "TDEventOperationType") -> "TDEventOperation":
+    def setTdEvent(self, value: "TDEventOperationType") -> TDEventOperation:
         """
         AUTOSAR-compliant setter for tdEvent with method chaining.
 
@@ -3983,7 +3985,7 @@ class TDEventOperation(TDEventVfbPort):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation(self, value: Optional["ClientServerOperation"]) -> "TDEventOperation":
+    def with_operation(self, value: Optional["ClientServerOperation"]) -> TDEventOperation:
         """
         Set operation and return self for chaining.
 
@@ -3999,7 +4001,7 @@ class TDEventOperation(TDEventVfbPort):
         self.operation = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event(self, value: Optional["TDEventOperationType"]) -> "TDEventOperation":
+    def with_td_event(self, value: Optional["TDEventOperationType"]) -> TDEventOperation:
         """
         Set tdEvent and return self for chaining.
 
@@ -4155,7 +4157,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
         """
         return self.entry_mode  # Delegates to property
 
-    def setEntryMode(self, value: "ModeDeclaration") -> "TDEventModeDeclaration":
+    def setEntryMode(self, value: "ModeDeclaration") -> TDEventModeDeclaration:
         """
         AUTOSAR-compliant setter for entryMode with method chaining.
 
@@ -4183,7 +4185,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
         """
         return self.exit_mode  # Delegates to property
 
-    def setExitMode(self, value: "ModeDeclaration") -> "TDEventModeDeclaration":
+    def setExitMode(self, value: "ModeDeclaration") -> TDEventModeDeclaration:
         """
         AUTOSAR-compliant setter for exitMode with method chaining.
 
@@ -4211,7 +4213,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "RefType") -> "TDEventModeDeclaration":
+    def setMode(self, value: "RefType") -> TDEventModeDeclaration:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -4239,7 +4241,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
         """
         return self.td_event_mode  # Delegates to property
 
-    def setTdEventMode(self, value: "TDEventMode") -> "TDEventModeDeclaration":
+    def setTdEventMode(self, value: "TDEventMode") -> TDEventModeDeclaration:
         """
         AUTOSAR-compliant setter for tdEventMode with method chaining.
 
@@ -4257,7 +4259,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_entry_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventModeDeclaration":
+    def with_entry_mode(self, value: Optional["ModeDeclaration"]) -> TDEventModeDeclaration:
         """
         Set entryMode and return self for chaining.
 
@@ -4273,7 +4275,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
         self.entry_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_exit_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventModeDeclaration":
+    def with_exit_mode(self, value: Optional["ModeDeclaration"]) -> TDEventModeDeclaration:
         """
         Set exitMode and return self for chaining.
 
@@ -4289,7 +4291,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
         self.exit_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_mode(self, value: Optional[RefType]) -> "TDEventModeDeclaration":
+    def with_mode(self, value: Optional[RefType]) -> TDEventModeDeclaration:
         """
         Set mode and return self for chaining.
 
@@ -4305,7 +4307,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
         self.mode = value  # Use property setter (gets validation)
         return self
 
-    def with_td_event_mode(self, value: Optional["TDEventMode"]) -> "TDEventModeDeclaration":
+    def with_td_event_mode(self, value: Optional["TDEventMode"]) -> TDEventModeDeclaration:
         """
         Set tdEventMode and return self for chaining.
 
@@ -4398,7 +4400,7 @@ class TDEventTrigger(TDEventVfbPort):
         """
         return self.td_event_trigger  # Delegates to property
 
-    def setTdEventTrigger(self, value: "RefType") -> "TDEventTrigger":
+    def setTdEventTrigger(self, value: "RefType") -> TDEventTrigger:
         """
         AUTOSAR-compliant setter for tdEventTrigger with method chaining.
 
@@ -4426,7 +4428,7 @@ class TDEventTrigger(TDEventVfbPort):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> "TDEventTrigger":
+    def setTrigger(self, value: "RefType") -> TDEventTrigger:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -4444,7 +4446,7 @@ class TDEventTrigger(TDEventVfbPort):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_td_event_trigger(self, value: Optional[RefType]) -> "TDEventTrigger":
+    def with_td_event_trigger(self, value: Optional[RefType]) -> TDEventTrigger:
         """
         Set tdEventTrigger and return self for chaining.
 
@@ -4460,7 +4462,7 @@ class TDEventTrigger(TDEventVfbPort):
         self.td_event_trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_trigger(self, value: Optional[RefType]) -> "TDEventTrigger":
+    def with_trigger(self, value: Optional[RefType]) -> TDEventTrigger:
         """
         Set trigger and return self for chaining.
 
@@ -4535,7 +4537,7 @@ class TDEventFrClusterCycleStart(TDEventCycleStart):
         """
         return self.fr_cluster  # Delegates to property
 
-    def setFrCluster(self, value: "FlexrayCluster") -> "TDEventFrClusterCycleStart":
+    def setFrCluster(self, value: "FlexrayCluster") -> TDEventFrClusterCycleStart:
         """
         AUTOSAR-compliant setter for frCluster with method chaining.
 
@@ -4553,7 +4555,7 @@ class TDEventFrClusterCycleStart(TDEventCycleStart):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fr_cluster(self, value: Optional["FlexrayCluster"]) -> "TDEventFrClusterCycleStart":
+    def with_fr_cluster(self, value: Optional["FlexrayCluster"]) -> TDEventFrClusterCycleStart:
         """
         Set frCluster and return self for chaining.
 
@@ -4628,7 +4630,7 @@ class TDEventTTCanCycleStart(TDEventCycleStart):
         """
         return self.tt_can_cluster  # Delegates to property
 
-    def setTtCanCluster(self, value: "TtcanCluster") -> "TDEventTTCanCycleStart":
+    def setTtCanCluster(self, value: "TtcanCluster") -> TDEventTTCanCycleStart:
         """
         AUTOSAR-compliant setter for ttCanCluster with method chaining.
 
@@ -4646,7 +4648,7 @@ class TDEventTTCanCycleStart(TDEventCycleStart):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tt_can_cluster(self, value: Optional["TtcanCluster"]) -> "TDEventTTCanCycleStart":
+    def with_tt_can_cluster(self, value: Optional["TtcanCluster"]) -> TDEventTTCanCycleStart:
         """
         Set ttCanCluster and return self for chaining.
 

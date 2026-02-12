@@ -4,10 +4,12 @@ AUTOSAR Package - ComputationMethod
 Package: M2::MSR::AsamHdo::ComputationMethod
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     String,
 )
@@ -45,15 +47,15 @@ class CompuMethod(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies the computation from internal values to values.
-        self._compuInternal: Optional["Compu"] = None
+        self._compuInternal: Optional[Compu] = None
 
     @property
-    def compu_internal(self) -> Optional["Compu"]:
+    def compu_internal(self) -> Optional[Compu]:
         """Get compuInternal (Pythonic accessor)."""
         return self._compuInternal
 
     @compu_internal.setter
-    def compu_internal(self, value: Optional["Compu"]) -> None:
+    def compu_internal(self, value: Optional[Compu]) -> None:
         """
         Set compuInternal with validation.
 
@@ -72,15 +74,15 @@ class CompuMethod(ARElement):
                 f"compuInternal must be Compu or None, got {type(value).__name__}"
             )
         self._compuInternal = value
-        self._compuPhysTo: Optional["Compu"] = None
+        self._compuPhysTo: Optional[Compu] = None
 
     @property
-    def compu_phys_to(self) -> Optional["Compu"]:
+    def compu_phys_to(self) -> Optional[Compu]:
         """Get compuPhysTo (Pythonic accessor)."""
         return self._compuPhysTo
 
     @compu_phys_to.setter
-    def compu_phys_to(self, value: Optional["Compu"]) -> None:
+    def compu_phys_to(self, value: Optional[Compu]) -> None:
         """
         Set compuPhysTo with validation.
 
@@ -157,7 +159,7 @@ class CompuMethod(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuInternal(self) -> "Compu":
+    def getCompuInternal(self) -> Compu:
         """
         AUTOSAR-compliant getter for compuInternal.
 
@@ -169,7 +171,7 @@ class CompuMethod(ARElement):
         """
         return self.compu_internal  # Delegates to property
 
-    def setCompuInternal(self, value: "Compu") -> "CompuMethod":
+    def setCompuInternal(self, value: Compu) -> CompuMethod:
         """
         AUTOSAR-compliant setter for compuInternal with method chaining.
 
@@ -185,7 +187,7 @@ class CompuMethod(ARElement):
         self.compu_internal = value  # Delegates to property setter
         return self
 
-    def getCompuPhysTo(self) -> "Compu":
+    def getCompuPhysTo(self) -> Compu:
         """
         AUTOSAR-compliant getter for compuPhysTo.
 
@@ -197,7 +199,7 @@ class CompuMethod(ARElement):
         """
         return self.compu_phys_to  # Delegates to property
 
-    def setCompuPhysTo(self, value: "Compu") -> "CompuMethod":
+    def setCompuPhysTo(self, value: Compu) -> CompuMethod:
         """
         AUTOSAR-compliant setter for compuPhysTo with method chaining.
 
@@ -225,7 +227,7 @@ class CompuMethod(ARElement):
         """
         return self.display_format  # Delegates to property
 
-    def setDisplayFormat(self, value: "DisplayFormatString") -> "CompuMethod":
+    def setDisplayFormat(self, value: "DisplayFormatString") -> CompuMethod:
         """
         AUTOSAR-compliant setter for displayFormat with method chaining.
 
@@ -253,7 +255,7 @@ class CompuMethod(ARElement):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "CompuMethod":
+    def setUnit(self, value: "Unit") -> CompuMethod:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -271,7 +273,7 @@ class CompuMethod(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_internal(self, value: Optional["Compu"]) -> "CompuMethod":
+    def with_compu_internal(self, value: Optional[Compu]) -> CompuMethod:
         """
         Set compuInternal and return self for chaining.
 
@@ -287,7 +289,7 @@ class CompuMethod(ARElement):
         self.compu_internal = value  # Use property setter (gets validation)
         return self
 
-    def with_compu_phys_to(self, value: Optional["Compu"]) -> "CompuMethod":
+    def with_compu_phys_to(self, value: Optional[Compu]) -> CompuMethod:
         """
         Set compuPhysTo and return self for chaining.
 
@@ -303,7 +305,7 @@ class CompuMethod(ARElement):
         self.compu_phys_to = value  # Use property setter (gets validation)
         return self
 
-    def with_display_format(self, value: Optional["DisplayFormatString"]) -> "CompuMethod":
+    def with_display_format(self, value: Optional["DisplayFormatString"]) -> CompuMethod:
         """
         Set displayFormat and return self for chaining.
 
@@ -319,7 +321,7 @@ class CompuMethod(ARElement):
         self.display_format = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "CompuMethod":
+    def with_unit(self, value: Optional["Unit"]) -> CompuMethod:
         """
         Set unit and return self for chaining.
 
@@ -398,7 +400,7 @@ class CompuGenericMath(ARObject):
         """
         return self.level  # Delegates to property
 
-    def setLevel(self, value: "PrimitiveIdentifier") -> "CompuGenericMath":
+    def setLevel(self, value: "PrimitiveIdentifier") -> CompuGenericMath:
         """
         AUTOSAR-compliant setter for level with method chaining.
 
@@ -416,7 +418,7 @@ class CompuGenericMath(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_level(self, value: Optional["PrimitiveIdentifier"]) -> "CompuGenericMath":
+    def with_level(self, value: Optional["PrimitiveIdentifier"]) -> CompuGenericMath:
         """
         Set level and return self for chaining.
 
@@ -450,15 +452,15 @@ class Compu(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies the details of the computation.
-        self._compuContent: Optional["CompuContent"] = None
+        self._compuContent: Optional[CompuContent] = None
 
     @property
-    def compu_content(self) -> Optional["CompuContent"]:
+    def compu_content(self) -> Optional[CompuContent]:
         """Get compuContent (Pythonic accessor)."""
         return self._compuContent
 
     @compu_content.setter
-    def compu_content(self, value: Optional["CompuContent"]) -> None:
+    def compu_content(self, value: Optional[CompuContent]) -> None:
         """
         Set compuContent with validation.
 
@@ -480,15 +482,15 @@ class Compu(ARObject):
                 # value to be converted lies plausibility limit.
         # Although this is possible for formulae, it is especially valid for variables
                 # conversion formulae.
-        self._compuDefault: Optional["CompuConst"] = None
+        self._compuDefault: Optional[CompuConst] = None
 
     @property
-    def compu_default(self) -> Optional["CompuConst"]:
+    def compu_default(self) -> Optional[CompuConst]:
         """Get compuDefault (Pythonic accessor)."""
         return self._compuDefault
 
     @compu_default.setter
-    def compu_default(self, value: Optional["CompuConst"]) -> None:
+    def compu_default(self, value: Optional[CompuConst]) -> None:
         """
         Set compuDefault with validation.
 
@@ -510,7 +512,7 @@ class Compu(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuContent(self) -> "CompuContent":
+    def getCompuContent(self) -> CompuContent:
         """
         AUTOSAR-compliant getter for compuContent.
 
@@ -522,7 +524,7 @@ class Compu(ARObject):
         """
         return self.compu_content  # Delegates to property
 
-    def setCompuContent(self, value: "CompuContent") -> "Compu":
+    def setCompuContent(self, value: CompuContent) -> Compu:
         """
         AUTOSAR-compliant setter for compuContent with method chaining.
 
@@ -538,7 +540,7 @@ class Compu(ARObject):
         self.compu_content = value  # Delegates to property setter
         return self
 
-    def getCompuDefault(self) -> "CompuConst":
+    def getCompuDefault(self) -> CompuConst:
         """
         AUTOSAR-compliant getter for compuDefault.
 
@@ -550,7 +552,7 @@ class Compu(ARObject):
         """
         return self.compu_default  # Delegates to property
 
-    def setCompuDefault(self, value: "CompuConst") -> "Compu":
+    def setCompuDefault(self, value: CompuConst) -> Compu:
         """
         AUTOSAR-compliant setter for compuDefault with method chaining.
 
@@ -568,7 +570,7 @@ class Compu(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_content(self, value: Optional["CompuContent"]) -> "Compu":
+    def with_compu_content(self, value: Optional[CompuContent]) -> Compu:
         """
         Set compuContent and return self for chaining.
 
@@ -584,7 +586,7 @@ class Compu(ARObject):
         self.compu_content = value  # Use property setter (gets validation)
         return self
 
-    def with_compu_default(self, value: Optional["CompuConst"]) -> "Compu":
+    def with_compu_default(self, value: Optional[CompuConst]) -> Compu:
         """
         Set compuDefault and return self for chaining.
 
@@ -674,15 +676,15 @@ class CompuScale(ARObject):
         self._a2lDisplayText = value
         # This is the inverse value of the constraint.
         # This supports case that the scale is not reversible per se.
-        self._compuInverse: Optional["CompuConst"] = None
+        self._compuInverse: Optional[CompuConst] = None
 
     @property
-    def compu_inverse(self) -> Optional["CompuConst"]:
+    def compu_inverse(self) -> Optional[CompuConst]:
         """Get compuInverse (Pythonic accessor)."""
         return self._compuInverse
 
     @compu_inverse.setter
-    def compu_inverse(self, value: Optional["CompuConst"]) -> None:
+    def compu_inverse(self, value: Optional[CompuConst]) -> None:
         """
         Set compuInverse with validation.
 
@@ -701,15 +703,15 @@ class CompuScale(ARObject):
                 f"compuInverse must be CompuConst or None, got {type(value).__name__}"
             )
         self._compuInverse = value
-        self._compuScale: Optional["CompuScaleContents"] = None
+        self._compuScale: Optional[CompuScaleContents] = None
 
     @property
-    def compu_scale(self) -> Optional["CompuScaleContents"]:
+    def compu_scale(self) -> Optional[CompuScaleContents]:
         """Get compuScale (Pythonic accessor)."""
         return self._compuScale
 
     @compu_scale.setter
-    def compu_scale(self, value: Optional["CompuScaleContents"]) -> None:
+    def compu_scale(self, value: Optional[CompuScaleContents]) -> None:
         """
         Set compuScale with validation.
 
@@ -917,7 +919,7 @@ class CompuScale(ARObject):
         """
         return self.a2l_display_text  # Delegates to property
 
-    def setA2lDisplayText(self, value: "String") -> "CompuScale":
+    def setA2lDisplayText(self, value: "String") -> CompuScale:
         """
         AUTOSAR-compliant setter for a2lDisplayText with method chaining.
 
@@ -933,7 +935,7 @@ class CompuScale(ARObject):
         self.a2l_display_text = value  # Delegates to property setter
         return self
 
-    def getCompuInverse(self) -> "CompuConst":
+    def getCompuInverse(self) -> CompuConst:
         """
         AUTOSAR-compliant getter for compuInverse.
 
@@ -945,7 +947,7 @@ class CompuScale(ARObject):
         """
         return self.compu_inverse  # Delegates to property
 
-    def setCompuInverse(self, value: "CompuConst") -> "CompuScale":
+    def setCompuInverse(self, value: CompuConst) -> CompuScale:
         """
         AUTOSAR-compliant setter for compuInverse with method chaining.
 
@@ -961,7 +963,7 @@ class CompuScale(ARObject):
         self.compu_inverse = value  # Delegates to property setter
         return self
 
-    def getCompuScale(self) -> "CompuScaleContents":
+    def getCompuScale(self) -> CompuScaleContents:
         """
         AUTOSAR-compliant getter for compuScale.
 
@@ -973,7 +975,7 @@ class CompuScale(ARObject):
         """
         return self.compu_scale  # Delegates to property
 
-    def setCompuScale(self, value: "CompuScaleContents") -> "CompuScale":
+    def setCompuScale(self, value: CompuScaleContents) -> CompuScale:
         """
         AUTOSAR-compliant setter for compuScale with method chaining.
 
@@ -1001,7 +1003,7 @@ class CompuScale(ARObject):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> "CompuScale":
+    def setDesc(self, value: "MultiLanguageOverview") -> CompuScale:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -1029,7 +1031,7 @@ class CompuScale(ARObject):
         """
         return self.lower_limit  # Delegates to property
 
-    def setLowerLimit(self, value: "Limit") -> "CompuScale":
+    def setLowerLimit(self, value: "Limit") -> CompuScale:
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
 
@@ -1057,7 +1059,7 @@ class CompuScale(ARObject):
         """
         return self.mask  # Delegates to property
 
-    def setMask(self, value: "PositiveUnlimitedInteger") -> "CompuScale":
+    def setMask(self, value: "PositiveUnlimitedInteger") -> CompuScale:
         """
         AUTOSAR-compliant setter for mask with method chaining.
 
@@ -1085,7 +1087,7 @@ class CompuScale(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> "CompuScale":
+    def setShortLabel(self, value: "Identifier") -> CompuScale:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -1113,7 +1115,7 @@ class CompuScale(ARObject):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> "CompuScale":
+    def setSymbol(self, value: "CIdentifier") -> CompuScale:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -1141,7 +1143,7 @@ class CompuScale(ARObject):
         """
         return self.upper_limit  # Delegates to property
 
-    def setUpperLimit(self, value: "Limit") -> "CompuScale":
+    def setUpperLimit(self, value: "Limit") -> CompuScale:
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
 
@@ -1159,7 +1161,7 @@ class CompuScale(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_a2l_display_text(self, value: Optional["String"]) -> "CompuScale":
+    def with_a2l_display_text(self, value: Optional["String"]) -> CompuScale:
         """
         Set a2lDisplayText and return self for chaining.
 
@@ -1175,7 +1177,7 @@ class CompuScale(ARObject):
         self.a2l_display_text = value  # Use property setter (gets validation)
         return self
 
-    def with_compu_inverse(self, value: Optional["CompuConst"]) -> "CompuScale":
+    def with_compu_inverse(self, value: Optional[CompuConst]) -> CompuScale:
         """
         Set compuInverse and return self for chaining.
 
@@ -1191,7 +1193,7 @@ class CompuScale(ARObject):
         self.compu_inverse = value  # Use property setter (gets validation)
         return self
 
-    def with_compu_scale(self, value: Optional["CompuScaleContents"]) -> "CompuScale":
+    def with_compu_scale(self, value: Optional[CompuScaleContents]) -> CompuScale:
         """
         Set compuScale and return self for chaining.
 
@@ -1207,7 +1209,7 @@ class CompuScale(ARObject):
         self.compu_scale = value  # Use property setter (gets validation)
         return self
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "CompuScale":
+    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> CompuScale:
         """
         Set desc and return self for chaining.
 
@@ -1223,7 +1225,7 @@ class CompuScale(ARObject):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_lower_limit(self, value: Optional["Limit"]) -> "CompuScale":
+    def with_lower_limit(self, value: Optional["Limit"]) -> CompuScale:
         """
         Set lowerLimit and return self for chaining.
 
@@ -1239,7 +1241,7 @@ class CompuScale(ARObject):
         self.lower_limit = value  # Use property setter (gets validation)
         return self
 
-    def with_mask(self, value: Optional["PositiveUnlimitedInteger"]) -> "CompuScale":
+    def with_mask(self, value: Optional["PositiveUnlimitedInteger"]) -> CompuScale:
         """
         Set mask and return self for chaining.
 
@@ -1255,7 +1257,7 @@ class CompuScale(ARObject):
         self.mask = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["Identifier"]) -> "CompuScale":
+    def with_short_label(self, value: Optional["Identifier"]) -> CompuScale:
         """
         Set shortLabel and return self for chaining.
 
@@ -1271,7 +1273,7 @@ class CompuScale(ARObject):
         self.short_label = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> "CompuScale":
+    def with_symbol(self, value: Optional["CIdentifier"]) -> CompuScale:
         """
         Set symbol and return self for chaining.
 
@@ -1287,7 +1289,7 @@ class CompuScale(ARObject):
         self.symbol = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_limit(self, value: Optional["Limit"]) -> "CompuScale":
+    def with_upper_limit(self, value: Optional["Limit"]) -> CompuScale:
         """
         Set upperLimit and return self for chaining.
 
@@ -1388,7 +1390,7 @@ class CompuRationalCoeffs(ARObject):
         """
         return self.compu  # Delegates to property
 
-    def setCompu(self, value: "CompuNominator") -> "CompuRationalCoeffs":
+    def setCompu(self, value: "CompuNominator") -> CompuRationalCoeffs:
         """
         AUTOSAR-compliant setter for compu with method chaining.
 
@@ -1406,7 +1408,7 @@ class CompuRationalCoeffs(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu(self, value: Optional["CompuNominator"]) -> "CompuRationalCoeffs":
+    def with_compu(self, value: Optional["CompuNominator"]) -> CompuRationalCoeffs:
         """
         Set compu and return self for chaining.
 
@@ -1440,15 +1442,15 @@ class CompuConst(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the actual content of the constant compu method.
-        self._compuConst: Optional["CompuConstContent"] = None
+        self._compuConst: Optional[CompuConstContent] = None
 
     @property
-    def compu_const(self) -> Optional["CompuConstContent"]:
+    def compu_const(self) -> Optional[CompuConstContent]:
         """Get compuConst (Pythonic accessor)."""
         return self._compuConst
 
     @compu_const.setter
-    def compu_const(self, value: Optional["CompuConstContent"]) -> None:
+    def compu_const(self, value: Optional[CompuConstContent]) -> None:
         """
         Set compuConst with validation.
 
@@ -1470,7 +1472,7 @@ class CompuConst(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuConst(self) -> "CompuConstContent":
+    def getCompuConst(self) -> CompuConstContent:
         """
         AUTOSAR-compliant getter for compuConst.
 
@@ -1482,7 +1484,7 @@ class CompuConst(ARObject):
         """
         return self.compu_const  # Delegates to property
 
-    def setCompuConst(self, value: "CompuConstContent") -> "CompuConst":
+    def setCompuConst(self, value: CompuConstContent) -> CompuConst:
         """
         AUTOSAR-compliant setter for compuConst with method chaining.
 
@@ -1500,7 +1502,7 @@ class CompuConst(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_const(self, value: Optional["CompuConstContent"]) -> "CompuConst":
+    def with_compu_const(self, value: Optional[CompuConstContent]) -> CompuConst:
         """
         Set compuConst and return self for chaining.
 
@@ -1582,16 +1584,16 @@ class CompuScales(CompuContent):
         # This represents one scale within the compu method.
         # Note it contains a Variationpoint in order to support enumerations.
         # atpVariation.
-        self._compuScale: List["CompuScale"] = []
+        self._compuScale: List[CompuScale] = []
 
     @property
-    def compu_scale(self) -> List["CompuScale"]:
+    def compu_scale(self) -> List[CompuScale]:
         """Get compuScale (Pythonic accessor)."""
         return self._compuScale
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuScale(self) -> List["CompuScale"]:
+    def getCompuScale(self) -> List[CompuScale]:
         """
         AUTOSAR-compliant getter for compuScale.
 
@@ -1625,15 +1627,15 @@ class CompuScaleRationalFormula(CompuScaleContents):
         # This specifies the coefficients of the rational formula.
         # xml.
         # sequenceOffset=110.
-        self._compuRational: Optional["CompuRationalCoeffs"] = None
+        self._compuRational: Optional[CompuRationalCoeffs] = None
 
     @property
-    def compu_rational(self) -> Optional["CompuRationalCoeffs"]:
+    def compu_rational(self) -> Optional[CompuRationalCoeffs]:
         """Get compuRational (Pythonic accessor)."""
         return self._compuRational
 
     @compu_rational.setter
-    def compu_rational(self, value: Optional["CompuRationalCoeffs"]) -> None:
+    def compu_rational(self, value: Optional[CompuRationalCoeffs]) -> None:
         """
         Set compuRational with validation.
 
@@ -1655,7 +1657,7 @@ class CompuScaleRationalFormula(CompuScaleContents):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuRational(self) -> "CompuRationalCoeffs":
+    def getCompuRational(self) -> CompuRationalCoeffs:
         """
         AUTOSAR-compliant getter for compuRational.
 
@@ -1667,7 +1669,7 @@ class CompuScaleRationalFormula(CompuScaleContents):
         """
         return self.compu_rational  # Delegates to property
 
-    def setCompuRational(self, value: "CompuRationalCoeffs") -> "CompuScaleRationalFormula":
+    def setCompuRational(self, value: CompuRationalCoeffs) -> CompuScaleRationalFormula:
         """
         AUTOSAR-compliant setter for compuRational with method chaining.
 
@@ -1685,7 +1687,7 @@ class CompuScaleRationalFormula(CompuScaleContents):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_rational(self, value: Optional["CompuRationalCoeffs"]) -> "CompuScaleRationalFormula":
+    def with_compu_rational(self, value: Optional[CompuRationalCoeffs]) -> CompuScaleRationalFormula:
         """
         Set compuRational and return self for chaining.
 
@@ -1722,15 +1724,15 @@ class CompuScaleConstantContents(CompuScaleContents):
         # The is mainly a non interpolated scale.
         # It is a the fact that a constant scale can also be rational function of order
                 # 0.
-        self._compuConst: Optional["CompuConst"] = None
+        self._compuConst: Optional[CompuConst] = None
 
     @property
-    def compu_const(self) -> Optional["CompuConst"]:
+    def compu_const(self) -> Optional[CompuConst]:
         """Get compuConst (Pythonic accessor)."""
         return self._compuConst
 
     @compu_const.setter
-    def compu_const(self, value: Optional["CompuConst"]) -> None:
+    def compu_const(self, value: Optional[CompuConst]) -> None:
         """
         Set compuConst with validation.
 
@@ -1752,7 +1754,7 @@ class CompuScaleConstantContents(CompuScaleContents):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuConst(self) -> "CompuConst":
+    def getCompuConst(self) -> CompuConst:
         """
         AUTOSAR-compliant getter for compuConst.
 
@@ -1764,7 +1766,7 @@ class CompuScaleConstantContents(CompuScaleContents):
         """
         return self.compu_const  # Delegates to property
 
-    def setCompuConst(self, value: "CompuConst") -> "CompuScaleConstantContents":
+    def setCompuConst(self, value: CompuConst) -> CompuScaleConstantContents:
         """
         AUTOSAR-compliant setter for compuConst with method chaining.
 
@@ -1782,7 +1784,7 @@ class CompuScaleConstantContents(CompuScaleContents):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_const(self, value: Optional["CompuConst"]) -> "CompuScaleConstantContents":
+    def with_compu_const(self, value: Optional[CompuConst]) -> CompuScaleConstantContents:
         """
         Set compuConst and return self for chaining.
 
@@ -1858,7 +1860,7 @@ class CompuConstTextContent(CompuConstContent):
         """
         return self.vt  # Delegates to property
 
-    def setVt(self, value: "VerbatimString") -> "CompuConstTextContent":
+    def setVt(self, value: "VerbatimString") -> CompuConstTextContent:
         """
         AUTOSAR-compliant setter for vt with method chaining.
 
@@ -1876,7 +1878,7 @@ class CompuConstTextContent(CompuConstContent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_vt(self, value: Optional["VerbatimString"]) -> "CompuConstTextContent":
+    def with_vt(self, value: Optional["VerbatimString"]) -> CompuConstTextContent:
         """
         Set vt and return self for chaining.
 
@@ -1953,7 +1955,7 @@ class CompuConstNumericContent(CompuConstContent):
         """
         return self.v  # Delegates to property
 
-    def setV(self, value: "Numerical") -> "CompuConstNumericContent":
+    def setV(self, value: "Numerical") -> CompuConstNumericContent:
         """
         AUTOSAR-compliant setter for v with method chaining.
 
@@ -1971,7 +1973,7 @@ class CompuConstNumericContent(CompuConstContent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_v(self, value: Optional["Numerical"]) -> "CompuConstNumericContent":
+    def with_v(self, value: Optional["Numerical"]) -> CompuConstNumericContent:
         """
         Set v and return self for chaining.
 
@@ -2047,7 +2049,7 @@ class CompuConstFormulaContent(CompuConstContent):
         """
         return self.vf  # Delegates to property
 
-    def setVf(self, value: "Numerical") -> "CompuConstFormulaContent":
+    def setVf(self, value: "Numerical") -> CompuConstFormulaContent:
         """
         AUTOSAR-compliant setter for vf with method chaining.
 
@@ -2065,7 +2067,7 @@ class CompuConstFormulaContent(CompuConstContent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_vf(self, value: "Numerical") -> "CompuConstFormulaContent":
+    def with_vf(self, value: "Numerical") -> CompuConstFormulaContent:
         """
         Set vf and return self for chaining.
 

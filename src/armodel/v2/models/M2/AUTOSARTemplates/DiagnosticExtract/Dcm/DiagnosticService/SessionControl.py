@@ -4,6 +4,8 @@ AUTOSAR Package - SessionControl
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SessionControl
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -98,7 +100,7 @@ class DiagnosticSessionControl(DiagnosticServiceInstance):
         """
         return self.diagnostic_session  # Delegates to property
 
-    def setDiagnosticSession(self, value: "DiagnosticSession") -> "DiagnosticSessionControl":
+    def setDiagnosticSession(self, value: "DiagnosticSession") -> DiagnosticSessionControl:
         """
         AUTOSAR-compliant setter for diagnosticSession with method chaining.
 
@@ -126,7 +128,7 @@ class DiagnosticSessionControl(DiagnosticServiceInstance):
         """
         return self.session_control  # Delegates to property
 
-    def setSessionControl(self, value: "DiagnosticSession") -> "DiagnosticSessionControl":
+    def setSessionControl(self, value: "DiagnosticSession") -> DiagnosticSessionControl:
         """
         AUTOSAR-compliant setter for sessionControl with method chaining.
 
@@ -144,7 +146,7 @@ class DiagnosticSessionControl(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diagnostic_session(self, value: Optional["DiagnosticSession"]) -> "DiagnosticSessionControl":
+    def with_diagnostic_session(self, value: Optional["DiagnosticSession"]) -> DiagnosticSessionControl:
         """
         Set diagnosticSession and return self for chaining.
 
@@ -160,7 +162,7 @@ class DiagnosticSessionControl(DiagnosticServiceInstance):
         self.diagnostic_session = value  # Use property setter (gets validation)
         return self
 
-    def with_session_control(self, value: Optional["DiagnosticSession"]) -> "DiagnosticSessionControl":
+    def with_session_control(self, value: Optional["DiagnosticSession"]) -> DiagnosticSessionControl:
         """
         Set sessionControl and return self for chaining.
 
@@ -237,7 +239,7 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
         """
         return self.s3_server  # Delegates to property
 
-    def setS3Server(self, value: "TimeValue") -> "DiagnosticSessionControlClass":
+    def setS3Server(self, value: "TimeValue") -> DiagnosticSessionControlClass:
         """
         AUTOSAR-compliant setter for s3Server with method chaining.
 
@@ -255,7 +257,7 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_s3_server(self, value: Optional["TimeValue"]) -> "DiagnosticSessionControlClass":
+    def with_s3_server(self, value: Optional["TimeValue"]) -> DiagnosticSessionControlClass:
         """
         Set s3Server and return self for chaining.
 

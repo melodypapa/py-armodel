@@ -4,9 +4,11 @@ AUTOSAR Package - TtcanTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
 )
@@ -131,7 +133,7 @@ class TtcanCluster(ARObject):
         """
         return self.basic_cycle_length  # Delegates to property
 
-    def setBasicCycleLength(self, value: "Integer") -> "TtcanCluster":
+    def setBasicCycleLength(self, value: "Integer") -> TtcanCluster:
         """
         AUTOSAR-compliant setter for basicCycleLength with method chaining.
 
@@ -159,7 +161,7 @@ class TtcanCluster(ARObject):
         """
         return self.ntu  # Delegates to property
 
-    def setNtu(self, value: "TimeValue") -> "TtcanCluster":
+    def setNtu(self, value: "TimeValue") -> TtcanCluster:
         """
         AUTOSAR-compliant setter for ntu with method chaining.
 
@@ -187,7 +189,7 @@ class TtcanCluster(ARObject):
         """
         return self.operation_mode  # Delegates to property
 
-    def setOperationMode(self, value: "Boolean") -> "TtcanCluster":
+    def setOperationMode(self, value: "Boolean") -> TtcanCluster:
         """
         AUTOSAR-compliant setter for operationMode with method chaining.
 
@@ -205,7 +207,7 @@ class TtcanCluster(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_basic_cycle_length(self, value: Optional["Integer"]) -> "TtcanCluster":
+    def with_basic_cycle_length(self, value: Optional["Integer"]) -> TtcanCluster:
         """
         Set basicCycleLength and return self for chaining.
 
@@ -221,7 +223,7 @@ class TtcanCluster(ARObject):
         self.basic_cycle_length = value  # Use property setter (gets validation)
         return self
 
-    def with_ntu(self, value: Optional["TimeValue"]) -> "TtcanCluster":
+    def with_ntu(self, value: Optional["TimeValue"]) -> TtcanCluster:
         """
         Set ntu and return self for chaining.
 
@@ -237,7 +239,7 @@ class TtcanCluster(ARObject):
         self.ntu = value  # Use property setter (gets validation)
         return self
 
-    def with_operation_mode(self, value: Optional["Boolean"]) -> "TtcanCluster":
+    def with_operation_mode(self, value: Optional["Boolean"]) -> TtcanCluster:
         """
         Set operationMode and return self for chaining.
 
@@ -510,7 +512,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.appl_watchdog  # Delegates to property
 
-    def setApplWatchdog(self, value: "Integer") -> "TtcanCommunicationController":
+    def setApplWatchdog(self, value: "Integer") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for applWatchdog with method chaining.
 
@@ -538,7 +540,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.expected_tx  # Delegates to property
 
-    def setExpectedTx(self, value: "Integer") -> "TtcanCommunicationController":
+    def setExpectedTx(self, value: "Integer") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for expectedTx with method chaining.
 
@@ -566,7 +568,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.external_clock  # Delegates to property
 
-    def setExternalClock(self, value: "Boolean") -> "TtcanCommunicationController":
+    def setExternalClock(self, value: "Boolean") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for externalClock with method chaining.
 
@@ -594,7 +596,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.initial_ref_offset  # Delegates to property
 
-    def setInitialRefOffset(self, value: "Integer") -> "TtcanCommunicationController":
+    def setInitialRefOffset(self, value: "Integer") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for initialRefOffset with method chaining.
 
@@ -622,7 +624,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.master  # Delegates to property
 
-    def setMaster(self, value: "Boolean") -> "TtcanCommunicationController":
+    def setMaster(self, value: "Boolean") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for master with method chaining.
 
@@ -650,7 +652,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.time_master  # Delegates to property
 
-    def setTimeMaster(self, value: "Integer") -> "TtcanCommunicationController":
+    def setTimeMaster(self, value: "Integer") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for timeMaster with method chaining.
 
@@ -678,7 +680,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.time_triggered  # Delegates to property
 
-    def setTimeTriggered(self, value: "Integer") -> "TtcanCommunicationController":
+    def setTimeTriggered(self, value: "Integer") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for timeTriggered with method chaining.
 
@@ -706,7 +708,7 @@ class TtcanCommunicationController(ARObject):
         """
         return self.tx_enable  # Delegates to property
 
-    def setTxEnable(self, value: "Integer") -> "TtcanCommunicationController":
+    def setTxEnable(self, value: "Integer") -> TtcanCommunicationController:
         """
         AUTOSAR-compliant setter for txEnable with method chaining.
 
@@ -724,7 +726,7 @@ class TtcanCommunicationController(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_appl_watchdog(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
+    def with_appl_watchdog(self, value: Optional["Integer"]) -> TtcanCommunicationController:
         """
         Set applWatchdog and return self for chaining.
 
@@ -740,7 +742,7 @@ class TtcanCommunicationController(ARObject):
         self.appl_watchdog = value  # Use property setter (gets validation)
         return self
 
-    def with_expected_tx(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
+    def with_expected_tx(self, value: Optional["Integer"]) -> TtcanCommunicationController:
         """
         Set expectedTx and return self for chaining.
 
@@ -756,7 +758,7 @@ class TtcanCommunicationController(ARObject):
         self.expected_tx = value  # Use property setter (gets validation)
         return self
 
-    def with_external_clock(self, value: Optional["Boolean"]) -> "TtcanCommunicationController":
+    def with_external_clock(self, value: Optional["Boolean"]) -> TtcanCommunicationController:
         """
         Set externalClock and return self for chaining.
 
@@ -772,7 +774,7 @@ class TtcanCommunicationController(ARObject):
         self.external_clock = value  # Use property setter (gets validation)
         return self
 
-    def with_initial_ref_offset(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
+    def with_initial_ref_offset(self, value: Optional["Integer"]) -> TtcanCommunicationController:
         """
         Set initialRefOffset and return self for chaining.
 
@@ -788,7 +790,7 @@ class TtcanCommunicationController(ARObject):
         self.initial_ref_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_master(self, value: Optional["Boolean"]) -> "TtcanCommunicationController":
+    def with_master(self, value: Optional["Boolean"]) -> TtcanCommunicationController:
         """
         Set master and return self for chaining.
 
@@ -804,7 +806,7 @@ class TtcanCommunicationController(ARObject):
         self.master = value  # Use property setter (gets validation)
         return self
 
-    def with_time_master(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
+    def with_time_master(self, value: Optional["Integer"]) -> TtcanCommunicationController:
         """
         Set timeMaster and return self for chaining.
 
@@ -820,7 +822,7 @@ class TtcanCommunicationController(ARObject):
         self.time_master = value  # Use property setter (gets validation)
         return self
 
-    def with_time_triggered(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
+    def with_time_triggered(self, value: Optional["Integer"]) -> TtcanCommunicationController:
         """
         Set timeTriggered and return self for chaining.
 
@@ -836,7 +838,7 @@ class TtcanCommunicationController(ARObject):
         self.time_triggered = value  # Use property setter (gets validation)
         return self
 
-    def with_tx_enable(self, value: Optional["Integer"]) -> "TtcanCommunicationController":
+    def with_tx_enable(self, value: Optional["Integer"]) -> TtcanCommunicationController:
         """
         Set txEnable and return self for chaining.
 

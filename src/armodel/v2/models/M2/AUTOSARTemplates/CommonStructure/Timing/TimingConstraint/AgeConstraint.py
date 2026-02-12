@@ -4,6 +4,8 @@ AUTOSAR Package - AgeConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (
@@ -121,7 +123,7 @@ class AgeConstraint(TimingConstraint):
         """
         return self.maximum  # Delegates to property
 
-    def setMaximum(self, value: "MultidimensionalTime") -> "AgeConstraint":
+    def setMaximum(self, value: "MultidimensionalTime") -> AgeConstraint:
         """
         AUTOSAR-compliant setter for maximum with method chaining.
 
@@ -149,7 +151,7 @@ class AgeConstraint(TimingConstraint):
         """
         return self.minimum  # Delegates to property
 
-    def setMinimum(self, value: "MultidimensionalTime") -> "AgeConstraint":
+    def setMinimum(self, value: "MultidimensionalTime") -> AgeConstraint:
         """
         AUTOSAR-compliant setter for minimum with method chaining.
 
@@ -177,7 +179,7 @@ class AgeConstraint(TimingConstraint):
         """
         return self.scope  # Delegates to property
 
-    def setScope(self, value: "TimingDescriptionEvent") -> "AgeConstraint":
+    def setScope(self, value: "TimingDescriptionEvent") -> AgeConstraint:
         """
         AUTOSAR-compliant setter for scope with method chaining.
 
@@ -195,7 +197,7 @@ class AgeConstraint(TimingConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_maximum(self, value: Optional["MultidimensionalTime"]) -> "AgeConstraint":
+    def with_maximum(self, value: Optional["MultidimensionalTime"]) -> AgeConstraint:
         """
         Set maximum and return self for chaining.
 
@@ -211,7 +213,7 @@ class AgeConstraint(TimingConstraint):
         self.maximum = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum(self, value: Optional["MultidimensionalTime"]) -> "AgeConstraint":
+    def with_minimum(self, value: Optional["MultidimensionalTime"]) -> AgeConstraint:
         """
         Set minimum and return self for chaining.
 
@@ -227,7 +229,7 @@ class AgeConstraint(TimingConstraint):
         self.minimum = value  # Use property setter (gets validation)
         return self
 
-    def with_scope(self, value: Optional["TimingDescriptionEvent"]) -> "AgeConstraint":
+    def with_scope(self, value: Optional["TimingDescriptionEvent"]) -> AgeConstraint:
         """
         Set scope and return self for chaining.
 

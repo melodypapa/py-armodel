@@ -4,9 +4,11 @@ AUTOSAR Package - TagWithOptionalValue
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::TagWithOptionalValue
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     String,
 )
@@ -137,7 +139,7 @@ class TagWithOptionalValue(ARObject):
         """
         return self.key  # Delegates to property
 
-    def setKey(self, value: "String") -> "TagWithOptionalValue":
+    def setKey(self, value: "String") -> TagWithOptionalValue:
         """
         AUTOSAR-compliant setter for key with method chaining.
 
@@ -165,7 +167,7 @@ class TagWithOptionalValue(ARObject):
         """
         return self.sequence_offset  # Delegates to property
 
-    def setSequenceOffset(self, value: "Integer") -> "TagWithOptionalValue":
+    def setSequenceOffset(self, value: "Integer") -> TagWithOptionalValue:
         """
         AUTOSAR-compliant setter for sequenceOffset with method chaining.
 
@@ -193,7 +195,7 @@ class TagWithOptionalValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "String") -> "TagWithOptionalValue":
+    def setValue(self, value: "String") -> TagWithOptionalValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -211,7 +213,7 @@ class TagWithOptionalValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_key(self, value: Optional["String"]) -> "TagWithOptionalValue":
+    def with_key(self, value: Optional["String"]) -> TagWithOptionalValue:
         """
         Set key and return self for chaining.
 
@@ -227,7 +229,7 @@ class TagWithOptionalValue(ARObject):
         self.key = value  # Use property setter (gets validation)
         return self
 
-    def with_sequence_offset(self, value: Optional["Integer"]) -> "TagWithOptionalValue":
+    def with_sequence_offset(self, value: Optional["Integer"]) -> TagWithOptionalValue:
         """
         Set sequenceOffset and return self for chaining.
 
@@ -243,7 +245,7 @@ class TagWithOptionalValue(ARObject):
         self.sequence_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["String"]) -> "TagWithOptionalValue":
+    def with_value(self, value: Optional["String"]) -> TagWithOptionalValue:
         """
         Set value and return self for chaining.
 

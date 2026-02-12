@@ -4,6 +4,8 @@ AUTOSAR Package - RequestFileTransfer
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RequestFileTransfer
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -74,7 +76,7 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
         """
         return self.request_file  # Delegates to property
 
-    def setRequestFile(self, value: "DiagnosticRequestFile") -> "DiagnosticRequestFileTransfer":
+    def setRequestFile(self, value: "DiagnosticRequestFile") -> DiagnosticRequestFileTransfer:
         """
         AUTOSAR-compliant setter for requestFile with method chaining.
 
@@ -92,7 +94,7 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_file(self, value: Optional["DiagnosticRequestFile"]) -> "DiagnosticRequestFileTransfer":
+    def with_request_file(self, value: Optional["DiagnosticRequestFile"]) -> DiagnosticRequestFileTransfer:
         """
         Set requestFile and return self for chaining.
 

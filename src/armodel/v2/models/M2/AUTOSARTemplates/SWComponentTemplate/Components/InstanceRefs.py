@@ -4,10 +4,12 @@ AUTOSAR Package - InstanceRefs
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -137,7 +139,7 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.abstract_target  # Delegates to property
 
-    def setAbstractTarget(self, value: "RefType") -> "VariableInAtomicSwcInstanceRef":
+    def setAbstractTarget(self, value: "RefType") -> VariableInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for abstractTarget with method chaining.
 
@@ -165,7 +167,7 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtomicSwComponent") -> "VariableInAtomicSwcInstanceRef":
+    def setBase(self, value: "AtomicSwComponent") -> VariableInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -193,7 +195,7 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: "RefType") -> "VariableInAtomicSwcInstanceRef":
+    def setContextPort(self, value: "RefType") -> VariableInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
 
@@ -211,7 +213,7 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_abstract_target(self, value: Optional[RefType]) -> "VariableInAtomicSwcInstanceRef":
+    def with_abstract_target(self, value: Optional[RefType]) -> VariableInAtomicSwcInstanceRef:
         """
         Set abstractTarget and return self for chaining.
 
@@ -227,7 +229,7 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
         self.abstract_target = value  # Use property setter (gets validation)
         return self
 
-    def with_base(self, value: Optional["AtomicSwComponent"]) -> "VariableInAtomicSwcInstanceRef":
+    def with_base(self, value: Optional["AtomicSwComponent"]) -> VariableInAtomicSwcInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -243,7 +245,7 @@ class VariableInAtomicSwcInstanceRef(ARObject, ABC):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context_port(self, value: Optional[RefType]) -> "VariableInAtomicSwcInstanceRef":
+    def with_context_port(self, value: Optional[RefType]) -> VariableInAtomicSwcInstanceRef:
         """
         Set contextPort and return self for chaining.
 
@@ -398,7 +400,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtomicSwComponent") -> "RModeInAtomicSwcInstanceRef":
+    def setBase(self, value: "AtomicSwComponent") -> RModeInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -426,7 +428,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         """
         return self.context_mode_group_prototype  # Delegates to property
 
-    def setContextModeGroupPrototype(self, value: "RefType") -> "RModeInAtomicSwcInstanceRef":
+    def setContextModeGroupPrototype(self, value: "RefType") -> RModeInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextModeGroupPrototype with method chaining.
 
@@ -454,7 +456,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         """
         return self.context_port_prototype  # Delegates to property
 
-    def setContextPortPrototype(self, value: "AbstractRequiredPort") -> "RModeInAtomicSwcInstanceRef":
+    def setContextPortPrototype(self, value: "AbstractRequiredPort") -> RModeInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPortPrototype with method chaining.
 
@@ -482,7 +484,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         """
         return self.target_mode_declaration  # Delegates to property
 
-    def setTargetModeDeclaration(self, value: "ModeDeclaration") -> "RModeInAtomicSwcInstanceRef":
+    def setTargetModeDeclaration(self, value: "ModeDeclaration") -> RModeInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetModeDeclaration with method chaining.
 
@@ -500,7 +502,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["AtomicSwComponent"]) -> "RModeInAtomicSwcInstanceRef":
+    def with_base(self, value: Optional["AtomicSwComponent"]) -> RModeInAtomicSwcInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -516,7 +518,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context_mode_group_prototype(self, value: Optional[RefType]) -> "RModeInAtomicSwcInstanceRef":
+    def with_context_mode_group_prototype(self, value: Optional[RefType]) -> RModeInAtomicSwcInstanceRef:
         """
         Set contextModeGroupPrototype and return self for chaining.
 
@@ -532,7 +534,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         self.context_mode_group_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_context_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RModeInAtomicSwcInstanceRef":
+    def with_context_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RModeInAtomicSwcInstanceRef:
         """
         Set contextPortPrototype and return self for chaining.
 
@@ -548,7 +550,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         self.context_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_mode_declaration(self, value: Optional["ModeDeclaration"]) -> "RModeInAtomicSwcInstanceRef":
+    def with_target_mode_declaration(self, value: Optional["ModeDeclaration"]) -> RModeInAtomicSwcInstanceRef:
         """
         Set targetModeDeclaration and return self for chaining.
 
@@ -656,7 +658,7 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "CompositionSw") -> "InnerPortGroupInCompositionInstanceRef":
+    def setBase(self, value: "CompositionSw") -> InnerPortGroupInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -696,7 +698,7 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "RefType") -> "InnerPortGroupInCompositionInstanceRef":
+    def setTarget(self, value: "RefType") -> InnerPortGroupInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -714,7 +716,7 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["CompositionSw"]) -> "InnerPortGroupInCompositionInstanceRef":
+    def with_base(self, value: Optional["CompositionSw"]) -> InnerPortGroupInCompositionInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -730,7 +732,7 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional[RefType]) -> "InnerPortGroupInCompositionInstanceRef":
+    def with_target(self, value: Optional[RefType]) -> InnerPortGroupInCompositionInstanceRef:
         """
         Set target and return self for chaining.
 
@@ -853,7 +855,7 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtomicSwComponent") -> "TriggerInAtomicSwcInstanceRef":
+    def setBase(self, value: "AtomicSwComponent") -> TriggerInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -881,7 +883,7 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: "RefType") -> "TriggerInAtomicSwcInstanceRef":
+    def setContextPort(self, value: "RefType") -> TriggerInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
 
@@ -909,7 +911,7 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "RefType") -> "TriggerInAtomicSwcInstanceRef":
+    def setTarget(self, value: "RefType") -> TriggerInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -927,7 +929,7 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["AtomicSwComponent"]) -> "TriggerInAtomicSwcInstanceRef":
+    def with_base(self, value: Optional["AtomicSwComponent"]) -> TriggerInAtomicSwcInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -943,7 +945,7 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context_port(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+    def with_context_port(self, value: Optional[RefType]) -> TriggerInAtomicSwcInstanceRef:
         """
         Set contextPort and return self for chaining.
 
@@ -959,7 +961,7 @@ class TriggerInAtomicSwcInstanceRef(ARObject, ABC):
         self.context_port = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+    def with_target(self, value: Optional[RefType]) -> TriggerInAtomicSwcInstanceRef:
         """
         Set target and return self for chaining.
 
@@ -1086,7 +1088,7 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtomicSwComponent") -> "OperationInAtomicSwcInstanceRef":
+    def setBase(self, value: "AtomicSwComponent") -> OperationInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -1114,7 +1116,7 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: "RefType") -> "OperationInAtomicSwcInstanceRef":
+    def setContextPort(self, value: "RefType") -> OperationInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
 
@@ -1142,7 +1144,7 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.target_operation  # Delegates to property
 
-    def setTargetOperation(self, value: "ClientServerOperation") -> "OperationInAtomicSwcInstanceRef":
+    def setTargetOperation(self, value: "ClientServerOperation") -> OperationInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetOperation with method chaining.
 
@@ -1160,7 +1162,7 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["AtomicSwComponent"]) -> "OperationInAtomicSwcInstanceRef":
+    def with_base(self, value: Optional["AtomicSwComponent"]) -> OperationInAtomicSwcInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -1176,7 +1178,7 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context_port(self, value: Optional[RefType]) -> "OperationInAtomicSwcInstanceRef":
+    def with_context_port(self, value: Optional[RefType]) -> OperationInAtomicSwcInstanceRef:
         """
         Set contextPort and return self for chaining.
 
@@ -1192,7 +1194,7 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
         self.context_port = value  # Use property setter (gets validation)
         return self
 
-    def with_target_operation(self, value: Optional["ClientServerOperation"]) -> "OperationInAtomicSwcInstanceRef":
+    def with_target_operation(self, value: Optional["ClientServerOperation"]) -> OperationInAtomicSwcInstanceRef:
         """
         Set targetOperation and return self for chaining.
 
@@ -1316,7 +1318,7 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtomicSwComponent") -> "ModeGroupInAtomicSwcInstanceRef":
+    def setBase(self, value: "AtomicSwComponent") -> ModeGroupInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -1344,7 +1346,7 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: "RefType") -> "ModeGroupInAtomicSwcInstanceRef":
+    def setContextPort(self, value: "RefType") -> ModeGroupInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
 
@@ -1372,7 +1374,7 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "RefType") -> "ModeGroupInAtomicSwcInstanceRef":
+    def setTarget(self, value: "RefType") -> ModeGroupInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -1390,7 +1392,7 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["AtomicSwComponent"]) -> "ModeGroupInAtomicSwcInstanceRef":
+    def with_base(self, value: Optional["AtomicSwComponent"]) -> ModeGroupInAtomicSwcInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -1406,7 +1408,7 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context_port(self, value: Optional[RefType]) -> "ModeGroupInAtomicSwcInstanceRef":
+    def with_context_port(self, value: Optional[RefType]) -> ModeGroupInAtomicSwcInstanceRef:
         """
         Set contextPort and return self for chaining.
 
@@ -1422,7 +1424,7 @@ class ModeGroupInAtomicSwcInstanceRef(ARObject, ABC):
         self.context_port = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional[RefType]) -> "ModeGroupInAtomicSwcInstanceRef":
+    def with_target(self, value: Optional[RefType]) -> ModeGroupInAtomicSwcInstanceRef:
         """
         Set target and return self for chaining.
 
@@ -1521,7 +1523,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         """
         return self.context_r_port_prototype  # Delegates to property
 
-    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RVariableInAtomicSwcInstanceRef":
+    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> RVariableInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
 
@@ -1549,7 +1551,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         """
         return self.target_data_element  # Delegates to property
 
-    def setTargetDataElement(self, value: "RefType") -> "RVariableInAtomicSwcInstanceRef":
+    def setTargetDataElement(self, value: "RefType") -> RVariableInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetDataElement with method chaining.
 
@@ -1567,7 +1569,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RVariableInAtomicSwcInstanceRef":
+    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RVariableInAtomicSwcInstanceRef:
         """
         Set contextRPortPrototype and return self for chaining.
 
@@ -1583,7 +1585,7 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         self.context_r_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data_element(self, value: Optional[RefType]) -> "RVariableInAtomicSwcInstanceRef":
+    def with_target_data_element(self, value: Optional[RefType]) -> RVariableInAtomicSwcInstanceRef:
         """
         Set targetDataElement and return self for chaining.
 
@@ -1682,7 +1684,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.context_r_port_prototype  # Delegates to property
 
-    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RTriggerInAtomicSwcInstanceRef":
+    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> RTriggerInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
 
@@ -1710,7 +1712,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.target_trigger  # Delegates to property
 
-    def setTargetTrigger(self, value: "RefType") -> "RTriggerInAtomicSwcInstanceRef":
+    def setTargetTrigger(self, value: "RefType") -> RTriggerInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetTrigger with method chaining.
 
@@ -1728,7 +1730,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RTriggerInAtomicSwcInstanceRef":
+    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RTriggerInAtomicSwcInstanceRef:
         """
         Set contextRPortPrototype and return self for chaining.
 
@@ -1744,7 +1746,7 @@ class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
         self.context_r_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_trigger(self, value: Optional[RefType]) -> "RTriggerInAtomicSwcInstanceRef":
+    def with_target_trigger(self, value: Optional[RefType]) -> RTriggerInAtomicSwcInstanceRef:
         """
         Set targetTrigger and return self for chaining.
 
@@ -1843,7 +1845,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.context_p_port_prototype  # Delegates to property
 
-    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
 
@@ -1871,7 +1873,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
         """
         return self.target_trigger  # Delegates to property
 
-    def setTargetTrigger(self, value: "RefType") -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def setTargetTrigger(self, value: "RefType") -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         AUTOSAR-compliant setter for targetTrigger with method chaining.
 
@@ -1889,7 +1891,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         Set contextPPortPrototype and return self for chaining.
 
@@ -1905,7 +1907,7 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
         self.context_p_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_trigger(self, value: Optional[RefType]) -> "PTriggerInAtomicSwcTypeInstanceRef":
+    def with_target_trigger(self, value: Optional[RefType]) -> PTriggerInAtomicSwcTypeInstanceRef:
         """
         Set targetTrigger and return self for chaining.
 
@@ -2008,7 +2010,7 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         """
         return self.context_r_port_prototype  # Delegates to property
 
-    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "ROperationInAtomicSwcInstanceRef":
+    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> ROperationInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
 
@@ -2036,7 +2038,7 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         """
         return self.target_required_operation  # Delegates to property
 
-    def setTargetRequiredOperation(self, value: "ClientServerOperation") -> "ROperationInAtomicSwcInstanceRef":
+    def setTargetRequiredOperation(self, value: "ClientServerOperation") -> ROperationInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetRequiredOperation with method chaining.
 
@@ -2054,7 +2056,7 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "ROperationInAtomicSwcInstanceRef":
+    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> ROperationInAtomicSwcInstanceRef:
         """
         Set contextRPortPrototype and return self for chaining.
 
@@ -2070,7 +2072,7 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         self.context_r_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_required_operation(self, value: Optional["ClientServerOperation"]) -> "ROperationInAtomicSwcInstanceRef":
+    def with_target_required_operation(self, value: Optional["ClientServerOperation"]) -> ROperationInAtomicSwcInstanceRef:
         """
         Set targetRequiredOperation and return self for chaining.
 
@@ -2173,7 +2175,7 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         """
         return self.context_p_port_prototype  # Delegates to property
 
-    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "POperationInAtomicSwcInstanceRef":
+    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> POperationInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
 
@@ -2201,7 +2203,7 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         """
         return self.target_provided_operation  # Delegates to property
 
-    def setTargetProvidedOperation(self, value: "ClientServerOperation") -> "POperationInAtomicSwcInstanceRef":
+    def setTargetProvidedOperation(self, value: "ClientServerOperation") -> POperationInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetProvidedOperation with method chaining.
 
@@ -2219,7 +2221,7 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "POperationInAtomicSwcInstanceRef":
+    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> POperationInAtomicSwcInstanceRef:
         """
         Set contextPPortPrototype and return self for chaining.
 
@@ -2235,7 +2237,7 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         self.context_p_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_provided_operation(self, value: Optional["ClientServerOperation"]) -> "POperationInAtomicSwcInstanceRef":
+    def with_target_provided_operation(self, value: Optional["ClientServerOperation"]) -> POperationInAtomicSwcInstanceRef:
         """
         Set targetProvidedOperation and return self for chaining.
 
@@ -2334,7 +2336,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.context_r_port_prototype  # Delegates to property
 
-    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RModeGroupInAtomicSWCInstanceRef":
+    def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> RModeGroupInAtomicSWCInstanceRef:
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
 
@@ -2362,7 +2364,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.target_mode  # Delegates to property
 
-    def setTargetMode(self, value: "RefType") -> "RModeGroupInAtomicSWCInstanceRef":
+    def setTargetMode(self, value: "RefType") -> RModeGroupInAtomicSWCInstanceRef:
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
 
@@ -2380,7 +2382,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RModeGroupInAtomicSWCInstanceRef":
+    def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RModeGroupInAtomicSWCInstanceRef:
         """
         Set contextRPortPrototype and return self for chaining.
 
@@ -2396,7 +2398,7 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         self.context_r_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_mode(self, value: Optional[RefType]) -> "RModeGroupInAtomicSWCInstanceRef":
+    def with_target_mode(self, value: Optional[RefType]) -> RModeGroupInAtomicSWCInstanceRef:
         """
         Set targetMode and return self for chaining.
 
@@ -2495,7 +2497,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.context_p_port_prototype  # Delegates to property
 
-    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "PModeGroupInAtomicSwcInstanceRef":
+    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> PModeGroupInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
 
@@ -2523,7 +2525,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         """
         return self.target_mode  # Delegates to property
 
-    def setTargetMode(self, value: "RefType") -> "PModeGroupInAtomicSwcInstanceRef":
+    def setTargetMode(self, value: "RefType") -> PModeGroupInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
 
@@ -2541,7 +2543,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PModeGroupInAtomicSwcInstanceRef":
+    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PModeGroupInAtomicSwcInstanceRef:
         """
         Set contextPPortPrototype and return self for chaining.
 
@@ -2557,7 +2559,7 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         self.context_p_port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_target_mode(self, value: Optional[RefType]) -> "PModeGroupInAtomicSwcInstanceRef":
+    def with_target_mode(self, value: Optional[RefType]) -> PModeGroupInAtomicSwcInstanceRef:
         """
         Set targetMode and return self for chaining.
 

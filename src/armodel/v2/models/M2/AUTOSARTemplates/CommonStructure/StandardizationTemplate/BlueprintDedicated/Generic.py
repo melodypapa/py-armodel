@@ -4,6 +4,8 @@ AUTOSAR Package - Generic
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic
 """
 
+
+from __future__ import annotations
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -85,7 +87,7 @@ class BlueprintMapping(ARObject):
         """
         return self.blueprint  # Delegates to property
 
-    def setBlueprint(self, value: "AtpBlueprint") -> "BlueprintMapping":
+    def setBlueprint(self, value: "AtpBlueprint") -> BlueprintMapping:
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
 
@@ -113,7 +115,7 @@ class BlueprintMapping(ARObject):
         """
         return self.derived_object  # Delegates to property
 
-    def setDerivedObject(self, value: "AtpBlueprintable") -> "BlueprintMapping":
+    def setDerivedObject(self, value: "AtpBlueprintable") -> BlueprintMapping:
         """
         AUTOSAR-compliant setter for derivedObject with method chaining.
 
@@ -131,7 +133,7 @@ class BlueprintMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint(self, value: "AtpBlueprint") -> "BlueprintMapping":
+    def with_blueprint(self, value: "AtpBlueprint") -> BlueprintMapping:
         """
         Set blueprint and return self for chaining.
 
@@ -147,7 +149,7 @@ class BlueprintMapping(ARObject):
         self.blueprint = value  # Use property setter (gets validation)
         return self
 
-    def with_derived_object(self, value: "AtpBlueprintable") -> "BlueprintMapping":
+    def with_derived_object(self, value: "AtpBlueprintable") -> BlueprintMapping:
         """
         Set derivedObject and return self for chaining.
 

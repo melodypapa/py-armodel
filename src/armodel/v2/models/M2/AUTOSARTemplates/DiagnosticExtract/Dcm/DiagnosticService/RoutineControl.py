@@ -4,6 +4,8 @@ AUTOSAR Package - RoutineControl
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RoutineControl
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -98,7 +100,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
         """
         return self.routine  # Delegates to property
 
-    def setRoutine(self, value: "DiagnosticRoutine") -> "DiagnosticRoutineControl":
+    def setRoutine(self, value: "DiagnosticRoutine") -> DiagnosticRoutineControl:
         """
         AUTOSAR-compliant setter for routine with method chaining.
 
@@ -126,7 +128,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
         """
         return self.routine_control  # Delegates to property
 
-    def setRoutineControl(self, value: "DiagnosticRoutine") -> "DiagnosticRoutineControl":
+    def setRoutineControl(self, value: "DiagnosticRoutine") -> DiagnosticRoutineControl:
         """
         AUTOSAR-compliant setter for routineControl with method chaining.
 
@@ -144,7 +146,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_routine(self, value: Optional["DiagnosticRoutine"]) -> "DiagnosticRoutineControl":
+    def with_routine(self, value: Optional["DiagnosticRoutine"]) -> DiagnosticRoutineControl:
         """
         Set routine and return self for chaining.
 
@@ -160,7 +162,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
         self.routine = value  # Use property setter (gets validation)
         return self
 
-    def with_routine_control(self, value: Optional["DiagnosticRoutine"]) -> "DiagnosticRoutineControl":
+    def with_routine_control(self, value: Optional["DiagnosticRoutine"]) -> DiagnosticRoutineControl:
         """
         Set routineControl and return self for chaining.
 

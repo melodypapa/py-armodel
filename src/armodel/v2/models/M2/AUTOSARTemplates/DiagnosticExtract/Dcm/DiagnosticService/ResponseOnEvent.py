@@ -4,9 +4,11 @@ AUTOSAR Package - ResponseOnEvent
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -37,10 +39,10 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the applicable DiagnosticEventWindows.
-        self._eventWindow: List["DiagnosticEventWindow"] = []
+        self._eventWindow: List[DiagnosticEventWindow] = []
 
     @property
-    def event_window(self) -> List["DiagnosticEventWindow"]:
+    def event_window(self) -> List[DiagnosticEventWindow]:
         """Get eventWindow (Pythonic accessor)."""
         return self._eventWindow
         # This reference substantiates that abstract reference in the role serviceClass
@@ -77,7 +79,7 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventWindow(self) -> List["DiagnosticEventWindow"]:
+    def getEventWindow(self) -> List[DiagnosticEventWindow]:
         """
         AUTOSAR-compliant getter for eventWindow.
 
@@ -101,7 +103,7 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
         """
         return self.response_on  # Delegates to property
 
-    def setResponseOn(self, value: "DiagnosticResponseOn") -> "DiagnosticResponseOnEvent":
+    def setResponseOn(self, value: "DiagnosticResponseOn") -> DiagnosticResponseOnEvent:
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
 
@@ -119,7 +121,7 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_response_on(self, value: Optional["DiagnosticResponseOn"]) -> "DiagnosticResponseOnEvent":
+    def with_response_on(self, value: Optional["DiagnosticResponseOn"]) -> DiagnosticResponseOnEvent:
         """
         Set responseOn and return self for chaining.
 
@@ -309,7 +311,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> "DiagnosticResponseOnEventClass":
+    def setMaxNumberOf(self, value: "PositiveInteger") -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -337,7 +339,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.max_num  # Delegates to property
 
-    def setMaxNum(self, value: "PositiveInteger") -> "DiagnosticResponseOnEventClass":
+    def setMaxNum(self, value: "PositiveInteger") -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for maxNum with method chaining.
 
@@ -365,7 +367,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.max_supported  # Delegates to property
 
-    def setMaxSupported(self, value: "PositiveInteger") -> "DiagnosticResponseOnEventClass":
+    def setMaxSupported(self, value: "PositiveInteger") -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for maxSupported with method chaining.
 
@@ -393,7 +395,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.response_on  # Delegates to property
 
-    def setResponseOn(self, value: "TimeValue") -> "DiagnosticResponseOnEventClass":
+    def setResponseOn(self, value: "TimeValue") -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
 
@@ -421,7 +423,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.store_event  # Delegates to property
 
-    def setStoreEvent(self, value: "Boolean") -> "DiagnosticResponseOnEventClass":
+    def setStoreEvent(self, value: "Boolean") -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for storeEvent with method chaining.
 
@@ -439,7 +441,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "DiagnosticResponseOnEventClass":
+    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> DiagnosticResponseOnEventClass:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -455,7 +457,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_max_num(self, value: Optional["PositiveInteger"]) -> "DiagnosticResponseOnEventClass":
+    def with_max_num(self, value: Optional["PositiveInteger"]) -> DiagnosticResponseOnEventClass:
         """
         Set maxNum and return self for chaining.
 
@@ -471,7 +473,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_num = value  # Use property setter (gets validation)
         return self
 
-    def with_max_supported(self, value: Optional["PositiveInteger"]) -> "DiagnosticResponseOnEventClass":
+    def with_max_supported(self, value: Optional["PositiveInteger"]) -> DiagnosticResponseOnEventClass:
         """
         Set maxSupported and return self for chaining.
 
@@ -487,7 +489,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_supported = value  # Use property setter (gets validation)
         return self
 
-    def with_response_on(self, value: Optional["TimeValue"]) -> "DiagnosticResponseOnEventClass":
+    def with_response_on(self, value: Optional["TimeValue"]) -> DiagnosticResponseOnEventClass:
         """
         Set responseOn and return self for chaining.
 
@@ -503,7 +505,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.response_on = value  # Use property setter (gets validation)
         return self
 
-    def with_store_event(self, value: Optional["Boolean"]) -> "DiagnosticResponseOnEventClass":
+    def with_store_event(self, value: Optional["Boolean"]) -> DiagnosticResponseOnEventClass:
         """
         Set storeEvent and return self for chaining.
 
@@ -537,15 +539,15 @@ class DiagnosticEventWindow(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute clarifies the validity of the eventWindow.
-        self._eventWindow: Optional["DiagnosticEventWindow"] = None
+        self._eventWindow: Optional[DiagnosticEventWindow] = None
 
     @property
-    def event_window(self) -> Optional["DiagnosticEventWindow"]:
+    def event_window(self) -> Optional[DiagnosticEventWindow]:
         """Get eventWindow (Pythonic accessor)."""
         return self._eventWindow
 
     @event_window.setter
-    def event_window(self, value: Optional["DiagnosticEventWindow"]) -> None:
+    def event_window(self, value: Optional[DiagnosticEventWindow]) -> None:
         """
         Set eventWindow with validation.
 
@@ -567,7 +569,7 @@ class DiagnosticEventWindow(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventWindow(self) -> "DiagnosticEventWindow":
+    def getEventWindow(self) -> DiagnosticEventWindow:
         """
         AUTOSAR-compliant getter for eventWindow.
 
@@ -579,7 +581,7 @@ class DiagnosticEventWindow(ARObject):
         """
         return self.event_window  # Delegates to property
 
-    def setEventWindow(self, value: "DiagnosticEventWindow") -> "DiagnosticEventWindow":
+    def setEventWindow(self, value: DiagnosticEventWindow) -> DiagnosticEventWindow:
         """
         AUTOSAR-compliant setter for eventWindow with method chaining.
 
@@ -597,7 +599,7 @@ class DiagnosticEventWindow(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_window(self, value: Optional["DiagnosticEventWindow"]) -> "DiagnosticEventWindow":
+    def with_event_window(self, value: Optional[DiagnosticEventWindow]) -> DiagnosticEventWindow:
         """
         Set eventWindow and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - DatadictionaryProxies
 Package: M2::MSR::DataDictionary::DatadictionaryProxies
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -99,7 +101,7 @@ class SwCalprmRefProxy(ARObject):
         """
         return self.ar_parameter  # Delegates to property
 
-    def setArParameter(self, value: "RefType") -> "SwCalprmRefProxy":
+    def setArParameter(self, value: "RefType") -> SwCalprmRefProxy:
         """
         AUTOSAR-compliant setter for arParameter with method chaining.
 
@@ -127,7 +129,7 @@ class SwCalprmRefProxy(ARObject):
         """
         return self.mc_data_instance  # Delegates to property
 
-    def setMcDataInstance(self, value: "McDataInstance") -> "SwCalprmRefProxy":
+    def setMcDataInstance(self, value: "McDataInstance") -> SwCalprmRefProxy:
         """
         AUTOSAR-compliant setter for mcDataInstance with method chaining.
 
@@ -145,7 +147,7 @@ class SwCalprmRefProxy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ar_parameter(self, value: Optional[RefType]) -> "SwCalprmRefProxy":
+    def with_ar_parameter(self, value: Optional[RefType]) -> SwCalprmRefProxy:
         """
         Set arParameter and return self for chaining.
 
@@ -161,7 +163,7 @@ class SwCalprmRefProxy(ARObject):
         self.ar_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_mc_data_instance(self, value: Optional["McDataInstance"]) -> "SwCalprmRefProxy":
+    def with_mc_data_instance(self, value: Optional["McDataInstance"]) -> SwCalprmRefProxy:
         """
         Set mcDataInstance and return self for chaining.
 
@@ -263,7 +265,7 @@ class SwVariableRefProxy(ARObject):
         """
         return self.autosar_variable  # Delegates to property
 
-    def setAutosarVariable(self, value: "RefType") -> "SwVariableRefProxy":
+    def setAutosarVariable(self, value: "RefType") -> SwVariableRefProxy:
         """
         AUTOSAR-compliant setter for autosarVariable with method chaining.
 
@@ -291,7 +293,7 @@ class SwVariableRefProxy(ARObject):
         """
         return self.mc_data_instance  # Delegates to property
 
-    def setMcDataInstance(self, value: "McDataInstance") -> "SwVariableRefProxy":
+    def setMcDataInstance(self, value: "McDataInstance") -> SwVariableRefProxy:
         """
         AUTOSAR-compliant setter for mcDataInstance with method chaining.
 
@@ -309,7 +311,7 @@ class SwVariableRefProxy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_autosar_variable(self, value: Optional[RefType]) -> "SwVariableRefProxy":
+    def with_autosar_variable(self, value: Optional[RefType]) -> SwVariableRefProxy:
         """
         Set autosarVariable and return self for chaining.
 
@@ -325,7 +327,7 @@ class SwVariableRefProxy(ARObject):
         self.autosar_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_mc_data_instance(self, value: Optional["McDataInstance"]) -> "SwVariableRefProxy":
+    def with_mc_data_instance(self, value: Optional["McDataInstance"]) -> SwVariableRefProxy:
         """
         Set mcDataInstance and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - DiagnosticCondition
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -77,7 +79,7 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "Boolean") -> "DiagnosticCondition":
+    def setInitValue(self, value: "Boolean") -> DiagnosticCondition:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -95,7 +97,7 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_init_value(self, value: Optional["Boolean"]) -> "DiagnosticCondition":
+    def with_init_value(self, value: Optional["Boolean"]) -> DiagnosticCondition:
         """
         Set initValue and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - EcuReset
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -62,15 +64,15 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
             )
         self._customSub = value
         # represents the ability to access among all DiagnosticEcuReset in the.
-        self._ecuResetClass: Optional["DiagnosticEcuReset"] = None
+        self._ecuResetClass: Optional[DiagnosticEcuReset] = None
 
     @property
-    def ecu_reset_class(self) -> Optional["DiagnosticEcuReset"]:
+    def ecu_reset_class(self) -> Optional[DiagnosticEcuReset]:
         """Get ecuResetClass (Pythonic accessor)."""
         return self._ecuResetClass
 
     @ecu_reset_class.setter
-    def ecu_reset_class(self, value: Optional["DiagnosticEcuReset"]) -> None:
+    def ecu_reset_class(self, value: Optional[DiagnosticEcuReset]) -> None:
         """
         Set ecuResetClass with validation.
 
@@ -104,7 +106,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
         """
         return self.custom_sub  # Delegates to property
 
-    def setCustomSub(self, value: "PositiveInteger") -> "DiagnosticEcuReset":
+    def setCustomSub(self, value: "PositiveInteger") -> DiagnosticEcuReset:
         """
         AUTOSAR-compliant setter for customSub with method chaining.
 
@@ -120,7 +122,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
         self.custom_sub = value  # Delegates to property setter
         return self
 
-    def getEcuResetClass(self) -> "DiagnosticEcuReset":
+    def getEcuResetClass(self) -> DiagnosticEcuReset:
         """
         AUTOSAR-compliant getter for ecuResetClass.
 
@@ -132,7 +134,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
         """
         return self.ecu_reset_class  # Delegates to property
 
-    def setEcuResetClass(self, value: "DiagnosticEcuReset") -> "DiagnosticEcuReset":
+    def setEcuResetClass(self, value: DiagnosticEcuReset) -> DiagnosticEcuReset:
         """
         AUTOSAR-compliant setter for ecuResetClass with method chaining.
 
@@ -150,7 +152,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_sub(self, value: Optional["PositiveInteger"]) -> "DiagnosticEcuReset":
+    def with_custom_sub(self, value: Optional["PositiveInteger"]) -> DiagnosticEcuReset:
         """
         Set customSub and return self for chaining.
 
@@ -166,7 +168,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
         self.custom_sub = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_reset_class(self, value: Optional["DiagnosticEcuReset"]) -> "DiagnosticEcuReset":
+    def with_ecu_reset_class(self, value: Optional[DiagnosticEcuReset]) -> DiagnosticEcuReset:
         """
         Set ecuResetClass and return self for chaining.
 
@@ -243,7 +245,7 @@ class DiagnosticEcuResetClass(DiagnosticServiceClass):
         """
         return self.respond_to  # Delegates to property
 
-    def setRespondTo(self, value: "DiagnosticResponseTo") -> "DiagnosticEcuResetClass":
+    def setRespondTo(self, value: "DiagnosticResponseTo") -> DiagnosticEcuResetClass:
         """
         AUTOSAR-compliant setter for respondTo with method chaining.
 
@@ -261,7 +263,7 @@ class DiagnosticEcuResetClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_respond_to(self, value: Optional["DiagnosticResponseTo"]) -> "DiagnosticEcuResetClass":
+    def with_respond_to(self, value: Optional["DiagnosticResponseTo"]) -> DiagnosticEcuResetClass:
         """
         Set respondTo and return self for chaining.
 

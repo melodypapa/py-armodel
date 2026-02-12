@@ -4,10 +4,12 @@ AUTOSAR Package - PortAPIOptions
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
 )
@@ -140,7 +142,7 @@ class PortDefinedArgumentValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "ValueSpecification") -> "PortDefinedArgumentValue":
+    def setValue(self, value: "ValueSpecification") -> PortDefinedArgumentValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -168,7 +170,7 @@ class PortDefinedArgumentValue(ARObject):
         """
         return self.value_type  # Delegates to property
 
-    def setValueType(self, value: "ImplementationData") -> "PortDefinedArgumentValue":
+    def setValueType(self, value: "ImplementationData") -> PortDefinedArgumentValue:
         """
         AUTOSAR-compliant setter for valueType with method chaining.
 
@@ -186,7 +188,7 @@ class PortDefinedArgumentValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional["ValueSpecification"]) -> "PortDefinedArgumentValue":
+    def with_value(self, value: Optional["ValueSpecification"]) -> PortDefinedArgumentValue:
         """
         Set value and return self for chaining.
 
@@ -202,7 +204,7 @@ class PortDefinedArgumentValue(ARObject):
         self.value = value  # Use property setter (gets validation)
         return self
 
-    def with_value_type(self, value: Optional["ImplementationData"]) -> "PortDefinedArgumentValue":
+    def with_value_type(self, value: Optional["ImplementationData"]) -> PortDefinedArgumentValue:
         """
         Set valueType and return self for chaining.
 
@@ -357,10 +359,10 @@ class PortAPIOption(ARObject):
         return self._portArgValue
         # This collection specifies which features are supported by RunnableEntitys
         # which access a PortPrototype that it this PortAPIOption.
-        self._supported: List["SwcSupportedFeature"] = []
+        self._supported: List[SwcSupportedFeature] = []
 
     @property
-    def supported(self) -> List["SwcSupportedFeature"]:
+    def supported(self) -> List[SwcSupportedFeature]:
         """Get supported (Pythonic accessor)."""
         return self._supported
         # This attribute specifies whether a RunnableEntity accessing a PortPrototype
@@ -408,7 +410,7 @@ class PortAPIOption(ARObject):
         """
         return self.enable_take  # Delegates to property
 
-    def setEnableTake(self, value: "Boolean") -> "PortAPIOption":
+    def setEnableTake(self, value: "Boolean") -> PortAPIOption:
         """
         AUTOSAR-compliant setter for enableTake with method chaining.
 
@@ -436,7 +438,7 @@ class PortAPIOption(ARObject):
         """
         return self.error_handling  # Delegates to property
 
-    def setErrorHandling(self, value: "DataTransformation") -> "PortAPIOption":
+    def setErrorHandling(self, value: "DataTransformation") -> PortAPIOption:
         """
         AUTOSAR-compliant setter for errorHandling with method chaining.
 
@@ -464,7 +466,7 @@ class PortAPIOption(ARObject):
         """
         return self.indirect_api  # Delegates to property
 
-    def setIndirectAPI(self, value: "Boolean") -> "PortAPIOption":
+    def setIndirectAPI(self, value: "Boolean") -> PortAPIOption:
         """
         AUTOSAR-compliant setter for indirectAPI with method chaining.
 
@@ -492,7 +494,7 @@ class PortAPIOption(ARObject):
         """
         return self.port  # Delegates to property
 
-    def setPort(self, value: "RefType") -> "PortAPIOption":
+    def setPort(self, value: "RefType") -> PortAPIOption:
         """
         AUTOSAR-compliant setter for port with method chaining.
 
@@ -520,7 +522,7 @@ class PortAPIOption(ARObject):
         """
         return self.port_arg_value  # Delegates to property
 
-    def getSupported(self) -> List["SwcSupportedFeature"]:
+    def getSupported(self) -> List[SwcSupportedFeature]:
         """
         AUTOSAR-compliant getter for supported.
 
@@ -544,7 +546,7 @@ class PortAPIOption(ARObject):
         """
         return self.transformer  # Delegates to property
 
-    def setTransformer(self, value: "DataTransformation") -> "PortAPIOption":
+    def setTransformer(self, value: "DataTransformation") -> PortAPIOption:
         """
         AUTOSAR-compliant setter for transformer with method chaining.
 
@@ -562,7 +564,7 @@ class PortAPIOption(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_enable_take(self, value: Optional["Boolean"]) -> "PortAPIOption":
+    def with_enable_take(self, value: Optional["Boolean"]) -> PortAPIOption:
         """
         Set enableTake and return self for chaining.
 
@@ -578,7 +580,7 @@ class PortAPIOption(ARObject):
         self.enable_take = value  # Use property setter (gets validation)
         return self
 
-    def with_error_handling(self, value: Optional["DataTransformation"]) -> "PortAPIOption":
+    def with_error_handling(self, value: Optional["DataTransformation"]) -> PortAPIOption:
         """
         Set errorHandling and return self for chaining.
 
@@ -594,7 +596,7 @@ class PortAPIOption(ARObject):
         self.error_handling = value  # Use property setter (gets validation)
         return self
 
-    def with_indirect_api(self, value: Optional["Boolean"]) -> "PortAPIOption":
+    def with_indirect_api(self, value: Optional["Boolean"]) -> PortAPIOption:
         """
         Set indirectAPI and return self for chaining.
 
@@ -610,7 +612,7 @@ class PortAPIOption(ARObject):
         self.indirect_api = value  # Use property setter (gets validation)
         return self
 
-    def with_port(self, value: Optional[RefType]) -> "PortAPIOption":
+    def with_port(self, value: Optional[RefType]) -> PortAPIOption:
         """
         Set port and return self for chaining.
 
@@ -626,7 +628,7 @@ class PortAPIOption(ARObject):
         self.port = value  # Use property setter (gets validation)
         return self
 
-    def with_transformer(self, value: Optional["DataTransformation"]) -> "PortAPIOption":
+    def with_transformer(self, value: Optional["DataTransformation"]) -> PortAPIOption:
         """
         Set transformer and return self for chaining.
 
@@ -727,7 +729,7 @@ class CommunicationBufferLocking(SwcSupportedFeature):
         """
         return self.support_buffer  # Delegates to property
 
-    def setSupportBuffer(self, value: "SupportBufferLocking") -> "CommunicationBufferLocking":
+    def setSupportBuffer(self, value: "SupportBufferLocking") -> CommunicationBufferLocking:
         """
         AUTOSAR-compliant setter for supportBuffer with method chaining.
 
@@ -745,7 +747,7 @@ class CommunicationBufferLocking(SwcSupportedFeature):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_support_buffer(self, value: Optional["SupportBufferLocking"]) -> "CommunicationBufferLocking":
+    def with_support_buffer(self, value: Optional["SupportBufferLocking"]) -> CommunicationBufferLocking:
         """
         Set supportBuffer and return self for chaining.
 

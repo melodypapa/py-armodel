@@ -4,6 +4,8 @@ AUTOSAR Package - CalibrationParameter
 Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -189,7 +191,7 @@ class CalibrationParameterValue(ARObject):
         """
         return self.appl_init_value  # Delegates to property
 
-    def setApplInitValue(self, value: "ValueSpecification") -> "CalibrationParameterValue":
+    def setApplInitValue(self, value: "ValueSpecification") -> CalibrationParameterValue:
         """
         AUTOSAR-compliant setter for applInitValue with method chaining.
 
@@ -217,7 +219,7 @@ class CalibrationParameterValue(ARObject):
         """
         return self.impl_init_value  # Delegates to property
 
-    def setImplInitValue(self, value: "ValueSpecification") -> "CalibrationParameterValue":
+    def setImplInitValue(self, value: "ValueSpecification") -> CalibrationParameterValue:
         """
         AUTOSAR-compliant setter for implInitValue with method chaining.
 
@@ -245,7 +247,7 @@ class CalibrationParameterValue(ARObject):
         """
         return self.initialized  # Delegates to property
 
-    def setInitialized(self, value: "FlatInstanceDescriptor") -> "CalibrationParameterValue":
+    def setInitialized(self, value: "FlatInstanceDescriptor") -> CalibrationParameterValue:
         """
         AUTOSAR-compliant setter for initialized with method chaining.
 
@@ -263,7 +265,7 @@ class CalibrationParameterValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_appl_init_value(self, value: Optional["ValueSpecification"]) -> "CalibrationParameterValue":
+    def with_appl_init_value(self, value: Optional["ValueSpecification"]) -> CalibrationParameterValue:
         """
         Set applInitValue and return self for chaining.
 
@@ -279,7 +281,7 @@ class CalibrationParameterValue(ARObject):
         self.appl_init_value = value  # Use property setter (gets validation)
         return self
 
-    def with_impl_init_value(self, value: Optional["ValueSpecification"]) -> "CalibrationParameterValue":
+    def with_impl_init_value(self, value: Optional["ValueSpecification"]) -> CalibrationParameterValue:
         """
         Set implInitValue and return self for chaining.
 
@@ -295,7 +297,7 @@ class CalibrationParameterValue(ARObject):
         self.impl_init_value = value  # Use property setter (gets validation)
         return self
 
-    def with_initialized(self, value: Optional["FlatInstanceDescriptor"]) -> "CalibrationParameterValue":
+    def with_initialized(self, value: Optional["FlatInstanceDescriptor"]) -> CalibrationParameterValue:
         """
         Set initialized and return self for chaining.
 

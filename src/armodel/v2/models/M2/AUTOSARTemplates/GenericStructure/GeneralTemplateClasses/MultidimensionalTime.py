@@ -4,9 +4,11 @@ AUTOSAR Package - MultidimensionalTime
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::MultidimensionalTime
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -102,7 +104,7 @@ class MultidimensionalTime(ARObject):
         """
         return self.cse_code  # Delegates to property
 
-    def setCseCode(self, value: "CseCodeType") -> "MultidimensionalTime":
+    def setCseCode(self, value: "CseCodeType") -> MultidimensionalTime:
         """
         AUTOSAR-compliant setter for cseCode with method chaining.
 
@@ -130,7 +132,7 @@ class MultidimensionalTime(ARObject):
         """
         return self.cse_code_factor  # Delegates to property
 
-    def setCseCodeFactor(self, value: "Integer") -> "MultidimensionalTime":
+    def setCseCodeFactor(self, value: "Integer") -> MultidimensionalTime:
         """
         AUTOSAR-compliant setter for cseCodeFactor with method chaining.
 
@@ -148,7 +150,7 @@ class MultidimensionalTime(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cse_code(self, value: Optional["CseCodeType"]) -> "MultidimensionalTime":
+    def with_cse_code(self, value: Optional["CseCodeType"]) -> MultidimensionalTime:
         """
         Set cseCode and return self for chaining.
 
@@ -164,7 +166,7 @@ class MultidimensionalTime(ARObject):
         self.cse_code = value  # Use property setter (gets validation)
         return self
 
-    def with_cse_code_factor(self, value: Optional["Integer"]) -> "MultidimensionalTime":
+    def with_cse_code_factor(self, value: Optional["Integer"]) -> MultidimensionalTime:
         """
         Set cseCodeFactor and return self for chaining.
 

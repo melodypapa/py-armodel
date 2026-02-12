@@ -4,9 +4,11 @@ AUTOSAR Package - EndToEndProtection
 Package: M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
 )
@@ -133,7 +135,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
         """
         return self.data_offset  # Delegates to property
 
-    def setDataOffset(self, value: "Integer") -> "EndToEndProtectionISignalIPdu":
+    def setDataOffset(self, value: "Integer") -> EndToEndProtectionISignalIPdu:
         """
         AUTOSAR-compliant setter for dataOffset with method chaining.
 
@@ -161,7 +163,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
         """
         return self.i_signal_group  # Delegates to property
 
-    def setISignalGroup(self, value: "RefType") -> "EndToEndProtectionISignalIPdu":
+    def setISignalGroup(self, value: "RefType") -> EndToEndProtectionISignalIPdu:
         """
         AUTOSAR-compliant setter for iSignalGroup with method chaining.
 
@@ -189,7 +191,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
         """
         return self.i_signal_i_pdu  # Delegates to property
 
-    def setISignalIPdu(self, value: "ISignalIPdu") -> "EndToEndProtectionISignalIPdu":
+    def setISignalIPdu(self, value: "ISignalIPdu") -> EndToEndProtectionISignalIPdu:
         """
         AUTOSAR-compliant setter for iSignalIPdu with method chaining.
 
@@ -207,7 +209,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_offset(self, value: Optional["Integer"]) -> "EndToEndProtectionISignalIPdu":
+    def with_data_offset(self, value: Optional["Integer"]) -> EndToEndProtectionISignalIPdu:
         """
         Set dataOffset and return self for chaining.
 
@@ -223,7 +225,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
         self.data_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_i_signal_group(self, value: Optional[RefType]) -> "EndToEndProtectionISignalIPdu":
+    def with_i_signal_group(self, value: Optional[RefType]) -> EndToEndProtectionISignalIPdu:
         """
         Set iSignalGroup and return self for chaining.
 
@@ -239,7 +241,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
         self.i_signal_group = value  # Use property setter (gets validation)
         return self
 
-    def with_i_signal_i_pdu(self, value: Optional["ISignalIPdu"]) -> "EndToEndProtectionISignalIPdu":
+    def with_i_signal_i_pdu(self, value: Optional["ISignalIPdu"]) -> EndToEndProtectionISignalIPdu:
         """
         Set iSignalIPdu and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - AuxillaryObjects
 Package: M2::MSR::DataDictionary::AuxillaryObjects
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -109,15 +111,15 @@ class SwAddrMethod(ARElement):
                 f"section must be SectionInitialization or None, got {type(value).__name__}"
             )
         self._section = value
-        self._sectionType: Optional["MemorySectionType"] = None
+        self._sectionType: Optional[MemorySectionType] = None
 
     @property
-    def section_type(self) -> Optional["MemorySectionType"]:
+    def section_type(self) -> Optional[MemorySectionType]:
         """Get sectionType (Pythonic accessor)."""
         return self._sectionType
 
     @section_type.setter
-    def section_type(self, value: Optional["MemorySectionType"]) -> None:
+    def section_type(self, value: Optional[MemorySectionType]) -> None:
         """
         Set sectionType with validation.
 
@@ -167,7 +169,7 @@ class SwAddrMethod(ARElement):
         """
         return self.memory  # Delegates to property
 
-    def setMemory(self, value: "MemoryAllocation") -> "SwAddrMethod":
+    def setMemory(self, value: "MemoryAllocation") -> SwAddrMethod:
         """
         AUTOSAR-compliant setter for memory with method chaining.
 
@@ -207,7 +209,7 @@ class SwAddrMethod(ARElement):
         """
         return self.section  # Delegates to property
 
-    def setSection(self, value: "SectionInitialization") -> "SwAddrMethod":
+    def setSection(self, value: "SectionInitialization") -> SwAddrMethod:
         """
         AUTOSAR-compliant setter for section with method chaining.
 
@@ -223,7 +225,7 @@ class SwAddrMethod(ARElement):
         self.section = value  # Delegates to property setter
         return self
 
-    def getSectionType(self) -> "MemorySectionType":
+    def getSectionType(self) -> MemorySectionType:
         """
         AUTOSAR-compliant getter for sectionType.
 
@@ -235,7 +237,7 @@ class SwAddrMethod(ARElement):
         """
         return self.section_type  # Delegates to property
 
-    def setSectionType(self, value: "MemorySectionType") -> "SwAddrMethod":
+    def setSectionType(self, value: MemorySectionType) -> SwAddrMethod:
         """
         AUTOSAR-compliant setter for sectionType with method chaining.
 
@@ -253,7 +255,7 @@ class SwAddrMethod(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_memory(self, value: Optional["MemoryAllocation"]) -> "SwAddrMethod":
+    def with_memory(self, value: Optional["MemoryAllocation"]) -> SwAddrMethod:
         """
         Set memory and return self for chaining.
 
@@ -269,7 +271,7 @@ class SwAddrMethod(ARElement):
         self.memory = value  # Use property setter (gets validation)
         return self
 
-    def with_section(self, value: Optional["SectionInitialization"]) -> "SwAddrMethod":
+    def with_section(self, value: Optional["SectionInitialization"]) -> SwAddrMethod:
         """
         Set section and return self for chaining.
 
@@ -285,7 +287,7 @@ class SwAddrMethod(ARElement):
         self.section = value  # Use property setter (gets validation)
         return self
 
-    def with_section_type(self, value: Optional["MemorySectionType"]) -> "SwAddrMethod":
+    def with_section_type(self, value: Optional[MemorySectionType]) -> SwAddrMethod:
         """
         Set sectionType and return self for chaining.
 

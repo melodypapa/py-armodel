@@ -4,6 +4,8 @@ AUTOSAR Package - ARPackage
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
@@ -61,8 +63,8 @@ class ARPackage(CollectableElement):
         self.parent: Optional["ARObject"] = None
 
         # Initialize list attributes (these are generated outside __init__ by code generator, which is a bug)
-        self._arPackage: List["ARPackage"] = []
-        self._element: List["PackageableElement"] = []
+        self._arPackage: List[ARPackage] = []
+        self._element: List[PackageableElement] = []
         self._referenceBase: List["RefType"] = []
 
     # ===== Manually added methods for Identifiable compatibility =====
@@ -85,7 +87,7 @@ class ARPackage(CollectableElement):
         """
         return self.shortName
 
-    def setShortName(self, value: Optional[str]) -> "ARPackage":
+    def setShortName(self, value: Optional[str]) -> ARPackage:
         """
         AUTOSAR-compliant setter for shortName with method chaining.
 
@@ -100,7 +102,7 @@ class ARPackage(CollectableElement):
 
     # ===== V1-compatible property alias =====
     @property
-    def ar_packages(self) -> List["ARPackage"]:
+    def ar_packages(self) -> List[ARPackage]:
         """Alias for ar_package (V1 compatibility)."""
         return self.ar_package
 
@@ -114,7 +116,7 @@ class ARPackage(CollectableElement):
         return "ARPackage"
 
     # ===== V1-compatible collection methods =====
-    def getARPackages(self) -> List["ARPackage"]:
+    def getARPackages(self) -> List[ARPackage]:
         """
         Get all child ARPackages (V1-compatible method).
 
@@ -123,7 +125,7 @@ class ARPackage(CollectableElement):
         """
         return self.ar_package
 
-    def addARPackage(self, pkg: "ARPackage") -> None:
+    def addARPackage(self, pkg: ARPackage) -> None:
         """
         Add a child ARPackage (V1-compatible method).
 
@@ -135,7 +137,7 @@ class ARPackage(CollectableElement):
         if hasattr(pkg, 'parent'):
             pkg.parent = self
 
-    def addElement(self, elem: "PackageableElement") -> None:
+    def addElement(self, elem: PackageableElement) -> None:
         """
         Add an element to the package (V1-compatible method).
 
@@ -147,7 +149,7 @@ class ARPackage(CollectableElement):
         if hasattr(elem, 'parent'):
             elem.parent = self
 
-    def getElements(self) -> List["PackageableElement"]:
+    def getElements(self) -> List[PackageableElement]:
         """
         Get all elements in the package (V1-compatible method).
 
@@ -162,17 +164,17 @@ class ARPackage(CollectableElement):
         # This represents a sub package within an ARPackage, for an unlimited package
                 # hierarchy.
         # atpVariation.
-        self._arPackage: List["ARPackage"] = []
+        self._arPackage: List[ARPackage] = []
 
     @property
-    def ar_package(self) -> List["ARPackage"]:
+    def ar_package(self) -> List[ARPackage]:
         """Get arPackage (Pythonic accessor)."""
         return self._arPackage
         # Elements that are part of this package atpVariation.
-        self._element: List["PackageableElement"] = []
+        self._element: List[PackageableElement] = []
 
     @property
-    def element(self) -> List["PackageableElement"]:
+    def element(self) -> List[PackageableElement]:
         """Get element (Pythonic accessor)."""
         return self._element
         # This denotes the reference bases for the package.
@@ -299,7 +301,7 @@ class ARPackage(CollectableElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArPackage(self) -> List["ARPackage"]:
+    def getArPackage(self) -> List[ARPackage]:
         """
         AUTOSAR-compliant getter for arPackage.
 
@@ -311,7 +313,7 @@ class ARPackage(CollectableElement):
         """
         return self.ar_package  # Delegates to property
 
-    def getElement(self) -> List["PackageableElement"]:
+    def getElement(self) -> List[PackageableElement]:
         """
         AUTOSAR-compliant getter for element.
 
@@ -384,13 +386,13 @@ class ReferenceBase(ARObject):
         # This represents the ability to express that global elements in various
         # packages which do not have a common Packages mentioned by Reference used in
         # addition to the one in.
-        self._globalIn: List["ARPackage"] = []
+        self._globalIn: List[ARPackage] = []
         # This attribute denotes if the current ReferenceBase is the that there can
         # only be one default reference a package.
         self._isDefault: "Boolean" = None
         # This association specifies the basis of all relative the base equals
         # shortLabel.
-        self._package: Optional["ARPackage"] = None
+        self._package: Optional[ARPackage] = None
         # This attribute represents the short label which shall be unique in the
         # current package.
         self._shortLabel: Optional["Identifier"] = None
@@ -403,7 +405,7 @@ class ReferenceBase(ARObject):
         return self._globalElement
 
     @property
-    def global_in(self) -> List["ARPackage"]:
+    def global_in(self) -> List[ARPackage]:
         """Get globalIn (Pythonic accessor)."""
         return self._globalIn
 
@@ -434,12 +436,12 @@ class ReferenceBase(ARObject):
         self._isDefault = value
 
     @property
-    def package(self) -> Optional["ARPackage"]:
+    def package(self) -> Optional[ARPackage]:
         """Get package (Pythonic accessor)."""
         return self._package
 
     @package.setter
-    def package(self, value: Optional["ARPackage"]) -> None:
+    def package(self, value: Optional[ARPackage]) -> None:
         """
         Set package with validation.
 
@@ -503,7 +505,7 @@ class ReferenceBase(ARObject):
         """
         return self.global_element  # Delegates to property
 
-    def getGlobalIn(self) -> List["ARPackage"]:
+    def getGlobalIn(self) -> List[ARPackage]:
         """
         AUTOSAR-compliant getter for globalIn.
 
@@ -527,7 +529,7 @@ class ReferenceBase(ARObject):
         """
         return self.is_default  # Delegates to property
 
-    def setIsDefault(self, value: "Boolean") -> "ReferenceBase":
+    def setIsDefault(self, value: "Boolean") -> ReferenceBase:
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
 
@@ -543,7 +545,7 @@ class ReferenceBase(ARObject):
         self.is_default = value  # Delegates to property setter
         return self
 
-    def getPackage(self) -> "ARPackage":
+    def getPackage(self) -> ARPackage:
         """
         AUTOSAR-compliant getter for package.
 
@@ -555,7 +557,7 @@ class ReferenceBase(ARObject):
         """
         return self.package  # Delegates to property
 
-    def setPackage(self, value: "ARPackage") -> "ReferenceBase":
+    def setPackage(self, value: ARPackage) -> ReferenceBase:
         """
         AUTOSAR-compliant setter for package with method chaining.
 
@@ -583,7 +585,7 @@ class ReferenceBase(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> "ReferenceBase":
+    def setShortLabel(self, value: "Identifier") -> ReferenceBase:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -601,7 +603,7 @@ class ReferenceBase(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_default(self, value: "Boolean") -> "ReferenceBase":
+    def with_is_default(self, value: "Boolean") -> ReferenceBase:
         """
         Set isDefault and return self for chaining.
 
@@ -617,7 +619,7 @@ class ReferenceBase(ARObject):
         self.is_default = value  # Use property setter (gets validation)
         return self
 
-    def with_package(self, value: Optional["ARPackage"]) -> "ReferenceBase":
+    def with_package(self, value: Optional[ARPackage]) -> ReferenceBase:
         """
         Set package and return self for chaining.
 
@@ -633,7 +635,7 @@ class ReferenceBase(ARObject):
         self.package = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: "Identifier") -> "ReferenceBase":
+    def with_short_label(self, value: "Identifier") -> ReferenceBase:
         """
         Set shortLabel and return self for chaining.
 

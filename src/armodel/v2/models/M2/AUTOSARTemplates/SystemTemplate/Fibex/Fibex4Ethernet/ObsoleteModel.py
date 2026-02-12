@@ -4,9 +4,11 @@ AUTOSAR Package - ObsoleteModel
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     RefType,
@@ -94,7 +96,7 @@ class SoAdRoutingGroup(FibexElement):
         """
         return self.event_group  # Delegates to property
 
-    def setEventGroup(self, value: "RefType") -> "SoAdRoutingGroup":
+    def setEventGroup(self, value: "RefType") -> SoAdRoutingGroup:
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
 
@@ -112,7 +114,7 @@ class SoAdRoutingGroup(FibexElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_group(self, value: Optional[RefType]) -> "SoAdRoutingGroup":
+    def with_event_group(self, value: Optional[RefType]) -> SoAdRoutingGroup:
         """
         Set eventGroup and return self for chaining.
 
@@ -382,7 +384,7 @@ class SocketConnection(Describable):
         """
         return self.client_ip_addr  # Delegates to property
 
-    def setClientIpAddr(self, value: "Boolean") -> "SocketConnection":
+    def setClientIpAddr(self, value: "Boolean") -> SocketConnection:
         """
         AUTOSAR-compliant setter for clientIpAddr with method chaining.
 
@@ -410,7 +412,7 @@ class SocketConnection(Describable):
         """
         return self.client_port  # Delegates to property
 
-    def setClientPort(self, value: "SocketAddress") -> "SocketConnection":
+    def setClientPort(self, value: "SocketAddress") -> SocketConnection:
         """
         AUTOSAR-compliant setter for clientPort with method chaining.
 
@@ -438,7 +440,7 @@ class SocketConnection(Describable):
         """
         return self.client_port_from  # Delegates to property
 
-    def setClientPortFrom(self, value: "Boolean") -> "SocketConnection":
+    def setClientPortFrom(self, value: "Boolean") -> SocketConnection:
         """
         AUTOSAR-compliant setter for clientPortFrom with method chaining.
 
@@ -478,7 +480,7 @@ class SocketConnection(Describable):
         """
         return self.pdu_collection  # Delegates to property
 
-    def setPduCollection(self, value: "TimeValue") -> "SocketConnection":
+    def setPduCollection(self, value: "TimeValue") -> SocketConnection:
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
 
@@ -506,7 +508,7 @@ class SocketConnection(Describable):
         """
         return self.runtime_ip  # Delegates to property
 
-    def setRuntimeIp(self, value: "RuntimeAddress") -> "SocketConnection":
+    def setRuntimeIp(self, value: "RuntimeAddress") -> SocketConnection:
         """
         AUTOSAR-compliant setter for runtimeIp with method chaining.
 
@@ -534,7 +536,7 @@ class SocketConnection(Describable):
         """
         return self.runtime_port  # Delegates to property
 
-    def setRuntimePort(self, value: "RuntimeAddress") -> "SocketConnection":
+    def setRuntimePort(self, value: "RuntimeAddress") -> SocketConnection:
         """
         AUTOSAR-compliant setter for runtimePort with method chaining.
 
@@ -562,7 +564,7 @@ class SocketConnection(Describable):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> "SocketConnection":
+    def setShortLabel(self, value: "Identifier") -> SocketConnection:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -580,7 +582,7 @@ class SocketConnection(Describable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_client_ip_addr(self, value: Optional["Boolean"]) -> "SocketConnection":
+    def with_client_ip_addr(self, value: Optional["Boolean"]) -> SocketConnection:
         """
         Set clientIpAddr and return self for chaining.
 
@@ -596,7 +598,7 @@ class SocketConnection(Describable):
         self.client_ip_addr = value  # Use property setter (gets validation)
         return self
 
-    def with_client_port(self, value: Optional["SocketAddress"]) -> "SocketConnection":
+    def with_client_port(self, value: Optional["SocketAddress"]) -> SocketConnection:
         """
         Set clientPort and return self for chaining.
 
@@ -612,7 +614,7 @@ class SocketConnection(Describable):
         self.client_port = value  # Use property setter (gets validation)
         return self
 
-    def with_client_port_from(self, value: Optional["Boolean"]) -> "SocketConnection":
+    def with_client_port_from(self, value: Optional["Boolean"]) -> SocketConnection:
         """
         Set clientPortFrom and return self for chaining.
 
@@ -628,7 +630,7 @@ class SocketConnection(Describable):
         self.client_port_from = value  # Use property setter (gets validation)
         return self
 
-    def with_pdu_collection(self, value: Optional["TimeValue"]) -> "SocketConnection":
+    def with_pdu_collection(self, value: Optional["TimeValue"]) -> SocketConnection:
         """
         Set pduCollection and return self for chaining.
 
@@ -644,7 +646,7 @@ class SocketConnection(Describable):
         self.pdu_collection = value  # Use property setter (gets validation)
         return self
 
-    def with_runtime_ip(self, value: Optional["RuntimeAddress"]) -> "SocketConnection":
+    def with_runtime_ip(self, value: Optional["RuntimeAddress"]) -> SocketConnection:
         """
         Set runtimeIp and return self for chaining.
 
@@ -660,7 +662,7 @@ class SocketConnection(Describable):
         self.runtime_ip = value  # Use property setter (gets validation)
         return self
 
-    def with_runtime_port(self, value: Optional["RuntimeAddress"]) -> "SocketConnection":
+    def with_runtime_port(self, value: Optional["RuntimeAddress"]) -> SocketConnection:
         """
         Set runtimePort and return self for chaining.
 
@@ -676,7 +678,7 @@ class SocketConnection(Describable):
         self.runtime_port = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["Identifier"]) -> "SocketConnection":
+    def with_short_label(self, value: Optional["Identifier"]) -> SocketConnection:
         """
         Set shortLabel and return self for chaining.
 

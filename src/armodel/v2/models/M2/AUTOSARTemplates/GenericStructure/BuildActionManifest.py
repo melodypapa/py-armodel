@@ -4,10 +4,12 @@ AUTOSAR Package - BuildActionManifest
 Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     NameToken,
     RefType,
@@ -46,34 +48,34 @@ class BuildActionManifest(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a build action environment.
         # atpSplitable; atpVariation.
-        self._buildAction: List["BuildActionEnvironment"] = []
+        self._buildAction: List[BuildActionEnvironment] = []
 
     @property
-    def build_action(self) -> List["BuildActionEnvironment"]:
+    def build_action(self) -> List[BuildActionEnvironment]:
         """Get buildAction (Pythonic accessor)."""
         return self._buildAction
         # This denotes an Action which is to be executed as part of action set.
-        self._dynamicAction: List["BuildAction"] = []
+        self._dynamicAction: List[BuildAction] = []
 
     @property
-    def dynamic_action(self) -> List["BuildAction"]:
+    def dynamic_action(self) -> List[BuildAction]:
         """Get dynamicAction (Pythonic accessor)."""
         return self._dynamicAction
         # This specifies the list of actions to be performed at the the process.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._startAction: List["BuildAction"] = []
+        self._startAction: List[BuildAction] = []
 
     @property
-    def start_action(self) -> List["BuildAction"]:
+    def start_action(self) -> List[BuildAction]:
         """Get startAction (Pythonic accessor)."""
         return self._startAction
         # This specifies the set of action which shall be performed other actions in
         # the manifest were performed.
-        self._tearDownAction: List["BuildAction"] = []
+        self._tearDownAction: List[BuildAction] = []
 
     @property
-    def tear_down_action(self) -> List["BuildAction"]:
+    def tear_down_action(self) -> List[BuildAction]:
         """Get tearDownAction (Pythonic accessor)."""
         return self._tearDownAction
 
@@ -271,7 +273,7 @@ class BuildActionManifest(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBuildAction(self) -> List["BuildActionEnvironment"]:
+    def getBuildAction(self) -> List[BuildActionEnvironment]:
         """
         AUTOSAR-compliant getter for buildAction.
 
@@ -283,7 +285,7 @@ class BuildActionManifest(ARElement):
         """
         return self.build_action  # Delegates to property
 
-    def getDynamicAction(self) -> List["BuildAction"]:
+    def getDynamicAction(self) -> List[BuildAction]:
         """
         AUTOSAR-compliant getter for dynamicAction.
 
@@ -295,7 +297,7 @@ class BuildActionManifest(ARElement):
         """
         return self.dynamic_action  # Delegates to property
 
-    def getStartAction(self) -> List["BuildAction"]:
+    def getStartAction(self) -> List[BuildAction]:
         """
         AUTOSAR-compliant getter for startAction.
 
@@ -307,7 +309,7 @@ class BuildActionManifest(ARElement):
         """
         return self.start_action  # Delegates to property
 
-    def getTearDownAction(self) -> List["BuildAction"]:
+    def getTearDownAction(self) -> List[BuildAction]:
         """
         AUTOSAR-compliant getter for tearDownAction.
 
@@ -450,7 +452,7 @@ class BuildActionIoElement(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "NameToken") -> "BuildActionIoElement":
+    def setCategory(self, value: "NameToken") -> BuildActionIoElement:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -478,7 +480,7 @@ class BuildActionIoElement(ARObject):
         """
         return self.ecuc_definition  # Delegates to property
 
-    def setEcucDefinition(self, value: "EcucDefinitionElement") -> "BuildActionIoElement":
+    def setEcucDefinition(self, value: "EcucDefinitionElement") -> BuildActionIoElement:
         """
         AUTOSAR-compliant setter for ecucDefinition with method chaining.
 
@@ -506,7 +508,7 @@ class BuildActionIoElement(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "BuildActionIoElement":
+    def setRole(self, value: "Identifier") -> BuildActionIoElement:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -536,7 +538,7 @@ class BuildActionIoElement(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: "NameToken") -> "BuildActionIoElement":
+    def with_category(self, value: "NameToken") -> BuildActionIoElement:
         """
         Set category and return self for chaining.
 
@@ -552,7 +554,7 @@ class BuildActionIoElement(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> "BuildActionIoElement":
+    def with_ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> BuildActionIoElement:
         """
         Set ecucDefinition and return self for chaining.
 
@@ -568,7 +570,7 @@ class BuildActionIoElement(ARObject):
         self.ecuc_definition = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: Optional["Identifier"]) -> "BuildActionIoElement":
+    def with_role(self, value: Optional["Identifier"]) -> BuildActionIoElement:
         """
         Set role and return self for chaining.
 
@@ -655,15 +657,15 @@ class BuildActionEntity(Identifiable, ABC):
         """Get deliveryArtifact (Pythonic accessor)."""
         return self._deliveryArtifact
         # This specifies how to invoke a build action in the given.
-        self._invocation: Optional["BuildActionInvocator"] = None
+        self._invocation: Optional[BuildActionInvocator] = None
 
     @property
-    def invocation(self) -> Optional["BuildActionInvocator"]:
+    def invocation(self) -> Optional[BuildActionInvocator]:
         """Get invocation (Pythonic accessor)."""
         return self._invocation
 
     @invocation.setter
-    def invocation(self, value: Optional["BuildActionInvocator"]) -> None:
+    def invocation(self, value: Optional[BuildActionInvocator]) -> None:
         """
         Set invocation with validation.
 
@@ -697,7 +699,7 @@ class BuildActionEntity(Identifiable, ABC):
         """
         return self.delivery_artifact  # Delegates to property
 
-    def getInvocation(self) -> "BuildActionInvocator":
+    def getInvocation(self) -> BuildActionInvocator:
         """
         AUTOSAR-compliant getter for invocation.
 
@@ -709,7 +711,7 @@ class BuildActionEntity(Identifiable, ABC):
         """
         return self.invocation  # Delegates to property
 
-    def setInvocation(self, value: "BuildActionInvocator") -> "BuildActionEntity":
+    def setInvocation(self, value: BuildActionInvocator) -> BuildActionEntity:
         """
         AUTOSAR-compliant setter for invocation with method chaining.
 
@@ -727,7 +729,7 @@ class BuildActionEntity(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_invocation(self, value: Optional["BuildActionInvocator"]) -> "BuildActionEntity":
+    def with_invocation(self, value: Optional[BuildActionInvocator]) -> BuildActionEntity:
         """
         Set invocation and return self for chaining.
 
@@ -806,7 +808,7 @@ class BuildActionInvocator(ARObject):
         """
         return self.command  # Delegates to property
 
-    def setCommand(self, value: "VerbatimString") -> "BuildActionInvocator":
+    def setCommand(self, value: "VerbatimString") -> BuildActionInvocator:
         """
         AUTOSAR-compliant setter for command with method chaining.
 
@@ -824,7 +826,7 @@ class BuildActionInvocator(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_command(self, value: Optional["VerbatimString"]) -> "BuildActionInvocator":
+    def with_command(self, value: Optional["VerbatimString"]) -> BuildActionInvocator:
         """
         Set command and return self for chaining.
 
@@ -1014,7 +1016,7 @@ class BuildEngineeringObject(EngineeringObject):
         """
         return self.file_type  # Delegates to property
 
-    def setFileType(self, value: "NameToken") -> "BuildEngineeringObject":
+    def setFileType(self, value: "NameToken") -> BuildEngineeringObject:
         """
         AUTOSAR-compliant setter for fileType with method chaining.
 
@@ -1042,7 +1044,7 @@ class BuildEngineeringObject(EngineeringObject):
         """
         return self.file_type_pattern  # Delegates to property
 
-    def setFileTypePattern(self, value: "RegularExpression") -> "BuildEngineeringObject":
+    def setFileTypePattern(self, value: "RegularExpression") -> BuildEngineeringObject:
         """
         AUTOSAR-compliant setter for fileTypePattern with method chaining.
 
@@ -1070,7 +1072,7 @@ class BuildEngineeringObject(EngineeringObject):
         """
         return self.intended  # Delegates to property
 
-    def setIntended(self, value: "UriString") -> "BuildEngineeringObject":
+    def setIntended(self, value: "UriString") -> BuildEngineeringObject:
         """
         AUTOSAR-compliant setter for intended with method chaining.
 
@@ -1088,7 +1090,7 @@ class BuildEngineeringObject(EngineeringObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_file_type(self, value: "NameToken") -> "BuildEngineeringObject":
+    def with_file_type(self, value: "NameToken") -> BuildEngineeringObject:
         """
         Set fileType and return self for chaining.
 
@@ -1104,7 +1106,7 @@ class BuildEngineeringObject(EngineeringObject):
         self.file_type = value  # Use property setter (gets validation)
         return self
 
-    def with_file_type_pattern(self, value: "RegularExpression") -> "BuildEngineeringObject":
+    def with_file_type_pattern(self, value: "RegularExpression") -> BuildEngineeringObject:
         """
         Set fileTypePattern and return self for chaining.
 
@@ -1120,7 +1122,7 @@ class BuildEngineeringObject(EngineeringObject):
         self.file_type_pattern = value  # Use property setter (gets validation)
         return self
 
-    def with_intended(self, value: Optional["UriString"]) -> "BuildEngineeringObject":
+    def with_intended(self, value: Optional["UriString"]) -> BuildEngineeringObject:
         """
         Set intended and return self for chaining.
 
@@ -1238,7 +1240,7 @@ class GenericModelReference(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "NameToken") -> "GenericModelReference":
+    def setBase(self, value: "NameToken") -> GenericModelReference:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -1266,7 +1268,7 @@ class GenericModelReference(ARObject):
         """
         return self.dest  # Delegates to property
 
-    def setDest(self, value: "NameToken") -> "GenericModelReference":
+    def setDest(self, value: "NameToken") -> GenericModelReference:
         """
         AUTOSAR-compliant setter for dest with method chaining.
 
@@ -1294,7 +1296,7 @@ class GenericModelReference(ARObject):
         """
         return self.ref  # Delegates to property
 
-    def setRef(self, value: "RefType") -> "GenericModelReference":
+    def setRef(self, value: "RefType") -> GenericModelReference:
         """
         AUTOSAR-compliant setter for ref with method chaining.
 
@@ -1312,7 +1314,7 @@ class GenericModelReference(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: "NameToken") -> "GenericModelReference":
+    def with_base(self, value: "NameToken") -> GenericModelReference:
         """
         Set base and return self for chaining.
 
@@ -1328,7 +1330,7 @@ class GenericModelReference(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_dest(self, value: "NameToken") -> "GenericModelReference":
+    def with_dest(self, value: "NameToken") -> GenericModelReference:
         """
         Set dest and return self for chaining.
 
@@ -1344,7 +1346,7 @@ class GenericModelReference(ARObject):
         self.dest = value  # Use property setter (gets validation)
         return self
 
-    def with_ref(self, value: RefType) -> "GenericModelReference":
+    def with_ref(self, value: RefType) -> GenericModelReference:
         """
         Set ref and return self for chaining.
 
@@ -1378,52 +1380,52 @@ class BuildAction(BuildActionEntity):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the artifacts which are created by the.
-        self._createdData: List["BuildActionIoElement"] = []
+        self._createdData: List[BuildActionIoElement] = []
 
     @property
-    def created_data(self) -> List["BuildActionIoElement"]:
+    def created_data(self) -> List[BuildActionIoElement]:
         """Get createdData (Pythonic accessor)."""
         return self._createdData
         # This association specifies a set of follow up actions.
-        self._followUpAction: List["BuildAction"] = []
+        self._followUpAction: List[BuildAction] = []
 
     @property
-    def follow_up_action(self) -> List["BuildAction"]:
+    def follow_up_action(self) -> List[BuildAction]:
         """Get followUpAction (Pythonic accessor)."""
         return self._followUpAction
         # This represents the artifacts which are read by the.
-        self._inputData: List["BuildActionIoElement"] = []
+        self._inputData: List[BuildActionIoElement] = []
 
     @property
-    def input_data(self) -> List["BuildActionIoElement"]:
+    def input_data(self) -> List[BuildActionIoElement]:
         """Get inputData (Pythonic accessor)."""
         return self._inputData
         # This denotes the data which are modified by the action.
-        self._modifiedData: List["BuildActionIoElement"] = []
+        self._modifiedData: List[BuildActionIoElement] = []
 
     @property
-    def modified_data(self) -> List["BuildActionIoElement"]:
+    def modified_data(self) -> List[BuildActionIoElement]:
         """Get modifiedData (Pythonic accessor)."""
         return self._modifiedData
         # This association specifies a set of predecessors.
         # These shall be finished before but necessarily the given action.
         # need to be performed in the specified.
-        self._predecessor: List["BuildAction"] = []
+        self._predecessor: List[BuildAction] = []
 
     @property
-    def predecessor(self) -> List["BuildAction"]:
+    def predecessor(self) -> List[BuildAction]:
         """Get predecessor (Pythonic accessor)."""
         return self._predecessor
         # This represents the environment which is required to use specified Processor.
-        self._required: "BuildActionEnvironment" = None
+        self._required: BuildActionEnvironment = None
 
     @property
-    def required(self) -> "BuildActionEnvironment":
+    def required(self) -> BuildActionEnvironment:
         """Get required (Pythonic accessor)."""
         return self._required
 
     @required.setter
-    def required(self, value: "BuildActionEnvironment") -> None:
+    def required(self, value: BuildActionEnvironment) -> None:
         """
         Set required with validation.
 
@@ -1441,7 +1443,7 @@ class BuildAction(BuildActionEntity):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCreatedData(self) -> List["BuildActionIoElement"]:
+    def getCreatedData(self) -> List[BuildActionIoElement]:
         """
         AUTOSAR-compliant getter for createdData.
 
@@ -1453,7 +1455,7 @@ class BuildAction(BuildActionEntity):
         """
         return self.created_data  # Delegates to property
 
-    def getFollowUpAction(self) -> List["BuildAction"]:
+    def getFollowUpAction(self) -> List[BuildAction]:
         """
         AUTOSAR-compliant getter for followUpAction.
 
@@ -1465,7 +1467,7 @@ class BuildAction(BuildActionEntity):
         """
         return self.follow_up_action  # Delegates to property
 
-    def getInputData(self) -> List["BuildActionIoElement"]:
+    def getInputData(self) -> List[BuildActionIoElement]:
         """
         AUTOSAR-compliant getter for inputData.
 
@@ -1477,7 +1479,7 @@ class BuildAction(BuildActionEntity):
         """
         return self.input_data  # Delegates to property
 
-    def getModifiedData(self) -> List["BuildActionIoElement"]:
+    def getModifiedData(self) -> List[BuildActionIoElement]:
         """
         AUTOSAR-compliant getter for modifiedData.
 
@@ -1489,7 +1491,7 @@ class BuildAction(BuildActionEntity):
         """
         return self.modified_data  # Delegates to property
 
-    def getPredecessor(self) -> List["BuildAction"]:
+    def getPredecessor(self) -> List[BuildAction]:
         """
         AUTOSAR-compliant getter for predecessor.
 
@@ -1501,7 +1503,7 @@ class BuildAction(BuildActionEntity):
         """
         return self.predecessor  # Delegates to property
 
-    def getRequired(self) -> "BuildActionEnvironment":
+    def getRequired(self) -> BuildActionEnvironment:
         """
         AUTOSAR-compliant getter for required.
 
@@ -1513,7 +1515,7 @@ class BuildAction(BuildActionEntity):
         """
         return self.required  # Delegates to property
 
-    def setRequired(self, value: "BuildActionEnvironment") -> "BuildAction":
+    def setRequired(self, value: BuildActionEnvironment) -> BuildAction:
         """
         AUTOSAR-compliant setter for required with method chaining.
 
@@ -1531,7 +1533,7 @@ class BuildAction(BuildActionEntity):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_required(self, value: "BuildActionEnvironment") -> "BuildAction":
+    def with_required(self, value: BuildActionEnvironment) -> BuildAction:
         """
         Set required and return self for chaining.
 

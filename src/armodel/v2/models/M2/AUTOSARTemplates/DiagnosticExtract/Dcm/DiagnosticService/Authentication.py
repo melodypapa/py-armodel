@@ -4,10 +4,12 @@ AUTOSAR Package - Authentication
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
 )
@@ -99,7 +101,7 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
         """
         return self.authentication  # Delegates to property
 
-    def setAuthentication(self, value: "Diagnostic") -> "DiagnosticAuthentication":
+    def setAuthentication(self, value: "Diagnostic") -> DiagnosticAuthentication:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
 
@@ -117,7 +119,7 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_authentication(self, value: Optional["Diagnostic"]) -> "DiagnosticAuthentication":
+    def with_authentication(self, value: Optional["Diagnostic"]) -> DiagnosticAuthentication:
         """
         Set authentication and return self for chaining.
 
@@ -243,7 +245,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
         """
         return self.evaluation_id  # Delegates to property
 
-    def setEvaluationId(self, value: "PositiveInteger") -> "DiagnosticAuthTransmitCertificateEvaluation":
+    def setEvaluationId(self, value: "PositiveInteger") -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         AUTOSAR-compliant setter for evaluationId with method chaining.
 
@@ -271,7 +273,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
         """
         return self.function  # Delegates to property
 
-    def setFunction(self, value: "String") -> "DiagnosticAuthTransmitCertificateEvaluation":
+    def setFunction(self, value: "String") -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         AUTOSAR-compliant setter for function with method chaining.
 
@@ -289,7 +291,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_evaluation_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticAuthTransmitCertificateEvaluation":
+    def with_evaluation_id(self, value: Optional["PositiveInteger"]) -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         Set evaluationId and return self for chaining.
 
@@ -305,7 +307,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
         self.evaluation_id = value  # Use property setter (gets validation)
         return self
 
-    def with_function(self, value: Optional["String"]) -> "DiagnosticAuthTransmitCertificateEvaluation":
+    def with_function(self, value: Optional["String"]) -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         Set function and return self for chaining.
 

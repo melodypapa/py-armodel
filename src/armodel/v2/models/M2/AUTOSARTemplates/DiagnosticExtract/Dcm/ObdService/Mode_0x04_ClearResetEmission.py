@@ -4,6 +4,8 @@ AUTOSAR Package - Mode_0x04_ClearResetEmission
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x04_ClearResetEmission
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -74,7 +76,7 @@ class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
         """
         return self.clear_reset  # Delegates to property
 
-    def setClearReset(self, value: "DiagnosticClearReset") -> "DiagnosticClearResetEmissionRelatedInfo":
+    def setClearReset(self, value: "DiagnosticClearReset") -> DiagnosticClearResetEmissionRelatedInfo:
         """
         AUTOSAR-compliant setter for clearReset with method chaining.
 
@@ -92,7 +94,7 @@ class DiagnosticClearResetEmissionRelatedInfo(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_clear_reset(self, value: Optional["DiagnosticClearReset"]) -> "DiagnosticClearResetEmissionRelatedInfo":
+    def with_clear_reset(self, value: Optional["DiagnosticClearReset"]) -> DiagnosticClearResetEmissionRelatedInfo:
         """
         Set clearReset and return self for chaining.
 

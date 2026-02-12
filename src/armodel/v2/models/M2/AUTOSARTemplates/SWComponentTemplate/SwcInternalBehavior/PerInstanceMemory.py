@@ -4,9 +4,11 @@ AUTOSAR Package - PerInstanceMemory
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PerInstanceMemory
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -156,7 +158,7 @@ class PerInstanceMemory(Identifiable):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "String") -> "PerInstanceMemory":
+    def setInitValue(self, value: "String") -> PerInstanceMemory:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -184,7 +186,7 @@ class PerInstanceMemory(Identifiable):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "PerInstanceMemory":
+    def setSwDataDef(self, value: "SwDataDefProps") -> PerInstanceMemory:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -212,7 +214,7 @@ class PerInstanceMemory(Identifiable):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "CIdentifier") -> "PerInstanceMemory":
+    def setType(self, value: "CIdentifier") -> PerInstanceMemory:
         """
         AUTOSAR-compliant setter for type with method chaining.
 
@@ -240,7 +242,7 @@ class PerInstanceMemory(Identifiable):
         """
         return self.type_definition  # Delegates to property
 
-    def setTypeDefinition(self, value: "String") -> "PerInstanceMemory":
+    def setTypeDefinition(self, value: "String") -> PerInstanceMemory:
         """
         AUTOSAR-compliant setter for typeDefinition with method chaining.
 
@@ -258,7 +260,7 @@ class PerInstanceMemory(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_init_value(self, value: Optional["String"]) -> "PerInstanceMemory":
+    def with_init_value(self, value: Optional["String"]) -> PerInstanceMemory:
         """
         Set initValue and return self for chaining.
 
@@ -274,7 +276,7 @@ class PerInstanceMemory(Identifiable):
         self.init_value = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "PerInstanceMemory":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> PerInstanceMemory:
         """
         Set swDataDef and return self for chaining.
 
@@ -290,7 +292,7 @@ class PerInstanceMemory(Identifiable):
         self.sw_data_def = value  # Use property setter (gets validation)
         return self
 
-    def with_type(self, value: Optional["CIdentifier"]) -> "PerInstanceMemory":
+    def with_type(self, value: Optional["CIdentifier"]) -> PerInstanceMemory:
         """
         Set type and return self for chaining.
 
@@ -306,7 +308,7 @@ class PerInstanceMemory(Identifiable):
         self.type = value  # Use property setter (gets validation)
         return self
 
-    def with_type_definition(self, value: Optional["String"]) -> "PerInstanceMemory":
+    def with_type_definition(self, value: Optional["String"]) -> PerInstanceMemory:
         """
         Set typeDefinition and return self for chaining.
 

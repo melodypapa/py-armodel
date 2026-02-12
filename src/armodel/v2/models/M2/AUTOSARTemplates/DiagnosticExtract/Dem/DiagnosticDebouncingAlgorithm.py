@@ -4,9 +4,11 @@ AUTOSAR Package - DiagnosticDebouncingAlgorithm
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -78,7 +80,7 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
         """
         return self.debounce  # Delegates to property
 
-    def setDebounce(self, value: "Boolean") -> "DiagnosticDebounceAlgorithmProps":
+    def setDebounce(self, value: "Boolean") -> DiagnosticDebounceAlgorithmProps:
         """
         AUTOSAR-compliant setter for debounce with method chaining.
 
@@ -96,7 +98,7 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_debounce(self, value: Optional["Boolean"]) -> "DiagnosticDebounceAlgorithmProps":
+    def with_debounce(self, value: Optional["Boolean"]) -> DiagnosticDebounceAlgorithmProps:
         """
         Set debounce and return self for chaining.
 

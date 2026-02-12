@@ -4,9 +4,11 @@ AUTOSAR Package - ServiceMapping
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
 )
@@ -140,7 +142,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "RoleBasedDataTypeAssignment":
+    def setRole(self, value: "Identifier") -> RoleBasedDataTypeAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -168,7 +170,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         """
         return self.used  # Delegates to property
 
-    def setUsed(self, value: "ImplementationData") -> "RoleBasedDataTypeAssignment":
+    def setUsed(self, value: "ImplementationData") -> RoleBasedDataTypeAssignment:
         """
         AUTOSAR-compliant setter for used with method chaining.
 
@@ -186,7 +188,7 @@ class RoleBasedDataTypeAssignment(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_role(self, value: Optional["Identifier"]) -> "RoleBasedDataTypeAssignment":
+    def with_role(self, value: Optional["Identifier"]) -> RoleBasedDataTypeAssignment:
         """
         Set role and return self for chaining.
 
@@ -202,7 +204,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         self.role = value  # Use property setter (gets validation)
         return self
 
-    def with_used(self, value: Optional["ImplementationData"]) -> "RoleBasedDataTypeAssignment":
+    def with_used(self, value: Optional["ImplementationData"]) -> RoleBasedDataTypeAssignment:
         """
         Set used and return self for chaining.
 
@@ -313,7 +315,7 @@ class RoleBasedPortAssignment(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> "RoleBasedPortAssignment":
+    def setPortPrototype(self, value: "RefType") -> RoleBasedPortAssignment:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -341,7 +343,7 @@ class RoleBasedPortAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "RoleBasedPortAssignment":
+    def setRole(self, value: "Identifier") -> RoleBasedPortAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -359,7 +361,7 @@ class RoleBasedPortAssignment(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_port_prototype(self, value: Optional[RefType]) -> "RoleBasedPortAssignment":
+    def with_port_prototype(self, value: Optional[RefType]) -> RoleBasedPortAssignment:
         """
         Set portPrototype and return self for chaining.
 
@@ -375,7 +377,7 @@ class RoleBasedPortAssignment(ARObject):
         self.port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: Optional["Identifier"]) -> "RoleBasedPortAssignment":
+    def with_role(self, value: Optional["Identifier"]) -> RoleBasedPortAssignment:
         """
         Set role and return self for chaining.
 
@@ -522,7 +524,7 @@ class SwcServiceDependency(ServiceDependency):
         """
         return self.represented_port  # Delegates to property
 
-    def setRepresentedPort(self, value: "RefType") -> "SwcServiceDependency":
+    def setRepresentedPort(self, value: "RefType") -> SwcServiceDependency:
         """
         AUTOSAR-compliant setter for representedPort with method chaining.
 
@@ -550,7 +552,7 @@ class SwcServiceDependency(ServiceDependency):
         """
         return self.service_needs  # Delegates to property
 
-    def setServiceNeeds(self, value: "ServiceNeeds") -> "SwcServiceDependency":
+    def setServiceNeeds(self, value: "ServiceNeeds") -> SwcServiceDependency:
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
 
@@ -568,7 +570,7 @@ class SwcServiceDependency(ServiceDependency):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_represented_port(self, value: Optional[RefType]) -> "SwcServiceDependency":
+    def with_represented_port(self, value: Optional[RefType]) -> SwcServiceDependency:
         """
         Set representedPort and return self for chaining.
 
@@ -584,7 +586,7 @@ class SwcServiceDependency(ServiceDependency):
         self.represented_port = value  # Use property setter (gets validation)
         return self
 
-    def with_service_needs(self, value: Optional["ServiceNeeds"]) -> "SwcServiceDependency":
+    def with_service_needs(self, value: Optional["ServiceNeeds"]) -> SwcServiceDependency:
         """
         Set serviceNeeds and return self for chaining.
 

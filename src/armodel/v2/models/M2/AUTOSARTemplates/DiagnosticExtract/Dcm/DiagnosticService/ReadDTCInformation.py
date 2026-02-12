@@ -4,6 +4,8 @@ AUTOSAR Package - ReadDTCInformation
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDTCInformation
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -72,7 +74,7 @@ class DiagnosticReadDTCInformation(DiagnosticServiceInstance):
         """
         return self.read  # Delegates to property
 
-    def setRead(self, value: "DiagnosticReadDTC") -> "DiagnosticReadDTCInformation":
+    def setRead(self, value: "DiagnosticReadDTC") -> DiagnosticReadDTCInformation:
         """
         AUTOSAR-compliant setter for read with method chaining.
 
@@ -90,7 +92,7 @@ class DiagnosticReadDTCInformation(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_read(self, value: Optional["DiagnosticReadDTC"]) -> "DiagnosticReadDTCInformation":
+    def with_read(self, value: Optional["DiagnosticReadDTC"]) -> DiagnosticReadDTCInformation:
         """
         Set read and return self for chaining.
 

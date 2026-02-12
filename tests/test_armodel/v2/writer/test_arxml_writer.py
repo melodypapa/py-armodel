@@ -1,20 +1,20 @@
 """
 Unit tests for V2 ARXMLWriter.
 """
-from armodel.v2.models.models import AUTOSAR, ARPackage
+from armodel.v2.models import AUTOSAR, ARPackage
 from armodel.v2.writer.base_writer import ARXMLWriter
 
 
 class TestARXMLWriter:
     """Test ARXMLWriter class methods."""
 
-    def test_save_arxml_with_single_package(self, tmp_path):
+    def test_save_arxml_with_single_package(self, autosar_reset, tmp_path):
         """Test saving ARXML file with one AR-PACKAGE."""
         # Create test data
         document = AUTOSAR()
         pkg = ARPackage()
         pkg.short_name = "TestPackage"
-        document.ar_packages.append(pkg)
+        document.ar_package.append(pkg)
 
         # Write to file
         output_file = tmp_path / "output.arxml"
@@ -30,7 +30,7 @@ class TestARXMLWriter:
         assert "<AUTOSAR" in content
         assert "<SHORT-NAME>TestPackage</SHORT-NAME>" in content
 
-    def test_save_arxml_with_multiple_packages(self, tmp_path):
+    def test_save_arxml_with_multiple_packages(self, autosar_reset, tmp_path):
         """Test saving ARXML file with multiple AR-PACKAGEs."""
         # Create test data
         document = AUTOSAR()
@@ -38,7 +38,7 @@ class TestARXMLWriter:
         pkg1.short_name = "Package1"
         pkg2 = ARPackage()
         pkg2.short_name = "Package2"
-        document.ar_packages.extend([pkg1, pkg2])
+        document.ar_package.extend([pkg1, pkg2])
 
         # Write to file
         output_file = tmp_path / "output.arxml"
@@ -50,7 +50,7 @@ class TestARXMLWriter:
         assert "<SHORT-NAME>Package1</SHORT-NAME>" in content
         assert "<SHORT-NAME>Package2</SHORT-NAME>" in content
 
-    def test_save_arxml_with_nested_packages(self, tmp_path):
+    def test_save_arxml_with_nested_packages(self, autosar_reset, tmp_path):
         """Test saving ARXML file with nested AR-PACKAGEs."""
         # Create test data
         document = AUTOSAR()
@@ -58,8 +58,8 @@ class TestARXMLWriter:
         parent_pkg.short_name = "ParentPackage"
         child_pkg = ARPackage()
         child_pkg.short_name = "ChildPackage"
-        parent_pkg.ar_packages.append(child_pkg)
-        document.ar_packages.append(parent_pkg)
+        parent_pkg.ar_package.append(child_pkg)
+        document.ar_package.append(parent_pkg)
 
         # Write to file
         output_file = tmp_path / "output.arxml"

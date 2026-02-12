@@ -4,6 +4,8 @@ AUTOSAR Package - Mode_0x02_RequestPowertrainFreeze
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -119,7 +121,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
         """
         return self.freeze_frame_freeze_frame  # Delegates to property
 
-    def setFreezeFrameFreezeFrame(self, value: "DiagnosticPowertrain") -> "DiagnosticRequestPowertrainFreezeFrameData":
+    def setFreezeFrameFreezeFrame(self, value: "DiagnosticPowertrain") -> DiagnosticRequestPowertrainFreezeFrameData:
         """
         AUTOSAR-compliant setter for freezeFrameFreezeFrame with method chaining.
 
@@ -147,7 +149,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
         """
         return self.request  # Delegates to property
 
-    def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestPowertrainFreezeFrameData":
+    def setRequest(self, value: "DiagnosticRequest") -> DiagnosticRequestPowertrainFreezeFrameData:
         """
         AUTOSAR-compliant setter for request with method chaining.
 
@@ -165,7 +167,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_freeze_frame_freeze_frame(self, value: Optional["DiagnosticPowertrain"]) -> "DiagnosticRequestPowertrainFreezeFrameData":
+    def with_freeze_frame_freeze_frame(self, value: Optional["DiagnosticPowertrain"]) -> DiagnosticRequestPowertrainFreezeFrameData:
         """
         Set freezeFrameFreezeFrame and return self for chaining.
 
@@ -181,7 +183,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
         self.freeze_frame_freeze_frame = value  # Use property setter (gets validation)
         return self
 
-    def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestPowertrainFreezeFrameData":
+    def with_request(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestPowertrainFreezeFrameData:
         """
         Set request and return self for chaining.
 

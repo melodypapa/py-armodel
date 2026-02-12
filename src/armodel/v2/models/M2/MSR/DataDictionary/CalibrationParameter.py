@@ -4,10 +4,12 @@ AUTOSAR Package - CalibrationParameter
 Package: M2::MSR::DataDictionary::CalibrationParameter
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -34,16 +36,16 @@ class SwCalprmAxisSet(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # One axis belonging to this SwCalprmAxisSet.
-        self._swCalprmAxis: List["SwCalprmAxis"] = []
+        self._swCalprmAxis: List[SwCalprmAxis] = []
 
     @property
-    def sw_calprm_axis(self) -> List["SwCalprmAxis"]:
+    def sw_calprm_axis(self) -> List[SwCalprmAxis]:
         """Get swCalprmAxis (Pythonic accessor)."""
         return self._swCalprmAxis
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwCalprmAxis(self) -> List["SwCalprmAxis"]:
+    def getSwCalprmAxis(self) -> List[SwCalprmAxis]:
         """
         AUTOSAR-compliant getter for swCalprmAxis.
 
@@ -232,7 +234,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CalprmAxisCategory") -> "SwCalprmAxis":
+    def setCategory(self, value: "CalprmAxisCategory") -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -260,7 +262,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.display_format  # Delegates to property
 
-    def setDisplayFormat(self, value: "DisplayFormatString") -> "SwCalprmAxis":
+    def setDisplayFormat(self, value: "DisplayFormatString") -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for displayFormat with method chaining.
 
@@ -288,7 +290,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.sw_axis_index  # Delegates to property
 
-    def setSwAxisIndex(self, value: "AxisIndexType") -> "SwCalprmAxis":
+    def setSwAxisIndex(self, value: "AxisIndexType") -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
 
@@ -316,7 +318,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.sw_calibration  # Delegates to property
 
-    def setSwCalibration(self, value: "SwCalibrationAccess") -> "SwCalprmAxis":
+    def setSwCalibration(self, value: "SwCalibrationAccess") -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
 
@@ -344,7 +346,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.sw_calprm_axis  # Delegates to property
 
-    def setSwCalprmAxis(self, value: "SwCalprmAxisType") -> "SwCalprmAxis":
+    def setSwCalprmAxis(self, value: "SwCalprmAxisType") -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for swCalprmAxis with method chaining.
 
@@ -362,7 +364,7 @@ class SwCalprmAxis(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["CalprmAxisCategory"]) -> "SwCalprmAxis":
+    def with_category(self, value: Optional["CalprmAxisCategory"]) -> SwCalprmAxis:
         """
         Set category and return self for chaining.
 
@@ -378,7 +380,7 @@ class SwCalprmAxis(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_display_format(self, value: Optional["DisplayFormatString"]) -> "SwCalprmAxis":
+    def with_display_format(self, value: Optional["DisplayFormatString"]) -> SwCalprmAxis:
         """
         Set displayFormat and return self for chaining.
 
@@ -394,7 +396,7 @@ class SwCalprmAxis(ARObject):
         self.display_format = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "SwCalprmAxis":
+    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> SwCalprmAxis:
         """
         Set swAxisIndex and return self for chaining.
 
@@ -410,7 +412,7 @@ class SwCalprmAxis(ARObject):
         self.sw_axis_index = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> "SwCalprmAxis":
+    def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> SwCalprmAxis:
         """
         Set swCalibration and return self for chaining.
 
@@ -426,7 +428,7 @@ class SwCalprmAxis(ARObject):
         self.sw_calibration = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_calprm_axis(self, value: Optional["SwCalprmAxisType"]) -> "SwCalprmAxis":
+    def with_sw_calprm_axis(self, value: Optional["SwCalprmAxisType"]) -> SwCalprmAxis:
         """
         Set swCalprmAxis and return self for chaining.
 
@@ -537,7 +539,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         """
         return self.max_gradient  # Delegates to property
 
-    def setMaxGradient(self, value: "Float") -> "SwCalprmAxisTypeProps":
+    def setMaxGradient(self, value: "Float") -> SwCalprmAxisTypeProps:
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
 
@@ -565,7 +567,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         """
         return self.monotony  # Delegates to property
 
-    def setMonotony(self, value: "MonotonyEnum") -> "SwCalprmAxisTypeProps":
+    def setMonotony(self, value: "MonotonyEnum") -> SwCalprmAxisTypeProps:
         """
         AUTOSAR-compliant setter for monotony with method chaining.
 
@@ -583,7 +585,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_gradient(self, value: Optional["Float"]) -> "SwCalprmAxisTypeProps":
+    def with_max_gradient(self, value: Optional["Float"]) -> SwCalprmAxisTypeProps:
         """
         Set maxGradient and return self for chaining.
 
@@ -599,7 +601,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         self.max_gradient = value  # Use property setter (gets validation)
         return self
 
-    def with_monotony(self, value: Optional["MonotonyEnum"]) -> "SwCalprmAxisTypeProps":
+    def with_monotony(self, value: Optional["MonotonyEnum"]) -> SwCalprmAxisTypeProps:
         """
         Set monotony and return self for chaining.
 

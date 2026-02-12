@@ -4,9 +4,11 @@ AUTOSAR Package - Mode_0x08_RequestControlOfOnBoard
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -106,7 +108,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
         """
         return self.request_control  # Delegates to property
 
-    def setRequestControl(self, value: "DiagnosticRequest") -> "DiagnosticRequestControlOfOnBoardDevice":
+    def setRequestControl(self, value: "DiagnosticRequest") -> DiagnosticRequestControlOfOnBoardDevice:
         """
         AUTOSAR-compliant setter for requestControl with method chaining.
 
@@ -134,7 +136,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
         """
         return self.test_id_identifier  # Delegates to property
 
-    def setTestIdIdentifier(self, value: "DiagnosticTestRoutine") -> "DiagnosticRequestControlOfOnBoardDevice":
+    def setTestIdIdentifier(self, value: "DiagnosticTestRoutine") -> DiagnosticRequestControlOfOnBoardDevice:
         """
         AUTOSAR-compliant setter for testIdIdentifier with method chaining.
 
@@ -152,7 +154,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_control(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestControlOfOnBoardDevice":
+    def with_request_control(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestControlOfOnBoardDevice:
         """
         Set requestControl and return self for chaining.
 
@@ -168,7 +170,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
         self.request_control = value  # Use property setter (gets validation)
         return self
 
-    def with_test_id_identifier(self, value: Optional["DiagnosticTestRoutine"]) -> "DiagnosticRequestControlOfOnBoardDevice":
+    def with_test_id_identifier(self, value: Optional["DiagnosticTestRoutine"]) -> DiagnosticRequestControlOfOnBoardDevice:
         """
         Set testIdIdentifier and return self for chaining.
 
@@ -320,7 +322,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> "DiagnosticTestRoutineIdentifier":
+    def setId(self, value: "PositiveInteger") -> DiagnosticTestRoutineIdentifier:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -348,7 +350,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         """
         return self.request_data  # Delegates to property
 
-    def setRequestData(self, value: "PositiveInteger") -> "DiagnosticTestRoutineIdentifier":
+    def setRequestData(self, value: "PositiveInteger") -> DiagnosticTestRoutineIdentifier:
         """
         AUTOSAR-compliant setter for requestData with method chaining.
 
@@ -376,7 +378,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         """
         return self.response_data  # Delegates to property
 
-    def setResponseData(self, value: "PositiveInteger") -> "DiagnosticTestRoutineIdentifier":
+    def setResponseData(self, value: "PositiveInteger") -> DiagnosticTestRoutineIdentifier:
         """
         AUTOSAR-compliant setter for responseData with method chaining.
 
@@ -394,7 +396,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestRoutineIdentifier":
+    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticTestRoutineIdentifier:
         """
         Set id and return self for chaining.
 
@@ -410,7 +412,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_request_data(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestRoutineIdentifier":
+    def with_request_data(self, value: Optional["PositiveInteger"]) -> DiagnosticTestRoutineIdentifier:
         """
         Set requestData and return self for chaining.
 
@@ -426,7 +428,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         self.request_data = value  # Use property setter (gets validation)
         return self
 
-    def with_response_data(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestRoutineIdentifier":
+    def with_response_data(self, value: Optional["PositiveInteger"]) -> DiagnosticTestRoutineIdentifier:
         """
         Set responseData and return self for chaining.
 

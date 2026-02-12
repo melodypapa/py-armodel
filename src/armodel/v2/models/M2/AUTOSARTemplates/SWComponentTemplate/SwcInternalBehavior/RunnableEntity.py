@@ -4,6 +4,8 @@ AUTOSAR Package - RunnableEntity
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -70,7 +72,7 @@ class RunnableEntityArgument(ARObject):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> "RunnableEntityArgument":
+    def setSymbol(self, value: "CIdentifier") -> RunnableEntityArgument:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -88,7 +90,7 @@ class RunnableEntityArgument(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> "RunnableEntityArgument":
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RunnableEntityArgument:
         """
         Set symbol and return self for chaining.
 

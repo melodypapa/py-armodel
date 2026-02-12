@@ -4,6 +4,8 @@ AUTOSAR Package - Mode_0x0A_RequestEmissionRelated
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x0A_RequestEmissionRelated
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -75,7 +77,7 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
         """
         return self.request  # Delegates to property
 
-    def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestEmissionRelatedDTCPermanentStatus":
+    def setRequest(self, value: "DiagnosticRequest") -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
         """
         AUTOSAR-compliant setter for request with method chaining.
 
@@ -93,7 +95,7 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestEmissionRelatedDTCPermanentStatus":
+    def with_request(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
         """
         Set request and return self for chaining.
 

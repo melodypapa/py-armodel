@@ -4,6 +4,8 @@ AUTOSAR Package - TimingConstraint
 Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
@@ -73,7 +75,7 @@ class TimingConstraint(Traceable, ABC):
         """
         return self.timing_condition  # Delegates to property
 
-    def setTimingCondition(self, value: "TimingCondition") -> "TimingConstraint":
+    def setTimingCondition(self, value: "TimingCondition") -> TimingConstraint:
         """
         AUTOSAR-compliant setter for timingCondition with method chaining.
 
@@ -91,7 +93,7 @@ class TimingConstraint(Traceable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_timing_condition(self, value: Optional["TimingCondition"]) -> "TimingConstraint":
+    def with_timing_condition(self, value: Optional["TimingCondition"]) -> TimingConstraint:
         """
         Set timingCondition and return self for chaining.
 
@@ -109,5 +111,5 @@ class TimingConstraint(Traceable, ABC):
 
 
 __all__ = [
-    "TimingConstraint",
+    TimingConstraint,
 ]

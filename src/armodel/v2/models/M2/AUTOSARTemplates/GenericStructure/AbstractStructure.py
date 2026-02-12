@@ -4,10 +4,12 @@ AUTOSAR Package - AbstractStructure
 Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -46,15 +48,15 @@ class AtpInstanceRef(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the base from which the navigaion path starts.
         # atpDerived.
-        self._atpBase: "AtpClassifier" = None
+        self._atpBase: AtpClassifier = None
 
     @property
-    def atp_base(self) -> "AtpClassifier":
+    def atp_base(self) -> AtpClassifier:
         """Get atpBase (Pythonic accessor)."""
         return self._atpBase
 
     @atp_base.setter
-    def atp_base(self, value: "AtpClassifier") -> None:
+    def atp_base(self, value: AtpClassifier) -> None:
         """
         Set atpBase with validation.
 
@@ -78,15 +80,15 @@ class AtpInstanceRef(ARObject, ABC):
         return self._atpContext
         # This is the target of the instance ref.
         # In other words it is of the navigation path.
-        self._atpTarget: "AtpFeature" = None
+        self._atpTarget: AtpFeature = None
 
     @property
-    def atp_target(self) -> "AtpFeature":
+    def atp_target(self) -> AtpFeature:
         """Get atpTarget (Pythonic accessor)."""
         return self._atpTarget
 
     @atp_target.setter
-    def atp_target(self, value: "AtpFeature") -> None:
+    def atp_target(self, value: AtpFeature) -> None:
         """
         Set atpTarget with validation.
 
@@ -136,7 +138,7 @@ class AtpInstanceRef(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAtpBase(self) -> "AtpClassifier":
+    def getAtpBase(self) -> AtpClassifier:
         """
         AUTOSAR-compliant getter for atpBase.
 
@@ -148,7 +150,7 @@ class AtpInstanceRef(ARObject, ABC):
         """
         return self.atp_base  # Delegates to property
 
-    def setAtpBase(self, value: "AtpClassifier") -> "AtpInstanceRef":
+    def setAtpBase(self, value: AtpClassifier) -> AtpInstanceRef:
         """
         AUTOSAR-compliant setter for atpBase with method chaining.
 
@@ -176,7 +178,7 @@ class AtpInstanceRef(ARObject, ABC):
         """
         return self.atp_context  # Delegates to property
 
-    def getAtpTarget(self) -> "AtpFeature":
+    def getAtpTarget(self) -> AtpFeature:
         """
         AUTOSAR-compliant getter for atpTarget.
 
@@ -188,7 +190,7 @@ class AtpInstanceRef(ARObject, ABC):
         """
         return self.atp_target  # Delegates to property
 
-    def setAtpTarget(self, value: "AtpFeature") -> "AtpInstanceRef":
+    def setAtpTarget(self, value: AtpFeature) -> AtpInstanceRef:
         """
         AUTOSAR-compliant setter for atpTarget with method chaining.
 
@@ -206,7 +208,7 @@ class AtpInstanceRef(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_atp_base(self, value: "AtpClassifier") -> "AtpInstanceRef":
+    def with_atp_base(self, value: AtpClassifier) -> AtpInstanceRef:
         """
         Set atpBase and return self for chaining.
 
@@ -222,7 +224,7 @@ class AtpInstanceRef(ARObject, ABC):
         self.atp_base = value  # Use property setter (gets validation)
         return self
 
-    def with_atp_target(self, value: "AtpFeature") -> "AtpInstanceRef":
+    def with_atp_target(self, value: AtpFeature) -> AtpInstanceRef:
         """
         Set atpTarget and return self for chaining.
 
@@ -259,16 +261,16 @@ class AtpClassifier(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is a feature of the classifier.
-        self._atpFeature: List["AtpFeature"] = []
+        self._atpFeature: List[AtpFeature] = []
 
     @property
-    def atp_feature(self) -> List["AtpFeature"]:
+    def atp_feature(self) -> List[AtpFeature]:
         """Get atpFeature (Pythonic accessor)."""
         return self._atpFeature
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAtpFeature(self) -> List["AtpFeature"]:
+    def getAtpFeature(self) -> List[AtpFeature]:
         """
         AUTOSAR-compliant getter for atpFeature.
 
@@ -330,15 +332,15 @@ class AtpPrototype(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the type of the feature.
-        self._atpType: "AtpType" = None
+        self._atpType: AtpType = None
 
     @property
-    def atp_type(self) -> "AtpType":
+    def atp_type(self) -> AtpType:
         """Get atpType (Pythonic accessor)."""
         return self._atpType
 
     @atp_type.setter
-    def atp_type(self, value: "AtpType") -> None:
+    def atp_type(self, value: AtpType) -> None:
         """
         Set atpType with validation.
 
@@ -356,7 +358,7 @@ class AtpPrototype(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAtpType(self) -> "AtpType":
+    def getAtpType(self) -> AtpType:
         """
         AUTOSAR-compliant getter for atpType.
 
@@ -368,7 +370,7 @@ class AtpPrototype(Identifiable, ABC):
         """
         return self.atp_type  # Delegates to property
 
-    def setAtpType(self, value: "AtpType") -> "AtpPrototype":
+    def setAtpType(self, value: AtpType) -> AtpPrototype:
         """
         AUTOSAR-compliant setter for atpType with method chaining.
 
@@ -386,7 +388,7 @@ class AtpPrototype(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_atp_type(self, value: "AtpType") -> "AtpPrototype":
+    def with_atp_type(self, value: AtpType) -> AtpPrototype:
         """
         Set atpType and return self for chaining.
 

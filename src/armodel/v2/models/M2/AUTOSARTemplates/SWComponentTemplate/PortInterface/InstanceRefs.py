@@ -4,9 +4,11 @@ AUTOSAR Package - InstanceRefs
 Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -147,7 +149,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "DataInterface") -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
+    def setBase(self, value: "DataInterface") -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -187,7 +189,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.root_data  # Delegates to property
 
-    def setRootData(self, value: "RefType") -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
+    def setRootData(self, value: "RefType") -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for rootData with method chaining.
 
@@ -215,7 +217,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "ApplicationComposite") -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
+    def setTargetData(self, value: "ApplicationComposite") -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -233,7 +235,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["DataInterface"]) -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
+    def with_base(self, value: Optional["DataInterface"]) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -249,7 +251,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_root_data(self, value: Optional[RefType]) -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
+    def with_root_data(self, value: Optional[RefType]) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         Set rootData and return self for chaining.
 
@@ -265,7 +267,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self.root_data = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional["ApplicationComposite"]) -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
+    def with_target_data(self, value: Optional["ApplicationComposite"]) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         Set targetData and return self for chaining.
 

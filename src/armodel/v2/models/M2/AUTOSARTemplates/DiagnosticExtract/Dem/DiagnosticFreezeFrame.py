@@ -4,9 +4,11 @@ AUTOSAR Package - DiagnosticFreezeFrame
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticFreezeFrame
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
@@ -160,7 +162,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         """
         return self.custom_trigger  # Delegates to property
 
-    def setCustomTrigger(self, value: "String") -> "DiagnosticFreezeFrame":
+    def setCustomTrigger(self, value: "String") -> DiagnosticFreezeFrame:
         """
         AUTOSAR-compliant setter for customTrigger with method chaining.
 
@@ -188,7 +190,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         """
         return self.record_number  # Delegates to property
 
-    def setRecordNumber(self, value: "PositiveInteger") -> "DiagnosticFreezeFrame":
+    def setRecordNumber(self, value: "PositiveInteger") -> DiagnosticFreezeFrame:
         """
         AUTOSAR-compliant setter for recordNumber with method chaining.
 
@@ -216,7 +218,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "DiagnosticRecord") -> "DiagnosticFreezeFrame":
+    def setTrigger(self, value: "DiagnosticRecord") -> DiagnosticFreezeFrame:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -244,7 +246,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         """
         return self.update  # Delegates to property
 
-    def setUpdate(self, value: "Boolean") -> "DiagnosticFreezeFrame":
+    def setUpdate(self, value: "Boolean") -> DiagnosticFreezeFrame:
         """
         AUTOSAR-compliant setter for update with method chaining.
 
@@ -262,7 +264,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_trigger(self, value: Optional["String"]) -> "DiagnosticFreezeFrame":
+    def with_custom_trigger(self, value: Optional["String"]) -> DiagnosticFreezeFrame:
         """
         Set customTrigger and return self for chaining.
 
@@ -278,7 +280,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self.custom_trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_record_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticFreezeFrame":
+    def with_record_number(self, value: Optional["PositiveInteger"]) -> DiagnosticFreezeFrame:
         """
         Set recordNumber and return self for chaining.
 
@@ -294,7 +296,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self.record_number = value  # Use property setter (gets validation)
         return self
 
-    def with_trigger(self, value: Optional["DiagnosticRecord"]) -> "DiagnosticFreezeFrame":
+    def with_trigger(self, value: Optional["DiagnosticRecord"]) -> DiagnosticFreezeFrame:
         """
         Set trigger and return self for chaining.
 
@@ -310,7 +312,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self.trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_update(self, value: Optional["Boolean"]) -> "DiagnosticFreezeFrame":
+    def with_update(self, value: Optional["Boolean"]) -> DiagnosticFreezeFrame:
         """
         Set update and return self for chaining.
 

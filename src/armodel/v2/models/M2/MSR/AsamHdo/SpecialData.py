@@ -4,9 +4,11 @@ AUTOSAR Package - SpecialData
 Package: M2::MSR::AsamHdo::SpecialData
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
 )
@@ -71,15 +73,15 @@ class Sdg(ARObject):
         self._gid = value
         # By this, a shortName etc.
         # can be the Sdg.
-        self._sdgCaption: Optional["SdgCaption"] = None
+        self._sdgCaption: Optional[SdgCaption] = None
 
     @property
-    def sdg_caption(self) -> Optional["SdgCaption"]:
+    def sdg_caption(self) -> Optional[SdgCaption]:
         """Get sdgCaption (Pythonic accessor)."""
         return self._sdgCaption
 
     @sdg_caption.setter
-    def sdg_caption(self, value: Optional["SdgCaption"]) -> None:
+    def sdg_caption(self, value: Optional[SdgCaption]) -> None:
         """
         Set sdgCaption with validation.
 
@@ -98,15 +100,15 @@ class Sdg(ARObject):
                 f"sdgCaption must be SdgCaption or None, got {type(value).__name__}"
             )
         self._sdgCaption = value
-        self._sdgContents: Optional["SdgContents"] = None
+        self._sdgContents: Optional[SdgContents] = None
 
     @property
-    def sdg_contents(self) -> Optional["SdgContents"]:
+    def sdg_contents(self) -> Optional[SdgContents]:
         """Get sdgContents (Pythonic accessor)."""
         return self._sdgContents
 
     @sdg_contents.setter
-    def sdg_contents(self, value: Optional["SdgContents"]) -> None:
+    def sdg_contents(self, value: Optional[SdgContents]) -> None:
         """
         Set sdgContents with validation.
 
@@ -140,7 +142,7 @@ class Sdg(ARObject):
         """
         return self.gid  # Delegates to property
 
-    def setGid(self, value: "NameToken") -> "Sdg":
+    def setGid(self, value: "NameToken") -> Sdg:
         """
         AUTOSAR-compliant setter for gid with method chaining.
 
@@ -156,7 +158,7 @@ class Sdg(ARObject):
         self.gid = value  # Delegates to property setter
         return self
 
-    def getSdgCaption(self) -> "SdgCaption":
+    def getSdgCaption(self) -> SdgCaption:
         """
         AUTOSAR-compliant getter for sdgCaption.
 
@@ -168,7 +170,7 @@ class Sdg(ARObject):
         """
         return self.sdg_caption  # Delegates to property
 
-    def setSdgCaption(self, value: "SdgCaption") -> "Sdg":
+    def setSdgCaption(self, value: SdgCaption) -> Sdg:
         """
         AUTOSAR-compliant setter for sdgCaption with method chaining.
 
@@ -184,7 +186,7 @@ class Sdg(ARObject):
         self.sdg_caption = value  # Delegates to property setter
         return self
 
-    def getSdgContents(self) -> "SdgContents":
+    def getSdgContents(self) -> SdgContents:
         """
         AUTOSAR-compliant getter for sdgContents.
 
@@ -196,7 +198,7 @@ class Sdg(ARObject):
         """
         return self.sdg_contents  # Delegates to property
 
-    def setSdgContents(self, value: "SdgContents") -> "Sdg":
+    def setSdgContents(self, value: SdgContents) -> Sdg:
         """
         AUTOSAR-compliant setter for sdgContents with method chaining.
 
@@ -214,7 +216,7 @@ class Sdg(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_gid(self, value: "NameToken") -> "Sdg":
+    def with_gid(self, value: "NameToken") -> Sdg:
         """
         Set gid and return self for chaining.
 
@@ -230,7 +232,7 @@ class Sdg(ARObject):
         self.gid = value  # Use property setter (gets validation)
         return self
 
-    def with_sdg_caption(self, value: Optional["SdgCaption"]) -> "Sdg":
+    def with_sdg_caption(self, value: Optional[SdgCaption]) -> Sdg:
         """
         Set sdgCaption and return self for chaining.
 
@@ -246,7 +248,7 @@ class Sdg(ARObject):
         self.sdg_caption = value  # Use property setter (gets validation)
         return self
 
-    def with_sdg_contents(self, value: Optional["SdgContents"]) -> "Sdg":
+    def with_sdg_contents(self, value: Optional[SdgContents]) -> Sdg:
         """
         Set sdgContents and return self for chaining.
 
@@ -280,15 +282,15 @@ class SdgContents(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is one particular special data element.
-        self._sd: Optional["Sd"] = None
+        self._sd: Optional[Sd] = None
 
     @property
-    def sd(self) -> Optional["Sd"]:
+    def sd(self) -> Optional[Sd]:
         """Get sd (Pythonic accessor)."""
         return self._sd
 
     @sd.setter
-    def sd(self, value: Optional["Sd"]) -> None:
+    def sd(self, value: Optional[Sd]) -> None:
         """
         Set sd with validation.
 
@@ -307,15 +309,15 @@ class SdgContents(ARObject):
                 f"sd must be Sd or None, got {type(value).__name__}"
             )
         self._sd = value
-        self._sdf: Optional["Sdf"] = None
+        self._sdf: Optional[Sdf] = None
 
     @property
-    def sdf(self) -> Optional["Sdf"]:
+    def sdf(self) -> Optional[Sdf]:
         """Get sdf (Pythonic accessor)."""
         return self._sdf
 
     @sdf.setter
-    def sdf(self, value: Optional["Sdf"]) -> None:
+    def sdf(self, value: Optional[Sdf]) -> None:
         """
         Set sdf with validation.
 
@@ -335,15 +337,15 @@ class SdgContents(ARObject):
             )
         self._sdf = value
         # can be represented in atpVariation.
-        self._sdg: Optional["Sdg"] = None
+        self._sdg: Optional[Sdg] = None
 
     @property
-    def sdg(self) -> Optional["Sdg"]:
+    def sdg(self) -> Optional[Sdg]:
         """Get sdg (Pythonic accessor)."""
         return self._sdg
 
     @sdg.setter
-    def sdg(self, value: Optional["Sdg"]) -> None:
+    def sdg(self, value: Optional[Sdg]) -> None:
         """
         Set sdg with validation.
 
@@ -414,7 +416,7 @@ class SdgContents(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSd(self) -> "Sd":
+    def getSd(self) -> Sd:
         """
         AUTOSAR-compliant getter for sd.
 
@@ -426,7 +428,7 @@ class SdgContents(ARObject):
         """
         return self.sd  # Delegates to property
 
-    def setSd(self, value: "Sd") -> "SdgContents":
+    def setSd(self, value: Sd) -> SdgContents:
         """
         AUTOSAR-compliant setter for sd with method chaining.
 
@@ -442,7 +444,7 @@ class SdgContents(ARObject):
         self.sd = value  # Delegates to property setter
         return self
 
-    def getSdf(self) -> "Sdf":
+    def getSdf(self) -> Sdf:
         """
         AUTOSAR-compliant getter for sdf.
 
@@ -454,7 +456,7 @@ class SdgContents(ARObject):
         """
         return self.sdf  # Delegates to property
 
-    def setSdf(self, value: "Sdf") -> "SdgContents":
+    def setSdf(self, value: Sdf) -> SdgContents:
         """
         AUTOSAR-compliant setter for sdf with method chaining.
 
@@ -470,7 +472,7 @@ class SdgContents(ARObject):
         self.sdf = value  # Delegates to property setter
         return self
 
-    def getSdg(self) -> "Sdg":
+    def getSdg(self) -> Sdg:
         """
         AUTOSAR-compliant getter for sdg.
 
@@ -482,7 +484,7 @@ class SdgContents(ARObject):
         """
         return self.sdg  # Delegates to property
 
-    def setSdg(self, value: "Sdg") -> "SdgContents":
+    def setSdg(self, value: Sdg) -> SdgContents:
         """
         AUTOSAR-compliant setter for sdg with method chaining.
 
@@ -510,7 +512,7 @@ class SdgContents(ARObject):
         """
         return self.sdx  # Delegates to property
 
-    def setSdx(self, value: "RefType") -> "SdgContents":
+    def setSdx(self, value: "RefType") -> SdgContents:
         """
         AUTOSAR-compliant setter for sdx with method chaining.
 
@@ -538,7 +540,7 @@ class SdgContents(ARObject):
         """
         return self.sdxf  # Delegates to property
 
-    def setSdxf(self, value: "RefType") -> "SdgContents":
+    def setSdxf(self, value: "RefType") -> SdgContents:
         """
         AUTOSAR-compliant setter for sdxf with method chaining.
 
@@ -556,7 +558,7 @@ class SdgContents(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sd(self, value: Optional["Sd"]) -> "SdgContents":
+    def with_sd(self, value: Optional[Sd]) -> SdgContents:
         """
         Set sd and return self for chaining.
 
@@ -572,7 +574,7 @@ class SdgContents(ARObject):
         self.sd = value  # Use property setter (gets validation)
         return self
 
-    def with_sdf(self, value: Optional["Sdf"]) -> "SdgContents":
+    def with_sdf(self, value: Optional[Sdf]) -> SdgContents:
         """
         Set sdf and return self for chaining.
 
@@ -588,7 +590,7 @@ class SdgContents(ARObject):
         self.sdf = value  # Use property setter (gets validation)
         return self
 
-    def with_sdg(self, value: Optional["Sdg"]) -> "SdgContents":
+    def with_sdg(self, value: Optional[Sdg]) -> SdgContents:
         """
         Set sdg and return self for chaining.
 
@@ -604,7 +606,7 @@ class SdgContents(ARObject):
         self.sdg = value  # Use property setter (gets validation)
         return self
 
-    def with_sdx(self, value: Optional[RefType]) -> "SdgContents":
+    def with_sdx(self, value: Optional[RefType]) -> SdgContents:
         """
         Set sdx and return self for chaining.
 
@@ -620,7 +622,7 @@ class SdgContents(ARObject):
         self.sdx = value  # Use property setter (gets validation)
         return self
 
-    def with_sdxf(self, value: Optional[RefType]) -> "SdgContents":
+    def with_sdxf(self, value: Optional[RefType]) -> SdgContents:
         """
         Set sdxf and return self for chaining.
 
@@ -698,7 +700,7 @@ class SdgCaption(MultilanguageReferrable):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> "SdgCaption":
+    def setDesc(self, value: "MultiLanguageOverview") -> SdgCaption:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -716,7 +718,7 @@ class SdgCaption(MultilanguageReferrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "SdgCaption":
+    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> SdgCaption:
         """
         Set desc and return self for chaining.
 
@@ -839,7 +841,7 @@ class Sd(ARObject):
         """
         return self.gid  # Delegates to property
 
-    def setGid(self, value: "NameToken") -> "Sd":
+    def setGid(self, value: "NameToken") -> Sd:
         """
         AUTOSAR-compliant setter for gid with method chaining.
 
@@ -867,7 +869,7 @@ class Sd(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "VerbatimStringPlain") -> "Sd":
+    def setValue(self, value: "VerbatimStringPlain") -> Sd:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -895,7 +897,7 @@ class Sd(ARObject):
         """
         return self.xml_space  # Delegates to property
 
-    def setXmlSpace(self, value: "XmlSpaceEnum") -> "Sd":
+    def setXmlSpace(self, value: "XmlSpaceEnum") -> Sd:
         """
         AUTOSAR-compliant setter for xmlSpace with method chaining.
 
@@ -913,7 +915,7 @@ class Sd(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_gid(self, value: "NameToken") -> "Sd":
+    def with_gid(self, value: "NameToken") -> Sd:
         """
         Set gid and return self for chaining.
 
@@ -929,7 +931,7 @@ class Sd(ARObject):
         self.gid = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: "VerbatimStringPlain") -> "Sd":
+    def with_value(self, value: "VerbatimStringPlain") -> Sd:
         """
         Set value and return self for chaining.
 
@@ -945,7 +947,7 @@ class Sd(ARObject):
         self.value = value  # Use property setter (gets validation)
         return self
 
-    def with_xml_space(self, value: Optional["XmlSpaceEnum"]) -> "Sd":
+    def with_xml_space(self, value: Optional["XmlSpaceEnum"]) -> Sd:
         """
         Set xmlSpace and return self for chaining.
 
@@ -1045,7 +1047,7 @@ class Sdf(ARObject):
         """
         return self.gid  # Delegates to property
 
-    def setGid(self, value: "NameToken") -> "Sdf":
+    def setGid(self, value: "NameToken") -> Sdf:
         """
         AUTOSAR-compliant setter for gid with method chaining.
 
@@ -1073,7 +1075,7 @@ class Sdf(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> "Sdf":
+    def setValue(self, value: "Numerical") -> Sdf:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1091,7 +1093,7 @@ class Sdf(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_gid(self, value: "NameToken") -> "Sdf":
+    def with_gid(self, value: "NameToken") -> Sdf:
         """
         Set gid and return self for chaining.
 
@@ -1107,7 +1109,7 @@ class Sdf(ARObject):
         self.gid = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["Numerical"]) -> "Sdf":
+    def with_value(self, value: Optional["Numerical"]) -> Sdf:
         """
         Set value and return self for chaining.
 

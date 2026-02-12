@@ -15,10 +15,10 @@ These rules ensure all V2 modules maintain high code quality, avoid circular imp
 
 ### V2 Architecture Principles
 
-1. **Clean Imports**: Absolute imports only, TYPE_CHECKING blocks only for self-referencing return types
+1. **Clean Imports**: Absolute imports only, `from __future__ import annotations` for self-referencing return types and forward references
 2. **Extensibility**: Open for extension, closed for modification
 3. **Modern Python**: Use latest Python features and best practices
-4. **Type Safety**: Explicit type hints with direct imports for non-self types, string annotations only for self-referencing
+4. **Type Safety**: Explicit type hints with direct imports for non-self types, postponed evaluation for self-referencing
 5. **Modularity**: Clear separation of concerns between modules
 6. **Clean Break**: No V1 compatibility constraints - fresh design
 
@@ -54,91 +54,87 @@ from ..reader import ARXMLReader
 
 ---
 
-### CODING_RULE_V2_00002: TYPE_CHECKING for Self-Referencing Return Types
+### CODING_RULE_V2_00002: Postponed Evaluation of Annotations
 
 **Maturity**: accept
 
 **Scope**: All V2 modules
 
-**Description**: V2 modules MUST use `TYPE_CHECKING` blocks and string annotations ONLY for method return types involving `self`. All other type annotations should use direct imports without TYPE_CHECKING.
+**Description**: V2 modules MUST use `from __future__ import annotations` for self-referencing return types and forward references to other classes. This enables postponed evaluation of annotations per PEP 563, eliminating the need for TYPE_CHECKING blocks.
 
 **Example:**
 ```python
-# CORRECT - TYPE_CHECKING for self-referencing return type
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
-        SwComponentType,
-    )
+# CORRECT - Use from __future__ import annotations
+from __future__ import annotations
 
 class SwComponentType:
-    def with_short_name(self, value: str) -> "SwComponentType":
-        """Return self for method chaining - use string annotation."""
+    def with_short_name(self, value: str) -> SwComponentType:
+        """Return self for method chaining - no quotes needed."""
         self.short_name = value
         return self
 
-    def with_category(self, value: str) -> "SwComponentType":
-        """Return self for method chaining - use string annotation."""
+    def with_category(self, value: str) -> SwComponentType:
+        """Return self for method chaining - no quotes needed."""
         self.category = value
         return self
 
-# CORRECT - Direct import for non-self types
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
-    PPortPrototype,
-)
-
-class SwComponentType:
     def create_port(self, short_name: str) -> PPortPrototype:
-        """Return different type - use direct import."""
+        """Return different type - direct import works."""
         return PPortPrototype(self, short_name)
 
-# WRONG - TYPE_CHECKING for non-self types
+# CORRECT - Forward references to other classes in same file
+from __future__ import annotations
+
+class Chapter:
+    def __init__(self):
+        self._chapterModel: ChapterModel = None  # Forward reference
+
+    def get_model(self) -> ChapterModel:
+        """Return type defined later in file."""
+        return self._chapterModel
+
+class ChapterModel:
+    pass
+
+# WRONG - TYPE_CHECKING blocks (not needed in V2)
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
 
 class SwComponentType:
-    def create_port(self, short_name: str) -> "PPortPrototype":  # Wrong: use direct import
-        return PPortPrototype(self, short_name)
+    def with_short_name(self, value: str) -> SwComponentType:  # Wrong: unnecessary
+        return self
 ```
 
 **Requirements:**
 
-1. **Use TYPE_CHECKING ONLY for Self-Referencing Methods**:
-   - Methods that return `self` for chaining
-   - Factory methods that return the same class type
-   - Any method where the return type is the class itself
+1. **Use `from __future__ import annotations` when**:
+   - Methods return their own class type (self-referencing)
+   - Classes reference other classes defined later in the same file
+   - Any method has return type `-> ClassName` where ClassName is the current class
 
-2. **Use Direct Imports for All Other Types**:
-   - Return types that are different classes
-   - Parameter types (even if forward references)
-   - Attribute types in `__init__`
+2. **Don't use TYPE_CHECKING blocks** in V2 models (except documented deviations)
 
-3. **String Annotation Format for Self-Referencing**:
-   ```python
-   def with_method(self) -> "ClassName":  # Use quotes for self-referencing
-       return self
-   ```
+3. **Placement**: Import at the very top of the file before all other imports
 
-4. **TYPE_CHECKING Block Placement**:
-   - Place at module level after standard imports
-   - Import only the self-referencing class
-   - Use in method return type annotations
+4. **String annotations**: Use quoted form `"ClassName"` for forward references to classes not yet imported
+
+5. **Add Only When Required**: Only add `from __future__ import annotations` when truly needed. Files without self-referencing return types or forward references don't need it. This keeps imports minimal and intentional.
 
 **Why This Approach:**
 
-- **Self-referencing is the only circular dependency**: When a method returns `self`, the class refers to itself, creating a circular dependency
-- **All other types can be imported directly**: Forward references to other classes don't create circular dependencies in V2's clean architecture
-- **Simpler code**: Reduces unnecessary TYPE_CHECKING usage
-- **Better IDE support**: Direct imports provide better autocomplete and navigation
+- **Self-referencing return types are the primary use case**: Based on V2 refactoring analysis, 268 files needed `from __future__ import annotations` for self-referencing return types
+- **Forward references work seamlessly**: 0 files needed special handling for forward references to other classes
+- **Eliminates complexity**: No need for TYPE_CHECKING blocks and conditional imports
+- **Better IDE support**: No conditional imports means better autocomplete and navigation
+- **Simpler, more maintainable code**: One consistent pattern across all V2 models
 
-**Rationale**: V2's clean architecture eliminates most circular dependencies. The only remaining circular dependency is when a class references itself in method return types (e.g., for method chaining). Using TYPE_CHECKING only for this specific case keeps the code simple and maintainable.
+**Rationale**: V2's clean architecture with `from __future__ import annotations` eliminates the complexity of TYPE_CHECKING blocks. Self-referencing return types (for method chaining) and forward references both work seamlessly with PEP 563's postponed evaluation. Using `from __future__ import annotations` only when needed keeps imports minimal while providing the necessary functionality.
 
 **References**:
-- PEP 484 - Type Hints
 - PEP 563 - Postponed Evaluation of Annotations
+- PEP 484 - Type Hints
 - Design Document: `docs/plans/2025-02-05-models-v2-design.md`
 
 ---
@@ -315,6 +311,65 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import
 
 ---
 
+### CODING_RULE_V2_00020: No V1 Model References in V2 Modules
+
+**Maturity**: accept
+
+**Scope**: All V2 models (`src/armodel/v2/models/`)
+
+**Description**: V2 models MUST NOT reference V1 models (`armodel.models`). V2 modules must maintain complete architectural separation from V1.
+
+**Example:**
+```python
+# CORRECT - V2 models reference other V2 models
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    InternalBehavior,
+)
+
+# WRONG - V2 models importing from V1
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,  # Wrong: V1 import in V2 module
+)
+
+# WRONG - V2 models using V1 base classes
+from armodel.models.base import ARObject  # Wrong: Use V2 ARObject
+```
+
+**Requirements:**
+
+1. **Absolute V2 Imports Only**: All V2 model imports MUST use `armodel.v2.models` path
+   ```python
+   from armodel.v2.models.M2.AUTOSARTemplates... import SomeClass
+   ```
+
+2. **No V1 Base Classes**: V2 models MUST inherit from V2 base classes only
+   ```python
+   # Correct - Use V2 ARObject
+   from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+       ARObject,
+   )
+
+   class SwComponentType(ARObject):  # Correct
+       pass
+   ```
+
+3. **Detection**: Use import validation to detect V1 references in V2 modules
+   ```bash
+   # Check for V1 imports in V2 modules
+   grep -r "from armodel.models" src/armodel/v2/models/
+   ```
+
+**Rationale**: V2 is designed as a clean architectural break from V1 with improved patterns (absolute imports, explicit exports, no circular dependencies). Referencing V1 from V2 breaks this architecture and prevents V2 from being standalone. The separation ensures V2 can be used independently and follows the Open/Closed principle for extensibility.
+
+**References**:
+- V2 Architecture: `docs/plans/2025-02-05-models-v2-design.md`
+- V2 Migration Guide: `docs/development/v2_migration_guide.md`
+
+---
+
 ## Type System Rules
 
 ### CODING_RULE_V2_00005: Direct Imports for Non-Self Types
@@ -323,7 +378,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import
 
 **Scope**: All V2 modules
 
-**Description**: V2 modules MUST use direct imports for all type annotations EXCEPT method return types involving `self`. String annotations are only allowed for self-referencing return types (see CODING_RULE_V2_00002).
+**Description**: V2 modules MUST use direct imports for all type annotations EXCEPT method return types involving `self` and forward references to classes defined later in the same file. Use `from __future__ import annotations` for those cases (see CODING_RULE_V2_00002).
 
 **Example:**
 ```python
@@ -344,17 +399,12 @@ class SwComponentType:
         """Create and return a new port - different type, use direct import."""
         return PPortPrototype(self, short_name)
 
-# CORRECT - String annotation for self-referencing (see CODING_RULE_V2_00002)
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
-        SwComponentType,
-    )
+# CORRECT - from __future__ import annotations for self-referencing (see CODING_RULE_V2_00002)
+from __future__ import annotations
 
 class SwComponentType:
-    def with_short_name(self, value: str) -> "SwComponentType":  # String annotation
-        """Return self for chaining - self-referencing, use string annotation."""
+    def with_short_name(self, value: str) -> SwComponentType:  # No quotes needed
+        """Return self for chaining - self-referencing."""
         self.short_name = value
         return self
 
@@ -371,14 +421,15 @@ def get_ports(self) -> List["PPortPrototype"]:  # Wrong: should use direct impor
    - Return types that are different from the containing class
    - Generic type parameters (List, Dict, Optional, etc.)
 
-2. **Use String Annotations ONLY for Self-Referencing**:
+2. **Use `from __future__ import annotations` ONLY When Needed**:
    - Method return types that return the class itself
    - Factory methods returning the same class type
-   - Any type annotation where the class refers to itself
+   - Forward references to classes defined later in the same file
+   - See CODING_RULE_V2_00002 for details
 
 3. **Import Placement**:
+   - Place `from __future__ import annotations` at the very top of the file (before all other imports) when needed
    - Place direct imports at module level
-   - Place TYPE_CHECKING block after standard imports
    - Keep imports organized by category (standard library, third-party, local)
 
 **Why This Approach:**
@@ -386,12 +437,13 @@ def get_ports(self) -> List["PPortPrototype"]:  # Wrong: should use direct impor
 - **V2 architecture eliminates circular dependencies**: The clean module structure with absolute imports means most forward references don't create circular dependencies
 - **Better tooling support**: Direct imports provide better IDE autocomplete, navigation, and refactoring
 - **Explicit is better than implicit**: Direct imports make dependencies visible and explicit
-- **Simpler code**: Reduces unnecessary complexity from widespread string annotation usage
+- **Minimal imports**: Only add `from __future__ import annotations` when truly needed for self-referencing or forward references
 
-**Rationale**: With V2's clean architecture and absolute imports, circular dependencies are rare. The only remaining case is when a class references itself (e.g., for method chaining). Using direct imports for everything else improves code clarity and tool support.
+**Rationale**: With V2's clean architecture and absolute imports, circular dependencies are rare. The only remaining cases are when a class references itself (e.g., for method chaining) or references classes defined later in the same file. Using `from __future__ import annotations` for those specific cases and direct imports for everything else improves code clarity and tool support.
 
 **References**:
 - PEP 484 - Forward References
+- PEP 563 - Postponed Evaluation of Annotations
 - Design Document: `docs/plans/2025-02-05-models-v2-design.md`
 
 ---
@@ -402,7 +454,7 @@ def get_ports(self) -> List["PPortPrototype"]:  # Wrong: should use direct impor
 
 **Scope**: All V2 modules
 
-**Description**: All V2 modules MUST NOT have circular imports at runtime. With V2's clean architecture and absolute imports, circular imports should be rare. The only acceptable circular import pattern is self-referencing return types handled via TYPE_CHECKING (see CODING_RULE_V2_00002).
+**Description**: All V2 modules MUST NOT have circular imports at runtime. With V2's clean architecture and absolute imports, circular imports should be rare. The only acceptable circular import pattern is self-referencing return types handled via `from __future__ import annotations` (see CODING_RULE_V2_00002).
 
 **Example:**
 ```python
@@ -418,7 +470,7 @@ class SwComponentType:
 
 # CORRECT - Lazy import at method scope (only when necessary)
 class SwComponentType:
-    def create_complex_object(self, config: dict) -> "SomeComplexType":
+    def create_complex_object(self, config: dict) -> SomeComplexType:
         """
         Lazy import only when necessary for complex initialization.
 
@@ -430,16 +482,11 @@ class SwComponentType:
         from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import SomeComplexType
         return SomeComplexType(config)
 
-# CORRECT - Self-referencing via TYPE_CHECKING (see CODING_RULE_V2_00002)
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
-        SwComponentType,
-    )
+# CORRECT - Self-referencing via from __future__ import annotations (see CODING_RULE_V2_00002)
+from __future__ import annotations
 
 class SwComponentType:
-    def with_short_name(self, value: str) -> "SwComponentType":
+    def with_short_name(self, value: str) -> SwComponentType:
         """Return self for chaining - self-referencing only."""
         self.short_name = value
         return self
@@ -464,8 +511,9 @@ class SwComponentType:
    - Use when direct import would cause circular dependency
    - Use when type is only used in a specific method
 
-3. **Use TYPE_CHECKING (Self-Referencing Only)**:
+3. **Use `from __future__ import annotations` (Self-Referencing Only)**:
    - For methods returning `self` or the same class type
+   - For forward references to classes defined later in the same file
    - See CODING_RULE_V2_00002 for details
 
 4. **Refactor Architecture (Last Resort)**:
@@ -477,7 +525,7 @@ class SwComponentType:
 
 1. **Self-Referencing (Expected)**:
    - Methods returning `self` for chaining
-   - Solution: Use TYPE_CHECKING (see CODING_RULE_V2_00002)
+   - Solution: Use `from __future__ import annotations` (see CODING_RULE_V2_00002)
 
 2. **Mutual Dependencies (Avoid)**:
    - Module A imports Module B, Module B imports Module A
@@ -487,9 +535,10 @@ class SwComponentType:
    - `from module import *` can create hidden circular dependencies
    - Solution: Use explicit imports (see CODING_RULE_V2_00012)
 
-**Rationale**: Runtime circular imports cause ImportError and prevent modules from loading. V2's clean architecture with absolute imports eliminates most circular dependencies. The only acceptable pattern is self-referencing return types, which are handled via TYPE_CHECKING. All other circular dependencies should be resolved through refactoring.
+**Rationale**: Runtime circular imports cause ImportError and prevent modules from loading. V2's clean architecture with absolute imports eliminates most circular dependencies. The only acceptable pattern is self-referencing return types and forward references, which are handled via `from __future__ import annotations` per PEP 563. All other circular dependencies should be resolved through refactoring.
 
 **References**:
+- PEP 563 - Postponed Evaluation of Annotations
 - Python Circular Import Solutions
 - Design Document: `docs/plans/2025-02-05-models-v2-design.md`
 
@@ -554,9 +603,9 @@ AUTOSAR V2 Models - Clean import architecture.
 
 V2 Implementation:
 - Absolute imports only (CODING_RULE_V2_00001)
-- No TYPE_CHECKING (CODING_RULE_V2_00002)
+- from __future__ import annotations for self-referencing (CODING_RULE_V2_00002)
 - Explicit __all__ exports (CODING_RULE_V2_00003)
-- String annotations for forward refs (CODING_RULE_V2_00005)
+- Direct imports for non-self types (CODING_RULE_V2_00005)
 
 Compatible with V1 API.
 """
@@ -1303,26 +1352,28 @@ def build_map(self) -> Dict[str, AutosarPackage]:
 
 **Scope**: All V2 modules
 
-**Description**: V2 modules MUST use string literals for circular dependencies (see CODING_RULE_V2_00002 for TYPE_CHECKING usage).
+**Description**: V2 modules MUST use `from __future__ import annotations` for forward references (see CODING_RULE_V2_00002). This enables postponed evaluation per PEP 563, allowing forward references without string literals.
 
 **Example:**
 ```python
+from __future__ import annotations
 from dataclasses import dataclass, field
 
 @dataclass
 class AutosarPackage:
     name: str
-    subpackages: List["AutosarPackage"] = field(default_factory=list)
+    subpackages: List[AutosarPackage] = field(default_factory=list)  # No quotes needed
 
-def get_subpackage(self, name: str) -> Optional["AutosarPackage"]:
+def get_subpackage(self, name: str) -> Optional[AutosarPackage]:  # No quotes needed
     """Get a subpackage by name."""
 ```
 
-**Rationale**: String annotations allow forward references to avoid circular imports while maintaining type safety.
+**Rationale**: Postponed evaluation via `from __future__ import annotations` allows forward references without string literals, making code cleaner and more maintainable while avoiding circular imports.
 
 **References**:
+- PEP 563 - Postponed Evaluation of Annotations
 - PEP 484 - Forward References
-- CODING_RULE_V2_00002: TYPE_CHECKING for Self-Referencing Return Types
+- CODING_RULE_V2_00002: Postponed Evaluation of Annotations
 
 ---
 

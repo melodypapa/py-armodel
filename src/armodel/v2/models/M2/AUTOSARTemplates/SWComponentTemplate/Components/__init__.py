@@ -4,10 +4,12 @@ AUTOSAR Package - Components
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
 )
@@ -19,13 +21,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.__init__ import (
-    AbstractProvidedPortPrototype,
-    AbstractRequiredPortPrototype,
-    AtomicSwComponentType,
-    PortPrototype,
-    SwComponentType,
 )
 
 
@@ -538,7 +533,7 @@ class PortPrototype(Identifiable, ABC):
         """
         return self.delegated_port  # Delegates to property
 
-    def setDelegatedPort(self, value: "DelegatedPort") -> "PortPrototype":
+    def setDelegatedPort(self, value: "DelegatedPort") -> PortPrototype:
         """
         AUTOSAR-compliant setter for delegatedPort with method chaining.
 
@@ -628,7 +623,7 @@ class PortPrototype(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_delegated_port(self, value: Optional["DelegatedPort"]) -> "PortPrototype":
+    def with_delegated_port(self, value: Optional["DelegatedPort"]) -> PortPrototype:
         """
         Set delegatedPort and return self for chaining.
 
@@ -804,7 +799,7 @@ class SwComponentType(ARElement, ABC):
         """
         return self.sw_component  # Delegates to property
 
-    def setSwComponent(self, value: "SwComponent") -> "SwComponentType":
+    def setSwComponent(self, value: "SwComponent") -> SwComponentType:
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
 
@@ -834,7 +829,7 @@ class SwComponentType(ARElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_component(self, value: Optional["SwComponent"]) -> "SwComponentType":
+    def with_sw_component(self, value: Optional["SwComponent"]) -> SwComponentType:
         """
         Set swComponent and return self for chaining.
 
@@ -1094,15 +1089,15 @@ class AtomicSwComponentType(SwComponentType, ABC):
             )
         self._internalBehavior = value
         # This represents the SymbolProps for the AtomicSw.
-        self._symbolProps: Optional["SymbolProps"] = None
+        self._symbolProps: Optional[SymbolProps] = None
 
     @property
-    def symbol_props(self) -> Optional["SymbolProps"]:
+    def symbol_props(self) -> Optional[SymbolProps]:
         """Get symbolProps (Pythonic accessor)."""
         return self._symbolProps
 
     @symbol_props.setter
-    def symbol_props(self, value: Optional["SymbolProps"]) -> None:
+    def symbol_props(self, value: Optional[SymbolProps]) -> None:
         """
         Set symbolProps with validation.
 
@@ -1136,7 +1131,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
         """
         return self.internal_behavior  # Delegates to property
 
-    def setInternalBehavior(self, value: "SwcInternalBehavior") -> "AtomicSwComponentType":
+    def setInternalBehavior(self, value: "SwcInternalBehavior") -> AtomicSwComponentType:
         """
         AUTOSAR-compliant setter for internalBehavior with method chaining.
 
@@ -1152,7 +1147,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
         self.internal_behavior = value  # Delegates to property setter
         return self
 
-    def getSymbolProps(self) -> "SymbolProps":
+    def getSymbolProps(self) -> SymbolProps:
         """
         AUTOSAR-compliant getter for symbolProps.
 
@@ -1164,7 +1159,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
         """
         return self.symbol_props  # Delegates to property
 
-    def setSymbolProps(self, value: "SymbolProps") -> "AtomicSwComponentType":
+    def setSymbolProps(self, value: SymbolProps) -> AtomicSwComponentType:
         """
         AUTOSAR-compliant setter for symbolProps with method chaining.
 
@@ -1182,7 +1177,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> "AtomicSwComponentType":
+    def with_internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> AtomicSwComponentType:
         """
         Set internalBehavior and return self for chaining.
 
@@ -1198,7 +1193,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
         self.internal_behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol_props(self, value: Optional["SymbolProps"]) -> "AtomicSwComponentType":
+    def with_symbol_props(self, value: Optional[SymbolProps]) -> AtomicSwComponentType:
         """
         Set symbolProps and return self for chaining.
 
@@ -1364,7 +1359,7 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
         """
         return self.provided  # Delegates to property
 
-    def setProvided(self, value: "PortInterface") -> "PRPortPrototype":
+    def setProvided(self, value: "PortInterface") -> PRPortPrototype:
         """
         AUTOSAR-compliant setter for provided with method chaining.
 
@@ -1382,7 +1377,7 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provided(self, value: Optional["PortInterface"]) -> "PRPortPrototype":
+    def with_provided(self, value: Optional["PortInterface"]) -> PRPortPrototype:
         """
         Set provided and return self for chaining.
 
@@ -1491,7 +1486,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         """
         return self.may_be  # Delegates to property
 
-    def setMayBe(self, value: "Boolean") -> "RPortPrototype":
+    def setMayBe(self, value: "Boolean") -> RPortPrototype:
         """
         AUTOSAR-compliant setter for mayBe with method chaining.
 
@@ -1519,7 +1514,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         """
         return self.required  # Delegates to property
 
-    def setRequired(self, value: "PortInterface") -> "RPortPrototype":
+    def setRequired(self, value: "PortInterface") -> RPortPrototype:
         """
         AUTOSAR-compliant setter for required with method chaining.
 
@@ -1537,7 +1532,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_may_be(self, value: Optional["Boolean"]) -> "RPortPrototype":
+    def with_may_be(self, value: Optional["Boolean"]) -> RPortPrototype:
         """
         Set mayBe and return self for chaining.
 
@@ -1553,7 +1548,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         self.may_be = value  # Use property setter (gets validation)
         return self
 
-    def with_required(self, value: Optional["PortInterface"]) -> "RPortPrototype":
+    def with_required(self, value: Optional["PortInterface"]) -> RPortPrototype:
         """
         Set required and return self for chaining.
 
@@ -1633,7 +1628,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
         """
         return self.provided  # Delegates to property
 
-    def setProvided(self, value: "PortInterface") -> "PPortPrototype":
+    def setProvided(self, value: "PortInterface") -> PPortPrototype:
         """
         AUTOSAR-compliant setter for provided with method chaining.
 
@@ -1651,7 +1646,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provided(self, value: Optional["PortInterface"]) -> "PPortPrototype":
+    def with_provided(self, value: Optional["PortInterface"]) -> PPortPrototype:
         """
         Set provided and return self for chaining.
 
@@ -1884,7 +1879,7 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
         """
         return self.sensor_actuator  # Delegates to property
 
-    def setSensorActuator(self, value: "HwDescriptionEntity") -> "SensorActuatorSwComponentType":
+    def setSensorActuator(self, value: "HwDescriptionEntity") -> SensorActuatorSwComponentType:
         """
         AUTOSAR-compliant setter for sensorActuator with method chaining.
 
@@ -1902,7 +1897,7 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sensor_actuator(self, value: Optional["HwDescriptionEntity"]) -> "SensorActuatorSwComponentType":
+    def with_sensor_actuator(self, value: Optional["HwDescriptionEntity"]) -> SensorActuatorSwComponentType:
         """
         Set sensorActuator and return self for chaining.
 
@@ -2022,22 +2017,22 @@ class NvBlockSwComponentType(AtomicSwComponentType):
 
 
 __all__ = [
-    "PortPrototype",
-    "SwComponentType",
-    "PortGroup",
-    "SymbolProps",
-    "AbstractRequiredPortPrototype",
-    "AbstractProvidedPortPrototype",
-    "AtomicSwComponentType",
-    "ParameterSwComponentType",
-    "PRPortPrototype",
-    "RPortPrototype",
-    "PPortPrototype",
-    "ComplexDeviceDriverSwComponentType",
-    "EcuAbstractionSwComponentType",
-    "ServiceSwComponentType",
-    "ApplicationSwComponentType",
-    "SensorActuatorSwComponentType",
-    "ServiceProxySwComponentType",
-    "NvBlockSwComponentType",
+    PortPrototype,
+    SwComponentType,
+    PortGroup,
+    SymbolProps,
+    AbstractRequiredPortPrototype,
+    AbstractProvidedPortPrototype,
+    AtomicSwComponentType,
+    ParameterSwComponentType,
+    PRPortPrototype,
+    RPortPrototype,
+    PPortPrototype,
+    ComplexDeviceDriverSwComponentType,
+    EcuAbstractionSwComponentType,
+    ServiceSwComponentType,
+    ApplicationSwComponentType,
+    SensorActuatorSwComponentType,
+    ServiceProxySwComponentType,
+    NvBlockSwComponentType,
 ]

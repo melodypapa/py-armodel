@@ -4,9 +4,11 @@ AUTOSAR Package - TtcanCommunication
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
 )
@@ -129,7 +131,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.communication_cycle  # Delegates to property
 
-    def setCommunicationCycle(self, value: "CommunicationCycle") -> "TtcanAbsolutelyScheduledTiming":
+    def setCommunicationCycle(self, value: "CommunicationCycle") -> TtcanAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for communicationCycle with method chaining.
 
@@ -157,7 +159,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.time_mark  # Delegates to property
 
-    def setTimeMark(self, value: "Integer") -> "TtcanAbsolutelyScheduledTiming":
+    def setTimeMark(self, value: "Integer") -> TtcanAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for timeMark with method chaining.
 
@@ -185,7 +187,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> "TtcanAbsolutelyScheduledTiming":
+    def setTrigger(self, value: "RefType") -> TtcanAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -203,7 +205,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication_cycle(self, value: Optional["CommunicationCycle"]) -> "TtcanAbsolutelyScheduledTiming":
+    def with_communication_cycle(self, value: Optional["CommunicationCycle"]) -> TtcanAbsolutelyScheduledTiming:
         """
         Set communicationCycle and return self for chaining.
 
@@ -219,7 +221,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         self.communication_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_time_mark(self, value: Optional["Integer"]) -> "TtcanAbsolutelyScheduledTiming":
+    def with_time_mark(self, value: Optional["Integer"]) -> TtcanAbsolutelyScheduledTiming:
         """
         Set timeMark and return self for chaining.
 
@@ -235,7 +237,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         self.time_mark = value  # Use property setter (gets validation)
         return self
 
-    def with_trigger(self, value: Optional[RefType]) -> "TtcanAbsolutelyScheduledTiming":
+    def with_trigger(self, value: Optional[RefType]) -> TtcanAbsolutelyScheduledTiming:
         """
         Set trigger and return self for chaining.
 

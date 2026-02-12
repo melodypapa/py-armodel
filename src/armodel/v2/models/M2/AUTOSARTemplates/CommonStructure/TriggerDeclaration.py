@@ -4,9 +4,11 @@ AUTOSAR Package - TriggerDeclaration
 Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -107,7 +109,7 @@ class Trigger(Identifiable):
         """
         return self.sw_impl_policy  # Delegates to property
 
-    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> "Trigger":
+    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> Trigger:
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
 
@@ -135,7 +137,7 @@ class Trigger(Identifiable):
         """
         return self.trigger_period  # Delegates to property
 
-    def setTriggerPeriod(self, value: "MultidimensionalTime") -> "Trigger":
+    def setTriggerPeriod(self, value: "MultidimensionalTime") -> Trigger:
         """
         AUTOSAR-compliant setter for triggerPeriod with method chaining.
 
@@ -153,7 +155,7 @@ class Trigger(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> "Trigger":
+    def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> Trigger:
         """
         Set swImplPolicy and return self for chaining.
 
@@ -169,7 +171,7 @@ class Trigger(Identifiable):
         self.sw_impl_policy = value  # Use property setter (gets validation)
         return self
 
-    def with_trigger_period(self, value: Optional["MultidimensionalTime"]) -> "Trigger":
+    def with_trigger_period(self, value: Optional["MultidimensionalTime"]) -> Trigger:
         """
         Set triggerPeriod and return self for chaining.
 
@@ -264,7 +266,7 @@ class TriggerMapping(ARObject):
         """
         return self.first_trigger  # Delegates to property
 
-    def setFirstTrigger(self, value: "RefType") -> "TriggerMapping":
+    def setFirstTrigger(self, value: "RefType") -> TriggerMapping:
         """
         AUTOSAR-compliant setter for firstTrigger with method chaining.
 
@@ -292,7 +294,7 @@ class TriggerMapping(ARObject):
         """
         return self.second_trigger  # Delegates to property
 
-    def setSecondTrigger(self, value: "RefType") -> "TriggerMapping":
+    def setSecondTrigger(self, value: "RefType") -> TriggerMapping:
         """
         AUTOSAR-compliant setter for secondTrigger with method chaining.
 
@@ -310,7 +312,7 @@ class TriggerMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_first_trigger(self, value: Optional[RefType]) -> "TriggerMapping":
+    def with_first_trigger(self, value: Optional[RefType]) -> TriggerMapping:
         """
         Set firstTrigger and return self for chaining.
 
@@ -326,7 +328,7 @@ class TriggerMapping(ARObject):
         self.first_trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_second_trigger(self, value: Optional[RefType]) -> "TriggerMapping":
+    def with_second_trigger(self, value: Optional[RefType]) -> TriggerMapping:
         """
         Set secondTrigger and return self for chaining.
 

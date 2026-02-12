@@ -4,6 +4,8 @@ AUTOSAR Package - SystemConstant
 Package: M2::MSR::DataDictionary::SystemConstant
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -79,7 +81,7 @@ class SwSystemconst(ARElement):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "SwSystemconst":
+    def setSwDataDef(self, value: "SwDataDefProps") -> SwSystemconst:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -97,7 +99,7 @@ class SwSystemconst(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "SwSystemconst":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> SwSystemconst:
         """
         Set swDataDef and return self for chaining.
 

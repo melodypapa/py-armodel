@@ -4,10 +4,12 @@ AUTOSAR Package - DataPrototypes
 Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -81,7 +83,7 @@ class DataPrototype(Identifiable, ABC):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "DataPrototype":
+    def setSwDataDef(self, value: "SwDataDefProps") -> DataPrototype:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -99,7 +101,7 @@ class DataPrototype(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "DataPrototype":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> DataPrototype:
         """
         Set swDataDef and return self for chaining.
 
@@ -180,7 +182,7 @@ class AutosarDataPrototype(DataPrototype, ABC):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "AutosarDataType") -> "AutosarDataPrototype":
+    def setType(self, value: "AutosarDataType") -> AutosarDataPrototype:
         """
         AUTOSAR-compliant setter for type with method chaining.
 
@@ -198,7 +200,7 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_type(self, value: Optional["AutosarDataType"]) -> "AutosarDataPrototype":
+    def with_type(self, value: Optional["AutosarDataType"]) -> AutosarDataPrototype:
         """
         Set type and return self for chaining.
 
@@ -277,7 +279,7 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "ApplicationDataType") -> "ApplicationCompositeElementDataPrototype":
+    def setType(self, value: "ApplicationDataType") -> ApplicationCompositeElementDataPrototype:
         """
         AUTOSAR-compliant setter for type with method chaining.
 
@@ -295,7 +297,7 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_type(self, value: Optional["ApplicationDataType"]) -> "ApplicationCompositeElementDataPrototype":
+    def with_type(self, value: Optional["ApplicationDataType"]) -> ApplicationCompositeElementDataPrototype:
         """
         Set type and return self for chaining.
 
@@ -379,7 +381,7 @@ class ParameterDataPrototype(AutosarDataPrototype):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> "ParameterDataPrototype":
+    def setInitValue(self, value: "ValueSpecification") -> ParameterDataPrototype:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -397,7 +399,7 @@ class ParameterDataPrototype(AutosarDataPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_init_value(self, value: Optional["ValueSpecification"]) -> "ParameterDataPrototype":
+    def with_init_value(self, value: Optional["ValueSpecification"]) -> ParameterDataPrototype:
         """
         Set initValue and return self for chaining.
 
@@ -482,7 +484,7 @@ class VariableDataPrototype(AutosarDataPrototype):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> "VariableDataPrototype":
+    def setInitValue(self, value: "ValueSpecification") -> VariableDataPrototype:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -500,7 +502,7 @@ class VariableDataPrototype(AutosarDataPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_init_value(self, value: Optional["ValueSpecification"]) -> "VariableDataPrototype":
+    def with_init_value(self, value: Optional["ValueSpecification"]) -> VariableDataPrototype:
         """
         Set initValue and return self for chaining.
 
@@ -635,7 +637,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         """
         return self.array_size  # Delegates to property
 
-    def setArraySize(self, value: "ArraySizeSemantics") -> "ApplicationArrayElement":
+    def setArraySize(self, value: "ArraySizeSemantics") -> ApplicationArrayElement:
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
 
@@ -663,7 +665,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         """
         return self.index_data_type  # Delegates to property
 
-    def setIndexDataType(self, value: "ApplicationPrimitive") -> "ApplicationArrayElement":
+    def setIndexDataType(self, value: "ApplicationPrimitive") -> ApplicationArrayElement:
         """
         AUTOSAR-compliant setter for indexDataType with method chaining.
 
@@ -691,7 +693,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> "ApplicationArrayElement":
+    def setMaxNumberOf(self, value: "PositiveInteger") -> ApplicationArrayElement:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -709,7 +711,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "ApplicationArrayElement":
+    def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> ApplicationArrayElement:
         """
         Set arraySize and return self for chaining.
 
@@ -725,7 +727,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         self.array_size = value  # Use property setter (gets validation)
         return self
 
-    def with_index_data_type(self, value: Optional["ApplicationPrimitive"]) -> "ApplicationArrayElement":
+    def with_index_data_type(self, value: Optional["ApplicationPrimitive"]) -> ApplicationArrayElement:
         """
         Set indexDataType and return self for chaining.
 
@@ -741,7 +743,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         self.index_data_type = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "ApplicationArrayElement":
+    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> ApplicationArrayElement:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -824,7 +826,7 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
         """
         return self.is_optional  # Delegates to property
 
-    def setIsOptional(self, value: "Boolean") -> "ApplicationRecordElement":
+    def setIsOptional(self, value: "Boolean") -> ApplicationRecordElement:
         """
         AUTOSAR-compliant setter for isOptional with method chaining.
 
@@ -842,7 +844,7 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_optional(self, value: Optional["Boolean"]) -> "ApplicationRecordElement":
+    def with_is_optional(self, value: Optional["Boolean"]) -> ApplicationRecordElement:
         """
         Set isOptional and return self for chaining.
 

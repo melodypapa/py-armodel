@@ -4,10 +4,12 @@ AUTOSAR Package - Data
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
     String,
@@ -388,7 +390,7 @@ class ClassTailoring(ARObject, ABC):
         """
         return self.multiplicity  # Delegates to property
 
-    def setMultiplicity(self, value: "MultiplicityRestriction") -> "ClassTailoring":
+    def setMultiplicity(self, value: "MultiplicityRestriction") -> ClassTailoring:
         """
         AUTOSAR-compliant setter for multiplicity with method chaining.
 
@@ -416,7 +418,7 @@ class ClassTailoring(ARObject, ABC):
         """
         return self.variation  # Delegates to property
 
-    def setVariation(self, value: "VariationRestrictionWith") -> "ClassTailoring":
+    def setVariation(self, value: "VariationRestrictionWith") -> ClassTailoring:
         """
         AUTOSAR-compliant setter for variation with method chaining.
 
@@ -434,7 +436,7 @@ class ClassTailoring(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_multiplicity(self, value: Optional["MultiplicityRestriction"]) -> "ClassTailoring":
+    def with_multiplicity(self, value: Optional["MultiplicityRestriction"]) -> ClassTailoring:
         """
         Set multiplicity and return self for chaining.
 
@@ -450,7 +452,7 @@ class ClassTailoring(ARObject, ABC):
         self.multiplicity = value  # Use property setter (gets validation)
         return self
 
-    def with_variation(self, value: Optional["VariationRestrictionWith"]) -> "ClassTailoring":
+    def with_variation(self, value: Optional["VariationRestrictionWith"]) -> ClassTailoring:
         """
         Set variation and return self for chaining.
 
@@ -483,22 +485,22 @@ class ClassContentConditional(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Tailorings of the owned and inherited attributes of this Classes.
-        self._attribute: List["AttributeTailoring"] = []
+        self._attribute: List[AttributeTailoring] = []
 
     @property
-    def attribute(self) -> List["AttributeTailoring"]:
+    def attribute(self) -> List[AttributeTailoring]:
         """Get attribute (Pythonic accessor)."""
         return self._attribute
         # The rules on the content of this class are enabled if the to true.
-        self._condition: Optional["AbstractCondition"] = None
+        self._condition: Optional[AbstractCondition] = None
 
     @property
-    def condition(self) -> Optional["AbstractCondition"]:
+    def condition(self) -> Optional[AbstractCondition]:
         """Get condition (Pythonic accessor)."""
         return self._condition
 
     @condition.setter
-    def condition(self, value: Optional["AbstractCondition"]) -> None:
+    def condition(self, value: Optional[AbstractCondition]) -> None:
         """
         Set condition with validation.
 
@@ -518,23 +520,23 @@ class ClassContentConditional(Identifiable):
             )
         self._condition = value
         # Classes.
-        self._constraint: List["ConstraintTailoring"] = []
+        self._constraint: List[ConstraintTailoring] = []
 
     @property
-    def constraint(self) -> List["ConstraintTailoring"]:
+    def constraint(self) -> List[ConstraintTailoring]:
         """Get constraint (Pythonic accessor)."""
         return self._constraint
         # Specification of the applicable Special Data Group.
-        self._sdgTailoring: List["SdgTailoring"] = []
+        self._sdgTailoring: List[SdgTailoring] = []
 
     @property
-    def sdg_tailoring(self) -> List["SdgTailoring"]:
+    def sdg_tailoring(self) -> List[SdgTailoring]:
         """Get sdgTailoring (Pythonic accessor)."""
         return self._sdgTailoring
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAttribute(self) -> List["AttributeTailoring"]:
+    def getAttribute(self) -> List[AttributeTailoring]:
         """
         AUTOSAR-compliant getter for attribute.
 
@@ -546,7 +548,7 @@ class ClassContentConditional(Identifiable):
         """
         return self.attribute  # Delegates to property
 
-    def getCondition(self) -> "AbstractCondition":
+    def getCondition(self) -> AbstractCondition:
         """
         AUTOSAR-compliant getter for condition.
 
@@ -558,7 +560,7 @@ class ClassContentConditional(Identifiable):
         """
         return self.condition  # Delegates to property
 
-    def setCondition(self, value: "AbstractCondition") -> "ClassContentConditional":
+    def setCondition(self, value: AbstractCondition) -> ClassContentConditional:
         """
         AUTOSAR-compliant setter for condition with method chaining.
 
@@ -574,7 +576,7 @@ class ClassContentConditional(Identifiable):
         self.condition = value  # Delegates to property setter
         return self
 
-    def getConstraint(self) -> List["ConstraintTailoring"]:
+    def getConstraint(self) -> List[ConstraintTailoring]:
         """
         AUTOSAR-compliant getter for constraint.
 
@@ -586,7 +588,7 @@ class ClassContentConditional(Identifiable):
         """
         return self.constraint  # Delegates to property
 
-    def getSdgTailoring(self) -> List["SdgTailoring"]:
+    def getSdgTailoring(self) -> List[SdgTailoring]:
         """
         AUTOSAR-compliant getter for sdgTailoring.
 
@@ -600,7 +602,7 @@ class ClassContentConditional(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_condition(self, value: Optional["AbstractCondition"]) -> "ClassContentConditional":
+    def with_condition(self, value: Optional[AbstractCondition]) -> ClassContentConditional:
         """
         Set condition and return self for chaining.
 
@@ -676,7 +678,7 @@ class ConstraintTailoring(RestrictionWithSeverity):
         """
         return self.constraint  # Delegates to property
 
-    def setConstraint(self, value: "TraceableText") -> "ConstraintTailoring":
+    def setConstraint(self, value: "TraceableText") -> ConstraintTailoring:
         """
         AUTOSAR-compliant setter for constraint with method chaining.
 
@@ -694,7 +696,7 @@ class ConstraintTailoring(RestrictionWithSeverity):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_constraint(self, value: Optional["TraceableText"]) -> "ConstraintTailoring":
+    def with_constraint(self, value: Optional["TraceableText"]) -> ConstraintTailoring:
         """
         Set constraint and return self for chaining.
 
@@ -768,7 +770,7 @@ class SdgTailoring(RestrictionWithSeverity):
         """
         return self.sdg_class  # Delegates to property
 
-    def setSdgClass(self, value: "SdgClass") -> "SdgTailoring":
+    def setSdgClass(self, value: "SdgClass") -> SdgTailoring:
         """
         AUTOSAR-compliant setter for sdgClass with method chaining.
 
@@ -786,7 +788,7 @@ class SdgTailoring(RestrictionWithSeverity):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sdg_class(self, value: Optional["SdgClass"]) -> "SdgTailoring":
+    def with_sdg_class(self, value: Optional["SdgClass"]) -> SdgTailoring:
         """
         Set sdgClass and return self for chaining.
 
@@ -819,24 +821,24 @@ class DataFormatTailoring(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specification of tailorings of Meta Classes.
-        self._classTailoring: List["ClassTailoring"] = []
+        self._classTailoring: List[ClassTailoring] = []
 
     @property
-    def class_tailoring(self) -> List["ClassTailoring"]:
+    def class_tailoring(self) -> List[ClassTailoring]:
         """Get classTailoring (Pythonic accessor)."""
         return self._classTailoring
         # Specification of tailorings of Constraints that are not owned by any
         # Meta-Class.
-        self._constraint: List["ConstraintTailoring"] = []
+        self._constraint: List[ConstraintTailoring] = []
 
     @property
-    def constraint(self) -> List["ConstraintTailoring"]:
+    def constraint(self) -> List[ConstraintTailoring]:
         """Get constraint (Pythonic accessor)."""
         return self._constraint
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getClassTailoring(self) -> List["ClassTailoring"]:
+    def getClassTailoring(self) -> List[ClassTailoring]:
         """
         AUTOSAR-compliant getter for classTailoring.
 
@@ -848,7 +850,7 @@ class DataFormatTailoring(ARObject):
         """
         return self.class_tailoring  # Delegates to property
 
-    def getConstraint(self) -> List["ConstraintTailoring"]:
+    def getConstraint(self) -> List[ConstraintTailoring]:
         """
         AUTOSAR-compliant getter for constraint.
 
@@ -943,7 +945,7 @@ class ConcreteClassTailoring(DataFormatElementScope):
         """
         return self.validation_root  # Delegates to property
 
-    def setValidationRoot(self, value: "Boolean") -> "ConcreteClassTailoring":
+    def setValidationRoot(self, value: "Boolean") -> ConcreteClassTailoring:
         """
         AUTOSAR-compliant setter for validationRoot with method chaining.
 
@@ -961,7 +963,7 @@ class ConcreteClassTailoring(DataFormatElementScope):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_validation_root(self, value: Optional["Boolean"]) -> "ConcreteClassTailoring":
+    def with_validation_root(self, value: Optional["Boolean"]) -> ConcreteClassTailoring:
         """
         Set validationRoot and return self for chaining.
 
@@ -1067,7 +1069,7 @@ class AttributeTailoring(DataFormatElementScope, ABC):
         """
         return self.multiplicity  # Delegates to property
 
-    def setMultiplicity(self, value: "MultiplicityRestriction") -> "AttributeTailoring":
+    def setMultiplicity(self, value: "MultiplicityRestriction") -> AttributeTailoring:
         """
         AUTOSAR-compliant setter for multiplicity with method chaining.
 
@@ -1095,7 +1097,7 @@ class AttributeTailoring(DataFormatElementScope, ABC):
         """
         return self.variation  # Delegates to property
 
-    def setVariation(self, value: "VariationRestrictionWith") -> "AttributeTailoring":
+    def setVariation(self, value: "VariationRestrictionWith") -> AttributeTailoring:
         """
         AUTOSAR-compliant setter for variation with method chaining.
 
@@ -1113,7 +1115,7 @@ class AttributeTailoring(DataFormatElementScope, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_multiplicity(self, value: Optional["MultiplicityRestriction"]) -> "AttributeTailoring":
+    def with_multiplicity(self, value: Optional["MultiplicityRestriction"]) -> AttributeTailoring:
         """
         Set multiplicity and return self for chaining.
 
@@ -1129,7 +1131,7 @@ class AttributeTailoring(DataFormatElementScope, ABC):
         self.multiplicity = value  # Use property setter (gets validation)
         return self
 
-    def with_variation(self, value: Optional["VariationRestrictionWith"]) -> "AttributeTailoring":
+    def with_variation(self, value: Optional["VariationRestrictionWith"]) -> AttributeTailoring:
         """
         Set variation and return self for chaining.
 
@@ -1161,15 +1163,15 @@ class InvertCondition(AbstractCondition):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The inverted condition.
-        self._condition: "AbstractCondition" = None
+        self._condition: AbstractCondition = None
 
     @property
-    def condition(self) -> "AbstractCondition":
+    def condition(self) -> AbstractCondition:
         """Get condition (Pythonic accessor)."""
         return self._condition
 
     @condition.setter
-    def condition(self, value: "AbstractCondition") -> None:
+    def condition(self, value: AbstractCondition) -> None:
         """
         Set condition with validation.
 
@@ -1187,7 +1189,7 @@ class InvertCondition(AbstractCondition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCondition(self) -> "AbstractCondition":
+    def getCondition(self) -> AbstractCondition:
         """
         AUTOSAR-compliant getter for condition.
 
@@ -1199,7 +1201,7 @@ class InvertCondition(AbstractCondition):
         """
         return self.condition  # Delegates to property
 
-    def setCondition(self, value: "AbstractCondition") -> "InvertCondition":
+    def setCondition(self, value: AbstractCondition) -> InvertCondition:
         """
         AUTOSAR-compliant setter for condition with method chaining.
 
@@ -1217,7 +1219,7 @@ class InvertCondition(AbstractCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_condition(self, value: "AbstractCondition") -> "InvertCondition":
+    def with_condition(self, value: AbstractCondition) -> InvertCondition:
         """
         Set condition and return self for chaining.
 
@@ -1288,7 +1290,7 @@ class TextualCondition(AbstractCondition):
         """
         return self.text  # Delegates to property
 
-    def setText(self, value: "String") -> "TextualCondition":
+    def setText(self, value: "String") -> TextualCondition:
         """
         AUTOSAR-compliant setter for text with method chaining.
 
@@ -1306,7 +1308,7 @@ class TextualCondition(AbstractCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_text(self, value: "String") -> "TextualCondition":
+    def with_text(self, value: "String") -> TextualCondition:
         """
         Set text and return self for chaining.
 
@@ -1339,15 +1341,15 @@ class AggregationCondition(AttributeCondition):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The aggregation that has to be accepted by the this AggregationCondition.
-        self._aggregation: "AggregationTailoring" = None
+        self._aggregation: AggregationTailoring = None
 
     @property
-    def aggregation(self) -> "AggregationTailoring":
+    def aggregation(self) -> AggregationTailoring:
         """Get aggregation (Pythonic accessor)."""
         return self._aggregation
 
     @aggregation.setter
-    def aggregation(self, value: "AggregationTailoring") -> None:
+    def aggregation(self, value: AggregationTailoring) -> None:
         """
         Set aggregation with validation.
 
@@ -1365,7 +1367,7 @@ class AggregationCondition(AttributeCondition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAggregation(self) -> "AggregationTailoring":
+    def getAggregation(self) -> AggregationTailoring:
         """
         AUTOSAR-compliant getter for aggregation.
 
@@ -1377,7 +1379,7 @@ class AggregationCondition(AttributeCondition):
         """
         return self.aggregation  # Delegates to property
 
-    def setAggregation(self, value: "AggregationTailoring") -> "AggregationCondition":
+    def setAggregation(self, value: AggregationTailoring) -> AggregationCondition:
         """
         AUTOSAR-compliant setter for aggregation with method chaining.
 
@@ -1395,7 +1397,7 @@ class AggregationCondition(AttributeCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_aggregation(self, value: "AggregationTailoring") -> "AggregationCondition":
+    def with_aggregation(self, value: AggregationTailoring) -> AggregationCondition:
         """
         Set aggregation and return self for chaining.
 
@@ -1467,7 +1469,7 @@ class PrimitiveAttributeCondition(AttributeCondition):
         """
         return self.attribute  # Delegates to property
 
-    def setAttribute(self, value: "PrimitiveAttribute") -> "PrimitiveAttributeCondition":
+    def setAttribute(self, value: "PrimitiveAttribute") -> PrimitiveAttributeCondition:
         """
         AUTOSAR-compliant setter for attribute with method chaining.
 
@@ -1485,7 +1487,7 @@ class PrimitiveAttributeCondition(AttributeCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_attribute(self, value: "PrimitiveAttribute") -> "PrimitiveAttributeCondition":
+    def with_attribute(self, value: "PrimitiveAttribute") -> PrimitiveAttributeCondition:
         """
         Set attribute and return self for chaining.
 
@@ -1552,7 +1554,7 @@ class ReferenceCondition(AttributeCondition):
         """
         return self.reference  # Delegates to property
 
-    def setReference(self, value: "RefType") -> "ReferenceCondition":
+    def setReference(self, value: "RefType") -> ReferenceCondition:
         """
         AUTOSAR-compliant setter for reference with method chaining.
 
@@ -1570,7 +1572,7 @@ class ReferenceCondition(AttributeCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_reference(self, value: RefType) -> "ReferenceCondition":
+    def with_reference(self, value: RefType) -> ReferenceCondition:
         """
         Set reference and return self for chaining.
 
@@ -1680,7 +1682,7 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "DefaultValueApplication") -> "PrimitiveAttributeTailoring":
+    def setDefaultValue(self, value: "DefaultValueApplication") -> PrimitiveAttributeTailoring:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 
@@ -1720,7 +1722,7 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
         """
         return self.value_restriction_severity  # Delegates to property
 
-    def setValueRestrictionSeverity(self, value: "ValueRestrictionWith") -> "PrimitiveAttributeTailoring":
+    def setValueRestrictionSeverity(self, value: "ValueRestrictionWith") -> PrimitiveAttributeTailoring:
         """
         AUTOSAR-compliant setter for valueRestrictionSeverity with method chaining.
 
@@ -1738,7 +1740,7 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_value(self, value: Optional["DefaultValueApplication"]) -> "PrimitiveAttributeTailoring":
+    def with_default_value(self, value: Optional["DefaultValueApplication"]) -> PrimitiveAttributeTailoring:
         """
         Set defaultValue and return self for chaining.
 
@@ -1754,7 +1756,7 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
         self.default_value = value  # Use property setter (gets validation)
         return self
 
-    def with_value_restriction_severity(self, value: Optional["ValueRestrictionWith"]) -> "PrimitiveAttributeTailoring":
+    def with_value_restriction_severity(self, value: Optional["ValueRestrictionWith"]) -> PrimitiveAttributeTailoring:
         """
         Set valueRestrictionSeverity and return self for chaining.
 
@@ -1786,16 +1788,16 @@ class AggregationTailoring(AttributeTailoring):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Local class tailoring which is applied if the content is this aggregation.
-        self._typeTailoring: List["ClassTailoring"] = []
+        self._typeTailoring: List[ClassTailoring] = []
 
     @property
-    def type_tailoring(self) -> List["ClassTailoring"]:
+    def type_tailoring(self) -> List[ClassTailoring]:
         """Get typeTailoring (Pythonic accessor)."""
         return self._typeTailoring
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTypeTailoring(self) -> List["ClassTailoring"]:
+    def getTypeTailoring(self) -> List[ClassTailoring]:
         """
         AUTOSAR-compliant getter for typeTailoring.
 
@@ -1825,10 +1827,10 @@ class ReferenceTailoring(AttributeTailoring):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Local class tailoring for content that is referenced by this.
-        self._typeTailoring: List["ClassTailoring"] = []
+        self._typeTailoring: List[ClassTailoring] = []
 
     @property
-    def type_tailoring(self) -> List["ClassTailoring"]:
+    def type_tailoring(self) -> List[ClassTailoring]:
         """Get typeTailoring (Pythonic accessor)."""
         return self._typeTailoring
         # Specifies the severity of unresolved references.
@@ -1858,7 +1860,7 @@ class ReferenceTailoring(AttributeTailoring):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTypeTailoring(self) -> List["ClassTailoring"]:
+    def getTypeTailoring(self) -> List[ClassTailoring]:
         """
         AUTOSAR-compliant getter for typeTailoring.
 
@@ -1882,7 +1884,7 @@ class ReferenceTailoring(AttributeTailoring):
         """
         return self.unresolved_restriction  # Delegates to property
 
-    def setUnresolvedRestriction(self, value: "RefType") -> "ReferenceTailoring":
+    def setUnresolvedRestriction(self, value: "RefType") -> ReferenceTailoring:
         """
         AUTOSAR-compliant setter for unresolvedRestriction with method chaining.
 
@@ -1900,7 +1902,7 @@ class ReferenceTailoring(AttributeTailoring):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_unresolved_restriction(self, value: Optional[RefType]) -> "ReferenceTailoring":
+    def with_unresolved_restriction(self, value: Optional[RefType]) -> ReferenceTailoring:
         """
         Set unresolvedRestriction and return self for chaining.
 

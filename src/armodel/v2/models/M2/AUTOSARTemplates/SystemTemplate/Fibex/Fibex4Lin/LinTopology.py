@@ -4,10 +4,12 @@ AUTOSAR Package - LinTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     PositiveInteger,
@@ -199,7 +201,7 @@ class LinCommunicationController(ARObject, ABC):
         """
         return self.protocol_version  # Delegates to property
 
-    def setProtocolVersion(self, value: "String") -> "LinCommunicationController":
+    def setProtocolVersion(self, value: "String") -> LinCommunicationController:
         """
         AUTOSAR-compliant setter for protocolVersion with method chaining.
 
@@ -217,7 +219,7 @@ class LinCommunicationController(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_protocol_version(self, value: Optional["String"]) -> "LinCommunicationController":
+    def with_protocol_version(self, value: Optional["String"]) -> LinCommunicationController:
         """
         Set protocolVersion and return self for chaining.
 
@@ -249,10 +251,10 @@ class LinMaster(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # LinSlaves that are handled by the LinMaster.
-        self._linSlave: List["LinSlaveConfig"] = []
+        self._linSlave: List[LinSlaveConfig] = []
 
     @property
-    def lin_slave(self) -> List["LinSlaveConfig"]:
+    def lin_slave(self) -> List[LinSlaveConfig]:
         """Get linSlave (Pythonic accessor)."""
         return self._linSlave
         # Time base is mandatory for the master.
@@ -320,7 +322,7 @@ class LinMaster(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLinSlave(self) -> List["LinSlaveConfig"]:
+    def getLinSlave(self) -> List[LinSlaveConfig]:
         """
         AUTOSAR-compliant getter for linSlave.
 
@@ -344,7 +346,7 @@ class LinMaster(ARObject):
         """
         return self.time_base  # Delegates to property
 
-    def setTimeBase(self, value: "TimeValue") -> "LinMaster":
+    def setTimeBase(self, value: "TimeValue") -> LinMaster:
         """
         AUTOSAR-compliant setter for timeBase with method chaining.
 
@@ -372,7 +374,7 @@ class LinMaster(ARObject):
         """
         return self.time_base_jitter  # Delegates to property
 
-    def setTimeBaseJitter(self, value: "TimeValue") -> "LinMaster":
+    def setTimeBaseJitter(self, value: "TimeValue") -> LinMaster:
         """
         AUTOSAR-compliant setter for timeBaseJitter with method chaining.
 
@@ -390,7 +392,7 @@ class LinMaster(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_time_base(self, value: Optional["TimeValue"]) -> "LinMaster":
+    def with_time_base(self, value: Optional["TimeValue"]) -> LinMaster:
         """
         Set timeBase and return self for chaining.
 
@@ -406,7 +408,7 @@ class LinMaster(ARObject):
         self.time_base = value  # Use property setter (gets validation)
         return self
 
-    def with_time_base_jitter(self, value: Optional["TimeValue"]) -> "LinMaster":
+    def with_time_base_jitter(self, value: Optional["TimeValue"]) -> LinMaster:
         """
         Set timeBaseJitter and return self for chaining.
 
@@ -498,15 +500,15 @@ class LinSlaveConfig(ARObject):
                 f"functionId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._functionId = value
-        self._ident: Optional["LinSlaveConfigIdent"] = None
+        self._ident: Optional[LinSlaveConfigIdent] = None
 
     @property
-    def ident(self) -> Optional["LinSlaveConfigIdent"]:
+    def ident(self) -> Optional[LinSlaveConfigIdent]:
         """Get ident (Pythonic accessor)."""
         return self._ident
 
     @ident.setter
-    def ident(self, value: Optional["LinSlaveConfigIdent"]) -> None:
+    def ident(self, value: Optional[LinSlaveConfigIdent]) -> None:
         """
         Set ident with validation.
 
@@ -553,10 +555,10 @@ class LinSlaveConfig(ARObject):
             )
         self._initialNad = value
         # AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._linConfigurable: List["LinConfigurableFrame"] = []
+        self._linConfigurable: List[LinConfigurableFrame] = []
 
     @property
-    def lin_configurable(self) -> List["LinConfigurableFrame"]:
+    def lin_configurable(self) -> List[LinConfigurableFrame]:
         """Get linConfigurable (Pythonic accessor)."""
         return self._linConfigurable
         # Each slave node shall publish one response error in one its transmitted
@@ -694,7 +696,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.configured_nad  # Delegates to property
 
-    def setConfiguredNad(self, value: "Integer") -> "LinSlaveConfig":
+    def setConfiguredNad(self, value: "Integer") -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for configuredNad with method chaining.
 
@@ -722,7 +724,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.function_id  # Delegates to property
 
-    def setFunctionId(self, value: "PositiveInteger") -> "LinSlaveConfig":
+    def setFunctionId(self, value: "PositiveInteger") -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for functionId with method chaining.
 
@@ -738,7 +740,7 @@ class LinSlaveConfig(ARObject):
         self.function_id = value  # Delegates to property setter
         return self
 
-    def getIdent(self) -> "LinSlaveConfigIdent":
+    def getIdent(self) -> LinSlaveConfigIdent:
         """
         AUTOSAR-compliant getter for ident.
 
@@ -750,7 +752,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "LinSlaveConfigIdent") -> "LinSlaveConfig":
+    def setIdent(self, value: LinSlaveConfigIdent) -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -778,7 +780,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.initial_nad  # Delegates to property
 
-    def setInitialNad(self, value: "Integer") -> "LinSlaveConfig":
+    def setInitialNad(self, value: "Integer") -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for initialNad with method chaining.
 
@@ -794,7 +796,7 @@ class LinSlaveConfig(ARObject):
         self.initial_nad = value  # Delegates to property setter
         return self
 
-    def getLinConfigurable(self) -> List["LinConfigurableFrame"]:
+    def getLinConfigurable(self) -> List[LinConfigurableFrame]:
         """
         AUTOSAR-compliant getter for linConfigurable.
 
@@ -818,7 +820,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.lin_error  # Delegates to property
 
-    def setLinError(self, value: "LinErrorResponse") -> "LinSlaveConfig":
+    def setLinError(self, value: "LinErrorResponse") -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for linError with method chaining.
 
@@ -858,7 +860,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.protocol_version  # Delegates to property
 
-    def setProtocolVersion(self, value: "String") -> "LinSlaveConfig":
+    def setProtocolVersion(self, value: "String") -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for protocolVersion with method chaining.
 
@@ -886,7 +888,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.supplier_id  # Delegates to property
 
-    def setSupplierId(self, value: "PositiveInteger") -> "LinSlaveConfig":
+    def setSupplierId(self, value: "PositiveInteger") -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for supplierId with method chaining.
 
@@ -914,7 +916,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.variant_id  # Delegates to property
 
-    def setVariantId(self, value: "PositiveInteger") -> "LinSlaveConfig":
+    def setVariantId(self, value: "PositiveInteger") -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for variantId with method chaining.
 
@@ -932,7 +934,7 @@ class LinSlaveConfig(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_configured_nad(self, value: Optional["Integer"]) -> "LinSlaveConfig":
+    def with_configured_nad(self, value: Optional["Integer"]) -> LinSlaveConfig:
         """
         Set configuredNad and return self for chaining.
 
@@ -948,7 +950,7 @@ class LinSlaveConfig(ARObject):
         self.configured_nad = value  # Use property setter (gets validation)
         return self
 
-    def with_function_id(self, value: Optional["PositiveInteger"]) -> "LinSlaveConfig":
+    def with_function_id(self, value: Optional["PositiveInteger"]) -> LinSlaveConfig:
         """
         Set functionId and return self for chaining.
 
@@ -964,7 +966,7 @@ class LinSlaveConfig(ARObject):
         self.function_id = value  # Use property setter (gets validation)
         return self
 
-    def with_ident(self, value: Optional["LinSlaveConfigIdent"]) -> "LinSlaveConfig":
+    def with_ident(self, value: Optional[LinSlaveConfigIdent]) -> LinSlaveConfig:
         """
         Set ident and return self for chaining.
 
@@ -980,7 +982,7 @@ class LinSlaveConfig(ARObject):
         self.ident = value  # Use property setter (gets validation)
         return self
 
-    def with_initial_nad(self, value: Optional["Integer"]) -> "LinSlaveConfig":
+    def with_initial_nad(self, value: Optional["Integer"]) -> LinSlaveConfig:
         """
         Set initialNad and return self for chaining.
 
@@ -996,7 +998,7 @@ class LinSlaveConfig(ARObject):
         self.initial_nad = value  # Use property setter (gets validation)
         return self
 
-    def with_lin_error(self, value: Optional["LinErrorResponse"]) -> "LinSlaveConfig":
+    def with_lin_error(self, value: Optional["LinErrorResponse"]) -> LinSlaveConfig:
         """
         Set linError and return self for chaining.
 
@@ -1012,7 +1014,7 @@ class LinSlaveConfig(ARObject):
         self.lin_error = value  # Use property setter (gets validation)
         return self
 
-    def with_protocol_version(self, value: Optional["String"]) -> "LinSlaveConfig":
+    def with_protocol_version(self, value: Optional["String"]) -> LinSlaveConfig:
         """
         Set protocolVersion and return self for chaining.
 
@@ -1028,7 +1030,7 @@ class LinSlaveConfig(ARObject):
         self.protocol_version = value  # Use property setter (gets validation)
         return self
 
-    def with_supplier_id(self, value: Optional["PositiveInteger"]) -> "LinSlaveConfig":
+    def with_supplier_id(self, value: Optional["PositiveInteger"]) -> LinSlaveConfig:
         """
         Set supplierId and return self for chaining.
 
@@ -1044,7 +1046,7 @@ class LinSlaveConfig(ARObject):
         self.supplier_id = value  # Use property setter (gets validation)
         return self
 
-    def with_variant_id(self, value: Optional["PositiveInteger"]) -> "LinSlaveConfig":
+    def with_variant_id(self, value: Optional["PositiveInteger"]) -> LinSlaveConfig:
         """
         Set variantId and return self for chaining.
 
@@ -1331,7 +1333,7 @@ class LinSlave(ARObject):
         """
         return self.assign_nad  # Delegates to property
 
-    def setAssignNad(self, value: "Boolean") -> "LinSlave":
+    def setAssignNad(self, value: "Boolean") -> LinSlave:
         """
         AUTOSAR-compliant setter for assignNad with method chaining.
 
@@ -1359,7 +1361,7 @@ class LinSlave(ARObject):
         """
         return self.configured_nad  # Delegates to property
 
-    def setConfiguredNad(self, value: "Integer") -> "LinSlave":
+    def setConfiguredNad(self, value: "Integer") -> LinSlave:
         """
         AUTOSAR-compliant setter for configuredNad with method chaining.
 
@@ -1387,7 +1389,7 @@ class LinSlave(ARObject):
         """
         return self.function_id  # Delegates to property
 
-    def setFunctionId(self, value: "PositiveInteger") -> "LinSlave":
+    def setFunctionId(self, value: "PositiveInteger") -> LinSlave:
         """
         AUTOSAR-compliant setter for functionId with method chaining.
 
@@ -1415,7 +1417,7 @@ class LinSlave(ARObject):
         """
         return self.initial_nad  # Delegates to property
 
-    def setInitialNad(self, value: "Integer") -> "LinSlave":
+    def setInitialNad(self, value: "Integer") -> LinSlave:
         """
         AUTOSAR-compliant setter for initialNad with method chaining.
 
@@ -1443,7 +1445,7 @@ class LinSlave(ARObject):
         """
         return self.lin_error  # Delegates to property
 
-    def setLinError(self, value: "LinErrorResponse") -> "LinSlave":
+    def setLinError(self, value: "LinErrorResponse") -> LinSlave:
         """
         AUTOSAR-compliant setter for linError with method chaining.
 
@@ -1471,7 +1473,7 @@ class LinSlave(ARObject):
         """
         return self.nas_timeout  # Delegates to property
 
-    def setNasTimeout(self, value: "TimeValue") -> "LinSlave":
+    def setNasTimeout(self, value: "TimeValue") -> LinSlave:
         """
         AUTOSAR-compliant setter for nasTimeout with method chaining.
 
@@ -1499,7 +1501,7 @@ class LinSlave(ARObject):
         """
         return self.supplier_id  # Delegates to property
 
-    def setSupplierId(self, value: "PositiveInteger") -> "LinSlave":
+    def setSupplierId(self, value: "PositiveInteger") -> LinSlave:
         """
         AUTOSAR-compliant setter for supplierId with method chaining.
 
@@ -1527,7 +1529,7 @@ class LinSlave(ARObject):
         """
         return self.variant_id  # Delegates to property
 
-    def setVariantId(self, value: "PositiveInteger") -> "LinSlave":
+    def setVariantId(self, value: "PositiveInteger") -> LinSlave:
         """
         AUTOSAR-compliant setter for variantId with method chaining.
 
@@ -1545,7 +1547,7 @@ class LinSlave(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_assign_nad(self, value: Optional["Boolean"]) -> "LinSlave":
+    def with_assign_nad(self, value: Optional["Boolean"]) -> LinSlave:
         """
         Set assignNad and return self for chaining.
 
@@ -1561,7 +1563,7 @@ class LinSlave(ARObject):
         self.assign_nad = value  # Use property setter (gets validation)
         return self
 
-    def with_configured_nad(self, value: Optional["Integer"]) -> "LinSlave":
+    def with_configured_nad(self, value: Optional["Integer"]) -> LinSlave:
         """
         Set configuredNad and return self for chaining.
 
@@ -1577,7 +1579,7 @@ class LinSlave(ARObject):
         self.configured_nad = value  # Use property setter (gets validation)
         return self
 
-    def with_function_id(self, value: Optional["PositiveInteger"]) -> "LinSlave":
+    def with_function_id(self, value: Optional["PositiveInteger"]) -> LinSlave:
         """
         Set functionId and return self for chaining.
 
@@ -1593,7 +1595,7 @@ class LinSlave(ARObject):
         self.function_id = value  # Use property setter (gets validation)
         return self
 
-    def with_initial_nad(self, value: Optional["Integer"]) -> "LinSlave":
+    def with_initial_nad(self, value: Optional["Integer"]) -> LinSlave:
         """
         Set initialNad and return self for chaining.
 
@@ -1609,7 +1611,7 @@ class LinSlave(ARObject):
         self.initial_nad = value  # Use property setter (gets validation)
         return self
 
-    def with_lin_error(self, value: Optional["LinErrorResponse"]) -> "LinSlave":
+    def with_lin_error(self, value: Optional["LinErrorResponse"]) -> LinSlave:
         """
         Set linError and return self for chaining.
 
@@ -1625,7 +1627,7 @@ class LinSlave(ARObject):
         self.lin_error = value  # Use property setter (gets validation)
         return self
 
-    def with_nas_timeout(self, value: Optional["TimeValue"]) -> "LinSlave":
+    def with_nas_timeout(self, value: Optional["TimeValue"]) -> LinSlave:
         """
         Set nasTimeout and return self for chaining.
 
@@ -1641,7 +1643,7 @@ class LinSlave(ARObject):
         self.nas_timeout = value  # Use property setter (gets validation)
         return self
 
-    def with_supplier_id(self, value: Optional["PositiveInteger"]) -> "LinSlave":
+    def with_supplier_id(self, value: Optional["PositiveInteger"]) -> LinSlave:
         """
         Set supplierId and return self for chaining.
 
@@ -1657,7 +1659,7 @@ class LinSlave(ARObject):
         self.supplier_id = value  # Use property setter (gets validation)
         return self
 
-    def with_variant_id(self, value: Optional["PositiveInteger"]) -> "LinSlave":
+    def with_variant_id(self, value: Optional["PositiveInteger"]) -> LinSlave:
         """
         Set variantId and return self for chaining.
 
@@ -1719,10 +1721,10 @@ class LinCommunicationConnector(CommunicationConnector):
                 # frames and sporadic frames) the slave node.
         # This element is necessary LIN 2.
         # 0 Assign-Frame command.
-        self._linConfigurable: List["LinConfigurableFrame"] = []
+        self._linConfigurable: List[LinConfigurableFrame] = []
 
     @property
-    def lin_configurable(self) -> List["LinConfigurableFrame"]:
+    def lin_configurable(self) -> List[LinConfigurableFrame]:
         """Get linConfigurable (Pythonic accessor)."""
         return self._linConfigurable
         # LinOrderedConfigurableFrames shall list all frames (unconditional frames,
@@ -1783,7 +1785,7 @@ class LinCommunicationConnector(CommunicationConnector):
         """
         return self.initial_nad  # Delegates to property
 
-    def setInitialNad(self, value: "Integer") -> "LinCommunicationConnector":
+    def setInitialNad(self, value: "Integer") -> LinCommunicationConnector:
         """
         AUTOSAR-compliant setter for initialNad with method chaining.
 
@@ -1799,7 +1801,7 @@ class LinCommunicationConnector(CommunicationConnector):
         self.initial_nad = value  # Delegates to property setter
         return self
 
-    def getLinConfigurable(self) -> List["LinConfigurableFrame"]:
+    def getLinConfigurable(self) -> List[LinConfigurableFrame]:
         """
         AUTOSAR-compliant getter for linConfigurable.
 
@@ -1835,7 +1837,7 @@ class LinCommunicationConnector(CommunicationConnector):
         """
         return self.schedule  # Delegates to property
 
-    def setSchedule(self, value: "Boolean") -> "LinCommunicationConnector":
+    def setSchedule(self, value: "Boolean") -> LinCommunicationConnector:
         """
         AUTOSAR-compliant setter for schedule with method chaining.
 
@@ -1853,7 +1855,7 @@ class LinCommunicationConnector(CommunicationConnector):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_initial_nad(self, value: Optional["Integer"]) -> "LinCommunicationConnector":
+    def with_initial_nad(self, value: Optional["Integer"]) -> LinCommunicationConnector:
         """
         Set initialNad and return self for chaining.
 
@@ -1869,7 +1871,7 @@ class LinCommunicationConnector(CommunicationConnector):
         self.initial_nad = value  # Use property setter (gets validation)
         return self
 
-    def with_schedule(self, value: Optional["Boolean"]) -> "LinCommunicationConnector":
+    def with_schedule(self, value: Optional["Boolean"]) -> LinCommunicationConnector:
         """
         Set schedule and return self for chaining.
 
@@ -1971,7 +1973,7 @@ class LinConfigurableFrame(ARObject):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: "LinFrame") -> "LinConfigurableFrame":
+    def setFrame(self, value: "LinFrame") -> LinConfigurableFrame:
         """
         AUTOSAR-compliant setter for frame with method chaining.
 
@@ -1999,7 +2001,7 @@ class LinConfigurableFrame(ARObject):
         """
         return self.message_id  # Delegates to property
 
-    def setMessageId(self, value: "PositiveInteger") -> "LinConfigurableFrame":
+    def setMessageId(self, value: "PositiveInteger") -> LinConfigurableFrame:
         """
         AUTOSAR-compliant setter for messageId with method chaining.
 
@@ -2017,7 +2019,7 @@ class LinConfigurableFrame(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_frame(self, value: Optional["LinFrame"]) -> "LinConfigurableFrame":
+    def with_frame(self, value: Optional["LinFrame"]) -> LinConfigurableFrame:
         """
         Set frame and return self for chaining.
 
@@ -2033,7 +2035,7 @@ class LinConfigurableFrame(ARObject):
         self.frame = value  # Use property setter (gets validation)
         return self
 
-    def with_message_id(self, value: Optional["PositiveInteger"]) -> "LinConfigurableFrame":
+    def with_message_id(self, value: Optional["PositiveInteger"]) -> LinConfigurableFrame:
         """
         Set messageId and return self for chaining.
 
@@ -2137,7 +2139,7 @@ class LinOrderedConfigurableFrame(ARObject):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: "LinFrame") -> "LinOrderedConfigurableFrame":
+    def setFrame(self, value: "LinFrame") -> LinOrderedConfigurableFrame:
         """
         AUTOSAR-compliant setter for frame with method chaining.
 
@@ -2165,7 +2167,7 @@ class LinOrderedConfigurableFrame(ARObject):
         """
         return self.index  # Delegates to property
 
-    def setIndex(self, value: "Integer") -> "LinOrderedConfigurableFrame":
+    def setIndex(self, value: "Integer") -> LinOrderedConfigurableFrame:
         """
         AUTOSAR-compliant setter for index with method chaining.
 
@@ -2183,7 +2185,7 @@ class LinOrderedConfigurableFrame(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_frame(self, value: Optional["LinFrame"]) -> "LinOrderedConfigurableFrame":
+    def with_frame(self, value: Optional["LinFrame"]) -> LinOrderedConfigurableFrame:
         """
         Set frame and return self for chaining.
 
@@ -2199,7 +2201,7 @@ class LinOrderedConfigurableFrame(ARObject):
         self.frame = value  # Use property setter (gets validation)
         return self
 
-    def with_index(self, value: Optional["Integer"]) -> "LinOrderedConfigurableFrame":
+    def with_index(self, value: Optional["Integer"]) -> LinOrderedConfigurableFrame:
         """
         Set index and return self for chaining.
 
@@ -2283,7 +2285,7 @@ class LinPhysicalChannel(PhysicalChannel):
         """
         return self.bus_idle_timeout  # Delegates to property
 
-    def setBusIdleTimeout(self, value: "TimeValue") -> "LinPhysicalChannel":
+    def setBusIdleTimeout(self, value: "TimeValue") -> LinPhysicalChannel:
         """
         AUTOSAR-compliant setter for busIdleTimeout with method chaining.
 
@@ -2313,7 +2315,7 @@ class LinPhysicalChannel(PhysicalChannel):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bus_idle_timeout(self, value: Optional["TimeValue"]) -> "LinPhysicalChannel":
+    def with_bus_idle_timeout(self, value: Optional["TimeValue"]) -> LinPhysicalChannel:
         """
         Set busIdleTimeout and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - Transformer
 Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Integer,
     NameToken,
@@ -201,7 +203,7 @@ class DataTransformation(Identifiable):
         """
         return self.data  # Delegates to property
 
-    def setData(self, value: "DataTransformationKind") -> "DataTransformation":
+    def setData(self, value: "DataTransformationKind") -> DataTransformation:
         """
         AUTOSAR-compliant setter for data with method chaining.
 
@@ -229,7 +231,7 @@ class DataTransformation(Identifiable):
         """
         return self.execute_despite  # Delegates to property
 
-    def setExecuteDespite(self, value: "Boolean") -> "DataTransformation":
+    def setExecuteDespite(self, value: "Boolean") -> DataTransformation:
         """
         AUTOSAR-compliant setter for executeDespite with method chaining.
 
@@ -259,7 +261,7 @@ class DataTransformation(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data(self, value: Optional["DataTransformationKind"]) -> "DataTransformation":
+    def with_data(self, value: Optional["DataTransformationKind"]) -> DataTransformation:
         """
         Set data and return self for chaining.
 
@@ -275,7 +277,7 @@ class DataTransformation(Identifiable):
         self.data = value  # Use property setter (gets validation)
         return self
 
-    def with_execute_despite(self, value: Optional["Boolean"]) -> "DataTransformation":
+    def with_execute_despite(self, value: Optional["Boolean"]) -> DataTransformation:
         """
         Set executeDespite and return self for chaining.
 
@@ -311,15 +313,15 @@ class TransformationTechnology(Identifiable):
         # Aggregation of the mandatory BufferProperties.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._bufferProperties: Optional["BufferProperties"] = None
+        self._bufferProperties: Optional[BufferProperties] = None
 
     @property
-    def buffer_properties(self) -> Optional["BufferProperties"]:
+    def buffer_properties(self) -> Optional[BufferProperties]:
         """Get bufferProperties (Pythonic accessor)."""
         return self._bufferProperties
 
     @buffer_properties.setter
-    def buffer_properties(self, value: Optional["BufferProperties"]) -> None:
+    def buffer_properties(self, value: Optional[BufferProperties]) -> None:
         """
         Set bufferProperties with validation.
 
@@ -452,15 +454,15 @@ class TransformationTechnology(Identifiable):
             )
         self._transformation = value
         # Specifies to which transformer class this transformer.
-        self._transformer: Optional["TransformerClassEnum"] = None
+        self._transformer: Optional[TransformerClassEnum] = None
 
     @property
-    def transformer(self) -> Optional["TransformerClassEnum"]:
+    def transformer(self) -> Optional[TransformerClassEnum]:
         """Get transformer (Pythonic accessor)."""
         return self._transformer
 
     @transformer.setter
-    def transformer(self, value: Optional["TransformerClassEnum"]) -> None:
+    def transformer(self, value: Optional[TransformerClassEnum]) -> None:
         """
         Set transformer with validation.
 
@@ -510,7 +512,7 @@ class TransformationTechnology(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBufferProperties(self) -> "BufferProperties":
+    def getBufferProperties(self) -> BufferProperties:
         """
         AUTOSAR-compliant getter for bufferProperties.
 
@@ -522,7 +524,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.buffer_properties  # Delegates to property
 
-    def setBufferProperties(self, value: "BufferProperties") -> "TransformationTechnology":
+    def setBufferProperties(self, value: BufferProperties) -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for bufferProperties with method chaining.
 
@@ -550,7 +552,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.has_internal  # Delegates to property
 
-    def setHasInternal(self, value: "Boolean") -> "TransformationTechnology":
+    def setHasInternal(self, value: "Boolean") -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for hasInternal with method chaining.
 
@@ -578,7 +580,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.needs_original  # Delegates to property
 
-    def setNeedsOriginal(self, value: "Boolean") -> "TransformationTechnology":
+    def setNeedsOriginal(self, value: "Boolean") -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for needsOriginal with method chaining.
 
@@ -606,7 +608,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.protocol  # Delegates to property
 
-    def setProtocol(self, value: "String") -> "TransformationTechnology":
+    def setProtocol(self, value: "String") -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for protocol with method chaining.
 
@@ -634,7 +636,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.transformation  # Delegates to property
 
-    def setTransformation(self, value: "Transformation") -> "TransformationTechnology":
+    def setTransformation(self, value: "Transformation") -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for transformation with method chaining.
 
@@ -650,7 +652,7 @@ class TransformationTechnology(Identifiable):
         self.transformation = value  # Delegates to property setter
         return self
 
-    def getTransformer(self) -> "TransformerClassEnum":
+    def getTransformer(self) -> TransformerClassEnum:
         """
         AUTOSAR-compliant getter for transformer.
 
@@ -662,7 +664,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.transformer  # Delegates to property
 
-    def setTransformer(self, value: "TransformerClassEnum") -> "TransformationTechnology":
+    def setTransformer(self, value: TransformerClassEnum) -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for transformer with method chaining.
 
@@ -690,7 +692,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.version  # Delegates to property
 
-    def setVersion(self, value: "String") -> "TransformationTechnology":
+    def setVersion(self, value: "String") -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for version with method chaining.
 
@@ -708,7 +710,7 @@ class TransformationTechnology(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_buffer_properties(self, value: Optional["BufferProperties"]) -> "TransformationTechnology":
+    def with_buffer_properties(self, value: Optional[BufferProperties]) -> TransformationTechnology:
         """
         Set bufferProperties and return self for chaining.
 
@@ -724,7 +726,7 @@ class TransformationTechnology(Identifiable):
         self.buffer_properties = value  # Use property setter (gets validation)
         return self
 
-    def with_has_internal(self, value: Optional["Boolean"]) -> "TransformationTechnology":
+    def with_has_internal(self, value: Optional["Boolean"]) -> TransformationTechnology:
         """
         Set hasInternal and return self for chaining.
 
@@ -740,7 +742,7 @@ class TransformationTechnology(Identifiable):
         self.has_internal = value  # Use property setter (gets validation)
         return self
 
-    def with_needs_original(self, value: Optional["Boolean"]) -> "TransformationTechnology":
+    def with_needs_original(self, value: Optional["Boolean"]) -> TransformationTechnology:
         """
         Set needsOriginal and return self for chaining.
 
@@ -756,7 +758,7 @@ class TransformationTechnology(Identifiable):
         self.needs_original = value  # Use property setter (gets validation)
         return self
 
-    def with_protocol(self, value: Optional["String"]) -> "TransformationTechnology":
+    def with_protocol(self, value: Optional["String"]) -> TransformationTechnology:
         """
         Set protocol and return self for chaining.
 
@@ -772,7 +774,7 @@ class TransformationTechnology(Identifiable):
         self.protocol = value  # Use property setter (gets validation)
         return self
 
-    def with_transformation(self, value: Optional["Transformation"]) -> "TransformationTechnology":
+    def with_transformation(self, value: Optional["Transformation"]) -> TransformationTechnology:
         """
         Set transformation and return self for chaining.
 
@@ -788,7 +790,7 @@ class TransformationTechnology(Identifiable):
         self.transformation = value  # Use property setter (gets validation)
         return self
 
-    def with_transformer(self, value: Optional["TransformerClassEnum"]) -> "TransformationTechnology":
+    def with_transformer(self, value: Optional[TransformerClassEnum]) -> TransformationTechnology:
         """
         Set transformer and return self for chaining.
 
@@ -804,7 +806,7 @@ class TransformationTechnology(Identifiable):
         self.transformer = value  # Use property setter (gets validation)
         return self
 
-    def with_version(self, value: Optional["String"]) -> "TransformationTechnology":
+    def with_version(self, value: Optional["String"]) -> TransformationTechnology:
         """
         Set version and return self for chaining.
 
@@ -909,7 +911,7 @@ class BufferProperties(ARObject):
         """
         return self.header_length  # Delegates to property
 
-    def setHeaderLength(self, value: "Integer") -> "BufferProperties":
+    def setHeaderLength(self, value: "Integer") -> BufferProperties:
         """
         AUTOSAR-compliant setter for headerLength with method chaining.
 
@@ -937,7 +939,7 @@ class BufferProperties(ARObject):
         """
         return self.in_place  # Delegates to property
 
-    def setInPlace(self, value: "Boolean") -> "BufferProperties":
+    def setInPlace(self, value: "Boolean") -> BufferProperties:
         """
         AUTOSAR-compliant setter for inPlace with method chaining.
 
@@ -955,7 +957,7 @@ class BufferProperties(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_header_length(self, value: Optional["Integer"]) -> "BufferProperties":
+    def with_header_length(self, value: Optional["Integer"]) -> BufferProperties:
         """
         Set headerLength and return self for chaining.
 
@@ -971,7 +973,7 @@ class BufferProperties(ARObject):
         self.header_length = value  # Use property setter (gets validation)
         return self
 
-    def with_in_place(self, value: Optional["Boolean"]) -> "BufferProperties":
+    def with_in_place(self, value: Optional["Boolean"]) -> BufferProperties:
         """
         Set inPlace and return self for chaining.
 
@@ -1364,7 +1366,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.clear_from_valid  # Delegates to property
 
-    def setClearFromValid(self, value: "Boolean") -> "EndToEndTransformationComSpecProps":
+    def setClearFromValid(self, value: "Boolean") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for clearFromValid with method chaining.
 
@@ -1392,7 +1394,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.disable_end_to  # Delegates to property
 
-    def setDisableEndTo(self, value: "Boolean") -> "EndToEndTransformationComSpecProps":
+    def setDisableEndTo(self, value: "Boolean") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for disableEndTo with method chaining.
 
@@ -1420,7 +1422,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.e2e_profile  # Delegates to property
 
-    def setE2eProfile(self, value: "E2EProfileCompatibility") -> "EndToEndTransformationComSpecProps":
+    def setE2eProfile(self, value: "E2EProfileCompatibility") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for e2eProfile with method chaining.
 
@@ -1448,7 +1450,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.max_delta  # Delegates to property
 
-    def setMaxDelta(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setMaxDelta(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
 
@@ -1476,7 +1478,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.max_error_state  # Delegates to property
 
-    def setMaxErrorState(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setMaxErrorState(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for maxErrorState with method chaining.
 
@@ -1504,7 +1506,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.max_no_new_or  # Delegates to property
 
-    def setMaxNoNewOr(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setMaxNoNewOr(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for maxNoNewOr with method chaining.
 
@@ -1532,7 +1534,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.min_ok_state_init  # Delegates to property
 
-    def setMinOkStateInit(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setMinOkStateInit(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for minOkStateInit with method chaining.
 
@@ -1560,7 +1562,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.min_ok_state  # Delegates to property
 
-    def setMinOkState(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setMinOkState(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for minOkState with method chaining.
 
@@ -1588,7 +1590,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.sync_counter_init  # Delegates to property
 
-    def setSyncCounterInit(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setSyncCounterInit(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
 
@@ -1616,7 +1618,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.window_size_init  # Delegates to property
 
-    def setWindowSizeInit(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setWindowSizeInit(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for windowSizeInit with method chaining.
 
@@ -1644,7 +1646,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.window_size  # Delegates to property
 
-    def setWindowSize(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
+    def setWindowSize(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for windowSize with method chaining.
 
@@ -1662,7 +1664,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_clear_from_valid(self, value: Optional["Boolean"]) -> "EndToEndTransformationComSpecProps":
+    def with_clear_from_valid(self, value: Optional["Boolean"]) -> EndToEndTransformationComSpecProps:
         """
         Set clearFromValid and return self for chaining.
 
@@ -1678,7 +1680,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.clear_from_valid = value  # Use property setter (gets validation)
         return self
 
-    def with_disable_end_to(self, value: Optional["Boolean"]) -> "EndToEndTransformationComSpecProps":
+    def with_disable_end_to(self, value: Optional["Boolean"]) -> EndToEndTransformationComSpecProps:
         """
         Set disableEndTo and return self for chaining.
 
@@ -1694,7 +1696,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.disable_end_to = value  # Use property setter (gets validation)
         return self
 
-    def with_e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> "EndToEndTransformationComSpecProps":
+    def with_e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> EndToEndTransformationComSpecProps:
         """
         Set e2eProfile and return self for chaining.
 
@@ -1710,7 +1712,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.e2e_profile = value  # Use property setter (gets validation)
         return self
 
-    def with_max_delta(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_max_delta(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set maxDelta and return self for chaining.
 
@@ -1726,7 +1728,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_delta = value  # Use property setter (gets validation)
         return self
 
-    def with_max_error_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_max_error_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set maxErrorState and return self for chaining.
 
@@ -1742,7 +1744,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_error_state = value  # Use property setter (gets validation)
         return self
 
-    def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set maxNoNewOr and return self for chaining.
 
@@ -1758,7 +1760,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_no_new_or = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set minOkStateInit and return self for chaining.
 
@@ -1774,7 +1776,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.min_ok_state_init = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set minOkState and return self for chaining.
 
@@ -1790,7 +1792,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.min_ok_state = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set syncCounterInit and return self for chaining.
 
@@ -1806,7 +1808,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.sync_counter_init = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_window_size_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set windowSizeInit and return self for chaining.
 
@@ -1822,7 +1824,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.window_size_init = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
+    def with_window_size(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
         """
         Set windowSize and return self for chaining.
 
@@ -1902,7 +1904,7 @@ class E2EProfileCompatibilityProps(ARElement):
         """
         return self.transit_to_invalid  # Delegates to property
 
-    def setTransitToInvalid(self, value: "Boolean") -> "E2EProfileCompatibilityProps":
+    def setTransitToInvalid(self, value: "Boolean") -> E2EProfileCompatibilityProps:
         """
         AUTOSAR-compliant setter for transitToInvalid with method chaining.
 
@@ -1920,7 +1922,7 @@ class E2EProfileCompatibilityProps(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transit_to_invalid(self, value: Optional["Boolean"]) -> "E2EProfileCompatibilityProps":
+    def with_transit_to_invalid(self, value: Optional["Boolean"]) -> E2EProfileCompatibilityProps:
         """
         Set transitToInvalid and return self for chaining.
 
@@ -1955,10 +1957,10 @@ class DataTransformationSet(ARElement):
         # This container consists of all transformer chains which be used for
                 # transformation of data communication.
         # atpVariation.
-        self._data: List["DataTransformation"] = []
+        self._data: List[DataTransformation] = []
 
     @property
-    def data(self) -> List["DataTransformation"]:
+    def data(self) -> List[DataTransformation]:
         """Get data (Pythonic accessor)."""
         return self._data
         # Transformer that is used in a transformer chain for transformation of data
@@ -1973,7 +1975,7 @@ class DataTransformationSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getData(self) -> List["DataTransformation"]:
+    def getData(self) -> List[DataTransformation]:
         """
         AUTOSAR-compliant getter for data.
 
@@ -2101,7 +2103,7 @@ class TransformationISignalProps(ARObject, ABC):
         """
         return self.cs_error_reaction  # Delegates to property
 
-    def setCsErrorReaction(self, value: "CSTransformerError") -> "TransformationISignalProps":
+    def setCsErrorReaction(self, value: "CSTransformerError") -> TransformationISignalProps:
         """
         AUTOSAR-compliant setter for csErrorReaction with method chaining.
 
@@ -2141,7 +2143,7 @@ class TransformationISignalProps(ARObject, ABC):
         """
         return self.transformer  # Delegates to property
 
-    def setTransformer(self, value: "Transformation") -> "TransformationISignalProps":
+    def setTransformer(self, value: "Transformation") -> TransformationISignalProps:
         """
         AUTOSAR-compliant setter for transformer with method chaining.
 
@@ -2159,7 +2161,7 @@ class TransformationISignalProps(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cs_error_reaction(self, value: Optional["CSTransformerError"]) -> "TransformationISignalProps":
+    def with_cs_error_reaction(self, value: Optional["CSTransformerError"]) -> TransformationISignalProps:
         """
         Set csErrorReaction and return self for chaining.
 
@@ -2175,7 +2177,7 @@ class TransformationISignalProps(ARObject, ABC):
         self.cs_error_reaction = value  # Use property setter (gets validation)
         return self
 
-    def with_transformer(self, value: Optional["Transformation"]) -> "TransformationISignalProps":
+    def with_transformer(self, value: Optional["Transformation"]) -> TransformationISignalProps:
         """
         Set transformer and return self for chaining.
 
@@ -2472,7 +2474,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.implements  # Delegates to property
 
-    def setImplements(self, value: "Boolean") -> "SOMEIPTransformationISignalProps":
+    def setImplements(self, value: "Boolean") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for implements with method chaining.
 
@@ -2500,7 +2502,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.interface_version  # Delegates to property
 
-    def setInterfaceVersion(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
+    def setInterfaceVersion(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for interfaceVersion with method chaining.
 
@@ -2528,7 +2530,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.is_dynamic  # Delegates to property
 
-    def setIsDynamic(self, value: "Boolean") -> "SOMEIPTransformationISignalProps":
+    def setIsDynamic(self, value: "Boolean") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for isDynamic with method chaining.
 
@@ -2556,7 +2558,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.message_type  # Delegates to property
 
-    def setMessageType(self, value: "SOMEIPMessageType") -> "SOMEIPTransformationISignalProps":
+    def setMessageType(self, value: "SOMEIPMessageType") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for messageType with method chaining.
 
@@ -2584,7 +2586,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_array  # Delegates to property
 
-    def setSizeOfArray(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
+    def setSizeOfArray(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfArray with method chaining.
 
@@ -2612,7 +2614,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_string  # Delegates to property
 
-    def setSizeOfString(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
+    def setSizeOfString(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfString with method chaining.
 
@@ -2640,7 +2642,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_struct  # Delegates to property
 
-    def setSizeOfStruct(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
+    def setSizeOfStruct(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfStruct with method chaining.
 
@@ -2668,7 +2670,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_union  # Delegates to property
 
-    def setSizeOfUnion(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
+    def setSizeOfUnion(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfUnion with method chaining.
 
@@ -2698,7 +2700,7 @@ class SOMEIPTransformationISignalProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_implements(self, value: Optional["Boolean"]) -> "SOMEIPTransformationISignalProps":
+    def with_implements(self, value: Optional["Boolean"]) -> SOMEIPTransformationISignalProps:
         """
         Set implements and return self for chaining.
 
@@ -2714,7 +2716,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.implements = value  # Use property setter (gets validation)
         return self
 
-    def with_interface_version(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
+    def with_interface_version(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
         """
         Set interfaceVersion and return self for chaining.
 
@@ -2730,7 +2732,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.interface_version = value  # Use property setter (gets validation)
         return self
 
-    def with_is_dynamic(self, value: Optional["Boolean"]) -> "SOMEIPTransformationISignalProps":
+    def with_is_dynamic(self, value: Optional["Boolean"]) -> SOMEIPTransformationISignalProps:
         """
         Set isDynamic and return self for chaining.
 
@@ -2746,7 +2748,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.is_dynamic = value  # Use property setter (gets validation)
         return self
 
-    def with_message_type(self, value: Optional["SOMEIPMessageType"]) -> "SOMEIPTransformationISignalProps":
+    def with_message_type(self, value: Optional["SOMEIPMessageType"]) -> SOMEIPTransformationISignalProps:
         """
         Set messageType and return self for chaining.
 
@@ -2762,7 +2764,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.message_type = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_array(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
+    def with_size_of_array(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfArray and return self for chaining.
 
@@ -2778,7 +2780,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_array = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_string(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
+    def with_size_of_string(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfString and return self for chaining.
 
@@ -2794,7 +2796,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_string = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
+    def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfStruct and return self for chaining.
 
@@ -2810,7 +2812,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_struct = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_union(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
+    def with_size_of_union(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfUnion and return self for chaining.
 
@@ -2842,16 +2844,16 @@ class TransformationPropsSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Transformer specific configuration properties.
-        self._transformationProps: List["TransformationProps"] = []
+        self._transformationProps: List[TransformationProps] = []
 
     @property
-    def transformation_props(self) -> List["TransformationProps"]:
+    def transformation_props(self) -> List[TransformationProps]:
         """Get transformationProps (Pythonic accessor)."""
         return self._transformationProps
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransformationProps(self) -> List["TransformationProps"]:
+    def getTransformationProps(self) -> List[TransformationProps]:
         """
         AUTOSAR-compliant getter for transformationProps.
 
@@ -2960,15 +2962,15 @@ class DataPrototypeTransformationProps(ARObject):
             )
         self._network = value
         # Collection of AutosarDataPrototype related configuration for a transformer.
-        self._transformation: Optional["TransformationProps"] = None
+        self._transformation: Optional[TransformationProps] = None
 
     @property
-    def transformation(self) -> Optional["TransformationProps"]:
+    def transformation(self) -> Optional[TransformationProps]:
         """Get transformation (Pythonic accessor)."""
         return self._transformation
 
     @transformation.setter
-    def transformation(self, value: Optional["TransformationProps"]) -> None:
+    def transformation(self, value: Optional[TransformationProps]) -> None:
         """
         Set transformation with validation.
 
@@ -3002,7 +3004,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.data_prototype_in  # Delegates to property
 
-    def setDataPrototypeIn(self, value: "RefType") -> "DataPrototypeTransformationProps":
+    def setDataPrototypeIn(self, value: "RefType") -> DataPrototypeTransformationProps:
         """
         AUTOSAR-compliant setter for dataPrototypeIn with method chaining.
 
@@ -3030,7 +3032,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.network  # Delegates to property
 
-    def setNetwork(self, value: "SwDataDefProps") -> "DataPrototypeTransformationProps":
+    def setNetwork(self, value: "SwDataDefProps") -> DataPrototypeTransformationProps:
         """
         AUTOSAR-compliant setter for network with method chaining.
 
@@ -3046,7 +3048,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.network = value  # Delegates to property setter
         return self
 
-    def getTransformation(self) -> "TransformationProps":
+    def getTransformation(self) -> TransformationProps:
         """
         AUTOSAR-compliant getter for transformation.
 
@@ -3058,7 +3060,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.transformation  # Delegates to property
 
-    def setTransformation(self, value: "TransformationProps") -> "DataPrototypeTransformationProps":
+    def setTransformation(self, value: TransformationProps) -> DataPrototypeTransformationProps:
         """
         AUTOSAR-compliant setter for transformation with method chaining.
 
@@ -3076,7 +3078,7 @@ class DataPrototypeTransformationProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_prototype_in(self, value: Optional[RefType]) -> "DataPrototypeTransformationProps":
+    def with_data_prototype_in(self, value: Optional[RefType]) -> DataPrototypeTransformationProps:
         """
         Set dataPrototypeIn and return self for chaining.
 
@@ -3092,7 +3094,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.data_prototype_in = value  # Use property setter (gets validation)
         return self
 
-    def with_network(self, value: Optional["SwDataDefProps"]) -> "DataPrototypeTransformationProps":
+    def with_network(self, value: Optional["SwDataDefProps"]) -> DataPrototypeTransformationProps:
         """
         Set network and return self for chaining.
 
@@ -3108,7 +3110,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.network = value  # Use property setter (gets validation)
         return self
 
-    def with_transformation(self, value: Optional["TransformationProps"]) -> "DataPrototypeTransformationProps":
+    def with_transformation(self, value: Optional[TransformationProps]) -> DataPrototypeTransformationProps:
         """
         Set transformation and return self for chaining.
 
@@ -3186,7 +3188,7 @@ class DataPrototypeReference(ARObject, ABC):
         """
         return self.tag_id  # Delegates to property
 
-    def setTagId(self, value: "PositiveInteger") -> "DataPrototypeReference":
+    def setTagId(self, value: "PositiveInteger") -> DataPrototypeReference:
         """
         AUTOSAR-compliant setter for tagId with method chaining.
 
@@ -3204,7 +3206,7 @@ class DataPrototypeReference(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tag_id(self, value: Optional["PositiveInteger"]) -> "DataPrototypeReference":
+    def with_tag_id(self, value: Optional["PositiveInteger"]) -> DataPrototypeReference:
         """
         Set tagId and return self for chaining.
 
@@ -3369,7 +3371,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.data_length  # Delegates to property
 
-    def setDataLength(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
+    def setDataLength(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
 
@@ -3397,7 +3399,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.max_data_length  # Delegates to property
 
-    def setMaxDataLength(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
+    def setMaxDataLength(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for maxDataLength with method chaining.
 
@@ -3425,7 +3427,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.min_data_length  # Delegates to property
 
-    def setMinDataLength(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
+    def setMinDataLength(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for minDataLength with method chaining.
 
@@ -3453,7 +3455,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.source_id  # Delegates to property
 
-    def setSourceId(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
+    def setSourceId(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sourceId with method chaining.
 
@@ -3471,7 +3473,7 @@ class EndToEndTransformationISignalProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_length(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
+    def with_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
         """
         Set dataLength and return self for chaining.
 
@@ -3487,7 +3489,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_max_data_length(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
+    def with_max_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
         """
         Set maxDataLength and return self for chaining.
 
@@ -3503,7 +3505,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.max_data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_min_data_length(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
+    def with_min_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
         """
         Set minDataLength and return self for chaining.
 
@@ -3519,7 +3521,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.min_data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_source_id(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
+    def with_source_id(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
         """
         Set sourceId and return self for chaining.
 
@@ -3574,16 +3576,16 @@ class TlvDataIdDefinitionSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation represents the collection of TlVDataTid aggregated by the
         # TlvDataIdDefinitionSet.
-        self._tlvDataId: List["TlvDataIdDefinition"] = []
+        self._tlvDataId: List[TlvDataIdDefinition] = []
 
     @property
-    def tlv_data_id(self) -> List["TlvDataIdDefinition"]:
+    def tlv_data_id(self) -> List[TlvDataIdDefinition]:
         """Get tlvDataId (Pythonic accessor)."""
         return self._tlvDataId
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTlvDataId(self) -> List["TlvDataIdDefinition"]:
+    def getTlvDataId(self) -> List[TlvDataIdDefinition]:
         """
         AUTOSAR-compliant getter for tlvDataId.
 
@@ -3737,7 +3739,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> "TlvDataIdDefinition":
+    def setId(self, value: "PositiveInteger") -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -3765,7 +3767,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv_argument  # Delegates to property
 
-    def setTlvArgument(self, value: "RefType") -> "TlvDataIdDefinition":
+    def setTlvArgument(self, value: "RefType") -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlvArgument with method chaining.
 
@@ -3793,7 +3795,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv  # Delegates to property
 
-    def setTlv(self, value: "AbstractImplementation") -> "TlvDataIdDefinition":
+    def setTlv(self, value: "AbstractImplementation") -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlv with method chaining.
 
@@ -3821,7 +3823,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv_record  # Delegates to property
 
-    def setTlvRecord(self, value: "ApplicationRecord") -> "TlvDataIdDefinition":
+    def setTlvRecord(self, value: "ApplicationRecord") -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlvRecord with method chaining.
 
@@ -3839,7 +3841,7 @@ class TlvDataIdDefinition(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> "TlvDataIdDefinition":
+    def with_id(self, value: Optional["PositiveInteger"]) -> TlvDataIdDefinition:
         """
         Set id and return self for chaining.
 
@@ -3855,7 +3857,7 @@ class TlvDataIdDefinition(ARObject):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_tlv_argument(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+    def with_tlv_argument(self, value: Optional[RefType]) -> TlvDataIdDefinition:
         """
         Set tlvArgument and return self for chaining.
 
@@ -3871,7 +3873,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv_argument = value  # Use property setter (gets validation)
         return self
 
-    def with_tlv(self, value: Optional["AbstractImplementation"]) -> "TlvDataIdDefinition":
+    def with_tlv(self, value: Optional["AbstractImplementation"]) -> TlvDataIdDefinition:
         """
         Set tlv and return self for chaining.
 
@@ -3887,7 +3889,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv = value  # Use property setter (gets validation)
         return self
 
-    def with_tlv_record(self, value: Optional["ApplicationRecord"]) -> "TlvDataIdDefinition":
+    def with_tlv_record(self, value: Optional["ApplicationRecord"]) -> TlvDataIdDefinition:
         """
         Set tlvRecord and return self for chaining.
 
@@ -4007,15 +4009,15 @@ class EndToEndTransformationDescription(TransformationDescription):
         self._crcOffset = value
         # This attribute describes the inclusion mode that is used to implicit two-byte
         # Data ID in the one-byte CRC.
-        self._dataIdMode: Optional["DataIdModeEnum"] = None
+        self._dataIdMode: Optional[DataIdModeEnum] = None
 
     @property
-    def data_id_mode(self) -> Optional["DataIdModeEnum"]:
+    def data_id_mode(self) -> Optional[DataIdModeEnum]:
         """Get dataIdMode (Pythonic accessor)."""
         return self._dataIdMode
 
     @data_id_mode.setter
-    def data_id_mode(self, value: Optional["DataIdModeEnum"]) -> None:
+    def data_id_mode(self, value: Optional[DataIdModeEnum]) -> None:
         """
         Set dataIdMode with validation.
 
@@ -4460,7 +4462,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.clear_from_valid  # Delegates to property
 
-    def setClearFromValid(self, value: "Boolean") -> "EndToEndTransformationDescription":
+    def setClearFromValid(self, value: "Boolean") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for clearFromValid with method chaining.
 
@@ -4488,7 +4490,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.counter_offset  # Delegates to property
 
-    def setCounterOffset(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setCounterOffset(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for counterOffset with method chaining.
 
@@ -4516,7 +4518,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.crc_offset  # Delegates to property
 
-    def setCrcOffset(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setCrcOffset(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for crcOffset with method chaining.
 
@@ -4532,7 +4534,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.crc_offset = value  # Delegates to property setter
         return self
 
-    def getDataIdMode(self) -> "DataIdModeEnum":
+    def getDataIdMode(self) -> DataIdModeEnum:
         """
         AUTOSAR-compliant getter for dataIdMode.
 
@@ -4544,7 +4546,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.data_id_mode  # Delegates to property
 
-    def setDataIdMode(self, value: "DataIdModeEnum") -> "EndToEndTransformationDescription":
+    def setDataIdMode(self, value: DataIdModeEnum) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for dataIdMode with method chaining.
 
@@ -4572,7 +4574,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.data_id_nibble  # Delegates to property
 
-    def setDataIdNibble(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setDataIdNibble(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for dataIdNibble with method chaining.
 
@@ -4600,7 +4602,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.e2e_profile  # Delegates to property
 
-    def setE2eProfile(self, value: "E2EProfileCompatibility") -> "EndToEndTransformationDescription":
+    def setE2eProfile(self, value: "E2EProfileCompatibility") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for e2eProfile with method chaining.
 
@@ -4628,7 +4630,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.max_delta  # Delegates to property
 
-    def setMaxDelta(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setMaxDelta(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
 
@@ -4656,7 +4658,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.max_error_state  # Delegates to property
 
-    def setMaxErrorState(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setMaxErrorState(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for maxErrorState with method chaining.
 
@@ -4684,7 +4686,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.max_no_new_or  # Delegates to property
 
-    def setMaxNoNewOr(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setMaxNoNewOr(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for maxNoNewOr with method chaining.
 
@@ -4712,7 +4714,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.min_ok_state_init  # Delegates to property
 
-    def setMinOkStateInit(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setMinOkStateInit(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for minOkStateInit with method chaining.
 
@@ -4740,7 +4742,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.min_ok_state  # Delegates to property
 
-    def setMinOkState(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setMinOkState(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for minOkState with method chaining.
 
@@ -4768,7 +4770,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setOffset(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -4796,7 +4798,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.profile_behavior_behavior_enum  # Delegates to property
 
-    def setProfileBehaviorBehaviorEnum(self, value: "EndToEndProfile") -> "EndToEndTransformationDescription":
+    def setProfileBehaviorBehaviorEnum(self, value: "EndToEndProfile") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for profileBehaviorBehaviorEnum with method chaining.
 
@@ -4824,7 +4826,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.profile_name  # Delegates to property
 
-    def setProfileName(self, value: "NameToken") -> "EndToEndTransformationDescription":
+    def setProfileName(self, value: "NameToken") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for profileName with method chaining.
 
@@ -4852,7 +4854,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.sync_counter_init  # Delegates to property
 
-    def setSyncCounterInit(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setSyncCounterInit(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
 
@@ -4880,7 +4882,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.upper_header  # Delegates to property
 
-    def setUpperHeader(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setUpperHeader(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for upperHeader with method chaining.
 
@@ -4908,7 +4910,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.window_size_init  # Delegates to property
 
-    def setWindowSizeInit(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setWindowSizeInit(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for windowSizeInit with method chaining.
 
@@ -4936,7 +4938,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.window_size  # Delegates to property
 
-    def setWindowSize(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
+    def setWindowSize(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for windowSize with method chaining.
 
@@ -4954,7 +4956,7 @@ class EndToEndTransformationDescription(TransformationDescription):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_clear_from_valid(self, value: Optional["Boolean"]) -> "EndToEndTransformationDescription":
+    def with_clear_from_valid(self, value: Optional["Boolean"]) -> EndToEndTransformationDescription:
         """
         Set clearFromValid and return self for chaining.
 
@@ -4970,7 +4972,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.clear_from_valid = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_counter_offset(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set counterOffset and return self for chaining.
 
@@ -4986,7 +4988,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.counter_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_crc_offset(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set crcOffset and return self for chaining.
 
@@ -5002,7 +5004,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.crc_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_data_id_mode(self, value: Optional["DataIdModeEnum"]) -> "EndToEndTransformationDescription":
+    def with_data_id_mode(self, value: Optional[DataIdModeEnum]) -> EndToEndTransformationDescription:
         """
         Set dataIdMode and return self for chaining.
 
@@ -5018,7 +5020,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.data_id_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_data_id_nibble(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_data_id_nibble(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set dataIdNibble and return self for chaining.
 
@@ -5034,7 +5036,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.data_id_nibble = value  # Use property setter (gets validation)
         return self
 
-    def with_e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> "EndToEndTransformationDescription":
+    def with_e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> EndToEndTransformationDescription:
         """
         Set e2eProfile and return self for chaining.
 
@@ -5050,7 +5052,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.e2e_profile = value  # Use property setter (gets validation)
         return self
 
-    def with_max_delta(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_max_delta(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set maxDelta and return self for chaining.
 
@@ -5066,7 +5068,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_delta = value  # Use property setter (gets validation)
         return self
 
-    def with_max_error_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_max_error_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set maxErrorState and return self for chaining.
 
@@ -5082,7 +5084,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_error_state = value  # Use property setter (gets validation)
         return self
 
-    def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set maxNoNewOr and return self for chaining.
 
@@ -5098,7 +5100,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_no_new_or = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set minOkStateInit and return self for chaining.
 
@@ -5114,7 +5116,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.min_ok_state_init = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set minOkState and return self for chaining.
 
@@ -5130,7 +5132,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.min_ok_state = value  # Use property setter (gets validation)
         return self
 
-    def with_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_offset(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set offset and return self for chaining.
 
@@ -5146,7 +5148,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.offset = value  # Use property setter (gets validation)
         return self
 
-    def with_profile_behavior_behavior_enum(self, value: Optional["EndToEndProfile"]) -> "EndToEndTransformationDescription":
+    def with_profile_behavior_behavior_enum(self, value: Optional["EndToEndProfile"]) -> EndToEndTransformationDescription:
         """
         Set profileBehaviorBehaviorEnum and return self for chaining.
 
@@ -5162,7 +5164,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.profile_behavior_behavior_enum = value  # Use property setter (gets validation)
         return self
 
-    def with_profile_name(self, value: Optional["NameToken"]) -> "EndToEndTransformationDescription":
+    def with_profile_name(self, value: Optional["NameToken"]) -> EndToEndTransformationDescription:
         """
         Set profileName and return self for chaining.
 
@@ -5178,7 +5180,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.profile_name = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set syncCounterInit and return self for chaining.
 
@@ -5194,7 +5196,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.sync_counter_init = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_header(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_upper_header(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set upperHeader and return self for chaining.
 
@@ -5210,7 +5212,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.upper_header = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_window_size_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set windowSizeInit and return self for chaining.
 
@@ -5226,7 +5228,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.window_size_init = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
+    def with_window_size(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
         """
         Set windowSize and return self for chaining.
 
@@ -5380,7 +5382,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         """
         return self.alignment  # Delegates to property
 
-    def setAlignment(self, value: "PositiveInteger") -> "SOMEIPTransformationDescription":
+    def setAlignment(self, value: "PositiveInteger") -> SOMEIPTransformationDescription:
         """
         AUTOSAR-compliant setter for alignment with method chaining.
 
@@ -5408,7 +5410,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         """
         return self.byte_order  # Delegates to property
 
-    def setByteOrder(self, value: "ByteOrderEnum") -> "SOMEIPTransformationDescription":
+    def setByteOrder(self, value: "ByteOrderEnum") -> SOMEIPTransformationDescription:
         """
         AUTOSAR-compliant setter for byteOrder with method chaining.
 
@@ -5436,7 +5438,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         """
         return self.interface_version  # Delegates to property
 
-    def setInterfaceVersion(self, value: "PositiveInteger") -> "SOMEIPTransformationDescription":
+    def setInterfaceVersion(self, value: "PositiveInteger") -> SOMEIPTransformationDescription:
         """
         AUTOSAR-compliant setter for interfaceVersion with method chaining.
 
@@ -5454,7 +5456,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alignment(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationDescription":
+    def with_alignment(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationDescription:
         """
         Set alignment and return self for chaining.
 
@@ -5470,7 +5472,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_byte_order(self, value: Optional["ByteOrderEnum"]) -> "SOMEIPTransformationDescription":
+    def with_byte_order(self, value: Optional["ByteOrderEnum"]) -> SOMEIPTransformationDescription:
         """
         Set byteOrder and return self for chaining.
 
@@ -5486,7 +5488,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.byte_order = value  # Use property setter (gets validation)
         return self
 
-    def with_interface_version(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationDescription":
+    def with_interface_version(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationDescription:
         """
         Set interfaceVersion and return self for chaining.
 
@@ -5679,7 +5681,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.alignment  # Delegates to property
 
-    def setAlignment(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
+    def setAlignment(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for alignment with method chaining.
 
@@ -5707,7 +5709,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_array  # Delegates to property
 
-    def setSizeOfArray(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
+    def setSizeOfArray(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfArray with method chaining.
 
@@ -5735,7 +5737,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_string  # Delegates to property
 
-    def setSizeOfString(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
+    def setSizeOfString(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfString with method chaining.
 
@@ -5763,7 +5765,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_struct  # Delegates to property
 
-    def setSizeOfStruct(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
+    def setSizeOfStruct(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfStruct with method chaining.
 
@@ -5791,7 +5793,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_union  # Delegates to property
 
-    def setSizeOfUnion(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
+    def setSizeOfUnion(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfUnion with method chaining.
 
@@ -5809,7 +5811,7 @@ class SOMEIPTransformationProps(TransformationProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alignment(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
+    def with_alignment(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
         """
         Set alignment and return self for chaining.
 
@@ -5825,7 +5827,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_array(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
+    def with_size_of_array(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
         """
         Set sizeOfArray and return self for chaining.
 
@@ -5841,7 +5843,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_array = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_string(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
+    def with_size_of_string(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
         """
         Set sizeOfString and return self for chaining.
 
@@ -5857,7 +5859,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_string = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
+    def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
         """
         Set sizeOfStruct and return self for chaining.
 
@@ -5873,7 +5875,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_struct = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_union(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
+    def with_size_of_union(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
         """
         Set sizeOfUnion and return self for chaining.
 
@@ -5967,7 +5969,7 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
         """
         return self.data_prototype_in  # Delegates to property
 
-    def setDataPrototypeIn(self, value: "RefType") -> "DataPrototypeInPortInterfaceRef":
+    def setDataPrototypeIn(self, value: "RefType") -> DataPrototypeInPortInterfaceRef:
         """
         AUTOSAR-compliant setter for dataPrototypeIn with method chaining.
 
@@ -5985,7 +5987,7 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_prototype_in(self, value: Optional[RefType]) -> "DataPrototypeInPortInterfaceRef":
+    def with_data_prototype_in(self, value: Optional[RefType]) -> DataPrototypeInPortInterfaceRef:
         """
         Set dataPrototypeIn and return self for chaining.
 
@@ -6119,33 +6121,33 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
 
 __all__ = [
-    "DataTransformation",
-    "TransformationTechnology",
-    "BufferProperties",
-    "TransformationDescription",
-    "EndToEndTransformationComSpecProps",
-    "E2EProfileCompatibilityProps",
-    "DataTransformationSet",
-    "TransformationISignalProps",
-    "SOMEIPTransformationISignalProps",
-    "TransformationPropsSet",
-    "TransformationProps",
-    "DataPrototypeTransformationProps",
-    "DataPrototypeReference",
-    "EndToEndTransformationISignalProps",
-    "UserDefinedTransformationISignalProps",
-    "TlvDataIdDefinitionSet",
-    "TlvDataIdDefinition",
-    "EndToEndTransformationDescription",
-    "UserDefinedTransformationDescription",
-    "SOMEIPTransformationDescription",
-    "SOMEIPTransformationProps",
-    "UserDefinedTransformationProps",
-    "DataPrototypeInPortInterfaceRef",
-    "DataTransformationKindEnum",
-    "TransformerClassEnum",
-    "CSTransformerErrorReactionEnum",
-    "SOMEIPMessageTypeEnum",
-    "DataIdModeEnum",
-    "EndToEndProfileBehaviorEnum",
+    DataTransformation,
+    TransformationTechnology,
+    BufferProperties,
+    TransformationDescription,
+    EndToEndTransformationComSpecProps,
+    E2EProfileCompatibilityProps,
+    DataTransformationSet,
+    TransformationISignalProps,
+    SOMEIPTransformationISignalProps,
+    TransformationPropsSet,
+    TransformationProps,
+    DataPrototypeTransformationProps,
+    DataPrototypeReference,
+    EndToEndTransformationISignalProps,
+    UserDefinedTransformationISignalProps,
+    TlvDataIdDefinitionSet,
+    TlvDataIdDefinition,
+    EndToEndTransformationDescription,
+    UserDefinedTransformationDescription,
+    SOMEIPTransformationDescription,
+    SOMEIPTransformationProps,
+    UserDefinedTransformationProps,
+    DataPrototypeInPortInterfaceRef,
+    DataTransformationKindEnum,
+    TransformerClassEnum,
+    CSTransformerErrorReactionEnum,
+    SOMEIPMessageTypeEnum,
+    DataIdModeEnum,
+    EndToEndProfileBehaviorEnum,
 ]

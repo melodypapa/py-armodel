@@ -4,10 +4,12 @@ AUTOSAR Package - LinCommunication
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     PositiveInteger,
     RefType,
@@ -165,7 +167,7 @@ class LinErrorResponse(ARObject):
         """
         return self.response_error  # Delegates to property
 
-    def setResponseError(self, value: "RefType") -> "LinErrorResponse":
+    def setResponseError(self, value: "RefType") -> LinErrorResponse:
         """
         AUTOSAR-compliant setter for responseError with method chaining.
 
@@ -183,7 +185,7 @@ class LinErrorResponse(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_response_error(self, value: Optional[RefType]) -> "LinErrorResponse":
+    def with_response_error(self, value: Optional[RefType]) -> LinErrorResponse:
         """
         Set responseError and return self for chaining.
 
@@ -267,15 +269,15 @@ class LinFrameTriggering(FrameTriggering):
             )
         self._identifier = value
         # This attribute is in case of sporadic frames it should not.
-        self._linChecksum: Optional["LinChecksumType"] = None
+        self._linChecksum: Optional[LinChecksumType] = None
 
     @property
-    def lin_checksum(self) -> Optional["LinChecksumType"]:
+    def lin_checksum(self) -> Optional[LinChecksumType]:
         """Get linChecksum (Pythonic accessor)."""
         return self._linChecksum
 
     @lin_checksum.setter
-    def lin_checksum(self, value: Optional["LinChecksumType"]) -> None:
+    def lin_checksum(self, value: Optional[LinChecksumType]) -> None:
         """
         Set linChecksum with validation.
 
@@ -309,7 +311,7 @@ class LinFrameTriggering(FrameTriggering):
         """
         return self.identifier  # Delegates to property
 
-    def setIdentifier(self, value: "Integer") -> "LinFrameTriggering":
+    def setIdentifier(self, value: "Integer") -> LinFrameTriggering:
         """
         AUTOSAR-compliant setter for identifier with method chaining.
 
@@ -325,7 +327,7 @@ class LinFrameTriggering(FrameTriggering):
         self.identifier = value  # Delegates to property setter
         return self
 
-    def getLinChecksum(self) -> "LinChecksumType":
+    def getLinChecksum(self) -> LinChecksumType:
         """
         AUTOSAR-compliant getter for linChecksum.
 
@@ -337,7 +339,7 @@ class LinFrameTriggering(FrameTriggering):
         """
         return self.lin_checksum  # Delegates to property
 
-    def setLinChecksum(self, value: "LinChecksumType") -> "LinFrameTriggering":
+    def setLinChecksum(self, value: LinChecksumType) -> LinFrameTriggering:
         """
         AUTOSAR-compliant setter for linChecksum with method chaining.
 
@@ -355,7 +357,7 @@ class LinFrameTriggering(FrameTriggering):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_identifier(self, value: Optional["Integer"]) -> "LinFrameTriggering":
+    def with_identifier(self, value: Optional["Integer"]) -> LinFrameTriggering:
         """
         Set identifier and return self for chaining.
 
@@ -371,7 +373,7 @@ class LinFrameTriggering(FrameTriggering):
         self.identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_lin_checksum(self, value: Optional["LinChecksumType"]) -> "LinFrameTriggering":
+    def with_lin_checksum(self, value: Optional[LinChecksumType]) -> LinFrameTriggering:
         """
         Set linChecksum and return self for chaining.
 
@@ -407,15 +409,15 @@ class LinScheduleTable(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines, where a schedule table shall be proceeded in it has been interrupted
         # by a run-once table or.
-        self._resumePosition: Optional["ResumePosition"] = None
+        self._resumePosition: Optional[ResumePosition] = None
 
     @property
-    def resume_position(self) -> Optional["ResumePosition"]:
+    def resume_position(self) -> Optional[ResumePosition]:
         """Get resumePosition (Pythonic accessor)."""
         return self._resumePosition
 
     @resume_position.setter
-    def resume_position(self, value: Optional["ResumePosition"]) -> None:
+    def resume_position(self, value: Optional[ResumePosition]) -> None:
         """
         Set resumePosition with validation.
 
@@ -434,15 +436,15 @@ class LinScheduleTable(Identifiable):
                 f"resumePosition must be ResumePosition or None, got {type(value).__name__}"
             )
         self._resumePosition = value
-        self._runMode: Optional["RunMode"] = None
+        self._runMode: Optional[RunMode] = None
 
     @property
-    def run_mode(self) -> Optional["RunMode"]:
+    def run_mode(self) -> Optional[RunMode]:
         """Get runMode (Pythonic accessor)."""
         return self._runMode
 
     @run_mode.setter
-    def run_mode(self, value: Optional["RunMode"]) -> None:
+    def run_mode(self, value: Optional[RunMode]) -> None:
         """
         Set runMode with validation.
 
@@ -461,16 +463,16 @@ class LinScheduleTable(Identifiable):
                 f"runMode must be RunMode or None, got {type(value).__name__}"
             )
         self._runMode = value
-        self._tableEntry: List["ScheduleTableEntry"] = []
+        self._tableEntry: List[ScheduleTableEntry] = []
 
     @property
-    def table_entry(self) -> List["ScheduleTableEntry"]:
+    def table_entry(self) -> List[ScheduleTableEntry]:
         """Get tableEntry (Pythonic accessor)."""
         return self._tableEntry
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getResumePosition(self) -> "ResumePosition":
+    def getResumePosition(self) -> ResumePosition:
         """
         AUTOSAR-compliant getter for resumePosition.
 
@@ -482,7 +484,7 @@ class LinScheduleTable(Identifiable):
         """
         return self.resume_position  # Delegates to property
 
-    def setResumePosition(self, value: "ResumePosition") -> "LinScheduleTable":
+    def setResumePosition(self, value: ResumePosition) -> LinScheduleTable:
         """
         AUTOSAR-compliant setter for resumePosition with method chaining.
 
@@ -498,7 +500,7 @@ class LinScheduleTable(Identifiable):
         self.resume_position = value  # Delegates to property setter
         return self
 
-    def getRunMode(self) -> "RunMode":
+    def getRunMode(self) -> RunMode:
         """
         AUTOSAR-compliant getter for runMode.
 
@@ -510,7 +512,7 @@ class LinScheduleTable(Identifiable):
         """
         return self.run_mode  # Delegates to property
 
-    def setRunMode(self, value: "RunMode") -> "LinScheduleTable":
+    def setRunMode(self, value: RunMode) -> LinScheduleTable:
         """
         AUTOSAR-compliant setter for runMode with method chaining.
 
@@ -526,7 +528,7 @@ class LinScheduleTable(Identifiable):
         self.run_mode = value  # Delegates to property setter
         return self
 
-    def getTableEntry(self) -> List["ScheduleTableEntry"]:
+    def getTableEntry(self) -> List[ScheduleTableEntry]:
         """
         AUTOSAR-compliant getter for tableEntry.
 
@@ -540,7 +542,7 @@ class LinScheduleTable(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_resume_position(self, value: Optional["ResumePosition"]) -> "LinScheduleTable":
+    def with_resume_position(self, value: Optional[ResumePosition]) -> LinScheduleTable:
         """
         Set resumePosition and return self for chaining.
 
@@ -556,7 +558,7 @@ class LinScheduleTable(Identifiable):
         self.resume_position = value  # Use property setter (gets validation)
         return self
 
-    def with_run_mode(self, value: Optional["RunMode"]) -> "LinScheduleTable":
+    def with_run_mode(self, value: Optional[RunMode]) -> LinScheduleTable:
         """
         Set runMode and return self for chaining.
 
@@ -689,7 +691,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """
         return self.delay  # Delegates to property
 
-    def setDelay(self, value: "TimeValue") -> "ScheduleTableEntry":
+    def setDelay(self, value: "TimeValue") -> ScheduleTableEntry:
         """
         AUTOSAR-compliant setter for delay with method chaining.
 
@@ -717,7 +719,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "ScheduleTableEntry":
+    def setIntroduction(self, value: "DocumentationBlock") -> ScheduleTableEntry:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -745,7 +747,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """
         return self.position_in_table  # Delegates to property
 
-    def setPositionInTable(self, value: "Integer") -> "ScheduleTableEntry":
+    def setPositionInTable(self, value: "Integer") -> ScheduleTableEntry:
         """
         AUTOSAR-compliant setter for positionInTable with method chaining.
 
@@ -763,7 +765,7 @@ class ScheduleTableEntry(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_delay(self, value: Optional["TimeValue"]) -> "ScheduleTableEntry":
+    def with_delay(self, value: Optional["TimeValue"]) -> ScheduleTableEntry:
         """
         Set delay and return self for chaining.
 
@@ -779,7 +781,7 @@ class ScheduleTableEntry(ARObject, ABC):
         self.delay = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "ScheduleTableEntry":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> ScheduleTableEntry:
         """
         Set introduction and return self for chaining.
 
@@ -795,7 +797,7 @@ class ScheduleTableEntry(ARObject, ABC):
         self.introduction = value  # Use property setter (gets validation)
         return self
 
-    def with_position_in_table(self, value: Optional["Integer"]) -> "ScheduleTableEntry":
+    def with_position_in_table(self, value: Optional["Integer"]) -> ScheduleTableEntry:
         """
         Set positionInTable and return self for chaining.
 
@@ -899,7 +901,7 @@ class FramePid(ARObject):
         """
         return self.index  # Delegates to property
 
-    def setIndex(self, value: "Integer") -> "FramePid":
+    def setIndex(self, value: "Integer") -> FramePid:
         """
         AUTOSAR-compliant setter for index with method chaining.
 
@@ -927,7 +929,7 @@ class FramePid(ARObject):
         """
         return self.pid  # Delegates to property
 
-    def setPid(self, value: "PositiveInteger") -> "FramePid":
+    def setPid(self, value: "PositiveInteger") -> FramePid:
         """
         AUTOSAR-compliant setter for pid with method chaining.
 
@@ -945,7 +947,7 @@ class FramePid(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_index(self, value: Optional["Integer"]) -> "FramePid":
+    def with_index(self, value: Optional["Integer"]) -> FramePid:
         """
         Set index and return self for chaining.
 
@@ -961,7 +963,7 @@ class FramePid(ARObject):
         self.index = value  # Use property setter (gets validation)
         return self
 
-    def with_pid(self, value: Optional["PositiveInteger"]) -> "FramePid":
+    def with_pid(self, value: Optional["PositiveInteger"]) -> FramePid:
         """
         Set pid and return self for chaining.
 
@@ -1022,16 +1024,16 @@ class LinSporadicFrame(LinFrame):
                 # the a substituted Frame.
         # The identifier is specified element.
         # associated with a LinSporadic not be allocated in the same LinSchedule.
-        self._substituted: List["LinUnconditionalFrame"] = []
+        self._substituted: List[LinUnconditionalFrame] = []
 
     @property
-    def substituted(self) -> List["LinUnconditionalFrame"]:
+    def substituted(self) -> List[LinUnconditionalFrame]:
         """Get substituted (Pythonic accessor)."""
         return self._substituted
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSubstituted(self) -> List["LinUnconditionalFrame"]:
+    def getSubstituted(self) -> List[LinUnconditionalFrame]:
         """
         AUTOSAR-compliant getter for substituted.
 
@@ -1068,15 +1070,15 @@ class LinEventTriggeredFrame(LinFrame):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the schedule table, which resolves a.
-        self._collisionSchedule: Optional["LinScheduleTable"] = None
+        self._collisionSchedule: Optional[LinScheduleTable] = None
 
     @property
-    def collision_schedule(self) -> Optional["LinScheduleTable"]:
+    def collision_schedule(self) -> Optional[LinScheduleTable]:
         """Get collisionSchedule (Pythonic accessor)."""
         return self._collisionSchedule
 
     @collision_schedule.setter
-    def collision_schedule(self, value: Optional["LinScheduleTable"]) -> None:
+    def collision_schedule(self, value: Optional[LinScheduleTable]) -> None:
         """
         Set collisionSchedule with validation.
 
@@ -1110,16 +1112,16 @@ class LinEventTriggeredFrame(LinFrame):
         # published by different slave nodes.
         # not be included directly in the same schedule the event triggered frame is
                 # scheduled.
-        self._linUnconditional: List["LinUnconditionalFrame"] = []
+        self._linUnconditional: List[LinUnconditionalFrame] = []
 
     @property
-    def lin_unconditional(self) -> List["LinUnconditionalFrame"]:
+    def lin_unconditional(self) -> List[LinUnconditionalFrame]:
         """Get linUnconditional (Pythonic accessor)."""
         return self._linUnconditional
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCollisionSchedule(self) -> "LinScheduleTable":
+    def getCollisionSchedule(self) -> LinScheduleTable:
         """
         AUTOSAR-compliant getter for collisionSchedule.
 
@@ -1131,7 +1133,7 @@ class LinEventTriggeredFrame(LinFrame):
         """
         return self.collision_schedule  # Delegates to property
 
-    def setCollisionSchedule(self, value: "LinScheduleTable") -> "LinEventTriggeredFrame":
+    def setCollisionSchedule(self, value: LinScheduleTable) -> LinEventTriggeredFrame:
         """
         AUTOSAR-compliant setter for collisionSchedule with method chaining.
 
@@ -1147,7 +1149,7 @@ class LinEventTriggeredFrame(LinFrame):
         self.collision_schedule = value  # Delegates to property setter
         return self
 
-    def getLinUnconditional(self) -> List["LinUnconditionalFrame"]:
+    def getLinUnconditional(self) -> List[LinUnconditionalFrame]:
         """
         AUTOSAR-compliant getter for linUnconditional.
 
@@ -1161,7 +1163,7 @@ class LinEventTriggeredFrame(LinFrame):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_collision_schedule(self, value: Optional["LinScheduleTable"]) -> "LinEventTriggeredFrame":
+    def with_collision_schedule(self, value: Optional[LinScheduleTable]) -> LinEventTriggeredFrame:
         """
         Set collisionSchedule and return self for chaining.
 
@@ -1231,7 +1233,7 @@ class ApplicationEntry(ScheduleTableEntry):
         """
         return self.frame_triggering  # Delegates to property
 
-    def setFrameTriggering(self, value: "RefType") -> "ApplicationEntry":
+    def setFrameTriggering(self, value: "RefType") -> ApplicationEntry:
         """
         AUTOSAR-compliant setter for frameTriggering with method chaining.
 
@@ -1249,7 +1251,7 @@ class ApplicationEntry(ScheduleTableEntry):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_frame_triggering(self, value: Optional[RefType]) -> "ApplicationEntry":
+    def with_frame_triggering(self, value: Optional[RefType]) -> ApplicationEntry:
         """
         Set frameTriggering and return self for chaining.
 
@@ -1381,7 +1383,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assigned  # Delegates to property
 
-    def setAssigned(self, value: "LinSlave") -> "LinConfigurationEntry":
+    def setAssigned(self, value: "LinSlave") -> LinConfigurationEntry:
         """
         AUTOSAR-compliant setter for assigned with method chaining.
 
@@ -1409,7 +1411,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assigned_lin  # Delegates to property
 
-    def setAssignedLin(self, value: "LinSlaveConfigIdent") -> "LinConfigurationEntry":
+    def setAssignedLin(self, value: "LinSlaveConfigIdent") -> LinConfigurationEntry:
         """
         AUTOSAR-compliant setter for assignedLin with method chaining.
 
@@ -1427,7 +1429,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_assigned(self, value: Optional["LinSlave"]) -> "LinConfigurationEntry":
+    def with_assigned(self, value: Optional["LinSlave"]) -> LinConfigurationEntry:
         """
         Set assigned and return self for chaining.
 
@@ -1443,7 +1445,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         self.assigned = value  # Use property setter (gets validation)
         return self
 
-    def with_assigned_lin(self, value: Optional["LinSlaveConfigIdent"]) -> "LinConfigurationEntry":
+    def with_assigned_lin(self, value: Optional["LinSlaveConfigIdent"]) -> LinConfigurationEntry:
         """
         Set assignedLin and return self for chaining.
 
@@ -1552,7 +1554,7 @@ class AssignFrameId(LinConfigurationEntry):
         """
         return self.assigned_frame  # Delegates to property
 
-    def setAssignedFrame(self, value: "RefType") -> "AssignFrameId":
+    def setAssignedFrame(self, value: "RefType") -> AssignFrameId:
         """
         AUTOSAR-compliant setter for assignedFrame with method chaining.
 
@@ -1570,7 +1572,7 @@ class AssignFrameId(LinConfigurationEntry):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_assigned_frame(self, value: Optional[RefType]) -> "AssignFrameId":
+    def with_assigned_frame(self, value: Optional[RefType]) -> AssignFrameId:
         """
         Set assignedFrame and return self for chaining.
 
@@ -1643,7 +1645,7 @@ class UnassignFrameId(LinConfigurationEntry):
         """
         return self.unassigned  # Delegates to property
 
-    def setUnassigned(self, value: "RefType") -> "UnassignFrameId":
+    def setUnassigned(self, value: "RefType") -> UnassignFrameId:
         """
         AUTOSAR-compliant setter for unassigned with method chaining.
 
@@ -1661,7 +1663,7 @@ class UnassignFrameId(LinConfigurationEntry):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_unassigned(self, value: Optional[RefType]) -> "UnassignFrameId":
+    def with_unassigned(self, value: Optional[RefType]) -> UnassignFrameId:
         """
         Set unassigned and return self for chaining.
 
@@ -1694,15 +1696,15 @@ class AssignFrameIdRange(LinConfigurationEntry):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # the request.
         # The frame_PIDs are ordered.
-        self._framePid: "FramePid" = None
+        self._framePid: FramePid = None
 
     @property
-    def frame_pid(self) -> "FramePid":
+    def frame_pid(self) -> FramePid:
         """Get framePid (Pythonic accessor)."""
         return self._framePid
 
     @frame_pid.setter
-    def frame_pid(self, value: "FramePid") -> None:
+    def frame_pid(self, value: FramePid) -> None:
         """
         Set framePid with validation.
 
@@ -1747,7 +1749,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFramePid(self) -> "FramePid":
+    def getFramePid(self) -> FramePid:
         """
         AUTOSAR-compliant getter for framePid.
 
@@ -1759,7 +1761,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
         """
         return self.frame_pid  # Delegates to property
 
-    def setFramePid(self, value: "FramePid") -> "AssignFrameIdRange":
+    def setFramePid(self, value: FramePid) -> AssignFrameIdRange:
         """
         AUTOSAR-compliant setter for framePid with method chaining.
 
@@ -1787,7 +1789,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
         """
         return self.start_index  # Delegates to property
 
-    def setStartIndex(self, value: "Integer") -> "AssignFrameIdRange":
+    def setStartIndex(self, value: "Integer") -> AssignFrameIdRange:
         """
         AUTOSAR-compliant setter for startIndex with method chaining.
 
@@ -1805,7 +1807,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_frame_pid(self, value: "FramePid") -> "AssignFrameIdRange":
+    def with_frame_pid(self, value: FramePid) -> AssignFrameIdRange:
         """
         Set framePid and return self for chaining.
 
@@ -1821,7 +1823,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
         self.frame_pid = value  # Use property setter (gets validation)
         return self
 
-    def with_start_index(self, value: Optional["Integer"]) -> "AssignFrameIdRange":
+    def with_start_index(self, value: Optional["Integer"]) -> AssignFrameIdRange:
         """
         Set startIndex and return self for chaining.
 
@@ -1895,7 +1897,7 @@ class AssignNad(LinConfigurationEntry):
         """
         return self.new_nad  # Delegates to property
 
-    def setNewNad(self, value: "Integer") -> "AssignNad":
+    def setNewNad(self, value: "Integer") -> AssignNad:
         """
         AUTOSAR-compliant setter for newNad with method chaining.
 
@@ -1913,7 +1915,7 @@ class AssignNad(LinConfigurationEntry):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_new_nad(self, value: Optional["Integer"]) -> "AssignNad":
+    def with_new_nad(self, value: Optional["Integer"]) -> AssignNad:
         """
         Set newNad and return self for chaining.
 
@@ -2097,7 +2099,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.byte  # Delegates to property
 
-    def setByte(self, value: "Integer") -> "ConditionalChangeNad":
+    def setByte(self, value: "Integer") -> ConditionalChangeNad:
         """
         AUTOSAR-compliant setter for byte with method chaining.
 
@@ -2125,7 +2127,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> "ConditionalChangeNad":
+    def setId(self, value: "PositiveInteger") -> ConditionalChangeNad:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -2153,7 +2155,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.invert  # Delegates to property
 
-    def setInvert(self, value: "Integer") -> "ConditionalChangeNad":
+    def setInvert(self, value: "Integer") -> ConditionalChangeNad:
         """
         AUTOSAR-compliant setter for invert with method chaining.
 
@@ -2181,7 +2183,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.mask  # Delegates to property
 
-    def setMask(self, value: "Integer") -> "ConditionalChangeNad":
+    def setMask(self, value: "Integer") -> ConditionalChangeNad:
         """
         AUTOSAR-compliant setter for mask with method chaining.
 
@@ -2209,7 +2211,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.new_nad  # Delegates to property
 
-    def setNewNad(self, value: "Integer") -> "ConditionalChangeNad":
+    def setNewNad(self, value: "Integer") -> ConditionalChangeNad:
         """
         AUTOSAR-compliant setter for newNad with method chaining.
 
@@ -2227,7 +2229,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_byte(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
+    def with_byte(self, value: Optional["Integer"]) -> ConditionalChangeNad:
         """
         Set byte and return self for chaining.
 
@@ -2243,7 +2245,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         self.byte = value  # Use property setter (gets validation)
         return self
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> "ConditionalChangeNad":
+    def with_id(self, value: Optional["PositiveInteger"]) -> ConditionalChangeNad:
         """
         Set id and return self for chaining.
 
@@ -2259,7 +2261,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_invert(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
+    def with_invert(self, value: Optional["Integer"]) -> ConditionalChangeNad:
         """
         Set invert and return self for chaining.
 
@@ -2275,7 +2277,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         self.invert = value  # Use property setter (gets validation)
         return self
 
-    def with_mask(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
+    def with_mask(self, value: Optional["Integer"]) -> ConditionalChangeNad:
         """
         Set mask and return self for chaining.
 
@@ -2291,7 +2293,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         self.mask = value  # Use property setter (gets validation)
         return self
 
-    def with_new_nad(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
+    def with_new_nad(self, value: Optional["Integer"]) -> ConditionalChangeNad:
         """
         Set newNad and return self for chaining.
 

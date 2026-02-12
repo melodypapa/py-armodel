@@ -4,10 +4,12 @@ AUTOSAR Package - DataByIdentifier
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -98,7 +100,7 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
         """
         return self.data_identifier  # Delegates to property
 
-    def setDataIdentifier(self, value: "DiagnosticAbstractData") -> "DiagnosticDataByIdentifier":
+    def setDataIdentifier(self, value: "DiagnosticAbstractData") -> DiagnosticDataByIdentifier:
         """
         AUTOSAR-compliant setter for dataIdentifier with method chaining.
 
@@ -116,7 +118,7 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_identifier(self, value: Optional["DiagnosticAbstractData"]) -> "DiagnosticDataByIdentifier":
+    def with_data_identifier(self, value: Optional["DiagnosticAbstractData"]) -> DiagnosticDataByIdentifier:
         """
         Set dataIdentifier and return self for chaining.
 
@@ -195,7 +197,7 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
         """
         return self.max_did_to_read  # Delegates to property
 
-    def setMaxDidToRead(self, value: "PositiveInteger") -> "DiagnosticReadDataByIdentifierClass":
+    def setMaxDidToRead(self, value: "PositiveInteger") -> DiagnosticReadDataByIdentifierClass:
         """
         AUTOSAR-compliant setter for maxDidToRead with method chaining.
 
@@ -213,7 +215,7 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_did_to_read(self, value: Optional["PositiveInteger"]) -> "DiagnosticReadDataByIdentifierClass":
+    def with_max_did_to_read(self, value: Optional["PositiveInteger"]) -> DiagnosticReadDataByIdentifierClass:
         """
         Set maxDidToRead and return self for chaining.
 
@@ -314,7 +316,7 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
         """
         return self.read_class  # Delegates to property
 
-    def setReadClass(self, value: "DiagnosticReadDataBy") -> "DiagnosticReadDataByIdentifier":
+    def setReadClass(self, value: "DiagnosticReadDataBy") -> DiagnosticReadDataByIdentifier:
         """
         AUTOSAR-compliant setter for readClass with method chaining.
 
@@ -332,7 +334,7 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_read_class(self, value: Optional["DiagnosticReadDataBy"]) -> "DiagnosticReadDataByIdentifier":
+    def with_read_class(self, value: Optional["DiagnosticReadDataBy"]) -> DiagnosticReadDataByIdentifier:
         """
         Set readClass and return self for chaining.
 
@@ -411,7 +413,7 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
         """
         return self.write_class  # Delegates to property
 
-    def setWriteClass(self, value: "DiagnosticWriteDataBy") -> "DiagnosticWriteDataByIdentifier":
+    def setWriteClass(self, value: "DiagnosticWriteDataBy") -> DiagnosticWriteDataByIdentifier:
         """
         AUTOSAR-compliant setter for writeClass with method chaining.
 
@@ -429,7 +431,7 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_write_class(self, value: Optional["DiagnosticWriteDataBy"]) -> "DiagnosticWriteDataByIdentifier":
+    def with_write_class(self, value: Optional["DiagnosticWriteDataBy"]) -> DiagnosticWriteDataByIdentifier:
         """
         Set writeClass and return self for chaining.
 
@@ -508,7 +510,7 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
         """
         return self.read_scaling  # Delegates to property
 
-    def setReadScaling(self, value: "DiagnosticReadScaling") -> "DiagnosticReadScalingDataByIdentifier":
+    def setReadScaling(self, value: "DiagnosticReadScaling") -> DiagnosticReadScalingDataByIdentifier:
         """
         AUTOSAR-compliant setter for readScaling with method chaining.
 
@@ -526,7 +528,7 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_read_scaling(self, value: Optional["DiagnosticReadScaling"]) -> "DiagnosticReadScalingDataByIdentifier":
+    def with_read_scaling(self, value: Optional["DiagnosticReadScaling"]) -> DiagnosticReadScalingDataByIdentifier:
         """
         Set readScaling and return self for chaining.
 

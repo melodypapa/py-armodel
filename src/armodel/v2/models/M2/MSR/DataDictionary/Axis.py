@@ -4,9 +4,11 @@ AUTOSAR Package - Axis
 Package: M2::MSR::DataDictionary::Axis
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
 )
@@ -129,15 +131,15 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
                 f"inputVariable must be ApplicationPrimitive or None, got {type(value).__name__}"
             )
         self._inputVariable = value
-        self._swAxisGeneric: Optional["SwAxisGeneric"] = None
+        self._swAxisGeneric: Optional[SwAxisGeneric] = None
 
     @property
-    def sw_axis_generic(self) -> Optional["SwAxisGeneric"]:
+    def sw_axis_generic(self) -> Optional[SwAxisGeneric]:
         """Get swAxisGeneric (Pythonic accessor)."""
         return self._swAxisGeneric
 
     @sw_axis_generic.setter
-    def sw_axis_generic(self, value: Optional["SwAxisGeneric"]) -> None:
+    def sw_axis_generic(self, value: Optional[SwAxisGeneric]) -> None:
         """
         Set swAxisGeneric with validation.
 
@@ -291,7 +293,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """
         return self.compu_method  # Delegates to property
 
-    def setCompuMethod(self, value: "CompuMethod") -> "SwAxisIndividual":
+    def setCompuMethod(self, value: "CompuMethod") -> SwAxisIndividual:
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
 
@@ -319,7 +321,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """
         return self.data_constr  # Delegates to property
 
-    def setDataConstr(self, value: "DataConstr") -> "SwAxisIndividual":
+    def setDataConstr(self, value: "DataConstr") -> SwAxisIndividual:
         """
         AUTOSAR-compliant setter for dataConstr with method chaining.
 
@@ -347,7 +349,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """
         return self.input_variable  # Delegates to property
 
-    def setInputVariable(self, value: "ApplicationPrimitive") -> "SwAxisIndividual":
+    def setInputVariable(self, value: "ApplicationPrimitive") -> SwAxisIndividual:
         """
         AUTOSAR-compliant setter for inputVariable with method chaining.
 
@@ -363,7 +365,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.input_variable = value  # Delegates to property setter
         return self
 
-    def getSwAxisGeneric(self) -> "SwAxisGeneric":
+    def getSwAxisGeneric(self) -> SwAxisGeneric:
         """
         AUTOSAR-compliant getter for swAxisGeneric.
 
@@ -375,7 +377,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """
         return self.sw_axis_generic  # Delegates to property
 
-    def setSwAxisGeneric(self, value: "SwAxisGeneric") -> "SwAxisIndividual":
+    def setSwAxisGeneric(self, value: SwAxisGeneric) -> SwAxisIndividual:
         """
         AUTOSAR-compliant setter for swAxisGeneric with method chaining.
 
@@ -403,7 +405,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """
         return self.sw_max_axis  # Delegates to property
 
-    def setSwMaxAxis(self, value: "Integer") -> "SwAxisIndividual":
+    def setSwMaxAxis(self, value: "Integer") -> SwAxisIndividual:
         """
         AUTOSAR-compliant setter for swMaxAxis with method chaining.
 
@@ -431,7 +433,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """
         return self.sw_min_axis  # Delegates to property
 
-    def setSwMinAxis(self, value: "Integer") -> "SwAxisIndividual":
+    def setSwMinAxis(self, value: "Integer") -> SwAxisIndividual:
         """
         AUTOSAR-compliant setter for swMinAxis with method chaining.
 
@@ -471,7 +473,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "SwAxisIndividual":
+    def setUnit(self, value: "Unit") -> SwAxisIndividual:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -489,7 +491,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_method(self, value: Optional["CompuMethod"]) -> "SwAxisIndividual":
+    def with_compu_method(self, value: Optional["CompuMethod"]) -> SwAxisIndividual:
         """
         Set compuMethod and return self for chaining.
 
@@ -505,7 +507,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.compu_method = value  # Use property setter (gets validation)
         return self
 
-    def with_data_constr(self, value: Optional["DataConstr"]) -> "SwAxisIndividual":
+    def with_data_constr(self, value: Optional["DataConstr"]) -> SwAxisIndividual:
         """
         Set dataConstr and return self for chaining.
 
@@ -521,7 +523,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.data_constr = value  # Use property setter (gets validation)
         return self
 
-    def with_input_variable(self, value: Optional["ApplicationPrimitive"]) -> "SwAxisIndividual":
+    def with_input_variable(self, value: Optional["ApplicationPrimitive"]) -> SwAxisIndividual:
         """
         Set inputVariable and return self for chaining.
 
@@ -537,7 +539,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.input_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_axis_generic(self, value: Optional["SwAxisGeneric"]) -> "SwAxisIndividual":
+    def with_sw_axis_generic(self, value: Optional[SwAxisGeneric]) -> SwAxisIndividual:
         """
         Set swAxisGeneric and return self for chaining.
 
@@ -553,7 +555,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.sw_axis_generic = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_max_axis(self, value: Optional["Integer"]) -> "SwAxisIndividual":
+    def with_sw_max_axis(self, value: Optional["Integer"]) -> SwAxisIndividual:
         """
         Set swMaxAxis and return self for chaining.
 
@@ -569,7 +571,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.sw_max_axis = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_min_axis(self, value: Optional["Integer"]) -> "SwAxisIndividual":
+    def with_sw_min_axis(self, value: Optional["Integer"]) -> SwAxisIndividual:
         """
         Set swMinAxis and return self for chaining.
 
@@ -585,7 +587,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.sw_min_axis = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "SwAxisIndividual":
+    def with_unit(self, value: Optional["Unit"]) -> SwAxisIndividual:
         """
         Set unit and return self for chaining.
 
@@ -622,15 +624,15 @@ class SwAxisGeneric(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Associated axis calculation strategy.
-        self._swAxisType: Optional["SwAxisType"] = None
+        self._swAxisType: Optional[SwAxisType] = None
 
     @property
-    def sw_axis_type(self) -> Optional["SwAxisType"]:
+    def sw_axis_type(self) -> Optional[SwAxisType]:
         """Get swAxisType (Pythonic accessor)."""
         return self._swAxisType
 
     @sw_axis_type.setter
-    def sw_axis_type(self, value: Optional["SwAxisType"]) -> None:
+    def sw_axis_type(self, value: Optional[SwAxisType]) -> None:
         """
         Set swAxisType with validation.
 
@@ -649,16 +651,16 @@ class SwAxisGeneric(ARObject):
                 f"swAxisType must be SwAxisType or None, got {type(value).__name__}"
             )
         self._swAxisType = value
-        self._swGenericAxis: List["SwGenericAxisParam"] = []
+        self._swGenericAxis: List[SwGenericAxisParam] = []
 
     @property
-    def sw_generic_axis(self) -> List["SwGenericAxisParam"]:
+    def sw_generic_axis(self) -> List[SwGenericAxisParam]:
         """Get swGenericAxis (Pythonic accessor)."""
         return self._swGenericAxis
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwAxisType(self) -> "SwAxisType":
+    def getSwAxisType(self) -> SwAxisType:
         """
         AUTOSAR-compliant getter for swAxisType.
 
@@ -670,7 +672,7 @@ class SwAxisGeneric(ARObject):
         """
         return self.sw_axis_type  # Delegates to property
 
-    def setSwAxisType(self, value: "SwAxisType") -> "SwAxisGeneric":
+    def setSwAxisType(self, value: SwAxisType) -> SwAxisGeneric:
         """
         AUTOSAR-compliant setter for swAxisType with method chaining.
 
@@ -686,7 +688,7 @@ class SwAxisGeneric(ARObject):
         self.sw_axis_type = value  # Delegates to property setter
         return self
 
-    def getSwGenericAxis(self) -> List["SwGenericAxisParam"]:
+    def getSwGenericAxis(self) -> List[SwGenericAxisParam]:
         """
         AUTOSAR-compliant getter for swGenericAxis.
 
@@ -700,7 +702,7 @@ class SwAxisGeneric(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_axis_type(self, value: Optional["SwAxisType"]) -> "SwAxisGeneric":
+    def with_sw_axis_type(self, value: Optional[SwAxisType]) -> SwAxisGeneric:
         """
         Set swAxisType and return self for chaining.
 
@@ -739,16 +741,16 @@ class SwAxisType(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Parameters for this calculation algorithm.
         # Tags:.
-        self._swGenericAxis: List["SwGenericAxisParam"] = []
+        self._swGenericAxis: List[SwGenericAxisParam] = []
 
     @property
-    def sw_generic_axis(self) -> List["SwGenericAxisParam"]:
+    def sw_generic_axis(self) -> List[SwGenericAxisParam]:
         """Get swGenericAxis (Pythonic accessor)."""
         return self._swGenericAxis
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwGenericAxis(self) -> List["SwGenericAxisParam"]:
+    def getSwGenericAxis(self) -> List[SwGenericAxisParam]:
         """
         AUTOSAR-compliant getter for swGenericAxis.
 
@@ -786,15 +788,15 @@ class SwGenericAxisParam(ARObject):
         # References can only be made to axis parameters types defined within the
                 # referenced axis type.
         # Numerical * attr This attribute represents the value of the generic axis.
-        self._swGenericAxis: Optional["SwGenericAxisParam"] = None
+        self._swGenericAxis: Optional[SwGenericAxisParam] = None
 
     @property
-    def sw_generic_axis(self) -> Optional["SwGenericAxisParam"]:
+    def sw_generic_axis(self) -> Optional[SwGenericAxisParam]:
         """Get swGenericAxis (Pythonic accessor)."""
         return self._swGenericAxis
 
     @sw_generic_axis.setter
-    def sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> None:
+    def sw_generic_axis(self, value: Optional[SwGenericAxisParam]) -> None:
         """
         Set swGenericAxis with validation.
 
@@ -816,7 +818,7 @@ class SwGenericAxisParam(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwGenericAxis(self) -> "SwGenericAxisParam":
+    def getSwGenericAxis(self) -> SwGenericAxisParam:
         """
         AUTOSAR-compliant getter for swGenericAxis.
 
@@ -828,7 +830,7 @@ class SwGenericAxisParam(ARObject):
         """
         return self.sw_generic_axis  # Delegates to property
 
-    def setSwGenericAxis(self, value: "SwGenericAxisParam") -> "SwGenericAxisParam":
+    def setSwGenericAxis(self, value: SwGenericAxisParam) -> SwGenericAxisParam:
         """
         AUTOSAR-compliant setter for swGenericAxis with method chaining.
 
@@ -846,7 +848,7 @@ class SwGenericAxisParam(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> "SwGenericAxisParam":
+    def with_sw_generic_axis(self, value: Optional[SwGenericAxisParam]) -> SwGenericAxisParam:
         """
         Set swGenericAxis and return self for chaining.
 
@@ -925,7 +927,7 @@ class SwGenericAxisParamType(Identifiable):
         """
         return self.data_constr  # Delegates to property
 
-    def setDataConstr(self, value: "DataConstr") -> "SwGenericAxisParamType":
+    def setDataConstr(self, value: "DataConstr") -> SwGenericAxisParamType:
         """
         AUTOSAR-compliant setter for dataConstr with method chaining.
 
@@ -943,7 +945,7 @@ class SwGenericAxisParamType(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_constr(self, value: Optional["DataConstr"]) -> "SwGenericAxisParamType":
+    def with_data_constr(self, value: Optional["DataConstr"]) -> SwGenericAxisParamType:
         """
         Set dataConstr and return self for chaining.
 
@@ -1078,7 +1080,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         """
         return self.shared_axis_type  # Delegates to property
 
-    def setSharedAxisType(self, value: "ApplicationPrimitive") -> "SwAxisGrouped":
+    def setSharedAxisType(self, value: "ApplicationPrimitive") -> SwAxisGrouped:
         """
         AUTOSAR-compliant setter for sharedAxisType with method chaining.
 
@@ -1106,7 +1108,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         """
         return self.sw_axis_index  # Delegates to property
 
-    def setSwAxisIndex(self, value: "AxisIndexType") -> "SwAxisGrouped":
+    def setSwAxisIndex(self, value: "AxisIndexType") -> SwAxisGrouped:
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
 
@@ -1134,7 +1136,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         """
         return self.sw_calprm_ref  # Delegates to property
 
-    def setSwCalprmRef(self, value: "RefType") -> "SwAxisGrouped":
+    def setSwCalprmRef(self, value: "RefType") -> SwAxisGrouped:
         """
         AUTOSAR-compliant setter for swCalprmRef with method chaining.
 
@@ -1152,7 +1154,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_shared_axis_type(self, value: Optional["ApplicationPrimitive"]) -> "SwAxisGrouped":
+    def with_shared_axis_type(self, value: Optional["ApplicationPrimitive"]) -> SwAxisGrouped:
         """
         Set sharedAxisType and return self for chaining.
 
@@ -1168,7 +1170,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         self.shared_axis_type = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "SwAxisGrouped":
+    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> SwAxisGrouped:
         """
         Set swAxisIndex and return self for chaining.
 
@@ -1184,7 +1186,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         self.sw_axis_index = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_calprm_ref(self, value: RefType) -> "SwAxisGrouped":
+    def with_sw_calprm_ref(self, value: RefType) -> SwAxisGrouped:
         """
         Set swCalprmRef and return self for chaining.
 

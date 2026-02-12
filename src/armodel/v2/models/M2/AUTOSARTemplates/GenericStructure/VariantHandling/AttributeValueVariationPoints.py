@@ -4,10 +4,12 @@ AUTOSAR Package - AttributeValueVariationPoints
 Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     NameToken,
     PositiveInteger,
@@ -211,7 +213,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.binding_time  # Delegates to property
 
-    def setBindingTime(self, value: "BindingTimeEnum") -> "AttributeValueVariationPoint":
+    def setBindingTime(self, value: "BindingTimeEnum") -> AttributeValueVariationPoint:
         """
         AUTOSAR-compliant setter for bindingTime with method chaining.
 
@@ -239,7 +241,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.blueprint_value  # Delegates to property
 
-    def setBlueprintValue(self, value: "String") -> "AttributeValueVariationPoint":
+    def setBlueprintValue(self, value: "String") -> AttributeValueVariationPoint:
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
 
@@ -267,7 +269,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.sd  # Delegates to property
 
-    def setSd(self, value: "String") -> "AttributeValueVariationPoint":
+    def setSd(self, value: "String") -> AttributeValueVariationPoint:
         """
         AUTOSAR-compliant setter for sd with method chaining.
 
@@ -295,7 +297,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "PrimitiveIdentifier") -> "AttributeValueVariationPoint":
+    def setShortLabel(self, value: "PrimitiveIdentifier") -> AttributeValueVariationPoint:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -313,7 +315,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_binding_time(self, value: Optional["BindingTimeEnum"]) -> "AttributeValueVariationPoint":
+    def with_binding_time(self, value: Optional["BindingTimeEnum"]) -> AttributeValueVariationPoint:
         """
         Set bindingTime and return self for chaining.
 
@@ -329,7 +331,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         self.binding_time = value  # Use property setter (gets validation)
         return self
 
-    def with_blueprint_value(self, value: Optional["String"]) -> "AttributeValueVariationPoint":
+    def with_blueprint_value(self, value: Optional["String"]) -> AttributeValueVariationPoint:
         """
         Set blueprintValue and return self for chaining.
 
@@ -345,7 +347,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         self.blueprint_value = value  # Use property setter (gets validation)
         return self
 
-    def with_sd(self, value: Optional["String"]) -> "AttributeValueVariationPoint":
+    def with_sd(self, value: Optional["String"]) -> AttributeValueVariationPoint:
         """
         Set sd and return self for chaining.
 
@@ -361,7 +363,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         self.sd = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["PrimitiveIdentifier"]) -> "AttributeValueVariationPoint":
+    def with_short_label(self, value: Optional["PrimitiveIdentifier"]) -> AttributeValueVariationPoint:
         """
         Set shortLabel and return self for chaining.
 
@@ -527,7 +529,7 @@ class LimitValueVariationPoint(ARObject):
         """
         return self.interval_type  # Delegates to property
 
-    def setIntervalType(self, value: "IntervalTypeEnum") -> "LimitValueVariationPoint":
+    def setIntervalType(self, value: "IntervalTypeEnum") -> LimitValueVariationPoint:
         """
         AUTOSAR-compliant setter for intervalType with method chaining.
 
@@ -545,7 +547,7 @@ class LimitValueVariationPoint(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_interval_type(self, value: Optional["IntervalTypeEnum"]) -> "LimitValueVariationPoint":
+    def with_interval_type(self, value: Optional["IntervalTypeEnum"]) -> LimitValueVariationPoint:
         """
         Set intervalType and return self for chaining.
 
@@ -711,7 +713,7 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "Identifier") -> "AbstractEnumerationValueVariationPoint":
+    def setBase(self, value: "Identifier") -> AbstractEnumerationValueVariationPoint:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -739,7 +741,7 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
         """
         return self.enum_table  # Delegates to property
 
-    def setEnumTable(self, value: "RefType") -> "AbstractEnumerationValueVariationPoint":
+    def setEnumTable(self, value: "RefType") -> AbstractEnumerationValueVariationPoint:
         """
         AUTOSAR-compliant setter for enumTable with method chaining.
 
@@ -757,7 +759,7 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["Identifier"]) -> "AbstractEnumerationValueVariationPoint":
+    def with_base(self, value: Optional["Identifier"]) -> AbstractEnumerationValueVariationPoint:
         """
         Set base and return self for chaining.
 
@@ -773,7 +775,7 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_enum_table(self, value: Optional[RefType]) -> "AbstractEnumerationValueVariationPoint":
+    def with_enum_table(self, value: Optional[RefType]) -> AbstractEnumerationValueVariationPoint:
         """
         Set enumTable and return self for chaining.
 
@@ -875,7 +877,7 @@ class EnumerationMappingEntry(ARObject):
         """
         return self.enumerator  # Delegates to property
 
-    def setEnumerator(self, value: "NameToken") -> "EnumerationMappingEntry":
+    def setEnumerator(self, value: "NameToken") -> EnumerationMappingEntry:
         """
         AUTOSAR-compliant setter for enumerator with method chaining.
 
@@ -903,7 +905,7 @@ class EnumerationMappingEntry(ARObject):
         """
         return self.numerical_value  # Delegates to property
 
-    def setNumericalValue(self, value: "PositiveInteger") -> "EnumerationMappingEntry":
+    def setNumericalValue(self, value: "PositiveInteger") -> EnumerationMappingEntry:
         """
         AUTOSAR-compliant setter for numericalValue with method chaining.
 
@@ -921,7 +923,7 @@ class EnumerationMappingEntry(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_enumerator(self, value: "NameToken") -> "EnumerationMappingEntry":
+    def with_enumerator(self, value: "NameToken") -> EnumerationMappingEntry:
         """
         Set enumerator and return self for chaining.
 
@@ -937,7 +939,7 @@ class EnumerationMappingEntry(ARObject):
         self.enumerator = value  # Use property setter (gets validation)
         return self
 
-    def with_numerical_value(self, value: "PositiveInteger") -> "EnumerationMappingEntry":
+    def with_numerical_value(self, value: "PositiveInteger") -> EnumerationMappingEntry:
         """
         Set numericalValue and return self for chaining.
 

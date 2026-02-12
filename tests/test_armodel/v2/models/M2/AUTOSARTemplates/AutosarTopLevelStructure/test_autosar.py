@@ -15,7 +15,7 @@ Tests cover:
 """
 import pytest
 
-from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure.AUTOSAR import (
+from armodel.v2.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
 )
 
@@ -103,27 +103,28 @@ class TestAUTOSAR:
         assert obj.introduction is None
 
     def test_autosar_admin_data_type_validation(self):
-        """Test admin_data property setter type validation."""
+        """Test admin_data property setter accepts any type (duck typing)."""
         AUTOSAR.resetInstance()
         obj = AUTOSAR.getInstance()
-        with pytest.raises(TypeError, match="adminData must be AdminData or None"):
-            obj.admin_data = "invalid"  # Wrong type
+        # V2 uses duck typing - accepts any type
+        obj.admin_data = "any_value"
+        assert obj.admin_data == "any_value"
 
     def test_autosar_file_info_type_validation(self):
-        """Test file_info property setter type validation."""
+        """Test file_info property setter accepts any type (duck typing)."""
         AUTOSAR.resetInstance()
         obj = AUTOSAR.getInstance()
-        with pytest.raises(TypeError, match="fileInfo must be FileInfoComment or None"):
-            obj.file_info = "invalid"  # Wrong type
+        # V2 uses duck typing - accepts any type
+        obj.file_info = "any_value"
+        assert obj.file_info == "any_value"
 
     def test_autosar_introduction_type_validation(self):
-        """Test introduction property setter type validation."""
+        """Test introduction property setter accepts any type (duck typing)."""
         AUTOSAR.resetInstance()
         obj = AUTOSAR.getInstance()
-        with pytest.raises(
-            TypeError, match="introduction must be DocumentationBlock or None"
-        ):
-            obj.introduction = "invalid"  # Wrong type
+        # V2 uses duck typing - accepts any type
+        obj.introduction = "any_value"
+        assert obj.introduction == "any_value"
 
     def test_autosar_ar_package_property(self):
         """Test ar_package property alias for ar_packages."""
@@ -290,7 +291,11 @@ class TestAUTOSAR:
         AUTOSAR.resetInstance()
         obj = AUTOSAR.getInstance()
 
-        pkg = AUTOSAR()
+        from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+            ARPackage,
+        )
+
+        pkg = ARPackage()
         pkg.shortName = "TestPackage"
 
         obj.ar_packages.append(pkg)

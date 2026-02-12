@@ -5,7 +5,7 @@ import sys
 import xml.etree.ElementTree as ET
 from typing import Any, Optional, cast
 
-from armodel.v2.models.models import (
+from armodel.v2.models import (
     AUTOSAR,
     ARPackage,
 )
@@ -62,7 +62,7 @@ class ARXMLWriter:
         ar_packages_elem = ET.SubElement(root, "AR-PACKAGES")
 
         # Serialize each AR-PACKAGE
-        for pkg in document.ar_packages:
+        for pkg in document.ar_package:
             self._serialize_package(pkg, ar_packages_elem)
 
         # Write to file

@@ -4,10 +4,12 @@ AUTOSAR Package - Common
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     String,
 )
@@ -81,7 +83,7 @@ class SpecElementReference(Identifiable, ABC):
         """
         return self.alternative  # Delegates to property
 
-    def setAlternative(self, value: "String") -> "SpecElementReference":
+    def setAlternative(self, value: "String") -> SpecElementReference:
         """
         AUTOSAR-compliant setter for alternative with method chaining.
 
@@ -99,7 +101,7 @@ class SpecElementReference(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alternative(self, value: Optional["String"]) -> "SpecElementReference":
+    def with_alternative(self, value: Optional["String"]) -> SpecElementReference:
         """
         Set alternative and return self for chaining.
 
@@ -172,7 +174,7 @@ class RestrictionWithSeverity(ARObject, ABC):
         """
         return self.severity  # Delegates to property
 
-    def setSeverity(self, value: "SeverityEnum") -> "RestrictionWithSeverity":
+    def setSeverity(self, value: "SeverityEnum") -> RestrictionWithSeverity:
         """
         AUTOSAR-compliant setter for severity with method chaining.
 
@@ -190,7 +192,7 @@ class RestrictionWithSeverity(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_severity(self, value: "SeverityEnum") -> "RestrictionWithSeverity":
+    def with_severity(self, value: "SeverityEnum") -> RestrictionWithSeverity:
         """
         Set severity and return self for chaining.
 
@@ -269,7 +271,7 @@ class SpecElementScope(SpecElementReference, ABC):
         """
         return self.in_scope  # Delegates to property
 
-    def setInScope(self, value: "Boolean") -> "SpecElementScope":
+    def setInScope(self, value: "Boolean") -> SpecElementScope:
         """
         AUTOSAR-compliant setter for inScope with method chaining.
 
@@ -287,7 +289,7 @@ class SpecElementScope(SpecElementReference, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_in_scope(self, value: Optional["Boolean"]) -> "SpecElementScope":
+    def with_in_scope(self, value: Optional["Boolean"]) -> SpecElementScope:
         """
         Set inScope and return self for chaining.
 

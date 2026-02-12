@@ -4,10 +4,12 @@ AUTOSAR Package - DataElements
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements
 """
 
+
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -155,7 +157,7 @@ class AutosarParameterRef(ARObject):
         """
         return self.autosar  # Delegates to property
 
-    def setAutosar(self, value: "RefType") -> "AutosarParameterRef":
+    def setAutosar(self, value: "RefType") -> AutosarParameterRef:
         """
         AUTOSAR-compliant setter for autosar with method chaining.
 
@@ -183,7 +185,7 @@ class AutosarParameterRef(ARObject):
         """
         return self.local_parameter  # Delegates to property
 
-    def setLocalParameter(self, value: "RefType") -> "AutosarParameterRef":
+    def setLocalParameter(self, value: "RefType") -> AutosarParameterRef:
         """
         AUTOSAR-compliant setter for localParameter with method chaining.
 
@@ -201,7 +203,7 @@ class AutosarParameterRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_autosar(self, value: Optional[RefType]) -> "AutosarParameterRef":
+    def with_autosar(self, value: Optional[RefType]) -> AutosarParameterRef:
         """
         Set autosar and return self for chaining.
 
@@ -217,7 +219,7 @@ class AutosarParameterRef(ARObject):
         self.autosar = value  # Use property setter (gets validation)
         return self
 
-    def with_local_parameter(self, value: Optional[RefType]) -> "AutosarParameterRef":
+    def with_local_parameter(self, value: Optional[RefType]) -> AutosarParameterRef:
         """
         Set localParameter and return self for chaining.
 
@@ -335,7 +337,7 @@ class AutosarVariableRef(ARObject):
         """
         return self.autosar_variable  # Delegates to property
 
-    def setAutosarVariable(self, value: "ArVariableIn") -> "AutosarVariableRef":
+    def setAutosarVariable(self, value: "ArVariableIn") -> AutosarVariableRef:
         """
         AUTOSAR-compliant setter for autosarVariable with method chaining.
 
@@ -363,7 +365,7 @@ class AutosarVariableRef(ARObject):
         """
         return self.local_variable  # Delegates to property
 
-    def setLocalVariable(self, value: "RefType") -> "AutosarVariableRef":
+    def setLocalVariable(self, value: "RefType") -> AutosarVariableRef:
         """
         AUTOSAR-compliant setter for localVariable with method chaining.
 
@@ -381,7 +383,7 @@ class AutosarVariableRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_autosar_variable(self, value: Optional["ArVariableIn"]) -> "AutosarVariableRef":
+    def with_autosar_variable(self, value: Optional["ArVariableIn"]) -> AutosarVariableRef:
         """
         Set autosarVariable and return self for chaining.
 
@@ -397,7 +399,7 @@ class AutosarVariableRef(ARObject):
         self.autosar_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_local_variable(self, value: Optional[RefType]) -> "AutosarVariableRef":
+    def with_local_variable(self, value: Optional[RefType]) -> AutosarVariableRef:
         """
         Set localVariable and return self for chaining.
 
@@ -500,7 +502,7 @@ class ParameterAccess(AbstractAccessPoint):
         """
         return self.accessed_parameter  # Delegates to property
 
-    def setAccessedParameter(self, value: "RefType") -> "ParameterAccess":
+    def setAccessedParameter(self, value: "RefType") -> ParameterAccess:
         """
         AUTOSAR-compliant setter for accessedParameter with method chaining.
 
@@ -528,7 +530,7 @@ class ParameterAccess(AbstractAccessPoint):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "ParameterAccess":
+    def setSwDataDef(self, value: "SwDataDefProps") -> ParameterAccess:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -546,7 +548,7 @@ class ParameterAccess(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accessed_parameter(self, value: Optional[RefType]) -> "ParameterAccess":
+    def with_accessed_parameter(self, value: Optional[RefType]) -> ParameterAccess:
         """
         Set accessedParameter and return self for chaining.
 
@@ -562,7 +564,7 @@ class ParameterAccess(AbstractAccessPoint):
         self.accessed_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "ParameterAccess":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> ParameterAccess:
         """
         Set swDataDef and return self for chaining.
 
@@ -669,7 +671,7 @@ class VariableAccess(AbstractAccessPoint):
         """
         return self.accessed_variable  # Delegates to property
 
-    def setAccessedVariable(self, value: "RefType") -> "VariableAccess":
+    def setAccessedVariable(self, value: "RefType") -> VariableAccess:
         """
         AUTOSAR-compliant setter for accessedVariable with method chaining.
 
@@ -697,7 +699,7 @@ class VariableAccess(AbstractAccessPoint):
         """
         return self.scope  # Delegates to property
 
-    def setScope(self, value: "VariableAccessScope") -> "VariableAccess":
+    def setScope(self, value: "VariableAccessScope") -> VariableAccess:
         """
         AUTOSAR-compliant setter for scope with method chaining.
 
@@ -715,7 +717,7 @@ class VariableAccess(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accessed_variable(self, value: Optional[RefType]) -> "VariableAccess":
+    def with_accessed_variable(self, value: Optional[RefType]) -> VariableAccess:
         """
         Set accessedVariable and return self for chaining.
 
@@ -731,7 +733,7 @@ class VariableAccess(AbstractAccessPoint):
         self.accessed_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_scope(self, value: Optional["VariableAccessScope"]) -> "VariableAccess":
+    def with_scope(self, value: Optional["VariableAccessScope"]) -> VariableAccess:
         """
         Set scope and return self for chaining.
 
@@ -878,7 +880,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> "ArVariableInImplementationDataInstanceRef":
+    def setPortPrototype(self, value: "RefType") -> ArVariableInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -906,7 +908,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.root_variable  # Delegates to property
 
-    def setRootVariable(self, value: "RefType") -> "ArVariableInImplementationDataInstanceRef":
+    def setRootVariable(self, value: "RefType") -> ArVariableInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for rootVariable with method chaining.
 
@@ -934,7 +936,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "AbstractImplementation") -> "ArVariableInImplementationDataInstanceRef":
+    def setTargetData(self, value: "AbstractImplementation") -> ArVariableInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -952,7 +954,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_port_prototype(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+    def with_port_prototype(self, value: Optional[RefType]) -> ArVariableInImplementationDataInstanceRef:
         """
         Set portPrototype and return self for chaining.
 
@@ -968,7 +970,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_root_variable(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+    def with_root_variable(self, value: Optional[RefType]) -> ArVariableInImplementationDataInstanceRef:
         """
         Set rootVariable and return self for chaining.
 
@@ -984,7 +986,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.root_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional["AbstractImplementation"]) -> "ArVariableInImplementationDataInstanceRef":
+    def with_target_data(self, value: Optional["AbstractImplementation"]) -> ArVariableInImplementationDataInstanceRef:
         """
         Set targetData and return self for chaining.
 
@@ -1135,7 +1137,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> "ArParameterInImplementationDataInstanceRef":
+    def setPortPrototype(self, value: "RefType") -> ArParameterInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -1163,7 +1165,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         """
         return self.root_parameter  # Delegates to property
 
-    def setRootParameter(self, value: "ParameterData") -> "ArParameterInImplementationDataInstanceRef":
+    def setRootParameter(self, value: "ParameterData") -> ArParameterInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for rootParameter with method chaining.
 
@@ -1191,7 +1193,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "AbstractImplementation") -> "ArParameterInImplementationDataInstanceRef":
+    def setTargetData(self, value: "AbstractImplementation") -> ArParameterInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -1209,7 +1211,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_port_prototype(self, value: Optional[RefType]) -> "ArParameterInImplementationDataInstanceRef":
+    def with_port_prototype(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
         """
         Set portPrototype and return self for chaining.
 
@@ -1225,7 +1227,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         self.port_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_root_parameter(self, value: Optional["ParameterData"]) -> "ArParameterInImplementationDataInstanceRef":
+    def with_root_parameter(self, value: Optional["ParameterData"]) -> ArParameterInImplementationDataInstanceRef:
         """
         Set rootParameter and return self for chaining.
 
@@ -1241,7 +1243,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         self.root_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional["AbstractImplementation"]) -> "ArParameterInImplementationDataInstanceRef":
+    def with_target_data(self, value: Optional["AbstractImplementation"]) -> ArParameterInImplementationDataInstanceRef:
         """
         Set targetData and return self for chaining.
 
@@ -1277,11 +1279,11 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataEle
 
 
 __all__ = [
-    "AutosarParameterRef",
-    "AutosarVariableRef",
-    "ParameterAccess",
-    "VariableAccess",
-    "ArVariableInImplementationDataInstanceRef",
-    "ArParameterInImplementationDataInstanceRef",
-    "VariableAccessScopeEnum",
+    AutosarParameterRef,
+    AutosarVariableRef,
+    ParameterAccess,
+    VariableAccess,
+    ArVariableInImplementationDataInstanceRef,
+    ArParameterInImplementationDataInstanceRef,
+    VariableAccessScopeEnum,
 ]

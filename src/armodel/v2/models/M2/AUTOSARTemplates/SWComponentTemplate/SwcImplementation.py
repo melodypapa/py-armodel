@@ -4,9 +4,11 @@ AUTOSAR Package - SwcImplementation
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
 )
@@ -141,7 +143,7 @@ class SwcImplementation(Implementation):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "SwcInternalBehavior") -> "SwcImplementation":
+    def setBehavior(self, value: "SwcInternalBehavior") -> SwcImplementation:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -181,7 +183,7 @@ class SwcImplementation(Implementation):
         """
         return self.required  # Delegates to property
 
-    def setRequired(self, value: "String") -> "SwcImplementation":
+    def setRequired(self, value: "String") -> SwcImplementation:
         """
         AUTOSAR-compliant setter for required with method chaining.
 
@@ -199,7 +201,7 @@ class SwcImplementation(Implementation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcImplementation":
+    def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> SwcImplementation:
         """
         Set behavior and return self for chaining.
 
@@ -215,7 +217,7 @@ class SwcImplementation(Implementation):
         self.behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_required(self, value: Optional["String"]) -> "SwcImplementation":
+    def with_required(self, value: Optional["String"]) -> SwcImplementation:
         """
         Set required and return self for chaining.
 
@@ -350,7 +352,7 @@ class PerInstanceMemorySize(ARObject):
         """
         return self.alignment  # Delegates to property
 
-    def setAlignment(self, value: "PositiveInteger") -> "PerInstanceMemorySize":
+    def setAlignment(self, value: "PositiveInteger") -> PerInstanceMemorySize:
         """
         AUTOSAR-compliant setter for alignment with method chaining.
 
@@ -378,7 +380,7 @@ class PerInstanceMemorySize(ARObject):
         """
         return self.per_instance_memory  # Delegates to property
 
-    def setPerInstanceMemory(self, value: "PerInstanceMemory") -> "PerInstanceMemorySize":
+    def setPerInstanceMemory(self, value: "PerInstanceMemory") -> PerInstanceMemorySize:
         """
         AUTOSAR-compliant setter for perInstanceMemory with method chaining.
 
@@ -406,7 +408,7 @@ class PerInstanceMemorySize(ARObject):
         """
         return self.size  # Delegates to property
 
-    def setSize(self, value: "PositiveInteger") -> "PerInstanceMemorySize":
+    def setSize(self, value: "PositiveInteger") -> PerInstanceMemorySize:
         """
         AUTOSAR-compliant setter for size with method chaining.
 
@@ -424,7 +426,7 @@ class PerInstanceMemorySize(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alignment(self, value: Optional["PositiveInteger"]) -> "PerInstanceMemorySize":
+    def with_alignment(self, value: Optional["PositiveInteger"]) -> PerInstanceMemorySize:
         """
         Set alignment and return self for chaining.
 
@@ -440,7 +442,7 @@ class PerInstanceMemorySize(ARObject):
         self.alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> "PerInstanceMemorySize":
+    def with_per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> PerInstanceMemorySize:
         """
         Set perInstanceMemory and return self for chaining.
 
@@ -456,7 +458,7 @@ class PerInstanceMemorySize(ARObject):
         self.per_instance_memory = value  # Use property setter (gets validation)
         return self
 
-    def with_size(self, value: Optional["PositiveInteger"]) -> "PerInstanceMemorySize":
+    def with_size(self, value: Optional["PositiveInteger"]) -> PerInstanceMemorySize:
         """
         Set size and return self for chaining.
 

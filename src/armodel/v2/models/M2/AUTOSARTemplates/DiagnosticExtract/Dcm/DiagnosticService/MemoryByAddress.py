@@ -4,10 +4,12 @@ AUTOSAR Package - MemoryByAddress
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
 )
@@ -202,7 +204,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.access  # Delegates to property
 
-    def setAccess(self, value: "DiagnosticAccess") -> "DiagnosticMemoryIdentifier":
+    def setAccess(self, value: "DiagnosticAccess") -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for access with method chaining.
 
@@ -230,7 +232,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> "DiagnosticMemoryIdentifier":
+    def setId(self, value: "PositiveInteger") -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -258,7 +260,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.memory_high  # Delegates to property
 
-    def setMemoryHigh(self, value: "String") -> "DiagnosticMemoryIdentifier":
+    def setMemoryHigh(self, value: "String") -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for memoryHigh with method chaining.
 
@@ -286,7 +288,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.memory_low  # Delegates to property
 
-    def setMemoryLow(self, value: "String") -> "DiagnosticMemoryIdentifier":
+    def setMemoryLow(self, value: "String") -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for memoryLow with method chaining.
 
@@ -304,7 +306,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access(self, value: Optional["DiagnosticAccess"]) -> "DiagnosticMemoryIdentifier":
+    def with_access(self, value: Optional["DiagnosticAccess"]) -> DiagnosticMemoryIdentifier:
         """
         Set access and return self for chaining.
 
@@ -320,7 +322,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.access = value  # Use property setter (gets validation)
         return self
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticMemoryIdentifier":
+    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticMemoryIdentifier:
         """
         Set id and return self for chaining.
 
@@ -336,7 +338,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_memory_high(self, value: Optional["String"]) -> "DiagnosticMemoryIdentifier":
+    def with_memory_high(self, value: Optional["String"]) -> DiagnosticMemoryIdentifier:
         """
         Set memoryHigh and return self for chaining.
 
@@ -352,7 +354,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.memory_high = value  # Use property setter (gets validation)
         return self
 
-    def with_memory_low(self, value: Optional["String"]) -> "DiagnosticMemoryIdentifier":
+    def with_memory_low(self, value: Optional["String"]) -> DiagnosticMemoryIdentifier:
         """
         Set memoryLow and return self for chaining.
 
@@ -561,15 +563,15 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticTransferExit in the.
-        self._transferExit: Optional["DiagnosticTransferExit"] = None
+        self._transferExit: Optional[DiagnosticTransferExit] = None
 
     @property
-    def transfer_exit(self) -> Optional["DiagnosticTransferExit"]:
+    def transfer_exit(self) -> Optional[DiagnosticTransferExit]:
         """Get transferExit (Pythonic accessor)."""
         return self._transferExit
 
     @transfer_exit.setter
-    def transfer_exit(self, value: Optional["DiagnosticTransferExit"]) -> None:
+    def transfer_exit(self, value: Optional[DiagnosticTransferExit]) -> None:
         """
         Set transferExit with validation.
 
@@ -591,7 +593,7 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransferExit(self) -> "DiagnosticTransferExit":
+    def getTransferExit(self) -> DiagnosticTransferExit:
         """
         AUTOSAR-compliant getter for transferExit.
 
@@ -603,7 +605,7 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
         """
         return self.transfer_exit  # Delegates to property
 
-    def setTransferExit(self, value: "DiagnosticTransferExit") -> "DiagnosticTransferExit":
+    def setTransferExit(self, value: DiagnosticTransferExit) -> DiagnosticTransferExit:
         """
         AUTOSAR-compliant setter for transferExit with method chaining.
 
@@ -621,7 +623,7 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transfer_exit(self, value: Optional["DiagnosticTransferExit"]) -> "DiagnosticTransferExit":
+    def with_transfer_exit(self, value: Optional[DiagnosticTransferExit]) -> DiagnosticTransferExit:
         """
         Set transferExit and return self for chaining.
 
@@ -655,15 +657,15 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticDataTransfer in the.
-        self._dataTransfer: Optional["DiagnosticDataTransfer"] = None
+        self._dataTransfer: Optional[DiagnosticDataTransfer] = None
 
     @property
-    def data_transfer(self) -> Optional["DiagnosticDataTransfer"]:
+    def data_transfer(self) -> Optional[DiagnosticDataTransfer]:
         """Get dataTransfer (Pythonic accessor)."""
         return self._dataTransfer
 
     @data_transfer.setter
-    def data_transfer(self, value: Optional["DiagnosticDataTransfer"]) -> None:
+    def data_transfer(self, value: Optional[DiagnosticDataTransfer]) -> None:
         """
         Set dataTransfer with validation.
 
@@ -685,7 +687,7 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataTransfer(self) -> "DiagnosticDataTransfer":
+    def getDataTransfer(self) -> DiagnosticDataTransfer:
         """
         AUTOSAR-compliant getter for dataTransfer.
 
@@ -697,7 +699,7 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
         """
         return self.data_transfer  # Delegates to property
 
-    def setDataTransfer(self, value: "DiagnosticDataTransfer") -> "DiagnosticDataTransfer":
+    def setDataTransfer(self, value: DiagnosticDataTransfer) -> DiagnosticDataTransfer:
         """
         AUTOSAR-compliant setter for dataTransfer with method chaining.
 
@@ -715,7 +717,7 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_transfer(self, value: Optional["DiagnosticDataTransfer"]) -> "DiagnosticDataTransfer":
+    def with_data_transfer(self, value: Optional[DiagnosticDataTransfer]) -> DiagnosticDataTransfer:
         """
         Set dataTransfer and return self for chaining.
 
@@ -794,7 +796,7 @@ class DiagnosticWriteMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
         """
         return self.write_class  # Delegates to property
 
-    def setWriteClass(self, value: "DiagnosticWriteMemory") -> "DiagnosticWriteMemoryByAddress":
+    def setWriteClass(self, value: "DiagnosticWriteMemory") -> DiagnosticWriteMemoryByAddress:
         """
         AUTOSAR-compliant setter for writeClass with method chaining.
 
@@ -812,7 +814,7 @@ class DiagnosticWriteMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_write_class(self, value: Optional["DiagnosticWriteMemory"]) -> "DiagnosticWriteMemoryByAddress":
+    def with_write_class(self, value: Optional["DiagnosticWriteMemory"]) -> DiagnosticWriteMemoryByAddress:
         """
         Set writeClass and return self for chaining.
 
@@ -891,7 +893,7 @@ class DiagnosticReadMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
         """
         return self.read_class  # Delegates to property
 
-    def setReadClass(self, value: "DiagnosticReadMemory") -> "DiagnosticReadMemoryByAddress":
+    def setReadClass(self, value: "DiagnosticReadMemory") -> DiagnosticReadMemoryByAddress:
         """
         AUTOSAR-compliant setter for readClass with method chaining.
 
@@ -909,7 +911,7 @@ class DiagnosticReadMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_read_class(self, value: Optional["DiagnosticReadMemory"]) -> "DiagnosticReadMemoryByAddress":
+    def with_read_class(self, value: Optional["DiagnosticReadMemory"]) -> DiagnosticReadMemoryByAddress:
         """
         Set readClass and return self for chaining.
 
@@ -987,7 +989,7 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
         """
         return self.request  # Delegates to property
 
-    def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestDownload":
+    def setRequest(self, value: "DiagnosticRequest") -> DiagnosticRequestDownload:
         """
         AUTOSAR-compliant setter for request with method chaining.
 
@@ -1005,7 +1007,7 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestDownload":
+    def with_request(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestDownload:
         """
         Set request and return self for chaining.
 
@@ -1082,7 +1084,7 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
         """
         return self.request_upload  # Delegates to property
 
-    def setRequestUpload(self, value: "DiagnosticRequest") -> "DiagnosticRequestUpload":
+    def setRequestUpload(self, value: "DiagnosticRequest") -> DiagnosticRequestUpload:
         """
         AUTOSAR-compliant setter for requestUpload with method chaining.
 
@@ -1100,7 +1102,7 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_upload(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestUpload":
+    def with_request_upload(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestUpload:
         """
         Set requestUpload and return self for chaining.
 

@@ -4,6 +4,8 @@ AUTOSAR Package - SoftwareComponentDocumentation
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -280,7 +282,7 @@ class SwComponentDocumentation(ARObject):
         """
         return self.sw_calibration  # Delegates to property
 
-    def setSwCalibration(self, value: "Chapter") -> "SwComponentDocumentation":
+    def setSwCalibration(self, value: "Chapter") -> SwComponentDocumentation:
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
 
@@ -308,7 +310,7 @@ class SwComponentDocumentation(ARObject):
         """
         return self.sw_carb_doc  # Delegates to property
 
-    def setSwCarbDoc(self, value: "Chapter") -> "SwComponentDocumentation":
+    def setSwCarbDoc(self, value: "Chapter") -> SwComponentDocumentation:
         """
         AUTOSAR-compliant setter for swCarbDoc with method chaining.
 
@@ -336,7 +338,7 @@ class SwComponentDocumentation(ARObject):
         """
         return self.sw_diagnostics  # Delegates to property
 
-    def setSwDiagnostics(self, value: "Chapter") -> "SwComponentDocumentation":
+    def setSwDiagnostics(self, value: "Chapter") -> SwComponentDocumentation:
         """
         AUTOSAR-compliant setter for swDiagnostics with method chaining.
 
@@ -364,7 +366,7 @@ class SwComponentDocumentation(ARObject):
         """
         return self.sw_feature_def  # Delegates to property
 
-    def setSwFeatureDef(self, value: "Chapter") -> "SwComponentDocumentation":
+    def setSwFeatureDef(self, value: "Chapter") -> SwComponentDocumentation:
         """
         AUTOSAR-compliant setter for swFeatureDef with method chaining.
 
@@ -392,7 +394,7 @@ class SwComponentDocumentation(ARObject):
         """
         return self.sw_feature_desc  # Delegates to property
 
-    def setSwFeatureDesc(self, value: "Chapter") -> "SwComponentDocumentation":
+    def setSwFeatureDesc(self, value: "Chapter") -> SwComponentDocumentation:
         """
         AUTOSAR-compliant setter for swFeatureDesc with method chaining.
 
@@ -420,7 +422,7 @@ class SwComponentDocumentation(ARObject):
         """
         return self.sw_maintenance  # Delegates to property
 
-    def setSwMaintenance(self, value: "Chapter") -> "SwComponentDocumentation":
+    def setSwMaintenance(self, value: "Chapter") -> SwComponentDocumentation:
         """
         AUTOSAR-compliant setter for swMaintenance with method chaining.
 
@@ -448,7 +450,7 @@ class SwComponentDocumentation(ARObject):
         """
         return self.sw_test_desc  # Delegates to property
 
-    def setSwTestDesc(self, value: "Chapter") -> "SwComponentDocumentation":
+    def setSwTestDesc(self, value: "Chapter") -> SwComponentDocumentation:
         """
         AUTOSAR-compliant setter for swTestDesc with method chaining.
 
@@ -466,7 +468,7 @@ class SwComponentDocumentation(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_calibration(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
+    def with_sw_calibration(self, value: Optional["Chapter"]) -> SwComponentDocumentation:
         """
         Set swCalibration and return self for chaining.
 
@@ -482,7 +484,7 @@ class SwComponentDocumentation(ARObject):
         self.sw_calibration = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_carb_doc(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
+    def with_sw_carb_doc(self, value: Optional["Chapter"]) -> SwComponentDocumentation:
         """
         Set swCarbDoc and return self for chaining.
 
@@ -498,7 +500,7 @@ class SwComponentDocumentation(ARObject):
         self.sw_carb_doc = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_diagnostics(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
+    def with_sw_diagnostics(self, value: Optional["Chapter"]) -> SwComponentDocumentation:
         """
         Set swDiagnostics and return self for chaining.
 
@@ -514,7 +516,7 @@ class SwComponentDocumentation(ARObject):
         self.sw_diagnostics = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_feature_def(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
+    def with_sw_feature_def(self, value: Optional["Chapter"]) -> SwComponentDocumentation:
         """
         Set swFeatureDef and return self for chaining.
 
@@ -530,7 +532,7 @@ class SwComponentDocumentation(ARObject):
         self.sw_feature_def = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_feature_desc(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
+    def with_sw_feature_desc(self, value: Optional["Chapter"]) -> SwComponentDocumentation:
         """
         Set swFeatureDesc and return self for chaining.
 
@@ -546,7 +548,7 @@ class SwComponentDocumentation(ARObject):
         self.sw_feature_desc = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_maintenance(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
+    def with_sw_maintenance(self, value: Optional["Chapter"]) -> SwComponentDocumentation:
         """
         Set swMaintenance and return self for chaining.
 
@@ -562,7 +564,7 @@ class SwComponentDocumentation(ARObject):
         self.sw_maintenance = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_test_desc(self, value: Optional["Chapter"]) -> "SwComponentDocumentation":
+    def with_sw_test_desc(self, value: Optional["Chapter"]) -> SwComponentDocumentation:
         """
         Set swTestDesc and return self for chaining.
 

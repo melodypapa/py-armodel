@@ -1,8 +1,264 @@
-from typing import Optional
+"""
+AUTOSAR Package - ResourceConsumption
 
+Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption
+"""
+
+
+from __future__ import annotations
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    String,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
+
+class ResourceConsumption(Identifiable):
+    """
+    Description of consumed resources by one implementation of a software.
+
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ResourceConsumption
+
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 137, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 260, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 238, Classic Platform R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Set of access count values atpSplitable; atpVariation 381 Document ID 89:
+        # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
+        # R23-11.
+        self._accessCount: List["RefType"] = []
+
+    @property
+    def access_count(self) -> List["RefType"]:
+        """Get accessCount (Pythonic accessor)."""
+        return self._accessCount
+        # Collection of the execution time descriptions for this aggregation of
+                # executionTime is variability with the purpose to support the of runnable
+                # entities.
+        # atpVariation.
+        self._executionTime: List["ExecutionTime"] = []
+
+    @property
+    def execution_time(self) -> List["ExecutionTime"]:
+        """Get executionTime (Pythonic accessor)."""
+        return self._executionTime
+        # Collection of the heap memory allocated by this atpVariation.
+        self._heapUsage: List["HeapUsage"] = []
+
+    @property
+    def heap_usage(self) -> List["HeapUsage"]:
+        """Get heapUsage (Pythonic accessor)."""
+        return self._heapUsage
+        # An abstract memory section required by this atpVariation.
+        self._memorySection: List["MemorySection"] = []
+
+    @property
+    def memory_section(self) -> List["MemorySection"]:
+        """Get memorySection (Pythonic accessor)."""
+        return self._memorySection
+        # A prefix to be used for the memory section symbol in the atpVariation.
+        self._sectionName: List["SectionNamePrefix"] = []
+
+    @property
+    def section_name(self) -> List["SectionNamePrefix"]:
+        """Get sectionName (Pythonic accessor)."""
+        return self._sectionName
+        # Collection of the stack memory usage for each runnable this implementation.
+        # The aggregation of Stack subject to variability with the purpose to support
+                # existence of runnable entities.
+        # atpVariation.
+        self._stackUsage: List["StackUsage"] = []
+
+    @property
+    def stack_usage(self) -> List["StackUsage"]:
+        """Get stackUsage (Pythonic accessor)."""
+        return self._stackUsage
+
+    def with_access_count(self, value):
+        """
+        Set access_count and return self for chaining.
+
+        Args:
+            value: The access_count to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_access_count("value")
+        """
+        self.access_count = value  # Use property setter (gets validation)
+        return self
+
+    def with_execution_time(self, value):
+        """
+        Set execution_time and return self for chaining.
+
+        Args:
+            value: The execution_time to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_execution_time("value")
+        """
+        self.execution_time = value  # Use property setter (gets validation)
+        return self
+
+    def with_heap_usage(self, value):
+        """
+        Set heap_usage and return self for chaining.
+
+        Args:
+            value: The heap_usage to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_heap_usage("value")
+        """
+        self.heap_usage = value  # Use property setter (gets validation)
+        return self
+
+    def with_memory_section(self, value):
+        """
+        Set memory_section and return self for chaining.
+
+        Args:
+            value: The memory_section to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_memory_section("value")
+        """
+        self.memory_section = value  # Use property setter (gets validation)
+        return self
+
+    def with_section_name(self, value):
+        """
+        Set section_name and return self for chaining.
+
+        Args:
+            value: The section_name to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_section_name("value")
+        """
+        self.section_name = value  # Use property setter (gets validation)
+        return self
+
+    def with_stack_usage(self, value):
+        """
+        Set stack_usage and return self for chaining.
+
+        Args:
+            value: The stack_usage to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_stack_usage("value")
+        """
+        self.stack_usage = value  # Use property setter (gets validation)
+        return self
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getAccessCount(self) -> List["RefType"]:
+        """
+        AUTOSAR-compliant getter for accessCount.
+
+        Returns:
+            The accessCount value
+
+        Note:
+            Delegates to access_count property (CODING_RULE_V2_00017)
+        """
+        return self.access_count  # Delegates to property
+
+    def getExecutionTime(self) -> List["ExecutionTime"]:
+        """
+        AUTOSAR-compliant getter for executionTime.
+
+        Returns:
+            The executionTime value
+
+        Note:
+            Delegates to execution_time property (CODING_RULE_V2_00017)
+        """
+        return self.execution_time  # Delegates to property
+
+    def getHeapUsage(self) -> List["HeapUsage"]:
+        """
+        AUTOSAR-compliant getter for heapUsage.
+
+        Returns:
+            The heapUsage value
+
+        Note:
+            Delegates to heap_usage property (CODING_RULE_V2_00017)
+        """
+        return self.heap_usage  # Delegates to property
+
+    def getMemorySection(self) -> List["MemorySection"]:
+        """
+        AUTOSAR-compliant getter for memorySection.
+
+        Returns:
+            The memorySection value
+
+        Note:
+            Delegates to memory_section property (CODING_RULE_V2_00017)
+        """
+        return self.memory_section  # Delegates to property
+
+    def getSectionName(self) -> List["SectionNamePrefix"]:
+        """
+        AUTOSAR-compliant getter for sectionName.
+
+        Returns:
+            The sectionName value
+
+        Note:
+            Delegates to section_name property (CODING_RULE_V2_00017)
+        """
+        return self.section_name  # Delegates to property
+
+    def getStackUsage(self) -> List["StackUsage"]:
+        """
+        AUTOSAR-compliant getter for stackUsage.
+
+        Returns:
+            The stackUsage value
+
+        Note:
+            Delegates to stack_usage property (CODING_RULE_V2_00017)
+        """
+        return self.stack_usage  # Delegates to property
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
 
 
 class HardwareConfiguration(ARObject):
@@ -10,7 +266,7 @@ class HardwareConfiguration(ARObject):
     Describes in which mode the hardware is operating while needing this
     resource consumption.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HardwareConfiguration
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 161, Classic
@@ -43,12 +299,11 @@ class HardwareConfiguration(ARObject):
             self._additional = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"additional must be String or None, got {type(value).__name__}"
+                f"additional must be String or str or None, got {type(value).__name__}"
             )
         self._additional = value
-        # Specifies in which mode the processor is operating.
         self._processorMode: Optional["String"] = None
 
     @property
@@ -71,12 +326,11 @@ class HardwareConfiguration(ARObject):
             self._processorMode = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"processorMode must be String or None, got {type(value).__name__}"
+                f"processorMode must be String or str or None, got {type(value).__name__}"
             )
         self._processorMode = value
-        # Specifies the speed the processor is operating.
         self._processorSpeed: Optional["String"] = None
 
     @property
@@ -99,9 +353,9 @@ class HardwareConfiguration(ARObject):
             self._processorSpeed = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"processorSpeed must be String or None, got {type(value).__name__}"
+                f"processorSpeed must be String or str or None, got {type(value).__name__}"
             )
         self._processorSpeed = value
 
@@ -119,7 +373,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.additional  # Delegates to property
 
-    def setAdditional(self, value: "String") -> "HardwareConfiguration":
+    def setAdditional(self, value: "String") -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for additional with method chaining.
 
@@ -147,7 +401,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processor_mode  # Delegates to property
 
-    def setProcessorMode(self, value: "String") -> "HardwareConfiguration":
+    def setProcessorMode(self, value: "String") -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for processorMode with method chaining.
 
@@ -175,7 +429,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processor_speed  # Delegates to property
 
-    def setProcessorSpeed(self, value: "String") -> "HardwareConfiguration":
+    def setProcessorSpeed(self, value: "String") -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for processorSpeed with method chaining.
 
@@ -193,7 +447,7 @@ class HardwareConfiguration(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_additional(self, value: Optional["String"]) -> "HardwareConfiguration":
+    def with_additional(self, value: Optional["String"]) -> HardwareConfiguration:
         """
         Set additional and return self for chaining.
 
@@ -209,7 +463,7 @@ class HardwareConfiguration(ARObject):
         self.additional = value  # Use property setter (gets validation)
         return self
 
-    def with_processor_mode(self, value: Optional["String"]) -> "HardwareConfiguration":
+    def with_processor_mode(self, value: Optional["String"]) -> HardwareConfiguration:
         """
         Set processorMode and return self for chaining.
 
@@ -225,7 +479,7 @@ class HardwareConfiguration(ARObject):
         self.processor_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_processor_speed(self, value: Optional["String"]) -> "HardwareConfiguration":
+    def with_processor_speed(self, value: Optional["String"]) -> HardwareConfiguration:
         """
         Set processorSpeed and return self for chaining.
 
@@ -241,18 +495,13 @@ class HardwareConfiguration(ARObject):
         self.processor_speed = value  # Use property setter (gets validation)
         return self
 
-from typing import Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
 
 
 class SoftwareContext(ARObject):
     """
     Specifies the context of the software for this resource consumption.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::SoftwareContext
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 163, Classic
@@ -285,12 +534,11 @@ class SoftwareContext(ARObject):
             self._input = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"input must be String or None, got {type(value).__name__}"
+                f"input must be String or str or None, got {type(value).__name__}"
             )
         self._input = value
-        # Specifies the state the software is in when the Execution provided.
         self._state: Optional["String"] = None
 
     @property
@@ -313,9 +561,9 @@ class SoftwareContext(ARObject):
             self._state = None
             return
 
-        if not isinstance(value, String):
+        if not isinstance(value, (String, str)):
             raise TypeError(
-                f"state must be String or None, got {type(value).__name__}"
+                f"state must be String or str or None, got {type(value).__name__}"
             )
         self._state = value
 
@@ -333,7 +581,7 @@ class SoftwareContext(ARObject):
         """
         return self.input  # Delegates to property
 
-    def setInput(self, value: "String") -> "SoftwareContext":
+    def setInput(self, value: "String") -> SoftwareContext:
         """
         AUTOSAR-compliant setter for input with method chaining.
 
@@ -361,7 +609,7 @@ class SoftwareContext(ARObject):
         """
         return self.state  # Delegates to property
 
-    def setState(self, value: "String") -> "SoftwareContext":
+    def setState(self, value: "String") -> SoftwareContext:
         """
         AUTOSAR-compliant setter for state with method chaining.
 
@@ -379,7 +627,7 @@ class SoftwareContext(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_input(self, value: Optional["String"]) -> "SoftwareContext":
+    def with_input(self, value: Optional["String"]) -> SoftwareContext:
         """
         Set input and return self for chaining.
 
@@ -395,7 +643,7 @@ class SoftwareContext(ARObject):
         self.input = value  # Use property setter (gets validation)
         return self
 
-    def with_state(self, value: Optional["String"]) -> "SoftwareContext":
+    def with_state(self, value: Optional["String"]) -> SoftwareContext:
         """
         Set state and return self for chaining.
 
@@ -410,9 +658,3 @@ class SoftwareContext(ARObject):
         """
         self.state = value  # Use property setter (gets validation)
         return self
-
-
-__all__ = [
-    "HardwareConfiguration",
-    "SoftwareContext",
-]

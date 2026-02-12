@@ -4,10 +4,12 @@ AUTOSAR Package - AccessCount
 Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     PositiveInteger,
 )
@@ -39,10 +41,10 @@ class AccessCountSet(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Count value for a AbstractAccessPoint.
         # atpVariation.
-        self._accessCount: List["AccessCount"] = []
+        self._accessCount: List[AccessCount] = []
 
     @property
-    def access_count(self) -> List["AccessCount"]:
+    def access_count(self) -> List[AccessCount]:
         """Get accessCount (Pythonic accessor)."""
         return self._accessCount
         # This attribute defines the name of the count profile used the AccessCount.
@@ -93,7 +95,7 @@ class AccessCountSet(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccessCount(self) -> List["AccessCount"]:
+    def getAccessCount(self) -> List[AccessCount]:
         """
         AUTOSAR-compliant getter for accessCount.
 
@@ -117,7 +119,7 @@ class AccessCountSet(ARObject):
         """
         return self.count_profile  # Delegates to property
 
-    def setCountProfile(self, value: "NameToken") -> "AccessCountSet":
+    def setCountProfile(self, value: "NameToken") -> AccessCountSet:
         """
         AUTOSAR-compliant setter for countProfile with method chaining.
 
@@ -135,7 +137,7 @@ class AccessCountSet(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_count_profile(self, value: Optional["NameToken"]) -> "AccessCountSet":
+    def with_count_profile(self, value: Optional["NameToken"]) -> AccessCountSet:
         """
         Set countProfile and return self for chaining.
 
@@ -168,15 +170,15 @@ class AccessCount(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # AbstractAccessPoint for which the count value is.
-        self._accessPoint: Optional["AbstractAccessPoint"] = None
+        self._accessPoint: Optional[AbstractAccessPoint] = None
 
     @property
-    def access_point(self) -> Optional["AbstractAccessPoint"]:
+    def access_point(self) -> Optional[AbstractAccessPoint]:
         """Get accessPoint (Pythonic accessor)."""
         return self._accessPoint
 
     @access_point.setter
-    def access_point(self, value: Optional["AbstractAccessPoint"]) -> None:
+    def access_point(self, value: Optional[AbstractAccessPoint]) -> None:
         """
         Set accessPoint with validation.
 
@@ -225,7 +227,7 @@ class AccessCount(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccessPoint(self) -> "AbstractAccessPoint":
+    def getAccessPoint(self) -> AbstractAccessPoint:
         """
         AUTOSAR-compliant getter for accessPoint.
 
@@ -237,7 +239,7 @@ class AccessCount(ARObject):
         """
         return self.access_point  # Delegates to property
 
-    def setAccessPoint(self, value: "AbstractAccessPoint") -> "AccessCount":
+    def setAccessPoint(self, value: AbstractAccessPoint) -> AccessCount:
         """
         AUTOSAR-compliant setter for accessPoint with method chaining.
 
@@ -265,7 +267,7 @@ class AccessCount(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "PositiveInteger") -> "AccessCount":
+    def setValue(self, value: "PositiveInteger") -> AccessCount:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -283,7 +285,7 @@ class AccessCount(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access_point(self, value: Optional["AbstractAccessPoint"]) -> "AccessCount":
+    def with_access_point(self, value: Optional[AbstractAccessPoint]) -> AccessCount:
         """
         Set accessPoint and return self for chaining.
 
@@ -299,7 +301,7 @@ class AccessCount(ARObject):
         self.access_point = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["PositiveInteger"]) -> "AccessCount":
+    def with_value(self, value: Optional["PositiveInteger"]) -> AccessCount:
         """
         Set value and return self for chaining.
 
@@ -379,7 +381,7 @@ class AbstractAccessPoint(Identifiable, ABC):
         """
         return self.return_value  # Delegates to property
 
-    def setReturnValue(self, value: "RteApiReturnValue") -> "AbstractAccessPoint":
+    def setReturnValue(self, value: "RteApiReturnValue") -> AbstractAccessPoint:
         """
         AUTOSAR-compliant setter for returnValue with method chaining.
 
@@ -397,7 +399,7 @@ class AbstractAccessPoint(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_return_value(self, value: Optional["RteApiReturnValue"]) -> "AbstractAccessPoint":
+    def with_return_value(self, value: Optional["RteApiReturnValue"]) -> AbstractAccessPoint:
         """
         Set returnValue and return self for chaining.
 

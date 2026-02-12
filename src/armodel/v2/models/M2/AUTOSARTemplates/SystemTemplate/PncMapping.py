@@ -4,9 +4,11 @@ AUTOSAR Package - PncMapping
 Package: M2::AUTOSARTemplates::SystemTemplate::PncMapping
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     PositiveInteger,
@@ -371,7 +373,7 @@ class PncMapping(Describable):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "RefType") -> "PncMapping":
+    def setIdent(self, value: "RefType") -> PncMapping:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -435,7 +437,7 @@ class PncMapping(Describable):
         """
         return self.pnc_identifier  # Delegates to property
 
-    def setPncIdentifier(self, value: "PositiveInteger") -> "PncMapping":
+    def setPncIdentifier(self, value: "PositiveInteger") -> PncMapping:
         """
         AUTOSAR-compliant setter for pncIdentifier with method chaining.
 
@@ -475,7 +477,7 @@ class PncMapping(Describable):
         """
         return self.pnc_wakeup  # Delegates to property
 
-    def setPncWakeup(self, value: "Boolean") -> "PncMapping":
+    def setPncWakeup(self, value: "Boolean") -> PncMapping:
         """
         AUTOSAR-compliant setter for pncWakeup with method chaining.
 
@@ -515,7 +517,7 @@ class PncMapping(Describable):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> "PncMapping":
+    def setShortLabel(self, value: "Identifier") -> PncMapping:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -557,7 +559,7 @@ class PncMapping(Describable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ident(self, value: Optional[RefType]) -> "PncMapping":
+    def with_ident(self, value: Optional[RefType]) -> PncMapping:
         """
         Set ident and return self for chaining.
 
@@ -573,7 +575,7 @@ class PncMapping(Describable):
         self.ident = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_identifier(self, value: Optional["PositiveInteger"]) -> "PncMapping":
+    def with_pnc_identifier(self, value: Optional["PositiveInteger"]) -> PncMapping:
         """
         Set pncIdentifier and return self for chaining.
 
@@ -589,7 +591,7 @@ class PncMapping(Describable):
         self.pnc_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_wakeup(self, value: Optional["Boolean"]) -> "PncMapping":
+    def with_pnc_wakeup(self, value: Optional["Boolean"]) -> PncMapping:
         """
         Set pncWakeup and return self for chaining.
 
@@ -605,7 +607,7 @@ class PncMapping(Describable):
         self.pnc_wakeup = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["Identifier"]) -> "PncMapping":
+    def with_short_label(self, value: Optional["Identifier"]) -> PncMapping:
         """
         Set shortLabel and return self for chaining.
 

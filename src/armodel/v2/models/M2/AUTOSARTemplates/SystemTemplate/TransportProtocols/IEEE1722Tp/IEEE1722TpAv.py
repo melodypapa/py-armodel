@@ -4,9 +4,11 @@ AUTOSAR Package - IEEE1722TpAv
 Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -186,7 +188,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         return self.base_frequency  # Delegates to property
 
-    def setBaseFrequency(self, value: "PositiveInteger") -> "IEEE1722TpCrfConnection":
+    def setBaseFrequency(self, value: "PositiveInteger") -> IEEE1722TpCrfConnection:
         """
         AUTOSAR-compliant setter for baseFrequency with method chaining.
 
@@ -214,7 +216,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         return self.crf_pull_enum  # Delegates to property
 
-    def setCrfPullEnum(self, value: "IEEE1722TpCrfPull") -> "IEEE1722TpCrfConnection":
+    def setCrfPullEnum(self, value: "IEEE1722TpCrfPull") -> IEEE1722TpCrfConnection:
         """
         AUTOSAR-compliant setter for crfPullEnum with method chaining.
 
@@ -242,7 +244,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         return self.crf_type_enum  # Delegates to property
 
-    def setCrfTypeEnum(self, value: "IEEE1722TpCrfType") -> "IEEE1722TpCrfConnection":
+    def setCrfTypeEnum(self, value: "IEEE1722TpCrfType") -> IEEE1722TpCrfConnection:
         """
         AUTOSAR-compliant setter for crfTypeEnum with method chaining.
 
@@ -270,7 +272,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         return self.frame_sync  # Delegates to property
 
-    def setFrameSync(self, value: "Boolean") -> "IEEE1722TpCrfConnection":
+    def setFrameSync(self, value: "Boolean") -> IEEE1722TpCrfConnection:
         """
         AUTOSAR-compliant setter for frameSync with method chaining.
 
@@ -298,7 +300,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         return self.timestamp  # Delegates to property
 
-    def setTimestamp(self, value: "PositiveInteger") -> "IEEE1722TpCrfConnection":
+    def setTimestamp(self, value: "PositiveInteger") -> IEEE1722TpCrfConnection:
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
 
@@ -316,7 +318,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base_frequency(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpCrfConnection":
+    def with_base_frequency(self, value: Optional["PositiveInteger"]) -> IEEE1722TpCrfConnection:
         """
         Set baseFrequency and return self for chaining.
 
@@ -332,7 +334,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         self.base_frequency = value  # Use property setter (gets validation)
         return self
 
-    def with_crf_pull_enum(self, value: Optional["IEEE1722TpCrfPull"]) -> "IEEE1722TpCrfConnection":
+    def with_crf_pull_enum(self, value: Optional["IEEE1722TpCrfPull"]) -> IEEE1722TpCrfConnection:
         """
         Set crfPullEnum and return self for chaining.
 
@@ -348,7 +350,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         self.crf_pull_enum = value  # Use property setter (gets validation)
         return self
 
-    def with_crf_type_enum(self, value: Optional["IEEE1722TpCrfType"]) -> "IEEE1722TpCrfConnection":
+    def with_crf_type_enum(self, value: Optional["IEEE1722TpCrfType"]) -> IEEE1722TpCrfConnection:
         """
         Set crfTypeEnum and return self for chaining.
 
@@ -364,7 +366,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         self.crf_type_enum = value  # Use property setter (gets validation)
         return self
 
-    def with_frame_sync(self, value: Optional["Boolean"]) -> "IEEE1722TpCrfConnection":
+    def with_frame_sync(self, value: Optional["Boolean"]) -> IEEE1722TpCrfConnection:
         """
         Set frameSync and return self for chaining.
 
@@ -380,7 +382,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         self.frame_sync = value  # Use property setter (gets validation)
         return self
 
-    def with_timestamp(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpCrfConnection":
+    def with_timestamp(self, value: Optional["PositiveInteger"]) -> IEEE1722TpCrfConnection:
         """
         Set timestamp and return self for chaining.
 
@@ -710,7 +712,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aaf_aes3_data  # Delegates to property
 
-    def setAafAes3Data(self, value: "IEEE1722TpAafAes3") -> "IEEE1722TpAafConnection":
+    def setAafAes3Data(self, value: "IEEE1722TpAafAes3") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aafAes3Data with method chaining.
 
@@ -738,7 +740,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aaf_format_enum  # Delegates to property
 
-    def setAafFormatEnum(self, value: "IEEE1722TpAafFormat") -> "IEEE1722TpAafConnection":
+    def setAafFormatEnum(self, value: "IEEE1722TpAafFormat") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aafFormatEnum with method chaining.
 
@@ -766,7 +768,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aaf_nominal_rate  # Delegates to property
 
-    def setAafNominalRate(self, value: "IEEE1722TpAaf") -> "IEEE1722TpAafConnection":
+    def setAafNominalRate(self, value: "IEEE1722TpAaf") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aafNominalRate with method chaining.
 
@@ -794,7 +796,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aes3_data_type_h  # Delegates to property
 
-    def setAes3DataTypeH(self, value: "PositiveInteger") -> "IEEE1722TpAafConnection":
+    def setAes3DataTypeH(self, value: "PositiveInteger") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aes3DataTypeH with method chaining.
 
@@ -822,7 +824,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aes3_data_type_l  # Delegates to property
 
-    def setAes3DataTypeL(self, value: "PositiveInteger") -> "IEEE1722TpAafConnection":
+    def setAes3DataTypeL(self, value: "PositiveInteger") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aes3DataTypeL with method chaining.
 
@@ -850,7 +852,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.channels_per  # Delegates to property
 
-    def setChannelsPer(self, value: "PositiveInteger") -> "IEEE1722TpAafConnection":
+    def setChannelsPer(self, value: "PositiveInteger") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for channelsPer with method chaining.
 
@@ -878,7 +880,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.event_default  # Delegates to property
 
-    def setEventDefault(self, value: "PositiveInteger") -> "IEEE1722TpAafConnection":
+    def setEventDefault(self, value: "PositiveInteger") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for eventDefault with method chaining.
 
@@ -906,7 +908,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.pcm_bit_depth  # Delegates to property
 
-    def setPcmBitDepth(self, value: "PositiveInteger") -> "IEEE1722TpAafConnection":
+    def setPcmBitDepth(self, value: "PositiveInteger") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for pcmBitDepth with method chaining.
 
@@ -934,7 +936,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.sparse  # Delegates to property
 
-    def setSparse(self, value: "Boolean") -> "IEEE1722TpAafConnection":
+    def setSparse(self, value: "Boolean") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for sparse with method chaining.
 
@@ -962,7 +964,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.streams_per  # Delegates to property
 
-    def setStreamsPer(self, value: "PositiveInteger") -> "IEEE1722TpAafConnection":
+    def setStreamsPer(self, value: "PositiveInteger") -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for streamsPer with method chaining.
 
@@ -980,7 +982,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_aaf_aes3_data(self, value: Optional["IEEE1722TpAafAes3"]) -> "IEEE1722TpAafConnection":
+    def with_aaf_aes3_data(self, value: Optional["IEEE1722TpAafAes3"]) -> IEEE1722TpAafConnection:
         """
         Set aafAes3Data and return self for chaining.
 
@@ -996,7 +998,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.aaf_aes3_data = value  # Use property setter (gets validation)
         return self
 
-    def with_aaf_format_enum(self, value: Optional["IEEE1722TpAafFormat"]) -> "IEEE1722TpAafConnection":
+    def with_aaf_format_enum(self, value: Optional["IEEE1722TpAafFormat"]) -> IEEE1722TpAafConnection:
         """
         Set aafFormatEnum and return self for chaining.
 
@@ -1012,7 +1014,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.aaf_format_enum = value  # Use property setter (gets validation)
         return self
 
-    def with_aaf_nominal_rate(self, value: Optional["IEEE1722TpAaf"]) -> "IEEE1722TpAafConnection":
+    def with_aaf_nominal_rate(self, value: Optional["IEEE1722TpAaf"]) -> IEEE1722TpAafConnection:
         """
         Set aafNominalRate and return self for chaining.
 
@@ -1028,7 +1030,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.aaf_nominal_rate = value  # Use property setter (gets validation)
         return self
 
-    def with_aes3_data_type_h(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAafConnection":
+    def with_aes3_data_type_h(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAafConnection:
         """
         Set aes3DataTypeH and return self for chaining.
 
@@ -1044,7 +1046,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.aes3_data_type_h = value  # Use property setter (gets validation)
         return self
 
-    def with_aes3_data_type_l(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAafConnection":
+    def with_aes3_data_type_l(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAafConnection:
         """
         Set aes3DataTypeL and return self for chaining.
 
@@ -1060,7 +1062,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.aes3_data_type_l = value  # Use property setter (gets validation)
         return self
 
-    def with_channels_per(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAafConnection":
+    def with_channels_per(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAafConnection:
         """
         Set channelsPer and return self for chaining.
 
@@ -1076,7 +1078,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.channels_per = value  # Use property setter (gets validation)
         return self
 
-    def with_event_default(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAafConnection":
+    def with_event_default(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAafConnection:
         """
         Set eventDefault and return self for chaining.
 
@@ -1092,7 +1094,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.event_default = value  # Use property setter (gets validation)
         return self
 
-    def with_pcm_bit_depth(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAafConnection":
+    def with_pcm_bit_depth(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAafConnection:
         """
         Set pcmBitDepth and return self for chaining.
 
@@ -1108,7 +1110,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.pcm_bit_depth = value  # Use property setter (gets validation)
         return self
 
-    def with_sparse(self, value: Optional["Boolean"]) -> "IEEE1722TpAafConnection":
+    def with_sparse(self, value: Optional["Boolean"]) -> IEEE1722TpAafConnection:
         """
         Set sparse and return self for chaining.
 
@@ -1124,7 +1126,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.sparse = value  # Use property setter (gets validation)
         return self
 
-    def with_streams_per(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAafConnection":
+    def with_streams_per(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAafConnection:
         """
         Set streamsPer and return self for chaining.
 
@@ -1395,7 +1397,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_channel  # Delegates to property
 
-    def setIidcChannel(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
+    def setIidcChannel(self, value: "PositiveInteger") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcChannel with method chaining.
 
@@ -1423,7 +1425,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_data_block  # Delegates to property
 
-    def setIidcDataBlock(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
+    def setIidcDataBlock(self, value: "PositiveInteger") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcDataBlock with method chaining.
 
@@ -1451,7 +1453,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_fraction  # Delegates to property
 
-    def setIidcFraction(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
+    def setIidcFraction(self, value: "PositiveInteger") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcFraction with method chaining.
 
@@ -1479,7 +1481,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_source  # Delegates to property
 
-    def setIidcSource(self, value: "Boolean") -> "IEEE1722TpIidcConnection":
+    def setIidcSource(self, value: "Boolean") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcSource with method chaining.
 
@@ -1507,7 +1509,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_stream  # Delegates to property
 
-    def setIidcStream(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
+    def setIidcStream(self, value: "PositiveInteger") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcStream with method chaining.
 
@@ -1535,7 +1537,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_sy  # Delegates to property
 
-    def setIidcSy(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
+    def setIidcSy(self, value: "PositiveInteger") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcSy with method chaining.
 
@@ -1563,7 +1565,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_tag  # Delegates to property
 
-    def setIidcTag(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
+    def setIidcTag(self, value: "PositiveInteger") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcTag with method chaining.
 
@@ -1591,7 +1593,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         """
         return self.iidc_t_code  # Delegates to property
 
-    def setIidcTCode(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
+    def setIidcTCode(self, value: "PositiveInteger") -> IEEE1722TpIidcConnection:
         """
         AUTOSAR-compliant setter for iidcTCode with method chaining.
 
@@ -1609,7 +1611,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_iidc_channel(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_channel(self, value: Optional["PositiveInteger"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcChannel and return self for chaining.
 
@@ -1625,7 +1627,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         self.iidc_channel = value  # Use property setter (gets validation)
         return self
 
-    def with_iidc_data_block(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_data_block(self, value: Optional["PositiveInteger"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcDataBlock and return self for chaining.
 
@@ -1641,7 +1643,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         self.iidc_data_block = value  # Use property setter (gets validation)
         return self
 
-    def with_iidc_fraction(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_fraction(self, value: Optional["PositiveInteger"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcFraction and return self for chaining.
 
@@ -1657,7 +1659,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         self.iidc_fraction = value  # Use property setter (gets validation)
         return self
 
-    def with_iidc_source(self, value: Optional["Boolean"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_source(self, value: Optional["Boolean"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcSource and return self for chaining.
 
@@ -1673,7 +1675,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         self.iidc_source = value  # Use property setter (gets validation)
         return self
 
-    def with_iidc_stream(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_stream(self, value: Optional["PositiveInteger"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcStream and return self for chaining.
 
@@ -1689,7 +1691,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         self.iidc_stream = value  # Use property setter (gets validation)
         return self
 
-    def with_iidc_sy(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_sy(self, value: Optional["PositiveInteger"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcSy and return self for chaining.
 
@@ -1705,7 +1707,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         self.iidc_sy = value  # Use property setter (gets validation)
         return self
 
-    def with_iidc_tag(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_tag(self, value: Optional["PositiveInteger"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcTag and return self for chaining.
 
@@ -1721,7 +1723,7 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
         self.iidc_tag = value  # Use property setter (gets validation)
         return self
 
-    def with_iidc_t_code(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
+    def with_iidc_t_code(self, value: Optional["PositiveInteger"]) -> IEEE1722TpIidcConnection:
         """
         Set iidcTCode and return self for chaining.
 
@@ -1992,7 +1994,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_active_pixels  # Delegates to property
 
-    def setRvfActivePixels(self, value: "PositiveInteger") -> "IEEE1722TpRvfConnection":
+    def setRvfActivePixels(self, value: "PositiveInteger") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfActivePixels with method chaining.
 
@@ -2020,7 +2022,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_color_space  # Delegates to property
 
-    def setRvfColorSpace(self, value: "IEEE1722TpRvfColor") -> "IEEE1722TpRvfConnection":
+    def setRvfColorSpace(self, value: "IEEE1722TpRvfColor") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfColorSpace with method chaining.
 
@@ -2048,7 +2050,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_event_default  # Delegates to property
 
-    def setRvfEventDefault(self, value: "PositiveInteger") -> "IEEE1722TpRvfConnection":
+    def setRvfEventDefault(self, value: "PositiveInteger") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfEventDefault with method chaining.
 
@@ -2076,7 +2078,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_frame_rate  # Delegates to property
 
-    def setRvfFrameRate(self, value: "IEEE1722TpRvfFrame") -> "IEEE1722TpRvfConnection":
+    def setRvfFrameRate(self, value: "IEEE1722TpRvfFrame") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfFrameRate with method chaining.
 
@@ -2104,7 +2106,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_interlaced  # Delegates to property
 
-    def setRvfInterlaced(self, value: "Boolean") -> "IEEE1722TpRvfConnection":
+    def setRvfInterlaced(self, value: "Boolean") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfInterlaced with method chaining.
 
@@ -2132,7 +2134,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_pixel_depth  # Delegates to property
 
-    def setRvfPixelDepth(self, value: "IEEE1722TpRvfPixel") -> "IEEE1722TpRvfConnection":
+    def setRvfPixelDepth(self, value: "IEEE1722TpRvfPixel") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfPixelDepth with method chaining.
 
@@ -2160,7 +2162,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_pixel_format  # Delegates to property
 
-    def setRvfPixelFormat(self, value: "IEEE1722TpRvfPixel") -> "IEEE1722TpRvfConnection":
+    def setRvfPixelFormat(self, value: "IEEE1722TpRvfPixel") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfPixelFormat with method chaining.
 
@@ -2188,7 +2190,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_total_lines  # Delegates to property
 
-    def setRvfTotalLines(self, value: "PositiveInteger") -> "IEEE1722TpRvfConnection":
+    def setRvfTotalLines(self, value: "PositiveInteger") -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfTotalLines with method chaining.
 
@@ -2206,7 +2208,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_rvf_active_pixels(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_active_pixels(self, value: Optional["PositiveInteger"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfActivePixels and return self for chaining.
 
@@ -2222,7 +2224,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_active_pixels = value  # Use property setter (gets validation)
         return self
 
-    def with_rvf_color_space(self, value: Optional["IEEE1722TpRvfColor"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_color_space(self, value: Optional["IEEE1722TpRvfColor"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfColorSpace and return self for chaining.
 
@@ -2238,7 +2240,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_color_space = value  # Use property setter (gets validation)
         return self
 
-    def with_rvf_event_default(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_event_default(self, value: Optional["PositiveInteger"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfEventDefault and return self for chaining.
 
@@ -2254,7 +2256,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_event_default = value  # Use property setter (gets validation)
         return self
 
-    def with_rvf_frame_rate(self, value: Optional["IEEE1722TpRvfFrame"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_frame_rate(self, value: Optional["IEEE1722TpRvfFrame"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfFrameRate and return self for chaining.
 
@@ -2270,7 +2272,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_frame_rate = value  # Use property setter (gets validation)
         return self
 
-    def with_rvf_interlaced(self, value: Optional["Boolean"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_interlaced(self, value: Optional["Boolean"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfInterlaced and return self for chaining.
 
@@ -2286,7 +2288,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_interlaced = value  # Use property setter (gets validation)
         return self
 
-    def with_rvf_pixel_depth(self, value: Optional["IEEE1722TpRvfPixel"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_pixel_depth(self, value: Optional["IEEE1722TpRvfPixel"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfPixelDepth and return self for chaining.
 
@@ -2302,7 +2304,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_pixel_depth = value  # Use property setter (gets validation)
         return self
 
-    def with_rvf_pixel_format(self, value: Optional["IEEE1722TpRvfPixel"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_pixel_format(self, value: Optional["IEEE1722TpRvfPixel"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfPixelFormat and return self for chaining.
 
@@ -2318,7 +2320,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_pixel_format = value  # Use property setter (gets validation)
         return self
 
-    def with_rvf_total_lines(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpRvfConnection":
+    def with_rvf_total_lines(self, value: Optional["PositiveInteger"]) -> IEEE1722TpRvfConnection:
         """
         Set rvfTotalLines and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - CommonService
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -89,15 +91,15 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         # this properties that are shared among all applicable sub-classes of
                 # DiagnosticService that affected by this pattern implement the applicable
                 # "class"-role that substantiate reference.
-        self._serviceClass: Optional["DiagnosticServiceClass"] = None
+        self._serviceClass: Optional[DiagnosticServiceClass] = None
 
     @property
-    def service_class(self) -> Optional["DiagnosticServiceClass"]:
+    def service_class(self) -> Optional[DiagnosticServiceClass]:
         """Get serviceClass (Pythonic accessor)."""
         return self._serviceClass
 
     @service_class.setter
-    def service_class(self, value: Optional["DiagnosticServiceClass"]) -> None:
+    def service_class(self, value: Optional[DiagnosticServiceClass]) -> None:
         """
         Set serviceClass with validation.
 
@@ -131,7 +133,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         """
         return self.access  # Delegates to property
 
-    def setAccess(self, value: "DiagnosticAccess") -> "DiagnosticServiceInstance":
+    def setAccess(self, value: "DiagnosticAccess") -> DiagnosticServiceInstance:
         """
         AUTOSAR-compliant setter for access with method chaining.
 
@@ -147,7 +149,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         self.access = value  # Delegates to property setter
         return self
 
-    def getServiceClass(self) -> "DiagnosticServiceClass":
+    def getServiceClass(self) -> DiagnosticServiceClass:
         """
         AUTOSAR-compliant getter for serviceClass.
 
@@ -159,7 +161,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         """
         return self.service_class  # Delegates to property
 
-    def setServiceClass(self, value: "DiagnosticServiceClass") -> "DiagnosticServiceInstance":
+    def setServiceClass(self, value: DiagnosticServiceClass) -> DiagnosticServiceInstance:
         """
         AUTOSAR-compliant setter for serviceClass with method chaining.
 
@@ -177,7 +179,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access(self, value: Optional["DiagnosticAccess"]) -> "DiagnosticServiceInstance":
+    def with_access(self, value: Optional["DiagnosticAccess"]) -> DiagnosticServiceInstance:
         """
         Set access and return self for chaining.
 
@@ -193,7 +195,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         self.access = value  # Use property setter (gets validation)
         return self
 
-    def with_service_class(self, value: Optional["DiagnosticServiceClass"]) -> "DiagnosticServiceInstance":
+    def with_service_class(self, value: Optional[DiagnosticServiceClass]) -> DiagnosticServiceInstance:
         """
         Set serviceClass and return self for chaining.
 
@@ -272,7 +274,7 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
         """
         return self.custom_service  # Delegates to property
 
-    def setCustomService(self, value: "PositiveInteger") -> "DiagnosticCustomServiceClass":
+    def setCustomService(self, value: "PositiveInteger") -> DiagnosticCustomServiceClass:
         """
         AUTOSAR-compliant setter for customService with method chaining.
 
@@ -290,7 +292,7 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_service(self, value: Optional["PositiveInteger"]) -> "DiagnosticCustomServiceClass":
+    def with_custom_service(self, value: Optional["PositiveInteger"]) -> DiagnosticCustomServiceClass:
         """
         Set customService and return self for chaining.
 

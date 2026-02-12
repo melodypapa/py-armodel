@@ -4,10 +4,12 @@ AUTOSAR Package - SWmapping
 Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     RefType,
@@ -199,7 +201,7 @@ class SwcToEcuMapping(Identifiable):
         """
         return self.controlled_hw  # Delegates to property
 
-    def setControlledHw(self, value: "HwElement") -> "SwcToEcuMapping":
+    def setControlledHw(self, value: "HwElement") -> SwcToEcuMapping:
         """
         AUTOSAR-compliant setter for controlledHw with method chaining.
 
@@ -227,7 +229,7 @@ class SwcToEcuMapping(Identifiable):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> "SwcToEcuMapping":
+    def setEcuInstance(self, value: "EcuInstance") -> SwcToEcuMapping:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -255,7 +257,7 @@ class SwcToEcuMapping(Identifiable):
         """
         return self.processing_unit  # Delegates to property
 
-    def setProcessingUnit(self, value: "HwElement") -> "SwcToEcuMapping":
+    def setProcessingUnit(self, value: "HwElement") -> SwcToEcuMapping:
         """
         AUTOSAR-compliant setter for processingUnit with method chaining.
 
@@ -273,7 +275,7 @@ class SwcToEcuMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_controlled_hw(self, value: Optional["HwElement"]) -> "SwcToEcuMapping":
+    def with_controlled_hw(self, value: Optional["HwElement"]) -> SwcToEcuMapping:
         """
         Set controlledHw and return self for chaining.
 
@@ -289,7 +291,7 @@ class SwcToEcuMapping(Identifiable):
         self.controlled_hw = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "SwcToEcuMapping":
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> SwcToEcuMapping:
         """
         Set ecuInstance and return self for chaining.
 
@@ -305,7 +307,7 @@ class SwcToEcuMapping(Identifiable):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_processing_unit(self, value: Optional["HwElement"]) -> "SwcToEcuMapping":
+    def with_processing_unit(self, value: Optional["HwElement"]) -> SwcToEcuMapping:
         """
         Set processingUnit and return self for chaining.
 
@@ -382,7 +384,7 @@ class SwcToImplMapping(Identifiable):
         """
         return self.component  # Delegates to property
 
-    def setComponent(self, value: "SwcImplementation") -> "SwcToImplMapping":
+    def setComponent(self, value: "SwcImplementation") -> SwcToImplMapping:
         """
         AUTOSAR-compliant setter for component with method chaining.
 
@@ -400,7 +402,7 @@ class SwcToImplMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_component(self, value: Optional["SwcImplementation"]) -> "SwcToImplMapping":
+    def with_component(self, value: Optional["SwcImplementation"]) -> SwcToImplMapping:
         """
         Set component and return self for chaining.
 
@@ -434,15 +436,15 @@ class SwcToApplicationPartitionMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to an ApplicationPartition to which a Sw is mapped.
-        self._application: Optional["ApplicationPartition"] = None
+        self._application: Optional[ApplicationPartition] = None
 
     @property
-    def application(self) -> Optional["ApplicationPartition"]:
+    def application(self) -> Optional[ApplicationPartition]:
         """Get application (Pythonic accessor)."""
         return self._application
 
     @application.setter
-    def application(self, value: Optional["ApplicationPartition"]) -> None:
+    def application(self, value: Optional[ApplicationPartition]) -> None:
         """
         Set application with validation.
 
@@ -496,7 +498,7 @@ class SwcToApplicationPartitionMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> "ApplicationPartition":
+    def getApplication(self) -> ApplicationPartition:
         """
         AUTOSAR-compliant getter for application.
 
@@ -508,7 +510,7 @@ class SwcToApplicationPartitionMapping(Identifiable):
         """
         return self.application  # Delegates to property
 
-    def setApplication(self, value: "ApplicationPartition") -> "SwcToApplicationPartitionMapping":
+    def setApplication(self, value: ApplicationPartition) -> SwcToApplicationPartitionMapping:
         """
         AUTOSAR-compliant setter for application with method chaining.
 
@@ -536,7 +538,7 @@ class SwcToApplicationPartitionMapping(Identifiable):
         """
         return self.sw_component  # Delegates to property
 
-    def setSwComponent(self, value: "SwComponent") -> "SwcToApplicationPartitionMapping":
+    def setSwComponent(self, value: "SwComponent") -> SwcToApplicationPartitionMapping:
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
 
@@ -554,7 +556,7 @@ class SwcToApplicationPartitionMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application(self, value: Optional["ApplicationPartition"]) -> "SwcToApplicationPartitionMapping":
+    def with_application(self, value: Optional[ApplicationPartition]) -> SwcToApplicationPartitionMapping:
         """
         Set application and return self for chaining.
 
@@ -570,7 +572,7 @@ class SwcToApplicationPartitionMapping(Identifiable):
         self.application = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_component(self, value: Optional["SwComponent"]) -> "SwcToApplicationPartitionMapping":
+    def with_sw_component(self, value: Optional["SwComponent"]) -> SwcToApplicationPartitionMapping:
         """
         Set swComponent and return self for chaining.
 
@@ -628,22 +630,22 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to ApplicationPartitions that are mapped to an.
-        self._application: List["ApplicationPartition"] = []
+        self._application: List[ApplicationPartition] = []
 
     @property
-    def application(self) -> List["ApplicationPartition"]:
+    def application(self) -> List[ApplicationPartition]:
         """Get application (Pythonic accessor)."""
         return self._application
         # Reference to EcuPartition to which the Application assigned.
-        self._ecuPartition: Optional["EcuPartition"] = None
+        self._ecuPartition: Optional[EcuPartition] = None
 
     @property
-    def ecu_partition(self) -> Optional["EcuPartition"]:
+    def ecu_partition(self) -> Optional[EcuPartition]:
         """Get ecuPartition (Pythonic accessor)."""
         return self._ecuPartition
 
     @ecu_partition.setter
-    def ecu_partition(self, value: Optional["EcuPartition"]) -> None:
+    def ecu_partition(self, value: Optional[EcuPartition]) -> None:
         """
         Set ecuPartition with validation.
 
@@ -665,7 +667,7 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> List["ApplicationPartition"]:
+    def getApplication(self) -> List[ApplicationPartition]:
         """
         AUTOSAR-compliant getter for application.
 
@@ -677,7 +679,7 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
         """
         return self.application  # Delegates to property
 
-    def getEcuPartition(self) -> "EcuPartition":
+    def getEcuPartition(self) -> EcuPartition:
         """
         AUTOSAR-compliant getter for ecuPartition.
 
@@ -689,7 +691,7 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
         """
         return self.ecu_partition  # Delegates to property
 
-    def setEcuPartition(self, value: "EcuPartition") -> "ApplicationPartitionToEcuPartitionMapping":
+    def setEcuPartition(self, value: EcuPartition) -> ApplicationPartitionToEcuPartitionMapping:
         """
         AUTOSAR-compliant setter for ecuPartition with method chaining.
 
@@ -707,7 +709,7 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_partition(self, value: Optional["EcuPartition"]) -> "ApplicationPartitionToEcuPartitionMapping":
+    def with_ecu_partition(self, value: Optional[EcuPartition]) -> ApplicationPartitionToEcuPartitionMapping:
         """
         Set ecuPartition and return self for chaining.
 
@@ -787,7 +789,7 @@ class EcuPartition(Identifiable):
         """
         return self.exec_in_user  # Delegates to property
 
-    def setExecInUser(self, value: "Boolean") -> "EcuPartition":
+    def setExecInUser(self, value: "Boolean") -> EcuPartition:
         """
         AUTOSAR-compliant setter for execInUser with method chaining.
 
@@ -805,7 +807,7 @@ class EcuPartition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_exec_in_user(self, value: Optional["Boolean"]) -> "EcuPartition":
+    def with_exec_in_user(self, value: Optional["Boolean"]) -> EcuPartition:
         """
         Set execInUser and return self for chaining.
 
@@ -883,7 +885,7 @@ class MappingConstraint(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "MappingConstraint":
+    def setIntroduction(self, value: "DocumentationBlock") -> MappingConstraint:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -901,7 +903,7 @@ class MappingConstraint(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "MappingConstraint":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> MappingConstraint:
         """
         Set introduction and return self for chaining.
 
@@ -1009,7 +1011,7 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
         """
         return self.j1939_controller  # Delegates to property
 
-    def setJ1939Controller(self, value: "J1939Controller") -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+    def setJ1939Controller(self, value: "J1939Controller") -> J1939ControllerApplicationToJ1939NmNodeMapping:
         """
         AUTOSAR-compliant setter for j1939Controller with method chaining.
 
@@ -1037,7 +1039,7 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
         """
         return self.j1939_nm_node  # Delegates to property
 
-    def setJ1939NmNode(self, value: "J1939NmNode") -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+    def setJ1939NmNode(self, value: "J1939NmNode") -> J1939ControllerApplicationToJ1939NmNodeMapping:
         """
         AUTOSAR-compliant setter for j1939NmNode with method chaining.
 
@@ -1055,7 +1057,7 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_j1939_controller(self, value: Optional["J1939Controller"]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+    def with_j1939_controller(self, value: Optional["J1939Controller"]) -> J1939ControllerApplicationToJ1939NmNodeMapping:
         """
         Set j1939Controller and return self for chaining.
 
@@ -1071,7 +1073,7 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
         self.j1939_controller = value  # Use property setter (gets validation)
         return self
 
-    def with_j1939_nm_node(self, value: Optional["J1939NmNode"]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+    def with_j1939_nm_node(self, value: Optional["J1939NmNode"]) -> J1939ControllerApplicationToJ1939NmNodeMapping:
         """
         Set j1939NmNode and return self for chaining.
 
@@ -1174,7 +1176,7 @@ class J1939ControllerApplication(ARElement):
         """
         return self.function_id  # Delegates to property
 
-    def setFunctionId(self, value: "PositiveInteger") -> "J1939ControllerApplication":
+    def setFunctionId(self, value: "PositiveInteger") -> J1939ControllerApplication:
         """
         AUTOSAR-compliant setter for functionId with method chaining.
 
@@ -1202,7 +1204,7 @@ class J1939ControllerApplication(ARElement):
         """
         return self.sw_component  # Delegates to property
 
-    def setSwComponent(self, value: "SwComponent") -> "J1939ControllerApplication":
+    def setSwComponent(self, value: "SwComponent") -> J1939ControllerApplication:
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
 
@@ -1220,7 +1222,7 @@ class J1939ControllerApplication(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_function_id(self, value: Optional["PositiveInteger"]) -> "J1939ControllerApplication":
+    def with_function_id(self, value: Optional["PositiveInteger"]) -> J1939ControllerApplication:
         """
         Set functionId and return self for chaining.
 
@@ -1236,7 +1238,7 @@ class J1939ControllerApplication(ARElement):
         self.function_id = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_component(self, value: Optional["SwComponent"]) -> "J1939ControllerApplication":
+    def with_sw_component(self, value: Optional["SwComponent"]) -> J1939ControllerApplication:
         """
         Set swComponent and return self for chaining.
 
@@ -1401,7 +1403,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.bsw_resource  # Delegates to property
 
-    def setBswResource(self, value: "ResourceConsumption") -> "EcuResourceEstimation":
+    def setBswResource(self, value: "ResourceConsumption") -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for bswResource with method chaining.
 
@@ -1429,7 +1431,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> "EcuResourceEstimation":
+    def setEcuInstance(self, value: "EcuInstance") -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -1457,7 +1459,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> "EcuResourceEstimation":
+    def setIntroduction(self, value: "DocumentationBlock") -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -1485,7 +1487,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.rte_resource  # Delegates to property
 
-    def setRteResource(self, value: "ResourceConsumption") -> "EcuResourceEstimation":
+    def setRteResource(self, value: "ResourceConsumption") -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for rteResource with method chaining.
 
@@ -1515,7 +1517,7 @@ class EcuResourceEstimation(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_resource(self, value: Optional["ResourceConsumption"]) -> "EcuResourceEstimation":
+    def with_bsw_resource(self, value: Optional["ResourceConsumption"]) -> EcuResourceEstimation:
         """
         Set bswResource and return self for chaining.
 
@@ -1531,7 +1533,7 @@ class EcuResourceEstimation(ARObject):
         self.bsw_resource = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "EcuResourceEstimation":
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> EcuResourceEstimation:
         """
         Set ecuInstance and return self for chaining.
 
@@ -1547,7 +1549,7 @@ class EcuResourceEstimation(ARObject):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "EcuResourceEstimation":
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> EcuResourceEstimation:
         """
         Set introduction and return self for chaining.
 
@@ -1563,7 +1565,7 @@ class EcuResourceEstimation(ARObject):
         self.introduction = value  # Use property setter (gets validation)
         return self
 
-    def with_rte_resource(self, value: Optional["ResourceConsumption"]) -> "EcuResourceEstimation":
+    def with_rte_resource(self, value: Optional["ResourceConsumption"]) -> EcuResourceEstimation:
         """
         Set rteResource and return self for chaining.
 
@@ -1658,7 +1660,7 @@ class ComponentClustering(MappingConstraint):
         """
         return self.mapping_scope  # Delegates to property
 
-    def setMappingScope(self, value: "RefType") -> "ComponentClustering":
+    def setMappingScope(self, value: "RefType") -> ComponentClustering:
         """
         AUTOSAR-compliant setter for mappingScope with method chaining.
 
@@ -1676,7 +1678,7 @@ class ComponentClustering(MappingConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mapping_scope(self, value: Optional[RefType]) -> "ComponentClustering":
+    def with_mapping_scope(self, value: Optional[RefType]) -> ComponentClustering:
         """
         Set mappingScope and return self for chaining.
 
@@ -1757,7 +1759,7 @@ class ComponentSeparation(MappingConstraint):
         """
         return self.mapping_scope  # Delegates to property
 
-    def setMappingScope(self, value: "RefType") -> "ComponentSeparation":
+    def setMappingScope(self, value: "RefType") -> ComponentSeparation:
         """
         AUTOSAR-compliant setter for mappingScope with method chaining.
 
@@ -1775,7 +1777,7 @@ class ComponentSeparation(MappingConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mapping_scope(self, value: Optional[RefType]) -> "ComponentSeparation":
+    def with_mapping_scope(self, value: Optional[RefType]) -> ComponentSeparation:
         """
         Set mappingScope and return self for chaining.
 

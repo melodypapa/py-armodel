@@ -4,10 +4,12 @@ AUTOSAR Package - DoIP
 Package: M2::AUTOSARTemplates::SystemTemplate::DoIP
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -35,10 +37,10 @@ class DoIpConfig(ARObject):
         # DoIP node consists of one or several DoIPInterfaces over ECU is able to
         # communicate via DoIP DoIP functionalities on each IP isolated from each
         # other.
-        self._doipInterface: List["DoIpInterface"] = []
+        self._doipInterface: List[DoIpInterface] = []
 
     @property
-    def doip_interface(self) -> List["DoIpInterface"]:
+    def doip_interface(self) -> List[DoIpInterface]:
         """Get doipInterface (Pythonic accessor)."""
         return self._doipInterface
         # Describes the logical address of the DoIP entity, i.
@@ -170,7 +172,7 @@ class DoIpConfig(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDoipInterface(self) -> List["DoIpInterface"]:
+    def getDoipInterface(self) -> List[DoIpInterface]:
         """
         AUTOSAR-compliant getter for doipInterface.
 
@@ -194,7 +196,7 @@ class DoIpConfig(ARObject):
         """
         return self.logic_address  # Delegates to property
 
-    def setLogicAddress(self, value: "DoIpLogicAddress") -> "DoIpConfig":
+    def setLogicAddress(self, value: "DoIpLogicAddress") -> DoIpConfig:
         """
         AUTOSAR-compliant setter for logicAddress with method chaining.
 
@@ -212,7 +214,7 @@ class DoIpConfig(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_logic_address(self, value: Optional["DoIpLogicAddress"]) -> "DoIpConfig":
+    def with_logic_address(self, value: Optional["DoIpLogicAddress"]) -> DoIpConfig:
         """
         Set logicAddress and return self for chaining.
 
@@ -314,10 +316,10 @@ class DoIpInterface(Identifiable):
         """Get doipConnection (Pythonic accessor)."""
         return self._doipConnection
         # Collection of DoIpRoutingActivation possibilities defined the DoIpInterface.
-        self._doIpRouting: List["DoIpRoutingActivation"] = []
+        self._doIpRouting: List[DoIpRoutingActivation] = []
 
     @property
-    def do_ip_routing(self) -> List["DoIpRoutingActivation"]:
+    def do_ip_routing(self) -> List[DoIpRoutingActivation]:
         """Get doIpRouting (Pythonic accessor)."""
         return self._doIpRouting
         # This attribute defines the timeout in seconds for maximum of a TCP socket
@@ -574,7 +576,7 @@ class DoIpInterface(Identifiable):
         """
         return self.alive_check  # Delegates to property
 
-    def setAliveCheck(self, value: "TimeValue") -> "DoIpInterface":
+    def setAliveCheck(self, value: "TimeValue") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for aliveCheck with method chaining.
 
@@ -602,7 +604,7 @@ class DoIpInterface(Identifiable):
         """
         return self.doip_channel  # Delegates to property
 
-    def setDoipChannel(self, value: "DoIpTpConfig") -> "DoIpInterface":
+    def setDoipChannel(self, value: "DoIpTpConfig") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for doipChannel with method chaining.
 
@@ -630,7 +632,7 @@ class DoIpInterface(Identifiable):
         """
         return self.doip_connection  # Delegates to property
 
-    def getDoIpRouting(self) -> List["DoIpRoutingActivation"]:
+    def getDoIpRouting(self) -> List[DoIpRoutingActivation]:
         """
         AUTOSAR-compliant getter for doIpRouting.
 
@@ -654,7 +656,7 @@ class DoIpInterface(Identifiable):
         """
         return self.general_inactivity  # Delegates to property
 
-    def setGeneralInactivity(self, value: "TimeValue") -> "DoIpInterface":
+    def setGeneralInactivity(self, value: "TimeValue") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for generalInactivity with method chaining.
 
@@ -682,7 +684,7 @@ class DoIpInterface(Identifiable):
         """
         return self.initial_inactivity  # Delegates to property
 
-    def setInitialInactivity(self, value: "TimeValue") -> "DoIpInterface":
+    def setInitialInactivity(self, value: "TimeValue") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for initialInactivity with method chaining.
 
@@ -710,7 +712,7 @@ class DoIpInterface(Identifiable):
         """
         return self.initial_vehicle  # Delegates to property
 
-    def setInitialVehicle(self, value: "TimeValue") -> "DoIpInterface":
+    def setInitialVehicle(self, value: "TimeValue") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for initialVehicle with method chaining.
 
@@ -738,7 +740,7 @@ class DoIpInterface(Identifiable):
         """
         return self.is_activation_line  # Delegates to property
 
-    def setIsActivationLine(self, value: "Boolean") -> "DoIpInterface":
+    def setIsActivationLine(self, value: "Boolean") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for isActivationLine with method chaining.
 
@@ -766,7 +768,7 @@ class DoIpInterface(Identifiable):
         """
         return self.max_tester  # Delegates to property
 
-    def setMaxTester(self, value: "PositiveInteger") -> "DoIpInterface":
+    def setMaxTester(self, value: "PositiveInteger") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for maxTester with method chaining.
 
@@ -806,7 +808,7 @@ class DoIpInterface(Identifiable):
         """
         return self.use_mac_address  # Delegates to property
 
-    def setUseMacAddress(self, value: "Boolean") -> "DoIpInterface":
+    def setUseMacAddress(self, value: "Boolean") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for useMacAddress with method chaining.
 
@@ -834,7 +836,7 @@ class DoIpInterface(Identifiable):
         """
         return self.use_vehicle  # Delegates to property
 
-    def setUseVehicle(self, value: "Boolean") -> "DoIpInterface":
+    def setUseVehicle(self, value: "Boolean") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for useVehicle with method chaining.
 
@@ -862,7 +864,7 @@ class DoIpInterface(Identifiable):
         """
         return self.vehicle  # Delegates to property
 
-    def setVehicle(self, value: "TimeValue") -> "DoIpInterface":
+    def setVehicle(self, value: "TimeValue") -> DoIpInterface:
         """
         AUTOSAR-compliant setter for vehicle with method chaining.
 
@@ -880,7 +882,7 @@ class DoIpInterface(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alive_check(self, value: Optional["TimeValue"]) -> "DoIpInterface":
+    def with_alive_check(self, value: Optional["TimeValue"]) -> DoIpInterface:
         """
         Set aliveCheck and return self for chaining.
 
@@ -896,7 +898,7 @@ class DoIpInterface(Identifiable):
         self.alive_check = value  # Use property setter (gets validation)
         return self
 
-    def with_doip_channel(self, value: Optional["DoIpTpConfig"]) -> "DoIpInterface":
+    def with_doip_channel(self, value: Optional["DoIpTpConfig"]) -> DoIpInterface:
         """
         Set doipChannel and return self for chaining.
 
@@ -912,7 +914,7 @@ class DoIpInterface(Identifiable):
         self.doip_channel = value  # Use property setter (gets validation)
         return self
 
-    def with_general_inactivity(self, value: Optional["TimeValue"]) -> "DoIpInterface":
+    def with_general_inactivity(self, value: Optional["TimeValue"]) -> DoIpInterface:
         """
         Set generalInactivity and return self for chaining.
 
@@ -928,7 +930,7 @@ class DoIpInterface(Identifiable):
         self.general_inactivity = value  # Use property setter (gets validation)
         return self
 
-    def with_initial_inactivity(self, value: Optional["TimeValue"]) -> "DoIpInterface":
+    def with_initial_inactivity(self, value: Optional["TimeValue"]) -> DoIpInterface:
         """
         Set initialInactivity and return self for chaining.
 
@@ -944,7 +946,7 @@ class DoIpInterface(Identifiable):
         self.initial_inactivity = value  # Use property setter (gets validation)
         return self
 
-    def with_initial_vehicle(self, value: Optional["TimeValue"]) -> "DoIpInterface":
+    def with_initial_vehicle(self, value: Optional["TimeValue"]) -> DoIpInterface:
         """
         Set initialVehicle and return self for chaining.
 
@@ -960,7 +962,7 @@ class DoIpInterface(Identifiable):
         self.initial_vehicle = value  # Use property setter (gets validation)
         return self
 
-    def with_is_activation_line(self, value: Optional["Boolean"]) -> "DoIpInterface":
+    def with_is_activation_line(self, value: Optional["Boolean"]) -> DoIpInterface:
         """
         Set isActivationLine and return self for chaining.
 
@@ -976,7 +978,7 @@ class DoIpInterface(Identifiable):
         self.is_activation_line = value  # Use property setter (gets validation)
         return self
 
-    def with_max_tester(self, value: Optional["PositiveInteger"]) -> "DoIpInterface":
+    def with_max_tester(self, value: Optional["PositiveInteger"]) -> DoIpInterface:
         """
         Set maxTester and return self for chaining.
 
@@ -992,7 +994,7 @@ class DoIpInterface(Identifiable):
         self.max_tester = value  # Use property setter (gets validation)
         return self
 
-    def with_use_mac_address(self, value: Optional["Boolean"]) -> "DoIpInterface":
+    def with_use_mac_address(self, value: Optional["Boolean"]) -> DoIpInterface:
         """
         Set useMacAddress and return self for chaining.
 
@@ -1008,7 +1010,7 @@ class DoIpInterface(Identifiable):
         self.use_mac_address = value  # Use property setter (gets validation)
         return self
 
-    def with_use_vehicle(self, value: Optional["Boolean"]) -> "DoIpInterface":
+    def with_use_vehicle(self, value: Optional["Boolean"]) -> DoIpInterface:
         """
         Set useVehicle and return self for chaining.
 
@@ -1024,7 +1026,7 @@ class DoIpInterface(Identifiable):
         self.use_vehicle = value  # Use property setter (gets validation)
         return self
 
-    def with_vehicle(self, value: Optional["TimeValue"]) -> "DoIpInterface":
+    def with_vehicle(self, value: Optional["TimeValue"]) -> DoIpInterface:
         """
         Set vehicle and return self for chaining.
 
@@ -1148,16 +1150,16 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to a DoIPRoutingActivation describing the routing activations of
         # the DoIPTester.
-        self._doIpTester: List["DoIpRoutingActivation"] = []
+        self._doIpTester: List[DoIpRoutingActivation] = []
 
     @property
-    def do_ip_tester(self) -> List["DoIpRoutingActivation"]:
+    def do_ip_tester(self) -> List[DoIpRoutingActivation]:
         """Get doIpTester (Pythonic accessor)."""
         return self._doIpTester
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDoIpTester(self) -> List["DoIpRoutingActivation"]:
+    def getDoIpTester(self) -> List[DoIpRoutingActivation]:
         """
         AUTOSAR-compliant getter for doIpTester.
 

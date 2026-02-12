@@ -4,9 +4,11 @@ AUTOSAR Package - FlatMap
 Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     String,
 )
@@ -40,10 +42,10 @@ class AliasNameSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # AliasNames contained in the AliasNameSet.
         # atpVariation.
-        self._aliasName: List["AliasNameAssignment"] = []
+        self._aliasName: List[AliasNameAssignment] = []
 
     @property
-    def alias_name(self) -> List["AliasNameAssignment"]:
+    def alias_name(self) -> List[AliasNameAssignment]:
         """Get aliasName (Pythonic accessor)."""
         return self._aliasName
 
@@ -81,7 +83,7 @@ class AliasNameSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAliasName(self) -> List["AliasNameAssignment"]:
+    def getAliasName(self) -> List[AliasNameAssignment]:
         """
         AUTOSAR-compliant getter for aliasName.
 
@@ -113,15 +115,15 @@ class AliasNameAssignment(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Assignment of a unique name to a flat representation.
-        self._flatInstance: Optional["FlatInstanceDescriptor"] = None
+        self._flatInstance: Optional[FlatInstanceDescriptor] = None
 
     @property
-    def flat_instance(self) -> Optional["FlatInstanceDescriptor"]:
+    def flat_instance(self) -> Optional[FlatInstanceDescriptor]:
         """Get flatInstance (Pythonic accessor)."""
         return self._flatInstance
 
     @flat_instance.setter
-    def flat_instance(self, value: Optional["FlatInstanceDescriptor"]) -> None:
+    def flat_instance(self, value: Optional[FlatInstanceDescriptor]) -> None:
         """
         Set flatInstance with validation.
 
@@ -228,7 +230,7 @@ class AliasNameAssignment(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFlatInstance(self) -> "FlatInstanceDescriptor":
+    def getFlatInstance(self) -> FlatInstanceDescriptor:
         """
         AUTOSAR-compliant getter for flatInstance.
 
@@ -240,7 +242,7 @@ class AliasNameAssignment(ARObject):
         """
         return self.flat_instance  # Delegates to property
 
-    def setFlatInstance(self, value: "FlatInstanceDescriptor") -> "AliasNameAssignment":
+    def setFlatInstance(self, value: FlatInstanceDescriptor) -> AliasNameAssignment:
         """
         AUTOSAR-compliant setter for flatInstance with method chaining.
 
@@ -268,7 +270,7 @@ class AliasNameAssignment(ARObject):
         """
         return self.identifiable  # Delegates to property
 
-    def setIdentifiable(self, value: "Identifiable") -> "AliasNameAssignment":
+    def setIdentifiable(self, value: "Identifiable") -> AliasNameAssignment:
         """
         AUTOSAR-compliant setter for identifiable with method chaining.
 
@@ -296,7 +298,7 @@ class AliasNameAssignment(ARObject):
         """
         return self.label  # Delegates to property
 
-    def setLabel(self, value: "MultilanguageLong") -> "AliasNameAssignment":
+    def setLabel(self, value: "MultilanguageLong") -> AliasNameAssignment:
         """
         AUTOSAR-compliant setter for label with method chaining.
 
@@ -324,7 +326,7 @@ class AliasNameAssignment(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "String") -> "AliasNameAssignment":
+    def setShortLabel(self, value: "String") -> AliasNameAssignment:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -342,7 +344,7 @@ class AliasNameAssignment(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_flat_instance(self, value: Optional["FlatInstanceDescriptor"]) -> "AliasNameAssignment":
+    def with_flat_instance(self, value: Optional[FlatInstanceDescriptor]) -> AliasNameAssignment:
         """
         Set flatInstance and return self for chaining.
 
@@ -358,7 +360,7 @@ class AliasNameAssignment(ARObject):
         self.flat_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_identifiable(self, value: Optional["Identifiable"]) -> "AliasNameAssignment":
+    def with_identifiable(self, value: Optional["Identifiable"]) -> AliasNameAssignment:
         """
         Set identifiable and return self for chaining.
 
@@ -374,7 +376,7 @@ class AliasNameAssignment(ARObject):
         self.identifiable = value  # Use property setter (gets validation)
         return self
 
-    def with_label(self, value: Optional["MultilanguageLong"]) -> "AliasNameAssignment":
+    def with_label(self, value: Optional["MultilanguageLong"]) -> AliasNameAssignment:
         """
         Set label and return self for chaining.
 
@@ -390,7 +392,7 @@ class AliasNameAssignment(ARObject):
         self.label = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["String"]) -> "AliasNameAssignment":
+    def with_short_label(self, value: Optional["String"]) -> AliasNameAssignment:
         """
         Set shortLabel and return self for chaining.
 
@@ -494,15 +496,15 @@ class FlatInstanceDescriptor(Identifiable):
             )
         self._role = value
         # Plug-in.
-        self._rtePluginProps: Optional["RtePluginProps"] = None
+        self._rtePluginProps: Optional[RtePluginProps] = None
 
     @property
-    def rte_plugin_props(self) -> Optional["RtePluginProps"]:
+    def rte_plugin_props(self) -> Optional[RtePluginProps]:
         """Get rtePluginProps (Pythonic accessor)."""
         return self._rtePluginProps
 
     @rte_plugin_props.setter
-    def rte_plugin_props(self, value: Optional["RtePluginProps"]) -> None:
+    def rte_plugin_props(self, value: Optional[RtePluginProps]) -> None:
         """
         Set rtePluginProps with validation.
 
@@ -601,7 +603,7 @@ class FlatInstanceDescriptor(Identifiable):
         """
         return self.ecu_extract  # Delegates to property
 
-    def setEcuExtract(self, value: "AtpFeature") -> "FlatInstanceDescriptor":
+    def setEcuExtract(self, value: "AtpFeature") -> FlatInstanceDescriptor:
         """
         AUTOSAR-compliant setter for ecuExtract with method chaining.
 
@@ -629,7 +631,7 @@ class FlatInstanceDescriptor(Identifiable):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "FlatInstanceDescriptor":
+    def setRole(self, value: "Identifier") -> FlatInstanceDescriptor:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -645,7 +647,7 @@ class FlatInstanceDescriptor(Identifiable):
         self.role = value  # Delegates to property setter
         return self
 
-    def getRtePluginProps(self) -> "RtePluginProps":
+    def getRtePluginProps(self) -> RtePluginProps:
         """
         AUTOSAR-compliant getter for rtePluginProps.
 
@@ -657,7 +659,7 @@ class FlatInstanceDescriptor(Identifiable):
         """
         return self.rte_plugin_props  # Delegates to property
 
-    def setRtePluginProps(self, value: "RtePluginProps") -> "FlatInstanceDescriptor":
+    def setRtePluginProps(self, value: RtePluginProps) -> FlatInstanceDescriptor:
         """
         AUTOSAR-compliant setter for rtePluginProps with method chaining.
 
@@ -685,7 +687,7 @@ class FlatInstanceDescriptor(Identifiable):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> "FlatInstanceDescriptor":
+    def setSwDataDef(self, value: "SwDataDefProps") -> FlatInstanceDescriptor:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -713,7 +715,7 @@ class FlatInstanceDescriptor(Identifiable):
         """
         return self.upstream  # Delegates to property
 
-    def setUpstream(self, value: "AtpFeature") -> "FlatInstanceDescriptor":
+    def setUpstream(self, value: "AtpFeature") -> FlatInstanceDescriptor:
         """
         AUTOSAR-compliant setter for upstream with method chaining.
 
@@ -731,7 +733,7 @@ class FlatInstanceDescriptor(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_extract(self, value: Optional["AtpFeature"]) -> "FlatInstanceDescriptor":
+    def with_ecu_extract(self, value: Optional["AtpFeature"]) -> FlatInstanceDescriptor:
         """
         Set ecuExtract and return self for chaining.
 
@@ -747,7 +749,7 @@ class FlatInstanceDescriptor(Identifiable):
         self.ecu_extract = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: Optional["Identifier"]) -> "FlatInstanceDescriptor":
+    def with_role(self, value: Optional["Identifier"]) -> FlatInstanceDescriptor:
         """
         Set role and return self for chaining.
 
@@ -763,7 +765,7 @@ class FlatInstanceDescriptor(Identifiable):
         self.role = value  # Use property setter (gets validation)
         return self
 
-    def with_rte_plugin_props(self, value: Optional["RtePluginProps"]) -> "FlatInstanceDescriptor":
+    def with_rte_plugin_props(self, value: Optional[RtePluginProps]) -> FlatInstanceDescriptor:
         """
         Set rtePluginProps and return self for chaining.
 
@@ -779,7 +781,7 @@ class FlatInstanceDescriptor(Identifiable):
         self.rte_plugin_props = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "FlatInstanceDescriptor":
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> FlatInstanceDescriptor:
         """
         Set swDataDef and return self for chaining.
 
@@ -795,7 +797,7 @@ class FlatInstanceDescriptor(Identifiable):
         self.sw_data_def = value  # Use property setter (gets validation)
         return self
 
-    def with_upstream(self, value: Optional["AtpFeature"]) -> "FlatInstanceDescriptor":
+    def with_upstream(self, value: Optional["AtpFeature"]) -> FlatInstanceDescriptor:
         """
         Set upstream and return self for chaining.
 
@@ -845,16 +847,16 @@ class FlatMap(ARElement):
         # Plus, the overall size might big that eventually it becomes more manageable
                 # if distributed over several files.
         # atpVariation.
-        self._instance: List["FlatInstanceDescriptor"] = []
+        self._instance: List[FlatInstanceDescriptor] = []
 
     @property
-    def instance(self) -> List["FlatInstanceDescriptor"]:
+    def instance(self) -> List[FlatInstanceDescriptor]:
         """Get instance (Pythonic accessor)."""
         return self._instance
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInstance(self) -> List["FlatInstanceDescriptor"]:
+    def getInstance(self) -> List[FlatInstanceDescriptor]:
         """
         AUTOSAR-compliant getter for instance.
 
@@ -956,7 +958,7 @@ class RtePluginProps(ARObject):
         """
         return self.associated  # Delegates to property
 
-    def setAssociated(self, value: "EcucContainerValue") -> "RtePluginProps":
+    def setAssociated(self, value: "EcucContainerValue") -> RtePluginProps:
         """
         AUTOSAR-compliant setter for associated with method chaining.
 
@@ -984,7 +986,7 @@ class RtePluginProps(ARObject):
         """
         return self.associated_rte  # Delegates to property
 
-    def setAssociatedRte(self, value: "EcucContainerValue") -> "RtePluginProps":
+    def setAssociatedRte(self, value: "EcucContainerValue") -> RtePluginProps:
         """
         AUTOSAR-compliant setter for associatedRte with method chaining.
 
@@ -1002,7 +1004,7 @@ class RtePluginProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_associated(self, value: Optional["EcucContainerValue"]) -> "RtePluginProps":
+    def with_associated(self, value: Optional["EcucContainerValue"]) -> RtePluginProps:
         """
         Set associated and return self for chaining.
 
@@ -1018,7 +1020,7 @@ class RtePluginProps(ARObject):
         self.associated = value  # Use property setter (gets validation)
         return self
 
-    def with_associated_rte(self, value: Optional["EcucContainerValue"]) -> "RtePluginProps":
+    def with_associated_rte(self, value: Optional["EcucContainerValue"]) -> RtePluginProps:
         """
         Set associatedRte and return self for chaining.
 

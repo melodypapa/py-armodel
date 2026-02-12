@@ -4,9 +4,11 @@ AUTOSAR Package - Timing
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     RefType,
 )
@@ -154,7 +156,7 @@ class TransmissionModeDeclaration(ARObject):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "TransmissionMode") -> "TransmissionModeDeclaration":
+    def setTransmission(self, value: "TransmissionMode") -> TransmissionModeDeclaration:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -172,7 +174,7 @@ class TransmissionModeDeclaration(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transmission(self, value: Optional["TransmissionMode"]) -> "TransmissionModeDeclaration":
+    def with_transmission(self, value: Optional["TransmissionMode"]) -> TransmissionModeDeclaration:
         """
         Set transmission and return self for chaining.
 
@@ -272,7 +274,7 @@ class TransmissionModeCondition(ARObject):
         """
         return self.data_filter  # Delegates to property
 
-    def setDataFilter(self, value: "DataFilter") -> "TransmissionModeCondition":
+    def setDataFilter(self, value: "DataFilter") -> TransmissionModeCondition:
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
 
@@ -300,7 +302,7 @@ class TransmissionModeCondition(ARObject):
         """
         return self.i_signal_in_i_pdu  # Delegates to property
 
-    def setISignalInIPdu(self, value: "RefType") -> "TransmissionModeCondition":
+    def setISignalInIPdu(self, value: "RefType") -> TransmissionModeCondition:
         """
         AUTOSAR-compliant setter for iSignalInIPdu with method chaining.
 
@@ -318,7 +320,7 @@ class TransmissionModeCondition(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_filter(self, value: Optional["DataFilter"]) -> "TransmissionModeCondition":
+    def with_data_filter(self, value: Optional["DataFilter"]) -> TransmissionModeCondition:
         """
         Set dataFilter and return self for chaining.
 
@@ -334,7 +336,7 @@ class TransmissionModeCondition(ARObject):
         self.data_filter = value  # Use property setter (gets validation)
         return self
 
-    def with_i_signal_in_i_pdu(self, value: Optional[RefType]) -> "TransmissionModeCondition":
+    def with_i_signal_in_i_pdu(self, value: Optional[RefType]) -> TransmissionModeCondition:
         """
         Set iSignalInIPdu and return self for chaining.
 
@@ -416,15 +418,15 @@ class TransmissionModeTiming(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Periodic Transmission Mode.
-        self._cyclicTiming: Optional["CyclicTiming"] = None
+        self._cyclicTiming: Optional[CyclicTiming] = None
 
     @property
-    def cyclic_timing(self) -> Optional["CyclicTiming"]:
+    def cyclic_timing(self) -> Optional[CyclicTiming]:
         """Get cyclicTiming (Pythonic accessor)."""
         return self._cyclicTiming
 
     @cyclic_timing.setter
-    def cyclic_timing(self, value: Optional["CyclicTiming"]) -> None:
+    def cyclic_timing(self, value: Optional[CyclicTiming]) -> None:
         """
         Set cyclicTiming with validation.
 
@@ -443,15 +445,15 @@ class TransmissionModeTiming(ARObject):
                 f"cyclicTiming must be CyclicTiming or None, got {type(value).__name__}"
             )
         self._cyclicTiming = value
-        self._eventControlledTiming: Optional["EventControlledTiming"] = None
+        self._eventControlledTiming: Optional[EventControlledTiming] = None
 
     @property
-    def event_controlled_timing(self) -> Optional["EventControlledTiming"]:
+    def event_controlled_timing(self) -> Optional[EventControlledTiming]:
         """Get eventControlledTiming (Pythonic accessor)."""
         return self._eventControlledTiming
 
     @event_controlled_timing.setter
-    def event_controlled_timing(self, value: Optional["EventControlledTiming"]) -> None:
+    def event_controlled_timing(self, value: Optional[EventControlledTiming]) -> None:
         """
         Set eventControlledTiming with validation.
 
@@ -473,7 +475,7 @@ class TransmissionModeTiming(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCyclicTiming(self) -> "CyclicTiming":
+    def getCyclicTiming(self) -> CyclicTiming:
         """
         AUTOSAR-compliant getter for cyclicTiming.
 
@@ -485,7 +487,7 @@ class TransmissionModeTiming(ARObject):
         """
         return self.cyclic_timing  # Delegates to property
 
-    def setCyclicTiming(self, value: "CyclicTiming") -> "TransmissionModeTiming":
+    def setCyclicTiming(self, value: CyclicTiming) -> TransmissionModeTiming:
         """
         AUTOSAR-compliant setter for cyclicTiming with method chaining.
 
@@ -501,7 +503,7 @@ class TransmissionModeTiming(ARObject):
         self.cyclic_timing = value  # Delegates to property setter
         return self
 
-    def getEventControlledTiming(self) -> "EventControlledTiming":
+    def getEventControlledTiming(self) -> EventControlledTiming:
         """
         AUTOSAR-compliant getter for eventControlledTiming.
 
@@ -513,7 +515,7 @@ class TransmissionModeTiming(ARObject):
         """
         return self.event_controlled_timing  # Delegates to property
 
-    def setEventControlledTiming(self, value: "EventControlledTiming") -> "TransmissionModeTiming":
+    def setEventControlledTiming(self, value: EventControlledTiming) -> TransmissionModeTiming:
         """
         AUTOSAR-compliant setter for eventControlledTiming with method chaining.
 
@@ -531,7 +533,7 @@ class TransmissionModeTiming(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cyclic_timing(self, value: Optional["CyclicTiming"]) -> "TransmissionModeTiming":
+    def with_cyclic_timing(self, value: Optional[CyclicTiming]) -> TransmissionModeTiming:
         """
         Set cyclicTiming and return self for chaining.
 
@@ -547,7 +549,7 @@ class TransmissionModeTiming(ARObject):
         self.cyclic_timing = value  # Use property setter (gets validation)
         return self
 
-    def with_event_controlled_timing(self, value: Optional["EventControlledTiming"]) -> "TransmissionModeTiming":
+    def with_event_controlled_timing(self, value: Optional[EventControlledTiming]) -> TransmissionModeTiming:
         """
         Set eventControlledTiming and return self for chaining.
 
@@ -581,15 +583,15 @@ class CyclicTiming(Describable):
         # This attribute specifies the time until first transmission of This attribute
         # defines the time between Com_ the first transmission of the cyclic this
         # transmission request for this I-PDU.
-        self._timeOffset: Optional["TimeRangeType"] = None
+        self._timeOffset: Optional[TimeRangeType] = None
 
     @property
-    def time_offset(self) -> Optional["TimeRangeType"]:
+    def time_offset(self) -> Optional[TimeRangeType]:
         """Get timeOffset (Pythonic accessor)."""
         return self._timeOffset
 
     @time_offset.setter
-    def time_offset(self, value: Optional["TimeRangeType"]) -> None:
+    def time_offset(self, value: Optional[TimeRangeType]) -> None:
         """
         Set timeOffset with validation.
 
@@ -608,15 +610,15 @@ class CyclicTiming(Describable):
                 f"timeOffset must be TimeRangeType or None, got {type(value).__name__}"
             )
         self._timeOffset = value
-        self._timePeriod: Optional["TimeRangeType"] = None
+        self._timePeriod: Optional[TimeRangeType] = None
 
     @property
-    def time_period(self) -> Optional["TimeRangeType"]:
+    def time_period(self) -> Optional[TimeRangeType]:
         """Get timePeriod (Pythonic accessor)."""
         return self._timePeriod
 
     @time_period.setter
-    def time_period(self, value: Optional["TimeRangeType"]) -> None:
+    def time_period(self, value: Optional[TimeRangeType]) -> None:
         """
         Set timePeriod with validation.
 
@@ -638,7 +640,7 @@ class CyclicTiming(Describable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTimeOffset(self) -> "TimeRangeType":
+    def getTimeOffset(self) -> TimeRangeType:
         """
         AUTOSAR-compliant getter for timeOffset.
 
@@ -650,7 +652,7 @@ class CyclicTiming(Describable):
         """
         return self.time_offset  # Delegates to property
 
-    def setTimeOffset(self, value: "TimeRangeType") -> "CyclicTiming":
+    def setTimeOffset(self, value: TimeRangeType) -> CyclicTiming:
         """
         AUTOSAR-compliant setter for timeOffset with method chaining.
 
@@ -666,7 +668,7 @@ class CyclicTiming(Describable):
         self.time_offset = value  # Delegates to property setter
         return self
 
-    def getTimePeriod(self) -> "TimeRangeType":
+    def getTimePeriod(self) -> TimeRangeType:
         """
         AUTOSAR-compliant getter for timePeriod.
 
@@ -678,7 +680,7 @@ class CyclicTiming(Describable):
         """
         return self.time_period  # Delegates to property
 
-    def setTimePeriod(self, value: "TimeRangeType") -> "CyclicTiming":
+    def setTimePeriod(self, value: TimeRangeType) -> CyclicTiming:
         """
         AUTOSAR-compliant setter for timePeriod with method chaining.
 
@@ -696,7 +698,7 @@ class CyclicTiming(Describable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_time_offset(self, value: Optional["TimeRangeType"]) -> "CyclicTiming":
+    def with_time_offset(self, value: Optional[TimeRangeType]) -> CyclicTiming:
         """
         Set timeOffset and return self for chaining.
 
@@ -712,7 +714,7 @@ class CyclicTiming(Describable):
         self.time_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_time_period(self, value: Optional["TimeRangeType"]) -> "CyclicTiming":
+    def with_time_period(self, value: Optional[TimeRangeType]) -> CyclicTiming:
         """
         Set timePeriod and return self for chaining.
 
@@ -776,15 +778,15 @@ class EventControlledTiming(Describable):
         self._numberOf = value
                 # the next time gap between two pdus).
         # The repetition optional in case that no repetitions are.
-        self._repetitionPeriod: Optional["TimeRangeType"] = None
+        self._repetitionPeriod: Optional[TimeRangeType] = None
 
     @property
-    def repetition_period(self) -> Optional["TimeRangeType"]:
+    def repetition_period(self) -> Optional[TimeRangeType]:
         """Get repetitionPeriod (Pythonic accessor)."""
         return self._repetitionPeriod
 
     @repetition_period.setter
-    def repetition_period(self, value: Optional["TimeRangeType"]) -> None:
+    def repetition_period(self, value: Optional[TimeRangeType]) -> None:
         """
         Set repetitionPeriod with validation.
 
@@ -818,7 +820,7 @@ class EventControlledTiming(Describable):
         """
         return self.number_of  # Delegates to property
 
-    def setNumberOf(self, value: "Integer") -> "EventControlledTiming":
+    def setNumberOf(self, value: "Integer") -> EventControlledTiming:
         """
         AUTOSAR-compliant setter for numberOf with method chaining.
 
@@ -834,7 +836,7 @@ class EventControlledTiming(Describable):
         self.number_of = value  # Delegates to property setter
         return self
 
-    def getRepetitionPeriod(self) -> "TimeRangeType":
+    def getRepetitionPeriod(self) -> TimeRangeType:
         """
         AUTOSAR-compliant getter for repetitionPeriod.
 
@@ -846,7 +848,7 @@ class EventControlledTiming(Describable):
         """
         return self.repetition_period  # Delegates to property
 
-    def setRepetitionPeriod(self, value: "TimeRangeType") -> "EventControlledTiming":
+    def setRepetitionPeriod(self, value: TimeRangeType) -> EventControlledTiming:
         """
         AUTOSAR-compliant setter for repetitionPeriod with method chaining.
 
@@ -864,7 +866,7 @@ class EventControlledTiming(Describable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_number_of(self, value: Optional["Integer"]) -> "EventControlledTiming":
+    def with_number_of(self, value: Optional["Integer"]) -> EventControlledTiming:
         """
         Set numberOf and return self for chaining.
 
@@ -880,7 +882,7 @@ class EventControlledTiming(Describable):
         self.number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_repetition_period(self, value: Optional["TimeRangeType"]) -> "EventControlledTiming":
+    def with_repetition_period(self, value: Optional[TimeRangeType]) -> EventControlledTiming:
         """
         Set repetitionPeriod and return self for chaining.
 
@@ -913,15 +915,15 @@ class TimeRangeType(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Optional specification of a tolerance.
-        self._toleranceTolerance: Optional["TimeRangeType"] = None
+        self._toleranceTolerance: Optional[TimeRangeType] = None
 
     @property
-    def tolerance_tolerance(self) -> Optional["TimeRangeType"]:
+    def tolerance_tolerance(self) -> Optional[TimeRangeType]:
         """Get toleranceTolerance (Pythonic accessor)."""
         return self._toleranceTolerance
 
     @tolerance_tolerance.setter
-    def tolerance_tolerance(self, value: Optional["TimeRangeType"]) -> None:
+    def tolerance_tolerance(self, value: Optional[TimeRangeType]) -> None:
         """
         Set toleranceTolerance with validation.
 
@@ -970,7 +972,7 @@ class TimeRangeType(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getToleranceTolerance(self) -> "TimeRangeType":
+    def getToleranceTolerance(self) -> TimeRangeType:
         """
         AUTOSAR-compliant getter for toleranceTolerance.
 
@@ -982,7 +984,7 @@ class TimeRangeType(ARObject):
         """
         return self.tolerance_tolerance  # Delegates to property
 
-    def setToleranceTolerance(self, value: "TimeRangeType") -> "TimeRangeType":
+    def setToleranceTolerance(self, value: TimeRangeType) -> TimeRangeType:
         """
         AUTOSAR-compliant setter for toleranceTolerance with method chaining.
 
@@ -1010,7 +1012,7 @@ class TimeRangeType(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "TimeValue") -> "TimeRangeType":
+    def setValue(self, value: "TimeValue") -> TimeRangeType:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1028,7 +1030,7 @@ class TimeRangeType(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tolerance_tolerance(self, value: Optional["TimeRangeType"]) -> "TimeRangeType":
+    def with_tolerance_tolerance(self, value: Optional[TimeRangeType]) -> TimeRangeType:
         """
         Set toleranceTolerance and return self for chaining.
 
@@ -1044,7 +1046,7 @@ class TimeRangeType(ARObject):
         self.tolerance_tolerance = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["TimeValue"]) -> "TimeRangeType":
+    def with_value(self, value: Optional["TimeValue"]) -> TimeRangeType:
         """
         Set value and return self for chaining.
 
@@ -1118,7 +1120,7 @@ class RelativeTolerance(ARObject):
         """
         return self.relative  # Delegates to property
 
-    def setRelative(self, value: "Integer") -> "RelativeTolerance":
+    def setRelative(self, value: "Integer") -> RelativeTolerance:
         """
         AUTOSAR-compliant setter for relative with method chaining.
 
@@ -1136,7 +1138,7 @@ class RelativeTolerance(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_relative(self, value: Optional["Integer"]) -> "RelativeTolerance":
+    def with_relative(self, value: Optional["Integer"]) -> RelativeTolerance:
         """
         Set relative and return self for chaining.
 
@@ -1210,7 +1212,7 @@ class AbsoluteTolerance(ARObject):
         """
         return self.absolute  # Delegates to property
 
-    def setAbsolute(self, value: "TimeValue") -> "AbsoluteTolerance":
+    def setAbsolute(self, value: "TimeValue") -> AbsoluteTolerance:
         """
         AUTOSAR-compliant setter for absolute with method chaining.
 
@@ -1228,7 +1230,7 @@ class AbsoluteTolerance(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_absolute(self, value: Optional["TimeValue"]) -> "AbsoluteTolerance":
+    def with_absolute(self, value: Optional["TimeValue"]) -> AbsoluteTolerance:
         """
         Set absolute and return self for chaining.
 

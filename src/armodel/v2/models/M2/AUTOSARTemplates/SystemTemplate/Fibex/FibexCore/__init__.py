@@ -36,5 +36,5 @@ class FibexElement(PackageableElement, ABC):
 
 
 __all__ = [
-    "FibexElement",
+    FibexElement,
 ]

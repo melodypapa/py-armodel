@@ -4,9 +4,11 @@ AUTOSAR Package - Port
 Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port
 """
 
+
+from __future__ import annotations
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -161,7 +163,7 @@ class PortPrototypeBlueprint(ARElement):
         """
         return self.interface  # Delegates to property
 
-    def setInterface(self, value: "PortInterface") -> "PortPrototypeBlueprint":
+    def setInterface(self, value: "PortInterface") -> PortPrototypeBlueprint:
         """
         AUTOSAR-compliant setter for interface with method chaining.
 
@@ -203,7 +205,7 @@ class PortPrototypeBlueprint(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_interface(self, value: "PortInterface") -> "PortPrototypeBlueprint":
+    def with_interface(self, value: "PortInterface") -> PortPrototypeBlueprint:
         """
         Set interface and return self for chaining.
 
@@ -294,7 +296,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
         """
         return self.data_prototype  # Delegates to property
 
-    def setDataPrototype(self, value: "RefType") -> "PortPrototypeBlueprintInitValue":
+    def setDataPrototype(self, value: "RefType") -> PortPrototypeBlueprintInitValue:
         """
         AUTOSAR-compliant setter for dataPrototype with method chaining.
 
@@ -322,7 +324,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "ValueSpecification") -> "PortPrototypeBlueprintInitValue":
+    def setValue(self, value: "ValueSpecification") -> PortPrototypeBlueprintInitValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -340,7 +342,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_prototype(self, value: RefType) -> "PortPrototypeBlueprintInitValue":
+    def with_data_prototype(self, value: RefType) -> PortPrototypeBlueprintInitValue:
         """
         Set dataPrototype and return self for chaining.
 
@@ -356,7 +358,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
         self.data_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: "ValueSpecification") -> "PortPrototypeBlueprintInitValue":
+    def with_value(self, value: "ValueSpecification") -> PortPrototypeBlueprintInitValue:
         """
         Set value and return self for chaining.
 

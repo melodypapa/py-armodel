@@ -4,9 +4,11 @@ AUTOSAR Package - Filter
 Package: M2::AUTOSARTemplates::CommonStructure::Filter
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -35,15 +37,15 @@ class DataFilter(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute specifies the type of the filter.
-        self._dataFilterType: Optional["DataFilterTypeEnum"] = None
+        self._dataFilterType: Optional[DataFilterTypeEnum] = None
 
     @property
-    def data_filter_type(self) -> Optional["DataFilterTypeEnum"]:
+    def data_filter_type(self) -> Optional[DataFilterTypeEnum]:
         """Get dataFilterType (Pythonic accessor)."""
         return self._dataFilterType
 
     @data_filter_type.setter
-    def data_filter_type(self, value: Optional["DataFilterTypeEnum"]) -> None:
+    def data_filter_type(self, value: Optional[DataFilterTypeEnum]) -> None:
         """
         Set dataFilterType with validation.
 
@@ -227,7 +229,7 @@ class DataFilter(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataFilterType(self) -> "DataFilterTypeEnum":
+    def getDataFilterType(self) -> DataFilterTypeEnum:
         """
         AUTOSAR-compliant getter for dataFilterType.
 
@@ -239,7 +241,7 @@ class DataFilter(ARObject):
         """
         return self.data_filter_type  # Delegates to property
 
-    def setDataFilterType(self, value: "DataFilterTypeEnum") -> "DataFilter":
+    def setDataFilterType(self, value: DataFilterTypeEnum) -> DataFilter:
         """
         AUTOSAR-compliant setter for dataFilterType with method chaining.
 
@@ -267,7 +269,7 @@ class DataFilter(ARObject):
         """
         return self.mask  # Delegates to property
 
-    def setMask(self, value: "UnlimitedInteger") -> "DataFilter":
+    def setMask(self, value: "UnlimitedInteger") -> DataFilter:
         """
         AUTOSAR-compliant setter for mask with method chaining.
 
@@ -295,7 +297,7 @@ class DataFilter(ARObject):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "UnlimitedInteger") -> "DataFilter":
+    def setMax(self, value: "UnlimitedInteger") -> DataFilter:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -323,7 +325,7 @@ class DataFilter(ARObject):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "UnlimitedInteger") -> "DataFilter":
+    def setMin(self, value: "UnlimitedInteger") -> DataFilter:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -351,7 +353,7 @@ class DataFilter(ARObject):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: "PositiveInteger") -> "DataFilter":
+    def setOffset(self, value: "PositiveInteger") -> DataFilter:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -379,7 +381,7 @@ class DataFilter(ARObject):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "PositiveInteger") -> "DataFilter":
+    def setPeriod(self, value: "PositiveInteger") -> DataFilter:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -407,7 +409,7 @@ class DataFilter(ARObject):
         """
         return self.x  # Delegates to property
 
-    def setX(self, value: "UnlimitedInteger") -> "DataFilter":
+    def setX(self, value: "UnlimitedInteger") -> DataFilter:
         """
         AUTOSAR-compliant setter for x with method chaining.
 
@@ -425,7 +427,7 @@ class DataFilter(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_filter_type(self, value: Optional["DataFilterTypeEnum"]) -> "DataFilter":
+    def with_data_filter_type(self, value: Optional[DataFilterTypeEnum]) -> DataFilter:
         """
         Set dataFilterType and return self for chaining.
 
@@ -441,7 +443,7 @@ class DataFilter(ARObject):
         self.data_filter_type = value  # Use property setter (gets validation)
         return self
 
-    def with_mask(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+    def with_mask(self, value: Optional["UnlimitedInteger"]) -> DataFilter:
         """
         Set mask and return self for chaining.
 
@@ -457,7 +459,7 @@ class DataFilter(ARObject):
         self.mask = value  # Use property setter (gets validation)
         return self
 
-    def with_max(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+    def with_max(self, value: Optional["UnlimitedInteger"]) -> DataFilter:
         """
         Set max and return self for chaining.
 
@@ -473,7 +475,7 @@ class DataFilter(ARObject):
         self.max = value  # Use property setter (gets validation)
         return self
 
-    def with_min(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+    def with_min(self, value: Optional["UnlimitedInteger"]) -> DataFilter:
         """
         Set min and return self for chaining.
 
@@ -489,7 +491,7 @@ class DataFilter(ARObject):
         self.min = value  # Use property setter (gets validation)
         return self
 
-    def with_offset(self, value: Optional["PositiveInteger"]) -> "DataFilter":
+    def with_offset(self, value: Optional["PositiveInteger"]) -> DataFilter:
         """
         Set offset and return self for chaining.
 
@@ -505,7 +507,7 @@ class DataFilter(ARObject):
         self.offset = value  # Use property setter (gets validation)
         return self
 
-    def with_period(self, value: Optional["PositiveInteger"]) -> "DataFilter":
+    def with_period(self, value: Optional["PositiveInteger"]) -> DataFilter:
         """
         Set period and return self for chaining.
 
@@ -521,7 +523,7 @@ class DataFilter(ARObject):
         self.period = value  # Use property setter (gets validation)
         return self
 
-    def with_x(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+    def with_x(self, value: Optional["UnlimitedInteger"]) -> DataFilter:
         """
         Set x and return self for chaining.
 

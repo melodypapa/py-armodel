@@ -4,9 +4,11 @@ AUTOSAR Package - Firewall
 Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -59,10 +61,10 @@ class StateDependentFirewall(ARElement):
             )
         self._defaultAction = value
         # Status=candidate.
-        self._firewallRule: List["FirewallRuleProps"] = []
+        self._firewallRule: List[FirewallRuleProps] = []
 
     @property
-    def firewall_rule(self) -> List["FirewallRuleProps"]:
+    def firewall_rule(self) -> List[FirewallRuleProps]:
         """Get firewallRule (Pythonic accessor)."""
         return self._firewallRule
         # Reference to firewall states in which the Firewall is active.
@@ -169,7 +171,7 @@ class StateDependentFirewall(ARElement):
         """
         return self.default_action  # Delegates to property
 
-    def setDefaultAction(self, value: "FirewallActionEnum") -> "StateDependentFirewall":
+    def setDefaultAction(self, value: "FirewallActionEnum") -> StateDependentFirewall:
         """
         AUTOSAR-compliant setter for defaultAction with method chaining.
 
@@ -185,7 +187,7 @@ class StateDependentFirewall(ARElement):
         self.default_action = value  # Delegates to property setter
         return self
 
-    def getFirewallRule(self) -> List["FirewallRuleProps"]:
+    def getFirewallRule(self) -> List[FirewallRuleProps]:
         """
         AUTOSAR-compliant getter for firewallRule.
 
@@ -211,7 +213,7 @@ class StateDependentFirewall(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_action(self, value: Optional["FirewallActionEnum"]) -> "StateDependentFirewall":
+    def with_default_action(self, value: Optional["FirewallActionEnum"]) -> StateDependentFirewall:
         """
         Set defaultAction and return self for chaining.
 
@@ -272,20 +274,20 @@ class FirewallRuleProps(ARObject):
             )
         self._action = value
         # traffic is matched.
-        self._matchingEgress: List["FirewallRule"] = []
+        self._matchingEgress: List[FirewallRule] = []
 
     @property
-    def matching_egress(self) -> List["FirewallRule"]:
+    def matching_egress(self) -> List[FirewallRule]:
         """Get matchingEgress (Pythonic accessor)."""
         return self._matchingEgress
         # This element defines an ingress rule expression against the network traffic
                 # is matched.
         # atp.
         # Status=candidate.
-        self._matching: List["FirewallRule"] = []
+        self._matching: List[FirewallRule] = []
 
     @property
-    def matching(self) -> List["FirewallRule"]:
+    def matching(self) -> List[FirewallRule]:
         """Get matching (Pythonic accessor)."""
         return self._matching
 
@@ -303,7 +305,7 @@ class FirewallRuleProps(ARObject):
         """
         return self.action  # Delegates to property
 
-    def setAction(self, value: "FirewallActionEnum") -> "FirewallRuleProps":
+    def setAction(self, value: "FirewallActionEnum") -> FirewallRuleProps:
         """
         AUTOSAR-compliant setter for action with method chaining.
 
@@ -319,7 +321,7 @@ class FirewallRuleProps(ARObject):
         self.action = value  # Delegates to property setter
         return self
 
-    def getMatchingEgress(self) -> List["FirewallRule"]:
+    def getMatchingEgress(self) -> List[FirewallRule]:
         """
         AUTOSAR-compliant getter for matchingEgress.
 
@@ -331,7 +333,7 @@ class FirewallRuleProps(ARObject):
         """
         return self.matching_egress  # Delegates to property
 
-    def getMatching(self) -> List["FirewallRule"]:
+    def getMatching(self) -> List[FirewallRule]:
         """
         AUTOSAR-compliant getter for matching.
 
@@ -345,7 +347,7 @@ class FirewallRuleProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_action(self, value: Optional["FirewallActionEnum"]) -> "FirewallRuleProps":
+    def with_action(self, value: Optional["FirewallActionEnum"]) -> FirewallRuleProps:
         """
         Set action and return self for chaining.
 
@@ -648,7 +650,7 @@ class FirewallRule(ARElement):
         """
         return self.bucket_size  # Delegates to property
 
-    def setBucketSize(self, value: "PositiveInteger") -> "FirewallRule":
+    def setBucketSize(self, value: "PositiveInteger") -> FirewallRule:
         """
         AUTOSAR-compliant setter for bucketSize with method chaining.
 
@@ -676,7 +678,7 @@ class FirewallRule(ARElement):
         """
         return self.data_link_layer  # Delegates to property
 
-    def setDataLinkLayer(self, value: "DataLinkLayerRule") -> "FirewallRule":
+    def setDataLinkLayer(self, value: "DataLinkLayerRule") -> FirewallRule:
         """
         AUTOSAR-compliant setter for dataLinkLayer with method chaining.
 
@@ -704,7 +706,7 @@ class FirewallRule(ARElement):
         """
         return self.dds_rule  # Delegates to property
 
-    def setDdsRule(self, value: "DdsRule") -> "FirewallRule":
+    def setDdsRule(self, value: "DdsRule") -> FirewallRule:
         """
         AUTOSAR-compliant setter for ddsRule with method chaining.
 
@@ -732,7 +734,7 @@ class FirewallRule(ARElement):
         """
         return self.do_ip_rule  # Delegates to property
 
-    def setDoIpRule(self, value: "DoIpRule") -> "FirewallRule":
+    def setDoIpRule(self, value: "DoIpRule") -> FirewallRule:
         """
         AUTOSAR-compliant setter for doIpRule with method chaining.
 
@@ -760,7 +762,7 @@ class FirewallRule(ARElement):
         """
         return self.network_layer  # Delegates to property
 
-    def setNetworkLayer(self, value: "NetworkLayerRule") -> "FirewallRule":
+    def setNetworkLayer(self, value: "NetworkLayerRule") -> FirewallRule:
         """
         AUTOSAR-compliant setter for networkLayer with method chaining.
 
@@ -800,7 +802,7 @@ class FirewallRule(ARElement):
         """
         return self.refill_amount  # Delegates to property
 
-    def setRefillAmount(self, value: "PositiveInteger") -> "FirewallRule":
+    def setRefillAmount(self, value: "PositiveInteger") -> FirewallRule:
         """
         AUTOSAR-compliant setter for refillAmount with method chaining.
 
@@ -828,7 +830,7 @@ class FirewallRule(ARElement):
         """
         return self.someip_rule  # Delegates to property
 
-    def setSomeipRule(self, value: "SomeipProtocolRule") -> "FirewallRule":
+    def setSomeipRule(self, value: "SomeipProtocolRule") -> FirewallRule:
         """
         AUTOSAR-compliant setter for someipRule with method chaining.
 
@@ -856,7 +858,7 @@ class FirewallRule(ARElement):
         """
         return self.someip_sd_rule  # Delegates to property
 
-    def setSomeipSdRule(self, value: "SomeipSdRule") -> "FirewallRule":
+    def setSomeipSdRule(self, value: "SomeipSdRule") -> FirewallRule:
         """
         AUTOSAR-compliant setter for someipSdRule with method chaining.
 
@@ -884,7 +886,7 @@ class FirewallRule(ARElement):
         """
         return self.transport_layer  # Delegates to property
 
-    def setTransportLayer(self, value: "TransportLayerRule") -> "FirewallRule":
+    def setTransportLayer(self, value: "TransportLayerRule") -> FirewallRule:
         """
         AUTOSAR-compliant setter for transportLayer with method chaining.
 
@@ -902,7 +904,7 @@ class FirewallRule(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bucket_size(self, value: Optional["PositiveInteger"]) -> "FirewallRule":
+    def with_bucket_size(self, value: Optional["PositiveInteger"]) -> FirewallRule:
         """
         Set bucketSize and return self for chaining.
 
@@ -918,7 +920,7 @@ class FirewallRule(ARElement):
         self.bucket_size = value  # Use property setter (gets validation)
         return self
 
-    def with_data_link_layer(self, value: Optional["DataLinkLayerRule"]) -> "FirewallRule":
+    def with_data_link_layer(self, value: Optional["DataLinkLayerRule"]) -> FirewallRule:
         """
         Set dataLinkLayer and return self for chaining.
 
@@ -934,7 +936,7 @@ class FirewallRule(ARElement):
         self.data_link_layer = value  # Use property setter (gets validation)
         return self
 
-    def with_dds_rule(self, value: Optional["DdsRule"]) -> "FirewallRule":
+    def with_dds_rule(self, value: Optional["DdsRule"]) -> FirewallRule:
         """
         Set ddsRule and return self for chaining.
 
@@ -950,7 +952,7 @@ class FirewallRule(ARElement):
         self.dds_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_do_ip_rule(self, value: Optional["DoIpRule"]) -> "FirewallRule":
+    def with_do_ip_rule(self, value: Optional["DoIpRule"]) -> FirewallRule:
         """
         Set doIpRule and return self for chaining.
 
@@ -966,7 +968,7 @@ class FirewallRule(ARElement):
         self.do_ip_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_network_layer(self, value: Optional["NetworkLayerRule"]) -> "FirewallRule":
+    def with_network_layer(self, value: Optional["NetworkLayerRule"]) -> FirewallRule:
         """
         Set networkLayer and return self for chaining.
 
@@ -982,7 +984,7 @@ class FirewallRule(ARElement):
         self.network_layer = value  # Use property setter (gets validation)
         return self
 
-    def with_refill_amount(self, value: Optional["PositiveInteger"]) -> "FirewallRule":
+    def with_refill_amount(self, value: Optional["PositiveInteger"]) -> FirewallRule:
         """
         Set refillAmount and return self for chaining.
 
@@ -998,7 +1000,7 @@ class FirewallRule(ARElement):
         self.refill_amount = value  # Use property setter (gets validation)
         return self
 
-    def with_someip_rule(self, value: Optional["SomeipProtocolRule"]) -> "FirewallRule":
+    def with_someip_rule(self, value: Optional["SomeipProtocolRule"]) -> FirewallRule:
         """
         Set someipRule and return self for chaining.
 
@@ -1014,7 +1016,7 @@ class FirewallRule(ARElement):
         self.someip_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_someip_sd_rule(self, value: Optional["SomeipSdRule"]) -> "FirewallRule":
+    def with_someip_sd_rule(self, value: Optional["SomeipSdRule"]) -> FirewallRule:
         """
         Set someipSdRule and return self for chaining.
 
@@ -1030,7 +1032,7 @@ class FirewallRule(ARElement):
         self.someip_sd_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_transport_layer(self, value: Optional["TransportLayerRule"]) -> "FirewallRule":
+    def with_transport_layer(self, value: Optional["TransportLayerRule"]) -> FirewallRule:
         """
         Set transportLayer and return self for chaining.
 

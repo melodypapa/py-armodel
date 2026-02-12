@@ -4,10 +4,12 @@ AUTOSAR Package - BswBehavior
 Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     PositiveInteger,
@@ -97,18 +99,18 @@ class BswInternalBehavior(InternalBehavior):
         """Get distinguished (Pythonic accessor)."""
         return self._distinguished
         # A code entity for which the behavior is described atpVariation.
-        self._entity: List["BswModuleEntity"] = []
+        self._entity: List[BswModuleEntity] = []
 
     @property
-    def entity(self) -> List["BswModuleEntity"]:
+    def entity(self) -> List[BswModuleEntity]:
         """Get entity (Pythonic accessor)."""
         return self._entity
         # An event required by this module behavior.
         # atpVariation.
-        self._event: List["BswEvent"] = []
+        self._event: List[BswEvent] = []
 
     @property
-    def event(self) -> List["BswEvent"]:
+    def event(self) -> List[BswEvent]:
         """Get event (Pythonic accessor)."""
         return self._event
         # Policy for an ExclusiveArea in this BswInternalBehavior.
@@ -152,10 +154,10 @@ class BswInternalBehavior(InternalBehavior):
         return self._modeReceiver
         # Implementation policy for providing a mode group.
         # atpSplitable; atpVariation.
-        self._modeSender: List["BswModeSenderPolicy"] = []
+        self._modeSender: List[BswModeSenderPolicy] = []
 
     @property
-    def mode_sender(self) -> List["BswModeSenderPolicy"]:
+    def mode_sender(self) -> List[BswModeSenderPolicy]:
         """Get modeSender (Pythonic accessor)."""
         return self._modeSender
         # Policy for a perInstanceParameter in this BswInternal policy selects the
@@ -790,7 +792,7 @@ class BswInternalBehavior(InternalBehavior):
         """
         return self.distinguished  # Delegates to property
 
-    def getEntity(self) -> List["BswModuleEntity"]:
+    def getEntity(self) -> List[BswModuleEntity]:
         """
         AUTOSAR-compliant getter for entity.
 
@@ -802,7 +804,7 @@ class BswInternalBehavior(InternalBehavior):
         """
         return self.entity  # Delegates to property
 
-    def getEvent(self) -> List["BswEvent"]:
+    def getEvent(self) -> List[BswEvent]:
         """
         AUTOSAR-compliant getter for event.
 
@@ -874,7 +876,7 @@ class BswInternalBehavior(InternalBehavior):
         """
         return self.mode_receiver  # Delegates to property
 
-    def getModeSender(self) -> List["BswModeSenderPolicy"]:
+    def getModeSender(self) -> List[BswModeSenderPolicy]:
         """
         AUTOSAR-compliant getter for modeSender.
 
@@ -1039,26 +1041,26 @@ class BswModuleEntity(ExecutableEntity, ABC):
         # A call point used in the code of this entity.
         # of this association is especially targeted at It is possible to have one
                 # variant calling AUTOSAR debug module and another one which atpVariation.
-        self._callPoint: List["BswModuleCallPoint"] = []
+        self._callPoint: List[BswModuleCallPoint] = []
 
     @property
-    def call_point(self) -> List["BswModuleCallPoint"]:
+    def call_point(self) -> List[BswModuleCallPoint]:
         """Get callPoint (Pythonic accessor)."""
         return self._callPoint
         # The data is received via the BSW Scheduler.
         # atpSplitable; atpVariation.
-        self._dataReceive: List["BswVariableAccess"] = []
+        self._dataReceive: List[BswVariableAccess] = []
 
     @property
-    def data_receive(self) -> List["BswVariableAccess"]:
+    def data_receive(self) -> List[BswVariableAccess]:
         """Get dataReceive (Pythonic accessor)."""
         return self._dataReceive
         # The data is sent via the BSW Scheduler.
         # atpVariation.
-        self._dataSendPoint: List["BswVariableAccess"] = []
+        self._dataSendPoint: List[BswVariableAccess] = []
 
     @property
-    def data_send_point(self) -> List["BswVariableAccess"]:
+    def data_send_point(self) -> List[BswVariableAccess]:
         """Get dataSendPoint (Pythonic accessor)."""
         return self._dataSendPoint
         # The entry which is implemented by this module entity.
@@ -1168,7 +1170,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         """
         return self.activation_point  # Delegates to property
 
-    def getCallPoint(self) -> List["BswModuleCallPoint"]:
+    def getCallPoint(self) -> List[BswModuleCallPoint]:
         """
         AUTOSAR-compliant getter for callPoint.
 
@@ -1180,7 +1182,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         """
         return self.call_point  # Delegates to property
 
-    def getDataReceive(self) -> List["BswVariableAccess"]:
+    def getDataReceive(self) -> List[BswVariableAccess]:
         """
         AUTOSAR-compliant getter for dataReceive.
 
@@ -1192,7 +1194,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         """
         return self.data_receive  # Delegates to property
 
-    def getDataSendPoint(self) -> List["BswVariableAccess"]:
+    def getDataSendPoint(self) -> List[BswVariableAccess]:
         """
         AUTOSAR-compliant getter for dataSendPoint.
 
@@ -1216,7 +1218,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         """
         return self.implemented  # Delegates to property
 
-    def setImplemented(self, value: "BswModuleEntry") -> "BswModuleEntity":
+    def setImplemented(self, value: "BswModuleEntry") -> BswModuleEntity:
         """
         AUTOSAR-compliant setter for implemented with method chaining.
 
@@ -1268,7 +1270,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         """
         return self.scheduler_name  # Delegates to property
 
-    def setSchedulerName(self, value: "BswSchedulerName") -> "BswModuleEntity":
+    def setSchedulerName(self, value: "BswSchedulerName") -> BswModuleEntity:
         """
         AUTOSAR-compliant setter for schedulerName with method chaining.
 
@@ -1286,7 +1288,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_implemented(self, value: Optional["BswModuleEntry"]) -> "BswModuleEntity":
+    def with_implemented(self, value: Optional["BswModuleEntry"]) -> BswModuleEntity:
         """
         Set implemented and return self for chaining.
 
@@ -1302,7 +1304,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         self.implemented = value  # Use property setter (gets validation)
         return self
 
-    def with_scheduler_name(self, value: Optional["BswSchedulerName"]) -> "BswModuleEntity":
+    def with_scheduler_name(self, value: Optional["BswSchedulerName"]) -> BswModuleEntity:
         """
         Set schedulerName and return self for chaining.
 
@@ -1426,7 +1428,7 @@ class BswVariableAccess(Referrable):
         """
         return self.accessed_variable  # Delegates to property
 
-    def setAccessedVariable(self, value: "RefType") -> "BswVariableAccess":
+    def setAccessedVariable(self, value: "RefType") -> BswVariableAccess:
         """
         AUTOSAR-compliant setter for accessedVariable with method chaining.
 
@@ -1456,7 +1458,7 @@ class BswVariableAccess(Referrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accessed_variable(self, value: Optional[RefType]) -> "BswVariableAccess":
+    def with_accessed_variable(self, value: Optional[RefType]) -> BswVariableAccess:
         """
         Set accessedVariable and return self for chaining.
 
@@ -1561,7 +1563,7 @@ class BswExclusiveAreaPolicy(ARObject):
         """
         return self.api_principle  # Delegates to property
 
-    def setApiPrinciple(self, value: "ApiPrincipleEnum") -> "BswExclusiveAreaPolicy":
+    def setApiPrinciple(self, value: "ApiPrincipleEnum") -> BswExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for apiPrinciple with method chaining.
 
@@ -1589,7 +1591,7 @@ class BswExclusiveAreaPolicy(ARObject):
         """
         return self.exclusive_area  # Delegates to property
 
-    def setExclusiveArea(self, value: "ExclusiveArea") -> "BswExclusiveAreaPolicy":
+    def setExclusiveArea(self, value: "ExclusiveArea") -> BswExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
 
@@ -1607,7 +1609,7 @@ class BswExclusiveAreaPolicy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> "BswExclusiveAreaPolicy":
+    def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> BswExclusiveAreaPolicy:
         """
         Set apiPrinciple and return self for chaining.
 
@@ -1623,7 +1625,7 @@ class BswExclusiveAreaPolicy(ARObject):
         self.api_principle = value  # Use property setter (gets validation)
         return self
 
-    def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> "BswExclusiveAreaPolicy":
+    def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> BswExclusiveAreaPolicy:
         """
         Set exclusiveArea and return self for chaining.
 
@@ -1699,15 +1701,15 @@ class BswEvent(AbstractEvent, ABC):
         """Get disabledInModeDescriptionInstanceRef (Pythonic accessor)."""
         return self._disabledInModeDescriptionInstanceRef
         # The entity which is started by the event.
-        self._startsOnEvent: Optional["BswModuleEntity"] = None
+        self._startsOnEvent: Optional[BswModuleEntity] = None
 
     @property
-    def starts_on_event(self) -> Optional["BswModuleEntity"]:
+    def starts_on_event(self) -> Optional[BswModuleEntity]:
         """Get startsOnEvent (Pythonic accessor)."""
         return self._startsOnEvent
 
     @starts_on_event.setter
-    def starts_on_event(self, value: Optional["BswModuleEntity"]) -> None:
+    def starts_on_event(self, value: Optional[BswModuleEntity]) -> None:
         """
         Set startsOnEvent with validation.
 
@@ -1753,7 +1755,7 @@ class BswEvent(AbstractEvent, ABC):
         """
         return self.disabled_in_mode_description_instance_ref  # Delegates to property
 
-    def getStartsOnEvent(self) -> "BswModuleEntity":
+    def getStartsOnEvent(self) -> BswModuleEntity:
         """
         AUTOSAR-compliant getter for startsOnEvent.
 
@@ -1765,7 +1767,7 @@ class BswEvent(AbstractEvent, ABC):
         """
         return self.starts_on_event  # Delegates to property
 
-    def setStartsOnEvent(self, value: "BswModuleEntity") -> "BswEvent":
+    def setStartsOnEvent(self, value: BswModuleEntity) -> BswEvent:
         """
         AUTOSAR-compliant setter for startsOnEvent with method chaining.
 
@@ -1783,7 +1785,7 @@ class BswEvent(AbstractEvent, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_starts_on_event(self, value: Optional["BswModuleEntity"]) -> "BswEvent":
+    def with_starts_on_event(self, value: Optional[BswModuleEntity]) -> BswEvent:
         """
         Set startsOnEvent and return self for chaining.
 
@@ -1860,7 +1862,7 @@ class BswInternalTriggeringPoint(Identifiable):
         """
         return self.sw_impl_policy  # Delegates to property
 
-    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> "BswInternalTriggeringPoint":
+    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> BswInternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
 
@@ -1878,7 +1880,7 @@ class BswInternalTriggeringPoint(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> "BswInternalTriggeringPoint":
+    def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> BswInternalTriggeringPoint:
         """
         Set swImplPolicy and return self for chaining.
 
@@ -2019,7 +2021,7 @@ class BswTriggerDirectImplementation(ARObject):
         """
         return self.cat2_isr  # Delegates to property
 
-    def setCat2Isr(self, value: "Identifier") -> "BswTriggerDirectImplementation":
+    def setCat2Isr(self, value: "Identifier") -> BswTriggerDirectImplementation:
         """
         AUTOSAR-compliant setter for cat2Isr with method chaining.
 
@@ -2047,7 +2049,7 @@ class BswTriggerDirectImplementation(ARObject):
         """
         return self.mastered_trigger  # Delegates to property
 
-    def setMasteredTrigger(self, value: "RefType") -> "BswTriggerDirectImplementation":
+    def setMasteredTrigger(self, value: "RefType") -> BswTriggerDirectImplementation:
         """
         AUTOSAR-compliant setter for masteredTrigger with method chaining.
 
@@ -2075,7 +2077,7 @@ class BswTriggerDirectImplementation(ARObject):
         """
         return self.task  # Delegates to property
 
-    def setTask(self, value: "Identifier") -> "BswTriggerDirectImplementation":
+    def setTask(self, value: "Identifier") -> BswTriggerDirectImplementation:
         """
         AUTOSAR-compliant setter for task with method chaining.
 
@@ -2093,7 +2095,7 @@ class BswTriggerDirectImplementation(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cat2_isr(self, value: Optional["Identifier"]) -> "BswTriggerDirectImplementation":
+    def with_cat2_isr(self, value: Optional["Identifier"]) -> BswTriggerDirectImplementation:
         """
         Set cat2Isr and return self for chaining.
 
@@ -2109,7 +2111,7 @@ class BswTriggerDirectImplementation(ARObject):
         self.cat2_isr = value  # Use property setter (gets validation)
         return self
 
-    def with_mastered_trigger(self, value: Optional[RefType]) -> "BswTriggerDirectImplementation":
+    def with_mastered_trigger(self, value: Optional[RefType]) -> BswTriggerDirectImplementation:
         """
         Set masteredTrigger and return self for chaining.
 
@@ -2125,7 +2127,7 @@ class BswTriggerDirectImplementation(ARObject):
         self.mastered_trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_task(self, value: Optional["Identifier"]) -> "BswTriggerDirectImplementation":
+    def with_task(self, value: Optional["Identifier"]) -> BswTriggerDirectImplementation:
         """
         Set task and return self for chaining.
 
@@ -2287,7 +2289,7 @@ class BswModeSenderPolicy(ARObject):
         """
         return self.ack_request_request  # Delegates to property
 
-    def setAckRequestRequest(self, value: "BswModeSwitchAck") -> "BswModeSenderPolicy":
+    def setAckRequestRequest(self, value: "BswModeSwitchAck") -> BswModeSenderPolicy:
         """
         AUTOSAR-compliant setter for ackRequestRequest with method chaining.
 
@@ -2315,7 +2317,7 @@ class BswModeSenderPolicy(ARObject):
         """
         return self.enhanced_mode  # Delegates to property
 
-    def setEnhancedMode(self, value: "Boolean") -> "BswModeSenderPolicy":
+    def setEnhancedMode(self, value: "Boolean") -> BswModeSenderPolicy:
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
 
@@ -2343,7 +2345,7 @@ class BswModeSenderPolicy(ARObject):
         """
         return self.provided_mode  # Delegates to property
 
-    def setProvidedMode(self, value: "RefType") -> "BswModeSenderPolicy":
+    def setProvidedMode(self, value: "RefType") -> BswModeSenderPolicy:
         """
         AUTOSAR-compliant setter for providedMode with method chaining.
 
@@ -2371,7 +2373,7 @@ class BswModeSenderPolicy(ARObject):
         """
         return self.queue_length  # Delegates to property
 
-    def setQueueLength(self, value: "PositiveInteger") -> "BswModeSenderPolicy":
+    def setQueueLength(self, value: "PositiveInteger") -> BswModeSenderPolicy:
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
 
@@ -2389,7 +2391,7 @@ class BswModeSenderPolicy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ack_request_request(self, value: Optional["BswModeSwitchAck"]) -> "BswModeSenderPolicy":
+    def with_ack_request_request(self, value: Optional["BswModeSwitchAck"]) -> BswModeSenderPolicy:
         """
         Set ackRequestRequest and return self for chaining.
 
@@ -2405,7 +2407,7 @@ class BswModeSenderPolicy(ARObject):
         self.ack_request_request = value  # Use property setter (gets validation)
         return self
 
-    def with_enhanced_mode(self, value: Optional["Boolean"]) -> "BswModeSenderPolicy":
+    def with_enhanced_mode(self, value: Optional["Boolean"]) -> BswModeSenderPolicy:
         """
         Set enhancedMode and return self for chaining.
 
@@ -2421,7 +2423,7 @@ class BswModeSenderPolicy(ARObject):
         self.enhanced_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_provided_mode(self, value: Optional[RefType]) -> "BswModeSenderPolicy":
+    def with_provided_mode(self, value: Optional[RefType]) -> BswModeSenderPolicy:
         """
         Set providedMode and return self for chaining.
 
@@ -2437,7 +2439,7 @@ class BswModeSenderPolicy(ARObject):
         self.provided_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_queue_length(self, value: Optional["PositiveInteger"]) -> "BswModeSenderPolicy":
+    def with_queue_length(self, value: Optional["PositiveInteger"]) -> BswModeSenderPolicy:
         """
         Set queueLength and return self for chaining.
 
@@ -2512,7 +2514,7 @@ class BswModeSwitchAckRequest(ARObject):
         """
         return self.timeout  # Delegates to property
 
-    def setTimeout(self, value: "TimeValue") -> "BswModeSwitchAckRequest":
+    def setTimeout(self, value: "TimeValue") -> BswModeSwitchAckRequest:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
 
@@ -2530,7 +2532,7 @@ class BswModeSwitchAckRequest(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_timeout(self, value: Optional["TimeValue"]) -> "BswModeSwitchAckRequest":
+    def with_timeout(self, value: Optional["TimeValue"]) -> BswModeSwitchAckRequest:
         """
         Set timeout and return self for chaining.
 
@@ -2660,7 +2662,7 @@ class BswModeReceiverPolicy(ARObject):
         """
         return self.enhanced_mode  # Delegates to property
 
-    def setEnhancedMode(self, value: "Boolean") -> "BswModeReceiverPolicy":
+    def setEnhancedMode(self, value: "Boolean") -> BswModeReceiverPolicy:
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
 
@@ -2688,7 +2690,7 @@ class BswModeReceiverPolicy(ARObject):
         """
         return self.required_mode  # Delegates to property
 
-    def setRequiredMode(self, value: "RefType") -> "BswModeReceiverPolicy":
+    def setRequiredMode(self, value: "RefType") -> BswModeReceiverPolicy:
         """
         AUTOSAR-compliant setter for requiredMode with method chaining.
 
@@ -2716,7 +2718,7 @@ class BswModeReceiverPolicy(ARObject):
         """
         return self.supports  # Delegates to property
 
-    def setSupports(self, value: "Boolean") -> "BswModeReceiverPolicy":
+    def setSupports(self, value: "Boolean") -> BswModeReceiverPolicy:
         """
         AUTOSAR-compliant setter for supports with method chaining.
 
@@ -2734,7 +2736,7 @@ class BswModeReceiverPolicy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_enhanced_mode(self, value: Optional["Boolean"]) -> "BswModeReceiverPolicy":
+    def with_enhanced_mode(self, value: Optional["Boolean"]) -> BswModeReceiverPolicy:
         """
         Set enhancedMode and return self for chaining.
 
@@ -2750,7 +2752,7 @@ class BswModeReceiverPolicy(ARObject):
         self.enhanced_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_required_mode(self, value: Optional[RefType]) -> "BswModeReceiverPolicy":
+    def with_required_mode(self, value: Optional[RefType]) -> BswModeReceiverPolicy:
         """
         Set requiredMode and return self for chaining.
 
@@ -2766,7 +2768,7 @@ class BswModeReceiverPolicy(ARObject):
         self.required_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_supports(self, value: Optional["Boolean"]) -> "BswModeReceiverPolicy":
+    def with_supports(self, value: Optional["Boolean"]) -> BswModeReceiverPolicy:
         """
         Set supports and return self for chaining.
 
@@ -2841,7 +2843,7 @@ class BswDataReceptionPolicy(ARObject, ABC):
         """
         return self.received_data  # Delegates to property
 
-    def setReceivedData(self, value: "RefType") -> "BswDataReceptionPolicy":
+    def setReceivedData(self, value: "RefType") -> BswDataReceptionPolicy:
         """
         AUTOSAR-compliant setter for receivedData with method chaining.
 
@@ -2859,7 +2861,7 @@ class BswDataReceptionPolicy(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_received_data(self, value: Optional[RefType]) -> "BswDataReceptionPolicy":
+    def with_received_data(self, value: Optional[RefType]) -> BswDataReceptionPolicy:
         """
         Set receivedData and return self for chaining.
 
@@ -3033,7 +3035,7 @@ class BswServiceDependency(ServiceDependency):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "BswService") -> "BswServiceDependency":
+    def setIdent(self, value: "BswService") -> BswServiceDependency:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -3061,7 +3063,7 @@ class BswServiceDependency(ServiceDependency):
         """
         return self.service_needs  # Delegates to property
 
-    def setServiceNeeds(self, value: "ServiceNeeds") -> "BswServiceDependency":
+    def setServiceNeeds(self, value: "ServiceNeeds") -> BswServiceDependency:
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
 
@@ -3079,7 +3081,7 @@ class BswServiceDependency(ServiceDependency):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ident(self, value: Optional["BswService"]) -> "BswServiceDependency":
+    def with_ident(self, value: Optional["BswService"]) -> BswServiceDependency:
         """
         Set ident and return self for chaining.
 
@@ -3095,7 +3097,7 @@ class BswServiceDependency(ServiceDependency):
         self.ident = value  # Use property setter (gets validation)
         return self
 
-    def with_service_needs(self, value: Optional["ServiceNeeds"]) -> "BswServiceDependency":
+    def with_service_needs(self, value: Optional["ServiceNeeds"]) -> BswServiceDependency:
         """
         Set serviceNeeds and return self for chaining.
 
@@ -3208,7 +3210,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         """
         return self.assigned_entry  # Delegates to property
 
-    def setAssignedEntry(self, value: "BswModuleEntry") -> "RoleBasedBswModuleEntryAssignment":
+    def setAssignedEntry(self, value: "BswModuleEntry") -> RoleBasedBswModuleEntryAssignment:
         """
         AUTOSAR-compliant setter for assignedEntry with method chaining.
 
@@ -3236,7 +3238,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "RoleBasedBswModuleEntryAssignment":
+    def setRole(self, value: "Identifier") -> RoleBasedBswModuleEntryAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -3254,7 +3256,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_assigned_entry(self, value: Optional["BswModuleEntry"]) -> "RoleBasedBswModuleEntryAssignment":
+    def with_assigned_entry(self, value: Optional["BswModuleEntry"]) -> RoleBasedBswModuleEntryAssignment:
         """
         Set assignedEntry and return self for chaining.
 
@@ -3270,7 +3272,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         self.assigned_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: Optional["Identifier"]) -> "RoleBasedBswModuleEntryAssignment":
+    def with_role(self, value: Optional["Identifier"]) -> RoleBasedBswModuleEntryAssignment:
         """
         Set role and return self for chaining.
 
@@ -3352,15 +3354,15 @@ class BswInterruptEntity(BswModuleEntity):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Category of the interrupt.
-        self._interruptCategory: Optional["BswInterruptCategory"] = None
+        self._interruptCategory: Optional[BswInterruptCategory] = None
 
     @property
-    def interrupt_category(self) -> Optional["BswInterruptCategory"]:
+    def interrupt_category(self) -> Optional[BswInterruptCategory]:
         """Get interruptCategory (Pythonic accessor)."""
         return self._interruptCategory
 
     @interrupt_category.setter
-    def interrupt_category(self, value: Optional["BswInterruptCategory"]) -> None:
+    def interrupt_category(self, value: Optional[BswInterruptCategory]) -> None:
         """
         Set interruptCategory with validation.
 
@@ -3409,7 +3411,7 @@ class BswInterruptEntity(BswModuleEntity):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInterruptCategory(self) -> "BswInterruptCategory":
+    def getInterruptCategory(self) -> BswInterruptCategory:
         """
         AUTOSAR-compliant getter for interruptCategory.
 
@@ -3421,7 +3423,7 @@ class BswInterruptEntity(BswModuleEntity):
         """
         return self.interrupt_category  # Delegates to property
 
-    def setInterruptCategory(self, value: "BswInterruptCategory") -> "BswInterruptEntity":
+    def setInterruptCategory(self, value: BswInterruptCategory) -> BswInterruptEntity:
         """
         AUTOSAR-compliant setter for interruptCategory with method chaining.
 
@@ -3449,7 +3451,7 @@ class BswInterruptEntity(BswModuleEntity):
         """
         return self.interrupt_source  # Delegates to property
 
-    def setInterruptSource(self, value: "String") -> "BswInterruptEntity":
+    def setInterruptSource(self, value: "String") -> BswInterruptEntity:
         """
         AUTOSAR-compliant setter for interruptSource with method chaining.
 
@@ -3467,7 +3469,7 @@ class BswInterruptEntity(BswModuleEntity):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_interrupt_category(self, value: Optional["BswInterruptCategory"]) -> "BswInterruptEntity":
+    def with_interrupt_category(self, value: Optional[BswInterruptCategory]) -> BswInterruptEntity:
         """
         Set interruptCategory and return self for chaining.
 
@@ -3483,7 +3485,7 @@ class BswInterruptEntity(BswModuleEntity):
         self.interrupt_category = value  # Use property setter (gets validation)
         return self
 
-    def with_interrupt_source(self, value: Optional["String"]) -> "BswInterruptEntity":
+    def with_interrupt_source(self, value: Optional["String"]) -> BswInterruptEntity:
         """
         Set interruptSource and return self for chaining.
 
@@ -3589,7 +3591,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
         """
         return self.called_entry  # Delegates to property
 
-    def setCalledEntry(self, value: "BswModuleEntry") -> "BswDirectCallPoint":
+    def setCalledEntry(self, value: "BswModuleEntry") -> BswDirectCallPoint:
         """
         AUTOSAR-compliant setter for calledEntry with method chaining.
 
@@ -3617,7 +3619,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
         """
         return self.called_from  # Delegates to property
 
-    def setCalledFrom(self, value: "ExclusiveAreaNesting") -> "BswDirectCallPoint":
+    def setCalledFrom(self, value: "ExclusiveAreaNesting") -> BswDirectCallPoint:
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
 
@@ -3635,7 +3637,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_called_entry(self, value: Optional["BswModuleEntry"]) -> "BswDirectCallPoint":
+    def with_called_entry(self, value: Optional["BswModuleEntry"]) -> BswDirectCallPoint:
         """
         Set calledEntry and return self for chaining.
 
@@ -3651,7 +3653,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
         self.called_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> "BswDirectCallPoint":
+    def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> BswDirectCallPoint:
         """
         Set calledFrom and return self for chaining.
 
@@ -3754,7 +3756,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
         """
         return self.called_entry_entry  # Delegates to property
 
-    def setCalledEntryEntry(self, value: "BswModuleClientServer") -> "BswSynchronousServerCallPoint":
+    def setCalledEntryEntry(self, value: "BswModuleClientServer") -> BswSynchronousServerCallPoint:
         """
         AUTOSAR-compliant setter for calledEntryEntry with method chaining.
 
@@ -3782,7 +3784,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
         """
         return self.called_from  # Delegates to property
 
-    def setCalledFrom(self, value: "ExclusiveAreaNesting") -> "BswSynchronousServerCallPoint":
+    def setCalledFrom(self, value: "ExclusiveAreaNesting") -> BswSynchronousServerCallPoint:
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
 
@@ -3800,7 +3802,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> "BswSynchronousServerCallPoint":
+    def with_called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> BswSynchronousServerCallPoint:
         """
         Set calledEntryEntry and return self for chaining.
 
@@ -3816,7 +3818,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
         self.called_entry_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> "BswSynchronousServerCallPoint":
+    def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> BswSynchronousServerCallPoint:
         """
         Set calledFrom and return self for chaining.
 
@@ -3891,7 +3893,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
         """
         return self.called_entry_entry  # Delegates to property
 
-    def setCalledEntryEntry(self, value: "BswModuleClientServer") -> "BswAsynchronousServerCallPoint":
+    def setCalledEntryEntry(self, value: "BswModuleClientServer") -> BswAsynchronousServerCallPoint:
         """
         AUTOSAR-compliant setter for calledEntryEntry with method chaining.
 
@@ -3909,7 +3911,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> "BswAsynchronousServerCallPoint":
+    def with_called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> BswAsynchronousServerCallPoint:
         """
         Set calledEntryEntry and return self for chaining.
 
@@ -3985,7 +3987,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
         """
         return self.asynchronous  # Delegates to property
 
-    def setAsynchronous(self, value: "BswAsynchronous") -> "BswAsynchronousServerCallResultPoint":
+    def setAsynchronous(self, value: "BswAsynchronous") -> BswAsynchronousServerCallResultPoint:
         """
         AUTOSAR-compliant setter for asynchronous with method chaining.
 
@@ -4003,7 +4005,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_asynchronous(self, value: Optional["BswAsynchronous"]) -> "BswAsynchronousServerCallResultPoint":
+    def with_asynchronous(self, value: Optional["BswAsynchronous"]) -> BswAsynchronousServerCallResultPoint:
         """
         Set asynchronous and return self for chaining.
 
@@ -4122,7 +4124,7 @@ class BswOperationInvokedEvent(BswEvent):
         """
         return self.entry  # Delegates to property
 
-    def setEntry(self, value: "BswModuleClientServer") -> "BswOperationInvokedEvent":
+    def setEntry(self, value: "BswModuleClientServer") -> BswOperationInvokedEvent:
         """
         AUTOSAR-compliant setter for entry with method chaining.
 
@@ -4140,7 +4142,7 @@ class BswOperationInvokedEvent(BswEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_entry(self, value: Optional["BswModuleClientServer"]) -> "BswOperationInvokedEvent":
+    def with_entry(self, value: Optional["BswModuleClientServer"]) -> BswOperationInvokedEvent:
         """
         Set entry and return self for chaining.
 
@@ -4215,7 +4217,7 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
         """
         return self.queue_length  # Delegates to property
 
-    def setQueueLength(self, value: "PositiveInteger") -> "BswQueuedDataReceptionPolicy":
+    def setQueueLength(self, value: "PositiveInteger") -> BswQueuedDataReceptionPolicy:
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
 
@@ -4233,7 +4235,7 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_queue_length(self, value: Optional["PositiveInteger"]) -> "BswQueuedDataReceptionPolicy":
+    def with_queue_length(self, value: Optional["PositiveInteger"]) -> BswQueuedDataReceptionPolicy:
         """
         Set queueLength and return self for chaining.
 
@@ -4309,7 +4311,7 @@ class BswTimingEvent(BswScheduleEvent):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "TimeValue") -> "BswTimingEvent":
+    def setPeriod(self, value: "TimeValue") -> BswTimingEvent:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -4327,7 +4329,7 @@ class BswTimingEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_period(self, value: Optional["TimeValue"]) -> "BswTimingEvent":
+    def with_period(self, value: Optional["TimeValue"]) -> BswTimingEvent:
         """
         Set period and return self for chaining.
 
@@ -4450,7 +4452,7 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
         """
         return self.event_source_point  # Delegates to property
 
-    def setEventSourcePoint(self, value: "RefType") -> "BswInternalTriggerOccurredEvent":
+    def setEventSourcePoint(self, value: "RefType") -> BswInternalTriggerOccurredEvent:
         """
         AUTOSAR-compliant setter for eventSourcePoint with method chaining.
 
@@ -4468,7 +4470,7 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_source_point(self, value: Optional[RefType]) -> "BswInternalTriggerOccurredEvent":
+    def with_event_source_point(self, value: Optional[RefType]) -> BswInternalTriggerOccurredEvent:
         """
         Set eventSourcePoint and return self for chaining.
 
@@ -4540,7 +4542,7 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> "BswExternalTriggerOccurredEvent":
+    def setTrigger(self, value: "RefType") -> BswExternalTriggerOccurredEvent:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -4558,7 +4560,7 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_trigger(self, value: Optional[RefType]) -> "BswExternalTriggerOccurredEvent":
+    def with_trigger(self, value: Optional[RefType]) -> BswExternalTriggerOccurredEvent:
         """
         Set trigger and return self for chaining.
 
@@ -4639,7 +4641,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
         """
         return self.activation  # Delegates to property
 
-    def setActivation(self, value: "ModeActivationKind") -> "BswModeSwitchEvent":
+    def setActivation(self, value: "ModeActivationKind") -> BswModeSwitchEvent:
         """
         AUTOSAR-compliant setter for activation with method chaining.
 
@@ -4657,7 +4659,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_activation(self, value: Optional["ModeActivationKind"]) -> "BswModeSwitchEvent":
+    def with_activation(self, value: Optional["ModeActivationKind"]) -> BswModeSwitchEvent:
         """
         Set activation and return self for chaining.
 
@@ -4731,7 +4733,7 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: "RefType") -> "BswModeSwitchedAckEvent":
+    def setModeGroup(self, value: "RefType") -> BswModeSwitchedAckEvent:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -4749,7 +4751,7 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group(self, value: Optional[RefType]) -> "BswModeSwitchedAckEvent":
+    def with_mode_group(self, value: Optional[RefType]) -> BswModeSwitchedAckEvent:
         """
         Set modeGroup and return self for chaining.
 
@@ -4822,7 +4824,7 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: "RefType") -> "BswModeManagerErrorEvent":
+    def setModeGroup(self, value: "RefType") -> BswModeManagerErrorEvent:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -4840,7 +4842,7 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mode_group(self, value: Optional[RefType]) -> "BswModeManagerErrorEvent":
+    def with_mode_group(self, value: Optional[RefType]) -> BswModeManagerErrorEvent:
         """
         Set modeGroup and return self for chaining.
 
@@ -4918,7 +4920,7 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
         """
         return self.event_source  # Delegates to property
 
-    def setEventSource(self, value: "BswAsynchronous") -> "BswAsynchronousServerCallReturnsEvent":
+    def setEventSource(self, value: "BswAsynchronous") -> BswAsynchronousServerCallReturnsEvent:
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
 
@@ -4936,7 +4938,7 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_source(self, value: Optional["BswAsynchronous"]) -> "BswAsynchronousServerCallReturnsEvent":
+    def with_event_source(self, value: Optional["BswAsynchronous"]) -> BswAsynchronousServerCallReturnsEvent:
         """
         Set eventSource and return self for chaining.
 
@@ -5008,7 +5010,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
         """
         return self.data  # Delegates to property
 
-    def setData(self, value: "RefType") -> "BswDataReceivedEvent":
+    def setData(self, value: "RefType") -> BswDataReceivedEvent:
         """
         AUTOSAR-compliant setter for data with method chaining.
 
@@ -5026,7 +5028,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data(self, value: Optional[RefType]) -> "BswDataReceivedEvent":
+    def with_data(self, value: Optional[RefType]) -> BswDataReceivedEvent:
         """
         Set data and return self for chaining.
 

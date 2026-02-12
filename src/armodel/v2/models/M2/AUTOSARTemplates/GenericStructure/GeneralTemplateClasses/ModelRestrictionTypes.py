@@ -4,10 +4,12 @@ AUTOSAR Package - ModelRestrictionTypes
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
 )
@@ -204,7 +206,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "Limit") -> "AbstractValueRestriction":
+    def setMax(self, value: "Limit") -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -232,7 +234,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.max_length  # Delegates to property
 
-    def setMaxLength(self, value: "PositiveInteger") -> "AbstractValueRestriction":
+    def setMaxLength(self, value: "PositiveInteger") -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for maxLength with method chaining.
 
@@ -260,7 +262,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "Limit") -> "AbstractValueRestriction":
+    def setMin(self, value: "Limit") -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -288,7 +290,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.min_length  # Delegates to property
 
-    def setMinLength(self, value: "PositiveInteger") -> "AbstractValueRestriction":
+    def setMinLength(self, value: "PositiveInteger") -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for minLength with method chaining.
 
@@ -316,7 +318,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.pattern  # Delegates to property
 
-    def setPattern(self, value: "RegularExpression") -> "AbstractValueRestriction":
+    def setPattern(self, value: "RegularExpression") -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for pattern with method chaining.
 
@@ -334,7 +336,7 @@ class AbstractValueRestriction(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max(self, value: Optional["Limit"]) -> "AbstractValueRestriction":
+    def with_max(self, value: Optional["Limit"]) -> AbstractValueRestriction:
         """
         Set max and return self for chaining.
 
@@ -350,7 +352,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.max = value  # Use property setter (gets validation)
         return self
 
-    def with_max_length(self, value: Optional["PositiveInteger"]) -> "AbstractValueRestriction":
+    def with_max_length(self, value: Optional["PositiveInteger"]) -> AbstractValueRestriction:
         """
         Set maxLength and return self for chaining.
 
@@ -366,7 +368,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.max_length = value  # Use property setter (gets validation)
         return self
 
-    def with_min(self, value: Optional["Limit"]) -> "AbstractValueRestriction":
+    def with_min(self, value: Optional["Limit"]) -> AbstractValueRestriction:
         """
         Set min and return self for chaining.
 
@@ -382,7 +384,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.min = value  # Use property setter (gets validation)
         return self
 
-    def with_min_length(self, value: Optional["PositiveInteger"]) -> "AbstractValueRestriction":
+    def with_min_length(self, value: Optional["PositiveInteger"]) -> AbstractValueRestriction:
         """
         Set minLength and return self for chaining.
 
@@ -398,7 +400,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.min_length = value  # Use property setter (gets validation)
         return self
 
-    def with_pattern(self, value: Optional["RegularExpression"]) -> "AbstractValueRestriction":
+    def with_pattern(self, value: Optional["RegularExpression"]) -> AbstractValueRestriction:
         """
         Set pattern and return self for chaining.
 
@@ -437,10 +439,10 @@ class AbstractVariationRestriction(ARObject, ABC):
         # List of valid binding times.
         # xml.
         # sequenceOffset=20.
-        self._validBinding: List["FullBindingTimeEnum"] = []
+        self._validBinding: List[FullBindingTimeEnum] = []
 
     @property
-    def valid_binding(self) -> List["FullBindingTimeEnum"]:
+    def valid_binding(self) -> List[FullBindingTimeEnum]:
         """Get validBinding (Pythonic accessor)."""
         return self._validBinding
         # Defines if the AUTOSAR model may define a Variation this location.
@@ -474,7 +476,7 @@ class AbstractVariationRestriction(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValidBinding(self) -> List["FullBindingTimeEnum"]:
+    def getValidBinding(self) -> List[FullBindingTimeEnum]:
         """
         AUTOSAR-compliant getter for validBinding.
 
@@ -498,7 +500,7 @@ class AbstractVariationRestriction(ARObject, ABC):
         """
         return self.variation  # Delegates to property
 
-    def setVariation(self, value: "Boolean") -> "AbstractVariationRestriction":
+    def setVariation(self, value: "Boolean") -> AbstractVariationRestriction:
         """
         AUTOSAR-compliant setter for variation with method chaining.
 
@@ -516,7 +518,7 @@ class AbstractVariationRestriction(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_variation(self, value: Optional["Boolean"]) -> "AbstractVariationRestriction":
+    def with_variation(self, value: Optional["Boolean"]) -> AbstractVariationRestriction:
         """
         Set variation and return self for chaining.
 
@@ -624,7 +626,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
         """
         return self.lower_multiplicity  # Delegates to property
 
-    def setLowerMultiplicity(self, value: "PositiveInteger") -> "AbstractMultiplicityRestriction":
+    def setLowerMultiplicity(self, value: "PositiveInteger") -> AbstractMultiplicityRestriction:
         """
         AUTOSAR-compliant setter for lowerMultiplicity with method chaining.
 
@@ -652,7 +654,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
         """
         return self.upper_multiplicity  # Delegates to property
 
-    def setUpperMultiplicity(self, value: "Boolean") -> "AbstractMultiplicityRestriction":
+    def setUpperMultiplicity(self, value: "Boolean") -> AbstractMultiplicityRestriction:
         """
         AUTOSAR-compliant setter for upperMultiplicity with method chaining.
 
@@ -670,7 +672,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lower_multiplicity(self, value: Optional["PositiveInteger"]) -> "AbstractMultiplicityRestriction":
+    def with_lower_multiplicity(self, value: Optional["PositiveInteger"]) -> AbstractMultiplicityRestriction:
         """
         Set lowerMultiplicity and return self for chaining.
 
@@ -686,7 +688,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
         self.lower_multiplicity = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_multiplicity(self, value: Optional["Boolean"]) -> "AbstractMultiplicityRestriction":
+    def with_upper_multiplicity(self, value: Optional["Boolean"]) -> AbstractMultiplicityRestriction:
         """
         Set upperMultiplicity and return self for chaining.
 

@@ -4,10 +4,12 @@ AUTOSAR Package - ServiceNeeds
 Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     Integer,
@@ -114,15 +116,15 @@ class ServiceDependency(ARObject, ABC):
                 f"diagnostic must be ServiceDiagnostic or None, got {type(value).__name__}"
             )
         self._diagnostic = value
-        self._symbolicName: Optional["SymbolicNameProps"] = None
+        self._symbolicName: Optional[SymbolicNameProps] = None
 
     @property
-    def symbolic_name(self) -> Optional["SymbolicNameProps"]:
+    def symbolic_name(self) -> Optional[SymbolicNameProps]:
         """Get symbolicName (Pythonic accessor)."""
         return self._symbolicName
 
     @symbolic_name.setter
-    def symbolic_name(self, value: Optional["SymbolicNameProps"]) -> None:
+    def symbolic_name(self, value: Optional[SymbolicNameProps]) -> None:
         """
         Set symbolicName with validation.
 
@@ -252,7 +254,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.assigned_data  # Delegates to property
 
-    def setAssignedData(self, value: "RoleBasedDataType") -> "ServiceDependency":
+    def setAssignedData(self, value: "RoleBasedDataType") -> ServiceDependency:
         """
         AUTOSAR-compliant setter for assignedData with method chaining.
 
@@ -280,7 +282,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.diagnostic  # Delegates to property
 
-    def setDiagnostic(self, value: "ServiceDiagnostic") -> "ServiceDependency":
+    def setDiagnostic(self, value: "ServiceDiagnostic") -> ServiceDependency:
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
 
@@ -296,7 +298,7 @@ class ServiceDependency(ARObject, ABC):
         self.diagnostic = value  # Delegates to property setter
         return self
 
-    def getSymbolicName(self) -> "SymbolicNameProps":
+    def getSymbolicName(self) -> SymbolicNameProps:
         """
         AUTOSAR-compliant getter for symbolicName.
 
@@ -308,7 +310,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.symbolic_name  # Delegates to property
 
-    def setSymbolicName(self, value: "SymbolicNameProps") -> "ServiceDependency":
+    def setSymbolicName(self, value: SymbolicNameProps) -> ServiceDependency:
         """
         AUTOSAR-compliant setter for symbolicName with method chaining.
 
@@ -326,7 +328,7 @@ class ServiceDependency(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_assigned_data(self, value: Optional["RoleBasedDataType"]) -> "ServiceDependency":
+    def with_assigned_data(self, value: Optional["RoleBasedDataType"]) -> ServiceDependency:
         """
         Set assignedData and return self for chaining.
 
@@ -342,7 +344,7 @@ class ServiceDependency(ARObject, ABC):
         self.assigned_data = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic(self, value: Optional["ServiceDiagnostic"]) -> "ServiceDependency":
+    def with_diagnostic(self, value: Optional["ServiceDiagnostic"]) -> ServiceDependency:
         """
         Set diagnostic and return self for chaining.
 
@@ -358,7 +360,7 @@ class ServiceDependency(ARObject, ABC):
         self.diagnostic = value  # Use property setter (gets validation)
         return self
 
-    def with_symbolic_name(self, value: Optional["SymbolicNameProps"]) -> "ServiceDependency":
+    def with_symbolic_name(self, value: Optional[SymbolicNameProps]) -> ServiceDependency:
         """
         Set symbolicName and return self for chaining.
 
@@ -531,7 +533,7 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> "RoleBasedDataAssignment":
+    def setRole(self, value: "Identifier") -> RoleBasedDataAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -559,7 +561,7 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.used_data  # Delegates to property
 
-    def setUsedData(self, value: "RefType") -> "RoleBasedDataAssignment":
+    def setUsedData(self, value: "RefType") -> RoleBasedDataAssignment:
         """
         AUTOSAR-compliant setter for usedData with method chaining.
 
@@ -587,7 +589,7 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.used_parameter  # Delegates to property
 
-    def setUsedParameter(self, value: "RefType") -> "RoleBasedDataAssignment":
+    def setUsedParameter(self, value: "RefType") -> RoleBasedDataAssignment:
         """
         AUTOSAR-compliant setter for usedParameter with method chaining.
 
@@ -615,7 +617,7 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.used_pim  # Delegates to property
 
-    def setUsedPim(self, value: "PerInstanceMemory") -> "RoleBasedDataAssignment":
+    def setUsedPim(self, value: "PerInstanceMemory") -> RoleBasedDataAssignment:
         """
         AUTOSAR-compliant setter for usedPim with method chaining.
 
@@ -633,7 +635,7 @@ class RoleBasedDataAssignment(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_role(self, value: Optional["Identifier"]) -> "RoleBasedDataAssignment":
+    def with_role(self, value: Optional["Identifier"]) -> RoleBasedDataAssignment:
         """
         Set role and return self for chaining.
 
@@ -649,7 +651,7 @@ class RoleBasedDataAssignment(ARObject):
         self.role = value  # Use property setter (gets validation)
         return self
 
-    def with_used_data(self, value: Optional[RefType]) -> "RoleBasedDataAssignment":
+    def with_used_data(self, value: Optional[RefType]) -> RoleBasedDataAssignment:
         """
         Set usedData and return self for chaining.
 
@@ -665,7 +667,7 @@ class RoleBasedDataAssignment(ARObject):
         self.used_data = value  # Use property setter (gets validation)
         return self
 
-    def with_used_parameter(self, value: Optional[RefType]) -> "RoleBasedDataAssignment":
+    def with_used_parameter(self, value: Optional[RefType]) -> RoleBasedDataAssignment:
         """
         Set usedParameter and return self for chaining.
 
@@ -681,7 +683,7 @@ class RoleBasedDataAssignment(ARObject):
         self.used_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_used_pim(self, value: Optional["PerInstanceMemory"]) -> "RoleBasedDataAssignment":
+    def with_used_pim(self, value: Optional["PerInstanceMemory"]) -> RoleBasedDataAssignment:
         """
         Set usedPim and return self for chaining.
 
@@ -826,7 +828,7 @@ class TracedFailure(Identifiable, ABC):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> "TracedFailure":
+    def setId(self, value: "PositiveInteger") -> TracedFailure:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -844,7 +846,7 @@ class TracedFailure(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> "TracedFailure":
+    def with_id(self, value: Optional["PositiveInteger"]) -> TracedFailure:
         """
         Set id and return self for chaining.
 
@@ -1097,15 +1099,15 @@ class NvBlockNeeds(ServiceNeeds):
                 f"readonly must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._readonly = value
-        self._reliability: Optional["NvBlockNeeds"] = None
+        self._reliability: Optional[NvBlockNeeds] = None
 
     @property
-    def reliability(self) -> Optional["NvBlockNeeds"]:
+    def reliability(self) -> Optional[NvBlockNeeds]:
         """Get reliability (Pythonic accessor)."""
         return self._reliability
 
     @reliability.setter
-    def reliability(self, value: Optional["NvBlockNeeds"]) -> None:
+    def reliability(self, value: Optional[NvBlockNeeds]) -> None:
         """
         Set reliability with validation.
 
@@ -1538,7 +1540,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.calc_ram_block  # Delegates to property
 
-    def setCalcRamBlock(self, value: "Boolean") -> "NvBlockNeeds":
+    def setCalcRamBlock(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for calcRamBlock with method chaining.
 
@@ -1566,7 +1568,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.check_static  # Delegates to property
 
-    def setCheckStatic(self, value: "Boolean") -> "NvBlockNeeds":
+    def setCheckStatic(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for checkStatic with method chaining.
 
@@ -1594,7 +1596,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.cyclic_writing  # Delegates to property
 
-    def setCyclicWriting(self, value: "TimeValue") -> "NvBlockNeeds":
+    def setCyclicWriting(self, value: "TimeValue") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for cyclicWriting with method chaining.
 
@@ -1622,7 +1624,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.n_data_sets  # Delegates to property
 
-    def setNDataSets(self, value: "PositiveInteger") -> "NvBlockNeeds":
+    def setNDataSets(self, value: "PositiveInteger") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for nDataSets with method chaining.
 
@@ -1650,7 +1652,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.n_rom_blocks  # Delegates to property
 
-    def setNRomBlocks(self, value: "PositiveInteger") -> "NvBlockNeeds":
+    def setNRomBlocks(self, value: "PositiveInteger") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for nRomBlocks with method chaining.
 
@@ -1678,7 +1680,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.ram_block_status  # Delegates to property
 
-    def setRamBlockStatus(self, value: "RamBlockStatusControl") -> "NvBlockNeeds":
+    def setRamBlockStatus(self, value: "RamBlockStatusControl") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for ramBlockStatus with method chaining.
 
@@ -1706,7 +1708,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.readonly  # Delegates to property
 
-    def setReadonly(self, value: "Boolean") -> "NvBlockNeeds":
+    def setReadonly(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for readonly with method chaining.
 
@@ -1722,7 +1724,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.readonly = value  # Delegates to property setter
         return self
 
-    def getReliability(self) -> "NvBlockNeeds":
+    def getReliability(self) -> NvBlockNeeds:
         """
         AUTOSAR-compliant getter for reliability.
 
@@ -1734,7 +1736,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.reliability  # Delegates to property
 
-    def setReliability(self, value: "NvBlockNeeds") -> "NvBlockNeeds":
+    def setReliability(self, value: NvBlockNeeds) -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for reliability with method chaining.
 
@@ -1762,7 +1764,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.resistant_to  # Delegates to property
 
-    def setResistantTo(self, value: "Boolean") -> "NvBlockNeeds":
+    def setResistantTo(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for resistantTo with method chaining.
 
@@ -1790,7 +1792,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.restore_at_start  # Delegates to property
 
-    def setRestoreAtStart(self, value: "Boolean") -> "NvBlockNeeds":
+    def setRestoreAtStart(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for restoreAtStart with method chaining.
 
@@ -1818,7 +1820,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.select_block_for  # Delegates to property
 
-    def setSelectBlockFor(self, value: "Boolean") -> "NvBlockNeeds":
+    def setSelectBlockFor(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for selectBlockFor with method chaining.
 
@@ -1846,7 +1848,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.store_at  # Delegates to property
 
-    def setStoreAt(self, value: "Boolean") -> "NvBlockNeeds":
+    def setStoreAt(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for storeAt with method chaining.
 
@@ -1874,7 +1876,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.store_cyclic  # Delegates to property
 
-    def setStoreCyclic(self, value: "Boolean") -> "NvBlockNeeds":
+    def setStoreCyclic(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for storeCyclic with method chaining.
 
@@ -1902,7 +1904,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.store  # Delegates to property
 
-    def setStore(self, value: "Boolean") -> "NvBlockNeeds":
+    def setStore(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for store with method chaining.
 
@@ -1930,7 +1932,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.store_immediate  # Delegates to property
 
-    def setStoreImmediate(self, value: "Boolean") -> "NvBlockNeeds":
+    def setStoreImmediate(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for storeImmediate with method chaining.
 
@@ -1958,7 +1960,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.store_on_change  # Delegates to property
 
-    def setStoreOnChange(self, value: "Boolean") -> "NvBlockNeeds":
+    def setStoreOnChange(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for storeOnChange with method chaining.
 
@@ -1986,7 +1988,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.use_auto  # Delegates to property
 
-    def setUseAuto(self, value: "Boolean") -> "NvBlockNeeds":
+    def setUseAuto(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for useAuto with method chaining.
 
@@ -2014,7 +2016,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.use_crc_comp  # Delegates to property
 
-    def setUseCRCComp(self, value: "Boolean") -> "NvBlockNeeds":
+    def setUseCRCComp(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for useCRCComp with method chaining.
 
@@ -2042,7 +2044,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.write_only_once  # Delegates to property
 
-    def setWriteOnlyOnce(self, value: "Boolean") -> "NvBlockNeeds":
+    def setWriteOnlyOnce(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for writeOnlyOnce with method chaining.
 
@@ -2070,7 +2072,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.write_verification  # Delegates to property
 
-    def setWriteVerification(self, value: "Boolean") -> "NvBlockNeeds":
+    def setWriteVerification(self, value: "Boolean") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for writeVerification with method chaining.
 
@@ -2098,7 +2100,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.writing  # Delegates to property
 
-    def setWriting(self, value: "PositiveInteger") -> "NvBlockNeeds":
+    def setWriting(self, value: "PositiveInteger") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for writing with method chaining.
 
@@ -2126,7 +2128,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.writing_priority  # Delegates to property
 
-    def setWritingPriority(self, value: "NvBlockNeedsWriting") -> "NvBlockNeeds":
+    def setWritingPriority(self, value: "NvBlockNeedsWriting") -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for writingPriority with method chaining.
 
@@ -2144,7 +2146,7 @@ class NvBlockNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_calc_ram_block(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_calc_ram_block(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set calcRamBlock and return self for chaining.
 
@@ -2160,7 +2162,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.calc_ram_block = value  # Use property setter (gets validation)
         return self
 
-    def with_check_static(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_check_static(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set checkStatic and return self for chaining.
 
@@ -2176,7 +2178,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.check_static = value  # Use property setter (gets validation)
         return self
 
-    def with_cyclic_writing(self, value: Optional["TimeValue"]) -> "NvBlockNeeds":
+    def with_cyclic_writing(self, value: Optional["TimeValue"]) -> NvBlockNeeds:
         """
         Set cyclicWriting and return self for chaining.
 
@@ -2192,7 +2194,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.cyclic_writing = value  # Use property setter (gets validation)
         return self
 
-    def with_n_data_sets(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
+    def with_n_data_sets(self, value: Optional["PositiveInteger"]) -> NvBlockNeeds:
         """
         Set nDataSets and return self for chaining.
 
@@ -2208,7 +2210,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.n_data_sets = value  # Use property setter (gets validation)
         return self
 
-    def with_n_rom_blocks(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
+    def with_n_rom_blocks(self, value: Optional["PositiveInteger"]) -> NvBlockNeeds:
         """
         Set nRomBlocks and return self for chaining.
 
@@ -2224,7 +2226,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.n_rom_blocks = value  # Use property setter (gets validation)
         return self
 
-    def with_ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> "NvBlockNeeds":
+    def with_ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> NvBlockNeeds:
         """
         Set ramBlockStatus and return self for chaining.
 
@@ -2240,7 +2242,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.ram_block_status = value  # Use property setter (gets validation)
         return self
 
-    def with_readonly(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_readonly(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set readonly and return self for chaining.
 
@@ -2256,7 +2258,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.readonly = value  # Use property setter (gets validation)
         return self
 
-    def with_reliability(self, value: Optional["NvBlockNeeds"]) -> "NvBlockNeeds":
+    def with_reliability(self, value: Optional[NvBlockNeeds]) -> NvBlockNeeds:
         """
         Set reliability and return self for chaining.
 
@@ -2272,7 +2274,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.reliability = value  # Use property setter (gets validation)
         return self
 
-    def with_resistant_to(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_resistant_to(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set resistantTo and return self for chaining.
 
@@ -2288,7 +2290,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.resistant_to = value  # Use property setter (gets validation)
         return self
 
-    def with_restore_at_start(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_restore_at_start(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set restoreAtStart and return self for chaining.
 
@@ -2304,7 +2306,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.restore_at_start = value  # Use property setter (gets validation)
         return self
 
-    def with_select_block_for(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_select_block_for(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set selectBlockFor and return self for chaining.
 
@@ -2320,7 +2322,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.select_block_for = value  # Use property setter (gets validation)
         return self
 
-    def with_store_at(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_store_at(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set storeAt and return self for chaining.
 
@@ -2336,7 +2338,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.store_at = value  # Use property setter (gets validation)
         return self
 
-    def with_store_cyclic(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_store_cyclic(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set storeCyclic and return self for chaining.
 
@@ -2352,7 +2354,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.store_cyclic = value  # Use property setter (gets validation)
         return self
 
-    def with_store(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_store(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set store and return self for chaining.
 
@@ -2368,7 +2370,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.store = value  # Use property setter (gets validation)
         return self
 
-    def with_store_immediate(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_store_immediate(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set storeImmediate and return self for chaining.
 
@@ -2384,7 +2386,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.store_immediate = value  # Use property setter (gets validation)
         return self
 
-    def with_store_on_change(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_store_on_change(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set storeOnChange and return self for chaining.
 
@@ -2400,7 +2402,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.store_on_change = value  # Use property setter (gets validation)
         return self
 
-    def with_use_auto(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_use_auto(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set useAuto and return self for chaining.
 
@@ -2416,7 +2418,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.use_auto = value  # Use property setter (gets validation)
         return self
 
-    def with_use_crc_comp(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_use_crc_comp(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set useCRCComp and return self for chaining.
 
@@ -2432,7 +2434,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.use_crc_comp = value  # Use property setter (gets validation)
         return self
 
-    def with_write_only_once(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_write_only_once(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set writeOnlyOnce and return self for chaining.
 
@@ -2448,7 +2450,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.write_only_once = value  # Use property setter (gets validation)
         return self
 
-    def with_write_verification(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
+    def with_write_verification(self, value: Optional["Boolean"]) -> NvBlockNeeds:
         """
         Set writeVerification and return self for chaining.
 
@@ -2464,7 +2466,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.write_verification = value  # Use property setter (gets validation)
         return self
 
-    def with_writing(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
+    def with_writing(self, value: Optional["PositiveInteger"]) -> NvBlockNeeds:
         """
         Set writing and return self for chaining.
 
@@ -2480,7 +2482,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.writing = value  # Use property setter (gets validation)
         return self
 
-    def with_writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> "NvBlockNeeds":
+    def with_writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> NvBlockNeeds:
         """
         Set writingPriority and return self for chaining.
 
@@ -2706,7 +2708,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.activate_at_start  # Delegates to property
 
-    def setActivateAtStart(self, value: "Boolean") -> "SupervisedEntityNeeds":
+    def setActivateAtStart(self, value: "Boolean") -> SupervisedEntityNeeds:
         """
         AUTOSAR-compliant setter for activateAtStart with method chaining.
 
@@ -2746,7 +2748,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.enable  # Delegates to property
 
-    def setEnable(self, value: "Boolean") -> "SupervisedEntityNeeds":
+    def setEnable(self, value: "Boolean") -> SupervisedEntityNeeds:
         """
         AUTOSAR-compliant setter for enable with method chaining.
 
@@ -2774,7 +2776,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.expected_alive  # Delegates to property
 
-    def setExpectedAlive(self, value: "TimeValue") -> "SupervisedEntityNeeds":
+    def setExpectedAlive(self, value: "TimeValue") -> SupervisedEntityNeeds:
         """
         AUTOSAR-compliant setter for expectedAlive with method chaining.
 
@@ -2802,7 +2804,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.max_alive_cycle  # Delegates to property
 
-    def setMaxAliveCycle(self, value: "TimeValue") -> "SupervisedEntityNeeds":
+    def setMaxAliveCycle(self, value: "TimeValue") -> SupervisedEntityNeeds:
         """
         AUTOSAR-compliant setter for maxAliveCycle with method chaining.
 
@@ -2830,7 +2832,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.min_alive_cycle  # Delegates to property
 
-    def setMinAliveCycle(self, value: "TimeValue") -> "SupervisedEntityNeeds":
+    def setMinAliveCycle(self, value: "TimeValue") -> SupervisedEntityNeeds:
         """
         AUTOSAR-compliant setter for minAliveCycle with method chaining.
 
@@ -2858,7 +2860,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.tolerated_failed  # Delegates to property
 
-    def setToleratedFailed(self, value: "PositiveInteger") -> "SupervisedEntityNeeds":
+    def setToleratedFailed(self, value: "PositiveInteger") -> SupervisedEntityNeeds:
         """
         AUTOSAR-compliant setter for toleratedFailed with method chaining.
 
@@ -2876,7 +2878,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_activate_at_start(self, value: Optional["Boolean"]) -> "SupervisedEntityNeeds":
+    def with_activate_at_start(self, value: Optional["Boolean"]) -> SupervisedEntityNeeds:
         """
         Set activateAtStart and return self for chaining.
 
@@ -2892,7 +2894,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         self.activate_at_start = value  # Use property setter (gets validation)
         return self
 
-    def with_enable(self, value: Optional["Boolean"]) -> "SupervisedEntityNeeds":
+    def with_enable(self, value: Optional["Boolean"]) -> SupervisedEntityNeeds:
         """
         Set enable and return self for chaining.
 
@@ -2908,7 +2910,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         self.enable = value  # Use property setter (gets validation)
         return self
 
-    def with_expected_alive(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
+    def with_expected_alive(self, value: Optional["TimeValue"]) -> SupervisedEntityNeeds:
         """
         Set expectedAlive and return self for chaining.
 
@@ -2924,7 +2926,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         self.expected_alive = value  # Use property setter (gets validation)
         return self
 
-    def with_max_alive_cycle(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
+    def with_max_alive_cycle(self, value: Optional["TimeValue"]) -> SupervisedEntityNeeds:
         """
         Set maxAliveCycle and return self for chaining.
 
@@ -2940,7 +2942,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         self.max_alive_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_min_alive_cycle(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
+    def with_min_alive_cycle(self, value: Optional["TimeValue"]) -> SupervisedEntityNeeds:
         """
         Set minAliveCycle and return self for chaining.
 
@@ -2956,7 +2958,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         self.min_alive_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_tolerated_failed(self, value: Optional["PositiveInteger"]) -> "SupervisedEntityNeeds":
+    def with_tolerated_failed(self, value: Optional["PositiveInteger"]) -> SupervisedEntityNeeds:
         """
         Set toleratedFailed and return self for chaining.
 
@@ -2992,15 +2994,15 @@ class ComMgrUserNeeds(ServiceNeeds):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Maximum communication mode requested by this ComM.
-        self._maxComm: Optional["MaxCommModeEnum"] = None
+        self._maxComm: Optional[MaxCommModeEnum] = None
 
     @property
-    def max_comm(self) -> Optional["MaxCommModeEnum"]:
+    def max_comm(self) -> Optional[MaxCommModeEnum]:
         """Get maxComm (Pythonic accessor)."""
         return self._maxComm
 
     @max_comm.setter
-    def max_comm(self, value: Optional["MaxCommModeEnum"]) -> None:
+    def max_comm(self, value: Optional[MaxCommModeEnum]) -> None:
         """
         Set maxComm with validation.
 
@@ -3022,7 +3024,7 @@ class ComMgrUserNeeds(ServiceNeeds):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxComm(self) -> "MaxCommModeEnum":
+    def getMaxComm(self) -> MaxCommModeEnum:
         """
         AUTOSAR-compliant getter for maxComm.
 
@@ -3034,7 +3036,7 @@ class ComMgrUserNeeds(ServiceNeeds):
         """
         return self.max_comm  # Delegates to property
 
-    def setMaxComm(self, value: "MaxCommModeEnum") -> "ComMgrUserNeeds":
+    def setMaxComm(self, value: MaxCommModeEnum) -> ComMgrUserNeeds:
         """
         AUTOSAR-compliant setter for maxComm with method chaining.
 
@@ -3052,7 +3054,7 @@ class ComMgrUserNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_comm(self, value: Optional["MaxCommModeEnum"]) -> "ComMgrUserNeeds":
+    def with_max_comm(self, value: Optional[MaxCommModeEnum]) -> ComMgrUserNeeds:
         """
         Set maxComm and return self for chaining.
 
@@ -3243,7 +3245,7 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         return self.algorithm_family  # Delegates to property
 
-    def setAlgorithmFamily(self, value: "String") -> "CryptoServiceNeeds":
+    def setAlgorithmFamily(self, value: "String") -> CryptoServiceNeeds:
         """
         AUTOSAR-compliant setter for algorithmFamily with method chaining.
 
@@ -3271,7 +3273,7 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         return self.algorithm_mode  # Delegates to property
 
-    def setAlgorithmMode(self, value: "String") -> "CryptoServiceNeeds":
+    def setAlgorithmMode(self, value: "String") -> CryptoServiceNeeds:
         """
         AUTOSAR-compliant setter for algorithmMode with method chaining.
 
@@ -3299,7 +3301,7 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         return self.crypto_key  # Delegates to property
 
-    def setCryptoKey(self, value: "String") -> "CryptoServiceNeeds":
+    def setCryptoKey(self, value: "String") -> CryptoServiceNeeds:
         """
         AUTOSAR-compliant setter for cryptoKey with method chaining.
 
@@ -3327,7 +3329,7 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         return self.maximum_key  # Delegates to property
 
-    def setMaximumKey(self, value: "PositiveInteger") -> "CryptoServiceNeeds":
+    def setMaximumKey(self, value: "PositiveInteger") -> CryptoServiceNeeds:
         """
         AUTOSAR-compliant setter for maximumKey with method chaining.
 
@@ -3345,7 +3347,7 @@ class CryptoServiceNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_algorithm_family(self, value: Optional["String"]) -> "CryptoServiceNeeds":
+    def with_algorithm_family(self, value: Optional["String"]) -> CryptoServiceNeeds:
         """
         Set algorithmFamily and return self for chaining.
 
@@ -3361,7 +3363,7 @@ class CryptoServiceNeeds(ServiceNeeds):
         self.algorithm_family = value  # Use property setter (gets validation)
         return self
 
-    def with_algorithm_mode(self, value: Optional["String"]) -> "CryptoServiceNeeds":
+    def with_algorithm_mode(self, value: Optional["String"]) -> CryptoServiceNeeds:
         """
         Set algorithmMode and return self for chaining.
 
@@ -3377,7 +3379,7 @@ class CryptoServiceNeeds(ServiceNeeds):
         self.algorithm_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_crypto_key(self, value: Optional["String"]) -> "CryptoServiceNeeds":
+    def with_crypto_key(self, value: Optional["String"]) -> CryptoServiceNeeds:
         """
         Set cryptoKey and return self for chaining.
 
@@ -3393,7 +3395,7 @@ class CryptoServiceNeeds(ServiceNeeds):
         self.crypto_key = value  # Use property setter (gets validation)
         return self
 
-    def with_maximum_key(self, value: Optional["PositiveInteger"]) -> "CryptoServiceNeeds":
+    def with_maximum_key(self, value: Optional["PositiveInteger"]) -> CryptoServiceNeeds:
         """
         Set maximumKey and return self for chaining.
 
@@ -3582,7 +3584,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         return self.diag  # Delegates to property
 
-    def setDiag(self, value: "DiagRequirementId") -> "DiagnosticCapabilityElement":
+    def setDiag(self, value: "DiagRequirementId") -> DiagnosticCapabilityElement:
         """
         AUTOSAR-compliant setter for diag with method chaining.
 
@@ -3610,7 +3612,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         return self.security_access  # Delegates to property
 
-    def setSecurityAccess(self, value: "PositiveInteger") -> "DiagnosticCapabilityElement":
+    def setSecurityAccess(self, value: "PositiveInteger") -> DiagnosticCapabilityElement:
         """
         AUTOSAR-compliant setter for securityAccess with method chaining.
 
@@ -3628,7 +3630,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diag(self, value: Optional["DiagRequirementId"]) -> "DiagnosticCapabilityElement":
+    def with_diag(self, value: Optional["DiagRequirementId"]) -> DiagnosticCapabilityElement:
         """
         Set diag and return self for chaining.
 
@@ -3644,7 +3646,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         self.diag = value  # Use property setter (gets validation)
         return self
 
-    def with_security_access(self, value: Optional["PositiveInteger"]) -> "DiagnosticCapabilityElement":
+    def with_security_access(self, value: Optional["PositiveInteger"]) -> DiagnosticCapabilityElement:
         """
         Set securityAccess and return self for chaining.
 
@@ -3757,16 +3759,16 @@ class ErrorTracerNeeds(ServiceNeeds):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # list of traced failures atpVariation.
-        self._tracedFailure: List["TracedFailure"] = []
+        self._tracedFailure: List[TracedFailure] = []
 
     @property
-    def traced_failure(self) -> List["TracedFailure"]:
+    def traced_failure(self) -> List[TracedFailure]:
         """Get tracedFailure (Pythonic accessor)."""
         return self._tracedFailure
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTracedFailure(self) -> List["TracedFailure"]:
+    def getTracedFailure(self) -> List[TracedFailure]:
         """
         AUTOSAR-compliant getter for tracedFailure.
 
@@ -3825,15 +3827,15 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference represents the controlled FID.
-        self._controlledFid: Optional["FunctionInhibitionNeeds"] = None
+        self._controlledFid: Optional[FunctionInhibitionNeeds] = None
 
     @property
-    def controlled_fid(self) -> Optional["FunctionInhibitionNeeds"]:
+    def controlled_fid(self) -> Optional[FunctionInhibitionNeeds]:
         """Get controlledFid (Pythonic accessor)."""
         return self._controlledFid
 
     @controlled_fid.setter
-    def controlled_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
+    def controlled_fid(self, value: Optional[FunctionInhibitionNeeds]) -> None:
         """
         Set controlledFid with validation.
 
@@ -3855,7 +3857,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getControlledFid(self) -> "FunctionInhibitionNeeds":
+    def getControlledFid(self) -> FunctionInhibitionNeeds:
         """
         AUTOSAR-compliant getter for controlledFid.
 
@@ -3867,7 +3869,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
         """
         return self.controlled_fid  # Delegates to property
 
-    def setControlledFid(self, value: "FunctionInhibitionNeeds") -> "FunctionInhibitionAvailabilityNeeds":
+    def setControlledFid(self, value: FunctionInhibitionNeeds) -> FunctionInhibitionAvailabilityNeeds:
         """
         AUTOSAR-compliant setter for controlledFid with method chaining.
 
@@ -3885,7 +3887,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_controlled_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "FunctionInhibitionAvailabilityNeeds":
+    def with_controlled_fid(self, value: Optional[FunctionInhibitionNeeds]) -> FunctionInhibitionAvailabilityNeeds:
         """
         Set controlledFid and return self for chaining.
 
@@ -4072,7 +4074,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
         """
         return self.type_enum  # Delegates to property
 
-    def setTypeEnum(self, value: "DiagnosticIndicatorType") -> "IndicatorStatusNeeds":
+    def setTypeEnum(self, value: "DiagnosticIndicatorType") -> IndicatorStatusNeeds:
         """
         AUTOSAR-compliant setter for typeEnum with method chaining.
 
@@ -4090,7 +4092,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> "IndicatorStatusNeeds":
+    def with_type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> IndicatorStatusNeeds:
         """
         Set typeEnum and return self for chaining.
 
@@ -4170,7 +4172,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
         """
         return self.verification  # Delegates to property
 
-    def setVerification(self, value: "VerificationStatus") -> "SecureOnBoardCommunicationNeeds":
+    def setVerification(self, value: "VerificationStatus") -> SecureOnBoardCommunicationNeeds:
         """
         AUTOSAR-compliant setter for verification with method chaining.
 
@@ -4188,7 +4190,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_verification(self, value: Optional["VerificationStatus"]) -> "SecureOnBoardCommunicationNeeds":
+    def with_verification(self, value: Optional["VerificationStatus"]) -> SecureOnBoardCommunicationNeeds:
         """
         Set verification and return self for chaining.
 
@@ -4400,7 +4402,7 @@ class IdsMgrNeeds(ServiceNeeds):
         """
         return self.use_smart  # Delegates to property
 
-    def setUseSmart(self, value: "Boolean") -> "IdsMgrNeeds":
+    def setUseSmart(self, value: "Boolean") -> IdsMgrNeeds:
         """
         AUTOSAR-compliant setter for useSmart with method chaining.
 
@@ -4418,7 +4420,7 @@ class IdsMgrNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_use_smart(self, value: Optional["Boolean"]) -> "IdsMgrNeeds":
+    def with_use_smart(self, value: Optional["Boolean"]) -> IdsMgrNeeds:
         """
         Set useSmart and return self for chaining.
 
@@ -4665,7 +4667,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         """
         return self.counter_based  # Delegates to property
 
-    def setCounterBased(self, value: "Integer") -> "DiagEventDebounceCounterBased":
+    def setCounterBased(self, value: "Integer") -> DiagEventDebounceCounterBased:
         """
         AUTOSAR-compliant setter for counterBased with method chaining.
 
@@ -4693,7 +4695,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         """
         return self.counter  # Delegates to property
 
-    def setCounter(self, value: "Integer") -> "DiagEventDebounceCounterBased":
+    def setCounter(self, value: "Integer") -> DiagEventDebounceCounterBased:
         """
         AUTOSAR-compliant setter for counter with method chaining.
 
@@ -4721,7 +4723,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         """
         return self.counter_failed  # Delegates to property
 
-    def setCounterFailed(self, value: "Integer") -> "DiagEventDebounceCounterBased":
+    def setCounterFailed(self, value: "Integer") -> DiagEventDebounceCounterBased:
         """
         AUTOSAR-compliant setter for counterFailed with method chaining.
 
@@ -4749,7 +4751,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         """
         return self.counter_jump  # Delegates to property
 
-    def setCounterJump(self, value: "Integer") -> "DiagEventDebounceCounterBased":
+    def setCounterJump(self, value: "Integer") -> DiagEventDebounceCounterBased:
         """
         AUTOSAR-compliant setter for counterJump with method chaining.
 
@@ -4777,7 +4779,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         """
         return self.counter_jump_up  # Delegates to property
 
-    def setCounterJumpUp(self, value: "Integer") -> "DiagEventDebounceCounterBased":
+    def setCounterJumpUp(self, value: "Integer") -> DiagEventDebounceCounterBased:
         """
         AUTOSAR-compliant setter for counterJumpUp with method chaining.
 
@@ -4805,7 +4807,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         """
         return self.counter_passed  # Delegates to property
 
-    def setCounterPassed(self, value: "Integer") -> "DiagEventDebounceCounterBased":
+    def setCounterPassed(self, value: "Integer") -> DiagEventDebounceCounterBased:
         """
         AUTOSAR-compliant setter for counterPassed with method chaining.
 
@@ -4823,7 +4825,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_counter_based(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
+    def with_counter_based(self, value: Optional["Integer"]) -> DiagEventDebounceCounterBased:
         """
         Set counterBased and return self for chaining.
 
@@ -4839,7 +4841,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         self.counter_based = value  # Use property setter (gets validation)
         return self
 
-    def with_counter(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
+    def with_counter(self, value: Optional["Integer"]) -> DiagEventDebounceCounterBased:
         """
         Set counter and return self for chaining.
 
@@ -4855,7 +4857,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         self.counter = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_failed(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
+    def with_counter_failed(self, value: Optional["Integer"]) -> DiagEventDebounceCounterBased:
         """
         Set counterFailed and return self for chaining.
 
@@ -4871,7 +4873,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         self.counter_failed = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_jump(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
+    def with_counter_jump(self, value: Optional["Integer"]) -> DiagEventDebounceCounterBased:
         """
         Set counterJump and return self for chaining.
 
@@ -4887,7 +4889,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         self.counter_jump = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_jump_up(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
+    def with_counter_jump_up(self, value: Optional["Integer"]) -> DiagEventDebounceCounterBased:
         """
         Set counterJumpUp and return self for chaining.
 
@@ -4903,7 +4905,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         self.counter_jump_up = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_passed(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
+    def with_counter_passed(self, value: Optional["Integer"]) -> DiagEventDebounceCounterBased:
         """
         Set counterPassed and return self for chaining.
 
@@ -5040,7 +5042,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         """
         return self.time_based_fdc  # Delegates to property
 
-    def setTimeBasedFdc(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
+    def setTimeBasedFdc(self, value: "TimeValue") -> DiagEventDebounceTimeBased:
         """
         AUTOSAR-compliant setter for timeBasedFdc with method chaining.
 
@@ -5068,7 +5070,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         """
         return self.time_failed  # Delegates to property
 
-    def setTimeFailed(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
+    def setTimeFailed(self, value: "TimeValue") -> DiagEventDebounceTimeBased:
         """
         AUTOSAR-compliant setter for timeFailed with method chaining.
 
@@ -5096,7 +5098,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         """
         return self.time_passed  # Delegates to property
 
-    def setTimePassed(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
+    def setTimePassed(self, value: "TimeValue") -> DiagEventDebounceTimeBased:
         """
         AUTOSAR-compliant setter for timePassed with method chaining.
 
@@ -5114,7 +5116,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_time_based_fdc(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
+    def with_time_based_fdc(self, value: Optional["TimeValue"]) -> DiagEventDebounceTimeBased:
         """
         Set timeBasedFdc and return self for chaining.
 
@@ -5130,7 +5132,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         self.time_based_fdc = value  # Use property setter (gets validation)
         return self
 
-    def with_time_failed(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
+    def with_time_failed(self, value: Optional["TimeValue"]) -> DiagEventDebounceTimeBased:
         """
         Set timeFailed and return self for chaining.
 
@@ -5146,7 +5148,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         self.time_failed = value  # Use property setter (gets validation)
         return self
 
-    def with_time_passed(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
+    def with_time_passed(self, value: Optional["TimeValue"]) -> DiagEventDebounceTimeBased:
         """
         Set timePassed and return self for chaining.
 
@@ -5440,7 +5442,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         return self.data_length  # Delegates to property
 
-    def setDataLength(self, value: "PositiveInteger") -> "DiagnosticValueNeeds":
+    def setDataLength(self, value: "PositiveInteger") -> DiagnosticValueNeeds:
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
 
@@ -5468,7 +5470,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         return self.diagnostic_value  # Delegates to property
 
-    def setDiagnosticValue(self, value: "DiagnosticValueAccess") -> "DiagnosticValueNeeds":
+    def setDiagnosticValue(self, value: "DiagnosticValueAccess") -> DiagnosticValueNeeds:
         """
         AUTOSAR-compliant setter for diagnosticValue with method chaining.
 
@@ -5496,7 +5498,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         return self.fixed_length  # Delegates to property
 
-    def setFixedLength(self, value: "Boolean") -> "DiagnosticValueNeeds":
+    def setFixedLength(self, value: "Boolean") -> DiagnosticValueNeeds:
         """
         AUTOSAR-compliant setter for fixedLength with method chaining.
 
@@ -5524,7 +5526,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         return self.processing_style  # Delegates to property
 
-    def setProcessingStyle(self, value: "DiagnosticProcessing") -> "DiagnosticValueNeeds":
+    def setProcessingStyle(self, value: "DiagnosticProcessing") -> DiagnosticValueNeeds:
         """
         AUTOSAR-compliant setter for processingStyle with method chaining.
 
@@ -5542,7 +5544,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_length(self, value: Optional["PositiveInteger"]) -> "DiagnosticValueNeeds":
+    def with_data_length(self, value: Optional["PositiveInteger"]) -> DiagnosticValueNeeds:
         """
         Set dataLength and return self for chaining.
 
@@ -5558,7 +5560,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> "DiagnosticValueNeeds":
+    def with_diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> DiagnosticValueNeeds:
         """
         Set diagnosticValue and return self for chaining.
 
@@ -5574,7 +5576,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self.diagnostic_value = value  # Use property setter (gets validation)
         return self
 
-    def with_fixed_length(self, value: Optional["Boolean"]) -> "DiagnosticValueNeeds":
+    def with_fixed_length(self, value: Optional["Boolean"]) -> DiagnosticValueNeeds:
         """
         Set fixedLength and return self for chaining.
 
@@ -5590,7 +5592,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self.fixed_length = value  # Use property setter (gets validation)
         return self
 
-    def with_processing_style(self, value: Optional["DiagnosticProcessing"]) -> "DiagnosticValueNeeds":
+    def with_processing_style(self, value: Optional["DiagnosticProcessing"]) -> DiagnosticValueNeeds:
         """
         Set processingStyle and return self for chaining.
 
@@ -5673,7 +5675,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
         """
         return self.diag_routine  # Delegates to property
 
-    def setDiagRoutine(self, value: "DiagnosticRoutineType") -> "DiagnosticRoutineNeeds":
+    def setDiagRoutine(self, value: "DiagnosticRoutineType") -> DiagnosticRoutineNeeds:
         """
         AUTOSAR-compliant setter for diagRoutine with method chaining.
 
@@ -5691,7 +5693,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> "DiagnosticRoutineNeeds":
+    def with_diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> DiagnosticRoutineNeeds:
         """
         Set diagRoutine and return self for chaining.
 
@@ -5732,15 +5734,15 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the DiagnosticValueNeeds indicating the the current value via
         # signalBasedDiagnostics.
-        self._currentValue: Optional["DiagnosticValueNeeds"] = None
+        self._currentValue: Optional[DiagnosticValueNeeds] = None
 
     @property
-    def current_value(self) -> Optional["DiagnosticValueNeeds"]:
+    def current_value(self) -> Optional[DiagnosticValueNeeds]:
         """Get currentValue (Pythonic accessor)."""
         return self._currentValue
 
     @current_value.setter
-    def current_value(self, value: Optional["DiagnosticValueNeeds"]) -> None:
+    def current_value(self, value: Optional[DiagnosticValueNeeds]) -> None:
         """
         Set currentValue with validation.
 
@@ -5848,7 +5850,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCurrentValue(self) -> "DiagnosticValueNeeds":
+    def getCurrentValue(self) -> DiagnosticValueNeeds:
         """
         AUTOSAR-compliant getter for currentValue.
 
@@ -5860,7 +5862,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.current_value  # Delegates to property
 
-    def setCurrentValue(self, value: "DiagnosticValueNeeds") -> "DiagnosticIoControlNeeds":
+    def setCurrentValue(self, value: DiagnosticValueNeeds) -> DiagnosticIoControlNeeds:
         """
         AUTOSAR-compliant setter for currentValue with method chaining.
 
@@ -5888,7 +5890,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.freeze_current  # Delegates to property
 
-    def setFreezeCurrent(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
+    def setFreezeCurrent(self, value: "Boolean") -> DiagnosticIoControlNeeds:
         """
         AUTOSAR-compliant setter for freezeCurrent with method chaining.
 
@@ -5916,7 +5918,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.reset_to_default  # Delegates to property
 
-    def setResetToDefault(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
+    def setResetToDefault(self, value: "Boolean") -> DiagnosticIoControlNeeds:
         """
         AUTOSAR-compliant setter for resetToDefault with method chaining.
 
@@ -5944,7 +5946,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.short_term  # Delegates to property
 
-    def setShortTerm(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
+    def setShortTerm(self, value: "Boolean") -> DiagnosticIoControlNeeds:
         """
         AUTOSAR-compliant setter for shortTerm with method chaining.
 
@@ -5962,7 +5964,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_current_value(self, value: Optional["DiagnosticValueNeeds"]) -> "DiagnosticIoControlNeeds":
+    def with_current_value(self, value: Optional[DiagnosticValueNeeds]) -> DiagnosticIoControlNeeds:
         """
         Set currentValue and return self for chaining.
 
@@ -5978,7 +5980,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         self.current_value = value  # Use property setter (gets validation)
         return self
 
-    def with_freeze_current(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
+    def with_freeze_current(self, value: Optional["Boolean"]) -> DiagnosticIoControlNeeds:
         """
         Set freezeCurrent and return self for chaining.
 
@@ -5994,7 +5996,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         self.freeze_current = value  # Use property setter (gets validation)
         return self
 
-    def with_reset_to_default(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
+    def with_reset_to_default(self, value: Optional["Boolean"]) -> DiagnosticIoControlNeeds:
         """
         Set resetToDefault and return self for chaining.
 
@@ -6010,7 +6012,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         self.reset_to_default = value  # Use property setter (gets validation)
         return self
 
-    def with_short_term(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
+    def with_short_term(self, value: Optional["Boolean"]) -> DiagnosticIoControlNeeds:
         """
         Set shortTerm and return self for chaining.
 
@@ -6116,7 +6118,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
         """
         return self.service_request  # Delegates to property
 
-    def setServiceRequest(self, value: "DiagnosticService") -> "DiagnosticCommunicationManagerNeeds":
+    def setServiceRequest(self, value: "DiagnosticService") -> DiagnosticCommunicationManagerNeeds:
         """
         AUTOSAR-compliant setter for serviceRequest with method chaining.
 
@@ -6134,7 +6136,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_service_request(self, value: Optional["DiagnosticService"]) -> "DiagnosticCommunicationManagerNeeds":
+    def with_service_request(self, value: Optional["DiagnosticService"]) -> DiagnosticCommunicationManagerNeeds:
         """
         Set serviceRequest and return self for chaining.
 
@@ -6200,10 +6202,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference contains the link to a function identifier FiM which is used
         # by the monitor before result.
-        self._deferringFid: List["FunctionInhibitionNeeds"] = []
+        self._deferringFid: List[FunctionInhibitionNeeds] = []
 
     @property
-    def deferring_fid(self) -> List["FunctionInhibitionNeeds"]:
+    def deferring_fid(self) -> List[FunctionInhibitionNeeds]:
         """Get deferringFid (Pythonic accessor)."""
         return self._deferringFid
         # Specifies the abstract need on the Debounce Algorithm applied by the
@@ -6237,15 +6239,15 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self._diagEvent = value
                 # diagnostic monitor.
         # The FID inhibit the monitoring of a symptom or the detected faults.
-        self._inhibitingFid: Optional["FunctionInhibitionNeeds"] = None
+        self._inhibitingFid: Optional[FunctionInhibitionNeeds] = None
 
     @property
-    def inhibiting_fid(self) -> Optional["FunctionInhibitionNeeds"]:
+    def inhibiting_fid(self) -> Optional[FunctionInhibitionNeeds]:
         """Get inhibitingFid (Pythonic accessor)."""
         return self._inhibitingFid
 
     @inhibiting_fid.setter
-    def inhibiting_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
+    def inhibiting_fid(self, value: Optional[FunctionInhibitionNeeds]) -> None:
         """
         Set inhibitingFid with validation.
 
@@ -6267,10 +6269,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
                 # diagnostic monitor.
         # Any FID inhibitions leads to an inhibition of the a symptom or the reporting
                 # of detected.
-        self._inhibiting: List["FunctionInhibitionNeeds"] = []
+        self._inhibiting: List[FunctionInhibitionNeeds] = []
 
     @property
-    def inhibiting(self) -> List["FunctionInhibitionNeeds"]:
+    def inhibiting(self) -> List[FunctionInhibitionNeeds]:
         """Get inhibiting (Pythonic accessor)."""
         return self._inhibiting
         # If the Event uses a prestored freeze-frame (using the PrestoreFreezeFrame and
@@ -6336,7 +6338,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDeferringFid(self) -> List["FunctionInhibitionNeeds"]:
+    def getDeferringFid(self) -> List[FunctionInhibitionNeeds]:
         """
         AUTOSAR-compliant getter for deferringFid.
 
@@ -6360,7 +6362,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.diag_event  # Delegates to property
 
-    def setDiagEvent(self, value: "DiagEventDebounce") -> "DiagnosticEventNeeds":
+    def setDiagEvent(self, value: "DiagEventDebounce") -> DiagnosticEventNeeds:
         """
         AUTOSAR-compliant setter for diagEvent with method chaining.
 
@@ -6376,7 +6378,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.diag_event = value  # Delegates to property setter
         return self
 
-    def getInhibitingFid(self) -> "FunctionInhibitionNeeds":
+    def getInhibitingFid(self) -> FunctionInhibitionNeeds:
         """
         AUTOSAR-compliant getter for inhibitingFid.
 
@@ -6388,7 +6390,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.inhibiting_fid  # Delegates to property
 
-    def setInhibitingFid(self, value: "FunctionInhibitionNeeds") -> "DiagnosticEventNeeds":
+    def setInhibitingFid(self, value: FunctionInhibitionNeeds) -> DiagnosticEventNeeds:
         """
         AUTOSAR-compliant setter for inhibitingFid with method chaining.
 
@@ -6404,7 +6406,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.inhibiting_fid = value  # Delegates to property setter
         return self
 
-    def getInhibiting(self) -> List["FunctionInhibitionNeeds"]:
+    def getInhibiting(self) -> List[FunctionInhibitionNeeds]:
         """
         AUTOSAR-compliant getter for inhibiting.
 
@@ -6428,7 +6430,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.prestored  # Delegates to property
 
-    def setPrestored(self, value: "Boolean") -> "DiagnosticEventNeeds":
+    def setPrestored(self, value: "Boolean") -> DiagnosticEventNeeds:
         """
         AUTOSAR-compliant setter for prestored with method chaining.
 
@@ -6456,7 +6458,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.uses_monitor  # Delegates to property
 
-    def setUsesMonitor(self, value: "Boolean") -> "DiagnosticEventNeeds":
+    def setUsesMonitor(self, value: "Boolean") -> DiagnosticEventNeeds:
         """
         AUTOSAR-compliant setter for usesMonitor with method chaining.
 
@@ -6474,7 +6476,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diag_event(self, value: Optional["DiagEventDebounce"]) -> "DiagnosticEventNeeds":
+    def with_diag_event(self, value: Optional["DiagEventDebounce"]) -> DiagnosticEventNeeds:
         """
         Set diagEvent and return self for chaining.
 
@@ -6490,7 +6492,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.diag_event = value  # Use property setter (gets validation)
         return self
 
-    def with_inhibiting_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "DiagnosticEventNeeds":
+    def with_inhibiting_fid(self, value: Optional[FunctionInhibitionNeeds]) -> DiagnosticEventNeeds:
         """
         Set inhibitingFid and return self for chaining.
 
@@ -6506,7 +6508,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.inhibiting_fid = value  # Use property setter (gets validation)
         return self
 
-    def with_prestored(self, value: Optional["Boolean"]) -> "DiagnosticEventNeeds":
+    def with_prestored(self, value: Optional["Boolean"]) -> DiagnosticEventNeeds:
         """
         Set prestored and return self for chaining.
 
@@ -6522,7 +6524,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.prestored = value  # Use property setter (gets validation)
         return self
 
-    def with_uses_monitor(self, value: Optional["Boolean"]) -> "DiagnosticEventNeeds":
+    def with_uses_monitor(self, value: Optional["Boolean"]) -> DiagnosticEventNeeds:
         """
         Set usesMonitor and return self for chaining.
 
@@ -6659,7 +6661,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         """
         return self.obd_dtc_number  # Delegates to property
 
-    def setObdDtcNumber(self, value: "PositiveInteger") -> "DiagnosticEventInfoNeeds":
+    def setObdDtcNumber(self, value: "PositiveInteger") -> DiagnosticEventInfoNeeds:
         """
         AUTOSAR-compliant setter for obdDtcNumber with method chaining.
 
@@ -6687,7 +6689,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         """
         return self.uds_dtc_number  # Delegates to property
 
-    def setUdsDtcNumber(self, value: "PositiveInteger") -> "DiagnosticEventInfoNeeds":
+    def setUdsDtcNumber(self, value: "PositiveInteger") -> DiagnosticEventInfoNeeds:
         """
         AUTOSAR-compliant setter for udsDtcNumber with method chaining.
 
@@ -6705,7 +6707,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_obd_dtc_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticEventInfoNeeds":
+    def with_obd_dtc_number(self, value: Optional["PositiveInteger"]) -> DiagnosticEventInfoNeeds:
         """
         Set obdDtcNumber and return self for chaining.
 
@@ -6721,7 +6723,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         self.obd_dtc_number = value  # Use property setter (gets validation)
         return self
 
-    def with_uds_dtc_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticEventInfoNeeds":
+    def with_uds_dtc_number(self, value: Optional["PositiveInteger"]) -> DiagnosticEventInfoNeeds:
         """
         Set udsDtcNumber and return self for chaining.
 
@@ -6869,15 +6871,15 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
                 f"applicationData must be ApplicationDataType or None, got {type(value).__name__}"
             )
         self._applicationData = value
-        self._eventNeeds: Optional["DiagnosticEventNeeds"] = None
+        self._eventNeeds: Optional[DiagnosticEventNeeds] = None
 
     @property
-    def event_needs(self) -> Optional["DiagnosticEventNeeds"]:
+    def event_needs(self) -> Optional[DiagnosticEventNeeds]:
         """Get eventNeeds (Pythonic accessor)."""
         return self._eventNeeds
 
     @event_needs.setter
-    def event_needs(self, value: Optional["DiagnosticEventNeeds"]) -> None:
+    def event_needs(self, value: Optional[DiagnosticEventNeeds]) -> None:
         """
         Set eventNeeds with validation.
 
@@ -6965,7 +6967,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.application_data  # Delegates to property
 
-    def setApplicationData(self, value: "ApplicationDataType") -> "ObdMonitorServiceNeeds":
+    def setApplicationData(self, value: "ApplicationDataType") -> ObdMonitorServiceNeeds:
         """
         AUTOSAR-compliant setter for applicationData with method chaining.
 
@@ -6981,7 +6983,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         self.application_data = value  # Delegates to property setter
         return self
 
-    def getEventNeeds(self) -> "DiagnosticEventNeeds":
+    def getEventNeeds(self) -> DiagnosticEventNeeds:
         """
         AUTOSAR-compliant getter for eventNeeds.
 
@@ -6993,7 +6995,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.event_needs  # Delegates to property
 
-    def setEventNeeds(self, value: "DiagnosticEventNeeds") -> "ObdMonitorServiceNeeds":
+    def setEventNeeds(self, value: DiagnosticEventNeeds) -> ObdMonitorServiceNeeds:
         """
         AUTOSAR-compliant setter for eventNeeds with method chaining.
 
@@ -7021,7 +7023,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.unit_and_scaling_id  # Delegates to property
 
-    def setUnitAndScalingId(self, value: "PositiveInteger") -> "ObdMonitorServiceNeeds":
+    def setUnitAndScalingId(self, value: "PositiveInteger") -> ObdMonitorServiceNeeds:
         """
         AUTOSAR-compliant setter for unitAndScalingId with method chaining.
 
@@ -7049,7 +7051,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.update_kind  # Delegates to property
 
-    def setUpdateKind(self, value: "DiagnosticMonitor") -> "ObdMonitorServiceNeeds":
+    def setUpdateKind(self, value: "DiagnosticMonitor") -> ObdMonitorServiceNeeds:
         """
         AUTOSAR-compliant setter for updateKind with method chaining.
 
@@ -7067,7 +7069,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application_data(self, value: Optional["ApplicationDataType"]) -> "ObdMonitorServiceNeeds":
+    def with_application_data(self, value: Optional["ApplicationDataType"]) -> ObdMonitorServiceNeeds:
         """
         Set applicationData and return self for chaining.
 
@@ -7083,7 +7085,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         self.application_data = value  # Use property setter (gets validation)
         return self
 
-    def with_event_needs(self, value: Optional["DiagnosticEventNeeds"]) -> "ObdMonitorServiceNeeds":
+    def with_event_needs(self, value: Optional[DiagnosticEventNeeds]) -> ObdMonitorServiceNeeds:
         """
         Set eventNeeds and return self for chaining.
 
@@ -7099,7 +7101,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         self.event_needs = value  # Use property setter (gets validation)
         return self
 
-    def with_unit_and_scaling_id(self, value: Optional["PositiveInteger"]) -> "ObdMonitorServiceNeeds":
+    def with_unit_and_scaling_id(self, value: Optional["PositiveInteger"]) -> ObdMonitorServiceNeeds:
         """
         Set unitAndScalingId and return self for chaining.
 
@@ -7115,7 +7117,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         self.unit_and_scaling_id = value  # Use property setter (gets validation)
         return self
 
-    def with_update_kind(self, value: Optional["DiagnosticMonitor"]) -> "ObdMonitorServiceNeeds":
+    def with_update_kind(self, value: Optional["DiagnosticMonitor"]) -> ObdMonitorServiceNeeds:
         """
         Set updateKind and return self for chaining.
 
@@ -7213,7 +7215,7 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
         """
         return self.operation_cycle  # Delegates to property
 
-    def setOperationCycle(self, value: "OperationCycleType") -> "DiagnosticOperationCycleNeeds":
+    def setOperationCycle(self, value: "OperationCycleType") -> DiagnosticOperationCycleNeeds:
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
 
@@ -7231,7 +7233,7 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation_cycle(self, value: Optional["OperationCycleType"]) -> "DiagnosticOperationCycleNeeds":
+    def with_operation_cycle(self, value: Optional["OperationCycleType"]) -> DiagnosticOperationCycleNeeds:
         """
         Set operationCycle and return self for chaining.
 
@@ -7308,7 +7310,7 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
         """
         return self.initial_status  # Delegates to property
 
-    def setInitialStatus(self, value: "EventAcceptanceStatus") -> "DiagnosticEnableConditionNeeds":
+    def setInitialStatus(self, value: "EventAcceptanceStatus") -> DiagnosticEnableConditionNeeds:
         """
         AUTOSAR-compliant setter for initialStatus with method chaining.
 
@@ -7326,7 +7328,7 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_initial_status(self, value: Optional["EventAcceptanceStatus"]) -> "DiagnosticEnableConditionNeeds":
+    def with_initial_status(self, value: Optional["EventAcceptanceStatus"]) -> DiagnosticEnableConditionNeeds:
         """
         Set initialStatus and return self for chaining.
 
@@ -7403,7 +7405,7 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
         """
         return self.initial_status  # Delegates to property
 
-    def setInitialStatus(self, value: "StorageConditionStatus") -> "DiagnosticStorageConditionNeeds":
+    def setInitialStatus(self, value: "StorageConditionStatus") -> DiagnosticStorageConditionNeeds:
         """
         AUTOSAR-compliant setter for initialStatus with method chaining.
 
@@ -7421,7 +7423,7 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_initial_status(self, value: Optional["StorageConditionStatus"]) -> "DiagnosticStorageConditionNeeds":
+    def with_initial_status(self, value: Optional["StorageConditionStatus"]) -> DiagnosticStorageConditionNeeds:
         """
         Set initialStatus and return self for chaining.
 
@@ -7499,7 +7501,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         """
         return self.notification_time  # Delegates to property
 
-    def setNotificationTime(self, value: "DiagnosticClearDtc") -> "DtcStatusChangeNotificationNeeds":
+    def setNotificationTime(self, value: "DiagnosticClearDtc") -> DtcStatusChangeNotificationNeeds:
         """
         AUTOSAR-compliant setter for notificationTime with method chaining.
 
@@ -7517,7 +7519,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_notification_time(self, value: Optional["DiagnosticClearDtc"]) -> "DtcStatusChangeNotificationNeeds":
+    def with_notification_time(self, value: Optional["DiagnosticClearDtc"]) -> DtcStatusChangeNotificationNeeds:
         """
         Set notificationTime and return self for chaining.
 
@@ -7602,15 +7604,15 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
                 f"connectionType must be ObdRatioConnection or None, got {type(value).__name__}"
             )
         self._connectionType = value
-        self._rateBasedMonitoredEvent: Optional["DiagnosticEventNeeds"] = None
+        self._rateBasedMonitoredEvent: Optional[DiagnosticEventNeeds] = None
 
     @property
-    def rate_based_monitored_event(self) -> Optional["DiagnosticEventNeeds"]:
+    def rate_based_monitored_event(self) -> Optional[DiagnosticEventNeeds]:
         """Get rateBasedMonitoredEvent (Pythonic accessor)."""
         return self._rateBasedMonitoredEvent
 
     @rate_based_monitored_event.setter
-    def rate_based_monitored_event(self, value: Optional["DiagnosticEventNeeds"]) -> None:
+    def rate_based_monitored_event(self, value: Optional[DiagnosticEventNeeds]) -> None:
         """
         Set rateBasedMonitoredEvent with validation.
 
@@ -7631,15 +7633,15 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         self._rateBasedMonitoredEvent = value
                 # monitor.
         # This is an optional.
-        self._usedFid: Optional["FunctionInhibitionNeeds"] = None
+        self._usedFid: Optional[FunctionInhibitionNeeds] = None
 
     @property
-    def used_fid(self) -> Optional["FunctionInhibitionNeeds"]:
+    def used_fid(self) -> Optional[FunctionInhibitionNeeds]:
         """Get usedFid (Pythonic accessor)."""
         return self._usedFid
 
     @used_fid.setter
-    def used_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
+    def used_fid(self, value: Optional[FunctionInhibitionNeeds]) -> None:
         """
         Set usedFid with validation.
 
@@ -7673,7 +7675,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.connection_type  # Delegates to property
 
-    def setConnectionType(self, value: "ObdRatioConnection") -> "ObdRatioServiceNeeds":
+    def setConnectionType(self, value: "ObdRatioConnection") -> ObdRatioServiceNeeds:
         """
         AUTOSAR-compliant setter for connectionType with method chaining.
 
@@ -7689,7 +7691,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         self.connection_type = value  # Delegates to property setter
         return self
 
-    def getRateBasedMonitoredEvent(self) -> "DiagnosticEventNeeds":
+    def getRateBasedMonitoredEvent(self) -> DiagnosticEventNeeds:
         """
         AUTOSAR-compliant getter for rateBasedMonitoredEvent.
 
@@ -7701,7 +7703,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.rate_based_monitored_event  # Delegates to property
 
-    def setRateBasedMonitoredEvent(self, value: "DiagnosticEventNeeds") -> "ObdRatioServiceNeeds":
+    def setRateBasedMonitoredEvent(self, value: DiagnosticEventNeeds) -> ObdRatioServiceNeeds:
         """
         AUTOSAR-compliant setter for rateBasedMonitoredEvent with method chaining.
 
@@ -7717,7 +7719,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         self.rate_based_monitored_event = value  # Delegates to property setter
         return self
 
-    def getUsedFid(self) -> "FunctionInhibitionNeeds":
+    def getUsedFid(self) -> FunctionInhibitionNeeds:
         """
         AUTOSAR-compliant getter for usedFid.
 
@@ -7729,7 +7731,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.used_fid  # Delegates to property
 
-    def setUsedFid(self, value: "FunctionInhibitionNeeds") -> "ObdRatioServiceNeeds":
+    def setUsedFid(self, value: FunctionInhibitionNeeds) -> ObdRatioServiceNeeds:
         """
         AUTOSAR-compliant setter for usedFid with method chaining.
 
@@ -7747,7 +7749,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connection_type(self, value: Optional["ObdRatioConnection"]) -> "ObdRatioServiceNeeds":
+    def with_connection_type(self, value: Optional["ObdRatioConnection"]) -> ObdRatioServiceNeeds:
         """
         Set connectionType and return self for chaining.
 
@@ -7763,7 +7765,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         self.connection_type = value  # Use property setter (gets validation)
         return self
 
-    def with_rate_based_monitored_event(self, value: Optional["DiagnosticEventNeeds"]) -> "ObdRatioServiceNeeds":
+    def with_rate_based_monitored_event(self, value: Optional[DiagnosticEventNeeds]) -> ObdRatioServiceNeeds:
         """
         Set rateBasedMonitoredEvent and return self for chaining.
 
@@ -7779,7 +7781,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         self.rate_based_monitored_event = value  # Use property setter (gets validation)
         return self
 
-    def with_used_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "ObdRatioServiceNeeds":
+    def with_used_fid(self, value: Optional[FunctionInhibitionNeeds]) -> ObdRatioServiceNeeds:
         """
         Set usedFid and return self for chaining.
 
@@ -7855,7 +7857,7 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
         """
         return self.denominator  # Delegates to property
 
-    def setDenominator(self, value: "DiagnosticDenominator") -> "ObdRatioDenominatorNeeds":
+    def setDenominator(self, value: "DiagnosticDenominator") -> ObdRatioDenominatorNeeds:
         """
         AUTOSAR-compliant setter for denominator with method chaining.
 
@@ -7873,7 +7875,7 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_denominator(self, value: Optional["DiagnosticDenominator"]) -> "ObdRatioDenominatorNeeds":
+    def with_denominator(self, value: Optional["DiagnosticDenominator"]) -> ObdRatioDenominatorNeeds:
         """
         Set denominator and return self for chaining.
 
@@ -8108,7 +8110,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
         """
         return self.data_length  # Delegates to property
 
-    def setDataLength(self, value: "PositiveInteger") -> "DoIpRoutingActivationAuthenticationNeeds":
+    def setDataLength(self, value: "PositiveInteger") -> DoIpRoutingActivationAuthenticationNeeds:
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
 
@@ -8136,7 +8138,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
         """
         return self.routing  # Delegates to property
 
-    def setRouting(self, value: "NameToken") -> "DoIpRoutingActivationAuthenticationNeeds":
+    def setRouting(self, value: "NameToken") -> DoIpRoutingActivationAuthenticationNeeds:
         """
         AUTOSAR-compliant setter for routing with method chaining.
 
@@ -8154,7 +8156,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_length(self, value: Optional["PositiveInteger"]) -> "DoIpRoutingActivationAuthenticationNeeds":
+    def with_data_length(self, value: Optional["PositiveInteger"]) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         Set dataLength and return self for chaining.
 
@@ -8170,7 +8172,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_routing(self, value: Optional["NameToken"]) -> "DoIpRoutingActivationAuthenticationNeeds":
+    def with_routing(self, value: Optional["NameToken"]) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         Set routing and return self for chaining.
 
@@ -8283,7 +8285,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
         """
         return self.data_length  # Delegates to property
 
-    def setDataLength(self, value: "PositiveInteger") -> "DoIpRoutingActivationConfirmationNeeds":
+    def setDataLength(self, value: "PositiveInteger") -> DoIpRoutingActivationConfirmationNeeds:
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
 
@@ -8311,7 +8313,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
         """
         return self.routing  # Delegates to property
 
-    def setRouting(self, value: "NameToken") -> "DoIpRoutingActivationConfirmationNeeds":
+    def setRouting(self, value: "NameToken") -> DoIpRoutingActivationConfirmationNeeds:
         """
         AUTOSAR-compliant setter for routing with method chaining.
 
@@ -8329,7 +8331,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_length(self, value: Optional["PositiveInteger"]) -> "DoIpRoutingActivationConfirmationNeeds":
+    def with_data_length(self, value: Optional["PositiveInteger"]) -> DoIpRoutingActivationConfirmationNeeds:
         """
         Set dataLength and return self for chaining.
 
@@ -8345,7 +8347,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_routing(self, value: Optional["NameToken"]) -> "DoIpRoutingActivationConfirmationNeeds":
+    def with_routing(self, value: Optional["NameToken"]) -> DoIpRoutingActivationConfirmationNeeds:
         """
         Set routing and return self for chaining.
 

@@ -4,9 +4,11 @@ AUTOSAR Package - GlobalConstraints
 Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints
 """
 
+
+from __future__ import annotations
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     Integer,
 )
@@ -38,10 +40,10 @@ class DataConstr(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is one particular rule within the data constraints.
-        self._dataConstrRule: List["DataConstrRule"] = []
+        self._dataConstrRule: List[DataConstrRule] = []
 
     @property
-    def data_constr_rule(self) -> List["DataConstrRule"]:
+    def data_constr_rule(self) -> List[DataConstrRule]:
         """Get dataConstrRule (Pythonic accessor)."""
         return self._dataConstrRule
 
@@ -95,7 +97,7 @@ class DataConstr(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataConstrRule(self) -> List["DataConstrRule"]:
+    def getDataConstrRule(self) -> List[DataConstrRule]:
         """
         AUTOSAR-compliant getter for dataConstrRule.
 
@@ -162,15 +164,15 @@ class DataConstrRule(ARObject):
             )
         self._constrLevel = value
         # domain).
-        self._internalConstrs: Optional["InternalConstrs"] = None
+        self._internalConstrs: Optional[InternalConstrs] = None
 
     @property
-    def internal_constrs(self) -> Optional["InternalConstrs"]:
+    def internal_constrs(self) -> Optional[InternalConstrs]:
         """Get internalConstrs (Pythonic accessor)."""
         return self._internalConstrs
 
     @internal_constrs.setter
-    def internal_constrs(self, value: Optional["InternalConstrs"]) -> None:
+    def internal_constrs(self, value: Optional[InternalConstrs]) -> None:
         """
         Set internalConstrs with validation.
 
@@ -190,15 +192,15 @@ class DataConstrRule(ARObject):
             )
         self._internalConstrs = value
         # domain).
-        self._physConstrs: Optional["PhysConstrs"] = None
+        self._physConstrs: Optional[PhysConstrs] = None
 
     @property
-    def phys_constrs(self) -> Optional["PhysConstrs"]:
+    def phys_constrs(self) -> Optional[PhysConstrs]:
         """Get physConstrs (Pythonic accessor)."""
         return self._physConstrs
 
     @phys_constrs.setter
-    def phys_constrs(self, value: Optional["PhysConstrs"]) -> None:
+    def phys_constrs(self, value: Optional[PhysConstrs]) -> None:
         """
         Set physConstrs with validation.
 
@@ -232,7 +234,7 @@ class DataConstrRule(ARObject):
         """
         return self.constr_level  # Delegates to property
 
-    def setConstrLevel(self, value: "Integer") -> "DataConstrRule":
+    def setConstrLevel(self, value: "Integer") -> DataConstrRule:
         """
         AUTOSAR-compliant setter for constrLevel with method chaining.
 
@@ -248,7 +250,7 @@ class DataConstrRule(ARObject):
         self.constr_level = value  # Delegates to property setter
         return self
 
-    def getInternalConstrs(self) -> "InternalConstrs":
+    def getInternalConstrs(self) -> InternalConstrs:
         """
         AUTOSAR-compliant getter for internalConstrs.
 
@@ -260,7 +262,7 @@ class DataConstrRule(ARObject):
         """
         return self.internal_constrs  # Delegates to property
 
-    def setInternalConstrs(self, value: "InternalConstrs") -> "DataConstrRule":
+    def setInternalConstrs(self, value: InternalConstrs) -> DataConstrRule:
         """
         AUTOSAR-compliant setter for internalConstrs with method chaining.
 
@@ -276,7 +278,7 @@ class DataConstrRule(ARObject):
         self.internal_constrs = value  # Delegates to property setter
         return self
 
-    def getPhysConstrs(self) -> "PhysConstrs":
+    def getPhysConstrs(self) -> PhysConstrs:
         """
         AUTOSAR-compliant getter for physConstrs.
 
@@ -288,7 +290,7 @@ class DataConstrRule(ARObject):
         """
         return self.phys_constrs  # Delegates to property
 
-    def setPhysConstrs(self, value: "PhysConstrs") -> "DataConstrRule":
+    def setPhysConstrs(self, value: PhysConstrs) -> DataConstrRule:
         """
         AUTOSAR-compliant setter for physConstrs with method chaining.
 
@@ -306,7 +308,7 @@ class DataConstrRule(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_constr_level(self, value: Optional["Integer"]) -> "DataConstrRule":
+    def with_constr_level(self, value: Optional["Integer"]) -> DataConstrRule:
         """
         Set constrLevel and return self for chaining.
 
@@ -322,7 +324,7 @@ class DataConstrRule(ARObject):
         self.constr_level = value  # Use property setter (gets validation)
         return self
 
-    def with_internal_constrs(self, value: Optional["InternalConstrs"]) -> "DataConstrRule":
+    def with_internal_constrs(self, value: Optional[InternalConstrs]) -> DataConstrRule:
         """
         Set internalConstrs and return self for chaining.
 
@@ -338,7 +340,7 @@ class DataConstrRule(ARObject):
         self.internal_constrs = value  # Use property setter (gets validation)
         return self
 
-    def with_phys_constrs(self, value: Optional["PhysConstrs"]) -> "DataConstrRule":
+    def with_phys_constrs(self, value: Optional[PhysConstrs]) -> DataConstrRule:
         """
         Set physConstrs and return self for chaining.
 
@@ -483,10 +485,10 @@ class PhysConstrs(ARObject):
                 f"monotony must be MonotonyEnum or None, got {type(value).__name__}"
             )
         self._monotony = value
-        self._scaleConstr: List["ScaleConstr"] = []
+        self._scaleConstr: List[ScaleConstr] = []
 
     @property
-    def scale_constr(self) -> List["ScaleConstr"]:
+    def scale_constr(self) -> List[ScaleConstr]:
         """Get scaleConstr (Pythonic accessor)."""
         return self._scaleConstr
         # This is the unit to which the physical constraints relate to.
@@ -560,7 +562,7 @@ class PhysConstrs(ARObject):
         """
         return self.lower_limit  # Delegates to property
 
-    def setLowerLimit(self, value: "Limit") -> "PhysConstrs":
+    def setLowerLimit(self, value: "Limit") -> PhysConstrs:
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
 
@@ -588,7 +590,7 @@ class PhysConstrs(ARObject):
         """
         return self.max_diff  # Delegates to property
 
-    def setMaxDiff(self, value: "Numerical") -> "PhysConstrs":
+    def setMaxDiff(self, value: "Numerical") -> PhysConstrs:
         """
         AUTOSAR-compliant setter for maxDiff with method chaining.
 
@@ -616,7 +618,7 @@ class PhysConstrs(ARObject):
         """
         return self.max_gradient  # Delegates to property
 
-    def setMaxGradient(self, value: "Numerical") -> "PhysConstrs":
+    def setMaxGradient(self, value: "Numerical") -> PhysConstrs:
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
 
@@ -644,7 +646,7 @@ class PhysConstrs(ARObject):
         """
         return self.monotony  # Delegates to property
 
-    def setMonotony(self, value: "MonotonyEnum") -> "PhysConstrs":
+    def setMonotony(self, value: "MonotonyEnum") -> PhysConstrs:
         """
         AUTOSAR-compliant setter for monotony with method chaining.
 
@@ -660,7 +662,7 @@ class PhysConstrs(ARObject):
         self.monotony = value  # Delegates to property setter
         return self
 
-    def getScaleConstr(self) -> List["ScaleConstr"]:
+    def getScaleConstr(self) -> List[ScaleConstr]:
         """
         AUTOSAR-compliant getter for scaleConstr.
 
@@ -684,7 +686,7 @@ class PhysConstrs(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "PhysConstrs":
+    def setUnit(self, value: "Unit") -> PhysConstrs:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -712,7 +714,7 @@ class PhysConstrs(ARObject):
         """
         return self.upper_limit  # Delegates to property
 
-    def setUpperLimit(self, value: "Limit") -> "PhysConstrs":
+    def setUpperLimit(self, value: "Limit") -> PhysConstrs:
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
 
@@ -730,7 +732,7 @@ class PhysConstrs(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lower_limit(self, value: Optional["Limit"]) -> "PhysConstrs":
+    def with_lower_limit(self, value: Optional["Limit"]) -> PhysConstrs:
         """
         Set lowerLimit and return self for chaining.
 
@@ -746,7 +748,7 @@ class PhysConstrs(ARObject):
         self.lower_limit = value  # Use property setter (gets validation)
         return self
 
-    def with_max_diff(self, value: Optional["Numerical"]) -> "PhysConstrs":
+    def with_max_diff(self, value: Optional["Numerical"]) -> PhysConstrs:
         """
         Set maxDiff and return self for chaining.
 
@@ -762,7 +764,7 @@ class PhysConstrs(ARObject):
         self.max_diff = value  # Use property setter (gets validation)
         return self
 
-    def with_max_gradient(self, value: Optional["Numerical"]) -> "PhysConstrs":
+    def with_max_gradient(self, value: Optional["Numerical"]) -> PhysConstrs:
         """
         Set maxGradient and return self for chaining.
 
@@ -778,7 +780,7 @@ class PhysConstrs(ARObject):
         self.max_gradient = value  # Use property setter (gets validation)
         return self
 
-    def with_monotony(self, value: Optional["MonotonyEnum"]) -> "PhysConstrs":
+    def with_monotony(self, value: Optional["MonotonyEnum"]) -> PhysConstrs:
         """
         Set monotony and return self for chaining.
 
@@ -794,7 +796,7 @@ class PhysConstrs(ARObject):
         self.monotony = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "PhysConstrs":
+    def with_unit(self, value: Optional["Unit"]) -> PhysConstrs:
         """
         Set unit and return self for chaining.
 
@@ -810,7 +812,7 @@ class PhysConstrs(ARObject):
         self.unit = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_limit(self, value: Optional["Limit"]) -> "PhysConstrs":
+    def with_upper_limit(self, value: Optional["Limit"]) -> PhysConstrs:
         """
         Set upperLimit and return self for chaining.
 
@@ -956,10 +958,10 @@ class InternalConstrs(ARObject):
                 f"monotony must be MonotonyEnum or None, got {type(value).__name__}"
             )
         self._monotony = value
-        self._scaleConstr: List["ScaleConstr"] = []
+        self._scaleConstr: List[ScaleConstr] = []
 
     @property
-    def scale_constr(self) -> List["ScaleConstr"]:
+    def scale_constr(self) -> List[ScaleConstr]:
         """Get scaleConstr (Pythonic accessor)."""
         return self._scaleConstr
         # This specifies the upper limit defined by the constraint.
@@ -1005,7 +1007,7 @@ class InternalConstrs(ARObject):
         """
         return self.lower_limit  # Delegates to property
 
-    def setLowerLimit(self, value: "Limit") -> "InternalConstrs":
+    def setLowerLimit(self, value: "Limit") -> InternalConstrs:
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
 
@@ -1033,7 +1035,7 @@ class InternalConstrs(ARObject):
         """
         return self.max_diff  # Delegates to property
 
-    def setMaxDiff(self, value: "Numerical") -> "InternalConstrs":
+    def setMaxDiff(self, value: "Numerical") -> InternalConstrs:
         """
         AUTOSAR-compliant setter for maxDiff with method chaining.
 
@@ -1061,7 +1063,7 @@ class InternalConstrs(ARObject):
         """
         return self.max_gradient  # Delegates to property
 
-    def setMaxGradient(self, value: "Numerical") -> "InternalConstrs":
+    def setMaxGradient(self, value: "Numerical") -> InternalConstrs:
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
 
@@ -1089,7 +1091,7 @@ class InternalConstrs(ARObject):
         """
         return self.monotony  # Delegates to property
 
-    def setMonotony(self, value: "MonotonyEnum") -> "InternalConstrs":
+    def setMonotony(self, value: "MonotonyEnum") -> InternalConstrs:
         """
         AUTOSAR-compliant setter for monotony with method chaining.
 
@@ -1105,7 +1107,7 @@ class InternalConstrs(ARObject):
         self.monotony = value  # Delegates to property setter
         return self
 
-    def getScaleConstr(self) -> List["ScaleConstr"]:
+    def getScaleConstr(self) -> List[ScaleConstr]:
         """
         AUTOSAR-compliant getter for scaleConstr.
 
@@ -1129,7 +1131,7 @@ class InternalConstrs(ARObject):
         """
         return self.upper_limit  # Delegates to property
 
-    def setUpperLimit(self, value: "Limit") -> "InternalConstrs":
+    def setUpperLimit(self, value: "Limit") -> InternalConstrs:
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
 
@@ -1147,7 +1149,7 @@ class InternalConstrs(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lower_limit(self, value: Optional["Limit"]) -> "InternalConstrs":
+    def with_lower_limit(self, value: Optional["Limit"]) -> InternalConstrs:
         """
         Set lowerLimit and return self for chaining.
 
@@ -1163,7 +1165,7 @@ class InternalConstrs(ARObject):
         self.lower_limit = value  # Use property setter (gets validation)
         return self
 
-    def with_max_diff(self, value: Optional["Numerical"]) -> "InternalConstrs":
+    def with_max_diff(self, value: Optional["Numerical"]) -> InternalConstrs:
         """
         Set maxDiff and return self for chaining.
 
@@ -1179,7 +1181,7 @@ class InternalConstrs(ARObject):
         self.max_diff = value  # Use property setter (gets validation)
         return self
 
-    def with_max_gradient(self, value: Optional["Numerical"]) -> "InternalConstrs":
+    def with_max_gradient(self, value: Optional["Numerical"]) -> InternalConstrs:
         """
         Set maxGradient and return self for chaining.
 
@@ -1195,7 +1197,7 @@ class InternalConstrs(ARObject):
         self.max_gradient = value  # Use property setter (gets validation)
         return self
 
-    def with_monotony(self, value: Optional["MonotonyEnum"]) -> "InternalConstrs":
+    def with_monotony(self, value: Optional["MonotonyEnum"]) -> InternalConstrs:
         """
         Set monotony and return self for chaining.
 
@@ -1211,7 +1213,7 @@ class InternalConstrs(ARObject):
         self.monotony = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_limit(self, value: Optional["Limit"]) -> "InternalConstrs":
+    def with_upper_limit(self, value: Optional["Limit"]) -> InternalConstrs:
         """
         Set upperLimit and return self for chaining.
 
@@ -1401,7 +1403,7 @@ class ScaleConstr(ARObject):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> "ScaleConstr":
+    def setDesc(self, value: "MultiLanguageOverview") -> ScaleConstr:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -1429,7 +1431,7 @@ class ScaleConstr(ARObject):
         """
         return self.lower_limit  # Delegates to property
 
-    def setLowerLimit(self, value: "Limit") -> "ScaleConstr":
+    def setLowerLimit(self, value: "Limit") -> ScaleConstr:
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
 
@@ -1457,7 +1459,7 @@ class ScaleConstr(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> "ScaleConstr":
+    def setShortLabel(self, value: "Identifier") -> ScaleConstr:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -1485,7 +1487,7 @@ class ScaleConstr(ARObject):
         """
         return self.upper_limit  # Delegates to property
 
-    def setUpperLimit(self, value: "Limit") -> "ScaleConstr":
+    def setUpperLimit(self, value: "Limit") -> ScaleConstr:
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
 
@@ -1513,7 +1515,7 @@ class ScaleConstr(ARObject):
         """
         return self.validity  # Delegates to property
 
-    def setValidity(self, value: "ScaleConstrValidity") -> "ScaleConstr":
+    def setValidity(self, value: "ScaleConstrValidity") -> ScaleConstr:
         """
         AUTOSAR-compliant setter for validity with method chaining.
 
@@ -1531,7 +1533,7 @@ class ScaleConstr(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "ScaleConstr":
+    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> ScaleConstr:
         """
         Set desc and return self for chaining.
 
@@ -1547,7 +1549,7 @@ class ScaleConstr(ARObject):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_lower_limit(self, value: Optional["Limit"]) -> "ScaleConstr":
+    def with_lower_limit(self, value: Optional["Limit"]) -> ScaleConstr:
         """
         Set lowerLimit and return self for chaining.
 
@@ -1563,7 +1565,7 @@ class ScaleConstr(ARObject):
         self.lower_limit = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["Identifier"]) -> "ScaleConstr":
+    def with_short_label(self, value: Optional["Identifier"]) -> ScaleConstr:
         """
         Set shortLabel and return self for chaining.
 
@@ -1579,7 +1581,7 @@ class ScaleConstr(ARObject):
         self.short_label = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_limit(self, value: Optional["Limit"]) -> "ScaleConstr":
+    def with_upper_limit(self, value: Optional["Limit"]) -> ScaleConstr:
         """
         Set upperLimit and return self for chaining.
 
@@ -1595,7 +1597,7 @@ class ScaleConstr(ARObject):
         self.upper_limit = value  # Use property setter (gets validation)
         return self
 
-    def with_validity(self, value: Optional["ScaleConstrValidity"]) -> "ScaleConstr":
+    def with_validity(self, value: Optional["ScaleConstrValidity"]) -> ScaleConstr:
         """
         Set validity and return self for chaining.
 

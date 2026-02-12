@@ -4,9 +4,11 @@ AUTOSAR Package - J1939
 Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -72,7 +74,7 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
         """
         return self.spn  # Delegates to property
 
-    def setSpn(self, value: "PositiveInteger") -> "DiagnosticJ1939Spn":
+    def setSpn(self, value: "PositiveInteger") -> DiagnosticJ1939Spn:
         """
         AUTOSAR-compliant setter for spn with method chaining.
 
@@ -90,7 +92,7 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_spn(self, value: Optional["PositiveInteger"]) -> "DiagnosticJ1939Spn":
+    def with_spn(self, value: Optional["PositiveInteger"]) -> DiagnosticJ1939Spn:
         """
         Set spn and return self for chaining.
 
@@ -125,15 +127,15 @@ class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
         # This represents the DiagnosticJ1939Node to which the frame is associated.
         # DiagnosticJ1939Spn * ref This represents the collection of SPNs that make the
                 # Frame.
-        self._node: Optional["DiagnosticJ1939Node"] = None
+        self._node: Optional[DiagnosticJ1939Node] = None
 
     @property
-    def node(self) -> Optional["DiagnosticJ1939Node"]:
+    def node(self) -> Optional[DiagnosticJ1939Node]:
         """Get node (Pythonic accessor)."""
         return self._node
 
     @node.setter
-    def node(self, value: Optional["DiagnosticJ1939Node"]) -> None:
+    def node(self, value: Optional[DiagnosticJ1939Node]) -> None:
         """
         Set node with validation.
 
@@ -155,7 +157,7 @@ class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getNode(self) -> "DiagnosticJ1939Node":
+    def getNode(self) -> DiagnosticJ1939Node:
         """
         AUTOSAR-compliant getter for node.
 
@@ -167,7 +169,7 @@ class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
         """
         return self.node  # Delegates to property
 
-    def setNode(self, value: "DiagnosticJ1939Node") -> "DiagnosticJ1939FreezeFrame":
+    def setNode(self, value: DiagnosticJ1939Node) -> DiagnosticJ1939FreezeFrame:
         """
         AUTOSAR-compliant setter for node with method chaining.
 
@@ -185,7 +187,7 @@ class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> "DiagnosticJ1939FreezeFrame":
+    def with_node(self, value: Optional[DiagnosticJ1939Node]) -> DiagnosticJ1939FreezeFrame:
         """
         Set node and return self for chaining.
 
@@ -222,15 +224,15 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
                 # associated.
         # DiagnosticJ1939Spn * ref This represents the collection of SPNs that make the
                 # Freeze Frame.
-        self._node: Optional["DiagnosticJ1939Node"] = None
+        self._node: Optional[DiagnosticJ1939Node] = None
 
     @property
-    def node(self) -> Optional["DiagnosticJ1939Node"]:
+    def node(self) -> Optional[DiagnosticJ1939Node]:
         """Get node (Pythonic accessor)."""
         return self._node
 
     @node.setter
-    def node(self, value: Optional["DiagnosticJ1939Node"]) -> None:
+    def node(self, value: Optional[DiagnosticJ1939Node]) -> None:
         """
         Set node with validation.
 
@@ -252,7 +254,7 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getNode(self) -> "DiagnosticJ1939Node":
+    def getNode(self) -> DiagnosticJ1939Node:
         """
         AUTOSAR-compliant getter for node.
 
@@ -264,7 +266,7 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
         """
         return self.node  # Delegates to property
 
-    def setNode(self, value: "DiagnosticJ1939Node") -> "DiagnosticJ1939ExpandedFreezeFrame":
+    def setNode(self, value: DiagnosticJ1939Node) -> DiagnosticJ1939ExpandedFreezeFrame:
         """
         AUTOSAR-compliant setter for node with method chaining.
 
@@ -282,7 +284,7 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> "DiagnosticJ1939ExpandedFreezeFrame":
+    def with_node(self, value: Optional[DiagnosticJ1939Node]) -> DiagnosticJ1939ExpandedFreezeFrame:
         """
         Set node and return self for chaining.
 
@@ -359,7 +361,7 @@ class DiagnosticJ1939Node(DiagnosticCommonElement):
         """
         return self.nm_node  # Delegates to property
 
-    def setNmNode(self, value: "J1939NmNode") -> "DiagnosticJ1939Node":
+    def setNmNode(self, value: "J1939NmNode") -> DiagnosticJ1939Node:
         """
         AUTOSAR-compliant setter for nmNode with method chaining.
 
@@ -377,7 +379,7 @@ class DiagnosticJ1939Node(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_nm_node(self, value: Optional["J1939NmNode"]) -> "DiagnosticJ1939Node":
+    def with_nm_node(self, value: Optional["J1939NmNode"]) -> DiagnosticJ1939Node:
         """
         Set nmNode and return self for chaining.
 

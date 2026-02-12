@@ -4,9 +4,11 @@ AUTOSAR Package - DiagnosticAging
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticAging
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -99,7 +101,7 @@ class DiagnosticAging(DiagnosticCommonElement):
         """
         return self.aging_cycle  # Delegates to property
 
-    def setAgingCycle(self, value: "DiagnosticOperation") -> "DiagnosticAging":
+    def setAgingCycle(self, value: "DiagnosticOperation") -> DiagnosticAging:
         """
         AUTOSAR-compliant setter for agingCycle with method chaining.
 
@@ -127,7 +129,7 @@ class DiagnosticAging(DiagnosticCommonElement):
         """
         return self.threshold  # Delegates to property
 
-    def setThreshold(self, value: "PositiveInteger") -> "DiagnosticAging":
+    def setThreshold(self, value: "PositiveInteger") -> DiagnosticAging:
         """
         AUTOSAR-compliant setter for threshold with method chaining.
 
@@ -145,7 +147,7 @@ class DiagnosticAging(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_aging_cycle(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticAging":
+    def with_aging_cycle(self, value: Optional["DiagnosticOperation"]) -> DiagnosticAging:
         """
         Set agingCycle and return self for chaining.
 
@@ -161,7 +163,7 @@ class DiagnosticAging(DiagnosticCommonElement):
         self.aging_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_threshold(self, value: Optional["PositiveInteger"]) -> "DiagnosticAging":
+    def with_threshold(self, value: Optional["PositiveInteger"]) -> DiagnosticAging:
         """
         Set threshold and return self for chaining.
 

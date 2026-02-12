@@ -4,10 +4,12 @@ AUTOSAR Package - BinaryManifest
 Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 """
 
+
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
@@ -242,7 +244,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
         """
         return self.cp_software  # Delegates to property
 
-    def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterBinaryManifestDescriptor":
+    def setCpSoftware(self, value: "CpSoftwareCluster") -> CpSoftwareClusterBinaryManifestDescriptor:
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
 
@@ -318,7 +320,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
         """
         return self.software_cluster  # Delegates to property
 
-    def setSoftwareCluster(self, value: "PositiveInteger") -> "CpSoftwareClusterBinaryManifestDescriptor":
+    def setSoftwareCluster(self, value: "PositiveInteger") -> CpSoftwareClusterBinaryManifestDescriptor:
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
 
@@ -336,7 +338,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterBinaryManifestDescriptor":
+    def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> CpSoftwareClusterBinaryManifestDescriptor:
         """
         Set cpSoftware and return self for chaining.
 
@@ -352,7 +354,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
         self.cp_software = value  # Use property setter (gets validation)
         return self
 
-    def with_software_cluster(self, value: Optional["PositiveInteger"]) -> "CpSoftwareClusterBinaryManifestDescriptor":
+    def with_software_cluster(self, value: Optional["PositiveInteger"]) -> CpSoftwareClusterBinaryManifestDescriptor:
         """
         Set softwareCluster and return self for chaining.
 
@@ -488,7 +490,7 @@ class BinaryManifestResource(Identifiable, ABC):
         """
         return self.global_resource  # Delegates to property
 
-    def setGlobalResource(self, value: "PositiveInteger") -> "BinaryManifestResource":
+    def setGlobalResource(self, value: "PositiveInteger") -> BinaryManifestResource:
         """
         AUTOSAR-compliant setter for globalResource with method chaining.
 
@@ -516,7 +518,7 @@ class BinaryManifestResource(Identifiable, ABC):
         """
         return self.resource  # Delegates to property
 
-    def setResource(self, value: "BinaryManifest") -> "BinaryManifestResource":
+    def setResource(self, value: "BinaryManifest") -> BinaryManifestResource:
         """
         AUTOSAR-compliant setter for resource with method chaining.
 
@@ -544,7 +546,7 @@ class BinaryManifestResource(Identifiable, ABC):
         """
         return self.resource_guard  # Delegates to property
 
-    def setResourceGuard(self, value: "String") -> "BinaryManifestResource":
+    def setResourceGuard(self, value: "String") -> BinaryManifestResource:
         """
         AUTOSAR-compliant setter for resourceGuard with method chaining.
 
@@ -562,7 +564,7 @@ class BinaryManifestResource(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_global_resource(self, value: Optional["PositiveInteger"]) -> "BinaryManifestResource":
+    def with_global_resource(self, value: Optional["PositiveInteger"]) -> BinaryManifestResource:
         """
         Set globalResource and return self for chaining.
 
@@ -578,7 +580,7 @@ class BinaryManifestResource(Identifiable, ABC):
         self.global_resource = value  # Use property setter (gets validation)
         return self
 
-    def with_resource(self, value: Optional["BinaryManifest"]) -> "BinaryManifestResource":
+    def with_resource(self, value: Optional["BinaryManifest"]) -> BinaryManifestResource:
         """
         Set resource and return self for chaining.
 
@@ -594,7 +596,7 @@ class BinaryManifestResource(Identifiable, ABC):
         self.resource = value  # Use property setter (gets validation)
         return self
 
-    def with_resource_guard(self, value: Optional["String"]) -> "BinaryManifestResource":
+    def with_resource_guard(self, value: Optional["String"]) -> BinaryManifestResource:
         """
         Set resourceGuard and return self for chaining.
 
@@ -629,16 +631,16 @@ class BinaryManifestResourceDefinition(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation specifies the collection of handle definitions in the
         # context of the enclosing binary manifest.
-        self._itemDefinition: List["BinaryManifestItem"] = []
+        self._itemDefinition: List[BinaryManifestItem] = []
 
     @property
-    def item_definition(self) -> List["BinaryManifestItem"]:
+    def item_definition(self) -> List[BinaryManifestItem]:
         """Get itemDefinition (Pythonic accessor)."""
         return self._itemDefinition
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getItemDefinition(self) -> List["BinaryManifestItem"]:
+    def getItemDefinition(self) -> List[BinaryManifestItem]:
         """
         AUTOSAR-compliant getter for itemDefinition.
 
@@ -669,10 +671,10 @@ class BinaryManifestItemDefinition(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation is used to define structured Binary ManifestItemDefinitions.
-        self._auxiliaryField: List["BinaryManifestItem"] = []
+        self._auxiliaryField: List[BinaryManifestItem] = []
 
     @property
-    def auxiliary_field(self) -> List["BinaryManifestItem"]:
+    def auxiliary_field(self) -> List[BinaryManifestItem]:
         """Get auxiliaryField (Pythonic accessor)."""
         return self._auxiliaryField
         # If true, the handle definition or auxiliary field of a binary is optional and
@@ -734,7 +736,7 @@ class BinaryManifestItemDefinition(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAuxiliaryField(self) -> List["BinaryManifestItem"]:
+    def getAuxiliaryField(self) -> List[BinaryManifestItem]:
         """
         AUTOSAR-compliant getter for auxiliaryField.
 
@@ -758,7 +760,7 @@ class BinaryManifestItemDefinition(Identifiable):
         """
         return self.is_optional  # Delegates to property
 
-    def setIsOptional(self, value: "Boolean") -> "BinaryManifestItemDefinition":
+    def setIsOptional(self, value: "Boolean") -> BinaryManifestItemDefinition:
         """
         AUTOSAR-compliant setter for isOptional with method chaining.
 
@@ -786,7 +788,7 @@ class BinaryManifestItemDefinition(Identifiable):
         """
         return self.size  # Delegates to property
 
-    def setSize(self, value: "PositiveInteger") -> "BinaryManifestItemDefinition":
+    def setSize(self, value: "PositiveInteger") -> BinaryManifestItemDefinition:
         """
         AUTOSAR-compliant setter for size with method chaining.
 
@@ -804,7 +806,7 @@ class BinaryManifestItemDefinition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_optional(self, value: Optional["Boolean"]) -> "BinaryManifestItemDefinition":
+    def with_is_optional(self, value: Optional["Boolean"]) -> BinaryManifestItemDefinition:
         """
         Set isOptional and return self for chaining.
 
@@ -820,7 +822,7 @@ class BinaryManifestItemDefinition(Identifiable):
         self.is_optional = value  # Use property setter (gets validation)
         return self
 
-    def with_size(self, value: Optional["PositiveInteger"]) -> "BinaryManifestItemDefinition":
+    def with_size(self, value: Optional["PositiveInteger"]) -> BinaryManifestItemDefinition:
         """
         Set size and return self for chaining.
 
@@ -924,7 +926,7 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
         """
         return self.address  # Delegates to property
 
-    def setAddress(self, value: "Address") -> "BinaryManifestAddressableObject":
+    def setAddress(self, value: "Address") -> BinaryManifestAddressableObject:
         """
         AUTOSAR-compliant setter for address with method chaining.
 
@@ -952,7 +954,7 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "SymbolString") -> "BinaryManifestAddressableObject":
+    def setSymbol(self, value: "SymbolString") -> BinaryManifestAddressableObject:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -970,7 +972,7 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_address(self, value: Optional["Address"]) -> "BinaryManifestAddressableObject":
+    def with_address(self, value: Optional["Address"]) -> BinaryManifestAddressableObject:
         """
         Set address and return self for chaining.
 
@@ -986,7 +988,7 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
         self.address = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["SymbolString"]) -> "BinaryManifestAddressableObject":
+    def with_symbol(self, value: Optional["SymbolString"]) -> BinaryManifestAddressableObject:
         """
         Set symbol and return self for chaining.
 
@@ -1111,7 +1113,7 @@ class BinaryManifestProvideResource(BinaryManifestResource):
         """
         return self.number_of  # Delegates to property
 
-    def setNumberOf(self, value: "PositiveInteger") -> "BinaryManifestProvideResource":
+    def setNumberOf(self, value: "PositiveInteger") -> BinaryManifestProvideResource:
         """
         AUTOSAR-compliant setter for numberOf with method chaining.
 
@@ -1139,7 +1141,7 @@ class BinaryManifestProvideResource(BinaryManifestResource):
         """
         return self.supports  # Delegates to property
 
-    def setSupports(self, value: "Boolean") -> "BinaryManifestProvideResource":
+    def setSupports(self, value: "Boolean") -> BinaryManifestProvideResource:
         """
         AUTOSAR-compliant setter for supports with method chaining.
 
@@ -1157,7 +1159,7 @@ class BinaryManifestProvideResource(BinaryManifestResource):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_number_of(self, value: Optional["PositiveInteger"]) -> "BinaryManifestProvideResource":
+    def with_number_of(self, value: Optional["PositiveInteger"]) -> BinaryManifestProvideResource:
         """
         Set numberOf and return self for chaining.
 
@@ -1173,7 +1175,7 @@ class BinaryManifestProvideResource(BinaryManifestResource):
         self.number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_supports(self, value: Optional["Boolean"]) -> "BinaryManifestProvideResource":
+    def with_supports(self, value: Optional["Boolean"]) -> BinaryManifestProvideResource:
         """
         Set supports and return self for chaining.
 
@@ -1248,7 +1250,7 @@ class BinaryManifestRequireResource(BinaryManifestResource):
         """
         return self.connection_is  # Delegates to property
 
-    def setConnectionIs(self, value: "Boolean") -> "BinaryManifestRequireResource":
+    def setConnectionIs(self, value: "Boolean") -> BinaryManifestRequireResource:
         """
         AUTOSAR-compliant setter for connectionIs with method chaining.
 
@@ -1266,7 +1268,7 @@ class BinaryManifestRequireResource(BinaryManifestResource):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connection_is(self, value: Optional["Boolean"]) -> "BinaryManifestRequireResource":
+    def with_connection_is(self, value: Optional["Boolean"]) -> BinaryManifestRequireResource:
         """
         Set connectionIs and return self for chaining.
 
@@ -1299,24 +1301,24 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation is used to define structured Binary.
-        self._auxiliaryField: List["BinaryManifestItem"] = []
+        self._auxiliaryField: List[BinaryManifestItem] = []
 
     @property
-    def auxiliary_field(self) -> List["BinaryManifestItem"]:
+    def auxiliary_field(self) -> List[BinaryManifestItem]:
         """Get auxiliaryField (Pythonic accessor)."""
         return self._auxiliaryField
         # This aggregation represents the definition of a default for a binary manifest
                 # handle or an auxiliaryField.
         # shall be taken if no connection for this possible.
-        self._defaultValue: Optional["BinaryManifestItem"] = None
+        self._defaultValue: Optional[BinaryManifestItem] = None
 
     @property
-    def default_value(self) -> Optional["BinaryManifestItem"]:
+    def default_value(self) -> Optional[BinaryManifestItem]:
         """Get defaultValue (Pythonic accessor)."""
         return self._defaultValue
 
     @default_value.setter
-    def default_value(self, value: Optional["BinaryManifestItem"]) -> None:
+    def default_value(self, value: Optional[BinaryManifestItem]) -> None:
         """
         Set defaultValue with validation.
 
@@ -1365,15 +1367,15 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         self._isUnused = value
                 # or an auxiliaryField.
         # shall be taken to establish a connection.
-        self._value: Optional["BinaryManifestItem"] = None
+        self._value: Optional[BinaryManifestItem] = None
 
     @property
-    def value(self) -> Optional["BinaryManifestItem"]:
+    def value(self) -> Optional[BinaryManifestItem]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional["BinaryManifestItem"]) -> None:
+    def value(self, value: Optional[BinaryManifestItem]) -> None:
         """
         Set value with validation.
 
@@ -1395,7 +1397,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAuxiliaryField(self) -> List["BinaryManifestItem"]:
+    def getAuxiliaryField(self) -> List[BinaryManifestItem]:
         """
         AUTOSAR-compliant getter for auxiliaryField.
 
@@ -1407,7 +1409,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         """
         return self.auxiliary_field  # Delegates to property
 
-    def getDefaultValue(self) -> "BinaryManifestItem":
+    def getDefaultValue(self) -> BinaryManifestItem:
         """
         AUTOSAR-compliant getter for defaultValue.
 
@@ -1419,7 +1421,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "BinaryManifestItem") -> "BinaryManifestItem":
+    def setDefaultValue(self, value: BinaryManifestItem) -> BinaryManifestItem:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 
@@ -1447,7 +1449,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         """
         return self.is_unused  # Delegates to property
 
-    def setIsUnused(self, value: "Boolean") -> "BinaryManifestItem":
+    def setIsUnused(self, value: "Boolean") -> BinaryManifestItem:
         """
         AUTOSAR-compliant setter for isUnused with method chaining.
 
@@ -1463,7 +1465,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         self.is_unused = value  # Delegates to property setter
         return self
 
-    def getValue(self) -> "BinaryManifestItem":
+    def getValue(self) -> BinaryManifestItem:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1475,7 +1477,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "BinaryManifestItem") -> "BinaryManifestItem":
+    def setValue(self, value: BinaryManifestItem) -> BinaryManifestItem:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1493,7 +1495,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_value(self, value: Optional["BinaryManifestItem"]) -> "BinaryManifestItem":
+    def with_default_value(self, value: Optional[BinaryManifestItem]) -> BinaryManifestItem:
         """
         Set defaultValue and return self for chaining.
 
@@ -1509,7 +1511,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         self.default_value = value  # Use property setter (gets validation)
         return self
 
-    def with_is_unused(self, value: Optional["Boolean"]) -> "BinaryManifestItem":
+    def with_is_unused(self, value: Optional["Boolean"]) -> BinaryManifestItem:
         """
         Set isUnused and return self for chaining.
 
@@ -1525,7 +1527,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
         self.is_unused = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["BinaryManifestItem"]) -> "BinaryManifestItem":
+    def with_value(self, value: Optional[BinaryManifestItem]) -> BinaryManifestItem:
         """
         Set value and return self for chaining.
 
@@ -1627,7 +1629,7 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
         """
         return self.size  # Delegates to property
 
-    def setSize(self, value: "PositiveInteger") -> "BinaryManifestMetaDataField":
+    def setSize(self, value: "PositiveInteger") -> BinaryManifestMetaDataField:
         """
         AUTOSAR-compliant setter for size with method chaining.
 
@@ -1655,7 +1657,7 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "VerbatimString") -> "BinaryManifestMetaDataField":
+    def setValue(self, value: "VerbatimString") -> BinaryManifestMetaDataField:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1673,7 +1675,7 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_size(self, value: Optional["PositiveInteger"]) -> "BinaryManifestMetaDataField":
+    def with_size(self, value: Optional["PositiveInteger"]) -> BinaryManifestMetaDataField:
         """
         Set size and return self for chaining.
 
@@ -1689,7 +1691,7 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
         self.size = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["VerbatimString"]) -> "BinaryManifestMetaDataField":
+    def with_value(self, value: Optional["VerbatimString"]) -> BinaryManifestMetaDataField:
         """
         Set value and return self for chaining.
 
@@ -1765,7 +1767,7 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> "BinaryManifestItemNumericalValue":
+    def setValue(self, value: "Numerical") -> BinaryManifestItemNumericalValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1783,7 +1785,7 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional["Numerical"]) -> "BinaryManifestItemNumericalValue":
+    def with_value(self, value: Optional["Numerical"]) -> BinaryManifestItemNumericalValue:
         """
         Set value and return self for chaining.
 
@@ -1885,7 +1887,7 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
         """
         return self.address  # Delegates to property
 
-    def setAddress(self, value: "Address") -> "BinaryManifestItemPointerValue":
+    def setAddress(self, value: "Address") -> BinaryManifestItemPointerValue:
         """
         AUTOSAR-compliant setter for address with method chaining.
 
@@ -1913,7 +1915,7 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "SymbolString") -> "BinaryManifestItemPointerValue":
+    def setSymbol(self, value: "SymbolString") -> BinaryManifestItemPointerValue:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -1931,7 +1933,7 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_address(self, value: Optional["Address"]) -> "BinaryManifestItemPointerValue":
+    def with_address(self, value: Optional["Address"]) -> BinaryManifestItemPointerValue:
         """
         Set address and return self for chaining.
 
@@ -1947,7 +1949,7 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
         self.address = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["SymbolString"]) -> "BinaryManifestItemPointerValue":
+    def with_symbol(self, value: Optional["SymbolString"]) -> BinaryManifestItemPointerValue:
         """
         Set symbol and return self for chaining.
 

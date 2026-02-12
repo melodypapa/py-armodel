@@ -4,6 +4,8 @@ AUTOSAR Package - ClearDiagnosticInfo
 Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ClearDiagnosticInfo
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
@@ -72,7 +74,7 @@ class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):
         """
         return self.clear_diagnostic  # Delegates to property
 
-    def setClearDiagnostic(self, value: "DiagnosticClear") -> "DiagnosticClearDiagnosticInformation":
+    def setClearDiagnostic(self, value: "DiagnosticClear") -> DiagnosticClearDiagnosticInformation:
         """
         AUTOSAR-compliant setter for clearDiagnostic with method chaining.
 
@@ -90,7 +92,7 @@ class DiagnosticClearDiagnosticInformation(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_clear_diagnostic(self, value: Optional["DiagnosticClear"]) -> "DiagnosticClearDiagnosticInformation":
+    def with_clear_diagnostic(self, value: Optional["DiagnosticClear"]) -> DiagnosticClearDiagnosticInformation:
         """
         Set clearDiagnostic and return self for chaining.
 

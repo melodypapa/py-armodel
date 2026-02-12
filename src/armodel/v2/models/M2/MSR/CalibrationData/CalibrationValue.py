@@ -4,9 +4,11 @@ AUTOSAR Package - CalibrationValue
 Package: M2::MSR::CalibrationData::CalibrationValue
 """
 
+
+from __future__ import annotations
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -56,15 +58,15 @@ class SwValueCont(ARObject):
             return
 
         self._swArraysize = value
-        self._swValuesPhys: Optional["SwValues"] = None
+        self._swValuesPhys: Optional[SwValues] = None
 
     @property
-    def sw_values_phys(self) -> Optional["SwValues"]:
+    def sw_values_phys(self) -> Optional[SwValues]:
         """Get swValuesPhys (Pythonic accessor)."""
         return self._swValuesPhys
 
     @sw_values_phys.setter
-    def sw_values_phys(self, value: Optional["SwValues"]) -> None:
+    def sw_values_phys(self, value: Optional[SwValues]) -> None:
         """
         Set swValuesPhys with validation.
 
@@ -153,7 +155,7 @@ class SwValueCont(ARObject):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> "SwValueCont":
+    def setSwArraysize(self, value: "RefType") -> SwValueCont:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -169,7 +171,7 @@ class SwValueCont(ARObject):
         self.sw_arraysize = value  # Delegates to property setter
         return self
 
-    def getSwValuesPhys(self) -> "SwValues":
+    def getSwValuesPhys(self) -> SwValues:
         """
         AUTOSAR-compliant getter for swValuesPhys.
 
@@ -181,7 +183,7 @@ class SwValueCont(ARObject):
         """
         return self.sw_values_phys  # Delegates to property
 
-    def setSwValuesPhys(self, value: "SwValues") -> "SwValueCont":
+    def setSwValuesPhys(self, value: SwValues) -> SwValueCont:
         """
         AUTOSAR-compliant setter for swValuesPhys with method chaining.
 
@@ -209,7 +211,7 @@ class SwValueCont(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "SwValueCont":
+    def setUnit(self, value: "Unit") -> SwValueCont:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -237,7 +239,7 @@ class SwValueCont(ARObject):
         """
         return self.unit_display  # Delegates to property
 
-    def setUnitDisplay(self, value: "SingleLanguageUnit") -> "SwValueCont":
+    def setUnitDisplay(self, value: "SingleLanguageUnit") -> SwValueCont:
         """
         AUTOSAR-compliant setter for unitDisplay with method chaining.
 
@@ -255,7 +257,7 @@ class SwValueCont(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_arraysize(self, value: Optional[RefType]) -> "SwValueCont":
+    def with_sw_arraysize(self, value: Optional[RefType]) -> SwValueCont:
         """
         Set swArraysize and return self for chaining.
 
@@ -271,7 +273,7 @@ class SwValueCont(ARObject):
         self.sw_arraysize = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_values_phys(self, value: Optional["SwValues"]) -> "SwValueCont":
+    def with_sw_values_phys(self, value: Optional[SwValues]) -> SwValueCont:
         """
         Set swValuesPhys and return self for chaining.
 
@@ -287,7 +289,7 @@ class SwValueCont(ARObject):
         self.sw_values_phys = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "SwValueCont":
+    def with_unit(self, value: Optional["Unit"]) -> SwValueCont:
         """
         Set unit and return self for chaining.
 
@@ -303,7 +305,7 @@ class SwValueCont(ARObject):
         self.unit = value  # Use property setter (gets validation)
         return self
 
-    def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> "SwValueCont":
+    def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> SwValueCont:
         """
         Set unitDisplay and return self for chaining.
 
@@ -422,15 +424,15 @@ class SwAxisCont(ARObject):
                 f"swAxisIndex must be AxisIndexType or None, got {type(value).__name__}"
             )
         self._swAxisIndex = value
-        self._swValuesPhys: Optional["SwValues"] = None
+        self._swValuesPhys: Optional[SwValues] = None
 
     @property
-    def sw_values_phys(self) -> Optional["SwValues"]:
+    def sw_values_phys(self) -> Optional[SwValues]:
         """Get swValuesPhys (Pythonic accessor)."""
         return self._swValuesPhys
 
     @sw_values_phys.setter
-    def sw_values_phys(self, value: Optional["SwValues"]) -> None:
+    def sw_values_phys(self, value: Optional[SwValues]) -> None:
         """
         Set swValuesPhys with validation.
 
@@ -519,7 +521,7 @@ class SwAxisCont(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CalprmAxisCategory") -> "SwAxisCont":
+    def setCategory(self, value: "CalprmAxisCategory") -> SwAxisCont:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -547,7 +549,7 @@ class SwAxisCont(ARObject):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> "SwAxisCont":
+    def setSwArraysize(self, value: "RefType") -> SwAxisCont:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -575,7 +577,7 @@ class SwAxisCont(ARObject):
         """
         return self.sw_axis_index  # Delegates to property
 
-    def setSwAxisIndex(self, value: "AxisIndexType") -> "SwAxisCont":
+    def setSwAxisIndex(self, value: "AxisIndexType") -> SwAxisCont:
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
 
@@ -591,7 +593,7 @@ class SwAxisCont(ARObject):
         self.sw_axis_index = value  # Delegates to property setter
         return self
 
-    def getSwValuesPhys(self) -> "SwValues":
+    def getSwValuesPhys(self) -> SwValues:
         """
         AUTOSAR-compliant getter for swValuesPhys.
 
@@ -603,7 +605,7 @@ class SwAxisCont(ARObject):
         """
         return self.sw_values_phys  # Delegates to property
 
-    def setSwValuesPhys(self, value: "SwValues") -> "SwAxisCont":
+    def setSwValuesPhys(self, value: SwValues) -> SwAxisCont:
         """
         AUTOSAR-compliant setter for swValuesPhys with method chaining.
 
@@ -631,7 +633,7 @@ class SwAxisCont(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> "SwAxisCont":
+    def setUnit(self, value: "Unit") -> SwAxisCont:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -659,7 +661,7 @@ class SwAxisCont(ARObject):
         """
         return self.unit_display  # Delegates to property
 
-    def setUnitDisplay(self, value: "SingleLanguageUnit") -> "SwAxisCont":
+    def setUnitDisplay(self, value: "SingleLanguageUnit") -> SwAxisCont:
         """
         AUTOSAR-compliant setter for unitDisplay with method chaining.
 
@@ -677,7 +679,7 @@ class SwAxisCont(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["CalprmAxisCategory"]) -> "SwAxisCont":
+    def with_category(self, value: Optional["CalprmAxisCategory"]) -> SwAxisCont:
         """
         Set category and return self for chaining.
 
@@ -693,7 +695,7 @@ class SwAxisCont(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_arraysize(self, value: Optional[RefType]) -> "SwAxisCont":
+    def with_sw_arraysize(self, value: Optional[RefType]) -> SwAxisCont:
         """
         Set swArraysize and return self for chaining.
 
@@ -709,7 +711,7 @@ class SwAxisCont(ARObject):
         self.sw_arraysize = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "SwAxisCont":
+    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> SwAxisCont:
         """
         Set swAxisIndex and return self for chaining.
 
@@ -725,7 +727,7 @@ class SwAxisCont(ARObject):
         self.sw_axis_index = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_values_phys(self, value: Optional["SwValues"]) -> "SwAxisCont":
+    def with_sw_values_phys(self, value: Optional[SwValues]) -> SwAxisCont:
         """
         Set swValuesPhys and return self for chaining.
 
@@ -741,7 +743,7 @@ class SwAxisCont(ARObject):
         self.sw_values_phys = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> "SwAxisCont":
+    def with_unit(self, value: Optional["Unit"]) -> SwAxisCont:
         """
         Set unit and return self for chaining.
 
@@ -757,7 +759,7 @@ class SwAxisCont(ARObject):
         self.unit = value  # Use property setter (gets validation)
         return self
 
-    def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> "SwAxisCont":
+    def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> SwAxisCont:
         """
         Set unitDisplay and return self for chaining.
 
@@ -948,7 +950,7 @@ class SwValues(ARObject):
         """
         return self.v  # Delegates to property
 
-    def setV(self, value: "Numerical") -> "SwValues":
+    def setV(self, value: "Numerical") -> SwValues:
         """
         AUTOSAR-compliant setter for v with method chaining.
 
@@ -976,7 +978,7 @@ class SwValues(ARObject):
         """
         return self.vf  # Delegates to property
 
-    def setVf(self, value: "Numerical") -> "SwValues":
+    def setVf(self, value: "Numerical") -> SwValues:
         """
         AUTOSAR-compliant setter for vf with method chaining.
 
@@ -1004,7 +1006,7 @@ class SwValues(ARObject):
         """
         return self.vg  # Delegates to property
 
-    def setVg(self, value: "RefType") -> "SwValues":
+    def setVg(self, value: "RefType") -> SwValues:
         """
         AUTOSAR-compliant setter for vg with method chaining.
 
@@ -1032,7 +1034,7 @@ class SwValues(ARObject):
         """
         return self.vt  # Delegates to property
 
-    def setVt(self, value: "VerbatimString") -> "SwValues":
+    def setVt(self, value: "VerbatimString") -> SwValues:
         """
         AUTOSAR-compliant setter for vt with method chaining.
 
@@ -1060,7 +1062,7 @@ class SwValues(ARObject):
         """
         return self.vtf  # Delegates to property
 
-    def setVtf(self, value: "NumericalOrText") -> "SwValues":
+    def setVtf(self, value: "NumericalOrText") -> SwValues:
         """
         AUTOSAR-compliant setter for vtf with method chaining.
 
@@ -1078,7 +1080,7 @@ class SwValues(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_v(self, value: Optional["Numerical"]) -> "SwValues":
+    def with_v(self, value: Optional["Numerical"]) -> SwValues:
         """
         Set v and return self for chaining.
 
@@ -1094,7 +1096,7 @@ class SwValues(ARObject):
         self.v = value  # Use property setter (gets validation)
         return self
 
-    def with_vf(self, value: Optional["Numerical"]) -> "SwValues":
+    def with_vf(self, value: Optional["Numerical"]) -> SwValues:
         """
         Set vf and return self for chaining.
 
@@ -1110,7 +1112,7 @@ class SwValues(ARObject):
         self.vf = value  # Use property setter (gets validation)
         return self
 
-    def with_vg(self, value: Optional[RefType]) -> "SwValues":
+    def with_vg(self, value: Optional[RefType]) -> SwValues:
         """
         Set vg and return self for chaining.
 
@@ -1126,7 +1128,7 @@ class SwValues(ARObject):
         self.vg = value  # Use property setter (gets validation)
         return self
 
-    def with_vt(self, value: Optional["VerbatimString"]) -> "SwValues":
+    def with_vt(self, value: Optional["VerbatimString"]) -> SwValues:
         """
         Set vt and return self for chaining.
 
@@ -1142,7 +1144,7 @@ class SwValues(ARObject):
         self.vt = value  # Use property setter (gets validation)
         return self
 
-    def with_vtf(self, value: Optional["NumericalOrText"]) -> "SwValues":
+    def with_vtf(self, value: Optional["NumericalOrText"]) -> SwValues:
         """
         Set vtf and return self for chaining.
 
@@ -1205,15 +1207,15 @@ class ValueGroup(ARObject):
                 f"label must be MultilanguageLong or None, got {type(value).__name__}"
             )
         self._label = value
-        self._vgContents: Optional["SwValues"] = None
+        self._vgContents: Optional[SwValues] = None
 
     @property
-    def vg_contents(self) -> Optional["SwValues"]:
+    def vg_contents(self) -> Optional[SwValues]:
         """Get vgContents (Pythonic accessor)."""
         return self._vgContents
 
     @vg_contents.setter
-    def vg_contents(self, value: Optional["SwValues"]) -> None:
+    def vg_contents(self, value: Optional[SwValues]) -> None:
         """
         Set vgContents with validation.
 
@@ -1247,7 +1249,7 @@ class ValueGroup(ARObject):
         """
         return self.label  # Delegates to property
 
-    def setLabel(self, value: "MultilanguageLong") -> "ValueGroup":
+    def setLabel(self, value: "MultilanguageLong") -> ValueGroup:
         """
         AUTOSAR-compliant setter for label with method chaining.
 
@@ -1263,7 +1265,7 @@ class ValueGroup(ARObject):
         self.label = value  # Delegates to property setter
         return self
 
-    def getVgContents(self) -> "SwValues":
+    def getVgContents(self) -> SwValues:
         """
         AUTOSAR-compliant getter for vgContents.
 
@@ -1275,7 +1277,7 @@ class ValueGroup(ARObject):
         """
         return self.vg_contents  # Delegates to property
 
-    def setVgContents(self, value: "SwValues") -> "ValueGroup":
+    def setVgContents(self, value: SwValues) -> ValueGroup:
         """
         AUTOSAR-compliant setter for vgContents with method chaining.
 
@@ -1293,7 +1295,7 @@ class ValueGroup(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_label(self, value: Optional["MultilanguageLong"]) -> "ValueGroup":
+    def with_label(self, value: Optional["MultilanguageLong"]) -> ValueGroup:
         """
         Set label and return self for chaining.
 
@@ -1309,7 +1311,7 @@ class ValueGroup(ARObject):
         self.label = value  # Use property setter (gets validation)
         return self
 
-    def with_vg_contents(self, value: Optional["SwValues"]) -> "ValueGroup":
+    def with_vg_contents(self, value: Optional[SwValues]) -> ValueGroup:
         """
         Set vgContents and return self for chaining.
 
