@@ -43,7 +43,24 @@ class AUTOSAR(ARObject):
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 56, Foundation R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 157, Foundation R23-11)
     """
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        """Get the singleton AUTOSAR instance."""
+        if AUTOSAR.__instance is None:
+            AUTOSAR()
+        return AUTOSAR.__instance
+
+    @staticmethod
+    def resetInstance():
+        """Reset the singleton AUTOSAR instance."""
+        AUTOSAR.__instance = None
+
     def __init__(self):
+        if AUTOSAR.__instance is not None:
+            raise Exception("The AUTOSAR is singleton!")
+        AUTOSAR.__instance = self
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====

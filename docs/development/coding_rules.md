@@ -858,9 +858,11 @@ src/armodel/models/M2/AUTOSARTemplates/
 │   └── Datatypes/                        # Non-leaf sub-package
 │       ├── __init__.py
 │       └── ...
-└── AutosarTopLevelStructure/            # Non-leaf package
-    └── __init__.py                       # Classes defined here
+└── AutosarTopLevelStructure.py          # Leaf package (no subdirs)
+    # Contains AUTOSAR and FileInfoComment classes
 ```
+
+**IMPORTANT:** Note that `AutosarTopLevelStructure` has NO subdirectories (`"subpackages": []` in package definition), so it is a **leaf package** and should use `.py` file, NOT `__init__.py`. This follows the decision tree above.
 
 **Package Structure Decision Tree:**
 
@@ -892,6 +894,30 @@ M2::AUTOSARTemplates::CommonStructure::    armodel.models.M2.AUTOSARTemplates.Co
 File Structure:
 AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
   (contains ImplementationDataType class)
+```
+
+**V1 Model Inconsistencies (NOT to be copied in V2):**
+
+The V1 models contain several packages that violate this rule by using `__init__.py` despite having NO subdirectories:
+
+```
+Violations in V1:
+├── AbstractPlatform/          # Has NO subdirs, but uses __init__.py (SHOULD BE .py)
+├── AutosarTopLevelStructure/  # Has NO subdirs, but uses __init__.py (SHOULD BE .py)
+├── DiagnosticExtract/         # Has NO subdirs, but uses __init__.py (SHOULD BE .py)
+├── ECUCDescriptionTemplate/   # Has NO subdirs, but uses __init__.py (SHOULD BE .py)
+├── ECUCParameterDefTemplate/  # Has NO subdirs, but uses __init__.py (SHOULD BE .py)
+└── EcuResourceTemplate/       # Has NO subdirs, but uses __init__.py (SHOULD BE .py)
+```
+
+**V2 Requirement:** V2 models MUST strictly follow the decision tree above. V2 is designed as a "clean break" from V1 with no backward compatibility constraints. Therefore, V2 should use:
+- **`.py` files** for packages with NO subdirectories (leaf packages)
+- **`__init__.py`** only for packages WITH subdirectories (non-leaf packages)
+
+To verify if a package has subdirectories, check the package definition JSON:
+```bash
+cat docs/requirements/packages/M2_AUTOSARTemplates_AutosarTopLevelStructure.json | grep subpackages
+# Output: "subpackages": []  ← Empty means NO subdirs, use .py file
 ```
 
 ### CODING_RULE_STYLE_00009: Class Organization per AUTOSAR Mapping
