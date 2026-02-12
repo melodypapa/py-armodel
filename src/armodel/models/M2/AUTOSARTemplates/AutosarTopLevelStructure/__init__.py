@@ -61,7 +61,6 @@ from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock as DocumentationBlock,
 )
-from armodel.models.utils.uuid_mgr import UUIDMgr
 
 
 class FileInfoComment(ARObject):
@@ -145,7 +144,6 @@ class AbstractAUTOSAR(CollectableElement):
         self._behavior_impl_maps = {}                       # type: Dict[str, str]
         self._impl_behavior_maps = {}                       # type: Dict[str, str]
 
-        self.uuid_mgr = UUIDMgr()
 
         self.systems = {}                                   # type: Dict[str, System]
         self.compositionSwComponentTypes = {}               # type: Dict[str, CompositionSwComponentType]
@@ -317,15 +315,12 @@ class AbstractAUTOSAR(CollectableElement):
                 self.compositionSwComponentTypes[short_name] = sw_component_type
         return self
 
-    def getARObjectByUUID(self, uuid: str) -> List[ARObject]:
         return self.uuid_mgr.getObjects(uuid)
 
-    def addARObject(self, value: ARObject):
         if value is not None:
             self.uuid_mgr.addObject(value)
         return self
 
-    def getDuplicateUUIDs(self) -> List[str]:
         return self.uuid_mgr.getDuplicateUUIDs()
 
     def setARRelease(self, release: str):

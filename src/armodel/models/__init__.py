@@ -147,12 +147,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndVi
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import *
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import *
 
-# utils
-from armodel.models.utils import *
-from armodel.models.utils.uuid_mgr import *
 
-# NOTE: Some classes in subdirectories with name collisions cannot be directly imported:
-# - BswBehavior/*.py files (9 classes)
 # - BswInterfaces/*.py files (3 classes)
 # - BswOverview/InstanceRefs/*.py files (1 class)
 # These are accessible via their full import paths, e.g.:
