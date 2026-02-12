@@ -7,8 +7,15 @@ as specified in docs/requirements/class-package.json.
 """
 
 import ast
+import io
 import json
+import sys
 from pathlib import Path
+
+# Fix Windows console encoding for Unicode characters (emojis)
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 
 def main():
@@ -18,7 +25,7 @@ def main():
         print(f"ERROR: Specification file not found: {spec_path}")
         return 1
 
-    with open(spec_path, 'r') as f:
+    with open(spec_path, 'r', encoding='utf-8') as f:
         classes = json.load(f)['types']
 
     # Filter for V2 classes only
@@ -31,10 +38,11 @@ def main():
             continue
 
         try:
-            with open(py_file, 'r') as f:
+            with open(py_file, 'r', encoding='utf-8') as f:
                 tree = ast.parse(f.read(), filename=str(py_file))
 
-            file_path = str(py_file)
+            # Normalize path to POSIX format (forward slashes) for cross-platform comparison
+            file_path = py_file.as_posix()
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
                     class_name = node.name
@@ -89,7 +97,8 @@ def main():
                     duplicates.append((class_name, expected_file, first_file, other_file))
 
     # Find extra files (files that exist but not in spec)
-    actual_v2_files = set(str(p) for p in Path('src/armodel/v2/models').rglob('*.py')
+    # Normalize all paths to POSIX format (forward slashes) for cross-platform compatibility
+    actual_v2_files = set(p.as_posix() for p in Path('src/armodel/v2/models').rglob('*.py')
                           if '__pycache__' not in str(p))
     expected_v2_files = set(c['python_file'] for c in v2_classes.values())
     extra_files = actual_v2_files - expected_v2_files
@@ -173,7 +182,7 @@ def main():
     # Save report
     report_path = Path('reports/v2_validation_report.md')
     report_path.parent.mkdir(exist_ok=True)
-    with open(report_path, 'w') as f:
+    with open(report_path, 'w', encoding='utf-8') as f:
         f.write('# V2 Models Validation Report\n\n')
         f.write('## Summary\n\n')
         f.write(f'- **Total V2 classes**: {len(v2_classes)}\n')
@@ -245,5 +254,4 @@ def main():
 
 
 if __name__ == '__main__':
-    import sys
     sys.exit(main())
