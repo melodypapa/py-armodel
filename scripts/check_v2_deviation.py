@@ -172,11 +172,20 @@ def main():
         print()
 
     if extra_files:
-        print(f'EXTRA FILES: {len(extra_files)} files not in specification (warnings only)')
+        print(f'EXTRA FILES ({len(extra_files)} files not in specification):')
+        for extra_file in sorted(extra_files)[:15]:
+            print(f'  - {extra_file}')
+        if len(extra_files) > 15:
+            print(f'  ... and {len(extra_files) - 15} more')
         print()
 
     if conflicts:
-        print(f'FILE/DIRECTORY CONFLICTS: {len(conflicts)} (violates CODING_RULE_STYLE_00008)')
+        print(f'FILE/DIRECTORY CONFLICTS ({len(conflicts)} - violates CODING_RULE_STYLE_00008):')
+        for conflict_file in sorted(conflicts):
+            # Show both the .py file and the conflicting directory
+            conflict_dir = conflict_file[:-3]  # Remove .py extension
+            print(f'  - {conflict_file}')
+            print(f'    Conflicts with directory: {conflict_dir}/')
         print()
 
     # Save report
@@ -219,6 +228,24 @@ def main():
             for class_name, expected in missing:
                 f.write(f'- `{class_name}` → `{expected}`\n')
             f.write('\n')
+
+        if extra_files:
+            f.write('## Extra Files\n\n')
+            f.write(f'Total: {len(extra_files)} files not in specification\n\n')
+            for extra_file in sorted(extra_files):
+                f.write(f'- `{extra_file}`\n')
+            f.write('\n')
+
+        if conflicts:
+            f.write('## File/Directory Conflicts\n\n')
+            f.write(f'Total: {len(conflicts)} (violates CODING_RULE_STYLE_00008)\n\n')
+            f.write('These .py files have the same name as a directory, which violates ')
+            f.write('the package structure rules.\n\n')
+            for conflict_file in sorted(conflicts):
+                conflict_dir = conflict_file[:-3]
+                f.write(f'### `{conflict_file}`\n')
+                f.write(f'- **File**: `{conflict_file}`\n')
+                f.write(f'- **Conflicting directory**: `{conflict_dir}/`\n\n')
 
         f.write('## Status\n\n')
         if passed:
