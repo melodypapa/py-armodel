@@ -17,9 +17,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 
 if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-        ARElement,
-    )
+    pass
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Identifier,
@@ -31,11 +30,14 @@ class AutoCollectEnum(AREnum):
     """
     AutoCollectEnum enumeration
 
-This enumerator defines the possible approaches to determine the final set of elements in a collection. Aggregated by Collection.autoCollect
+    This enumerator defines the possible approaches to determine the final set
+    of elements in a collection. Aggregated by Collection.autoCollect
 
-Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
     """
-    # All objects being referenced (recursively) from the objects mentioned directly in the collection are also considered as part of the collection.
+    # All objects being referenced (recursively)
+    # from the objects mentioned directly in the collection are also
+    # considered as part of the collection.
     refAll = "0"
 
     # This indicates that only those objects mentioned directly in the collection are part of the collection. No other objects are considered further.

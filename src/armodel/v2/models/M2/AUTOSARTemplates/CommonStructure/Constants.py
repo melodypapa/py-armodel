@@ -6,15 +6,23 @@ Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Identifier,
-    Integer,
-    PositiveInteger,
-    RefType,
-    String,
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    AxisIndexType,
+    CalprmAxisCategory,
+    CompositeRuleBased,
+    CompositeValue,
+    Numerical,
+    RuleBasedValue,
+    SwAxisCont,
+    SwValueCont,
+    VerbatimString,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    Unit,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -22,7 +30,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (    AxisIndexType,    CalprmAxisCategory,    CompositeRuleBased,    CompositeValue,    Numerical,    RuleBasedValue,    SwAxisCont,    SwValueCont,    VerbatimString,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (    Unit,)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+    Integer,
+    PositiveInteger,
+    RefType,
+    String,
+)
+
 
 class ConstantSpecification(ARElement):
     """

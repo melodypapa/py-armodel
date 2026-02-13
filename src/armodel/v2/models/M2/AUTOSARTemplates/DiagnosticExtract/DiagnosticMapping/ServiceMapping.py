@@ -6,19 +6,20 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapp
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    NameToken,
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.__init__ import (
     DiagnosticMapping,
     DiagnosticSwMapping,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    NameToken,
+    RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     IdentCaption,

@@ -6,20 +6,19 @@ Package: M2::MSR::DataDictionary::DataDefProperties
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Float,
-    Identifier,
-    Integer,
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    Float,
+    Identifier,
+    Integer,
+    RefType,
 )
 
 
@@ -2910,7 +2909,8 @@ class SwDataDependency(ARObject):
     """
     This element describes the interdependencies of data objects, e.g. variables
     and parameters. Use cases: • Calculate the value of a calibration parameter
-    (by the MCD system) from the value(s) of other calibration parameters. •
+    (by the MCD system)
+ from the value(s) of other calibration parameters. •
     Virtual data - that means the data object is not directly in the ecu and
     this property describes how the "virtual variable" can be computed from the
     real ones (by the MCD system).

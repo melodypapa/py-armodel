@@ -6,10 +6,11 @@ Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Identifier,
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpFeature,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
@@ -17,8 +18,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
-    AtpFeature,
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
 )
 
 

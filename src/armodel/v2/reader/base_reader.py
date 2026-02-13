@@ -11,11 +11,11 @@ from typing import (
     cast,
 )
 
+from armodel.utils.context import DeserializationContext
+from armodel.utils.errors import ReadError
 from armodel.v2.models import AUTOSAR
 from armodel.v2.reader.element_handler import ElementHandler
 from armodel.v2.reader.schema_registry import SchemaRegistry
-from armodel.utils.context import DeserializationContext
-from armodel.utils.errors import ReadError
 
 
 class ARXMLReader:

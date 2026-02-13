@@ -6,17 +6,10 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
 
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Integer,
-    NameToken,
-    PositiveInteger,
-    RefType,
-    String,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -29,6 +22,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    Integer,
+    NameToken,
+    PositiveInteger,
+    RefType,
+    String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     TransformationComSpecProps,

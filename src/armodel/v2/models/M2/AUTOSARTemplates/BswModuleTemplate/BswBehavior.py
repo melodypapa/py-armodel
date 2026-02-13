@@ -6,15 +6,39 @@ Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Identifier,
-    PositiveInteger,
-    RefType,
-    String,
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    ApiPrincipleEnum,
+    BswAsynchronous,
+    BswClientPolicy,
+    BswDataReception,
+    BswDataSendPolicy,
+    BswDistinguished,
+    BswEvent,
+    BswExclusiveArea,
+    BswInterruptCategory,
+    BswModeReceiver,
+    BswModeSwitchAck,
+    BswModuleClientServer,
+    BswModuleEntity,
+    BswModuleEntry,
+    BswParameterPolicy,
+    BswPerInstance,
+    BswSchedulerName,
+    BswService,
+    ExclusiveArea,
+    ExclusiveAreaNesting,
+    IncludedMode,
+    RoleBasedBswModule,
+    RoleBasedData,
+    VariationPointProxy,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
+    ModeActivationKind,
+    ModeDeclaration,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
@@ -36,38 +60,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
-    ApiPrincipleEnum,
-    BswAsynchronous,
-    BswClientPolicy,
-    BswDataReception,
-    BswDistinguished,
-    BswEvent,
-    BswExclusiveArea,
-    BswInterruptCategory,
-    BswModeReceiver,
-    BswModeSwitchAck,
-    BswModuleClientServer,
-    BswModuleEntity,
-    BswModuleEntry,
-    BswParameterPolicy,
-    BswPerInstance,
-    BswSchedulerName,
-    BswService,
-    BswDataSendPolicy,
-    ExclusiveArea,
-    ExclusiveAreaNesting,
-    IncludedMode,
-    RoleBasedBswModule,
-    RoleBasedData,
-    VariationPointProxy,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
-    ModeActivationKind,
-    ModeDeclaration,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Identifier,
+    PositiveInteger,
+    RefType,
+    String,
     SwImplPolicyEnum,
     TimeValue,
 )

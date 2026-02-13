@@ -6,24 +6,33 @@ Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    PositiveInteger,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    MacAddressString,
+    PositiveInteger,
+    TimeValue,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.__init__ import (
     AbstractGlobalTimeDomainProps,
     GlobalTimeMaster,
     GlobalTimeSlave,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.ETH import (    CouplingPort,    EthGlobalTime,    EthGlobalTimeMessage,    GlobalTimeCrc,    GlobalTimeCrcSupport,    GlobalTimePortRole,)from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (    MacAddressString,    TimeValue,)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.ETH import (
+    CouplingPort,
+    EthGlobalTime,
+    EthGlobalTimeMessage,
+    GlobalTimeCrc,
+    GlobalTimeCrcSupport,
+    GlobalTimePortRole,
+)
+
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
     """

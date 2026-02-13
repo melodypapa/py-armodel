@@ -6,20 +6,36 @@ Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Integer,
-    RefType,
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    DocumentationBlock,
+    ImplementationData,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Integer,
+    RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (    ApplicationArray,    ApplicationRecord,    SenderRecArray,    SenderRecComposite,    SenderRecRecord,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (    DocumentationBlock,    ImplementationData,)from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (    ClientServerOperation,)from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (    SystemSignal,)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerOperation,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (
+    SystemSignal,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    ApplicationArray,
+    ApplicationRecord,
+    SenderRecArray,
+    SenderRecComposite,
+    SenderRecRecord,
+)
+
 
 class DataMapping(ARObject, ABC):
     """

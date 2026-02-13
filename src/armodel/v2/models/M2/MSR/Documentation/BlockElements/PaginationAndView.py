@@ -6,6 +6,7 @@ Package: M2::MSR::Documentation::BlockElements::PaginationAndView
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import Optional
 

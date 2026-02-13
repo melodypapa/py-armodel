@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Runnabl
 
 
 from __future__ import annotations
+
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (

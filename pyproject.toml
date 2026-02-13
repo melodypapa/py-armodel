@@ -152,11 +152,6 @@ warn_no_return = true
 follow_imports = "normal"  # or "skip" for stub-less packages
 ignore_missing_imports = false
 
-# Exclude V2 modules from type checking
-exclude = [
-    "src/armodel/v2/.*",
-]
-
 # Per-module mypy configuration
 [[tool.mypy.overrides]]
 module = [

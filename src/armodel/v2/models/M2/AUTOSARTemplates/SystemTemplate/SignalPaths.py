@@ -6,17 +6,16 @@ Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.MSR.Documentation.BlockElements import (
     DocumentationBlock,

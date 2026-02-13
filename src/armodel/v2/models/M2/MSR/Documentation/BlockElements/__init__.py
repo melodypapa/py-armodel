@@ -6,6 +6,7 @@ Package: M2::MSR::Documentation::BlockElements
 
 
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
@@ -29,8 +30,8 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.Note import (
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
-    TraceableText,
     Traceable,
+    TraceableText,
 )
 
 if TYPE_CHECKING:

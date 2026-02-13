@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Intru
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 

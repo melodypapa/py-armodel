@@ -6,6 +6,7 @@ Package: M2::MSR::Documentation::BlockElements::Note
 
 
 from __future__ import annotations
+
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (

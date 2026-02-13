@@ -6,12 +6,15 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    PositiveInteger,
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    ArraySizeSemantics,
+    DiagnosticAccess,
+    DiagnosticRequest,
+    DiagnosticSupportInfo,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -22,10 +25,17 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    PositiveInteger,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     IdentCaption,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (    ArraySizeSemantics,    DiagnosticAccess,    DiagnosticRequest,    DiagnosticSupportInfo,)from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwDataDefProps import (    SwDataDefProps,)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwDataDefProps import (
+    SwDataDefProps,
+)
+
 
 class DiagnosticCommonElement(ARElement, ABC):
     """

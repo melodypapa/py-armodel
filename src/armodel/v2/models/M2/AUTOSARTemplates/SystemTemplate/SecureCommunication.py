@@ -6,13 +6,12 @@ Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    PositiveInteger,
-    String,
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    ValueSpecification,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -25,8 +24,28 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    MacAddressString,
+    PositiveInteger,
+    String,
+    TimeValue,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (    CryptoCertificate,    CryptoCertificateFormat,    CryptoEllipticCurve,    CryptoService,    CryptoSignature,    MacSecConfidentiality,    MacSecCryptoAlgo,    MacSecGlobalKay,)from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (    Communication,    EthernetCluster,    NetworkEndpoint,)from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (    MacAddressString,    TimeValue,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (    ValueSpecification,)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (
+    Communication,
+    EthernetCluster,
+    NetworkEndpoint,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoCertificate,
+    CryptoCertificateFormat,
+    CryptoEllipticCurve,
+    CryptoService,
+    CryptoSignature,
+    MacSecConfidentiality,
+    MacSecCryptoAlgo,
+    MacSecGlobalKay,
+)
+
 
 class CryptoServiceCertificate(ARElement):
     """

@@ -6,20 +6,20 @@ Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Identifier,
-    Integer,
-    NameToken,
-    PositiveInteger,
-    RefType,
-    String,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagEventDebounce,
+    DiagnosticClearDtc,
+    DiagnosticDenominator,
+    DiagnosticMonitor,
+    DiagnosticProcessing,
+    DiagnosticService,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -29,18 +29,15 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    Identifier,
+    Integer,
+    NameToken,
+    PositiveInteger,
+    RefType,
+    String,
 )
 
-
-
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
-    DiagEventDebounce,
-    DiagnosticClearDtc,
-    DiagnosticDenominator,
-    DiagnosticMonitor,
-    DiagnosticProcessing,
-    DiagnosticService,
-)
 
 class ServiceDependency(ARObject, ABC):
     """

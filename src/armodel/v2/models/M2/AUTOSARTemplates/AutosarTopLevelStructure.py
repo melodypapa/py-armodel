@@ -16,11 +16,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.AsamHdo.AdminData import (
     AdminData,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    DocumentationBlock,
-)
 from armodel.v2.models.M2.MSR.AsamHdo.SpecialData import (
     Sdg,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+    DocumentationBlock,
 )
 
 __all__ = [
@@ -139,7 +139,7 @@ class AUTOSAR(ARObject):
     def admin_data(self) -> Optional[AdminData]:
         """Get adminData (Pythonic accessor)."""
         return self._adminData
-    
+
     @admin_data.setter
     def admin_data(self, value: Optional[AdminData]) -> None:
         """
@@ -154,16 +154,16 @@ class AUTOSAR(ARObject):
         if value is None:
             self._adminData = None
             return
-    
+
         # Skip type check for non-string types to avoid import issues
         # In V2, we use duck typing for flexibility
         self._adminData = value
-    
+
     @property
     def ar_package(self) -> List[ARPackage]:
         """Get arPackage (Pythonic accessor)."""
         return self._arPackage
-    
+
     @ar_package.setter
     def ar_package(self, value: List[ARPackage]) -> None:
         """
@@ -180,12 +180,12 @@ class AUTOSAR(ARObject):
                 f"ar_package must be a list or None, got {type(value).__name__}"
             )
         self._arPackage = value
-    
+
     @property
     def ar_packages(self) -> List[ARPackage]:
         """Get arPackage (alias property)."""
         return self._arPackage
-    
+
     @ar_packages.setter
     def ar_packages(self, value: List[ARPackage]) -> None:
         """
@@ -226,7 +226,7 @@ class AUTOSAR(ARObject):
     def introduction(self) -> Optional[DocumentationBlock]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
-    
+
     @introduction.setter
     def introduction(self, value: Optional[DocumentationBlock]) -> None:
         """
@@ -241,7 +241,7 @@ class AUTOSAR(ARObject):
         if value is None:
             self._introduction = None
             return
-    
+
         # Skip type check for non-string types to avoid import issues
         # In V2, we use duck typing for flexibility
         self._introduction = value
@@ -262,7 +262,7 @@ class AUTOSAR(ARObject):
             Delegates to admin_data property (CODING_RULE_V2_00017)
         """
         return self.admin_data  # Delegates to property
-    
+
     def setAdminData(self, value: AdminData) -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for adminData with method chaining.
@@ -278,7 +278,7 @@ class AUTOSAR(ARObject):
         """
         self.admin_data = value  # Delegates to property setter
         return self
-    
+
     def getArPackage(self) -> List[ARPackage]:
         """
         AUTOSAR-compliant getter for arPackage.
@@ -290,7 +290,7 @@ class AUTOSAR(ARObject):
             Delegates to ar_package property (CODING_RULE_V2_00017)
         """
         return self.ar_package  # Delegates to property
-    
+
     def getFileInfo(self) -> "FileInfoComment":
         """
         AUTOSAR-compliant getter for fileInfo.
@@ -302,7 +302,7 @@ class AUTOSAR(ARObject):
             Delegates to file_info property (CODING_RULE_V2_00017)
         """
         return self.file_info  # Delegates to property
-    
+
     def setFileInfo(self, value: "FileInfoComment") -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for fileInfo with method chaining.
@@ -318,7 +318,7 @@ class AUTOSAR(ARObject):
         """
         self.file_info = value  # Delegates to property setter
         return self
-    
+
     def getIntroduction(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for introduction.
@@ -330,7 +330,7 @@ class AUTOSAR(ARObject):
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
         return self.introduction  # Delegates to property
-    
+
     def setIntroduction(self, value: DocumentationBlock) -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for introduction with method chaining.

@@ -6,13 +6,14 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Referra
 
 
 from __future__ import annotations
+
 from abc import (
     ABC,
 )
 from typing import (
+    TYPE_CHECKING,
     List,
     Optional,
-    TYPE_CHECKING,
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (

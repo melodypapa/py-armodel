@@ -6,14 +6,15 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
 )
 
 

@@ -6,12 +6,12 @@ Package: M2::AUTOSARTemplates::SystemTemplate
 
 
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    PositiveInteger,
-    RefType,
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import (
+    FlatMap,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
@@ -19,16 +19,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import (
-    FlatMap,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ByteOrderEnum,
     Numerical,
     ParameterData,
+    PositiveInteger,
+    RefType,
     RevisionLabelString,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
@@ -37,6 +33,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface imp
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
     CpSoftwareCluster,
 )
+
 
 class System(ARElement):
     """
