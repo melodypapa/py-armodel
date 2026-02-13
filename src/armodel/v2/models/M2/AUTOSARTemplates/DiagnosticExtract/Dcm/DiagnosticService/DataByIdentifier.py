@@ -155,15 +155,15 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute represents the maximum number of allowed a single instance of
         # DiagnosticReadDataBy.
-        self._maxDidToRead: Optional["PositiveInteger"] = None
+        self._maxDidToRead: Optional[PositiveInteger] = None
 
     @property
-    def max_did_to_read(self) -> Optional["PositiveInteger"]:
+    def max_did_to_read(self) -> Optional[PositiveInteger]:
         """Get maxDidToRead (Pythonic accessor)."""
         return self._maxDidToRead
 
     @max_did_to_read.setter
-    def max_did_to_read(self, value: Optional["PositiveInteger"]) -> None:
+    def max_did_to_read(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxDidToRead with validation.
 
@@ -185,7 +185,7 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxDidToRead(self) -> "PositiveInteger":
+    def getMaxDidToRead(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxDidToRead.
 
@@ -197,7 +197,7 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
         """
         return self.max_did_to_read  # Delegates to property
 
-    def setMaxDidToRead(self, value: "PositiveInteger") -> DiagnosticReadDataByIdentifierClass:
+    def setMaxDidToRead(self, value: PositiveInteger) -> DiagnosticReadDataByIdentifierClass:
         """
         AUTOSAR-compliant setter for maxDidToRead with method chaining.
 
@@ -215,7 +215,7 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_did_to_read(self, value: Optional["PositiveInteger"]) -> DiagnosticReadDataByIdentifierClass:
+    def with_max_did_to_read(self, value: Optional[PositiveInteger]) -> DiagnosticReadDataByIdentifierClass:
         """
         Set maxDidToRead and return self for chaining.
 

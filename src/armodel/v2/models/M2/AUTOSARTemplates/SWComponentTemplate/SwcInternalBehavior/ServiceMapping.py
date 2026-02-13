@@ -248,15 +248,15 @@ class RoleBasedPortAssignment(ARObject):
         # Service PortPrototype used in the assigned role.
         # This either belong to the same AtomicSw the SwcInternalBehavior which owns or
                 # to the same NvBlockSw the NvBlockDescriptor.
-        self._portPrototype: Optional["RefType"] = None
+        self._portPrototype: Optional[RefType] = None
 
     @property
-    def port_prototype(self) -> Optional["RefType"]:
+    def port_prototype(self) -> Optional[RefType]:
         """Get portPrototype (Pythonic accessor)."""
         return self._portPrototype
 
     @port_prototype.setter
-    def port_prototype(self, value: Optional["RefType"]) -> None:
+    def port_prototype(self, value: Optional[RefType]) -> None:
         """
         Set portPrototype with validation.
 
@@ -303,7 +303,7 @@ class RoleBasedPortAssignment(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPortPrototype(self) -> "RefType":
+    def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
 
@@ -315,7 +315,7 @@ class RoleBasedPortAssignment(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> RoleBasedPortAssignment:
+    def setPortPrototype(self, value: RefType) -> RoleBasedPortAssignment:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -435,15 +435,15 @@ class SwcServiceDependency(ServiceDependency):
         # The referred PortGroup shall be local to SWC, but via the links between the
                 # Port tool can evaluate this information such that all linked via this port
                 # group on the same ECU can.
-        self._representedPort: Optional["RefType"] = None
+        self._representedPort: Optional[RefType] = None
 
     @property
-    def represented_port(self) -> Optional["RefType"]:
+    def represented_port(self) -> Optional[RefType]:
         """Get representedPort (Pythonic accessor)."""
         return self._representedPort
 
     @represented_port.setter
-    def represented_port(self, value: Optional["RefType"]) -> None:
+    def represented_port(self, value: Optional[RefType]) -> None:
         """
         Set representedPort with validation.
 
@@ -512,7 +512,7 @@ class SwcServiceDependency(ServiceDependency):
         """
         return self.assigned_port  # Delegates to property
 
-    def getRepresentedPort(self) -> "RefType":
+    def getRepresentedPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for representedPort.
 
@@ -524,7 +524,7 @@ class SwcServiceDependency(ServiceDependency):
         """
         return self.represented_port  # Delegates to property
 
-    def setRepresentedPort(self, value: "RefType") -> SwcServiceDependency:
+    def setRepresentedPort(self, value: RefType) -> SwcServiceDependency:
         """
         AUTOSAR-compliant setter for representedPort with method chaining.
 

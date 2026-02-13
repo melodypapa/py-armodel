@@ -39,15 +39,15 @@ class DiagnosticCommonProps(ARObject):
                 # default-session if no communication from the authenticated client.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
-        self._authentication: Optional["TimeValue"] = None
+        self._authentication: Optional[TimeValue] = None
 
     @property
-    def authentication(self) -> Optional["TimeValue"]:
+    def authentication(self) -> Optional[TimeValue]:
         """Get authentication (Pythonic accessor)."""
         return self._authentication
 
     @authentication.setter
-    def authentication(self, value: Optional["TimeValue"]) -> None:
+    def authentication(self, value: Optional[TimeValue]) -> None:
         """
         Set authentication with validation.
 
@@ -78,15 +78,15 @@ class DiagnosticCommonProps(ARObject):
         return self._debounce
         # Defines the default endianness of the data belonging to a or RID which is
         # applicable if the DiagnosticData not define the endianness via the swData.
-        self._default: Optional["ByteOrderEnum"] = None
+        self._default: Optional[ByteOrderEnum] = None
 
     @property
-    def default(self) -> Optional["ByteOrderEnum"]:
+    def default(self) -> Optional[ByteOrderEnum]:
         """Get default (Pythonic accessor)."""
         return self._default
 
     @default.setter
-    def default(self, value: Optional["ByteOrderEnum"]) -> None:
+    def default(self, value: Optional[ByteOrderEnum]) -> None:
         """
         Set default with validation.
 
@@ -106,15 +106,15 @@ class DiagnosticCommonProps(ARObject):
             )
         self._default = value
         # specific order of reporting is to be maintained.
-        self._event: Optional["DiagnosticEvent"] = None
+        self._event: Optional[DiagnosticEvent] = None
 
     @property
-    def event(self) -> Optional["DiagnosticEvent"]:
+    def event(self) -> Optional[DiagnosticEvent]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     @event.setter
-    def event(self, value: Optional["DiagnosticEvent"]) -> None:
+    def event(self, value: Optional[DiagnosticEvent]) -> None:
         """
         Set event with validation.
 
@@ -137,15 +137,15 @@ class DiagnosticCommonProps(ARObject):
         # DCM will send a negative response response code 0x10 (generalReject), in case
                 # the limit gets reached.
         # Value 0xFF means that no limit of NRC 0x78 response apply.
-        self._maxNumberOf: Optional["PositiveInteger"] = None
+        self._maxNumberOf: Optional[PositiveInteger] = None
 
     @property
-    def max_number_of(self) -> Optional["PositiveInteger"]:
+    def max_number_of(self) -> Optional[PositiveInteger]:
         """Get maxNumberOf (Pythonic accessor)."""
         return self._maxNumberOf
 
     @max_number_of.setter
-    def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
+    def max_number_of(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNumberOf with validation.
 
@@ -193,15 +193,15 @@ class DiagnosticCommonProps(ARObject):
             )
         self._occurrence = value
         # memory entry will be displaced.
-        self._resetConfirmed: Optional["Boolean"] = None
+        self._resetConfirmed: Optional[Boolean] = None
 
     @property
-    def reset_confirmed(self) -> Optional["Boolean"]:
+    def reset_confirmed(self) -> Optional[Boolean]:
         """Get resetConfirmed (Pythonic accessor)."""
         return self._resetConfirmed
 
     @reset_confirmed.setter
-    def reset_confirmed(self, value: Optional["Boolean"]) -> None:
+    def reset_confirmed(self, value: Optional[Boolean]) -> None:
         """
         Set resetConfirmed with validation.
 
@@ -222,15 +222,15 @@ class DiagnosticCommonProps(ARObject):
         self._resetConfirmed = value
                 # memory entry will be displaced.
         # In be compliant to ISO 14229-1 [1], this parameter be set to "false".
-        self._resetPendingBit: Optional["Boolean"] = None
+        self._resetPendingBit: Optional[Boolean] = None
 
     @property
-    def reset_pending_bit(self) -> Optional["Boolean"]:
+    def reset_pending_bit(self) -> Optional[Boolean]:
         """Get resetPendingBit (Pythonic accessor)."""
         return self._resetPendingBit
 
     @reset_pending_bit.setter
-    def reset_pending_bit(self, value: Optional["Boolean"]) -> None:
+    def reset_pending_bit(self, value: Optional[Boolean]) -> None:
         """
         Set resetPendingBit with validation.
 
@@ -250,15 +250,15 @@ class DiagnosticCommonProps(ARObject):
             )
         self._resetPendingBit = value
         # service ID which is in the range to 0x7F or in the range from 0xC0 to 0xFF.
-        self._responseOnAll: Optional["Boolean"] = None
+        self._responseOnAll: Optional[Boolean] = None
 
     @property
-    def response_on_all(self) -> Optional["Boolean"]:
+    def response_on_all(self) -> Optional[Boolean]:
         """Get responseOnAll (Pythonic accessor)."""
         return self._responseOnAll
 
     @response_on_all.setter
-    def response_on_all(self, value: Optional["Boolean"]) -> None:
+    def response_on_all(self, value: Optional[Boolean]) -> None:
         """
         Set responseOnAll with validation.
 
@@ -283,15 +283,15 @@ class DiagnosticCommonProps(ARObject):
         # when the second request (Client B) can not be Request processed, it shall be
                 # answered with NRC21 BusyRepeat the second request (Client B) can not be shall
                 # not be responded.
-        self._responseOn: Optional["Boolean"] = None
+        self._responseOn: Optional[Boolean] = None
 
     @property
-    def response_on(self) -> Optional["Boolean"]:
+    def response_on(self) -> Optional[Boolean]:
         """Get responseOn (Pythonic accessor)."""
         return self._responseOn
 
     @response_on.setter
-    def response_on(self, value: Optional["Boolean"]) -> None:
+    def response_on(self, value: Optional[Boolean]) -> None:
         """
         Set responseOn with validation.
 
@@ -310,15 +310,15 @@ class DiagnosticCommonProps(ARObject):
                 f"responseOn must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._responseOn = value
-        self._typeOfEvent: Optional["DiagnosticEvent"] = None
+        self._typeOfEvent: Optional[DiagnosticEvent] = None
 
     @property
-    def type_of_event(self) -> Optional["DiagnosticEvent"]:
+    def type_of_event(self) -> Optional[DiagnosticEvent]:
         """Get typeOfEvent (Pythonic accessor)."""
         return self._typeOfEvent
 
     @type_of_event.setter
-    def type_of_event(self, value: Optional["DiagnosticEvent"]) -> None:
+    def type_of_event(self, value: Optional[DiagnosticEvent]) -> None:
         """
         Set typeOfEvent with validation.
 
@@ -356,7 +356,7 @@ class DiagnosticCommonProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAuthentication(self) -> "TimeValue":
+    def getAuthentication(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for authentication.
 
@@ -368,7 +368,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.authentication  # Delegates to property
 
-    def setAuthentication(self, value: "TimeValue") -> DiagnosticCommonProps:
+    def setAuthentication(self, value: TimeValue) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
 
@@ -396,7 +396,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.debounce  # Delegates to property
 
-    def getDefault(self) -> "ByteOrderEnum":
+    def getDefault(self) -> ByteOrderEnum:
         """
         AUTOSAR-compliant getter for default.
 
@@ -408,7 +408,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.default  # Delegates to property
 
-    def setDefault(self, value: "ByteOrderEnum") -> DiagnosticCommonProps:
+    def setDefault(self, value: ByteOrderEnum) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for default with method chaining.
 
@@ -424,7 +424,7 @@ class DiagnosticCommonProps(ARObject):
         self.default = value  # Delegates to property setter
         return self
 
-    def getEvent(self) -> "DiagnosticEvent":
+    def getEvent(self) -> DiagnosticEvent:
         """
         AUTOSAR-compliant getter for event.
 
@@ -436,7 +436,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "DiagnosticEvent") -> DiagnosticCommonProps:
+    def setEvent(self, value: DiagnosticEvent) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -452,7 +452,7 @@ class DiagnosticCommonProps(ARObject):
         self.event = value  # Delegates to property setter
         return self
 
-    def getMaxNumberOf(self) -> "PositiveInteger":
+    def getMaxNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNumberOf.
 
@@ -464,7 +464,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> DiagnosticCommonProps:
+    def setMaxNumberOf(self, value: PositiveInteger) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -508,7 +508,7 @@ class DiagnosticCommonProps(ARObject):
         self.occurrence = value  # Delegates to property setter
         return self
 
-    def getResetConfirmed(self) -> "Boolean":
+    def getResetConfirmed(self) -> Boolean:
         """
         AUTOSAR-compliant getter for resetConfirmed.
 
@@ -520,7 +520,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.reset_confirmed  # Delegates to property
 
-    def setResetConfirmed(self, value: "Boolean") -> DiagnosticCommonProps:
+    def setResetConfirmed(self, value: Boolean) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for resetConfirmed with method chaining.
 
@@ -536,7 +536,7 @@ class DiagnosticCommonProps(ARObject):
         self.reset_confirmed = value  # Delegates to property setter
         return self
 
-    def getResetPendingBit(self) -> "Boolean":
+    def getResetPendingBit(self) -> Boolean:
         """
         AUTOSAR-compliant getter for resetPendingBit.
 
@@ -548,7 +548,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.reset_pending_bit  # Delegates to property
 
-    def setResetPendingBit(self, value: "Boolean") -> DiagnosticCommonProps:
+    def setResetPendingBit(self, value: Boolean) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for resetPendingBit with method chaining.
 
@@ -564,7 +564,7 @@ class DiagnosticCommonProps(ARObject):
         self.reset_pending_bit = value  # Delegates to property setter
         return self
 
-    def getResponseOnAll(self) -> "Boolean":
+    def getResponseOnAll(self) -> Boolean:
         """
         AUTOSAR-compliant getter for responseOnAll.
 
@@ -576,7 +576,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.response_on_all  # Delegates to property
 
-    def setResponseOnAll(self, value: "Boolean") -> DiagnosticCommonProps:
+    def setResponseOnAll(self, value: Boolean) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for responseOnAll with method chaining.
 
@@ -592,7 +592,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on_all = value  # Delegates to property setter
         return self
 
-    def getResponseOn(self) -> "Boolean":
+    def getResponseOn(self) -> Boolean:
         """
         AUTOSAR-compliant getter for responseOn.
 
@@ -604,7 +604,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.response_on  # Delegates to property
 
-    def setResponseOn(self, value: "Boolean") -> DiagnosticCommonProps:
+    def setResponseOn(self, value: Boolean) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
 
@@ -620,7 +620,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on = value  # Delegates to property setter
         return self
 
-    def getTypeOfEvent(self) -> "DiagnosticEvent":
+    def getTypeOfEvent(self) -> DiagnosticEvent:
         """
         AUTOSAR-compliant getter for typeOfEvent.
 
@@ -632,7 +632,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.type_of_event  # Delegates to property
 
-    def setTypeOfEvent(self, value: "DiagnosticEvent") -> DiagnosticCommonProps:
+    def setTypeOfEvent(self, value: DiagnosticEvent) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for typeOfEvent with method chaining.
 
@@ -650,7 +650,7 @@ class DiagnosticCommonProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_authentication(self, value: Optional["TimeValue"]) -> DiagnosticCommonProps:
+    def with_authentication(self, value: Optional[TimeValue]) -> DiagnosticCommonProps:
         """
         Set authentication and return self for chaining.
 
@@ -666,7 +666,7 @@ class DiagnosticCommonProps(ARObject):
         self.authentication = value  # Use property setter (gets validation)
         return self
 
-    def with_default(self, value: Optional["ByteOrderEnum"]) -> DiagnosticCommonProps:
+    def with_default(self, value: Optional[ByteOrderEnum]) -> DiagnosticCommonProps:
         """
         Set default and return self for chaining.
 
@@ -682,7 +682,7 @@ class DiagnosticCommonProps(ARObject):
         self.default = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticCommonProps:
+    def with_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticCommonProps:
         """
         Set event and return self for chaining.
 
@@ -698,7 +698,7 @@ class DiagnosticCommonProps(ARObject):
         self.event = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> DiagnosticCommonProps:
+    def with_max_number_of(self, value: Optional[PositiveInteger]) -> DiagnosticCommonProps:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -730,7 +730,7 @@ class DiagnosticCommonProps(ARObject):
         self.occurrence = value  # Use property setter (gets validation)
         return self
 
-    def with_reset_confirmed(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
+    def with_reset_confirmed(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
         """
         Set resetConfirmed and return self for chaining.
 
@@ -746,7 +746,7 @@ class DiagnosticCommonProps(ARObject):
         self.reset_confirmed = value  # Use property setter (gets validation)
         return self
 
-    def with_reset_pending_bit(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
+    def with_reset_pending_bit(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
         """
         Set resetPendingBit and return self for chaining.
 
@@ -762,7 +762,7 @@ class DiagnosticCommonProps(ARObject):
         self.reset_pending_bit = value  # Use property setter (gets validation)
         return self
 
-    def with_response_on_all(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
+    def with_response_on_all(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
         """
         Set responseOnAll and return self for chaining.
 
@@ -778,7 +778,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on_all = value  # Use property setter (gets validation)
         return self
 
-    def with_response_on(self, value: Optional["Boolean"]) -> DiagnosticCommonProps:
+    def with_response_on(self, value: Optional[Boolean]) -> DiagnosticCommonProps:
         """
         Set responseOn and return self for chaining.
 
@@ -794,7 +794,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on = value  # Use property setter (gets validation)
         return self
 
-    def with_type_of_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticCommonProps:
+    def with_type_of_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticCommonProps:
         """
         Set typeOfEvent and return self for chaining.
 

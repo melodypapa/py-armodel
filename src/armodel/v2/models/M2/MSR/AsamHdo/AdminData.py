@@ -15,6 +15,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguagePlainText,
+)
 
 
 class AdminData(ARObject):
@@ -59,15 +62,15 @@ class AdminData(ARObject):
         # For each language provided in there is one entry in MultilanguagePlain
                 # content of each entry can be used for the language.
         # The used language itself the language attribute in the entry.
-        self._usedLanguages: Optional["MultiLanguagePlainText"] = None
+        self._usedLanguages: Optional[MultiLanguagePlainText] = None
 
     @property
-    def used_languages(self) -> Optional["MultiLanguagePlainText"]:
+    def used_languages(self) -> Optional[MultiLanguagePlainText]:
         """Get usedLanguages (Pythonic accessor)."""
         return self._usedLanguages
 
     @used_languages.setter
-    def used_languages(self, value: Optional["MultiLanguagePlainText"]) -> None:
+    def used_languages(self, value: Optional[MultiLanguagePlainText]) -> None:
         """
         Set usedLanguages with validation.
 
@@ -133,7 +136,7 @@ class AdminData(ARObject):
         """
         return self.doc_revision  # Delegates to property
 
-    def getUsedLanguages(self) -> "MultiLanguagePlainText":
+    def getUsedLanguages(self) -> MultiLanguagePlainText:
         """
         AUTOSAR-compliant getter for usedLanguages.
 
@@ -145,7 +148,7 @@ class AdminData(ARObject):
         """
         return self.used_languages  # Delegates to property
 
-    def setUsedLanguages(self, value: "MultiLanguagePlainText") -> AdminData:
+    def setUsedLanguages(self, value: MultiLanguagePlainText) -> AdminData:
         """
         AUTOSAR-compliant setter for usedLanguages with method chaining.
 
@@ -163,7 +166,7 @@ class AdminData(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_used_languages(self, value: Optional["MultiLanguagePlainText"]) -> AdminData:
+    def with_used_languages(self, value: Optional[MultiLanguagePlainText]) -> AdminData:
         """
         Set usedLanguages and return self for chaining.
 
@@ -221,15 +224,15 @@ class DocRevision(ARObject):
             )
         self._date = value
         # the document or document.
-        self._issuedBy: Optional["String"] = None
+        self._issuedBy: Optional[String] = None
 
     @property
-    def issued_by(self) -> Optional["String"]:
+    def issued_by(self) -> Optional[String]:
         """Get issuedBy (Pythonic accessor)."""
         return self._issuedBy
 
     @issued_by.setter
-    def issued_by(self, value: Optional["String"]) -> None:
+    def issued_by(self, value: Optional[String]) -> None:
         """
         Set issuedBy with validation.
 
@@ -399,7 +402,7 @@ class DocRevision(ARObject):
         self.date = value  # Delegates to property setter
         return self
 
-    def getIssuedBy(self) -> "String":
+    def getIssuedBy(self) -> String:
         """
         AUTOSAR-compliant getter for issuedBy.
 
@@ -411,7 +414,7 @@ class DocRevision(ARObject):
         """
         return self.issued_by  # Delegates to property
 
-    def setIssuedBy(self, value: "String") -> DocRevision:
+    def setIssuedBy(self, value: String) -> DocRevision:
         """
         AUTOSAR-compliant setter for issuedBy with method chaining.
 
@@ -569,7 +572,7 @@ class DocRevision(ARObject):
         self.date = value  # Use property setter (gets validation)
         return self
 
-    def with_issued_by(self, value: Optional["String"]) -> DocRevision:
+    def with_issued_by(self, value: Optional[String]) -> DocRevision:
         """
         Set issuedBy and return self for chaining.
 

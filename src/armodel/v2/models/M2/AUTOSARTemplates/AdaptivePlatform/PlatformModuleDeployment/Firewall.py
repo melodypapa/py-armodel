@@ -380,15 +380,15 @@ class FirewallRule(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute defines the capacity of the queue for rate Algorithm).
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._bucketSize: Optional["PositiveInteger"] = None
+        self._bucketSize: Optional[PositiveInteger] = None
 
     @property
-    def bucket_size(self) -> Optional["PositiveInteger"]:
+    def bucket_size(self) -> Optional[PositiveInteger]:
         """Get bucketSize (Pythonic accessor)."""
         return self._bucketSize
 
     @bucket_size.setter
-    def bucket_size(self, value: Optional["PositiveInteger"]) -> None:
+    def bucket_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set bucketSize with validation.
 
@@ -526,15 +526,15 @@ class FirewallRule(ARElement):
         return self._payloadByte
         # This attribute defines the output rate that describes how leave the queue per
         # second (leaky-bucket.
-        self._refillAmount: Optional["PositiveInteger"] = None
+        self._refillAmount: Optional[PositiveInteger] = None
 
     @property
-    def refill_amount(self) -> Optional["PositiveInteger"]:
+    def refill_amount(self) -> Optional[PositiveInteger]:
         """Get refillAmount (Pythonic accessor)."""
         return self._refillAmount
 
     @refill_amount.setter
-    def refill_amount(self, value: Optional["PositiveInteger"]) -> None:
+    def refill_amount(self, value: Optional[PositiveInteger]) -> None:
         """
         Set refillAmount with validation.
 
@@ -638,7 +638,7 @@ class FirewallRule(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBucketSize(self) -> "PositiveInteger":
+    def getBucketSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for bucketSize.
 
@@ -650,7 +650,7 @@ class FirewallRule(ARElement):
         """
         return self.bucket_size  # Delegates to property
 
-    def setBucketSize(self, value: "PositiveInteger") -> FirewallRule:
+    def setBucketSize(self, value: PositiveInteger) -> FirewallRule:
         """
         AUTOSAR-compliant setter for bucketSize with method chaining.
 
@@ -790,7 +790,7 @@ class FirewallRule(ARElement):
         """
         return self.payload_byte  # Delegates to property
 
-    def getRefillAmount(self) -> "PositiveInteger":
+    def getRefillAmount(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for refillAmount.
 
@@ -802,7 +802,7 @@ class FirewallRule(ARElement):
         """
         return self.refill_amount  # Delegates to property
 
-    def setRefillAmount(self, value: "PositiveInteger") -> FirewallRule:
+    def setRefillAmount(self, value: PositiveInteger) -> FirewallRule:
         """
         AUTOSAR-compliant setter for refillAmount with method chaining.
 
@@ -904,7 +904,7 @@ class FirewallRule(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bucket_size(self, value: Optional["PositiveInteger"]) -> FirewallRule:
+    def with_bucket_size(self, value: Optional[PositiveInteger]) -> FirewallRule:
         """
         Set bucketSize and return self for chaining.
 
@@ -984,7 +984,7 @@ class FirewallRule(ARElement):
         self.network_layer = value  # Use property setter (gets validation)
         return self
 
-    def with_refill_amount(self, value: Optional["PositiveInteger"]) -> FirewallRule:
+    def with_refill_amount(self, value: Optional[PositiveInteger]) -> FirewallRule:
         """
         Set refillAmount and return self for chaining.
 

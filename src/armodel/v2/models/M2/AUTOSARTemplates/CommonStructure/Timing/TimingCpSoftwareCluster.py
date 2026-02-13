@@ -138,15 +138,15 @@ class TDCpSoftwareClusterMapping(Identifiable):
         """Get requestor (Pythonic accessor)."""
         return self._requestor
         # The timing description representing the temporal and resource.
-        self._timing: Optional["TimingDescription"] = None
+        self._timing: Optional[TimingDescription] = None
 
     @property
-    def timing(self) -> Optional["TimingDescription"]:
+    def timing(self) -> Optional[TimingDescription]:
         """Get timing (Pythonic accessor)."""
         return self._timing
 
     @timing.setter
-    def timing(self, value: Optional["TimingDescription"]) -> None:
+    def timing(self, value: Optional[TimingDescription]) -> None:
         """
         Set timing with validation.
 
@@ -208,7 +208,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
         """
         return self.requestor  # Delegates to property
 
-    def getTiming(self) -> "TimingDescription":
+    def getTiming(self) -> TimingDescription:
         """
         AUTOSAR-compliant getter for timing.
 
@@ -220,7 +220,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
         """
         return self.timing  # Delegates to property
 
-    def setTiming(self, value: "TimingDescription") -> TDCpSoftwareClusterMapping:
+    def setTiming(self, value: TimingDescription) -> TDCpSoftwareClusterMapping:
         """
         AUTOSAR-compliant setter for timing with method chaining.
 
@@ -254,7 +254,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
         self.provider = value  # Use property setter (gets validation)
         return self
 
-    def with_timing(self, value: Optional["TimingDescription"]) -> TDCpSoftwareClusterMapping:
+    def with_timing(self, value: Optional[TimingDescription]) -> TDCpSoftwareClusterMapping:
         """
         Set timing and return self for chaining.
 
@@ -314,15 +314,15 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
                 f"resource must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._resource = value
-        self._timing: Optional["TimingDescription"] = None
+        self._timing: Optional[TimingDescription] = None
 
     @property
-    def timing(self) -> Optional["TimingDescription"]:
+    def timing(self) -> Optional[TimingDescription]:
         """Get timing (Pythonic accessor)."""
         return self._timing
 
     @timing.setter
-    def timing(self, value: Optional["TimingDescription"]) -> None:
+    def timing(self, value: Optional[TimingDescription]) -> None:
         """
         Set timing with validation.
 
@@ -372,7 +372,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
         self.resource = value  # Delegates to property setter
         return self
 
-    def getTiming(self) -> "TimingDescription":
+    def getTiming(self) -> TimingDescription:
         """
         AUTOSAR-compliant getter for timing.
 
@@ -384,7 +384,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
         """
         return self.timing  # Delegates to property
 
-    def setTiming(self, value: "TimingDescription") -> TDCpSoftwareClusterResourceMapping:
+    def setTiming(self, value: TimingDescription) -> TDCpSoftwareClusterResourceMapping:
         """
         AUTOSAR-compliant setter for timing with method chaining.
 
@@ -418,7 +418,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
         self.resource = value  # Use property setter (gets validation)
         return self
 
-    def with_timing(self, value: Optional["TimingDescription"]) -> TDCpSoftwareClusterResourceMapping:
+    def with_timing(self, value: Optional[TimingDescription]) -> TDCpSoftwareClusterResourceMapping:
         """
         Set timing and return self for chaining.
 

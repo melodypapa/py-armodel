@@ -294,15 +294,15 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
                 f"base must be CompositionSw or None, got {type(value).__name__}"
             )
         self._base = value
-        self._targetPort: Optional["RefType"] = None
+        self._targetPort: Optional[RefType] = None
 
     @property
-    def target_port(self) -> Optional["RefType"]:
+    def target_port(self) -> Optional[RefType]:
         """Get targetPort (Pythonic accessor)."""
         return self._targetPort
 
     @target_port.setter
-    def target_port(self, value: Optional["RefType"]) -> None:
+    def target_port(self, value: Optional[RefType]) -> None:
         """
         Set targetPort with validation.
 
@@ -376,7 +376,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
         self.base = value  # Delegates to property setter
         return self
 
-    def getTargetPort(self) -> "RefType":
+    def getTargetPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetPort.
 
@@ -388,7 +388,7 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
         """
         return self.target_port  # Delegates to property
 
-    def setTargetPort(self, value: "RefType") -> PortInCompositionTypeInstanceRef:
+    def setTargetPort(self, value: RefType) -> PortInCompositionTypeInstanceRef:
         """
         AUTOSAR-compliant setter for targetPort with method chaining.
 
@@ -507,15 +507,15 @@ class InstanceEventInCompositionInstanceRef(ARObject):
         return self._contextPrototype
         # Tags: xml.
         # sequenceOffset=30.
-        self._targetEvent: Optional["RTEEvent"] = None
+        self._targetEvent: Optional[RTEEvent] = None
 
     @property
-    def target_event(self) -> Optional["RTEEvent"]:
+    def target_event(self) -> Optional[RTEEvent]:
         """Get targetEvent (Pythonic accessor)."""
         return self._targetEvent
 
     @target_event.setter
-    def target_event(self, value: Optional["RTEEvent"]) -> None:
+    def target_event(self, value: Optional[RTEEvent]) -> None:
         """
         Set targetEvent with validation.
 
@@ -577,7 +577,7 @@ class InstanceEventInCompositionInstanceRef(ARObject):
         """
         return self.context_prototype  # Delegates to property
 
-    def getTargetEvent(self) -> "RTEEvent":
+    def getTargetEvent(self) -> RTEEvent:
         """
         AUTOSAR-compliant getter for targetEvent.
 
@@ -589,7 +589,7 @@ class InstanceEventInCompositionInstanceRef(ARObject):
         """
         return self.target_event  # Delegates to property
 
-    def setTargetEvent(self, value: "RTEEvent") -> InstanceEventInCompositionInstanceRef:
+    def setTargetEvent(self, value: RTEEvent) -> InstanceEventInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetEvent with method chaining.
 
@@ -623,7 +623,7 @@ class InstanceEventInCompositionInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target_event(self, value: Optional["RTEEvent"]) -> InstanceEventInCompositionInstanceRef:
+    def with_target_event(self, value: Optional[RTEEvent]) -> InstanceEventInCompositionInstanceRef:
         """
         Set targetEvent and return self for chaining.
 
@@ -684,15 +684,15 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
             )
         self._context = value
         # sequenceOffset=30.
-        self._targetPPortPrototype: Optional["AbstractProvidedPort"] = None
+        self._targetPPortPrototype: Optional[AbstractProvidedPort] = None
 
     @property
-    def target_p_port_prototype(self) -> Optional["AbstractProvidedPort"]:
+    def target_p_port_prototype(self) -> Optional[AbstractProvidedPort]:
         """Get targetPPortPrototype (Pythonic accessor)."""
         return self._targetPPortPrototype
 
     @target_p_port_prototype.setter
-    def target_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> None:
+    def target_p_port_prototype(self, value: Optional[AbstractProvidedPort]) -> None:
         """
         Set targetPPortPrototype with validation.
 
@@ -742,7 +742,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         self.context = value  # Delegates to property setter
         return self
 
-    def getTargetPPortPrototype(self) -> "AbstractProvidedPort":
+    def getTargetPPortPrototype(self) -> AbstractProvidedPort:
         """
         AUTOSAR-compliant getter for targetPPortPrototype.
 
@@ -754,7 +754,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         """
         return self.target_p_port_prototype  # Delegates to property
 
-    def setTargetPPortPrototype(self, value: "AbstractProvidedPort") -> PPortInCompositionInstanceRef:
+    def setTargetPPortPrototype(self, value: AbstractProvidedPort) -> PPortInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetPPortPrototype with method chaining.
 
@@ -788,7 +788,7 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_target_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PPortInCompositionInstanceRef:
+    def with_target_p_port_prototype(self, value: Optional[AbstractProvidedPort]) -> PPortInCompositionInstanceRef:
         """
         Set targetPPortPrototype and return self for chaining.
 
@@ -851,15 +851,15 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
             )
         self._context = value
         # sequenceOffset=30.
-        self._targetRPortPrototype: Optional["AbstractRequiredPort"] = None
+        self._targetRPortPrototype: Optional[AbstractRequiredPort] = None
 
     @property
-    def target_r_port_prototype(self) -> Optional["AbstractRequiredPort"]:
+    def target_r_port_prototype(self) -> Optional[AbstractRequiredPort]:
         """Get targetRPortPrototype (Pythonic accessor)."""
         return self._targetRPortPrototype
 
     @target_r_port_prototype.setter
-    def target_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> None:
+    def target_r_port_prototype(self, value: Optional[AbstractRequiredPort]) -> None:
         """
         Set targetRPortPrototype with validation.
 
@@ -909,7 +909,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         self.context = value  # Delegates to property setter
         return self
 
-    def getTargetRPortPrototype(self) -> "AbstractRequiredPort":
+    def getTargetRPortPrototype(self) -> AbstractRequiredPort:
         """
         AUTOSAR-compliant getter for targetRPortPrototype.
 
@@ -921,7 +921,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         """
         return self.target_r_port_prototype  # Delegates to property
 
-    def setTargetRPortPrototype(self, value: "AbstractRequiredPort") -> RPortInCompositionInstanceRef:
+    def setTargetRPortPrototype(self, value: AbstractRequiredPort) -> RPortInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetRPortPrototype with method chaining.
 
@@ -955,7 +955,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_target_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> RPortInCompositionInstanceRef:
+    def with_target_r_port_prototype(self, value: Optional[AbstractRequiredPort]) -> RPortInCompositionInstanceRef:
         """
         Set targetRPortPrototype and return self for chaining.
 

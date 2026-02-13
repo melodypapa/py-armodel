@@ -60,10 +60,10 @@ class NvBlockDescriptor(Identifiable):
         """Get constantValue (Pythonic accessor)."""
         return self._constantValue
         # Reference to the DataTypeMapping to be applied for the NVRAM Block.
-        self._dataType: List["RefType"] = []
+        self._dataType: List[RefType] = []
 
     @property
-    def data_type(self) -> List["RefType"]:
+    def data_type(self) -> List[RefType]:
         """Get dataType (Pythonic accessor)."""
         return self._dataType
         # The purpose of InstantiationDataDefProps are the refinement of some data def
@@ -80,10 +80,10 @@ class NvBlockDescriptor(Identifiable):
         # This represents the collection of ModeSwitchEvent TriggeredActivities related
         # to the enclosing NvBlock atpVariation 1228 Document ID 62:
         # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._modeSwitch: List["ModeSwitchEvent"] = []
+        self._modeSwitch: List[ModeSwitchEvent] = []
 
     @property
-    def mode_switch(self) -> List["ModeSwitchEvent"]:
+    def mode_switch(self) -> List[ModeSwitchEvent]:
         """Get modeSwitch (Pythonic accessor)."""
         return self._modeSwitch
         # Defines the mapping between the VariableData in the NvBlockComponents ports
@@ -91,10 +91,10 @@ class NvBlockDescriptor(Identifiable):
         # of NvBlockDataMapping is subject to the purpose to support the conditional nv
                 # data ports.
         # atpVariation.
-        self._nvBlockData: List["RefType"] = []
+        self._nvBlockData: List[RefType] = []
 
     @property
-    def nv_block_data(self) -> List["RefType"]:
+    def nv_block_data(self) -> List[RefType]:
         """Get nvBlockData (Pythonic accessor)."""
         return self._nvBlockData
         # Specifies the abstract needs on the configuration of the for the single NVRAM
@@ -131,15 +131,15 @@ class NvBlockDescriptor(Identifiable):
                 f"nvBlockNeeds must be NvBlockNeeds or None, got {type(value).__name__}"
             )
         self._nvBlockNeeds = value
-        self._ramBlock: Optional["RefType"] = None
+        self._ramBlock: Optional[RefType] = None
 
     @property
-    def ram_block(self) -> Optional["RefType"]:
+    def ram_block(self) -> Optional[RefType]:
         """Get ramBlock (Pythonic accessor)."""
         return self._ramBlock
 
     @ram_block.setter
-    def ram_block(self, value: Optional["RefType"]) -> None:
+    def ram_block(self, value: Optional[RefType]) -> None:
         """
         Set ramBlock with validation.
 
@@ -182,15 +182,15 @@ class NvBlockDescriptor(Identifiable):
             )
         self._romBlock = value
         # potentially modified RAM Blocks to NV be controlled by the RTE.
-        self._supportDirty: Optional["Boolean"] = None
+        self._supportDirty: Optional[Boolean] = None
 
     @property
-    def support_dirty(self) -> Optional["Boolean"]:
+    def support_dirty(self) -> Optional[Boolean]:
         """Get supportDirty (Pythonic accessor)."""
         return self._supportDirty
 
     @support_dirty.setter
-    def support_dirty(self, value: Optional["Boolean"]) -> None:
+    def support_dirty(self, value: Optional[Boolean]) -> None:
         """
         Set supportDirty with validation.
 
@@ -210,15 +210,15 @@ class NvBlockDescriptor(Identifiable):
             )
         self._supportDirty = value
         # implementing a cyclic writing this block.
-        self._timingEvent: Optional["TimingEvent"] = None
+        self._timingEvent: Optional[TimingEvent] = None
 
     @property
-    def timing_event(self) -> Optional["TimingEvent"]:
+    def timing_event(self) -> Optional[TimingEvent]:
         """Get timingEvent (Pythonic accessor)."""
         return self._timingEvent
 
     @timing_event.setter
-    def timing_event(self, value: Optional["TimingEvent"]) -> None:
+    def timing_event(self, value: Optional[TimingEvent]) -> None:
         """
         Set timingEvent with validation.
 
@@ -399,7 +399,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.constant_value  # Delegates to property
 
-    def getDataType(self) -> List["RefType"]:
+    def getDataType(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataType.
 
@@ -423,7 +423,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.instantiation  # Delegates to property
 
-    def getModeSwitch(self) -> List["ModeSwitchEvent"]:
+    def getModeSwitch(self) -> List[ModeSwitchEvent]:
         """
         AUTOSAR-compliant getter for modeSwitch.
 
@@ -435,7 +435,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.mode_switch  # Delegates to property
 
-    def getNvBlockData(self) -> List["RefType"]:
+    def getNvBlockData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for nvBlockData.
 
@@ -475,7 +475,7 @@ class NvBlockDescriptor(Identifiable):
         self.nv_block_needs = value  # Delegates to property setter
         return self
 
-    def getRamBlock(self) -> "RefType":
+    def getRamBlock(self) -> RefType:
         """
         AUTOSAR-compliant getter for ramBlock.
 
@@ -487,7 +487,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.ram_block  # Delegates to property
 
-    def setRamBlock(self, value: "RefType") -> NvBlockDescriptor:
+    def setRamBlock(self, value: RefType) -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for ramBlock with method chaining.
 
@@ -531,7 +531,7 @@ class NvBlockDescriptor(Identifiable):
         self.rom_block = value  # Delegates to property setter
         return self
 
-    def getSupportDirty(self) -> "Boolean":
+    def getSupportDirty(self) -> Boolean:
         """
         AUTOSAR-compliant getter for supportDirty.
 
@@ -543,7 +543,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.support_dirty  # Delegates to property
 
-    def setSupportDirty(self, value: "Boolean") -> NvBlockDescriptor:
+    def setSupportDirty(self, value: Boolean) -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for supportDirty with method chaining.
 
@@ -559,7 +559,7 @@ class NvBlockDescriptor(Identifiable):
         self.support_dirty = value  # Delegates to property setter
         return self
 
-    def getTimingEvent(self) -> "TimingEvent":
+    def getTimingEvent(self) -> TimingEvent:
         """
         AUTOSAR-compliant getter for timingEvent.
 
@@ -571,7 +571,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.timing_event  # Delegates to property
 
-    def setTimingEvent(self, value: "TimingEvent") -> NvBlockDescriptor:
+    def setTimingEvent(self, value: TimingEvent) -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for timingEvent with method chaining.
 
@@ -649,7 +649,7 @@ class NvBlockDescriptor(Identifiable):
         self.rom_block = value  # Use property setter (gets validation)
         return self
 
-    def with_support_dirty(self, value: Optional["Boolean"]) -> NvBlockDescriptor:
+    def with_support_dirty(self, value: Optional[Boolean]) -> NvBlockDescriptor:
         """
         Set supportDirty and return self for chaining.
 
@@ -665,7 +665,7 @@ class NvBlockDescriptor(Identifiable):
         self.support_dirty = value  # Use property setter (gets validation)
         return self
 
-    def with_timing_event(self, value: Optional["TimingEvent"]) -> NvBlockDescriptor:
+    def with_timing_event(self, value: Optional[TimingEvent]) -> NvBlockDescriptor:
         """
         Set timingEvent and return self for chaining.
 
@@ -868,15 +868,15 @@ class NvBlockDataMapping(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute identifies the applicable bit mask on the side the
         # PortPrototype.
-        self._bitfieldTextTable: Optional["PositiveInteger"] = None
+        self._bitfieldTextTable: Optional[PositiveInteger] = None
 
     @property
-    def bitfield_text_table(self) -> Optional["PositiveInteger"]:
+    def bitfield_text_table(self) -> Optional[PositiveInteger]:
         """Get bitfieldTextTable (Pythonic accessor)."""
         return self._bitfieldTextTable
 
     @bitfield_text_table.setter
-    def bitfield_text_table(self, value: Optional["PositiveInteger"]) -> None:
+    def bitfield_text_table(self, value: Optional[PositiveInteger]) -> None:
         """
         Set bitfieldTextTable with validation.
 
@@ -895,15 +895,15 @@ class NvBlockDataMapping(ARObject):
                 f"bitfieldTextTable must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._bitfieldTextTable = value
-        self._nvRamBlock: Optional["RefType"] = None
+        self._nvRamBlock: Optional[RefType] = None
 
     @property
-    def nv_ram_block(self) -> Optional["RefType"]:
+    def nv_ram_block(self) -> Optional[RefType]:
         """Get nvRamBlock (Pythonic accessor)."""
         return self._nvRamBlock
 
     @nv_ram_block.setter
-    def nv_ram_block(self, value: Optional["RefType"]) -> None:
+    def nv_ram_block(self, value: Optional[RefType]) -> None:
         """
         Set nvRamBlock with validation.
 
@@ -919,15 +919,15 @@ class NvBlockDataMapping(ARObject):
 
         self._nvRamBlock = value
         # is no PortPrototype providing read access reference can be omitted.
-        self._readNvData: Optional["RefType"] = None
+        self._readNvData: Optional[RefType] = None
 
     @property
-    def read_nv_data(self) -> Optional["RefType"]:
+    def read_nv_data(self) -> Optional[RefType]:
         """Get readNvData (Pythonic accessor)."""
         return self._readNvData
 
     @read_nv_data.setter
-    def read_nv_data(self, value: Optional["RefType"]) -> None:
+    def read_nv_data(self, value: Optional[RefType]) -> None:
         """
         Set readNvData with validation.
 
@@ -943,15 +943,15 @@ class NvBlockDataMapping(ARObject):
 
         self._readNvData = value
         # RAM there is no port providing write access reference can be omitted.
-        self._writtenNvData: Optional["RefType"] = None
+        self._writtenNvData: Optional[RefType] = None
 
     @property
-    def written_nv_data(self) -> Optional["RefType"]:
+    def written_nv_data(self) -> Optional[RefType]:
         """Get writtenNvData (Pythonic accessor)."""
         return self._writtenNvData
 
     @written_nv_data.setter
-    def written_nv_data(self, value: Optional["RefType"]) -> None:
+    def written_nv_data(self, value: Optional[RefType]) -> None:
         """
         Set writtenNvData with validation.
 
@@ -967,15 +967,15 @@ class NvBlockDataMapping(ARObject):
 
         self._writtenNvData = value
         # NvBlockSwComponentType providing read access to the RAM Block.
-        self._writtenReadNv: Optional["RefType"] = None
+        self._writtenReadNv: Optional[RefType] = None
 
     @property
-    def written_read_nv(self) -> Optional["RefType"]:
+    def written_read_nv(self) -> Optional[RefType]:
         """Get writtenReadNv (Pythonic accessor)."""
         return self._writtenReadNv
 
     @written_read_nv.setter
-    def written_read_nv(self, value: Optional["RefType"]) -> None:
+    def written_read_nv(self, value: Optional[RefType]) -> None:
         """
         Set writtenReadNv with validation.
 
@@ -993,7 +993,7 @@ class NvBlockDataMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBitfieldTextTable(self) -> "PositiveInteger":
+    def getBitfieldTextTable(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for bitfieldTextTable.
 
@@ -1005,7 +1005,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.bitfield_text_table  # Delegates to property
 
-    def setBitfieldTextTable(self, value: "PositiveInteger") -> NvBlockDataMapping:
+    def setBitfieldTextTable(self, value: PositiveInteger) -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for bitfieldTextTable with method chaining.
 
@@ -1021,7 +1021,7 @@ class NvBlockDataMapping(ARObject):
         self.bitfield_text_table = value  # Delegates to property setter
         return self
 
-    def getNvRamBlock(self) -> "RefType":
+    def getNvRamBlock(self) -> RefType:
         """
         AUTOSAR-compliant getter for nvRamBlock.
 
@@ -1033,7 +1033,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.nv_ram_block  # Delegates to property
 
-    def setNvRamBlock(self, value: "RefType") -> NvBlockDataMapping:
+    def setNvRamBlock(self, value: RefType) -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for nvRamBlock with method chaining.
 
@@ -1049,7 +1049,7 @@ class NvBlockDataMapping(ARObject):
         self.nv_ram_block = value  # Delegates to property setter
         return self
 
-    def getReadNvData(self) -> "RefType":
+    def getReadNvData(self) -> RefType:
         """
         AUTOSAR-compliant getter for readNvData.
 
@@ -1061,7 +1061,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.read_nv_data  # Delegates to property
 
-    def setReadNvData(self, value: "RefType") -> NvBlockDataMapping:
+    def setReadNvData(self, value: RefType) -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for readNvData with method chaining.
 
@@ -1077,7 +1077,7 @@ class NvBlockDataMapping(ARObject):
         self.read_nv_data = value  # Delegates to property setter
         return self
 
-    def getWrittenNvData(self) -> "RefType":
+    def getWrittenNvData(self) -> RefType:
         """
         AUTOSAR-compliant getter for writtenNvData.
 
@@ -1089,7 +1089,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.written_nv_data  # Delegates to property
 
-    def setWrittenNvData(self, value: "RefType") -> NvBlockDataMapping:
+    def setWrittenNvData(self, value: RefType) -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for writtenNvData with method chaining.
 
@@ -1105,7 +1105,7 @@ class NvBlockDataMapping(ARObject):
         self.written_nv_data = value  # Delegates to property setter
         return self
 
-    def getWrittenReadNv(self) -> "RefType":
+    def getWrittenReadNv(self) -> RefType:
         """
         AUTOSAR-compliant getter for writtenReadNv.
 
@@ -1117,7 +1117,7 @@ class NvBlockDataMapping(ARObject):
         """
         return self.written_read_nv  # Delegates to property
 
-    def setWrittenReadNv(self, value: "RefType") -> NvBlockDataMapping:
+    def setWrittenReadNv(self, value: RefType) -> NvBlockDataMapping:
         """
         AUTOSAR-compliant setter for writtenReadNv with method chaining.
 
@@ -1135,7 +1135,7 @@ class NvBlockDataMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bitfield_text_table(self, value: Optional["PositiveInteger"]) -> NvBlockDataMapping:
+    def with_bitfield_text_table(self, value: Optional[PositiveInteger]) -> NvBlockDataMapping:
         """
         Set bitfieldTextTable and return self for chaining.
 
@@ -1235,15 +1235,15 @@ class BulkNvDataDescriptor(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation represents the actual bulk NVBlock.
-        self._bulkNvBlock: Optional["RefType"] = None
+        self._bulkNvBlock: Optional[RefType] = None
 
     @property
-    def bulk_nv_block(self) -> Optional["RefType"]:
+    def bulk_nv_block(self) -> Optional[RefType]:
         """Get bulkNvBlock (Pythonic accessor)."""
         return self._bulkNvBlock
 
     @bulk_nv_block.setter
-    def bulk_nv_block(self, value: Optional["RefType"]) -> None:
+    def bulk_nv_block(self, value: Optional[RefType]) -> None:
         """
         Set bulkNvBlock with validation.
 
@@ -1262,16 +1262,16 @@ class BulkNvDataDescriptor(Identifiable):
         # of NvBlockDataMapping is subject to the purpose to support the conditional nv
                 # data ports.
         # atpVariation.
-        self._nvBlockData: List["RefType"] = []
+        self._nvBlockData: List[RefType] = []
 
     @property
-    def nv_block_data(self) -> List["RefType"]:
+    def nv_block_data(self) -> List[RefType]:
         """Get nvBlockData (Pythonic accessor)."""
         return self._nvBlockData
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBulkNvBlock(self) -> "RefType":
+    def getBulkNvBlock(self) -> RefType:
         """
         AUTOSAR-compliant getter for bulkNvBlock.
 
@@ -1283,7 +1283,7 @@ class BulkNvDataDescriptor(Identifiable):
         """
         return self.bulk_nv_block  # Delegates to property
 
-    def setBulkNvBlock(self, value: "RefType") -> BulkNvDataDescriptor:
+    def setBulkNvBlock(self, value: RefType) -> BulkNvDataDescriptor:
         """
         AUTOSAR-compliant setter for bulkNvBlock with method chaining.
 
@@ -1299,7 +1299,7 @@ class BulkNvDataDescriptor(Identifiable):
         self.bulk_nv_block = value  # Delegates to property setter
         return self
 
-    def getNvBlockData(self) -> List["RefType"]:
+    def getNvBlockData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for nvBlockData.
 

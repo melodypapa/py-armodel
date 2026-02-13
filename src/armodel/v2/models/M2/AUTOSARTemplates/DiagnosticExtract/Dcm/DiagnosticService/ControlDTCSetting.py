@@ -130,15 +130,15 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the decision whether the DTCSetting (see ISO 14229-1) is in
         # general the request message.
-        self._controlOption: Optional["Boolean"] = None
+        self._controlOption: Optional[Boolean] = None
 
     @property
-    def control_option(self) -> Optional["Boolean"]:
+    def control_option(self) -> Optional[Boolean]:
         """Get controlOption (Pythonic accessor)."""
         return self._controlOption
 
     @control_option.setter
-    def control_option(self, value: Optional["Boolean"]) -> None:
+    def control_option(self, value: Optional[Boolean]) -> None:
         """
         Set controlOption with validation.
 
@@ -160,7 +160,7 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getControlOption(self) -> "Boolean":
+    def getControlOption(self) -> Boolean:
         """
         AUTOSAR-compliant getter for controlOption.
 
@@ -172,7 +172,7 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
         """
         return self.control_option  # Delegates to property
 
-    def setControlOption(self, value: "Boolean") -> DiagnosticControlDTCSettingClass:
+    def setControlOption(self, value: Boolean) -> DiagnosticControlDTCSettingClass:
         """
         AUTOSAR-compliant setter for controlOption with method chaining.
 
@@ -190,7 +190,7 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_control_option(self, value: Optional["Boolean"]) -> DiagnosticControlDTCSettingClass:
+    def with_control_option(self, value: Optional[Boolean]) -> DiagnosticControlDTCSettingClass:
         """
         Set controlOption and return self for chaining.
 

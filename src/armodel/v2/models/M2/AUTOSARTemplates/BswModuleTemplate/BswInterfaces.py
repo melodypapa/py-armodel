@@ -177,15 +177,15 @@ class BswModuleEntry(ARElement):
         self._function = value
                 # invoked again, before has finished.
         # It is prohibited to invoke the service again before finished.
-        self._isReentrant: Optional["Boolean"] = None
+        self._isReentrant: Optional[Boolean] = None
 
     @property
-    def is_reentrant(self) -> Optional["Boolean"]:
+    def is_reentrant(self) -> Optional[Boolean]:
         """Get isReentrant (Pythonic accessor)."""
         return self._isReentrant
 
     @is_reentrant.setter
-    def is_reentrant(self, value: Optional["Boolean"]) -> None:
+    def is_reentrant(self, value: Optional[Boolean]) -> None:
         """
         Set isReentrant with validation.
         
@@ -208,15 +208,15 @@ class BswModuleEntry(ARElement):
         # e.
         # the service when the call returns.
         # The service (on semantical level) may not be the call returns.
-        self._isSynchronous: Optional["Boolean"] = None
+        self._isSynchronous: Optional[Boolean] = None
 
     @property
-    def is_synchronous(self) -> Optional["Boolean"]:
+    def is_synchronous(self) -> Optional[Boolean]:
         """Get isSynchronous (Pythonic accessor)."""
         return self._isSynchronous
 
     @is_synchronous.setter
-    def is_synchronous(self, value: Optional["Boolean"]) -> None:
+    def is_synchronous(self, value: Optional[Boolean]) -> None:
         """
         Set isSynchronous with validation.
         
@@ -297,15 +297,15 @@ class BswModuleEntry(ARElement):
             )
         self._role = value
         # For it can optionally be used for.
-        self._serviceId: Optional["PositiveInteger"] = None
+        self._serviceId: Optional[PositiveInteger] = None
 
     @property
-    def service_id(self) -> Optional["PositiveInteger"]:
+    def service_id(self) -> Optional[PositiveInteger]:
         """Get serviceId (Pythonic accessor)."""
         return self._serviceId
 
     @service_id.setter
-    def service_id(self, value: Optional["PositiveInteger"]) -> None:
+    def service_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set serviceId with validation.
         
@@ -512,7 +512,7 @@ class BswModuleEntry(ARElement):
         self.function = value  # Delegates to property setter
         return self
 
-    def getIsReentrant(self) -> "Boolean":
+    def getIsReentrant(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isReentrant.
         
@@ -524,7 +524,7 @@ class BswModuleEntry(ARElement):
         """
         return self.is_reentrant  # Delegates to property
 
-    def setIsReentrant(self, value: "Boolean") -> BswModuleEntry:
+    def setIsReentrant(self, value: Boolean) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for isReentrant with method chaining.
         
@@ -540,7 +540,7 @@ class BswModuleEntry(ARElement):
         self.is_reentrant = value  # Delegates to property setter
         return self
 
-    def getIsSynchronous(self) -> "Boolean":
+    def getIsSynchronous(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isSynchronous.
         
@@ -552,7 +552,7 @@ class BswModuleEntry(ARElement):
         """
         return self.is_synchronous  # Delegates to property
 
-    def setIsSynchronous(self, value: "Boolean") -> BswModuleEntry:
+    def setIsSynchronous(self, value: Boolean) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for isSynchronous with method chaining.
         
@@ -624,7 +624,7 @@ class BswModuleEntry(ARElement):
         self.role = value  # Delegates to property setter
         return self
 
-    def getServiceId(self) -> "PositiveInteger":
+    def getServiceId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for serviceId.
         
@@ -636,7 +636,7 @@ class BswModuleEntry(ARElement):
         """
         return self.service_id  # Delegates to property
 
-    def setServiceId(self, value: "PositiveInteger") -> BswModuleEntry:
+    def setServiceId(self, value: PositiveInteger) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for serviceId with method chaining.
         
@@ -746,7 +746,7 @@ class BswModuleEntry(ARElement):
         self.function = value  # Use property setter (gets validation)
         return self
 
-    def with_is_reentrant(self, value: Optional["Boolean"]) -> BswModuleEntry:
+    def with_is_reentrant(self, value: Optional[Boolean]) -> BswModuleEntry:
         """
         Set isReentrant and return self for chaining.
         
@@ -762,7 +762,7 @@ class BswModuleEntry(ARElement):
         self.is_reentrant = value  # Use property setter (gets validation)
         return self
 
-    def with_is_synchronous(self, value: Optional["Boolean"]) -> BswModuleEntry:
+    def with_is_synchronous(self, value: Optional[Boolean]) -> BswModuleEntry:
         """
         Set isSynchronous and return self for chaining.
         
@@ -810,7 +810,7 @@ class BswModuleEntry(ARElement):
         self.role = value  # Use property setter (gets validation)
         return self
 
-    def with_service_id(self, value: Optional["PositiveInteger"]) -> BswModuleEntry:
+    def with_service_id(self, value: Optional[PositiveInteger]) -> BswModuleEntry:
         """
         Set serviceId and return self for chaining.
         
@@ -863,15 +863,15 @@ class BswModuleDependency(Identifiable):
         # is optional, because the target module be identified by targetModuleRef.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._targetModuleId: Optional["PositiveInteger"] = None
+        self._targetModuleId: Optional[PositiveInteger] = None
 
     @property
-    def target_module_id(self) -> Optional["PositiveInteger"]:
+    def target_module_id(self) -> Optional[PositiveInteger]:
         """Get targetModuleId (Pythonic accessor)."""
         return self._targetModuleId
 
     @target_module_id.setter
-    def target_module_id(self, value: Optional["PositiveInteger"]) -> None:
+    def target_module_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set targetModuleId with validation.
         
@@ -892,15 +892,15 @@ class BswModuleDependency(Identifiable):
         self._targetModuleId = value
         # It is an <<atpUriDef>> the reference shall be used to identify the target
                 # actually needing the description of that atpUriDef; atpVariation.
-        self._targetModule: Optional["BswModuleDescription"] = None
+        self._targetModule: Optional[BswModuleDescription] = None
 
     @property
-    def target_module(self) -> Optional["BswModuleDescription"]:
+    def target_module(self) -> Optional[BswModuleDescription]:
         """Get targetModule (Pythonic accessor)."""
         return self._targetModule
 
     @target_module.setter
-    def target_module(self, value: Optional["BswModuleDescription"]) -> None:
+    def target_module(self, value: Optional[BswModuleDescription]) -> None:
         """
         Set targetModule with validation.
         
@@ -922,7 +922,7 @@ class BswModuleDependency(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTargetModuleId(self) -> "PositiveInteger":
+    def getTargetModuleId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for targetModuleId.
         
@@ -934,7 +934,7 @@ class BswModuleDependency(Identifiable):
         """
         return self.target_module_id  # Delegates to property
 
-    def setTargetModuleId(self, value: "PositiveInteger") -> BswModuleDependency:
+    def setTargetModuleId(self, value: PositiveInteger) -> BswModuleDependency:
         """
         AUTOSAR-compliant setter for targetModuleId with method chaining.
         
@@ -950,7 +950,7 @@ class BswModuleDependency(Identifiable):
         self.target_module_id = value  # Delegates to property setter
         return self
 
-    def getTargetModule(self) -> "BswModuleDescription":
+    def getTargetModule(self) -> BswModuleDescription:
         """
         AUTOSAR-compliant getter for targetModule.
         
@@ -962,7 +962,7 @@ class BswModuleDependency(Identifiable):
         """
         return self.target_module  # Delegates to property
 
-    def setTargetModule(self, value: "BswModuleDescription") -> BswModuleDependency:
+    def setTargetModule(self, value: BswModuleDescription) -> BswModuleDependency:
         """
         AUTOSAR-compliant setter for targetModule with method chaining.
         
@@ -980,7 +980,7 @@ class BswModuleDependency(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_target_module_id(self, value: Optional["PositiveInteger"]) -> BswModuleDependency:
+    def with_target_module_id(self, value: Optional[PositiveInteger]) -> BswModuleDependency:
         """
         Set targetModuleId and return self for chaining.
         
@@ -996,7 +996,7 @@ class BswModuleDependency(Identifiable):
         self.target_module_id = value  # Use property setter (gets validation)
         return self
 
-    def with_target_module(self, value: Optional["BswModuleDescription"]) -> BswModuleDependency:
+    def with_target_module(self, value: Optional[BswModuleDescription]) -> BswModuleDependency:
         """
         Set targetModule and return self for chaining.
         
@@ -1347,15 +1347,15 @@ class BswModuleClientServerEntry(Referrable):
         # It is prohibited to invoke the service again before finished.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._isReentrant: Optional["Boolean"] = None
+        self._isReentrant: Optional[Boolean] = None
 
     @property
-    def is_reentrant(self) -> Optional["Boolean"]:
+    def is_reentrant(self) -> Optional[Boolean]:
         """Get isReentrant (Pythonic accessor)."""
         return self._isReentrant
 
     @is_reentrant.setter
-    def is_reentrant(self, value: Optional["Boolean"]) -> None:
+    def is_reentrant(self, value: Optional[Boolean]) -> None:
         """
         Set isReentrant with validation.
         
@@ -1378,15 +1378,15 @@ class BswModuleClientServerEntry(Referrable):
         # e.
         # the service when the call returns.
         # The service (on semantical level) may not be the call returns.
-        self._isSynchronous: Optional["Boolean"] = None
+        self._isSynchronous: Optional[Boolean] = None
 
     @property
-    def is_synchronous(self) -> Optional["Boolean"]:
+    def is_synchronous(self) -> Optional[Boolean]:
         """Get isSynchronous (Pythonic accessor)."""
         return self._isSynchronous
 
     @is_synchronous.setter
-    def is_synchronous(self, value: Optional["Boolean"]) -> None:
+    def is_synchronous(self, value: Optional[Boolean]) -> None:
         """
         Set isSynchronous with validation.
         
@@ -1436,7 +1436,7 @@ class BswModuleClientServerEntry(Referrable):
         self.encapsulated = value  # Delegates to property setter
         return self
 
-    def getIsReentrant(self) -> "Boolean":
+    def getIsReentrant(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isReentrant.
         
@@ -1448,7 +1448,7 @@ class BswModuleClientServerEntry(Referrable):
         """
         return self.is_reentrant  # Delegates to property
 
-    def setIsReentrant(self, value: "Boolean") -> BswModuleClientServerEntry:
+    def setIsReentrant(self, value: Boolean) -> BswModuleClientServerEntry:
         """
         AUTOSAR-compliant setter for isReentrant with method chaining.
         
@@ -1464,7 +1464,7 @@ class BswModuleClientServerEntry(Referrable):
         self.is_reentrant = value  # Delegates to property setter
         return self
 
-    def getIsSynchronous(self) -> "Boolean":
+    def getIsSynchronous(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isSynchronous.
         
@@ -1476,7 +1476,7 @@ class BswModuleClientServerEntry(Referrable):
         """
         return self.is_synchronous  # Delegates to property
 
-    def setIsSynchronous(self, value: "Boolean") -> BswModuleClientServerEntry:
+    def setIsSynchronous(self, value: Boolean) -> BswModuleClientServerEntry:
         """
         AUTOSAR-compliant setter for isSynchronous with method chaining.
         
@@ -1510,7 +1510,7 @@ class BswModuleClientServerEntry(Referrable):
         self.encapsulated = value  # Use property setter (gets validation)
         return self
 
-    def with_is_reentrant(self, value: Optional["Boolean"]) -> BswModuleClientServerEntry:
+    def with_is_reentrant(self, value: Optional[Boolean]) -> BswModuleClientServerEntry:
         """
         Set isReentrant and return self for chaining.
         
@@ -1526,7 +1526,7 @@ class BswModuleClientServerEntry(Referrable):
         self.is_reentrant = value  # Use property setter (gets validation)
         return self
 
-    def with_is_synchronous(self, value: Optional["Boolean"]) -> BswModuleClientServerEntry:
+    def with_is_synchronous(self, value: Optional[Boolean]) -> BswModuleClientServerEntry:
         """
         Set isSynchronous and return self for chaining.
         

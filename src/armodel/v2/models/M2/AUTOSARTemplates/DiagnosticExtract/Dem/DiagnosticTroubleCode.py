@@ -235,15 +235,15 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
         """Get dtc (Pythonic accessor)."""
         return self._dtc
         # This represents the base number of the DTC group.
-        self._groupNumber: Optional["PositiveInteger"] = None
+        self._groupNumber: Optional[PositiveInteger] = None
 
     @property
-    def group_number(self) -> Optional["PositiveInteger"]:
+    def group_number(self) -> Optional[PositiveInteger]:
         """Get groupNumber (Pythonic accessor)."""
         return self._groupNumber
 
     @group_number.setter
-    def group_number(self, value: Optional["PositiveInteger"]) -> None:
+    def group_number(self, value: Optional[PositiveInteger]) -> None:
         """
         Set groupNumber with validation.
 
@@ -277,7 +277,7 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
         """
         return self.dtc  # Delegates to property
 
-    def getGroupNumber(self) -> "PositiveInteger":
+    def getGroupNumber(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for groupNumber.
 
@@ -289,7 +289,7 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
         """
         return self.group_number  # Delegates to property
 
-    def setGroupNumber(self, value: "PositiveInteger") -> DiagnosticTroubleCodeGroup:
+    def setGroupNumber(self, value: PositiveInteger) -> DiagnosticTroubleCodeGroup:
         """
         AUTOSAR-compliant setter for groupNumber with method chaining.
 
@@ -307,7 +307,7 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_group_number(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeGroup:
+    def with_group_number(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeGroup:
         """
         Set groupNumber and return self for chaining.
 
@@ -341,15 +341,15 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to an aging algorithm in case that an aging/ the event is allowed.
-        self._aging: Optional["DiagnosticAging"] = None
+        self._aging: Optional[DiagnosticAging] = None
 
     @property
-    def aging(self) -> Optional["DiagnosticAging"]:
+    def aging(self) -> Optional[DiagnosticAging]:
         """Get aging (Pythonic accessor)."""
         return self._aging
 
     @aging.setter
-    def aging(self, value: Optional["DiagnosticAging"]) -> None:
+    def aging(self, value: Optional[DiagnosticAging]) -> None:
         """
         Set aging with validation.
 
@@ -406,10 +406,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         return self._extendedData
         # Define the links to a freeze frame class sampler.
         # atpVariation.
-        self._freezeFrame: List["DiagnosticFreezeFrame"] = []
+        self._freezeFrame: List[DiagnosticFreezeFrame] = []
 
     @property
-    def freeze_frame(self) -> List["DiagnosticFreezeFrame"]:
+    def freeze_frame(self) -> List[DiagnosticFreezeFrame]:
         """Get freezeFrame (Pythonic accessor)."""
         return self._freezeFrame
         # Change description for Class immediateNvDataStorage table "Table A.
@@ -417,15 +417,15 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
                 # memory entry persistently to NVRAM.
         # non-volatile storage triggering on first shutdown.
         # non-volatile storage triggering on.
-        self._immediateNv: Optional["Boolean"] = None
+        self._immediateNv: Optional[Boolean] = None
 
     @property
-    def immediate_nv(self) -> Optional["Boolean"]:
+    def immediate_nv(self) -> Optional[Boolean]:
         """Get immediateNv (Pythonic accessor)."""
         return self._immediateNv
 
     @immediate_nv.setter
-    def immediate_nv(self, value: Optional["Boolean"]) -> None:
+    def immediate_nv(self, value: Optional[Boolean]) -> None:
         """
         Set immediateNv with validation.
 
@@ -475,15 +475,15 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self._legislated = value
         # maximal be stored for this Therefore all these freeze frame records have the
         # frame class.
-        self._maxNumber: Optional["PositiveInteger"] = None
+        self._maxNumber: Optional[PositiveInteger] = None
 
     @property
-    def max_number(self) -> Optional["PositiveInteger"]:
+    def max_number(self) -> Optional[PositiveInteger]:
         """Get maxNumber (Pythonic accessor)."""
         return self._maxNumber
 
     @max_number.setter
-    def max_number(self, value: Optional["PositiveInteger"]) -> None:
+    def max_number(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNumber with validation.
 
@@ -503,15 +503,15 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
             )
         self._maxNumber = value
         # A lower higher priority.
-        self._priority: Optional["PositiveInteger"] = None
+        self._priority: Optional[PositiveInteger] = None
 
     @property
-    def priority(self) -> Optional["PositiveInteger"]:
+    def priority(self) -> Optional[PositiveInteger]:
         """Get priority (Pythonic accessor)."""
         return self._priority
 
     @priority.setter
-    def priority(self, value: Optional["PositiveInteger"]) -> None:
+    def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
 
@@ -589,7 +589,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAging(self) -> "DiagnosticAging":
+    def getAging(self) -> DiagnosticAging:
         """
         AUTOSAR-compliant getter for aging.
 
@@ -601,7 +601,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.aging  # Delegates to property
 
-    def setAging(self, value: "DiagnosticAging") -> DiagnosticTroubleCodeProps:
+    def setAging(self, value: DiagnosticAging) -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for aging with method chaining.
 
@@ -657,7 +657,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.extended_data  # Delegates to property
 
-    def getFreezeFrame(self) -> List["DiagnosticFreezeFrame"]:
+    def getFreezeFrame(self) -> List[DiagnosticFreezeFrame]:
         """
         AUTOSAR-compliant getter for freezeFrame.
 
@@ -669,7 +669,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.freeze_frame  # Delegates to property
 
-    def getImmediateNv(self) -> "Boolean":
+    def getImmediateNv(self) -> Boolean:
         """
         AUTOSAR-compliant getter for immediateNv.
 
@@ -681,7 +681,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.immediate_nv  # Delegates to property
 
-    def setImmediateNv(self, value: "Boolean") -> DiagnosticTroubleCodeProps:
+    def setImmediateNv(self, value: Boolean) -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for immediateNv with method chaining.
 
@@ -725,7 +725,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.legislated = value  # Delegates to property setter
         return self
 
-    def getMaxNumber(self) -> "PositiveInteger":
+    def getMaxNumber(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNumber.
 
@@ -737,7 +737,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.max_number  # Delegates to property
 
-    def setMaxNumber(self, value: "PositiveInteger") -> DiagnosticTroubleCodeProps:
+    def setMaxNumber(self, value: PositiveInteger) -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for maxNumber with method chaining.
 
@@ -753,7 +753,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.max_number = value  # Delegates to property setter
         return self
 
-    def getPriority(self) -> "PositiveInteger":
+    def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
 
@@ -765,7 +765,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> DiagnosticTroubleCodeProps:
+    def setPriority(self, value: PositiveInteger) -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -839,7 +839,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_aging(self, value: Optional["DiagnosticAging"]) -> DiagnosticTroubleCodeProps:
+    def with_aging(self, value: Optional[DiagnosticAging]) -> DiagnosticTroubleCodeProps:
         """
         Set aging and return self for chaining.
 
@@ -871,7 +871,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.diagnostic = value  # Use property setter (gets validation)
         return self
 
-    def with_immediate_nv(self, value: Optional["Boolean"]) -> DiagnosticTroubleCodeProps:
+    def with_immediate_nv(self, value: Optional[Boolean]) -> DiagnosticTroubleCodeProps:
         """
         Set immediateNv and return self for chaining.
 
@@ -903,7 +903,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.legislated = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeProps:
+    def with_max_number(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeProps:
         """
         Set maxNumber and return self for chaining.
 
@@ -919,7 +919,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.max_number = value  # Use property setter (gets validation)
         return self
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeProps:
+    def with_priority(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeProps:
         """
         Set priority and return self for chaining.
 
@@ -1027,15 +1027,15 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         # This attribute describes the affection of the event by the PTO handling.
         # event is affected by the Dem PTO handling.
         # event is not affected by the Dem PTO handling.
-        self._considerPto: Optional["Boolean"] = None
+        self._considerPto: Optional[Boolean] = None
 
     @property
-    def consider_pto(self) -> Optional["Boolean"]:
+    def consider_pto(self) -> Optional[Boolean]:
         """Get considerPto (Pythonic accessor)."""
         return self._considerPto
 
     @consider_pto.setter
-    def consider_pto(self, value: Optional["Boolean"]) -> None:
+    def consider_pto(self, value: Optional[Boolean]) -> None:
         """
         Set considerPto with validation.
 
@@ -1114,15 +1114,15 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self._eventReadiness = value
                 # function which DTC.
         # This parameter is necessary for the severity information.
-        self._functionalUnit: Optional["PositiveInteger"] = None
+        self._functionalUnit: Optional[PositiveInteger] = None
 
     @property
-    def functional_unit(self) -> Optional["PositiveInteger"]:
+    def functional_unit(self) -> Optional[PositiveInteger]:
         """Get functionalUnit (Pythonic accessor)."""
         return self._functionalUnit
 
     @functional_unit.setter
-    def functional_unit(self, value: Optional["PositiveInteger"]) -> None:
+    def functional_unit(self, value: Optional[PositiveInteger]) -> None:
         """
         Set functionalUnit with validation.
 
@@ -1143,15 +1143,15 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self._functionalUnit = value
         # attribute is only required if and OBD DTC values are used for SAE this
         # attribute does not exist, then UDS DTC used with J1979-2.
-        self._obdDtc: Optional["PositiveInteger"] = None
+        self._obdDtc: Optional[PositiveInteger] = None
 
     @property
-    def obd_dtc(self) -> Optional["PositiveInteger"]:
+    def obd_dtc(self) -> Optional[PositiveInteger]:
         """Get obdDtc (Pythonic accessor)."""
         return self._obdDtc
 
     @obd_dtc.setter
-    def obd_dtc(self, value: Optional["PositiveInteger"]) -> None:
+    def obd_dtc(self, value: Optional[PositiveInteger]) -> None:
         """
         Set obdDtc with validation.
 
@@ -1198,15 +1198,15 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
                 f"severity must be DiagnosticUdsSeverity or None, got {type(value).__name__}"
             )
         self._severity = value
-        self._udsDtcValue: Optional["PositiveInteger"] = None
+        self._udsDtcValue: Optional[PositiveInteger] = None
 
     @property
-    def uds_dtc_value(self) -> Optional["PositiveInteger"]:
+    def uds_dtc_value(self) -> Optional[PositiveInteger]:
         """Get udsDtcValue (Pythonic accessor)."""
         return self._udsDtcValue
 
     @uds_dtc_value.setter
-    def uds_dtc_value(self, value: Optional["PositiveInteger"]) -> None:
+    def uds_dtc_value(self, value: Optional[PositiveInteger]) -> None:
         """
         Set udsDtcValue with validation.
 
@@ -1255,7 +1255,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConsiderPto(self) -> "Boolean":
+    def getConsiderPto(self) -> Boolean:
         """
         AUTOSAR-compliant getter for considerPto.
 
@@ -1267,7 +1267,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.consider_pto  # Delegates to property
 
-    def setConsiderPto(self, value: "Boolean") -> DiagnosticTroubleCodeUds:
+    def setConsiderPto(self, value: Boolean) -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for considerPto with method chaining.
 
@@ -1339,7 +1339,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.event_readiness = value  # Delegates to property setter
         return self
 
-    def getFunctionalUnit(self) -> "PositiveInteger":
+    def getFunctionalUnit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for functionalUnit.
 
@@ -1351,7 +1351,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.functional_unit  # Delegates to property
 
-    def setFunctionalUnit(self, value: "PositiveInteger") -> DiagnosticTroubleCodeUds:
+    def setFunctionalUnit(self, value: PositiveInteger) -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for functionalUnit with method chaining.
 
@@ -1367,7 +1367,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.functional_unit = value  # Delegates to property setter
         return self
 
-    def getObdDtc(self) -> "PositiveInteger":
+    def getObdDtc(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for obdDtc.
 
@@ -1379,7 +1379,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.obd_dtc  # Delegates to property
 
-    def setObdDtc(self, value: "PositiveInteger") -> DiagnosticTroubleCodeUds:
+    def setObdDtc(self, value: PositiveInteger) -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for obdDtc with method chaining.
 
@@ -1423,7 +1423,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.severity = value  # Delegates to property setter
         return self
 
-    def getUdsDtcValue(self) -> "PositiveInteger":
+    def getUdsDtcValue(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for udsDtcValue.
 
@@ -1435,7 +1435,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         """
         return self.uds_dtc_value  # Delegates to property
 
-    def setUdsDtcValue(self, value: "PositiveInteger") -> DiagnosticTroubleCodeUds:
+    def setUdsDtcValue(self, value: PositiveInteger) -> DiagnosticTroubleCodeUds:
         """
         AUTOSAR-compliant setter for udsDtcValue with method chaining.
 
@@ -1481,7 +1481,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_consider_pto(self, value: Optional["Boolean"]) -> DiagnosticTroubleCodeUds:
+    def with_consider_pto(self, value: Optional[Boolean]) -> DiagnosticTroubleCodeUds:
         """
         Set considerPto and return self for chaining.
 
@@ -1529,7 +1529,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.event_readiness = value  # Use property setter (gets validation)
         return self
 
-    def with_functional_unit(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeUds:
+    def with_functional_unit(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeUds:
         """
         Set functionalUnit and return self for chaining.
 
@@ -1545,7 +1545,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.functional_unit = value  # Use property setter (gets validation)
         return self
 
-    def with_obd_dtc(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeUds:
+    def with_obd_dtc(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeUds:
         """
         Set obdDtc and return self for chaining.
 
@@ -1577,7 +1577,7 @@ class DiagnosticTroubleCodeUds(DiagnosticTroubleCode):
         self.severity = value  # Use property setter (gets validation)
         return self
 
-    def with_uds_dtc_value(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeUds:
+    def with_uds_dtc_value(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeUds:
         """
         Set udsDtcValue and return self for chaining.
 
@@ -1628,15 +1628,15 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         # This attribute describes the affection of the event by the PTO handling.
         # event is affected by the Dem PTO handling.
         # event is not affected by the Dem PTO handling.
-        self._considerPto: Optional["Boolean"] = None
+        self._considerPto: Optional[Boolean] = None
 
     @property
-    def consider_pto(self) -> Optional["Boolean"]:
+    def consider_pto(self) -> Optional[Boolean]:
         """Get considerPto (Pythonic accessor)."""
         return self._considerPto
 
     @consider_pto.setter
-    def consider_pto(self, value: Optional["Boolean"]) -> None:
+    def consider_pto(self, value: Optional[Boolean]) -> None:
         """
         Set considerPto with validation.
 
@@ -1713,15 +1713,15 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
                 f"eventReadiness must be EventObdReadiness or None, got {type(value).__name__}"
             )
         self._eventReadiness = value
-        self._obdDTCValue: Optional["PositiveInteger"] = None
+        self._obdDTCValue: Optional[PositiveInteger] = None
 
     @property
-    def obd_dtc_value(self) -> Optional["PositiveInteger"]:
+    def obd_dtc_value(self) -> Optional[PositiveInteger]:
         """Get obdDTCValue (Pythonic accessor)."""
         return self._obdDTCValue
 
     @obd_dtc_value.setter
-    def obd_dtc_value(self, value: Optional["PositiveInteger"]) -> None:
+    def obd_dtc_value(self, value: Optional[PositiveInteger]) -> None:
         """
         Set obdDTCValue with validation.
 
@@ -1743,7 +1743,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConsiderPto(self) -> "Boolean":
+    def getConsiderPto(self) -> Boolean:
         """
         AUTOSAR-compliant getter for considerPto.
 
@@ -1755,7 +1755,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         """
         return self.consider_pto  # Delegates to property
 
-    def setConsiderPto(self, value: "Boolean") -> DiagnosticTroubleCodeObd:
+    def setConsiderPto(self, value: Boolean) -> DiagnosticTroubleCodeObd:
         """
         AUTOSAR-compliant setter for considerPto with method chaining.
 
@@ -1827,7 +1827,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         self.event_readiness = value  # Delegates to property setter
         return self
 
-    def getObdDTCValue(self) -> "PositiveInteger":
+    def getObdDTCValue(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for obdDTCValue.
 
@@ -1839,7 +1839,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         """
         return self.obd_dtc_value  # Delegates to property
 
-    def setObdDTCValue(self, value: "PositiveInteger") -> DiagnosticTroubleCodeObd:
+    def setObdDTCValue(self, value: PositiveInteger) -> DiagnosticTroubleCodeObd:
         """
         AUTOSAR-compliant setter for obdDTCValue with method chaining.
 
@@ -1857,7 +1857,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_consider_pto(self, value: Optional["Boolean"]) -> DiagnosticTroubleCodeObd:
+    def with_consider_pto(self, value: Optional[Boolean]) -> DiagnosticTroubleCodeObd:
         """
         Set considerPto and return self for chaining.
 
@@ -1905,7 +1905,7 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
         self.event_readiness = value  # Use property setter (gets validation)
         return self
 
-    def with_obd_dtc_value(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeObd:
+    def with_obd_dtc_value(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeObd:
         """
         Set obdDTCValue and return self for chaining.
 
@@ -1967,15 +1967,15 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
             )
         self._dtcPropsProps = value
         # 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11.
-        self._fmi: Optional["PositiveInteger"] = None
+        self._fmi: Optional[PositiveInteger] = None
 
     @property
-    def fmi(self) -> Optional["PositiveInteger"]:
+    def fmi(self) -> Optional[PositiveInteger]:
         """Get fmi (Pythonic accessor)."""
         return self._fmi
 
     @fmi.setter
-    def fmi(self, value: Optional["PositiveInteger"]) -> None:
+    def fmi(self, value: Optional[PositiveInteger]) -> None:
         """
         Set fmi with validation.
 
@@ -2106,7 +2106,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.dtc_props_props = value  # Delegates to property setter
         return self
 
-    def getFmi(self) -> "PositiveInteger":
+    def getFmi(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for fmi.
 
@@ -2118,7 +2118,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.fmi  # Delegates to property
 
-    def setFmi(self, value: "PositiveInteger") -> DiagnosticTroubleCodeJ1939:
+    def setFmi(self, value: PositiveInteger) -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for fmi with method chaining.
 
@@ -2236,7 +2236,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.dtc_props_props = value  # Use property setter (gets validation)
         return self
 
-    def with_fmi(self, value: Optional["PositiveInteger"]) -> DiagnosticTroubleCodeJ1939:
+    def with_fmi(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeJ1939:
         """
         Set fmi and return self for chaining.
 

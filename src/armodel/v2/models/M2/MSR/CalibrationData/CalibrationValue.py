@@ -35,15 +35,15 @@ class SwValueCont(ARObject):
         # dimension one value has to be defined, e.
         # g.
         # one of COM_AXIS and two or more in case of MAP.
-        self._swArraysize: Optional["RefType"] = None
+        self._swArraysize: Optional[RefType] = None
 
     @property
-    def sw_arraysize(self) -> Optional["RefType"]:
+    def sw_arraysize(self) -> Optional[RefType]:
         """Get swArraysize (Pythonic accessor)."""
         return self._swArraysize
 
     @sw_arraysize.setter
-    def sw_arraysize(self, value: Optional["RefType"]) -> None:
+    def sw_arraysize(self, value: Optional[RefType]) -> None:
         """
         Set swArraysize with validation.
 
@@ -85,15 +85,15 @@ class SwValueCont(ARObject):
                 f"swValuesPhys must be SwValues or None, got {type(value).__name__}"
             )
         self._swValuesPhys = value
-        self._unit: Optional["Unit"] = None
+        self._unit: Optional[Unit] = None
 
     @property
-    def unit(self) -> Optional["Unit"]:
+    def unit(self) -> Optional[Unit]:
         """Get unit (Pythonic accessor)."""
         return self._unit
 
     @unit.setter
-    def unit(self, value: Optional["Unit"]) -> None:
+    def unit(self, value: Optional[Unit]) -> None:
         """
         Set unit with validation.
 
@@ -143,7 +143,7 @@ class SwValueCont(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwArraysize(self) -> "RefType":
+    def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
 
@@ -155,7 +155,7 @@ class SwValueCont(ARObject):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> SwValueCont:
+    def setSwArraysize(self, value: RefType) -> SwValueCont:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -199,7 +199,7 @@ class SwValueCont(ARObject):
         self.sw_values_phys = value  # Delegates to property setter
         return self
 
-    def getUnit(self) -> "Unit":
+    def getUnit(self) -> Unit:
         """
         AUTOSAR-compliant getter for unit.
 
@@ -211,7 +211,7 @@ class SwValueCont(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> SwValueCont:
+    def setUnit(self, value: Unit) -> SwValueCont:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -289,7 +289,7 @@ class SwValueCont(ARObject):
         self.sw_values_phys = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> SwValueCont:
+    def with_unit(self, value: Optional[Unit]) -> SwValueCont:
         """
         Set unit and return self for chaining.
 
@@ -343,15 +343,15 @@ class SwAxisCont(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This category specifies the particular axis types: STD_AXIS (swArraysize
         # necessary).
-        self._category: Optional["CalprmAxisCategory"] = None
+        self._category: Optional[CalprmAxisCategory] = None
 
     @property
-    def category(self) -> Optional["CalprmAxisCategory"]:
+    def category(self) -> Optional[CalprmAxisCategory]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional["CalprmAxisCategory"]) -> None:
+    def category(self, value: Optional[CalprmAxisCategory]) -> None:
         """
         Set category with validation.
 
@@ -372,15 +372,15 @@ class SwAxisCont(ARObject):
         self._category = value
                 # the dimensions.
         # They are swArraySize.
-        self._swArraysize: Optional["RefType"] = None
+        self._swArraysize: Optional[RefType] = None
 
     @property
-    def sw_arraysize(self) -> Optional["RefType"]:
+    def sw_arraysize(self) -> Optional[RefType]:
         """Get swArraysize (Pythonic accessor)."""
         return self._swArraysize
 
     @sw_arraysize.setter
-    def sw_arraysize(self, value: Optional["RefType"]) -> None:
+    def sw_arraysize(self, value: Optional[RefType]) -> None:
         """
         Set swArraysize with validation.
 
@@ -397,15 +397,15 @@ class SwAxisCont(ARObject):
         self._swArraysize = value
         # It is specified by numbers where 1 the x-axis.
         # It is also possible to derive the from the sequence of the parent.
-        self._swAxisIndex: Optional["AxisIndexType"] = None
+        self._swAxisIndex: Optional[AxisIndexType] = None
 
     @property
-    def sw_axis_index(self) -> Optional["AxisIndexType"]:
+    def sw_axis_index(self) -> Optional[AxisIndexType]:
         """Get swAxisIndex (Pythonic accessor)."""
         return self._swAxisIndex
 
     @sw_axis_index.setter
-    def sw_axis_index(self, value: Optional["AxisIndexType"]) -> None:
+    def sw_axis_index(self, value: Optional[AxisIndexType]) -> None:
         """
         Set swAxisIndex with validation.
 
@@ -451,15 +451,15 @@ class SwAxisCont(ARObject):
                 f"swValuesPhys must be SwValues or None, got {type(value).__name__}"
             )
         self._swValuesPhys = value
-        self._unit: Optional["Unit"] = None
+        self._unit: Optional[Unit] = None
 
     @property
-    def unit(self) -> Optional["Unit"]:
+    def unit(self) -> Optional[Unit]:
         """Get unit (Pythonic accessor)."""
         return self._unit
 
     @unit.setter
-    def unit(self, value: Optional["Unit"]) -> None:
+    def unit(self, value: Optional[Unit]) -> None:
         """
         Set unit with validation.
 
@@ -509,7 +509,7 @@ class SwAxisCont(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> "CalprmAxisCategory":
+    def getCategory(self) -> CalprmAxisCategory:
         """
         AUTOSAR-compliant getter for category.
 
@@ -521,7 +521,7 @@ class SwAxisCont(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CalprmAxisCategory") -> SwAxisCont:
+    def setCategory(self, value: CalprmAxisCategory) -> SwAxisCont:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -537,7 +537,7 @@ class SwAxisCont(ARObject):
         self.category = value  # Delegates to property setter
         return self
 
-    def getSwArraysize(self) -> "RefType":
+    def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
 
@@ -549,7 +549,7 @@ class SwAxisCont(ARObject):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> SwAxisCont:
+    def setSwArraysize(self, value: RefType) -> SwAxisCont:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -565,7 +565,7 @@ class SwAxisCont(ARObject):
         self.sw_arraysize = value  # Delegates to property setter
         return self
 
-    def getSwAxisIndex(self) -> "AxisIndexType":
+    def getSwAxisIndex(self) -> AxisIndexType:
         """
         AUTOSAR-compliant getter for swAxisIndex.
 
@@ -577,7 +577,7 @@ class SwAxisCont(ARObject):
         """
         return self.sw_axis_index  # Delegates to property
 
-    def setSwAxisIndex(self, value: "AxisIndexType") -> SwAxisCont:
+    def setSwAxisIndex(self, value: AxisIndexType) -> SwAxisCont:
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
 
@@ -621,7 +621,7 @@ class SwAxisCont(ARObject):
         self.sw_values_phys = value  # Delegates to property setter
         return self
 
-    def getUnit(self) -> "Unit":
+    def getUnit(self) -> Unit:
         """
         AUTOSAR-compliant getter for unit.
 
@@ -633,7 +633,7 @@ class SwAxisCont(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> SwAxisCont:
+    def setUnit(self, value: Unit) -> SwAxisCont:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -679,7 +679,7 @@ class SwAxisCont(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["CalprmAxisCategory"]) -> SwAxisCont:
+    def with_category(self, value: Optional[CalprmAxisCategory]) -> SwAxisCont:
         """
         Set category and return self for chaining.
 
@@ -711,7 +711,7 @@ class SwAxisCont(ARObject):
         self.sw_arraysize = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> SwAxisCont:
+    def with_sw_axis_index(self, value: Optional[AxisIndexType]) -> SwAxisCont:
         """
         Set swAxisIndex and return self for chaining.
 
@@ -743,7 +743,7 @@ class SwAxisCont(ARObject):
         self.sw_values_phys = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> SwAxisCont:
+    def with_unit(self, value: Optional[Unit]) -> SwAxisCont:
         """
         Set unit and return self for chaining.
 
@@ -852,15 +852,15 @@ class SwValues(ARObject):
         # using stylesheets).
         # For is important that the v values are always the same (flattened) order and
                 # the tool is interpret it without respecting vg.
-        self._vg: Optional["RefType"] = None
+        self._vg: Optional[RefType] = None
 
     @property
-    def vg(self) -> Optional["RefType"]:
+    def vg(self) -> Optional[RefType]:
         """Get vg (Pythonic accessor)."""
         return self._vg
 
     @vg.setter
-    def vg(self, value: Optional["RefType"]) -> None:
+    def vg(self, value: Optional[RefType]) -> None:
         """
         Set vg with validation.
 
@@ -994,7 +994,7 @@ class SwValues(ARObject):
         self.vf = value  # Delegates to property setter
         return self
 
-    def getVg(self) -> "RefType":
+    def getVg(self) -> RefType:
         """
         AUTOSAR-compliant getter for vg.
 
@@ -1006,7 +1006,7 @@ class SwValues(ARObject):
         """
         return self.vg  # Delegates to property
 
-    def setVg(self, value: "RefType") -> SwValues:
+    def setVg(self, value: RefType) -> SwValues:
         """
         AUTOSAR-compliant setter for vg with method chaining.
 

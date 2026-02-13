@@ -61,15 +61,15 @@ class CpSoftwareClusterResource(Identifiable, ABC):
                 # required to be unique in the a single machine.
         # If software clusters are be reused on multiple machines the applies for all
                 # the intended.
-        self._globalResource: Optional["PositiveInteger"] = None
+        self._globalResource: Optional[PositiveInteger] = None
 
     @property
-    def global_resource(self) -> Optional["PositiveInteger"]:
+    def global_resource(self) -> Optional[PositiveInteger]:
         """Get globalResource (Pythonic accessor)."""
         return self._globalResource
 
     @global_resource.setter
-    def global_resource(self, value: Optional["PositiveInteger"]) -> None:
+    def global_resource(self, value: Optional[PositiveInteger]) -> None:
         """
         Set globalResource with validation.
 
@@ -91,15 +91,15 @@ class CpSoftwareClusterResource(Identifiable, ABC):
         # This attribute indicates, that the resource is mandatory to Software Cluster.
         # If the resource is not the machine the connection process of any requiring
                 # this resource gets aborted.
-        self._isMandatory: Optional["Boolean"] = None
+        self._isMandatory: Optional[Boolean] = None
 
     @property
-    def is_mandatory(self) -> Optional["Boolean"]:
+    def is_mandatory(self) -> Optional[Boolean]:
         """Get isMandatory (Pythonic accessor)."""
         return self._isMandatory
 
     @is_mandatory.setter
-    def is_mandatory(self, value: Optional["Boolean"]) -> None:
+    def is_mandatory(self, value: Optional[Boolean]) -> None:
         """
         Set isMandatory with validation.
 
@@ -277,7 +277,7 @@ class CpSoftwareClusterResource(Identifiable, ABC):
         """
         return self.dependent  # Delegates to property
 
-    def getGlobalResource(self) -> "PositiveInteger":
+    def getGlobalResource(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for globalResource.
 
@@ -289,7 +289,7 @@ class CpSoftwareClusterResource(Identifiable, ABC):
         """
         return self.global_resource  # Delegates to property
 
-    def setGlobalResource(self, value: "PositiveInteger") -> CpSoftwareClusterResource:
+    def setGlobalResource(self, value: PositiveInteger) -> CpSoftwareClusterResource:
         """
         AUTOSAR-compliant setter for globalResource with method chaining.
 
@@ -305,7 +305,7 @@ class CpSoftwareClusterResource(Identifiable, ABC):
         self.global_resource = value  # Delegates to property setter
         return self
 
-    def getIsMandatory(self) -> "Boolean":
+    def getIsMandatory(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isMandatory.
 
@@ -317,7 +317,7 @@ class CpSoftwareClusterResource(Identifiable, ABC):
         """
         return self.is_mandatory  # Delegates to property
 
-    def setIsMandatory(self, value: "Boolean") -> CpSoftwareClusterResource:
+    def setIsMandatory(self, value: Boolean) -> CpSoftwareClusterResource:
         """
         AUTOSAR-compliant setter for isMandatory with method chaining.
 
@@ -335,7 +335,7 @@ class CpSoftwareClusterResource(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_global_resource(self, value: Optional["PositiveInteger"]) -> CpSoftwareClusterResource:
+    def with_global_resource(self, value: Optional[PositiveInteger]) -> CpSoftwareClusterResource:
         """
         Set globalResource and return self for chaining.
 
@@ -351,7 +351,7 @@ class CpSoftwareClusterResource(Identifiable, ABC):
         self.global_resource = value  # Use property setter (gets validation)
         return self
 
-    def with_is_mandatory(self, value: Optional["Boolean"]) -> CpSoftwareClusterResource:
+    def with_is_mandatory(self, value: Optional[Boolean]) -> CpSoftwareClusterResource:
         """
         Set isMandatory and return self for chaining.
 
@@ -556,15 +556,15 @@ class CpSoftwareCluster(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute represents the value of the id of the CP software cluster.
-        self._softwareCluster: Optional["PositiveInteger"] = None
+        self._softwareCluster: Optional[PositiveInteger] = None
 
     @property
-    def software_cluster(self) -> Optional["PositiveInteger"]:
+    def software_cluster(self) -> Optional[PositiveInteger]:
         """Get softwareCluster (Pythonic accessor)."""
         return self._softwareCluster
 
     @software_cluster.setter
-    def software_cluster(self, value: Optional["PositiveInteger"]) -> None:
+    def software_cluster(self, value: Optional[PositiveInteger]) -> None:
         """
         Set softwareCluster with validation.
 
@@ -605,7 +605,7 @@ class CpSoftwareCluster(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSoftwareCluster(self) -> "PositiveInteger":
+    def getSoftwareCluster(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for softwareCluster.
 
@@ -617,7 +617,7 @@ class CpSoftwareCluster(ARElement):
         """
         return self.software_cluster  # Delegates to property
 
-    def setSoftwareCluster(self, value: "PositiveInteger") -> CpSoftwareCluster:
+    def setSoftwareCluster(self, value: PositiveInteger) -> CpSoftwareCluster:
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
 
@@ -659,7 +659,7 @@ class CpSoftwareCluster(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_software_cluster(self, value: Optional["PositiveInteger"]) -> CpSoftwareCluster:
+    def with_software_cluster(self, value: Optional[PositiveInteger]) -> CpSoftwareCluster:
         """
         Set softwareCluster and return self for chaining.
 
@@ -691,15 +691,15 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to a specific ECU Instance description.
-        self._ecuInstance: Optional["EcuInstance"] = None
+        self._ecuInstance: Optional[EcuInstance] = None
 
     @property
-    def ecu_instance(self) -> Optional["EcuInstance"]:
+    def ecu_instance(self) -> Optional[EcuInstance]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
 
     @ecu_instance.setter
-    def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
+    def ecu_instance(self, value: Optional[EcuInstance]) -> None:
         """
         Set ecuInstance with validation.
 
@@ -720,15 +720,15 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
         self._ecuInstance = value
         # Unique number of the (virtual or physical) machine to Software Cluster is
         # mapped.
-        self._machineId: Optional["PositiveInteger"] = None
+        self._machineId: Optional[PositiveInteger] = None
 
     @property
-    def machine_id(self) -> Optional["PositiveInteger"]:
+    def machine_id(self) -> Optional[PositiveInteger]:
         """Get machineId (Pythonic accessor)."""
         return self._machineId
 
     @machine_id.setter
-    def machine_id(self, value: Optional["PositiveInteger"]) -> None:
+    def machine_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set machineId with validation.
 
@@ -757,7 +757,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcuInstance(self) -> "EcuInstance":
+    def getEcuInstance(self) -> EcuInstance:
         """
         AUTOSAR-compliant getter for ecuInstance.
 
@@ -769,7 +769,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> CpSoftwareClusterToEcuInstanceMapping:
+    def setEcuInstance(self, value: EcuInstance) -> CpSoftwareClusterToEcuInstanceMapping:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -785,7 +785,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
         self.ecu_instance = value  # Delegates to property setter
         return self
 
-    def getMachineId(self) -> "PositiveInteger":
+    def getMachineId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for machineId.
 
@@ -797,7 +797,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
         """
         return self.machine_id  # Delegates to property
 
-    def setMachineId(self, value: "PositiveInteger") -> CpSoftwareClusterToEcuInstanceMapping:
+    def setMachineId(self, value: PositiveInteger) -> CpSoftwareClusterToEcuInstanceMapping:
         """
         AUTOSAR-compliant setter for machineId with method chaining.
 
@@ -827,7 +827,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> CpSoftwareClusterToEcuInstanceMapping:
+    def with_ecu_instance(self, value: Optional[EcuInstance]) -> CpSoftwareClusterToEcuInstanceMapping:
         """
         Set ecuInstance and return self for chaining.
 
@@ -843,7 +843,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_machine_id(self, value: Optional["PositiveInteger"]) -> CpSoftwareClusterToEcuInstanceMapping:
+    def with_machine_id(self, value: Optional[PositiveInteger]) -> CpSoftwareClusterToEcuInstanceMapping:
         """
         Set machineId and return self for chaining.
 
@@ -876,15 +876,15 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # ApplicationPartition for which the mapping applies.
-        self._application: Optional["ApplicationPartition"] = None
+        self._application: Optional[ApplicationPartition] = None
 
     @property
-    def application(self) -> Optional["ApplicationPartition"]:
+    def application(self) -> Optional[ApplicationPartition]:
         """Get application (Pythonic accessor)."""
         return self._application
 
     @application.setter
-    def application(self, value: Optional["ApplicationPartition"]) -> None:
+    def application(self, value: Optional[ApplicationPartition]) -> None:
         """
         Set application with validation.
 
@@ -934,7 +934,7 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> "ApplicationPartition":
+    def getApplication(self) -> ApplicationPartition:
         """
         AUTOSAR-compliant getter for application.
 
@@ -946,7 +946,7 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
         """
         return self.application  # Delegates to property
 
-    def setApplication(self, value: "ApplicationPartition") -> CpSoftwareClusterResourceToApplicationPartitionMapping:
+    def setApplication(self, value: ApplicationPartition) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
         """
         AUTOSAR-compliant setter for application with method chaining.
 
@@ -992,7 +992,7 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application(self, value: Optional["ApplicationPartition"]) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
+    def with_application(self, value: Optional[ApplicationPartition]) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
         """
         Set application and return self for chaining.
 
@@ -1145,10 +1145,10 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of ApplicationPartitions available in the Cp.
-        self._application: List["ApplicationPartition"] = []
+        self._application: List[ApplicationPartition] = []
 
     @property
-    def application(self) -> List["ApplicationPartition"]:
+    def application(self) -> List[ApplicationPartition]:
         """Get application (Pythonic accessor)."""
         return self._application
         # Software Cluster Resource for which the mapping applies.
@@ -1182,7 +1182,7 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> List["ApplicationPartition"]:
+    def getApplication(self) -> List[ApplicationPartition]:
         """
         AUTOSAR-compliant getter for application.
 
@@ -1287,15 +1287,15 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
             )
         self._softwareCluster = value
         # SystemSignal to which the communication resource is.
-        self._systemSignal: Optional["SystemSignal"] = None
+        self._systemSignal: Optional[SystemSignal] = None
 
     @property
-    def system_signal(self) -> Optional["SystemSignal"]:
+    def system_signal(self) -> Optional[SystemSignal]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional["SystemSignal"]) -> None:
+    def system_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set systemSignal with validation.
 
@@ -1345,7 +1345,7 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
         self.software_cluster = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> "SystemSignal":
+    def getSystemSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -1357,7 +1357,7 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: "SystemSignal") -> SystemSignalToCommunicationResourceMapping:
+    def setSystemSignal(self, value: SystemSignal) -> SystemSignalToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -1391,7 +1391,7 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
         self.software_cluster = value  # Use property setter (gets validation)
         return self
 
-    def with_system_signal(self, value: Optional["SystemSignal"]) -> SystemSignalToCommunicationResourceMapping:
+    def with_system_signal(self, value: Optional[SystemSignal]) -> SystemSignalToCommunicationResourceMapping:
         """
         Set systemSignal and return self for chaining.
 
@@ -1454,15 +1454,15 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
             )
         self._softwareCluster = value
         # SystemSignalGroup to which the communication is assigned.
-        self._systemSignal: Optional["RefType"] = None
+        self._systemSignal: Optional[RefType] = None
 
     @property
-    def system_signal(self) -> Optional["RefType"]:
+    def system_signal(self) -> Optional[RefType]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional["RefType"]) -> None:
+    def system_signal(self, value: Optional[RefType]) -> None:
         """
         Set systemSignal with validation.
 
@@ -1508,7 +1508,7 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
         self.software_cluster = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> "RefType":
+    def getSystemSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -1520,7 +1520,7 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: "RefType") -> SystemSignalGroupToCommunicationResourceMapping:
+    def setSystemSignal(self, value: RefType) -> SystemSignalGroupToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -1682,10 +1682,10 @@ class CpSoftwareClusterResourcePool(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference identifies the EcuInstance in which the is defined.
-        self._ecuScope: List["EcuInstance"] = []
+        self._ecuScope: List[EcuInstance] = []
 
     @property
-    def ecu_scope(self) -> List["EcuInstance"]:
+    def ecu_scope(self) -> List[EcuInstance]:
         """Get ecuScope (Pythonic accessor)."""
         return self._ecuScope
         # This aggregation represents the collection of resources in enclosing resource
@@ -1699,7 +1699,7 @@ class CpSoftwareClusterResourcePool(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcuScope(self) -> List["EcuInstance"]:
+    def getEcuScope(self) -> List[EcuInstance]:
         """
         AUTOSAR-compliant getter for ecuScope.
 
@@ -2045,16 +2045,16 @@ class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Refernce(s) to one or multiple EcucContainerValue(s) characteristics of the
         # resource.
-        self._resourceNeeds: List["EcucContainerValue"] = []
+        self._resourceNeeds: List[EcucContainerValue] = []
 
     @property
-    def resource_needs(self) -> List["EcucContainerValue"]:
+    def resource_needs(self) -> List[EcucContainerValue]:
         """Get resourceNeeds (Pythonic accessor)."""
         return self._resourceNeeds
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getResourceNeeds(self) -> List["EcucContainerValue"]:
+    def getResourceNeeds(self) -> List[EcucContainerValue]:
         """
         AUTOSAR-compliant getter for resourceNeeds.
 
@@ -2255,15 +2255,15 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
         # The value shall be equal to 1.
         # Setting the value of queueLength to that incoming requests are rejected while
                 # that arrived earlier is being processed.
-        self._queueLength: Optional["PositiveInteger"] = None
+        self._queueLength: Optional[PositiveInteger] = None
 
     @property
-    def queue_length(self) -> Optional["PositiveInteger"]:
+    def queue_length(self) -> Optional[PositiveInteger]:
         """Get queueLength (Pythonic accessor)."""
         return self._queueLength
 
     @queue_length.setter
-    def queue_length(self, value: Optional["PositiveInteger"]) -> None:
+    def queue_length(self, value: Optional[PositiveInteger]) -> None:
         """
         Set queueLength with validation.
 
@@ -2285,7 +2285,7 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getQueueLength(self) -> "PositiveInteger":
+    def getQueueLength(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for queueLength.
 
@@ -2297,7 +2297,7 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
         """
         return self.queue_length  # Delegates to property
 
-    def setQueueLength(self, value: "PositiveInteger") -> ClientServerOperationComProps:
+    def setQueueLength(self, value: PositiveInteger) -> ClientServerOperationComProps:
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
 
@@ -2315,7 +2315,7 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_queue_length(self, value: Optional["PositiveInteger"]) -> ClientServerOperationComProps:
+    def with_queue_length(self, value: Optional[PositiveInteger]) -> ClientServerOperationComProps:
         """
         Set queueLength and return self for chaining.
 

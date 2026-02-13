@@ -4,8 +4,12 @@
 Python library for AUTOSAR model support - ARXML parser and writer for automotive ECU software development.
 **Version**: 1.9.2 | **Python**: >= 3.7 | **CI supports**: 3.8-3.13 | **License**: MIT | **Repository**: http://github.com/melodypapa/py-armodel
 
-**Current Git Branch**: feature/v2-arxml-reader-writer
-**Latest Commit**: f9ee9e1 - feat: Add V2 ARXML reader/writer demo implementation
+**Current Git Branch**: feat/v2-remove-duplicate-files
+**Latest Commit**: 01a7cb24 - ci: add Python 3.13 to GitHub Actions test matrix
+
+**Test Status**: ✅ All tests passing (3068/3068)
+- V1 tests: 2703/2703 passing
+- V2 tests: 365/365 passing
 
 ## Build, Lint, and Test Commands
 
@@ -129,13 +133,16 @@ The `scripts/` directory contains utility scripts for development:
 - `compare-package-implementation.py`: Compare package structure
 - `deviation-class-hierarchy.py`: Generate class hierarchy deviation reports
 - `deviation-package.py`: Generate package structure deviation reports
+- `generate_mapping_json.py`: Generate class mapping from schema
+- `generate_v2_models.py`: Generate V2 model files from mapping
+- `check_v2_deviation.py`: Check V2 coding rules compliance
 - `lib/`: Support library for scripts (code_generator, code_utils, package_loader, test_generator, type_resolver)
 
 ### V2 Validation
 For V2 module validation, use these commands:
 ```bash
 # Run V2 coding rules checker (if available)
-python scripts/check_v2_coding_rules.py
+python scripts/check_v2_deviation.py
 
 # Run mypy on V2 modules
 mypy src/armodel/v2/
@@ -168,6 +175,7 @@ The project is migrating to a V2 model structure with enhanced coding standards.
   - XSD-based schema mappings for version support
   - V1-compatible error handling (exceptions + warning mode)
   - Clean separation of concerns between models and serialization
+  - UUID tracking for duplicate detection (shared with V1)
 
 #### V2 Coding Rules (CODING_RULE_V2_*)
 See `docs/development/coding_rules_v2.md` for complete V2-specific rules:
@@ -190,7 +198,7 @@ See `docs/development/coding_rules_v2.md` for complete V2-specific rules:
 #### V2 Reader/Writer Usage
 ```python
 # Reading ARXML with V2 reader
-from armodel.v2.models.models import AUTOSAR
+from armodel.v2.models import AUTOSAR
 from armodel.v2.reader.base_reader import ARXMLReader
 
 AUTOSAR.setARRelease('R23-11')
@@ -232,6 +240,7 @@ V2 reader/writer implementation is in active development on `feature/v2-arxml-re
 - Comments like `# type: List[Sdg]` for complex types (legacy)
 - When adding type annotations, only reference classes that exist in the codebase
 - Add proper imports for existing types or remove annotations for non-existent types to avoid F821 errors
+- **Python 3.8 Compatibility**: Use `typing.List` instead of `list[...]` for CI support
 
 ### Formatting
 - Indentation with spaces (4 spaces per level)
@@ -456,23 +465,20 @@ src/armodel/
 │   │   ├── MSR/              # Meta-model semantic rules
 │   │   └── N/                # Naming conventions
 │   └── utils/                # Utility classes
+├── utils/                  # Shared utilities
+│   └── uuid_mgr.py         # UUID tracking for duplicate detection (shared by V1 and V2)
 ├── v2/                     # V2 package (refactored architecture)
 │   ├── models/              # AUTOSAR model definitions (V2 - refactored)
 │   │   ├── M2/
-│   │   │   ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure)
-│   │   │   ├── MSR/              # Meta-model semantic rules (V2)
-│   │   │   └── N/                # Naming conventions (V2)
-│   │   ├── ar_object.py          # Base ARObject class
-│   │   └── models.py             # Core models (AUTOSAR, ARPackage, Identifiable)
+│   │   │   ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure, 225+ files)
+│   │   │   └── MSR/              # Meta-model semantic rules (V2)
+│   │   └── __init__.py           # V2 model exports
 │   ├── reader/              # V2 ARXML reader (deserialization)
 │   │   ├── base_reader.py       # Core reading orchestration
 │   │   ├── element_handler.py   # Element handler registry
 │   │   └── schema_registry.py   # Schema mappings loader
-│   ├── writer/              # V2 ARXML writer (serialization)
-│   │   └── base_writer.py       # Core writing orchestration
-│   └── utils/               # Shared utilities (V2)
-│       ├── errors.py            # Custom error types
-│       └── context.py           # Reading/writing context
+│   └── writer/              # V2 ARXML writer (serialization)
+│       └── base_writer.py       # Core writing orchestration
 ├── parser/                 # Parser implementation (V1)
 ├── report/                 # Report generation
 ├── transformer/            # Transformer
@@ -487,20 +493,19 @@ src/armodel/
 - Abstract base classes use `ABC` from `abc` module
 - Separation of concerns between parser and writer modules
 - V2 models represent a refactored architecture with improved code organization
+- Shared UUID management between V1 and V2 for duplicate detection
 
 ### Core Modules
 - **parser.arxml_parser**: Main ARXML parser (V1), based on `AbstractARXMLParser`
 - **writer.arxml_writer**: ARXML file writer (V1)
 - **models.M2.AUTOSARTemplates.AutosarTopLevelStructure**: `AUTOSAR` class (singleton root), `AbstractAUTOSAR` class (V1)
-- **v2.models.M2.AUTOSARTemplates**: Refactored AUTOSAR templates (V2, 232+ files)
+- **utils.uuid_mgr**: UUID tracking manager for duplicate detection (shared by V1 and V2)
+- **v2.models.M2.AUTOSARTemplates**: Refactored AUTOSAR templates (V2, 225+ files)
 - **v2.reader.base_reader**: V2 ARXML reader - deserializes ARXML using reflection
 - **v2.reader.element_handler**: Element handler registry for V2 reader
 - **v2.reader.schema_registry**: Schema mappings loader for V2 reader
 - **v2.writer.base_writer**: V2 ARXML writer - serializes models to ARXML
-- **v2.models.ar_object**: Base ARObject class (V2)
-- **v2.models.models**: Core V2 models (AUTOSAR, ARPackage, Identifiable)
-- **v2.utils.errors**: Custom error types for V2 (ReadError, WriteError)
-- **v2.utils.context**: Reading/writing context for V2
+- **v2.models**: Core V2 model exports (AUTOSAR, ARObject, ARPackage, Identifiable)
 - **models/**: Contains all AUTOSAR data model classes (V1 - legacy, stable)
 - **v2/models/**: Contains refactored AUTOSAR data model classes (V2 - active development)
 
@@ -548,6 +553,7 @@ src/armodel/
 - **Duplicate Detection**: Run deviation tracking to identify duplicate class names before committing
 - **V2 Development**: V2 models, reader, and writer under active development on `feature/v2-arxml-reader-writer` branch
 - **V2 Architecture**: Follow V2 coding rules in `docs/development/coding_rules_v2.md`
+- **UUID Management**: V1 and V2 share the same UUIDMgr from `src/armodel/utils/uuid_mgr.py`
 
 ### AUTOSAR Singleton Management
 ```python
@@ -563,6 +569,26 @@ document = AUTOSAR.new()
 AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 ```
 
+### UUID Tracking
+The project uses a shared UUID manager for duplicate detection in ARXML files:
+
+```python
+from armodel.utils.uuid_mgr import UUIDMgr
+
+# UUID manager is automatically initialized in AUTOSAR.clear()
+# Objects with duplicate UUIDs are tracked and can be retrieved
+
+# Get duplicate UUIDs
+document = AUTOSAR.getInstance()
+duplicates = document.getDuplicateUUIDs()
+
+# Get objects by UUID
+objects = document.getARObjectByUUID("uuid-string")
+
+# Add object for UUID tracking (automatically called by parser)
+document.addARObject(obj)
+```
+
 ### Integration Tests
 - 29 ARXML files tested with round-trip validation
 - Parse → Write → Re-parse → Compare cycle
@@ -570,6 +596,48 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 - Extensible via `tests/integration_tests/config.yaml`
 
 ### Recent Refactoring Activities
+
+#### UUID Functionality Restoration (2026-02-12)
+**Purpose**: Restore UUID tracking functionality for V1 parser after accidental removal.
+
+**Status**: ✅ Completed on `feat/v2-remove-duplicate-files` branch
+
+**Key Changes**:
+- Restored UUID tracking methods in AbstractAUTOSAR class:
+  - `addARObject(obj)`: Add object for UUID tracking
+  - `getARObjectByUUID(uuid)`: Retrieve objects by UUID
+  - `getDuplicateUUIDs()`: Get list of duplicate UUIDs
+- Uses shared UUIDMgr from `src/armodel/utils/uuid_mgr.py`
+- Updated parser to use UUID tracking
+- Fixed Python 3.8 compatibility in UUIDMgr (use `typing.List` instead of `list[...]`)
+
+**Related Files**:
+- `src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py`: Added UUID methods
+- `src/armodel/parser/abstract_arxml_parser.py`: Restored UUID tracking
+- `src/armodel/utils/uuid_mgr.py`: Fixed type annotations for Python 3.8
+
+**Commits**:
+- 01a7cb24: ci: add Python 3.13 to GitHub Actions test matrix
+- 17c660bf: fix: use typing.List for Python 3.8 compatibility in UUIDMgr
+- 7aae82f7: fix: restore UUID functionality for V1 and use shared UUIDMgr for V2 compatibility
+
+#### V2 Duplicate File Removal (2026-02-12)
+**Purpose**: Remove duplicate files and scripts from V2 module structure.
+
+**Status**: ✅ Completed on `feat/v2-remove-duplicate-files` branch
+
+**Key Changes**:
+- Removed duplicate V2 migration scripts
+- Removed file/directory conflicts in V2 CommonStructure packages
+- Fixed leaf/non-leaf package detection
+- Removed orphaned UUID manager code
+
+**Commits**:
+- 0184b898: refactor: remove obsolete V2 migration scripts and cleanup
+- 10063ab8: fix: resolve V2 circular import issues between ARPackage and ElementCollection
+- 1e1b4864: fix: remove file/directory conflicts in V2 CommonStructure packages
+- de1f58ef: fix: correct leaf/non-leaf package detection in generate_mapping_json.py
+- 20ae93dc: fix: remove orphaned UUID manager code from AutosarTopLevelStructure
 
 #### V2 ARXML Reader/Writer Implementation (Current - 2026)
 **Purpose**: Implement V2 ARXML reader and writer with Java-style POJO architecture and reflection-based serialization.
@@ -587,10 +655,9 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 - Automated coding rule validation
 
 **Related Files**:
-- `src/armodel/v2/models/`: V2 model structure (232+ files)
+- `src/armodel/v2/models/`: V2 model structure (225+ files)
 - `src/armodel/v2/reader/`: ARXML deserialization (base_reader.py, element_handler.py, schema_registry.py)
 - `src/armodel/v2/writer/`: ARXML serialization (base_writer.py)
-- `src/armodel/v2/utils/`: Shared utilities (errors.py, context.py)
 - `docs/development/coding_rules_v2.md`: V2-specific coding rules (15 rules)
 - `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md`: V2 architecture design
 
@@ -608,6 +675,7 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 4. XSD-driven schema mappings for version support
 5. Open/Closed Principle - extensible without base class modifications
 6. V1-compatible error handling behavior
+7. Shared UUID management with V1
 
 #### Enum to AREnum Conversion (v1.9.2)
 **Purpose**: Improve AUTOSAR compliance by replacing Python's standard `enum.Enum` with a custom `AREnum` base class.
@@ -671,12 +739,11 @@ class BswEntryKindEnum(AREnum):
 #### V2 Reader/Writer Implementation (Current)
 - **Goal**: Implement V2 ARXML reader and writer with Java-style POJO architecture
 - **Status**: Active development on `feature/v2-arxml-reader-writer` branch
-- **Progress**: 
-  - V2 models: 232+ files with enhanced type hints
+- **Progress**:
+  - V2 models: 225+ files with enhanced type hints
   - V2 reader: base_reader.py, element_handler.py, schema_registry.py implemented
   - V2 writer: base_writer.py implemented
-  - V2 utils: errors.py, context.py implemented
-  - Tests: tests/test_armodel/v2/ structure created
+  - Tests: tests/test_armodel/v2/ structure created (365 tests passing)
 - **Changes**:
   - Java-style POJO pattern for models
   - Reflection-based serialization
@@ -685,8 +752,18 @@ class BswEntryKindEnum(AREnum):
   - Enhanced type hints with strict mypy checking
   - Improved import organization (absolute imports only)
   - Block import style for better readability
+  - Shared UUID management with V1
 - **Related Commits**: f9ee9e1, e86e5fb, 3bf577c, 5cab365, c76f128
 - **Design Document**: docs/plans/2026-02-07-v2-arxml-reader-writer-design.md
+
+#### UUID Functionality Restoration
+- **Goal**: Restore UUID tracking for V1 parser after accidental removal
+- **Status**: ✅ Completed
+- **Changes**:
+  - Restored UUID methods in AbstractAUTOSAR class
+  - Uses shared UUIDMgr from utils
+  - Fixed Python 3.8 compatibility
+- **Related Commits**: 7aae82f7, 17c660bf, 01a7cb24
 
 #### Enum Refactoring (v1.9.2)
 - **Goal**: Convert Python Enum to AUTOSAR AREnum for better AUTOSAR compliance
@@ -736,8 +813,11 @@ V2 tests are organized in `tests/test_armodel/v2/` following the test structure 
 tests/test_armodel/v2/
 ├── __init__.py
 ├── test_model_extensibility.py    # V2 model extensibility tests
+├── test_api_compatibility.py      # V2 API compatibility tests
+├── test_imports.py                # V2 import tests
 ├── integration/                   # V2 integration tests
-│   └── test_roundtrip.py          # Round-trip validation tests
+│   ├── test_datatypes_arxml.py    # Datatypes ARXML round-trip
+│   └── test_round_trip.py         # Round-trip validation tests
 ├── models/                        # V2 model tests
 │   └── test_*.py                  # Model serialization tests
 ├── reader/                        # V2 reader tests
@@ -786,6 +866,19 @@ The library provides 10 command-line tools:
 ## Recent Version History
 
 ### Version 1.9.2 (Current)
+- **UUID Functionality Restoration**
+  - Restore UUID tracking for V1 parser after accidental removal
+  - Use shared UUIDMgr from `src/armodel/utils/uuid_mgr.py`
+  - Add UUID methods: addARObject, getARObjectByUUID, getDuplicateUUIDs
+  - Fix Python 3.8 compatibility in UUIDMgr (use typing.List)
+- **V2 Duplicate File Removal**
+  - Remove duplicate V2 migration scripts
+  - Fix file/directory conflicts in V2 CommonStructure packages
+  - Fix leaf/non-leaf package detection
+  - Remove orphaned UUID manager code
+- **CI Enhancement**
+  - Add Python 3.13 to GitHub Actions test matrix
+  - CI now tests on 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
 - **Enum Refactoring**
   - Convert Python Enum to AUTOSAR AREnum for better AUTOSAR compliance
   - Refactor all enum-related code to use AREnum base class
@@ -794,6 +887,7 @@ The library provides 10 command-line tools:
   - Fix CollectableElement location in deviation report
   - Clarify connection between CODING_RULE_STYLE_00008 and CODING_RULE_STYLE_00009
 - **Test Coverage Enhancement**
+  - All 3068 tests passing (2703 V1 + 365 V2)
   - Ongoing test coverage enhancement across all modules
   - Enhanced class mapping validation and reporting
 - **Documentation Improvements**
@@ -803,11 +897,12 @@ The library provides 10 command-line tools:
   - Added duplicate detection for CODING_RULE_STYLE_00009 compliance
   - Development scripts added for package structure analysis and fixes
 - **V2 Model Development**
-  - 232+ V2 model files created with refactored architecture
+  - 225+ V2 model files created with refactored architecture
   - V2 coding rules established (15 rules in coding_rules_v2.md)
   - V2 reader and writer implementation in progress
   - Ruff errors fixed with proper abstract base classes
   - Union type imports added to V2 model typing statements
+  - Shared UUID management with V1
 
 ### Version 1.9.1
 - **Package Structure Refactoring**
@@ -863,6 +958,7 @@ The project is migrating to a V2 model structure with enhanced coding standards 
 - **Linting**: Flake8 for critical errors only
 - **Architecture**: Monolithic parser/writer with model methods
 - **Status**: Stable, in production use
+- **UUID Tracking**: Uses shared UUIDMgr from utils
 
 #### V2 Models (In Development)
 - **Location**: `src/armodel/v2/models/`
@@ -871,13 +967,14 @@ The project is migrating to a V2 model structure with enhanced coding standards 
 - **Linting**: Ruff + mypy for comprehensive quality checks
 - **Architecture**: Java-style POJO pattern, external serialization
 - **Status**: Active development on `feature/v2-arxml-reader-writer` branch
+- **UUID Tracking**: Uses shared UUIDMgr from utils (same as V1)
 
 ### Working with V2 Modules
 
 #### Using V2 Reader/Writer
 ```python
 # Reading ARXML with V2 reader
-from armodel.v2.models.models import AUTOSAR
+from armodel.v2.models import AUTOSAR
 from armodel.v2.reader.base_reader import ARXMLReader
 
 AUTOSAR.setARRelease('R23-11')
@@ -903,24 +1000,25 @@ ruff check src/armodel/v2/
 
 # Run V2 tests
 pytest tests/test_armodel/v2/ -v
+
+# Check V2 deviation
+python scripts/check_v2_deviation.py
 ```
 
 #### V2 Module Structure
 ```
 src/armodel/v2/
 ├── models/           # AUTOSAR M2 model classes (pure data, POJOs)
-│   ├── ar_object.py  # Base ARObject class
-│   ├── models.py     # Core models (AUTOSAR, ARPackage, Identifiable)
-│   └── M2/           # AUTOSAR M2 schema structure (232+ files)
+│   ├── __init__.py   # V2 model exports (AUTOSAR, ARObject, ARPackage, Identifiable)
+│   └── M2/           # AUTOSAR M2 schema structure (225+ files)
+│       ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure)
+│       └── MSR/              # Meta-model semantic rules (V2)
 ├── reader/           # ARXML deserialization (reflection-based)
 │   ├── base_reader.py       # Core reading orchestration
 │   ├── element_handler.py   # Element handler registry
 │   └── schema_registry.py   # Schema mappings loader
-├── writer/           # ARXML serialization (reflection-based)
-│   └── base_writer.py       # Core writing orchestration
-└── utils/            # Shared utilities
-    ├── errors.py            # Custom error types (ReadError, WriteError)
-    └── context.py           # Reading/writing context
+└── writer/           # ARXML serialization (reflection-based)
+    └── base_writer.py       # Core writing orchestration
 ```
 
 ### V2-Specific Coding Rules
@@ -946,6 +1044,7 @@ See `docs/development/coding_rules_v2.md` for complete V2-specific coding rules 
 
 - **Main Branch**: Contains V1 models (stable, production)
 - **feature/v2-arxml-reader-writer**: V2 models, reader, writer development
+- **feat/v2-remove-duplicate-files**: V2 cleanup and UUID restoration (current)
 
 When working on V2 features:
 1. Create feature branches from `feature/v2-arxml-reader-writer`
@@ -958,10 +1057,12 @@ When working on V2 features:
 
 The V2 migration is ongoing. Key milestones:
 
-- [x] V2 models structure (232+ files)
+- [x] V2 models structure (225+ files)
 - [x] V2 reader infrastructure (base_reader.py, element_handler.py, schema_registry.py)
 - [x] V2 writer infrastructure (base_writer.py)
-- [x] V2 utils (errors.py, context.py)
+- [x] V2 tests (365 tests passing)
+- [x] Shared UUID management with V1
+- [x] Python 3.8-3.13 compatibility
 - [ ] Complete V2 reader implementation with full schema support
 - [ ] Complete V2 writer implementation with full serialization
 - [ ] XSD-based schema mapping generation for all AUTOSAR versions
@@ -974,3 +1075,4 @@ For detailed migration plans, see:
 - `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md` - V2 architecture design
 - `docs/development/coding_rules_v2.md` - V2 coding rules (15 rules)
 - `docs/plans/2026-02-01-package-structure-migration-design.md` - Package structure migration
+- `docs/plans/2026-02-07-v2-redesign-easier-to-use.md` - V2 redesign for easier usage

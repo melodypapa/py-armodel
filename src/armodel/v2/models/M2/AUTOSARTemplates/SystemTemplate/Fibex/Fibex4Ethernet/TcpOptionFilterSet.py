@@ -32,10 +32,10 @@ class TcpOptionFilterSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Collection of permitted lists for the filtering of TCP options.
-        self._tcpOptionFilter: List["RefType"] = []
+        self._tcpOptionFilter: List[RefType] = []
 
     @property
-    def tcp_option_filter(self) -> List["RefType"]:
+    def tcp_option_filter(self) -> List[RefType]:
         """Get tcpOptionFilter (Pythonic accessor)."""
         return self._tcpOptionFilter
 
@@ -73,7 +73,7 @@ class TcpOptionFilterSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTcpOptionFilter(self) -> List["RefType"]:
+    def getTcpOptionFilter(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for tcpOptionFilter.
 
@@ -103,16 +103,16 @@ class TcpOptionFilterList(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # TCP option kind allowed by this filter.
-        self._allowedTcpOption: List["PositiveInteger"] = []
+        self._allowedTcpOption: List[PositiveInteger] = []
 
     @property
-    def allowed_tcp_option(self) -> List["PositiveInteger"]:
+    def allowed_tcp_option(self) -> List[PositiveInteger]:
         """Get allowedTcpOption (Pythonic accessor)."""
         return self._allowedTcpOption
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAllowedTcpOption(self) -> List["PositiveInteger"]:
+    def getAllowedTcpOption(self) -> List[PositiveInteger]:
         """
         AUTOSAR-compliant getter for allowedTcpOption.
 

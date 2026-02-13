@@ -197,15 +197,15 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Time for the server to keep a diagnostic session other the default session
         # active while not receiving any message.
-        self._s3Server: Optional["TimeValue"] = None
+        self._s3Server: Optional[TimeValue] = None
 
     @property
-    def s3_server(self) -> Optional["TimeValue"]:
+    def s3_server(self) -> Optional[TimeValue]:
         """Get s3Server (Pythonic accessor)."""
         return self._s3Server
 
     @s3_server.setter
-    def s3_server(self, value: Optional["TimeValue"]) -> None:
+    def s3_server(self, value: Optional[TimeValue]) -> None:
         """
         Set s3Server with validation.
 
@@ -227,7 +227,7 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getS3Server(self) -> "TimeValue":
+    def getS3Server(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for s3Server.
 
@@ -239,7 +239,7 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
         """
         return self.s3_server  # Delegates to property
 
-    def setS3Server(self, value: "TimeValue") -> DiagnosticSessionControlClass:
+    def setS3Server(self, value: TimeValue) -> DiagnosticSessionControlClass:
         """
         AUTOSAR-compliant setter for s3Server with method chaining.
 
@@ -257,7 +257,7 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_s3_server(self, value: Optional["TimeValue"]) -> DiagnosticSessionControlClass:
+    def with_s3_server(self, value: Optional[TimeValue]) -> DiagnosticSessionControlClass:
         """
         Set s3Server and return self for chaining.
 

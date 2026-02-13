@@ -632,15 +632,15 @@ class LifeCycleInfo(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Element(s) have the life cycle as described in lcState.
-        self._lcObject: "RefType" = None
+        self._lcObject: RefType = None
 
     @property
-    def lc_object(self) -> "RefType":
+    def lc_object(self) -> RefType:
         """Get lcObject (Pythonic accessor)."""
         return self._lcObject
 
     @lc_object.setter
-    def lc_object(self, value: "RefType") -> None:
+    def lc_object(self, value: RefType) -> None:
         """
         Set lcObject with validation.
 
@@ -740,15 +740,15 @@ class LifeCycleInfo(ARObject):
             )
         self._periodEnd = value
         # semantics of useInstead.
-        self._remark: Optional["DocumentationBlock"] = None
+        self._remark: Optional[DocumentationBlock] = None
 
     @property
-    def remark(self) -> Optional["DocumentationBlock"]:
+    def remark(self) -> Optional[DocumentationBlock]:
         """Get remark (Pythonic accessor)."""
         return self._remark
 
     @remark.setter
-    def remark(self, value: Optional["DocumentationBlock"]) -> None:
+    def remark(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set remark with validation.
 
@@ -769,16 +769,16 @@ class LifeCycleInfo(ARObject):
         self._remark = value
         # in case of life cycle states lcState unlike case there are multiple
                 # references the exact be individually described in the remark.
-        self._useInstead: List["RefType"] = []
+        self._useInstead: List[RefType] = []
 
     @property
-    def use_instead(self) -> List["RefType"]:
+    def use_instead(self) -> List[RefType]:
         """Get useInstead (Pythonic accessor)."""
         return self._useInstead
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLcObject(self) -> "RefType":
+    def getLcObject(self) -> RefType:
         """
         AUTOSAR-compliant getter for lcObject.
 
@@ -790,7 +790,7 @@ class LifeCycleInfo(ARObject):
         """
         return self.lc_object  # Delegates to property
 
-    def setLcObject(self, value: "RefType") -> LifeCycleInfo:
+    def setLcObject(self, value: RefType) -> LifeCycleInfo:
         """
         AUTOSAR-compliant setter for lcObject with method chaining.
 
@@ -890,7 +890,7 @@ class LifeCycleInfo(ARObject):
         self.period_end = value  # Delegates to property setter
         return self
 
-    def getRemark(self) -> "DocumentationBlock":
+    def getRemark(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for remark.
 
@@ -902,7 +902,7 @@ class LifeCycleInfo(ARObject):
         """
         return self.remark  # Delegates to property
 
-    def setRemark(self, value: "DocumentationBlock") -> LifeCycleInfo:
+    def setRemark(self, value: DocumentationBlock) -> LifeCycleInfo:
         """
         AUTOSAR-compliant setter for remark with method chaining.
 
@@ -918,7 +918,7 @@ class LifeCycleInfo(ARObject):
         self.remark = value  # Delegates to property setter
         return self
 
-    def getUseInstead(self) -> List["RefType"]:
+    def getUseInstead(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for useInstead.
 
@@ -996,7 +996,7 @@ class LifeCycleInfo(ARObject):
         self.period_end = value  # Use property setter (gets validation)
         return self
 
-    def with_remark(self, value: Optional["DocumentationBlock"]) -> LifeCycleInfo:
+    def with_remark(self, value: Optional[DocumentationBlock]) -> LifeCycleInfo:
         """
         Set remark and return self for chaining.
 

@@ -7,16 +7,16 @@ Package: M2::MSR::Documentation::BlockElements
 
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    MultilanguageReferrable,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    MultilanguageReferrable,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Figure import (
     MlFigure,
@@ -30,15 +30,18 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.Note import (
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     TraceableText,
+    Traceable,
 )
-from armodel.v2.models.M2.MSR.Documentation.MsrQuery import (
-    MsrQueryP2,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-    MultiLanguageOverviewParagraph,
-    MultiLanguageParagraph,
-    MultiLanguageVerbatim,
-)
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.MsrQuery import (
+        MsrQueryP2,
+    )
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+        MultiLanguageOverviewParagraph,
+        MultiLanguageParagraph,
+        MultiLanguageVerbatim,
+    )
 
 
 class DocumentationBlock(ARObject):
@@ -959,4 +962,5 @@ class Caption(MultilanguageReferrable):
 __all__ = [
     DocumentationBlock,
     Caption,
+    Traceable,
 ]

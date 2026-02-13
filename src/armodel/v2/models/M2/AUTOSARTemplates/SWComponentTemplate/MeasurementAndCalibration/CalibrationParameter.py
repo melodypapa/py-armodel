@@ -34,10 +34,10 @@ class CalibrationParameterValueSet(ARElement):
         # This represents single CalibrationParameterValues in the
                 # CalibrationParameterValueSet.
         # atpVariation.
-        self._calibration: List["CalibrationParameter"] = []
+        self._calibration: List[CalibrationParameter] = []
 
     @property
-    def calibration(self) -> List["CalibrationParameter"]:
+    def calibration(self) -> List[CalibrationParameter]:
         """Get calibration (Pythonic accessor)."""
         return self._calibration
 
@@ -59,7 +59,7 @@ class CalibrationParameterValueSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCalibration(self) -> List["CalibrationParameter"]:
+    def getCalibration(self) -> List[CalibrationParameter]:
         """
         AUTOSAR-compliant getter for calibration.
 

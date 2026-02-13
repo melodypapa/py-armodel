@@ -30,15 +30,15 @@ class RunnableEntityArgument(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the symbol to be generated into the on the level of the C
         # programming.
-        self._symbol: Optional["CIdentifier"] = None
+        self._symbol: Optional[CIdentifier] = None
 
     @property
-    def symbol(self) -> Optional["CIdentifier"]:
+    def symbol(self) -> Optional[CIdentifier]:
         """Get symbol (Pythonic accessor)."""
         return self._symbol
 
     @symbol.setter
-    def symbol(self, value: Optional["CIdentifier"]) -> None:
+    def symbol(self, value: Optional[CIdentifier]) -> None:
         """
         Set symbol with validation.
 
@@ -60,7 +60,7 @@ class RunnableEntityArgument(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSymbol(self) -> "CIdentifier":
+    def getSymbol(self) -> CIdentifier:
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -72,7 +72,7 @@ class RunnableEntityArgument(ARObject):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> RunnableEntityArgument:
+    def setSymbol(self, value: CIdentifier) -> RunnableEntityArgument:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -90,7 +90,7 @@ class RunnableEntityArgument(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> RunnableEntityArgument:
+    def with_symbol(self, value: Optional[CIdentifier]) -> RunnableEntityArgument:
         """
         Set symbol and return self for chaining.
 

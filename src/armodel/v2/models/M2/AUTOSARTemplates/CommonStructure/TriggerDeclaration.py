@@ -205,15 +205,15 @@ class TriggerMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # A Trigger to be mapped.
-        self._firstTrigger: Optional["RefType"] = None
+        self._firstTrigger: Optional[RefType] = None
 
     @property
-    def first_trigger(self) -> Optional["RefType"]:
+    def first_trigger(self) -> Optional[RefType]:
         """Get firstTrigger (Pythonic accessor)."""
         return self._firstTrigger
 
     @first_trigger.setter
-    def first_trigger(self, value: Optional["RefType"]) -> None:
+    def first_trigger(self, value: Optional[RefType]) -> None:
         """
         Set firstTrigger with validation.
 
@@ -228,15 +228,15 @@ class TriggerMapping(ARObject):
             return
 
         self._firstTrigger = value
-        self._secondTrigger: Optional["RefType"] = None
+        self._secondTrigger: Optional[RefType] = None
 
     @property
-    def second_trigger(self) -> Optional["RefType"]:
+    def second_trigger(self) -> Optional[RefType]:
         """Get secondTrigger (Pythonic accessor)."""
         return self._secondTrigger
 
     @second_trigger.setter
-    def second_trigger(self, value: Optional["RefType"]) -> None:
+    def second_trigger(self, value: Optional[RefType]) -> None:
         """
         Set secondTrigger with validation.
 
@@ -254,7 +254,7 @@ class TriggerMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFirstTrigger(self) -> "RefType":
+    def getFirstTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for firstTrigger.
 
@@ -266,7 +266,7 @@ class TriggerMapping(ARObject):
         """
         return self.first_trigger  # Delegates to property
 
-    def setFirstTrigger(self, value: "RefType") -> TriggerMapping:
+    def setFirstTrigger(self, value: RefType) -> TriggerMapping:
         """
         AUTOSAR-compliant setter for firstTrigger with method chaining.
 
@@ -282,7 +282,7 @@ class TriggerMapping(ARObject):
         self.first_trigger = value  # Delegates to property setter
         return self
 
-    def getSecondTrigger(self) -> "RefType":
+    def getSecondTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for secondTrigger.
 
@@ -294,7 +294,7 @@ class TriggerMapping(ARObject):
         """
         return self.second_trigger  # Delegates to property
 
-    def setSecondTrigger(self, value: "RefType") -> TriggerMapping:
+    def setSecondTrigger(self, value: RefType) -> TriggerMapping:
         """
         AUTOSAR-compliant setter for secondTrigger with method chaining.
 

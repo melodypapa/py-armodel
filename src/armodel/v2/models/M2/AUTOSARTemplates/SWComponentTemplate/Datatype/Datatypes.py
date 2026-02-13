@@ -48,15 +48,15 @@ class AutosarDataType(ARElement, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The properties of this AutosarDataType.
         # atpSplitable.
-        self._swDataDef: Optional["SwDataDefProps"] = None
+        self._swDataDef: Optional[SwDataDefProps] = None
 
     @property
-    def sw_data_def(self) -> Optional["SwDataDefProps"]:
+    def sw_data_def(self) -> Optional[SwDataDefProps]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
+    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set swDataDef with validation.
 
@@ -110,7 +110,7 @@ class AutosarDataType(ARElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwDataDef(self) -> "SwDataDefProps":
+    def getSwDataDef(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -122,7 +122,7 @@ class AutosarDataType(ARElement, ABC):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> AutosarDataType:
+    def setSwDataDef(self, value: SwDataDefProps) -> AutosarDataType:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -140,7 +140,7 @@ class AutosarDataType(ARElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> AutosarDataType:
+    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> AutosarDataType:
         """
         Set swDataDef and return self for chaining.
 
@@ -269,15 +269,15 @@ class DataTypeMap(ARObject):
                 f"applicationDataType must be ApplicationDataType or None, got {type(value).__name__}"
             )
         self._applicationDataType = value
-        self._implementation: Optional["AbstractImplementation"] = None
+        self._implementation: Optional[AbstractImplementation] = None
 
     @property
-    def implementation(self) -> Optional["AbstractImplementation"]:
+    def implementation(self) -> Optional[AbstractImplementation]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     @implementation.setter
-    def implementation(self, value: Optional["AbstractImplementation"]) -> None:
+    def implementation(self, value: Optional[AbstractImplementation]) -> None:
         """
         Set implementation with validation.
 
@@ -327,7 +327,7 @@ class DataTypeMap(ARObject):
         self.application_data_type = value  # Delegates to property setter
         return self
 
-    def getImplementation(self) -> "AbstractImplementation":
+    def getImplementation(self) -> AbstractImplementation:
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -339,7 +339,7 @@ class DataTypeMap(ARObject):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: "AbstractImplementation") -> DataTypeMap:
+    def setImplementation(self, value: AbstractImplementation) -> DataTypeMap:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -373,7 +373,7 @@ class DataTypeMap(ARObject):
         self.application_data_type = value  # Use property setter (gets validation)
         return self
 
-    def with_implementation(self, value: Optional["AbstractImplementation"]) -> DataTypeMap:
+    def with_implementation(self, value: Optional[AbstractImplementation]) -> DataTypeMap:
         """
         Set implementation and return self for chaining.
 
@@ -500,15 +500,15 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the profile which the array will follow if it is a size array.
-        self._dynamicArray: Optional["String"] = None
+        self._dynamicArray: Optional[String] = None
 
     @property
-    def dynamic_array(self) -> Optional["String"]:
+    def dynamic_array(self) -> Optional[String]:
         """Get dynamicArray (Pythonic accessor)."""
         return self._dynamicArray
 
     @dynamic_array.setter
-    def dynamic_array(self, value: Optional["String"]) -> None:
+    def dynamic_array(self, value: Optional[String]) -> None:
         """
         Set dynamicArray with validation.
 
@@ -530,15 +530,15 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
                 # is necessary to be able single array elements, e.
         # g.
         # as input values for routine.
-        self._element: Optional["ApplicationArray"] = None
+        self._element: Optional[ApplicationArray] = None
 
     @property
-    def element(self) -> Optional["ApplicationArray"]:
+    def element(self) -> Optional[ApplicationArray]:
         """Get element (Pythonic accessor)."""
         return self._element
 
     @element.setter
-    def element(self, value: Optional["ApplicationArray"]) -> None:
+    def element(self, value: Optional[ApplicationArray]) -> None:
         """
         Set element with validation.
 
@@ -560,7 +560,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDynamicArray(self) -> "String":
+    def getDynamicArray(self) -> String:
         """
         AUTOSAR-compliant getter for dynamicArray.
 
@@ -572,7 +572,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         """
         return self.dynamic_array  # Delegates to property
 
-    def setDynamicArray(self, value: "String") -> ApplicationArrayDataType:
+    def setDynamicArray(self, value: String) -> ApplicationArrayDataType:
         """
         AUTOSAR-compliant setter for dynamicArray with method chaining.
 
@@ -588,7 +588,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         self.dynamic_array = value  # Delegates to property setter
         return self
 
-    def getElement(self) -> "ApplicationArray":
+    def getElement(self) -> ApplicationArray:
         """
         AUTOSAR-compliant getter for element.
 
@@ -600,7 +600,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         """
         return self.element  # Delegates to property
 
-    def setElement(self, value: "ApplicationArray") -> ApplicationArrayDataType:
+    def setElement(self, value: ApplicationArray) -> ApplicationArrayDataType:
         """
         AUTOSAR-compliant setter for element with method chaining.
 
@@ -618,7 +618,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_dynamic_array(self, value: Optional["String"]) -> ApplicationArrayDataType:
+    def with_dynamic_array(self, value: Optional[String]) -> ApplicationArrayDataType:
         """
         Set dynamicArray and return self for chaining.
 
@@ -634,7 +634,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         self.dynamic_array = value  # Use property setter (gets validation)
         return self
 
-    def with_element(self, value: Optional["ApplicationArray"]) -> ApplicationArrayDataType:
+    def with_element(self, value: Optional[ApplicationArray]) -> ApplicationArrayDataType:
         """
         Set element and return self for chaining.
 
@@ -673,16 +673,16 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
         # Specifies an element of a record.
         # The aggregation of ApplicationRecordElement is subject with the purpose to
                 # support the conditional elements inside a ApplicationrecordData atpVariation.
-        self._element: List["ApplicationRecord"] = []
+        self._element: List[ApplicationRecord] = []
 
     @property
-    def element(self) -> List["ApplicationRecord"]:
+    def element(self) -> List[ApplicationRecord]:
         """Get element (Pythonic accessor)."""
         return self._element
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getElement(self) -> List["ApplicationRecord"]:
+    def getElement(self) -> List[ApplicationRecord]:
         """
         AUTOSAR-compliant getter for element.
 

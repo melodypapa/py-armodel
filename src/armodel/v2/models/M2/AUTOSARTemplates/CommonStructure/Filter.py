@@ -145,15 +145,15 @@ class DataFilter(ARObject):
                 f"min must be UnlimitedInteger or None, got {type(value).__name__}"
             )
         self._min = value
-        self._offset: Optional["PositiveInteger"] = None
+        self._offset: Optional[PositiveInteger] = None
 
     @property
-    def offset(self) -> Optional["PositiveInteger"]:
+    def offset(self) -> Optional[PositiveInteger]:
         """Get offset (Pythonic accessor)."""
         return self._offset
 
     @offset.setter
-    def offset(self, value: Optional["PositiveInteger"]) -> None:
+    def offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set offset with validation.
 
@@ -172,15 +172,15 @@ class DataFilter(ARObject):
                 f"offset must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._offset = value
-        self._period: Optional["PositiveInteger"] = None
+        self._period: Optional[PositiveInteger] = None
 
     @property
-    def period(self) -> Optional["PositiveInteger"]:
+    def period(self) -> Optional[PositiveInteger]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional["PositiveInteger"]) -> None:
+    def period(self, value: Optional[PositiveInteger]) -> None:
         """
         Set period with validation.
 
@@ -341,7 +341,7 @@ class DataFilter(ARObject):
         self.min = value  # Delegates to property setter
         return self
 
-    def getOffset(self) -> "PositiveInteger":
+    def getOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for offset.
 
@@ -353,7 +353,7 @@ class DataFilter(ARObject):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: "PositiveInteger") -> DataFilter:
+    def setOffset(self, value: PositiveInteger) -> DataFilter:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -369,7 +369,7 @@ class DataFilter(ARObject):
         self.offset = value  # Delegates to property setter
         return self
 
-    def getPeriod(self) -> "PositiveInteger":
+    def getPeriod(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for period.
 
@@ -381,7 +381,7 @@ class DataFilter(ARObject):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "PositiveInteger") -> DataFilter:
+    def setPeriod(self, value: PositiveInteger) -> DataFilter:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -491,7 +491,7 @@ class DataFilter(ARObject):
         self.min = value  # Use property setter (gets validation)
         return self
 
-    def with_offset(self, value: Optional["PositiveInteger"]) -> DataFilter:
+    def with_offset(self, value: Optional[PositiveInteger]) -> DataFilter:
         """
         Set offset and return self for chaining.
 
@@ -507,7 +507,7 @@ class DataFilter(ARObject):
         self.offset = value  # Use property setter (gets validation)
         return self
 
-    def with_period(self, value: Optional["PositiveInteger"]) -> DataFilter:
+    def with_period(self, value: Optional[PositiveInteger]) -> DataFilter:
         """
         Set period and return self for chaining.
 

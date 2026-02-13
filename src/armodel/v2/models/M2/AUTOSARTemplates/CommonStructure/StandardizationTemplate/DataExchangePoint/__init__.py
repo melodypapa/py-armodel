@@ -414,10 +414,10 @@ class Baseline(ARObject):
                 # specification baseline of Exchange Point.
         # All standard specification are referenced by this Profile of Data have to be
                 # part of specifications that the defined AUTOSAR standards.
-        self._standard: List["String"] = []
+        self._standard: List[String] = []
 
     @property
-    def standard(self) -> List["String"]:
+    def standard(self) -> List[String]:
         """Get standard (Pythonic accessor)."""
         return self._standard
 
@@ -447,7 +447,7 @@ class Baseline(ARObject):
         """
         return self.custom  # Delegates to property
 
-    def getStandard(self) -> List["String"]:
+    def getStandard(self) -> List[String]:
         """
         AUTOSAR-compliant getter for standard.
 

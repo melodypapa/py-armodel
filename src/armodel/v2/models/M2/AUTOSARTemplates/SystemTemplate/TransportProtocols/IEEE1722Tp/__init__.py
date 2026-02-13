@@ -188,15 +188,15 @@ class IEEE1722TpConnection(ARElement, ABC):
             )
         self._macAddress = value
         # Reference to the lower layer Pdu used for the transport.
-        self._pdu: Optional["RefType"] = None
+        self._pdu: Optional[RefType] = None
 
     @property
-    def pdu(self) -> Optional["RefType"]:
+    def pdu(self) -> Optional[RefType]:
         """Get pdu (Pythonic accessor)."""
         return self._pdu
 
     @pdu.setter
-    def pdu(self, value: Optional["RefType"]) -> None:
+    def pdu(self, value: Optional[RefType]) -> None:
         """
         Set pdu with validation.
 
@@ -212,15 +212,15 @@ class IEEE1722TpConnection(ARElement, ABC):
 
         self._pdu = value
         # Unique Id part of the Stream Id.
-        self._uniqueStreamId: Optional["PositiveInteger"] = None
+        self._uniqueStreamId: Optional[PositiveInteger] = None
 
     @property
-    def unique_stream_id(self) -> Optional["PositiveInteger"]:
+    def unique_stream_id(self) -> Optional[PositiveInteger]:
         """Get uniqueStreamId (Pythonic accessor)."""
         return self._uniqueStreamId
 
     @unique_stream_id.setter
-    def unique_stream_id(self, value: Optional["PositiveInteger"]) -> None:
+    def unique_stream_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set uniqueStreamId with validation.
 
@@ -240,15 +240,15 @@ class IEEE1722TpConnection(ARElement, ABC):
             )
         self._uniqueStreamId = value
         # Version of the IEEE1722TP stream.
-        self._version: Optional["PositiveInteger"] = None
+        self._version: Optional[PositiveInteger] = None
 
     @property
-    def version(self) -> Optional["PositiveInteger"]:
+    def version(self) -> Optional[PositiveInteger]:
         """Get version (Pythonic accessor)."""
         return self._version
 
     @version.setter
-    def version(self, value: Optional["PositiveInteger"]) -> None:
+    def version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set version with validation.
 
@@ -268,15 +268,15 @@ class IEEE1722TpConnection(ARElement, ABC):
             )
         self._version = value
         # Optional definition of the VLAN priority for this stream.
-        self._vlanPriority: Optional["PositiveInteger"] = None
+        self._vlanPriority: Optional[PositiveInteger] = None
 
     @property
-    def vlan_priority(self) -> Optional["PositiveInteger"]:
+    def vlan_priority(self) -> Optional[PositiveInteger]:
         """Get vlanPriority (Pythonic accessor)."""
         return self._vlanPriority
 
     @vlan_priority.setter
-    def vlan_priority(self, value: Optional["PositiveInteger"]) -> None:
+    def vlan_priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set vlanPriority with validation.
 
@@ -354,7 +354,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.mac_address = value  # Delegates to property setter
         return self
 
-    def getPdu(self) -> "RefType":
+    def getPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for pdu.
 
@@ -366,7 +366,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         """
         return self.pdu  # Delegates to property
 
-    def setPdu(self, value: "RefType") -> IEEE1722TpConnection:
+    def setPdu(self, value: RefType) -> IEEE1722TpConnection:
         """
         AUTOSAR-compliant setter for pdu with method chaining.
 
@@ -382,7 +382,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.pdu = value  # Delegates to property setter
         return self
 
-    def getUniqueStreamId(self) -> "PositiveInteger":
+    def getUniqueStreamId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for uniqueStreamId.
 
@@ -394,7 +394,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         """
         return self.unique_stream_id  # Delegates to property
 
-    def setUniqueStreamId(self, value: "PositiveInteger") -> IEEE1722TpConnection:
+    def setUniqueStreamId(self, value: PositiveInteger) -> IEEE1722TpConnection:
         """
         AUTOSAR-compliant setter for uniqueStreamId with method chaining.
 
@@ -410,7 +410,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.unique_stream_id = value  # Delegates to property setter
         return self
 
-    def getVersion(self) -> "PositiveInteger":
+    def getVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for version.
 
@@ -422,7 +422,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         """
         return self.version  # Delegates to property
 
-    def setVersion(self, value: "PositiveInteger") -> IEEE1722TpConnection:
+    def setVersion(self, value: PositiveInteger) -> IEEE1722TpConnection:
         """
         AUTOSAR-compliant setter for version with method chaining.
 
@@ -438,7 +438,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.version = value  # Delegates to property setter
         return self
 
-    def getVlanPriority(self) -> "PositiveInteger":
+    def getVlanPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for vlanPriority.
 
@@ -450,7 +450,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         """
         return self.vlan_priority  # Delegates to property
 
-    def setVlanPriority(self, value: "PositiveInteger") -> IEEE1722TpConnection:
+    def setVlanPriority(self, value: PositiveInteger) -> IEEE1722TpConnection:
         """
         AUTOSAR-compliant setter for vlanPriority with method chaining.
 
@@ -516,7 +516,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_unique_stream_id(self, value: Optional["PositiveInteger"]) -> IEEE1722TpConnection:
+    def with_unique_stream_id(self, value: Optional[PositiveInteger]) -> IEEE1722TpConnection:
         """
         Set uniqueStreamId and return self for chaining.
 
@@ -532,7 +532,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.unique_stream_id = value  # Use property setter (gets validation)
         return self
 
-    def with_version(self, value: Optional["PositiveInteger"]) -> IEEE1722TpConnection:
+    def with_version(self, value: Optional[PositiveInteger]) -> IEEE1722TpConnection:
         """
         Set version and return self for chaining.
 
@@ -548,7 +548,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.version = value  # Use property setter (gets validation)
         return self
 
-    def with_vlan_priority(self, value: Optional["PositiveInteger"]) -> IEEE1722TpConnection:
+    def with_vlan_priority(self, value: Optional[PositiveInteger]) -> IEEE1722TpConnection:
         """
         Set vlanPriority and return self for chaining.
 
@@ -583,15 +583,15 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the time offset that is added to the current time at in order to get
         # the "presentation time" (in content shall be presented at the.
-        self._maxTransitTime: Optional["TimeValue"] = None
+        self._maxTransitTime: Optional[TimeValue] = None
 
     @property
-    def max_transit_time(self) -> Optional["TimeValue"]:
+    def max_transit_time(self) -> Optional[TimeValue]:
         """Get maxTransitTime (Pythonic accessor)."""
         return self._maxTransitTime
 
     @max_transit_time.setter
-    def max_transit_time(self, value: Optional["TimeValue"]) -> None:
+    def max_transit_time(self, value: Optional[TimeValue]) -> None:
         """
         Set maxTransitTime with validation.
 
@@ -611,16 +611,16 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
             )
         self._maxTransitTime = value
         # Reference to the upper layer Sdu used for the transport of of the IEEE1722Tp.
-        self._sdu: List["RefType"] = []
+        self._sdu: List[RefType] = []
 
     @property
-    def sdu(self) -> List["RefType"]:
+    def sdu(self) -> List[RefType]:
         """Get sdu (Pythonic accessor)."""
         return self._sdu
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxTransitTime(self) -> "TimeValue":
+    def getMaxTransitTime(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for maxTransitTime.
 
@@ -632,7 +632,7 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
         """
         return self.max_transit_time  # Delegates to property
 
-    def setMaxTransitTime(self, value: "TimeValue") -> IEEE1722TpAvConnection:
+    def setMaxTransitTime(self, value: TimeValue) -> IEEE1722TpAvConnection:
         """
         AUTOSAR-compliant setter for maxTransitTime with method chaining.
 
@@ -648,7 +648,7 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
         self.max_transit_time = value  # Delegates to property setter
         return self
 
-    def getSdu(self) -> List["RefType"]:
+    def getSdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for sdu.
 
@@ -662,7 +662,7 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_transit_time(self, value: Optional["TimeValue"]) -> IEEE1722TpAvConnection:
+    def with_max_transit_time(self, value: Optional[TimeValue]) -> IEEE1722TpAvConnection:
         """
         Set maxTransitTime and return self for chaining.
 
@@ -702,15 +702,15 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         return self._acfTransported
         # When this timeout expires the IEEE1722Tp ACF is triggered for sending.
         # The respective timer is the first Pdu is put into the IEEE1722Tp seconds.
-        self._collection: Optional["TimeValue"] = None
+        self._collection: Optional[TimeValue] = None
 
     @property
-    def collection(self) -> Optional["TimeValue"]:
+    def collection(self) -> Optional[TimeValue]:
         """Get collection (Pythonic accessor)."""
         return self._collection
 
     @collection.setter
-    def collection(self, value: Optional["TimeValue"]) -> None:
+    def collection(self, value: Optional[TimeValue]) -> None:
         """
         Set collection with validation.
 
@@ -732,15 +732,15 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         # Defines if this ACF-stream is allowed to collect of different bus kinds (i.
         # e.
         # whether it is collect CAN and LIN ACF-messages in one.
-        self._mixedBusType: Optional["Boolean"] = None
+        self._mixedBusType: Optional[Boolean] = None
 
     @property
-    def mixed_bus_type(self) -> Optional["Boolean"]:
+    def mixed_bus_type(self) -> Optional[Boolean]:
         """Get mixedBusType (Pythonic accessor)."""
         return self._mixedBusType
 
     @mixed_bus_type.setter
-    def mixed_bus_type(self, value: Optional["Boolean"]) -> None:
+    def mixed_bus_type(self, value: Optional[Boolean]) -> None:
         """
         Set mixedBusType with validation.
 
@@ -774,7 +774,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         """
         return self.acf_transported  # Delegates to property
 
-    def getCollection(self) -> "TimeValue":
+    def getCollection(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for collection.
 
@@ -786,7 +786,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         """
         return self.collection  # Delegates to property
 
-    def setCollection(self, value: "TimeValue") -> IEEE1722TpAcfConnection:
+    def setCollection(self, value: TimeValue) -> IEEE1722TpAcfConnection:
         """
         AUTOSAR-compliant setter for collection with method chaining.
 
@@ -802,7 +802,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         self.collection = value  # Delegates to property setter
         return self
 
-    def getMixedBusType(self) -> "Boolean":
+    def getMixedBusType(self) -> Boolean:
         """
         AUTOSAR-compliant getter for mixedBusType.
 
@@ -814,7 +814,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         """
         return self.mixed_bus_type  # Delegates to property
 
-    def setMixedBusType(self, value: "Boolean") -> IEEE1722TpAcfConnection:
+    def setMixedBusType(self, value: Boolean) -> IEEE1722TpAcfConnection:
         """
         AUTOSAR-compliant setter for mixedBusType with method chaining.
 
@@ -832,7 +832,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_collection(self, value: Optional["TimeValue"]) -> IEEE1722TpAcfConnection:
+    def with_collection(self, value: Optional[TimeValue]) -> IEEE1722TpAcfConnection:
         """
         Set collection and return self for chaining.
 
@@ -848,7 +848,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         self.collection = value  # Use property setter (gets validation)
         return self
 
-    def with_mixed_bus_type(self, value: Optional["Boolean"]) -> IEEE1722TpAcfConnection:
+    def with_mixed_bus_type(self, value: Optional[Boolean]) -> IEEE1722TpAcfConnection:
         """
         Set mixedBusType and return self for chaining.
 

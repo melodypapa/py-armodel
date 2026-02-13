@@ -366,15 +366,15 @@ class SdgContents(ARObject):
         self._sdg = value
         # This allows to use to establish arbitrary relationships.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._sdx: Optional["RefType"] = None
+        self._sdx: Optional[RefType] = None
 
     @property
-    def sdx(self) -> Optional["RefType"]:
+    def sdx(self) -> Optional[RefType]:
         """Get sdx (Pythonic accessor)."""
         return self._sdx
 
     @sdx.setter
-    def sdx(self, value: Optional["RefType"]) -> None:
+    def sdx(self, value: Optional[RefType]) -> None:
         """
         Set sdx with validation.
 
@@ -390,15 +390,15 @@ class SdgContents(ARObject):
 
         self._sdx = value
         # atpVariation.
-        self._sdxf: Optional["RefType"] = None
+        self._sdxf: Optional[RefType] = None
 
     @property
-    def sdxf(self) -> Optional["RefType"]:
+    def sdxf(self) -> Optional[RefType]:
         """Get sdxf (Pythonic accessor)."""
         return self._sdxf
 
     @sdxf.setter
-    def sdxf(self, value: Optional["RefType"]) -> None:
+    def sdxf(self, value: Optional[RefType]) -> None:
         """
         Set sdxf with validation.
 
@@ -500,7 +500,7 @@ class SdgContents(ARObject):
         self.sdg = value  # Delegates to property setter
         return self
 
-    def getSdx(self) -> "RefType":
+    def getSdx(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdx.
 
@@ -512,7 +512,7 @@ class SdgContents(ARObject):
         """
         return self.sdx  # Delegates to property
 
-    def setSdx(self, value: "RefType") -> SdgContents:
+    def setSdx(self, value: RefType) -> SdgContents:
         """
         AUTOSAR-compliant setter for sdx with method chaining.
 
@@ -528,7 +528,7 @@ class SdgContents(ARObject):
         self.sdx = value  # Delegates to property setter
         return self
 
-    def getSdxf(self) -> "RefType":
+    def getSdxf(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdxf.
 
@@ -540,7 +540,7 @@ class SdgContents(ARObject):
         """
         return self.sdxf  # Delegates to property
 
-    def setSdxf(self, value: "RefType") -> SdgContents:
+    def setSdxf(self, value: RefType) -> SdgContents:
         """
         AUTOSAR-compliant setter for sdxf with method chaining.
 

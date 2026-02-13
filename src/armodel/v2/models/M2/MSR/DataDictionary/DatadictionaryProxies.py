@@ -33,15 +33,15 @@ class SwCalprmRefProxy(ARObject):
         # This represents a Parameter within AUTOSAR.
         # Note that of the referenced ParameterDataPrototype an ApplicationDataType of
                 # category VALUE.
-        self._arParameter: Optional["RefType"] = None
+        self._arParameter: Optional[RefType] = None
 
     @property
-    def ar_parameter(self) -> Optional["RefType"]:
+    def ar_parameter(self) -> Optional[RefType]:
         """Get arParameter (Pythonic accessor)."""
         return self._arParameter
 
     @ar_parameter.setter
-    def ar_parameter(self, value: Optional["RefType"]) -> None:
+    def ar_parameter(self, value: Optional[RefType]) -> None:
         """
         Set arParameter with validation.
 
@@ -89,7 +89,7 @@ class SwCalprmRefProxy(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArParameter(self) -> "RefType":
+    def getArParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for arParameter.
 
@@ -101,7 +101,7 @@ class SwCalprmRefProxy(ARObject):
         """
         return self.ar_parameter  # Delegates to property
 
-    def setArParameter(self, value: "RefType") -> SwCalprmRefProxy:
+    def setArParameter(self, value: RefType) -> SwCalprmRefProxy:
         """
         AUTOSAR-compliant setter for arParameter with method chaining.
 
@@ -197,15 +197,15 @@ class SwVariableRefProxy(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the reference to a Variable in an Autosar that the target of
         # the reference within be typed by a primitive data type.
-        self._autosarVariable: Optional["RefType"] = None
+        self._autosarVariable: Optional[RefType] = None
 
     @property
-    def autosar_variable(self) -> Optional["RefType"]:
+    def autosar_variable(self) -> Optional[RefType]:
         """Get autosarVariable (Pythonic accessor)."""
         return self._autosarVariable
 
     @autosar_variable.setter
-    def autosar_variable(self, value: Optional["RefType"]) -> None:
+    def autosar_variable(self, value: Optional[RefType]) -> None:
         """
         Set autosarVariable with validation.
 
@@ -253,7 +253,7 @@ class SwVariableRefProxy(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAutosarVariable(self) -> "RefType":
+    def getAutosarVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for autosarVariable.
 
@@ -265,7 +265,7 @@ class SwVariableRefProxy(ARObject):
         """
         return self.autosar_variable  # Delegates to property
 
-    def setAutosarVariable(self, value: "RefType") -> SwVariableRefProxy:
+    def setAutosarVariable(self, value: RefType) -> SwVariableRefProxy:
         """
         AUTOSAR-compliant setter for autosarVariable with method chaining.
 

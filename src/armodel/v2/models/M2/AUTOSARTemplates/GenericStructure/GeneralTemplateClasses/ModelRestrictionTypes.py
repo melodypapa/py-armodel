@@ -67,15 +67,15 @@ class AbstractValueRestriction(ARObject, ABC):
                 f"max must be Limit or None, got {type(value).__name__}"
             )
         self._max = value
-        self._maxLength: Optional["PositiveInteger"] = None
+        self._maxLength: Optional[PositiveInteger] = None
 
     @property
-    def max_length(self) -> Optional["PositiveInteger"]:
+    def max_length(self) -> Optional[PositiveInteger]:
         """Get maxLength (Pythonic accessor)."""
         return self._maxLength
 
     @max_length.setter
-    def max_length(self, value: Optional["PositiveInteger"]) -> None:
+    def max_length(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxLength with validation.
 
@@ -121,15 +121,15 @@ class AbstractValueRestriction(ARObject, ABC):
                 f"min must be Limit or None, got {type(value).__name__}"
             )
         self._min = value
-        self._minLength: Optional["PositiveInteger"] = None
+        self._minLength: Optional[PositiveInteger] = None
 
     @property
-    def min_length(self) -> Optional["PositiveInteger"]:
+    def min_length(self) -> Optional[PositiveInteger]:
         """Get minLength (Pythonic accessor)."""
         return self._minLength
 
     @min_length.setter
-    def min_length(self, value: Optional["PositiveInteger"]) -> None:
+    def min_length(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minLength with validation.
 
@@ -222,7 +222,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.max = value  # Delegates to property setter
         return self
 
-    def getMaxLength(self) -> "PositiveInteger":
+    def getMaxLength(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxLength.
 
@@ -234,7 +234,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.max_length  # Delegates to property
 
-    def setMaxLength(self, value: "PositiveInteger") -> AbstractValueRestriction:
+    def setMaxLength(self, value: PositiveInteger) -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for maxLength with method chaining.
 
@@ -278,7 +278,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.min = value  # Delegates to property setter
         return self
 
-    def getMinLength(self) -> "PositiveInteger":
+    def getMinLength(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minLength.
 
@@ -290,7 +290,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.min_length  # Delegates to property
 
-    def setMinLength(self, value: "PositiveInteger") -> AbstractValueRestriction:
+    def setMinLength(self, value: PositiveInteger) -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for minLength with method chaining.
 
@@ -352,7 +352,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.max = value  # Use property setter (gets validation)
         return self
 
-    def with_max_length(self, value: Optional["PositiveInteger"]) -> AbstractValueRestriction:
+    def with_max_length(self, value: Optional[PositiveInteger]) -> AbstractValueRestriction:
         """
         Set maxLength and return self for chaining.
 
@@ -384,7 +384,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.min = value  # Use property setter (gets validation)
         return self
 
-    def with_min_length(self, value: Optional["PositiveInteger"]) -> AbstractValueRestriction:
+    def with_min_length(self, value: Optional[PositiveInteger]) -> AbstractValueRestriction:
         """
         Set minLength and return self for chaining.
 
@@ -446,15 +446,15 @@ class AbstractVariationRestriction(ARObject, ABC):
         """Get validBinding (Pythonic accessor)."""
         return self._validBinding
         # Defines if the AUTOSAR model may define a Variation this location.
-        self._variation: Optional["Boolean"] = None
+        self._variation: Optional[Boolean] = None
 
     @property
-    def variation(self) -> Optional["Boolean"]:
+    def variation(self) -> Optional[Boolean]:
         """Get variation (Pythonic accessor)."""
         return self._variation
 
     @variation.setter
-    def variation(self, value: Optional["Boolean"]) -> None:
+    def variation(self, value: Optional[Boolean]) -> None:
         """
         Set variation with validation.
 
@@ -488,7 +488,7 @@ class AbstractVariationRestriction(ARObject, ABC):
         """
         return self.valid_binding  # Delegates to property
 
-    def getVariation(self) -> "Boolean":
+    def getVariation(self) -> Boolean:
         """
         AUTOSAR-compliant getter for variation.
 
@@ -500,7 +500,7 @@ class AbstractVariationRestriction(ARObject, ABC):
         """
         return self.variation  # Delegates to property
 
-    def setVariation(self, value: "Boolean") -> AbstractVariationRestriction:
+    def setVariation(self, value: Boolean) -> AbstractVariationRestriction:
         """
         AUTOSAR-compliant setter for variation with method chaining.
 
@@ -518,7 +518,7 @@ class AbstractVariationRestriction(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_variation(self, value: Optional["Boolean"]) -> AbstractVariationRestriction:
+    def with_variation(self, value: Optional[Boolean]) -> AbstractVariationRestriction:
         """
         Set variation and return self for chaining.
 
@@ -556,15 +556,15 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the minimal number of times an object shall this primitive
         # attribute is not set, then the object.
-        self._lowerMultiplicity: Optional["PositiveInteger"] = None
+        self._lowerMultiplicity: Optional[PositiveInteger] = None
 
     @property
-    def lower_multiplicity(self) -> Optional["PositiveInteger"]:
+    def lower_multiplicity(self) -> Optional[PositiveInteger]:
         """Get lowerMultiplicity (Pythonic accessor)."""
         return self._lowerMultiplicity
 
     @lower_multiplicity.setter
-    def lower_multiplicity(self, value: Optional["PositiveInteger"]) -> None:
+    def lower_multiplicity(self, value: Optional[PositiveInteger]) -> None:
         """
         Set lowerMultiplicity with validation.
 
@@ -584,15 +584,15 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
             )
         self._lowerMultiplicity = value
         # of ’upperMultiplicityInfinite’ and mutual exclusive.
-        self._upperMultiplicity: Optional["Boolean"] = None
+        self._upperMultiplicity: Optional[Boolean] = None
 
     @property
-    def upper_multiplicity(self) -> Optional["Boolean"]:
+    def upper_multiplicity(self) -> Optional[Boolean]:
         """Get upperMultiplicity (Pythonic accessor)."""
         return self._upperMultiplicity
 
     @upper_multiplicity.setter
-    def upper_multiplicity(self, value: Optional["Boolean"]) -> None:
+    def upper_multiplicity(self, value: Optional[Boolean]) -> None:
         """
         Set upperMultiplicity with validation.
 
@@ -614,7 +614,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLowerMultiplicity(self) -> "PositiveInteger":
+    def getLowerMultiplicity(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for lowerMultiplicity.
 
@@ -626,7 +626,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
         """
         return self.lower_multiplicity  # Delegates to property
 
-    def setLowerMultiplicity(self, value: "PositiveInteger") -> AbstractMultiplicityRestriction:
+    def setLowerMultiplicity(self, value: PositiveInteger) -> AbstractMultiplicityRestriction:
         """
         AUTOSAR-compliant setter for lowerMultiplicity with method chaining.
 
@@ -642,7 +642,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
         self.lower_multiplicity = value  # Delegates to property setter
         return self
 
-    def getUpperMultiplicity(self) -> "Boolean":
+    def getUpperMultiplicity(self) -> Boolean:
         """
         AUTOSAR-compliant getter for upperMultiplicity.
 
@@ -654,7 +654,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
         """
         return self.upper_multiplicity  # Delegates to property
 
-    def setUpperMultiplicity(self, value: "Boolean") -> AbstractMultiplicityRestriction:
+    def setUpperMultiplicity(self, value: Boolean) -> AbstractMultiplicityRestriction:
         """
         AUTOSAR-compliant setter for upperMultiplicity with method chaining.
 
@@ -672,7 +672,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lower_multiplicity(self, value: Optional["PositiveInteger"]) -> AbstractMultiplicityRestriction:
+    def with_lower_multiplicity(self, value: Optional[PositiveInteger]) -> AbstractMultiplicityRestriction:
         """
         Set lowerMultiplicity and return self for chaining.
 
@@ -688,7 +688,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
         self.lower_multiplicity = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_multiplicity(self, value: Optional["Boolean"]) -> AbstractMultiplicityRestriction:
+    def with_upper_multiplicity(self, value: Optional[Boolean]) -> AbstractMultiplicityRestriction:
         """
         Set upperMultiplicity and return self for chaining.
 

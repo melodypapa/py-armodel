@@ -79,15 +79,15 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents that access permission defined for the specific
         # DiagnosticMemoryIdentifier.
-        self._access: Optional["DiagnosticAccess"] = None
+        self._access: Optional[DiagnosticAccess] = None
 
     @property
-    def access(self) -> Optional["DiagnosticAccess"]:
+    def access(self) -> Optional[DiagnosticAccess]:
         """Get access (Pythonic accessor)."""
         return self._access
 
     @access.setter
-    def access(self, value: Optional["DiagnosticAccess"]) -> None:
+    def access(self, value: Optional[DiagnosticAccess]) -> None:
         """
         Set access with validation.
 
@@ -106,15 +106,15 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
                 f"access must be DiagnosticAccess or None, got {type(value).__name__}"
             )
         self._access = value
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -134,15 +134,15 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
             )
         self._id = value
         # segment.
-        self._memoryHigh: Optional["String"] = None
+        self._memoryHigh: Optional[String] = None
 
     @property
-    def memory_high(self) -> Optional["String"]:
+    def memory_high(self) -> Optional[String]:
         """Get memoryHigh (Pythonic accessor)."""
         return self._memoryHigh
 
     @memory_high.setter
-    def memory_high(self, value: Optional["String"]) -> None:
+    def memory_high(self, value: Optional[String]) -> None:
         """
         Set memoryHigh with validation.
 
@@ -162,15 +162,15 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
             )
         self._memoryHigh = value
         # segment.
-        self._memoryLow: Optional["String"] = None
+        self._memoryLow: Optional[String] = None
 
     @property
-    def memory_low(self) -> Optional["String"]:
+    def memory_low(self) -> Optional[String]:
         """Get memoryLow (Pythonic accessor)."""
         return self._memoryLow
 
     @memory_low.setter
-    def memory_low(self, value: Optional["String"]) -> None:
+    def memory_low(self, value: Optional[String]) -> None:
         """
         Set memoryLow with validation.
 
@@ -192,7 +192,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccess(self) -> "DiagnosticAccess":
+    def getAccess(self) -> DiagnosticAccess:
         """
         AUTOSAR-compliant getter for access.
 
@@ -204,7 +204,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.access  # Delegates to property
 
-    def setAccess(self, value: "DiagnosticAccess") -> DiagnosticMemoryIdentifier:
+    def setAccess(self, value: DiagnosticAccess) -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for access with method chaining.
 
@@ -220,7 +220,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.access = value  # Delegates to property setter
         return self
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -232,7 +232,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticMemoryIdentifier:
+    def setId(self, value: PositiveInteger) -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -248,7 +248,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.id = value  # Delegates to property setter
         return self
 
-    def getMemoryHigh(self) -> "String":
+    def getMemoryHigh(self) -> String:
         """
         AUTOSAR-compliant getter for memoryHigh.
 
@@ -260,7 +260,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.memory_high  # Delegates to property
 
-    def setMemoryHigh(self, value: "String") -> DiagnosticMemoryIdentifier:
+    def setMemoryHigh(self, value: String) -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for memoryHigh with method chaining.
 
@@ -276,7 +276,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.memory_high = value  # Delegates to property setter
         return self
 
-    def getMemoryLow(self) -> "String":
+    def getMemoryLow(self) -> String:
         """
         AUTOSAR-compliant getter for memoryLow.
 
@@ -288,7 +288,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         """
         return self.memory_low  # Delegates to property
 
-    def setMemoryLow(self, value: "String") -> DiagnosticMemoryIdentifier:
+    def setMemoryLow(self, value: String) -> DiagnosticMemoryIdentifier:
         """
         AUTOSAR-compliant setter for memoryLow with method chaining.
 
@@ -306,7 +306,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access(self, value: Optional["DiagnosticAccess"]) -> DiagnosticMemoryIdentifier:
+    def with_access(self, value: Optional[DiagnosticAccess]) -> DiagnosticMemoryIdentifier:
         """
         Set access and return self for chaining.
 
@@ -322,7 +322,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.access = value  # Use property setter (gets validation)
         return self
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticMemoryIdentifier:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryIdentifier:
         """
         Set id and return self for chaining.
 
@@ -338,7 +338,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_memory_high(self, value: Optional["String"]) -> DiagnosticMemoryIdentifier:
+    def with_memory_high(self, value: Optional[String]) -> DiagnosticMemoryIdentifier:
         """
         Set memoryHigh and return self for chaining.
 
@@ -354,7 +354,7 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
         self.memory_high = value  # Use property setter (gets validation)
         return self
 
-    def with_memory_low(self, value: Optional["String"]) -> DiagnosticMemoryIdentifier:
+    def with_memory_low(self, value: Optional[String]) -> DiagnosticMemoryIdentifier:
         """
         Set memoryLow and return self for chaining.
 
@@ -947,15 +947,15 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
                 # for this specific concrete class.
         # reference represents the ability to access among all
                 # DiagnosticRequestDownload given context.
-        self._request: Optional["DiagnosticRequest"] = None
+        self._request: Optional[DiagnosticRequest] = None
 
     @property
-    def request(self) -> Optional["DiagnosticRequest"]:
+    def request(self) -> Optional[DiagnosticRequest]:
         """Get request (Pythonic accessor)."""
         return self._request
 
     @request.setter
-    def request(self, value: Optional["DiagnosticRequest"]) -> None:
+    def request(self, value: Optional[DiagnosticRequest]) -> None:
         """
         Set request with validation.
 
@@ -977,7 +977,7 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRequest(self) -> "DiagnosticRequest":
+    def getRequest(self) -> DiagnosticRequest:
         """
         AUTOSAR-compliant getter for request.
 
@@ -989,7 +989,7 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
         """
         return self.request  # Delegates to property
 
-    def setRequest(self, value: "DiagnosticRequest") -> DiagnosticRequestDownload:
+    def setRequest(self, value: DiagnosticRequest) -> DiagnosticRequestDownload:
         """
         AUTOSAR-compliant setter for request with method chaining.
 
@@ -1007,7 +1007,7 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestDownload:
+    def with_request(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestDownload:
         """
         Set request and return self for chaining.
 
@@ -1042,15 +1042,15 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
         # This reference substantiates that abstract reference in the reference
         # represents the ability to access among all DiagnosticRequestUpload in
         # context.
-        self._requestUpload: Optional["DiagnosticRequest"] = None
+        self._requestUpload: Optional[DiagnosticRequest] = None
 
     @property
-    def request_upload(self) -> Optional["DiagnosticRequest"]:
+    def request_upload(self) -> Optional[DiagnosticRequest]:
         """Get requestUpload (Pythonic accessor)."""
         return self._requestUpload
 
     @request_upload.setter
-    def request_upload(self, value: Optional["DiagnosticRequest"]) -> None:
+    def request_upload(self, value: Optional[DiagnosticRequest]) -> None:
         """
         Set requestUpload with validation.
 
@@ -1072,7 +1072,7 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRequestUpload(self) -> "DiagnosticRequest":
+    def getRequestUpload(self) -> DiagnosticRequest:
         """
         AUTOSAR-compliant getter for requestUpload.
 
@@ -1084,7 +1084,7 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
         """
         return self.request_upload  # Delegates to property
 
-    def setRequestUpload(self, value: "DiagnosticRequest") -> DiagnosticRequestUpload:
+    def setRequestUpload(self, value: DiagnosticRequest) -> DiagnosticRequestUpload:
         """
         AUTOSAR-compliant setter for requestUpload with method chaining.
 
@@ -1102,7 +1102,7 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_upload(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestUpload:
+    def with_request_upload(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestUpload:
         """
         Set requestUpload and return self for chaining.
 

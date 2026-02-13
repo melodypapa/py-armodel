@@ -90,15 +90,15 @@ class OffsetTimingConstraint(TimingConstraint):
                 f"minimum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimum = value
-        self._source: Optional["TimingDescriptionEvent"] = None
+        self._source: Optional[TimingDescriptionEvent] = None
 
     @property
-    def source(self) -> Optional["TimingDescriptionEvent"]:
+    def source(self) -> Optional[TimingDescriptionEvent]:
         """Get source (Pythonic accessor)."""
         return self._source
 
     @source.setter
-    def source(self, value: Optional["TimingDescriptionEvent"]) -> None:
+    def source(self, value: Optional[TimingDescriptionEvent]) -> None:
         """
         Set source with validation.
 
@@ -117,15 +117,15 @@ class OffsetTimingConstraint(TimingConstraint):
                 f"source must be TimingDescriptionEvent or None, got {type(value).__name__}"
             )
         self._source = value
-        self._target: Optional["TimingDescriptionEvent"] = None
+        self._target: Optional[TimingDescriptionEvent] = None
 
     @property
-    def target(self) -> Optional["TimingDescriptionEvent"]:
+    def target(self) -> Optional[TimingDescriptionEvent]:
         """Get target (Pythonic accessor)."""
         return self._target
 
     @target.setter
-    def target(self, value: Optional["TimingDescriptionEvent"]) -> None:
+    def target(self, value: Optional[TimingDescriptionEvent]) -> None:
         """
         Set target with validation.
 
@@ -203,7 +203,7 @@ class OffsetTimingConstraint(TimingConstraint):
         self.minimum = value  # Delegates to property setter
         return self
 
-    def getSource(self) -> "TimingDescriptionEvent":
+    def getSource(self) -> TimingDescriptionEvent:
         """
         AUTOSAR-compliant getter for source.
 
@@ -215,7 +215,7 @@ class OffsetTimingConstraint(TimingConstraint):
         """
         return self.source  # Delegates to property
 
-    def setSource(self, value: "TimingDescriptionEvent") -> OffsetTimingConstraint:
+    def setSource(self, value: TimingDescriptionEvent) -> OffsetTimingConstraint:
         """
         AUTOSAR-compliant setter for source with method chaining.
 
@@ -231,7 +231,7 @@ class OffsetTimingConstraint(TimingConstraint):
         self.source = value  # Delegates to property setter
         return self
 
-    def getTarget(self) -> "TimingDescriptionEvent":
+    def getTarget(self) -> TimingDescriptionEvent:
         """
         AUTOSAR-compliant getter for target.
 
@@ -243,7 +243,7 @@ class OffsetTimingConstraint(TimingConstraint):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "TimingDescriptionEvent") -> OffsetTimingConstraint:
+    def setTarget(self, value: TimingDescriptionEvent) -> OffsetTimingConstraint:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -293,7 +293,7 @@ class OffsetTimingConstraint(TimingConstraint):
         self.minimum = value  # Use property setter (gets validation)
         return self
 
-    def with_source(self, value: Optional["TimingDescriptionEvent"]) -> OffsetTimingConstraint:
+    def with_source(self, value: Optional[TimingDescriptionEvent]) -> OffsetTimingConstraint:
         """
         Set source and return self for chaining.
 
@@ -309,7 +309,7 @@ class OffsetTimingConstraint(TimingConstraint):
         self.source = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional["TimingDescriptionEvent"]) -> OffsetTimingConstraint:
+    def with_target(self, value: Optional[TimingDescriptionEvent]) -> OffsetTimingConstraint:
         """
         Set target and return self for chaining.
 

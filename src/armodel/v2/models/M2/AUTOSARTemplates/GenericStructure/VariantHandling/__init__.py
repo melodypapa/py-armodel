@@ -9,6 +9,9 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    SwSystemconstant,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
     NameToken,
@@ -18,6 +21,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
+    Annotation,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -45,15 +51,15 @@ class PostBuildVariantCriterion(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The compuMethod specifies the possible values for the serving as an
         # enumerator.
-        self._compuMethod: "CompuMethod" = None
+        self._compuMethod: CompuMethod = None
 
     @property
-    def compu_method(self) -> "CompuMethod":
+    def compu_method(self) -> CompuMethod:
         """Get compuMethod (Pythonic accessor)."""
         return self._compuMethod
 
     @compu_method.setter
-    def compu_method(self, value: "CompuMethod") -> None:
+    def compu_method(self, value: CompuMethod) -> None:
         """
         Set compuMethod with validation.
 
@@ -199,7 +205,7 @@ class PostBuildVariantCriterion(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuMethod(self) -> "CompuMethod":
+    def getCompuMethod(self) -> CompuMethod:
         """
         AUTOSAR-compliant getter for compuMethod.
 
@@ -211,7 +217,7 @@ class PostBuildVariantCriterion(ARElement):
         """
         return self.compu_method  # Delegates to property
 
-    def setCompuMethod(self, value: "CompuMethod") -> PostBuildVariantCriterion:
+    def setCompuMethod(self, value: CompuMethod) -> PostBuildVariantCriterion:
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
 
@@ -229,7 +235,7 @@ class PostBuildVariantCriterion(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_method(self, value: "CompuMethod") -> PostBuildVariantCriterion:
+    def with_compu_method(self, value: CompuMethod) -> PostBuildVariantCriterion:
         """
         Set compuMethod and return self for chaining.
 
@@ -268,22 +274,22 @@ class PostBuildVariantCriterionValue(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This provides the ability to add information why the value like it is.
-        self._annotation: List["Annotation"] = []
+        self._annotation: List[Annotation] = []
 
     @property
-    def annotation(self) -> List["Annotation"]:
+    def annotation(self) -> List[Annotation]:
         """Get annotation (Pythonic accessor)."""
         return self._annotation
         # This is the particular value of the post-build variant.
-        self._value: "Integer" = None
+        self._value: Integer = None
 
     @property
-    def value(self) -> "Integer":
+    def value(self) -> Integer:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: "Integer") -> None:
+    def value(self, value: Integer) -> None:
         """
         Set value with validation.
 
@@ -325,7 +331,7 @@ class PostBuildVariantCriterionValue(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAnnotation(self) -> List["Annotation"]:
+    def getAnnotation(self) -> List[Annotation]:
         """
         AUTOSAR-compliant getter for annotation.
 
@@ -337,7 +343,7 @@ class PostBuildVariantCriterionValue(ARObject):
         """
         return self.annotation  # Delegates to property
 
-    def getValue(self) -> "Integer":
+    def getValue(self) -> Integer:
         """
         AUTOSAR-compliant getter for value.
 
@@ -349,7 +355,7 @@ class PostBuildVariantCriterionValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Integer") -> PostBuildVariantCriterionValue:
+    def setValue(self, value: Integer) -> PostBuildVariantCriterionValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -395,7 +401,7 @@ class PostBuildVariantCriterionValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: "Integer") -> PostBuildVariantCriterionValue:
+    def with_value(self, value: Integer) -> PostBuildVariantCriterionValue:
         """
         Set value and return self for chaining.
 
@@ -460,18 +466,18 @@ class PredefinedVariant(ARElement):
         return self._includedVariant
         # This is the postBuildVariantCriterionValueSet contributing to the predefinded
         # variant.
-        self._postBuildVariant: List["PostBuildVariant"] = []
+        self._postBuildVariant: List[PostBuildVariant] = []
 
     @property
-    def post_build_variant(self) -> List["PostBuildVariant"]:
+    def post_build_variant(self) -> List[PostBuildVariant]:
         """Get postBuildVariant (Pythonic accessor)."""
         return self._postBuildVariant
         # This ist the set of Systemconstant Values contributing to the predefined
         # variant.
-        self._sw: List["SwSystemconstant"] = []
+        self._sw: List[SwSystemconstant] = []
 
     @property
-    def sw(self) -> List["SwSystemconstant"]:
+    def sw(self) -> List[SwSystemconstant]:
         """Get sw (Pythonic accessor)."""
         return self._sw
 
@@ -602,15 +608,15 @@ class VariationPoint(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a description that documents how the point shall be resolved
         # when deriving objects blueprint.
-        self._blueprint: Optional["DocumentationBlock"] = None
+        self._blueprint: Optional[DocumentationBlock] = None
 
     @property
-    def blueprint(self) -> Optional["DocumentationBlock"]:
+    def blueprint(self) -> Optional[DocumentationBlock]:
         """Get blueprint (Pythonic accessor)."""
         return self._blueprint
 
     @blueprint.setter
-    def blueprint(self, value: Optional["DocumentationBlock"]) -> None:
+    def blueprint(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set blueprint with validation.
 
@@ -662,7 +668,7 @@ class VariationPoint(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBlueprint(self) -> "DocumentationBlock":
+    def getBlueprint(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for blueprint.
 
@@ -674,7 +680,7 @@ class VariationPoint(ARObject):
         """
         return self.blueprint  # Delegates to property
 
-    def setBlueprint(self, value: "DocumentationBlock") -> VariationPoint:
+    def setBlueprint(self, value: DocumentationBlock) -> VariationPoint:
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
 
@@ -720,7 +726,7 @@ class VariationPoint(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint(self, value: Optional["DocumentationBlock"]) -> VariationPoint:
+    def with_blueprint(self, value: Optional[DocumentationBlock]) -> VariationPoint:
         """
         Set blueprint and return self for chaining.
 
@@ -902,15 +908,15 @@ class PostBuildVariantCondition(ARObject):
             )
         self._matching = value
         # This is the particular value of the post-build variant.
-        self._value: "Integer" = None
+        self._value: Integer = None
 
     @property
-    def value(self) -> "Integer":
+    def value(self) -> Integer:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: "Integer") -> None:
+    def value(self, value: Integer) -> None:
         """
         Set value with validation.
 
@@ -956,7 +962,7 @@ class PostBuildVariantCondition(ARObject):
         self.matching = value  # Delegates to property setter
         return self
 
-    def getValue(self) -> "Integer":
+    def getValue(self) -> Integer:
         """
         AUTOSAR-compliant getter for value.
 
@@ -968,7 +974,7 @@ class PostBuildVariantCondition(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Integer") -> PostBuildVariantCondition:
+    def setValue(self, value: Integer) -> PostBuildVariantCondition:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1002,7 +1008,7 @@ class PostBuildVariantCondition(ARObject):
         self.matching = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: "Integer") -> PostBuildVariantCondition:
+    def with_value(self, value: Integer) -> PostBuildVariantCondition:
         """
         Set value and return self for chaining.
 
@@ -1257,10 +1263,10 @@ class SwSystemconstValue(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This provides the ability to add information why the value like it is.
-        self._annotation: List["Annotation"] = []
+        self._annotation: List[Annotation] = []
 
     @property
-    def annotation(self) -> List["Annotation"]:
+    def annotation(self) -> List[Annotation]:
         """Get annotation (Pythonic accessor)."""
         return self._annotation
         # This is the system constant to which the value applies.
@@ -1318,7 +1324,7 @@ class SwSystemconstValue(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAnnotation(self) -> List["Annotation"]:
+    def getAnnotation(self) -> List[Annotation]:
         """
         AUTOSAR-compliant getter for annotation.
 

@@ -34,15 +34,15 @@ class CryptoKeySlot(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute defines whether a shadow copy of this Key shall be allocated
         # to enable rollback of a failed Key campaign (see interface BeginTransaction).
-        self._allocateShadow: Optional["Boolean"] = None
+        self._allocateShadow: Optional[Boolean] = None
 
     @property
-    def allocate_shadow(self) -> Optional["Boolean"]:
+    def allocate_shadow(self) -> Optional[Boolean]:
         """Get allocateShadow (Pythonic accessor)."""
         return self._allocateShadow
 
     @allocate_shadow.setter
-    def allocate_shadow(self, value: Optional["Boolean"]) -> None:
+    def allocate_shadow(self, value: Optional[Boolean]) -> None:
         """
         Set allocateShadow with validation.
 
@@ -70,15 +70,15 @@ class CryptoKeySlot(Identifiable):
                 # The name of a crypto follow the rules defined in the specification for
                 # Adaptive Platform.
         # 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11.
-        self._cryptoAlgId: Optional["String"] = None
+        self._cryptoAlgId: Optional[String] = None
 
     @property
-    def crypto_alg_id(self) -> Optional["String"]:
+    def crypto_alg_id(self) -> Optional[String]:
         """Get cryptoAlgId (Pythonic accessor)."""
         return self._cryptoAlgId
 
     @crypto_alg_id.setter
-    def crypto_alg_id(self, value: Optional["String"]) -> None:
+    def crypto_alg_id(self, value: Optional[String]) -> None:
         """
         Set cryptoAlgId with validation.
 
@@ -165,15 +165,15 @@ class CryptoKeySlot(Identifiable):
                 # define this value in case that is undefined and the slot size can deduced
                 # from cryptoObjectType and cryptoAlgId.
         # slot size can be deduced from cryptoObject cryptoAlgId.
-        self._slotCapacity: Optional["PositiveInteger"] = None
+        self._slotCapacity: Optional[PositiveInteger] = None
 
     @property
-    def slot_capacity(self) -> Optional["PositiveInteger"]:
+    def slot_capacity(self) -> Optional[PositiveInteger]:
         """Get slotCapacity (Pythonic accessor)."""
         return self._slotCapacity
 
     @slot_capacity.setter
-    def slot_capacity(self, value: Optional["PositiveInteger"]) -> None:
+    def slot_capacity(self, value: Optional[PositiveInteger]) -> None:
         """
         Set slotCapacity with validation.
 
@@ -239,7 +239,7 @@ class CryptoKeySlot(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAllocateShadow(self) -> "Boolean":
+    def getAllocateShadow(self) -> Boolean:
         """
         AUTOSAR-compliant getter for allocateShadow.
 
@@ -251,7 +251,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.allocate_shadow  # Delegates to property
 
-    def setAllocateShadow(self, value: "Boolean") -> CryptoKeySlot:
+    def setAllocateShadow(self, value: Boolean) -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for allocateShadow with method chaining.
 
@@ -267,7 +267,7 @@ class CryptoKeySlot(Identifiable):
         self.allocate_shadow = value  # Delegates to property setter
         return self
 
-    def getCryptoAlgId(self) -> "String":
+    def getCryptoAlgId(self) -> String:
         """
         AUTOSAR-compliant getter for cryptoAlgId.
 
@@ -279,7 +279,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.crypto_alg_id  # Delegates to property
 
-    def setCryptoAlgId(self, value: "String") -> CryptoKeySlot:
+    def setCryptoAlgId(self, value: String) -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for cryptoAlgId with method chaining.
 
@@ -363,7 +363,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.key_slot_content  # Delegates to property
 
-    def getSlotCapacity(self) -> "PositiveInteger":
+    def getSlotCapacity(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for slotCapacity.
 
@@ -375,7 +375,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.slot_capacity  # Delegates to property
 
-    def setSlotCapacity(self, value: "PositiveInteger") -> CryptoKeySlot:
+    def setSlotCapacity(self, value: PositiveInteger) -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for slotCapacity with method chaining.
 
@@ -421,7 +421,7 @@ class CryptoKeySlot(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_allocate_shadow(self, value: Optional["Boolean"]) -> CryptoKeySlot:
+    def with_allocate_shadow(self, value: Optional[Boolean]) -> CryptoKeySlot:
         """
         Set allocateShadow and return self for chaining.
 
@@ -437,7 +437,7 @@ class CryptoKeySlot(Identifiable):
         self.allocate_shadow = value  # Use property setter (gets validation)
         return self
 
-    def with_crypto_alg_id(self, value: Optional["String"]) -> CryptoKeySlot:
+    def with_crypto_alg_id(self, value: Optional[String]) -> CryptoKeySlot:
         """
         Set cryptoAlgId and return self for chaining.
 
@@ -485,7 +485,7 @@ class CryptoKeySlot(Identifiable):
         self.key_slot_allowed = value  # Use property setter (gets validation)
         return self
 
-    def with_slot_capacity(self, value: Optional["PositiveInteger"]) -> CryptoKeySlot:
+    def with_slot_capacity(self, value: Optional[PositiveInteger]) -> CryptoKeySlot:
         """
         Set slotCapacity and return self for chaining.
 

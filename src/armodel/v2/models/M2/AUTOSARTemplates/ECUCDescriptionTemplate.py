@@ -152,15 +152,15 @@ class EcucModuleConfigurationValues(ARElement):
                 # ECU map) or Application SW-Cs.
         # case the EcucModuleConfigurationValues are configure the module, the
                 # reference is mandatory to fetch module specific "common" published.
-        self._module: Optional["BswImplementation"] = None
+        self._module: Optional[BswImplementation] = None
 
     @property
-    def module(self) -> Optional["BswImplementation"]:
+    def module(self) -> Optional[BswImplementation]:
         """Get module (Pythonic accessor)."""
         return self._module
 
     @module.setter
-    def module(self, value: Optional["BswImplementation"]) -> None:
+    def module(self, value: Optional[BswImplementation]) -> None:
         """
         Set module with validation.
 
@@ -182,15 +182,15 @@ class EcucModuleConfigurationValues(ARElement):
         # e.
         # , introduced at link or post-build time) new points.
         # TRUE means yes, FALSE If the attribute is not defined, FALSE be assumed.
-        self._postBuildVariant: Optional["Boolean"] = None
+        self._postBuildVariant: Optional[Boolean] = None
 
     @property
-    def post_build_variant(self) -> Optional["Boolean"]:
+    def post_build_variant(self) -> Optional[Boolean]:
         """Get postBuildVariant (Pythonic accessor)."""
         return self._postBuildVariant
 
     @post_build_variant.setter
-    def post_build_variant(self, value: Optional["Boolean"]) -> None:
+    def post_build_variant(self, value: Optional[Boolean]) -> None:
         """
         Set postBuildVariant with validation.
 
@@ -420,7 +420,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.implementation = value  # Delegates to property setter
         return self
 
-    def getModule(self) -> "BswImplementation":
+    def getModule(self) -> BswImplementation:
         """
         AUTOSAR-compliant getter for module.
 
@@ -432,7 +432,7 @@ class EcucModuleConfigurationValues(ARElement):
         """
         return self.module  # Delegates to property
 
-    def setModule(self, value: "BswImplementation") -> EcucModuleConfigurationValues:
+    def setModule(self, value: BswImplementation) -> EcucModuleConfigurationValues:
         """
         AUTOSAR-compliant setter for module with method chaining.
 
@@ -448,7 +448,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.module = value  # Delegates to property setter
         return self
 
-    def getPostBuildVariant(self) -> "Boolean":
+    def getPostBuildVariant(self) -> Boolean:
         """
         AUTOSAR-compliant getter for postBuildVariant.
 
@@ -460,7 +460,7 @@ class EcucModuleConfigurationValues(ARElement):
         """
         return self.post_build_variant  # Delegates to property
 
-    def setPostBuildVariant(self, value: "Boolean") -> EcucModuleConfigurationValues:
+    def setPostBuildVariant(self, value: Boolean) -> EcucModuleConfigurationValues:
         """
         AUTOSAR-compliant setter for postBuildVariant with method chaining.
 
@@ -526,7 +526,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.implementation = value  # Use property setter (gets validation)
         return self
 
-    def with_module(self, value: Optional["BswImplementation"]) -> EcucModuleConfigurationValues:
+    def with_module(self, value: Optional[BswImplementation]) -> EcucModuleConfigurationValues:
         """
         Set module and return self for chaining.
 
@@ -542,7 +542,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.module = value  # Use property setter (gets validation)
         return self
 
-    def with_post_build_variant(self, value: Optional["Boolean"]) -> EcucModuleConfigurationValues:
+    def with_post_build_variant(self, value: Optional[Boolean]) -> EcucModuleConfigurationValues:
         """
         Set postBuildVariant and return self for chaining.
 
@@ -692,15 +692,15 @@ class EcucIndexableValue(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Used to support the specification of ordering of parameter.
-        self._index: Optional["PositiveInteger"] = None
+        self._index: Optional[PositiveInteger] = None
 
     @property
-    def index(self) -> Optional["PositiveInteger"]:
+    def index(self) -> Optional[PositiveInteger]:
         """Get index (Pythonic accessor)."""
         return self._index
 
     @index.setter
-    def index(self, value: Optional["PositiveInteger"]) -> None:
+    def index(self, value: Optional[PositiveInteger]) -> None:
         """
         Set index with validation.
 
@@ -722,7 +722,7 @@ class EcucIndexableValue(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIndex(self) -> "PositiveInteger":
+    def getIndex(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for index.
 
@@ -734,7 +734,7 @@ class EcucIndexableValue(ARObject, ABC):
         """
         return self.index  # Delegates to property
 
-    def setIndex(self, value: "PositiveInteger") -> EcucIndexableValue:
+    def setIndex(self, value: PositiveInteger) -> EcucIndexableValue:
         """
         AUTOSAR-compliant setter for index with method chaining.
 
@@ -752,7 +752,7 @@ class EcucIndexableValue(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_index(self, value: Optional["PositiveInteger"]) -> EcucIndexableValue:
+    def with_index(self, value: Optional[PositiveInteger]) -> EcucIndexableValue:
         """
         Set index and return self for chaining.
 
@@ -823,10 +823,10 @@ class EcucContainerValue(Identifiable):
         return self._parameterValue
         # Aggregates all References with this container.
         # [RS_ECUC_00079] atpVariation.
-        self._referenceValue: List["RefType"] = []
+        self._referenceValue: List[RefType] = []
 
     @property
-    def reference_value(self) -> List["RefType"]:
+    def reference_value(self) -> List[RefType]:
         """Get referenceValue (Pythonic accessor)."""
         return self._referenceValue
         # Aggregates all sub-containers within this container.
@@ -880,7 +880,7 @@ class EcucContainerValue(Identifiable):
         """
         return self.parameter_value  # Delegates to property
 
-    def getReferenceValue(self) -> List["RefType"]:
+    def getReferenceValue(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for referenceValue.
 
@@ -946,10 +946,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         # These are not documentation but are mere design notes.
         # its sub-classes 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU
                 # Configuration R23-11.
-        self._annotation: List["Annotation"] = []
+        self._annotation: List[Annotation] = []
 
     @property
-    def annotation(self) -> List["Annotation"]:
+    def annotation(self) -> List[Annotation]:
         """Get annotation (Pythonic accessor)."""
         return self._annotation
         # Reference to the definition of this EcucParameterValue the ECU Configuration
@@ -986,15 +986,15 @@ class EcucParameterValue(EcucIndexableValue, ABC):
                 # be (re-)calculated by the code stored in the value attribute afterwards.
         # updated values might require a other modules which reference these is not
                 # present the default is "false".
-        self._isAutoValue: Optional["Boolean"] = None
+        self._isAutoValue: Optional[Boolean] = None
 
     @property
-    def is_auto_value(self) -> Optional["Boolean"]:
+    def is_auto_value(self) -> Optional[Boolean]:
         """Get isAutoValue (Pythonic accessor)."""
         return self._isAutoValue
 
     @is_auto_value.setter
-    def is_auto_value(self, value: Optional["Boolean"]) -> None:
+    def is_auto_value(self, value: Optional[Boolean]) -> None:
         """
         Set isAutoValue with validation.
 
@@ -1016,7 +1016,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAnnotation(self) -> List["Annotation"]:
+    def getAnnotation(self) -> List[Annotation]:
         """
         AUTOSAR-compliant getter for annotation.
 
@@ -1056,7 +1056,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         self.definition = value  # Delegates to property setter
         return self
 
-    def getIsAutoValue(self) -> "Boolean":
+    def getIsAutoValue(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isAutoValue.
 
@@ -1068,7 +1068,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         """
         return self.is_auto_value  # Delegates to property
 
-    def setIsAutoValue(self, value: "Boolean") -> EcucParameterValue:
+    def setIsAutoValue(self, value: Boolean) -> EcucParameterValue:
         """
         AUTOSAR-compliant setter for isAutoValue with method chaining.
 
@@ -1102,7 +1102,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         self.definition = value  # Use property setter (gets validation)
         return self
 
-    def with_is_auto_value(self, value: Optional["Boolean"]) -> EcucParameterValue:
+    def with_is_auto_value(self, value: Optional[Boolean]) -> EcucParameterValue:
         """
         Set isAutoValue and return self for chaining.
 
@@ -1140,23 +1140,23 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         # g.
         # the ECU Configuration Parameter are not intended as documentation but design
                 # notes.
-        self._annotation: List["Annotation"] = []
+        self._annotation: List[Annotation] = []
 
     @property
-    def annotation(self) -> List["Annotation"]:
+    def annotation(self) -> List[Annotation]:
         """Get annotation (Pythonic accessor)."""
         return self._annotation
         # Reference to the definition of this EcucAbstractReference subclasses in the
         # ECU Configuration Parameter.
-        self._definition: Optional["RefType"] = None
+        self._definition: Optional[RefType] = None
 
     @property
-    def definition(self) -> Optional["RefType"]:
+    def definition(self) -> Optional[RefType]:
         """Get definition (Pythonic accessor)."""
         return self._definition
 
     @definition.setter
-    def definition(self, value: Optional["RefType"]) -> None:
+    def definition(self, value: Optional[RefType]) -> None:
         """
         Set definition with validation.
 
@@ -1176,15 +1176,15 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
                 # the code generator and stored in the afterwards.
         # These implicit updated values a re-generation of other modules which values.
         # is not present the default is "false".
-        self._isAutoValue: Optional["Boolean"] = None
+        self._isAutoValue: Optional[Boolean] = None
 
     @property
-    def is_auto_value(self) -> Optional["Boolean"]:
+    def is_auto_value(self) -> Optional[Boolean]:
         """Get isAutoValue (Pythonic accessor)."""
         return self._isAutoValue
 
     @is_auto_value.setter
-    def is_auto_value(self, value: Optional["Boolean"]) -> None:
+    def is_auto_value(self, value: Optional[Boolean]) -> None:
         """
         Set isAutoValue with validation.
 
@@ -1206,7 +1206,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAnnotation(self) -> List["Annotation"]:
+    def getAnnotation(self) -> List[Annotation]:
         """
         AUTOSAR-compliant getter for annotation.
 
@@ -1218,7 +1218,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         """
         return self.annotation  # Delegates to property
 
-    def getDefinition(self) -> "RefType":
+    def getDefinition(self) -> RefType:
         """
         AUTOSAR-compliant getter for definition.
 
@@ -1230,7 +1230,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         """
         return self.definition  # Delegates to property
 
-    def setDefinition(self, value: "RefType") -> EcucAbstractReferenceValue:
+    def setDefinition(self, value: RefType) -> EcucAbstractReferenceValue:
         """
         AUTOSAR-compliant setter for definition with method chaining.
 
@@ -1246,7 +1246,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         self.definition = value  # Delegates to property setter
         return self
 
-    def getIsAutoValue(self) -> "Boolean":
+    def getIsAutoValue(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isAutoValue.
 
@@ -1258,7 +1258,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         """
         return self.is_auto_value  # Delegates to property
 
-    def setIsAutoValue(self, value: "Boolean") -> EcucAbstractReferenceValue:
+    def setIsAutoValue(self, value: Boolean) -> EcucAbstractReferenceValue:
         """
         AUTOSAR-compliant setter for isAutoValue with method chaining.
 
@@ -1292,7 +1292,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         self.definition = value  # Use property setter (gets validation)
         return self
 
-    def with_is_auto_value(self, value: Optional["Boolean"]) -> EcucAbstractReferenceValue:
+    def with_is_auto_value(self, value: Optional[Boolean]) -> EcucAbstractReferenceValue:
         """
         Set isAutoValue and return self for chaining.
 
@@ -1514,15 +1514,15 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Holds the content of the formated text.
-        self._value: Optional["DocumentationBlock"] = None
+        self._value: Optional[DocumentationBlock] = None
 
     @property
-    def value(self) -> Optional["DocumentationBlock"]:
+    def value(self) -> Optional[DocumentationBlock]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional["DocumentationBlock"]) -> None:
+    def value(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set value with validation.
 
@@ -1544,7 +1544,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValue(self) -> "DocumentationBlock":
+    def getValue(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1556,7 +1556,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "DocumentationBlock") -> EcucAddInfoParamValue:
+    def setValue(self, value: DocumentationBlock) -> EcucAddInfoParamValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1574,7 +1574,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional["DocumentationBlock"]) -> EcucAddInfoParamValue:
+    def with_value(self, value: Optional[DocumentationBlock]) -> EcucAddInfoParamValue:
         """
         Set value and return self for chaining.
 
@@ -1610,15 +1610,15 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the destination of the reference.
-        self._value: Optional["RefType"] = None
+        self._value: Optional[RefType] = None
 
     @property
-    def value(self) -> Optional["RefType"]:
+    def value(self) -> Optional[RefType]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional["RefType"]) -> None:
+    def value(self, value: Optional[RefType]) -> None:
         """
         Set value with validation.
 
@@ -1636,7 +1636,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValue(self) -> "RefType":
+    def getValue(self) -> RefType:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1648,7 +1648,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "RefType") -> EcucReferenceValue:
+    def setValue(self, value: RefType) -> EcucReferenceValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1698,15 +1698,15 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # by: AnyInstanceRef.
-        self._value: Optional["AtpFeature"] = None
+        self._value: Optional[AtpFeature] = None
 
     @property
-    def value(self) -> Optional["AtpFeature"]:
+    def value(self) -> Optional[AtpFeature]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional["AtpFeature"]) -> None:
+    def value(self, value: Optional[AtpFeature]) -> None:
         """
         Set value with validation.
 
@@ -1728,7 +1728,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValue(self) -> "AtpFeature":
+    def getValue(self) -> AtpFeature:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1740,7 +1740,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "AtpFeature") -> EcucInstanceReferenceValue:
+    def setValue(self, value: AtpFeature) -> EcucInstanceReferenceValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1758,7 +1758,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional["AtpFeature"]) -> EcucInstanceReferenceValue:
+    def with_value(self, value: Optional[AtpFeature]) -> EcucInstanceReferenceValue:
         """
         Set value and return self for chaining.
 

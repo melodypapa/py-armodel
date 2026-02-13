@@ -274,15 +274,15 @@ class WorstCaseHeapUsage(HeapUsage):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Worst case heap consumption.
         # Unit: byte.
-        self._memoryConsumption: Optional["PositiveInteger"] = None
+        self._memoryConsumption: Optional[PositiveInteger] = None
 
     @property
-    def memory_consumption(self) -> Optional["PositiveInteger"]:
+    def memory_consumption(self) -> Optional[PositiveInteger]:
         """Get memoryConsumption (Pythonic accessor)."""
         return self._memoryConsumption
 
     @memory_consumption.setter
-    def memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
+    def memory_consumption(self, value: Optional[PositiveInteger]) -> None:
         """
         Set memoryConsumption with validation.
 
@@ -304,7 +304,7 @@ class WorstCaseHeapUsage(HeapUsage):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMemoryConsumption(self) -> "PositiveInteger":
+    def getMemoryConsumption(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for memoryConsumption.
 
@@ -316,7 +316,7 @@ class WorstCaseHeapUsage(HeapUsage):
         """
         return self.memory_consumption  # Delegates to property
 
-    def setMemoryConsumption(self, value: "PositiveInteger") -> WorstCaseHeapUsage:
+    def setMemoryConsumption(self, value: PositiveInteger) -> WorstCaseHeapUsage:
         """
         AUTOSAR-compliant setter for memoryConsumption with method chaining.
 
@@ -334,7 +334,7 @@ class WorstCaseHeapUsage(HeapUsage):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> WorstCaseHeapUsage:
+    def with_memory_consumption(self, value: Optional[PositiveInteger]) -> WorstCaseHeapUsage:
         """
         Set memoryConsumption and return self for chaining.
 
@@ -368,15 +368,15 @@ class MeasuredHeapUsage(HeapUsage):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The average heap usage measured.
         # Unit: byte.
-        self._averageMemoryConsumption: Optional["PositiveInteger"] = None
+        self._averageMemoryConsumption: Optional[PositiveInteger] = None
 
     @property
-    def average_memory_consumption(self) -> Optional["PositiveInteger"]:
+    def average_memory_consumption(self) -> Optional[PositiveInteger]:
         """Get averageMemoryConsumption (Pythonic accessor)."""
         return self._averageMemoryConsumption
 
     @average_memory_consumption.setter
-    def average_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
+    def average_memory_consumption(self, value: Optional[PositiveInteger]) -> None:
         """
         Set averageMemoryConsumption with validation.
 
@@ -398,15 +398,15 @@ class MeasuredHeapUsage(HeapUsage):
         # Unit: byte.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._maximumMemoryConsumption: Optional["PositiveInteger"] = None
+        self._maximumMemoryConsumption: Optional[PositiveInteger] = None
 
     @property
-    def maximum_memory_consumption(self) -> Optional["PositiveInteger"]:
+    def maximum_memory_consumption(self) -> Optional[PositiveInteger]:
         """Get maximumMemoryConsumption (Pythonic accessor)."""
         return self._maximumMemoryConsumption
 
     @maximum_memory_consumption.setter
-    def maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
+    def maximum_memory_consumption(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maximumMemoryConsumption with validation.
 
@@ -426,15 +426,15 @@ class MeasuredHeapUsage(HeapUsage):
             )
         self._maximumMemoryConsumption = value
         # Unit: byte.
-        self._minimumMemoryConsumption: Optional["PositiveInteger"] = None
+        self._minimumMemoryConsumption: Optional[PositiveInteger] = None
 
     @property
-    def minimum_memory_consumption(self) -> Optional["PositiveInteger"]:
+    def minimum_memory_consumption(self) -> Optional[PositiveInteger]:
         """Get minimumMemoryConsumption (Pythonic accessor)."""
         return self._minimumMemoryConsumption
 
     @minimum_memory_consumption.setter
-    def minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
+    def minimum_memory_consumption(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minimumMemoryConsumption with validation.
 
@@ -453,15 +453,15 @@ class MeasuredHeapUsage(HeapUsage):
                 f"minimumMemoryConsumption must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minimumMemoryConsumption = value
-        self._testPattern: Optional["String"] = None
+        self._testPattern: Optional[String] = None
 
     @property
-    def test_pattern(self) -> Optional["String"]:
+    def test_pattern(self) -> Optional[String]:
         """Get testPattern (Pythonic accessor)."""
         return self._testPattern
 
     @test_pattern.setter
-    def test_pattern(self, value: Optional["String"]) -> None:
+    def test_pattern(self, value: Optional[String]) -> None:
         """
         Set testPattern with validation.
 
@@ -483,7 +483,7 @@ class MeasuredHeapUsage(HeapUsage):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAverageMemoryConsumption(self) -> "PositiveInteger":
+    def getAverageMemoryConsumption(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for averageMemoryConsumption.
 
@@ -495,7 +495,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.average_memory_consumption  # Delegates to property
 
-    def setAverageMemoryConsumption(self, value: "PositiveInteger") -> MeasuredHeapUsage:
+    def setAverageMemoryConsumption(self, value: PositiveInteger) -> MeasuredHeapUsage:
         """
         AUTOSAR-compliant setter for averageMemoryConsumption with method chaining.
 
@@ -511,7 +511,7 @@ class MeasuredHeapUsage(HeapUsage):
         self.average_memory_consumption = value  # Delegates to property setter
         return self
 
-    def getMaximumMemoryConsumption(self) -> "PositiveInteger":
+    def getMaximumMemoryConsumption(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maximumMemoryConsumption.
 
@@ -523,7 +523,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.maximum_memory_consumption  # Delegates to property
 
-    def setMaximumMemoryConsumption(self, value: "PositiveInteger") -> MeasuredHeapUsage:
+    def setMaximumMemoryConsumption(self, value: PositiveInteger) -> MeasuredHeapUsage:
         """
         AUTOSAR-compliant setter for maximumMemoryConsumption with method chaining.
 
@@ -539,7 +539,7 @@ class MeasuredHeapUsage(HeapUsage):
         self.maximum_memory_consumption = value  # Delegates to property setter
         return self
 
-    def getMinimumMemoryConsumption(self) -> "PositiveInteger":
+    def getMinimumMemoryConsumption(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minimumMemoryConsumption.
 
@@ -551,7 +551,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.minimum_memory_consumption  # Delegates to property
 
-    def setMinimumMemoryConsumption(self, value: "PositiveInteger") -> MeasuredHeapUsage:
+    def setMinimumMemoryConsumption(self, value: PositiveInteger) -> MeasuredHeapUsage:
         """
         AUTOSAR-compliant setter for minimumMemoryConsumption with method chaining.
 
@@ -567,7 +567,7 @@ class MeasuredHeapUsage(HeapUsage):
         self.minimum_memory_consumption = value  # Delegates to property setter
         return self
 
-    def getTestPattern(self) -> "String":
+    def getTestPattern(self) -> String:
         """
         AUTOSAR-compliant getter for testPattern.
 
@@ -579,7 +579,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.test_pattern  # Delegates to property
 
-    def setTestPattern(self, value: "String") -> MeasuredHeapUsage:
+    def setTestPattern(self, value: String) -> MeasuredHeapUsage:
         """
         AUTOSAR-compliant setter for testPattern with method chaining.
 
@@ -597,7 +597,7 @@ class MeasuredHeapUsage(HeapUsage):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_average_memory_consumption(self, value: Optional["PositiveInteger"]) -> MeasuredHeapUsage:
+    def with_average_memory_consumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
         Set averageMemoryConsumption and return self for chaining.
 
@@ -613,7 +613,7 @@ class MeasuredHeapUsage(HeapUsage):
         self.average_memory_consumption = value  # Use property setter (gets validation)
         return self
 
-    def with_maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> MeasuredHeapUsage:
+    def with_maximum_memory_consumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
         Set maximumMemoryConsumption and return self for chaining.
 
@@ -629,7 +629,7 @@ class MeasuredHeapUsage(HeapUsage):
         self.maximum_memory_consumption = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> MeasuredHeapUsage:
+    def with_minimum_memory_consumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
         Set minimumMemoryConsumption and return self for chaining.
 
@@ -645,7 +645,7 @@ class MeasuredHeapUsage(HeapUsage):
         self.minimum_memory_consumption = value  # Use property setter (gets validation)
         return self
 
-    def with_test_pattern(self, value: Optional["String"]) -> MeasuredHeapUsage:
+    def with_test_pattern(self, value: Optional[String]) -> MeasuredHeapUsage:
         """
         Set testPattern and return self for chaining.
 
@@ -679,15 +679,15 @@ class RoughEstimateHeapUsage(HeapUsage):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Rough estimate of the heap usage.
         # Unit: byte.
-        self._memoryConsumption: Optional["PositiveInteger"] = None
+        self._memoryConsumption: Optional[PositiveInteger] = None
 
     @property
-    def memory_consumption(self) -> Optional["PositiveInteger"]:
+    def memory_consumption(self) -> Optional[PositiveInteger]:
         """Get memoryConsumption (Pythonic accessor)."""
         return self._memoryConsumption
 
     @memory_consumption.setter
-    def memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
+    def memory_consumption(self, value: Optional[PositiveInteger]) -> None:
         """
         Set memoryConsumption with validation.
 
@@ -709,7 +709,7 @@ class RoughEstimateHeapUsage(HeapUsage):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMemoryConsumption(self) -> "PositiveInteger":
+    def getMemoryConsumption(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for memoryConsumption.
 
@@ -721,7 +721,7 @@ class RoughEstimateHeapUsage(HeapUsage):
         """
         return self.memory_consumption  # Delegates to property
 
-    def setMemoryConsumption(self, value: "PositiveInteger") -> RoughEstimateHeapUsage:
+    def setMemoryConsumption(self, value: PositiveInteger) -> RoughEstimateHeapUsage:
         """
         AUTOSAR-compliant setter for memoryConsumption with method chaining.
 
@@ -739,7 +739,7 @@ class RoughEstimateHeapUsage(HeapUsage):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> RoughEstimateHeapUsage:
+    def with_memory_consumption(self, value: Optional[PositiveInteger]) -> RoughEstimateHeapUsage:
         """
         Set memoryConsumption and return self for chaining.
 

@@ -37,6 +37,17 @@ class ARObject(ABC):
         # Extended attributes for custom properties (CODING_RULE_V2_00014)
         self._extended_attributes: Dict[str, Any] = {}
 
+        # Checksum calculated by the user's tool environment for May be used in an own
+        # tool environment to an ArObject has changed.
+        # The checksum semantic meaning for an AUTOSAR model and no requirement for
+        # AUTOSAR tools to manage.
+        self._checksum: Optional[String] = None
+
+        # tool environment to last change of an ArObject.
+        # The timestamp semantic meaning for an AUTOSAR model and no requirement for
+        # AUTOSAR tools to manage.
+        self._timestamp: Optional["DateTime"] = None
+
     def getTagName(self) -> str:
         """
         Get the XML tag name for this element.
@@ -60,19 +71,14 @@ class ARObject(ABC):
         return self._extended_attributes
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # Checksum calculated by the user’s tool environment for May be used in an own
-                # tool environment to an ArObject has changed.
-        # The checksum semantic meaning for an AUTOSAR model and no requirement for
-                # AUTOSAR tools to manage.
-        self._checksum: Optional["String"] = None
 
     @property
-    def checksum(self) -> Optional["String"]:
+    def checksum(self) -> Optional[String]:
         """Get checksum (Pythonic accessor)."""
         return self._checksum
 
     @checksum.setter
-    def checksum(self, value: Optional["String"]) -> None:
+    def checksum(self, value: Optional[String]) -> None:
         """
         Set checksum with validation.
 
@@ -86,15 +92,8 @@ class ARObject(ABC):
             self._checksum = None
             return
 
-        if not isinstance(value, String):
-            raise TypeError(
-                f"checksum must be String or None, got {type(value).__name__}"
-            )
+        # Skip type check for String to avoid circular import
         self._checksum = value
-                # tool environment to last change of an ArObject.
-        # The timestamp semantic meaning for an AUTOSAR model and no requirement for
-                # AUTOSAR tools to manage.
-        self._timestamp: Optional["DateTime"] = None
 
     @property
     def timestamp(self) -> Optional["DateTime"]:
@@ -116,15 +115,12 @@ class ARObject(ABC):
             self._timestamp = None
             return
 
-        if not isinstance(value, DateTime):
-            raise TypeError(
-                f"timestamp must be DateTime or None, got {type(value).__name__}"
-            )
+        # Skip type check for DateTime to avoid circular import
         self._timestamp = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChecksum(self) -> "String":
+    def getChecksum(self) -> String:
         """
         AUTOSAR-compliant getter for checksum.
 
@@ -136,7 +132,7 @@ class ARObject(ABC):
         """
         return self.checksum  # Delegates to property
 
-    def setChecksum(self, value: "String") -> ARObject:
+    def setChecksum(self, value: String) -> ARObject:
         """
         AUTOSAR-compliant setter for checksum with method chaining.
 
@@ -182,7 +178,7 @@ class ARObject(ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_checksum(self, value: Optional["String"]) -> ARObject:
+    def with_checksum(self, value: Optional[String]) -> ARObject:
         """
         Set checksum and return self for chaining.
 

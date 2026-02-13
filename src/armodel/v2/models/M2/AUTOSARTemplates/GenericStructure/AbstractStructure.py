@@ -72,10 +72,10 @@ class AtpInstanceRef(ARObject, ABC):
             )
         self._atpBase = value
         # atpAbstract (ordered).
-        self._atpContext: List["RefType"] = []
+        self._atpContext: List[RefType] = []
 
     @property
-    def atp_context(self) -> List["RefType"]:
+    def atp_context(self) -> List[RefType]:
         """Get atpContext (Pythonic accessor)."""
         return self._atpContext
         # This is the target of the instance ref.
@@ -166,7 +166,7 @@ class AtpInstanceRef(ARObject, ABC):
         self.atp_base = value  # Delegates to property setter
         return self
 
-    def getAtpContext(self) -> List["RefType"]:
+    def getAtpContext(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for atpContext.
 

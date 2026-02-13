@@ -932,7 +932,7 @@
       ],
       "attributes": {
         "longName": {
-          "type": "MultilanguageLong",
+          "type": "MultilanguageLongName",
           "multiplicity": "0..1",
           "kind": "attribute",
           "is_ref": false,
@@ -976,7 +976,7 @@
       ],
       "attributes": {
         "longName1": {
-          "type": "SingleLanguageLong",
+          "type": "SingleLanguageLongName",
           "multiplicity": "0..1",
           "kind": "attribute",
           "is_ref": false,

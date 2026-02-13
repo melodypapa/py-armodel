@@ -63,15 +63,15 @@ class EmphasisText(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This allows to recommend a color of the emphasis.
         # It is on 6 digits RGB hex-code.
-        self._color: Optional["String"] = None
+        self._color: Optional[String] = None
 
     @property
-    def color(self) -> Optional["String"]:
+    def color(self) -> Optional[String]:
         """Get color (Pythonic accessor)."""
         return self._color
 
     @color.setter
-    def color(self, value: Optional["String"]) -> None:
+    def color(self, value: Optional[String]) -> None:
         """
         Set color with validation.
 
@@ -222,7 +222,7 @@ class EmphasisText(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getColor(self) -> "String":
+    def getColor(self) -> String:
         """
         AUTOSAR-compliant getter for color.
 
@@ -234,7 +234,7 @@ class EmphasisText(ARObject):
         """
         return self.color  # Delegates to property
 
-    def setColor(self, value: "String") -> EmphasisText:
+    def setColor(self, value: String) -> EmphasisText:
         """
         AUTOSAR-compliant setter for color with method chaining.
 
@@ -392,7 +392,7 @@ class EmphasisText(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_color(self, value: Optional["String"]) -> EmphasisText:
+    def with_color(self, value: Optional[String]) -> EmphasisText:
         """
         Set color and return self for chaining.
 
@@ -688,15 +688,15 @@ class Std(SingleLanguageReferrable):
                 f"date must be DateTime or None, got {type(value).__name__}"
             )
         self._date = value
-        self._position: Optional["String"] = None
+        self._position: Optional[String] = None
 
     @property
-    def position(self) -> Optional["String"]:
+    def position(self) -> Optional[String]:
         """Get position (Pythonic accessor)."""
         return self._position
 
     @position.setter
-    def position(self, value: Optional["String"]) -> None:
+    def position(self, value: Optional[String]) -> None:
         """
         Set position with validation.
 
@@ -716,15 +716,15 @@ class Std(SingleLanguageReferrable):
             )
         self._position = value
         # Kept as.
-        self._state: Optional["String"] = None
+        self._state: Optional[String] = None
 
     @property
-    def state(self) -> Optional["String"]:
+    def state(self) -> Optional[String]:
         """Get state (Pythonic accessor)."""
         return self._state
 
     @state.setter
-    def state(self, value: Optional["String"]) -> None:
+    def state(self, value: Optional[String]) -> None:
         """
         Set state with validation.
 
@@ -743,15 +743,15 @@ class Std(SingleLanguageReferrable):
                 f"state must be String or str or None, got {type(value).__name__}"
             )
         self._state = value
-        self._subtitle: Optional["String"] = None
+        self._subtitle: Optional[String] = None
 
     @property
-    def subtitle(self) -> Optional["String"]:
+    def subtitle(self) -> Optional[String]:
         """Get subtitle (Pythonic accessor)."""
         return self._subtitle
 
     @subtitle.setter
-    def subtitle(self, value: Optional["String"]) -> None:
+    def subtitle(self, value: Optional[String]) -> None:
         """
         Set subtitle with validation.
 
@@ -828,7 +828,7 @@ class Std(SingleLanguageReferrable):
         self.date = value  # Delegates to property setter
         return self
 
-    def getPosition(self) -> "String":
+    def getPosition(self) -> String:
         """
         AUTOSAR-compliant getter for position.
 
@@ -840,7 +840,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.position  # Delegates to property
 
-    def setPosition(self, value: "String") -> Std:
+    def setPosition(self, value: String) -> Std:
         """
         AUTOSAR-compliant setter for position with method chaining.
 
@@ -856,7 +856,7 @@ class Std(SingleLanguageReferrable):
         self.position = value  # Delegates to property setter
         return self
 
-    def getState(self) -> "String":
+    def getState(self) -> String:
         """
         AUTOSAR-compliant getter for state.
 
@@ -868,7 +868,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.state  # Delegates to property
 
-    def setState(self, value: "String") -> Std:
+    def setState(self, value: String) -> Std:
         """
         AUTOSAR-compliant setter for state with method chaining.
 
@@ -884,7 +884,7 @@ class Std(SingleLanguageReferrable):
         self.state = value  # Delegates to property setter
         return self
 
-    def getSubtitle(self) -> "String":
+    def getSubtitle(self) -> String:
         """
         AUTOSAR-compliant getter for subtitle.
 
@@ -896,7 +896,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.subtitle  # Delegates to property
 
-    def setSubtitle(self, value: "String") -> Std:
+    def setSubtitle(self, value: String) -> Std:
         """
         AUTOSAR-compliant setter for subtitle with method chaining.
 
@@ -958,7 +958,7 @@ class Std(SingleLanguageReferrable):
         self.date = value  # Use property setter (gets validation)
         return self
 
-    def with_position(self, value: Optional["String"]) -> Std:
+    def with_position(self, value: Optional[String]) -> Std:
         """
         Set position and return self for chaining.
 
@@ -974,7 +974,7 @@ class Std(SingleLanguageReferrable):
         self.position = value  # Use property setter (gets validation)
         return self
 
-    def with_state(self, value: Optional["String"]) -> Std:
+    def with_state(self, value: Optional[String]) -> Std:
         """
         Set state and return self for chaining.
 
@@ -990,7 +990,7 @@ class Std(SingleLanguageReferrable):
         self.state = value  # Use property setter (gets validation)
         return self
 
-    def with_subtitle(self, value: Optional["String"]) -> Std:
+    def with_subtitle(self, value: Optional[String]) -> Std:
         """
         Set subtitle and return self for chaining.
 
@@ -1041,15 +1041,15 @@ class Tt(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the term itself.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._term: "String" = None
+        self._term: String = None
 
     @property
-    def term(self) -> "String":
+    def term(self) -> String:
         """Get term (Pythonic accessor)."""
         return self._term
 
     @term.setter
-    def term(self, value: "String") -> None:
+    def term(self, value: String) -> None:
         """
         Set term with validation.
 
@@ -1068,15 +1068,15 @@ class Tt(ARObject):
         # This allows to LaTeX commands such as \sep{}.
         # An to render "MyClass" as "My\sep{}Class".
         # the value of the attribute "term".
-        self._texRender: Optional["String"] = None
+        self._texRender: Optional[String] = None
 
     @property
-    def tex_render(self) -> Optional["String"]:
+    def tex_render(self) -> Optional[String]:
         """Get texRender (Pythonic accessor)."""
         return self._texRender
 
     @tex_render.setter
-    def tex_render(self, value: Optional["String"]) -> None:
+    def tex_render(self, value: Optional[String]) -> None:
         """
         Set texRender with validation.
 
@@ -1123,7 +1123,7 @@ class Tt(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTerm(self) -> "String":
+    def getTerm(self) -> String:
         """
         AUTOSAR-compliant getter for term.
 
@@ -1135,7 +1135,7 @@ class Tt(ARObject):
         """
         return self.term  # Delegates to property
 
-    def setTerm(self, value: "String") -> Tt:
+    def setTerm(self, value: String) -> Tt:
         """
         AUTOSAR-compliant setter for term with method chaining.
 
@@ -1151,7 +1151,7 @@ class Tt(ARObject):
         self.term = value  # Delegates to property setter
         return self
 
-    def getTexRender(self) -> "String":
+    def getTexRender(self) -> String:
         """
         AUTOSAR-compliant getter for texRender.
 
@@ -1163,7 +1163,7 @@ class Tt(ARObject):
         """
         return self.tex_render  # Delegates to property
 
-    def setTexRender(self, value: "String") -> Tt:
+    def setTexRender(self, value: String) -> Tt:
         """
         AUTOSAR-compliant setter for texRender with method chaining.
 
@@ -1209,7 +1209,7 @@ class Tt(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_term(self, value: "String") -> Tt:
+    def with_term(self, value: String) -> Tt:
         """
         Set term and return self for chaining.
 
@@ -1225,7 +1225,7 @@ class Tt(ARObject):
         self.term = value  # Use property setter (gets validation)
         return self
 
-    def with_tex_render(self, value: Optional["String"]) -> Tt:
+    def with_tex_render(self, value: Optional[String]) -> Tt:
         """
         Set texRender and return self for chaining.
 
@@ -1303,15 +1303,15 @@ class Xdoc(SingleLanguageReferrable):
             )
         self._date = value
         # Kept as a string.
-        self._number: Optional["String"] = None
+        self._number: Optional[String] = None
 
     @property
-    def number(self) -> Optional["String"]:
+    def number(self) -> Optional[String]:
         """Get number (Pythonic accessor)."""
         return self._number
 
     @number.setter
-    def number(self, value: Optional["String"]) -> None:
+    def number(self, value: Optional[String]) -> None:
         """
         Set number with validation.
 
@@ -1330,15 +1330,15 @@ class Xdoc(SingleLanguageReferrable):
                 f"number must be String or str or None, got {type(value).__name__}"
             )
         self._number = value
-        self._position: Optional["String"] = None
+        self._position: Optional[String] = None
 
     @property
-    def position(self) -> Optional["String"]:
+    def position(self) -> Optional[String]:
         """Get position (Pythonic accessor)."""
         return self._position
 
     @position.setter
-    def position(self, value: Optional["String"]) -> None:
+    def position(self, value: Optional[String]) -> None:
         """
         Set position with validation.
 
@@ -1358,15 +1358,15 @@ class Xdoc(SingleLanguageReferrable):
             )
         self._position = value
         # Kept as a string.
-        self._publisher: Optional["String"] = None
+        self._publisher: Optional[String] = None
 
     @property
-    def publisher(self) -> Optional["String"]:
+    def publisher(self) -> Optional[String]:
         """Get publisher (Pythonic accessor)."""
         return self._publisher
 
     @publisher.setter
-    def publisher(self, value: Optional["String"]) -> None:
+    def publisher(self, value: Optional[String]) -> None:
         """
         Set publisher with validation.
 
@@ -1385,15 +1385,15 @@ class Xdoc(SingleLanguageReferrable):
                 f"publisher must be String or str or None, got {type(value).__name__}"
             )
         self._publisher = value
-        self._state: Optional["String"] = None
+        self._state: Optional[String] = None
 
     @property
-    def state(self) -> Optional["String"]:
+    def state(self) -> Optional[String]:
         """Get state (Pythonic accessor)."""
         return self._state
 
     @state.setter
-    def state(self, value: Optional["String"]) -> None:
+    def state(self, value: Optional[String]) -> None:
         """
         Set state with validation.
 
@@ -1470,7 +1470,7 @@ class Xdoc(SingleLanguageReferrable):
         self.date = value  # Delegates to property setter
         return self
 
-    def getNumber(self) -> "String":
+    def getNumber(self) -> String:
         """
         AUTOSAR-compliant getter for number.
 
@@ -1482,7 +1482,7 @@ class Xdoc(SingleLanguageReferrable):
         """
         return self.number  # Delegates to property
 
-    def setNumber(self, value: "String") -> Xdoc:
+    def setNumber(self, value: String) -> Xdoc:
         """
         AUTOSAR-compliant setter for number with method chaining.
 
@@ -1498,7 +1498,7 @@ class Xdoc(SingleLanguageReferrable):
         self.number = value  # Delegates to property setter
         return self
 
-    def getPosition(self) -> "String":
+    def getPosition(self) -> String:
         """
         AUTOSAR-compliant getter for position.
 
@@ -1510,7 +1510,7 @@ class Xdoc(SingleLanguageReferrable):
         """
         return self.position  # Delegates to property
 
-    def setPosition(self, value: "String") -> Xdoc:
+    def setPosition(self, value: String) -> Xdoc:
         """
         AUTOSAR-compliant setter for position with method chaining.
 
@@ -1526,7 +1526,7 @@ class Xdoc(SingleLanguageReferrable):
         self.position = value  # Delegates to property setter
         return self
 
-    def getPublisher(self) -> "String":
+    def getPublisher(self) -> String:
         """
         AUTOSAR-compliant getter for publisher.
 
@@ -1538,7 +1538,7 @@ class Xdoc(SingleLanguageReferrable):
         """
         return self.publisher  # Delegates to property
 
-    def setPublisher(self, value: "String") -> Xdoc:
+    def setPublisher(self, value: String) -> Xdoc:
         """
         AUTOSAR-compliant setter for publisher with method chaining.
 
@@ -1554,7 +1554,7 @@ class Xdoc(SingleLanguageReferrable):
         self.publisher = value  # Delegates to property setter
         return self
 
-    def getState(self) -> "String":
+    def getState(self) -> String:
         """
         AUTOSAR-compliant getter for state.
 
@@ -1566,7 +1566,7 @@ class Xdoc(SingleLanguageReferrable):
         """
         return self.state  # Delegates to property
 
-    def setState(self, value: "String") -> Xdoc:
+    def setState(self, value: String) -> Xdoc:
         """
         AUTOSAR-compliant setter for state with method chaining.
 
@@ -1628,7 +1628,7 @@ class Xdoc(SingleLanguageReferrable):
         self.date = value  # Use property setter (gets validation)
         return self
 
-    def with_number(self, value: Optional["String"]) -> Xdoc:
+    def with_number(self, value: Optional[String]) -> Xdoc:
         """
         Set number and return self for chaining.
 
@@ -1644,7 +1644,7 @@ class Xdoc(SingleLanguageReferrable):
         self.number = value  # Use property setter (gets validation)
         return self
 
-    def with_position(self, value: Optional["String"]) -> Xdoc:
+    def with_position(self, value: Optional[String]) -> Xdoc:
         """
         Set position and return self for chaining.
 
@@ -1660,7 +1660,7 @@ class Xdoc(SingleLanguageReferrable):
         self.position = value  # Use property setter (gets validation)
         return self
 
-    def with_publisher(self, value: Optional["String"]) -> Xdoc:
+    def with_publisher(self, value: Optional[String]) -> Xdoc:
         """
         Set publisher and return self for chaining.
 
@@ -1676,7 +1676,7 @@ class Xdoc(SingleLanguageReferrable):
         self.publisher = value  # Use property setter (gets validation)
         return self
 
-    def with_state(self, value: Optional["String"]) -> Xdoc:
+    def with_state(self, value: Optional[String]) -> Xdoc:
         """
         Set state and return self for chaining.
 
@@ -1726,15 +1726,15 @@ class Xfile(SingleLanguageReferrable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This element describes the tool which was used to corresponding Xfile.
         # Kept as a string since syntax can be provided to denote a tool.
-        self._tool: Optional["String"] = None
+        self._tool: Optional[String] = None
 
     @property
-    def tool(self) -> Optional["String"]:
+    def tool(self) -> Optional[String]:
         """Get tool (Pythonic accessor)."""
         return self._tool
 
     @tool.setter
-    def tool(self, value: Optional["String"]) -> None:
+    def tool(self, value: Optional[String]) -> None:
         """
         Set tool with validation.
 
@@ -1755,15 +1755,15 @@ class Xfile(SingleLanguageReferrable):
         self._tool = value
                 # xfile.
         # Kept as a string, specific syntax can be specified.
-        self._toolVersion: Optional["String"] = None
+        self._toolVersion: Optional[String] = None
 
     @property
-    def tool_version(self) -> Optional["String"]:
+    def tool_version(self) -> Optional[String]:
         """Get toolVersion (Pythonic accessor)."""
         return self._toolVersion
 
     @tool_version.setter
-    def tool_version(self, value: Optional["String"]) -> None:
+    def tool_version(self, value: Optional[String]) -> None:
         """
         Set toolVersion with validation.
 
@@ -1812,7 +1812,7 @@ class Xfile(SingleLanguageReferrable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTool(self) -> "String":
+    def getTool(self) -> String:
         """
         AUTOSAR-compliant getter for tool.
 
@@ -1824,7 +1824,7 @@ class Xfile(SingleLanguageReferrable):
         """
         return self.tool  # Delegates to property
 
-    def setTool(self, value: "String") -> Xfile:
+    def setTool(self, value: String) -> Xfile:
         """
         AUTOSAR-compliant setter for tool with method chaining.
 
@@ -1840,7 +1840,7 @@ class Xfile(SingleLanguageReferrable):
         self.tool = value  # Delegates to property setter
         return self
 
-    def getToolVersion(self) -> "String":
+    def getToolVersion(self) -> String:
         """
         AUTOSAR-compliant getter for toolVersion.
 
@@ -1852,7 +1852,7 @@ class Xfile(SingleLanguageReferrable):
         """
         return self.tool_version  # Delegates to property
 
-    def setToolVersion(self, value: "String") -> Xfile:
+    def setToolVersion(self, value: String) -> Xfile:
         """
         AUTOSAR-compliant setter for toolVersion with method chaining.
 
@@ -1898,7 +1898,7 @@ class Xfile(SingleLanguageReferrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tool(self, value: Optional["String"]) -> Xfile:
+    def with_tool(self, value: Optional[String]) -> Xfile:
         """
         Set tool and return self for chaining.
 
@@ -1914,7 +1914,7 @@ class Xfile(SingleLanguageReferrable):
         self.tool = value  # Use property setter (gets validation)
         return self
 
-    def with_tool_version(self, value: Optional["String"]) -> Xfile:
+    def with_tool_version(self, value: Optional[String]) -> Xfile:
         """
         Set toolVersion and return self for chaining.
 
@@ -1992,15 +1992,15 @@ class Xref(ARObject):
             )
         self._label1 = value
         # This establishes the reference in Autosar style.
-        self._referrable: Optional["RefType"] = None
+        self._referrable: Optional[RefType] = None
 
     @property
-    def referrable(self) -> Optional["RefType"]:
+    def referrable(self) -> Optional[RefType]:
         """Get referrable (Pythonic accessor)."""
         return self._referrable
 
     @referrable.setter
-    def referrable(self, value: Optional["RefType"]) -> None:
+    def referrable(self, value: Optional[RefType]) -> None:
         """
         Set referrable with validation.
 
@@ -2159,7 +2159,7 @@ class Xref(ARObject):
         self.label1 = value  # Delegates to property setter
         return self
 
-    def getReferrable(self) -> "RefType":
+    def getReferrable(self) -> RefType:
         """
         AUTOSAR-compliant getter for referrable.
 
@@ -2171,7 +2171,7 @@ class Xref(ARObject):
         """
         return self.referrable  # Delegates to property
 
-    def setReferrable(self, value: "RefType") -> Xref:
+    def setReferrable(self, value: RefType) -> Xref:
         """
         AUTOSAR-compliant setter for referrable with method chaining.
 

@@ -76,41 +76,41 @@ class BswModuleDescription(ARElement):
         # Indicates an entry which is required by this module.
         # outgoingCallback / requiredEntry.
         # atpVariation.
-        self._expectedEntry: List["BswModuleEntry"] = []
+        self._expectedEntry: List[BswModuleEntry] = []
 
     @property
-    def expected_entry(self) -> List["BswModuleEntry"]:
+    def expected_entry(self) -> List[BswModuleEntry]:
         """Get expectedEntry (Pythonic accessor)."""
         return self._expectedEntry
         # Specifies an entry provided by this module which can be by other modules.
         # This includes "main" functions, and callbacks.
         # Replacement of expectedCallback.
         # atpVariation.
-        self._implemented: List["BswModuleEntry"] = []
+        self._implemented: List[BswModuleEntry] = []
 
     @property
-    def implemented(self) -> List["BswModuleEntry"]:
+    def implemented(self) -> List[BswModuleEntry]:
         """Get implemented (Pythonic accessor)."""
         return self._implemented
         # The various BswInternalBehaviors associated with a Bsw be distributed over
         # several Therefore the aggregation is <<atp.
-        self._internalBehavior: List["BswInternalBehavior"] = []
+        self._internalBehavior: List[BswInternalBehavior] = []
 
     @property
-    def internal_behavior(self) -> List["BswInternalBehavior"]:
+    def internal_behavior(self) -> List[BswInternalBehavior]:
         """Get internalBehavior (Pythonic accessor)."""
         return self._internalBehavior
         # Refers to the BSW Module Identifier defined by the For non-standardized
         # modules, a can be optionally chosen.
-        self._moduleId: Optional["PositiveInteger"] = None
+        self._moduleId: Optional[PositiveInteger] = None
 
     @property
-    def module_id(self) -> Optional["PositiveInteger"]:
+    def module_id(self) -> Optional[PositiveInteger]:
         """Get moduleId (Pythonic accessor)."""
         return self._moduleId
 
     @module_id.setter
-    def module_id(self, value: Optional["PositiveInteger"]) -> None:
+    def module_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set moduleId with validation.
 
@@ -146,10 +146,10 @@ class BswModuleDescription(ARElement):
                 # or the same the configuration of the BSW Scheduler.
         # atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate
                 # Module Description Template R23-11.
-        self._providedData: List["RefType"] = []
+        self._providedData: List[RefType] = []
 
     @property
-    def provided_data(self) -> List["RefType"]:
+    def provided_data(self) -> List[RefType]:
         """Get providedData (Pythonic accessor)."""
         return self._providedData
         # A set of modes which is owned and provided by this module or cluster.
@@ -157,10 +157,10 @@ class BswModuleDescription(ARElement):
                 # BswScheduler.
         # It can also be modes provided via ports by an EcuAbstraction
                 # ComplexDeviceDriverSw atpVariation.
-        self._providedMode: List["RefType"] = []
+        self._providedMode: List[RefType] = []
 
     @property
-    def provided_mode(self) -> List["RefType"]:
+    def provided_mode(self) -> List[RefType]:
         """Get providedMode (Pythonic accessor)."""
         return self._providedMode
         # A Trigger released by this module or cluster.
@@ -168,10 +168,10 @@ class BswModuleDescription(ARElement):
                 # BswScheduler.
         # It can synchronized with Triggers provided via ports by
                 # ServiceSwComponentType, Ecu ComplexDeviceDriver atpVariation.
-        self._releasedTrigger: List["RefType"] = []
+        self._releasedTrigger: List[RefType] = []
 
     @property
-    def released_trigger(self) -> List["RefType"]:
+    def released_trigger(self) -> List[RefType]:
         """Get releasedTrigger (Pythonic accessor)."""
         return self._releasedTrigger
         # Specifies that this module requires a client server entry which can be
@@ -190,29 +190,29 @@ class BswModuleDescription(ARElement):
                 # another or the same the configuration of the BswScheduler.
         # atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate
                 # Module Description Template R23-11.
-        self._requiredData: List["RefType"] = []
+        self._requiredData: List[RefType] = []
 
     @property
-    def required_data(self) -> List["RefType"]:
+    def required_data(self) -> List[RefType]:
         """Get requiredData (Pythonic accessor)."""
         return self._requiredData
         # Specifies that this module or cluster depends on a certain mode group.
         # The requiredModeGroup is local to this will be connected to the
                 # providedModeGroup module or cluster via the configuration of the
                 # atpVariation.
-        self._requiredMode: List["RefType"] = []
+        self._requiredMode: List[RefType] = []
 
     @property
-    def required_mode(self) -> List["RefType"]:
+    def required_mode(self) -> List[RefType]:
         """Get requiredMode (Pythonic accessor)."""
         return self._requiredMode
         # Specifies that this module or cluster reacts upon an requiredTrigger is
         # declared locally to and will be connected to the providedTrigger module or
         # cluster via the configuration of the atpVariation.
-        self._requiredTrigger: List["RefType"] = []
+        self._requiredTrigger: List[RefType] = []
 
     @property
-    def required_trigger(self) -> List["RefType"]:
+    def required_trigger(self) -> List[RefType]:
         """Get requiredTrigger (Pythonic accessor)."""
         return self._requiredTrigger
 
@@ -422,7 +422,7 @@ class BswModuleDescription(ARElement):
         self.bsw_module = value  # Delegates to property setter
         return self
 
-    def getExpectedEntry(self) -> List["BswModuleEntry"]:
+    def getExpectedEntry(self) -> List[BswModuleEntry]:
         """
         AUTOSAR-compliant getter for expectedEntry.
 
@@ -434,7 +434,7 @@ class BswModuleDescription(ARElement):
         """
         return self.expected_entry  # Delegates to property
 
-    def getImplemented(self) -> List["BswModuleEntry"]:
+    def getImplemented(self) -> List[BswModuleEntry]:
         """
         AUTOSAR-compliant getter for implemented.
 
@@ -446,7 +446,7 @@ class BswModuleDescription(ARElement):
         """
         return self.implemented  # Delegates to property
 
-    def getInternalBehavior(self) -> List["BswInternalBehavior"]:
+    def getInternalBehavior(self) -> List[BswInternalBehavior]:
         """
         AUTOSAR-compliant getter for internalBehavior.
 
@@ -458,7 +458,7 @@ class BswModuleDescription(ARElement):
         """
         return self.internal_behavior  # Delegates to property
 
-    def getModuleId(self) -> "PositiveInteger":
+    def getModuleId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for moduleId.
 
@@ -470,7 +470,7 @@ class BswModuleDescription(ARElement):
         """
         return self.module_id  # Delegates to property
 
-    def setModuleId(self, value: "PositiveInteger") -> BswModuleDescription:
+    def setModuleId(self, value: PositiveInteger) -> BswModuleDescription:
         """
         AUTOSAR-compliant setter for moduleId with method chaining.
 
@@ -498,7 +498,7 @@ class BswModuleDescription(ARElement):
         """
         return self.provided_client  # Delegates to property
 
-    def getProvidedData(self) -> List["RefType"]:
+    def getProvidedData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for providedData.
 
@@ -510,7 +510,7 @@ class BswModuleDescription(ARElement):
         """
         return self.provided_data  # Delegates to property
 
-    def getProvidedMode(self) -> List["RefType"]:
+    def getProvidedMode(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for providedMode.
 
@@ -522,7 +522,7 @@ class BswModuleDescription(ARElement):
         """
         return self.provided_mode  # Delegates to property
 
-    def getReleasedTrigger(self) -> List["RefType"]:
+    def getReleasedTrigger(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for releasedTrigger.
 
@@ -546,7 +546,7 @@ class BswModuleDescription(ARElement):
         """
         return self.required_client  # Delegates to property
 
-    def getRequiredData(self) -> List["RefType"]:
+    def getRequiredData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for requiredData.
 
@@ -558,7 +558,7 @@ class BswModuleDescription(ARElement):
         """
         return self.required_data  # Delegates to property
 
-    def getRequiredMode(self) -> List["RefType"]:
+    def getRequiredMode(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for requiredMode.
 
@@ -570,7 +570,7 @@ class BswModuleDescription(ARElement):
         """
         return self.required_mode  # Delegates to property
 
-    def getRequiredTrigger(self) -> List["RefType"]:
+    def getRequiredTrigger(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for requiredTrigger.
 
@@ -600,7 +600,7 @@ class BswModuleDescription(ARElement):
         self.bsw_module = value  # Use property setter (gets validation)
         return self
 
-    def with_module_id(self, value: Optional["PositiveInteger"]) -> BswModuleDescription:
+    def with_module_id(self, value: Optional[PositiveInteger]) -> BswModuleDescription:
         """
         Set moduleId and return self for chaining.
 

@@ -41,15 +41,15 @@ class DiagnosticTestResult(DiagnosticCommonElement):
         # This attribute represents the diagnostic event that is the diagnostic test
                 # result.
         # atpVariation.
-        self._diagnosticEvent: Optional["DiagnosticEvent"] = None
+        self._diagnosticEvent: Optional[DiagnosticEvent] = None
 
     @property
-    def diagnostic_event(self) -> Optional["DiagnosticEvent"]:
+    def diagnostic_event(self) -> Optional[DiagnosticEvent]:
         """Get diagnosticEvent (Pythonic accessor)."""
         return self._diagnosticEvent
 
     @diagnostic_event.setter
-    def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
+    def diagnostic_event(self, value: Optional[DiagnosticEvent]) -> None:
         """
         Set diagnosticEvent with validation.
 
@@ -152,7 +152,7 @@ class DiagnosticTestResult(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDiagnosticEvent(self) -> "DiagnosticEvent":
+    def getDiagnosticEvent(self) -> DiagnosticEvent:
         """
         AUTOSAR-compliant getter for diagnosticEvent.
 
@@ -164,7 +164,7 @@ class DiagnosticTestResult(DiagnosticCommonElement):
         """
         return self.diagnostic_event  # Delegates to property
 
-    def setDiagnosticEvent(self, value: "DiagnosticEvent") -> DiagnosticTestResult:
+    def setDiagnosticEvent(self, value: DiagnosticEvent) -> DiagnosticTestResult:
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
 
@@ -266,7 +266,7 @@ class DiagnosticTestResult(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticTestResult:
+    def with_diagnostic_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticTestResult:
         """
         Set diagnosticEvent and return self for chaining.
 
@@ -348,15 +348,15 @@ class DiagnosticTestIdentifier(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the numerical id associated with the identifier.
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -375,15 +375,15 @@ class DiagnosticTestIdentifier(ARObject):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        self._uasId: Optional["PositiveInteger"] = None
+        self._uasId: Optional[PositiveInteger] = None
 
     @property
-    def uas_id(self) -> Optional["PositiveInteger"]:
+    def uas_id(self) -> Optional[PositiveInteger]:
         """Get uasId (Pythonic accessor)."""
         return self._uasId
 
     @uas_id.setter
-    def uas_id(self, value: Optional["PositiveInteger"]) -> None:
+    def uas_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set uasId with validation.
 
@@ -405,7 +405,7 @@ class DiagnosticTestIdentifier(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -417,7 +417,7 @@ class DiagnosticTestIdentifier(ARObject):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticTestIdentifier:
+    def setId(self, value: PositiveInteger) -> DiagnosticTestIdentifier:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -433,7 +433,7 @@ class DiagnosticTestIdentifier(ARObject):
         self.id = value  # Delegates to property setter
         return self
 
-    def getUasId(self) -> "PositiveInteger":
+    def getUasId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for uasId.
 
@@ -445,7 +445,7 @@ class DiagnosticTestIdentifier(ARObject):
         """
         return self.uas_id  # Delegates to property
 
-    def setUasId(self, value: "PositiveInteger") -> DiagnosticTestIdentifier:
+    def setUasId(self, value: PositiveInteger) -> DiagnosticTestIdentifier:
         """
         AUTOSAR-compliant setter for uasId with method chaining.
 
@@ -463,7 +463,7 @@ class DiagnosticTestIdentifier(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticTestIdentifier:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticTestIdentifier:
         """
         Set id and return self for chaining.
 
@@ -479,7 +479,7 @@ class DiagnosticTestIdentifier(ARObject):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_uas_id(self, value: Optional["PositiveInteger"]) -> DiagnosticTestIdentifier:
+    def with_uas_id(self, value: Optional[PositiveInteger]) -> DiagnosticTestIdentifier:
         """
         Set uasId and return self for chaining.
 
@@ -515,15 +515,15 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the numerical measurement Id.
-        self._obdMid: Optional["PositiveInteger"] = None
+        self._obdMid: Optional[PositiveInteger] = None
 
     @property
-    def obd_mid(self) -> Optional["PositiveInteger"]:
+    def obd_mid(self) -> Optional[PositiveInteger]:
         """Get obdMid (Pythonic accessor)."""
         return self._obdMid
 
     @obd_mid.setter
-    def obd_mid(self, value: Optional["PositiveInteger"]) -> None:
+    def obd_mid(self, value: Optional[PositiveInteger]) -> None:
         """
         Set obdMid with validation.
 
@@ -545,7 +545,7 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getObdMid(self) -> "PositiveInteger":
+    def getObdMid(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for obdMid.
 
@@ -557,7 +557,7 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
         """
         return self.obd_mid  # Delegates to property
 
-    def setObdMid(self, value: "PositiveInteger") -> DiagnosticMeasurementIdentifier:
+    def setObdMid(self, value: PositiveInteger) -> DiagnosticMeasurementIdentifier:
         """
         AUTOSAR-compliant setter for obdMid with method chaining.
 
@@ -575,7 +575,7 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_obd_mid(self, value: Optional["PositiveInteger"]) -> DiagnosticMeasurementIdentifier:
+    def with_obd_mid(self, value: Optional[PositiveInteger]) -> DiagnosticMeasurementIdentifier:
         """
         Set obdMid and return self for chaining.
 

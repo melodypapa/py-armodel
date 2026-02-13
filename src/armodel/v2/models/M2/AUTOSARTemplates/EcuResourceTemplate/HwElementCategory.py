@@ -41,15 +41,15 @@ class HwAttributeValue(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Optional annotation that can be added to each Hw.
-        self._annotation: Optional["Annotation"] = None
+        self._annotation: Optional[Annotation] = None
 
     @property
-    def annotation(self) -> Optional["Annotation"]:
+    def annotation(self) -> Optional[Annotation]:
         """Get annotation (Pythonic accessor)."""
         return self._annotation
 
     @annotation.setter
-    def annotation(self, value: Optional["Annotation"]) -> None:
+    def annotation(self, value: Optional[Annotation]) -> None:
         """
         Set annotation with validation.
 
@@ -168,7 +168,7 @@ class HwAttributeValue(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAnnotation(self) -> "Annotation":
+    def getAnnotation(self) -> Annotation:
         """
         AUTOSAR-compliant getter for annotation.
 
@@ -180,7 +180,7 @@ class HwAttributeValue(ARObject):
         """
         return self.annotation  # Delegates to property
 
-    def setAnnotation(self, value: "Annotation") -> HwAttributeValue:
+    def setAnnotation(self, value: Annotation) -> HwAttributeValue:
         """
         AUTOSAR-compliant setter for annotation with method chaining.
 
@@ -282,7 +282,7 @@ class HwAttributeValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_annotation(self, value: Optional["Annotation"]) -> HwAttributeValue:
+    def with_annotation(self, value: Optional[Annotation]) -> HwAttributeValue:
         """
         Set annotation and return self for chaining.
 
@@ -441,15 +441,15 @@ class HwAttributeDef(Identifiable):
         """Get hwAttribute (Pythonic accessor)."""
         return self._hwAttribute
         # This attribute specifies if the defined attribute value is be provided.
-        self._isRequired: Optional["Boolean"] = None
+        self._isRequired: Optional[Boolean] = None
 
     @property
-    def is_required(self) -> Optional["Boolean"]:
+    def is_required(self) -> Optional[Boolean]:
         """Get isRequired (Pythonic accessor)."""
         return self._isRequired
 
     @is_required.setter
-    def is_required(self, value: Optional["Boolean"]) -> None:
+    def is_required(self, value: Optional[Boolean]) -> None:
         """
         Set isRequired with validation.
 
@@ -469,15 +469,15 @@ class HwAttributeDef(Identifiable):
             )
         self._isRequired = value
         # due to the fact that textual attributes.
-        self._unit: Optional["Unit"] = None
+        self._unit: Optional[Unit] = None
 
     @property
-    def unit(self) -> Optional["Unit"]:
+    def unit(self) -> Optional[Unit]:
         """Get unit (Pythonic accessor)."""
         return self._unit
 
     @unit.setter
-    def unit(self, value: Optional["Unit"]) -> None:
+    def unit(self, value: Optional[Unit]) -> None:
         """
         Set unit with validation.
 
@@ -511,7 +511,7 @@ class HwAttributeDef(Identifiable):
         """
         return self.hw_attribute  # Delegates to property
 
-    def getIsRequired(self) -> "Boolean":
+    def getIsRequired(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isRequired.
 
@@ -523,7 +523,7 @@ class HwAttributeDef(Identifiable):
         """
         return self.is_required  # Delegates to property
 
-    def setIsRequired(self, value: "Boolean") -> HwAttributeDef:
+    def setIsRequired(self, value: Boolean) -> HwAttributeDef:
         """
         AUTOSAR-compliant setter for isRequired with method chaining.
 
@@ -539,7 +539,7 @@ class HwAttributeDef(Identifiable):
         self.is_required = value  # Delegates to property setter
         return self
 
-    def getUnit(self) -> "Unit":
+    def getUnit(self) -> Unit:
         """
         AUTOSAR-compliant getter for unit.
 
@@ -551,7 +551,7 @@ class HwAttributeDef(Identifiable):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> HwAttributeDef:
+    def setUnit(self, value: Unit) -> HwAttributeDef:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -569,7 +569,7 @@ class HwAttributeDef(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_required(self, value: Optional["Boolean"]) -> HwAttributeDef:
+    def with_is_required(self, value: Optional[Boolean]) -> HwAttributeDef:
         """
         Set isRequired and return self for chaining.
 
@@ -585,7 +585,7 @@ class HwAttributeDef(Identifiable):
         self.is_required = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> HwAttributeDef:
+    def with_unit(self, value: Optional[Unit]) -> HwAttributeDef:
         """
         Set unit and return self for chaining.
 

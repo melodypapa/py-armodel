@@ -6,13 +6,13 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-75.2%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-73.8%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 25598 | 34059 | **75.16%** |
+| **Lines** | 26386 | 35762 | **73.78%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
@@ -23,11 +23,12 @@
 | **data_models** | 2 | 100.0% |
 | **lib** | 4 | 100.0% |
 | **transformer** | 3 | 100.0% |
-| **models** | 232 | 92.5% |
-| **v2** | 44 | 57.3% |
+| **models** | 230 | 92.5% |
+| **utils** | 4 | 56.9% |
 | **parser** | 6 | 54.6% |
+| **v2** | 32 | 53.5% |
 | **writer** | 3 | 50.8% |
-| **cli** | 11 | 6.0% |
+| **cli** | 10 | 6.8% |
 | **report** | 3 | 0.0% |
 
 ### Files Needing Attention
@@ -44,7 +45,6 @@
 | `cli/memory_section_cli` | 0.0% | 0.0% |
 | `cli/swc_list_cli` | 0.0% | 0.0% |
 | `cli/system_signal_cli` | 0.0% | 0.0% |
-| `cli/uuid_checker_cli` | 0.0% | 0.0% |
 | `CommonStructure/McGroups` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/ImplementationElementInParameterInstanceRef` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McDataAccessDetails` | 0.0% | 0.0% |
@@ -56,6 +56,18 @@
 | `MeasurementCalibrationSupport/RoleBasedMcDataAssignment` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/__init__` | 0.0% | 0.0% |
 | `RptSupport/McFunctionDataRefSet` | 0.0% | 0.0% |
+| `RptSupport/RptAccessEnum` | 0.0% | 0.0% |
+
+## Integration Test Coverage
+
+![coverage](https://img.shields.io/badge/integration-74.1%25-yellow)
+
+### Summary
+
+| Metric | Covered | Valid | Percentage |
+|--------|---------|-------|------------|
+| **Lines** | 26515 | 35762 | **74.14%** |
+| **Branches** | 0 | 0 | **0.00%** |
 
 ---
 

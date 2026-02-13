@@ -25,7 +25,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     IdentCaption,
 )
-
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (    ArraySizeSemantics,    DiagnosticAccess,    DiagnosticRequest,    DiagnosticSupportInfo,)from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwDataDefProps import (    SwDataDefProps,)
 
 class DiagnosticCommonElement(ARElement, ABC):
     """
@@ -197,15 +197,15 @@ class DiagnosticParameterElement(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute indicates that the enclosing Diagnostic an array and
         # configures size in terms of the number of elements of the.
-        self._arraySize: Optional["PositiveInteger"] = None
+        self._arraySize: Optional[PositiveInteger] = None
 
     @property
-    def array_size(self) -> Optional["PositiveInteger"]:
+    def array_size(self) -> Optional[PositiveInteger]:
         """Get arraySize (Pythonic accessor)."""
         return self._arraySize
 
     @array_size.setter
-    def array_size(self, value: Optional["PositiveInteger"]) -> None:
+    def array_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set arraySize with validation.
 
@@ -233,7 +233,7 @@ class DiagnosticParameterElement(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArraySize(self) -> "PositiveInteger":
+    def getArraySize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for arraySize.
 
@@ -245,7 +245,7 @@ class DiagnosticParameterElement(Identifiable):
         """
         return self.array_size  # Delegates to property
 
-    def setArraySize(self, value: "PositiveInteger") -> DiagnosticParameterElement:
+    def setArraySize(self, value: PositiveInteger) -> DiagnosticParameterElement:
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
 
@@ -275,7 +275,7 @@ class DiagnosticParameterElement(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_array_size(self, value: Optional["PositiveInteger"]) -> DiagnosticParameterElement:
+    def with_array_size(self, value: Optional[PositiveInteger]) -> DiagnosticParameterElement:
         """
         Set arraySize and return self for chaining.
 
@@ -355,15 +355,15 @@ class DiagnosticAbstractParameter(ARObject, ABC):
         # This represents the bitOffset of the DiagnosticParameter.
         # of the bitOffset shall always be interpreted as the start of the enclosing
                 # DiagnosticData or Diagnostic.
-        self._bitOffset: Optional["PositiveInteger"] = None
+        self._bitOffset: Optional[PositiveInteger] = None
 
     @property
-    def bit_offset(self) -> Optional["PositiveInteger"]:
+    def bit_offset(self) -> Optional[PositiveInteger]:
         """Get bitOffset (Pythonic accessor)."""
         return self._bitOffset
 
     @bit_offset.setter
-    def bit_offset(self, value: Optional["PositiveInteger"]) -> None:
+    def bit_offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set bitOffset with validation.
 
@@ -412,15 +412,15 @@ class DiagnosticAbstractParameter(ARObject, ABC):
                 # relevant if there is a gap between parameter and the following diagnostic the
                 # tail of the telegram).
         # The unit is bit and shall be multiples of 8.
-        self._parameterSize: Optional["PositiveInteger"] = None
+        self._parameterSize: Optional[PositiveInteger] = None
 
     @property
-    def parameter_size(self) -> Optional["PositiveInteger"]:
+    def parameter_size(self) -> Optional[PositiveInteger]:
         """Get parameterSize (Pythonic accessor)."""
         return self._parameterSize
 
     @parameter_size.setter
-    def parameter_size(self, value: Optional["PositiveInteger"]) -> None:
+    def parameter_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set parameterSize with validation.
 
@@ -442,7 +442,7 @@ class DiagnosticAbstractParameter(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBitOffset(self) -> "PositiveInteger":
+    def getBitOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for bitOffset.
 
@@ -454,7 +454,7 @@ class DiagnosticAbstractParameter(ARObject, ABC):
         """
         return self.bit_offset  # Delegates to property
 
-    def setBitOffset(self, value: "PositiveInteger") -> DiagnosticAbstractParameter:
+    def setBitOffset(self, value: PositiveInteger) -> DiagnosticAbstractParameter:
         """
         AUTOSAR-compliant setter for bitOffset with method chaining.
 
@@ -498,7 +498,7 @@ class DiagnosticAbstractParameter(ARObject, ABC):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getParameterSize(self) -> "PositiveInteger":
+    def getParameterSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for parameterSize.
 
@@ -510,7 +510,7 @@ class DiagnosticAbstractParameter(ARObject, ABC):
         """
         return self.parameter_size  # Delegates to property
 
-    def setParameterSize(self, value: "PositiveInteger") -> DiagnosticAbstractParameter:
+    def setParameterSize(self, value: PositiveInteger) -> DiagnosticAbstractParameter:
         """
         AUTOSAR-compliant setter for parameterSize with method chaining.
 
@@ -528,7 +528,7 @@ class DiagnosticAbstractParameter(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bit_offset(self, value: Optional["PositiveInteger"]) -> DiagnosticAbstractParameter:
+    def with_bit_offset(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractParameter:
         """
         Set bitOffset and return self for chaining.
 
@@ -560,7 +560,7 @@ class DiagnosticAbstractParameter(ARObject, ABC):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_parameter_size(self, value: Optional["PositiveInteger"]) -> DiagnosticAbstractParameter:
+    def with_parameter_size(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractParameter:
         """
         Set parameterSize and return self for chaining.
 
@@ -596,15 +596,15 @@ class DiagnosticDataElement(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute controls the meaning of the value of the array size.
-        self._arraySize: Optional["ArraySizeSemantics"] = None
+        self._arraySize: Optional[ArraySizeSemantics] = None
 
     @property
-    def array_size(self) -> Optional["ArraySizeSemantics"]:
+    def array_size(self) -> Optional[ArraySizeSemantics]:
         """Get arraySize (Pythonic accessor)."""
         return self._arraySize
 
     @array_size.setter
-    def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
+    def array_size(self, value: Optional[ArraySizeSemantics]) -> None:
         """
         Set arraySize with validation.
 
@@ -625,15 +625,15 @@ class DiagnosticDataElement(Identifiable):
         self._arraySize = value
         # The attribute determines the size of the terms of how many elements the array
                 # can take.
-        self._maxNumberOf: Optional["PositiveInteger"] = None
+        self._maxNumberOf: Optional[PositiveInteger] = None
 
     @property
-    def max_number_of(self) -> Optional["PositiveInteger"]:
+    def max_number_of(self) -> Optional[PositiveInteger]:
         """Get maxNumberOf (Pythonic accessor)."""
         return self._maxNumberOf
 
     @max_number_of.setter
-    def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
+    def max_number_of(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNumberOf with validation.
 
@@ -653,15 +653,15 @@ class DiagnosticDataElement(Identifiable):
             )
         self._maxNumberOf = value
         # DiagnosticReadScalingDataBy.
-        self._scalingInfoSize: Optional["PositiveInteger"] = None
+        self._scalingInfoSize: Optional[PositiveInteger] = None
 
     @property
-    def scaling_info_size(self) -> Optional["PositiveInteger"]:
+    def scaling_info_size(self) -> Optional[PositiveInteger]:
         """Get scalingInfoSize (Pythonic accessor)."""
         return self._scalingInfoSize
 
     @scaling_info_size.setter
-    def scaling_info_size(self, value: Optional["PositiveInteger"]) -> None:
+    def scaling_info_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set scalingInfoSize with validation.
 
@@ -683,15 +683,15 @@ class DiagnosticDataElement(Identifiable):
                 # the definition of e.
         # g.
         # computation data constraints.
-        self._swDataDef: Optional["SwDataDefProps"] = None
+        self._swDataDef: Optional[SwDataDefProps] = None
 
     @property
-    def sw_data_def(self) -> Optional["SwDataDefProps"]:
+    def sw_data_def(self) -> Optional[SwDataDefProps]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
+    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set swDataDef with validation.
 
@@ -713,7 +713,7 @@ class DiagnosticDataElement(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArraySize(self) -> "ArraySizeSemantics":
+    def getArraySize(self) -> ArraySizeSemantics:
         """
         AUTOSAR-compliant getter for arraySize.
 
@@ -725,7 +725,7 @@ class DiagnosticDataElement(Identifiable):
         """
         return self.array_size  # Delegates to property
 
-    def setArraySize(self, value: "ArraySizeSemantics") -> DiagnosticDataElement:
+    def setArraySize(self, value: ArraySizeSemantics) -> DiagnosticDataElement:
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
 
@@ -741,7 +741,7 @@ class DiagnosticDataElement(Identifiable):
         self.array_size = value  # Delegates to property setter
         return self
 
-    def getMaxNumberOf(self) -> "PositiveInteger":
+    def getMaxNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNumberOf.
 
@@ -753,7 +753,7 @@ class DiagnosticDataElement(Identifiable):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> DiagnosticDataElement:
+    def setMaxNumberOf(self, value: PositiveInteger) -> DiagnosticDataElement:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -769,7 +769,7 @@ class DiagnosticDataElement(Identifiable):
         self.max_number_of = value  # Delegates to property setter
         return self
 
-    def getScalingInfoSize(self) -> "PositiveInteger":
+    def getScalingInfoSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for scalingInfoSize.
 
@@ -781,7 +781,7 @@ class DiagnosticDataElement(Identifiable):
         """
         return self.scaling_info_size  # Delegates to property
 
-    def setScalingInfoSize(self, value: "PositiveInteger") -> DiagnosticDataElement:
+    def setScalingInfoSize(self, value: PositiveInteger) -> DiagnosticDataElement:
         """
         AUTOSAR-compliant setter for scalingInfoSize with method chaining.
 
@@ -797,7 +797,7 @@ class DiagnosticDataElement(Identifiable):
         self.scaling_info_size = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> "SwDataDefProps":
+    def getSwDataDef(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -809,7 +809,7 @@ class DiagnosticDataElement(Identifiable):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> DiagnosticDataElement:
+    def setSwDataDef(self, value: SwDataDefProps) -> DiagnosticDataElement:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -827,7 +827,7 @@ class DiagnosticDataElement(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> DiagnosticDataElement:
+    def with_array_size(self, value: Optional[ArraySizeSemantics]) -> DiagnosticDataElement:
         """
         Set arraySize and return self for chaining.
 
@@ -843,7 +843,7 @@ class DiagnosticDataElement(Identifiable):
         self.array_size = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> DiagnosticDataElement:
+    def with_max_number_of(self, value: Optional[PositiveInteger]) -> DiagnosticDataElement:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -859,7 +859,7 @@ class DiagnosticDataElement(Identifiable):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_scaling_info_size(self, value: Optional["PositiveInteger"]) -> DiagnosticDataElement:
+    def with_scaling_info_size(self, value: Optional[PositiveInteger]) -> DiagnosticDataElement:
         """
         Set scalingInfoSize and return self for chaining.
 
@@ -875,7 +875,7 @@ class DiagnosticDataElement(Identifiable):
         self.scaling_info_size = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> DiagnosticDataElement:
+    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> DiagnosticDataElement:
         """
         Set swDataDef and return self for chaining.
 
@@ -911,15 +911,15 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference represents the access permission of the owning routine
         # subfunction.
-        self._access: Optional["DiagnosticAccess"] = None
+        self._access: Optional[DiagnosticAccess] = None
 
     @property
-    def access(self) -> Optional["DiagnosticAccess"]:
+    def access(self) -> Optional[DiagnosticAccess]:
         """Get access (Pythonic accessor)."""
         return self._access
 
     @access.setter
-    def access(self, value: Optional["DiagnosticAccess"]) -> None:
+    def access(self, value: Optional[DiagnosticAccess]) -> None:
         """
         Set access with validation.
 
@@ -941,7 +941,7 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccess(self) -> "DiagnosticAccess":
+    def getAccess(self) -> DiagnosticAccess:
         """
         AUTOSAR-compliant getter for access.
 
@@ -953,7 +953,7 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
         """
         return self.access  # Delegates to property
 
-    def setAccess(self, value: "DiagnosticAccess") -> DiagnosticRoutineSubfunction:
+    def setAccess(self, value: DiagnosticAccess) -> DiagnosticRoutineSubfunction:
         """
         AUTOSAR-compliant setter for access with method chaining.
 
@@ -971,7 +971,7 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access(self, value: Optional["DiagnosticAccess"]) -> DiagnosticRoutineSubfunction:
+    def with_access(self, value: Optional[DiagnosticAccess]) -> DiagnosticRoutineSubfunction:
         """
         Set access and return self for chaining.
 
@@ -1007,15 +1007,15 @@ class DiagnosticParameterSupportInfo(ARObject):
         # defines the bit in the SupportInfo byte, which represents DataElement pidSize
                 # / position / size.
         # Unit: byte.
-        self._supportInfoBit: Optional["PositiveInteger"] = None
+        self._supportInfoBit: Optional[PositiveInteger] = None
 
     @property
-    def support_info_bit(self) -> Optional["PositiveInteger"]:
+    def support_info_bit(self) -> Optional[PositiveInteger]:
         """Get supportInfoBit (Pythonic accessor)."""
         return self._supportInfoBit
 
     @support_info_bit.setter
-    def support_info_bit(self, value: Optional["PositiveInteger"]) -> None:
+    def support_info_bit(self, value: Optional[PositiveInteger]) -> None:
         """
         Set supportInfoBit with validation.
 
@@ -1037,7 +1037,7 @@ class DiagnosticParameterSupportInfo(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSupportInfoBit(self) -> "PositiveInteger":
+    def getSupportInfoBit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for supportInfoBit.
 
@@ -1049,7 +1049,7 @@ class DiagnosticParameterSupportInfo(ARObject):
         """
         return self.support_info_bit  # Delegates to property
 
-    def setSupportInfoBit(self, value: "PositiveInteger") -> DiagnosticParameterSupportInfo:
+    def setSupportInfoBit(self, value: PositiveInteger) -> DiagnosticParameterSupportInfo:
         """
         AUTOSAR-compliant setter for supportInfoBit with method chaining.
 
@@ -1067,7 +1067,7 @@ class DiagnosticParameterSupportInfo(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_support_info_bit(self, value: Optional["PositiveInteger"]) -> DiagnosticParameterSupportInfo:
+    def with_support_info_bit(self, value: Optional[PositiveInteger]) -> DiagnosticParameterSupportInfo:
         """
         Set supportInfoBit and return self for chaining.
 
@@ -1102,15 +1102,15 @@ class DiagnosticSupportInfoByte(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the position of the supportInfo in the PID.
-        self._position: Optional["PositiveInteger"] = None
+        self._position: Optional[PositiveInteger] = None
 
     @property
-    def position(self) -> Optional["PositiveInteger"]:
+    def position(self) -> Optional[PositiveInteger]:
         """Get position (Pythonic accessor)."""
         return self._position
 
     @position.setter
-    def position(self, value: Optional["PositiveInteger"]) -> None:
+    def position(self, value: Optional[PositiveInteger]) -> None:
         """
         Set position with validation.
 
@@ -1129,15 +1129,15 @@ class DiagnosticSupportInfoByte(ARObject):
                 f"position must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._position = value
-        self._size: Optional["PositiveInteger"] = None
+        self._size: Optional[PositiveInteger] = None
 
     @property
-    def size(self) -> Optional["PositiveInteger"]:
+    def size(self) -> Optional[PositiveInteger]:
         """Get size (Pythonic accessor)."""
         return self._size
 
     @size.setter
-    def size(self, value: Optional["PositiveInteger"]) -> None:
+    def size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set size with validation.
 
@@ -1159,7 +1159,7 @@ class DiagnosticSupportInfoByte(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPosition(self) -> "PositiveInteger":
+    def getPosition(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for position.
 
@@ -1171,7 +1171,7 @@ class DiagnosticSupportInfoByte(ARObject):
         """
         return self.position  # Delegates to property
 
-    def setPosition(self, value: "PositiveInteger") -> DiagnosticSupportInfoByte:
+    def setPosition(self, value: PositiveInteger) -> DiagnosticSupportInfoByte:
         """
         AUTOSAR-compliant setter for position with method chaining.
 
@@ -1187,7 +1187,7 @@ class DiagnosticSupportInfoByte(ARObject):
         self.position = value  # Delegates to property setter
         return self
 
-    def getSize(self) -> "PositiveInteger":
+    def getSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for size.
 
@@ -1199,7 +1199,7 @@ class DiagnosticSupportInfoByte(ARObject):
         """
         return self.size  # Delegates to property
 
-    def setSize(self, value: "PositiveInteger") -> DiagnosticSupportInfoByte:
+    def setSize(self, value: PositiveInteger) -> DiagnosticSupportInfoByte:
         """
         AUTOSAR-compliant setter for size with method chaining.
 
@@ -1217,7 +1217,7 @@ class DiagnosticSupportInfoByte(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_position(self, value: Optional["PositiveInteger"]) -> DiagnosticSupportInfoByte:
+    def with_position(self, value: Optional[PositiveInteger]) -> DiagnosticSupportInfoByte:
         """
         Set position and return self for chaining.
 
@@ -1233,7 +1233,7 @@ class DiagnosticSupportInfoByte(ARObject):
         self.position = value  # Use property setter (gets validation)
         return self
 
-    def with_size(self, value: Optional["PositiveInteger"]) -> DiagnosticSupportInfoByte:
+    def with_size(self, value: Optional[PositiveInteger]) -> DiagnosticSupportInfoByte:
         """
         Set size and return self for chaining.
 
@@ -1269,15 +1269,15 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the numerical identifier used to identify the the scope of.
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -1299,7 +1299,7 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -1311,7 +1311,7 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticAbstractDataIdentifier:
+    def setId(self, value: PositiveInteger) -> DiagnosticAbstractDataIdentifier:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -1329,7 +1329,7 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticAbstractDataIdentifier:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticAbstractDataIdentifier:
         """
         Set id and return self for chaining.
 
@@ -1363,15 +1363,15 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the numerical identifier used to identify the the scope of diagnostic
         # workflow.
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -1390,15 +1390,15 @@ class DiagnosticRoutine(DiagnosticCommonElement):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        self._requestResult: Optional["DiagnosticRequest"] = None
+        self._requestResult: Optional[DiagnosticRequest] = None
 
     @property
-    def request_result(self) -> Optional["DiagnosticRequest"]:
+    def request_result(self) -> Optional[DiagnosticRequest]:
         """Get requestResult (Pythonic accessor)."""
         return self._requestResult
 
     @request_result.setter
-    def request_result(self, value: Optional["DiagnosticRequest"]) -> None:
+    def request_result(self, value: Optional[DiagnosticRequest]) -> None:
         """
         Set requestResult with validation.
 
@@ -1419,15 +1419,15 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         self._requestResult = value
         # The info byte manufacturer-specific value (for the record identifiers) that
                 # is reported to the cases for this attribute are mentioned in ISO ISO 26021.
-        self._routineInfo: Optional["PositiveInteger"] = None
+        self._routineInfo: Optional[PositiveInteger] = None
 
     @property
-    def routine_info(self) -> Optional["PositiveInteger"]:
+    def routine_info(self) -> Optional[PositiveInteger]:
         """Get routineInfo (Pythonic accessor)."""
         return self._routineInfo
 
     @routine_info.setter
-    def routine_info(self, value: Optional["PositiveInteger"]) -> None:
+    def routine_info(self, value: Optional[PositiveInteger]) -> None:
         """
         Set routineInfo with validation.
 
@@ -1503,7 +1503,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -1515,7 +1515,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticRoutine:
+    def setId(self, value: PositiveInteger) -> DiagnosticRoutine:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -1531,7 +1531,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         self.id = value  # Delegates to property setter
         return self
 
-    def getRequestResult(self) -> "DiagnosticRequest":
+    def getRequestResult(self) -> DiagnosticRequest:
         """
         AUTOSAR-compliant getter for requestResult.
 
@@ -1543,7 +1543,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         """
         return self.request_result  # Delegates to property
 
-    def setRequestResult(self, value: "DiagnosticRequest") -> DiagnosticRoutine:
+    def setRequestResult(self, value: DiagnosticRequest) -> DiagnosticRoutine:
         """
         AUTOSAR-compliant setter for requestResult with method chaining.
 
@@ -1559,7 +1559,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         self.request_result = value  # Delegates to property setter
         return self
 
-    def getRoutineInfo(self) -> "PositiveInteger":
+    def getRoutineInfo(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for routineInfo.
 
@@ -1571,7 +1571,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         """
         return self.routine_info  # Delegates to property
 
-    def setRoutineInfo(self, value: "PositiveInteger") -> DiagnosticRoutine:
+    def setRoutineInfo(self, value: PositiveInteger) -> DiagnosticRoutine:
         """
         AUTOSAR-compliant setter for routineInfo with method chaining.
 
@@ -1645,7 +1645,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticRoutine:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticRoutine:
         """
         Set id and return self for chaining.
 
@@ -1661,7 +1661,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_request_result(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRoutine:
+    def with_request_result(self, value: Optional[DiagnosticRequest]) -> DiagnosticRoutine:
         """
         Set requestResult and return self for chaining.
 
@@ -1677,7 +1677,7 @@ class DiagnosticRoutine(DiagnosticCommonElement):
         self.request_result = value  # Use property setter (gets validation)
         return self
 
-    def with_routine_info(self, value: Optional["PositiveInteger"]) -> DiagnosticRoutine:
+    def with_routine_info(self, value: Optional[PositiveInteger]) -> DiagnosticRoutine:
         """
         Set routineInfo and return self for chaining.
 
@@ -1751,15 +1751,15 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         return self._dataElement
         # This is the numerical identifier used to identify the the scope of diagnostic
         # SAE J1979-DA).
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -1779,15 +1779,15 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
             )
         self._id = value
         # padding might be applied.
-        self._pidSize: Optional["PositiveInteger"] = None
+        self._pidSize: Optional[PositiveInteger] = None
 
     @property
-    def pid_size(self) -> Optional["PositiveInteger"]:
+    def pid_size(self) -> Optional[PositiveInteger]:
         """Get pidSize (Pythonic accessor)."""
         return self._pidSize
 
     @pid_size.setter
-    def pid_size(self, value: Optional["PositiveInteger"]) -> None:
+    def pid_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set pidSize with validation.
 
@@ -1807,15 +1807,15 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
             )
         self._pidSize = value
         # DiagnosticParameterIdentifier.
-        self._supportInfoByte: Optional["DiagnosticSupportInfo"] = None
+        self._supportInfoByte: Optional[DiagnosticSupportInfo] = None
 
     @property
-    def support_info_byte(self) -> Optional["DiagnosticSupportInfo"]:
+    def support_info_byte(self) -> Optional[DiagnosticSupportInfo]:
         """Get supportInfoByte (Pythonic accessor)."""
         return self._supportInfoByte
 
     @support_info_byte.setter
-    def support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> None:
+    def support_info_byte(self, value: Optional[DiagnosticSupportInfo]) -> None:
         """
         Set supportInfoByte with validation.
 
@@ -1849,7 +1849,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         """
         return self.data_element  # Delegates to property
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -1861,7 +1861,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticParameterIdentifier:
+    def setId(self, value: PositiveInteger) -> DiagnosticParameterIdentifier:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -1877,7 +1877,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         self.id = value  # Delegates to property setter
         return self
 
-    def getPidSize(self) -> "PositiveInteger":
+    def getPidSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for pidSize.
 
@@ -1889,7 +1889,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         """
         return self.pid_size  # Delegates to property
 
-    def setPidSize(self, value: "PositiveInteger") -> DiagnosticParameterIdentifier:
+    def setPidSize(self, value: PositiveInteger) -> DiagnosticParameterIdentifier:
         """
         AUTOSAR-compliant setter for pidSize with method chaining.
 
@@ -1935,7 +1935,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticParameterIdentifier:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticParameterIdentifier:
         """
         Set id and return self for chaining.
 
@@ -1951,7 +1951,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_pid_size(self, value: Optional["PositiveInteger"]) -> DiagnosticParameterIdentifier:
+    def with_pid_size(self, value: Optional[PositiveInteger]) -> DiagnosticParameterIdentifier:
         """
         Set pidSize and return self for chaining.
 
@@ -1967,7 +1967,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         self.pid_size = value  # Use property setter (gets validation)
         return self
 
-    def with_support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> DiagnosticParameterIdentifier:
+    def with_support_info_byte(self, value: Optional[DiagnosticSupportInfo]) -> DiagnosticParameterIdentifier:
         """
         Set supportInfoByte and return self for chaining.
 
@@ -2007,15 +2007,15 @@ class DiagnosticInfoType(DiagnosticCommonElement):
         """Get dataElement (Pythonic accessor)."""
         return self._dataElement
         # This attribute represents the value of InfoType (see SAE.
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -2049,7 +2049,7 @@ class DiagnosticInfoType(DiagnosticCommonElement):
         """
         return self.data_element  # Delegates to property
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -2061,7 +2061,7 @@ class DiagnosticInfoType(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticInfoType:
+    def setId(self, value: PositiveInteger) -> DiagnosticInfoType:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -2079,7 +2079,7 @@ class DiagnosticInfoType(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticInfoType:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticInfoType:
         """
         Set id and return self for chaining.
 
@@ -2471,15 +2471,15 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         """Get dataElement (Pythonic accessor)."""
         return self._dataElement
         # This attribute indicates the size in bytes of the Diagnostic.
-        self._didSize: Optional["PositiveInteger"] = None
+        self._didSize: Optional[PositiveInteger] = None
 
     @property
-    def did_size(self) -> Optional["PositiveInteger"]:
+    def did_size(self) -> Optional[PositiveInteger]:
         """Get didSize (Pythonic accessor)."""
         return self._didSize
 
     @did_size.setter
-    def did_size(self, value: Optional["PositiveInteger"]) -> None:
+    def did_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set didSize with validation.
 
@@ -2499,15 +2499,15 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
             )
         self._didSize = value
         # identification.
-        self._representsVin: Optional["Boolean"] = None
+        self._representsVin: Optional[Boolean] = None
 
     @property
-    def represents_vin(self) -> Optional["Boolean"]:
+    def represents_vin(self) -> Optional[Boolean]:
         """Get representsVin (Pythonic accessor)."""
         return self._representsVin
 
     @represents_vin.setter
-    def represents_vin(self, value: Optional["Boolean"]) -> None:
+    def represents_vin(self, value: Optional[Boolean]) -> None:
         """
         Set representsVin with validation.
 
@@ -2527,15 +2527,15 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
             )
         self._representsVin = value
         # DiagnosticDataIdentifier.
-        self._supportInfoByte: Optional["DiagnosticSupportInfo"] = None
+        self._supportInfoByte: Optional[DiagnosticSupportInfo] = None
 
     @property
-    def support_info_byte(self) -> Optional["DiagnosticSupportInfo"]:
+    def support_info_byte(self) -> Optional[DiagnosticSupportInfo]:
         """Get supportInfoByte (Pythonic accessor)."""
         return self._supportInfoByte
 
     @support_info_byte.setter
-    def support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> None:
+    def support_info_byte(self, value: Optional[DiagnosticSupportInfo]) -> None:
         """
         Set supportInfoByte with validation.
 
@@ -2569,7 +2569,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         """
         return self.data_element  # Delegates to property
 
-    def getDidSize(self) -> "PositiveInteger":
+    def getDidSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for didSize.
 
@@ -2581,7 +2581,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         """
         return self.did_size  # Delegates to property
 
-    def setDidSize(self, value: "PositiveInteger") -> DiagnosticDataIdentifier:
+    def setDidSize(self, value: PositiveInteger) -> DiagnosticDataIdentifier:
         """
         AUTOSAR-compliant setter for didSize with method chaining.
 
@@ -2597,7 +2597,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         self.did_size = value  # Delegates to property setter
         return self
 
-    def getRepresentsVin(self) -> "Boolean":
+    def getRepresentsVin(self) -> Boolean:
         """
         AUTOSAR-compliant getter for representsVin.
 
@@ -2609,7 +2609,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         """
         return self.represents_vin  # Delegates to property
 
-    def setRepresentsVin(self, value: "Boolean") -> DiagnosticDataIdentifier:
+    def setRepresentsVin(self, value: Boolean) -> DiagnosticDataIdentifier:
         """
         AUTOSAR-compliant setter for representsVin with method chaining.
 
@@ -2655,7 +2655,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_did_size(self, value: Optional["PositiveInteger"]) -> DiagnosticDataIdentifier:
+    def with_did_size(self, value: Optional[PositiveInteger]) -> DiagnosticDataIdentifier:
         """
         Set didSize and return self for chaining.
 
@@ -2671,7 +2671,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         self.did_size = value  # Use property setter (gets validation)
         return self
 
-    def with_represents_vin(self, value: Optional["Boolean"]) -> DiagnosticDataIdentifier:
+    def with_represents_vin(self, value: Optional[Boolean]) -> DiagnosticDataIdentifier:
         """
         Set representsVin and return self for chaining.
 
@@ -2687,7 +2687,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         self.represents_vin = value  # Use property setter (gets validation)
         return self
 
-    def with_support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> DiagnosticDataIdentifier:
+    def with_support_info_byte(self, value: Optional[DiagnosticSupportInfo]) -> DiagnosticDataIdentifier:
         """
         Set supportInfoByte and return self for chaining.
 

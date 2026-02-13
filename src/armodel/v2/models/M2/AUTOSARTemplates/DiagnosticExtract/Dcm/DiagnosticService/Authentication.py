@@ -175,15 +175,15 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attributes represents the ID of the certificate.
-        self._evaluationId: Optional["PositiveInteger"] = None
+        self._evaluationId: Optional[PositiveInteger] = None
 
     @property
-    def evaluation_id(self) -> Optional["PositiveInteger"]:
+    def evaluation_id(self) -> Optional[PositiveInteger]:
         """Get evaluationId (Pythonic accessor)."""
         return self._evaluationId
 
     @evaluation_id.setter
-    def evaluation_id(self, value: Optional["PositiveInteger"]) -> None:
+    def evaluation_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set evaluationId with validation.
 
@@ -203,15 +203,15 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
             )
         self._evaluationId = value
         # evaluation ID.
-        self._function: Optional["String"] = None
+        self._function: Optional[String] = None
 
     @property
-    def function(self) -> Optional["String"]:
+    def function(self) -> Optional[String]:
         """Get function (Pythonic accessor)."""
         return self._function
 
     @function.setter
-    def function(self, value: Optional["String"]) -> None:
+    def function(self, value: Optional[String]) -> None:
         """
         Set function with validation.
 
@@ -233,7 +233,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEvaluationId(self) -> "PositiveInteger":
+    def getEvaluationId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for evaluationId.
 
@@ -245,7 +245,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
         """
         return self.evaluation_id  # Delegates to property
 
-    def setEvaluationId(self, value: "PositiveInteger") -> DiagnosticAuthTransmitCertificateEvaluation:
+    def setEvaluationId(self, value: PositiveInteger) -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         AUTOSAR-compliant setter for evaluationId with method chaining.
 
@@ -261,7 +261,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
         self.evaluation_id = value  # Delegates to property setter
         return self
 
-    def getFunction(self) -> "String":
+    def getFunction(self) -> String:
         """
         AUTOSAR-compliant getter for function.
 
@@ -273,7 +273,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
         """
         return self.function  # Delegates to property
 
-    def setFunction(self, value: "String") -> DiagnosticAuthTransmitCertificateEvaluation:
+    def setFunction(self, value: String) -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         AUTOSAR-compliant setter for function with method chaining.
 
@@ -291,7 +291,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_evaluation_id(self, value: Optional["PositiveInteger"]) -> DiagnosticAuthTransmitCertificateEvaluation:
+    def with_evaluation_id(self, value: Optional[PositiveInteger]) -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         Set evaluationId and return self for chaining.
 
@@ -307,7 +307,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
         self.evaluation_id = value  # Use property setter (gets validation)
         return self
 
-    def with_function(self, value: Optional["String"]) -> DiagnosticAuthTransmitCertificateEvaluation:
+    def with_function(self, value: Optional[String]) -> DiagnosticAuthTransmitCertificateEvaluation:
         """
         Set function and return self for chaining.
 

@@ -13,6 +13,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifier,
     NameToken,
     RefType,
+    UriString,
+    VerbatimString,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -21,10 +23,17 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
+    AutosarEngineeringObject,
     EngineeringObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucDefinitionElement,
+)
+from armodel.v2.models.M2.MSR.AsamHdo.SpecialData import (
+    Sdg,
 )
 
 
@@ -375,15 +384,15 @@ class BuildActionIoElement(ARObject):
             )
         self._category = value
         # referenced parameters are subject of the build.
-        self._ecucDefinition: Optional["EcucDefinitionElement"] = None
+        self._ecucDefinition: Optional[EcucDefinitionElement] = None
 
     @property
-    def ecuc_definition(self) -> Optional["EcucDefinitionElement"]:
+    def ecuc_definition(self) -> Optional[EcucDefinitionElement]:
         """Get ecucDefinition (Pythonic accessor)."""
         return self._ecucDefinition
 
     @ecuc_definition.setter
-    def ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> None:
+    def ecuc_definition(self, value: Optional[EcucDefinitionElement]) -> None:
         """
         Set ecucDefinition with validation.
 
@@ -403,15 +412,15 @@ class BuildActionIoElement(ARObject):
             )
         self._ecucDefinition = value
         # semantics shall be between the two parties.
-        self._role: Optional["Identifier"] = None
+        self._role: Optional[Identifier] = None
 
     @property
-    def role(self) -> Optional["Identifier"]:
+    def role(self) -> Optional[Identifier]:
         """Get role (Pythonic accessor)."""
         return self._role
 
     @role.setter
-    def role(self, value: Optional["Identifier"]) -> None:
+    def role(self, value: Optional[Identifier]) -> None:
         """
         Set role with validation.
 
@@ -431,16 +440,16 @@ class BuildActionIoElement(ARObject):
             )
         self._role = value
         # is subject of mutual agreement.
-        self._sdg: List["Sdg"] = []
+        self._sdg: List[Sdg] = []
 
     @property
-    def sdg(self) -> List["Sdg"]:
+    def sdg(self) -> List[Sdg]:
         """Get sdg (Pythonic accessor)."""
         return self._sdg
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> "NameToken":
+    def getCategory(self) -> NameToken:
         """
         AUTOSAR-compliant getter for category.
 
@@ -468,7 +477,7 @@ class BuildActionIoElement(ARObject):
         self.category = value  # Delegates to property setter
         return self
 
-    def getEcucDefinition(self) -> "EcucDefinitionElement":
+    def getEcucDefinition(self) -> EcucDefinitionElement:
         """
         AUTOSAR-compliant getter for ecucDefinition.
 
@@ -480,7 +489,7 @@ class BuildActionIoElement(ARObject):
         """
         return self.ecuc_definition  # Delegates to property
 
-    def setEcucDefinition(self, value: "EcucDefinitionElement") -> BuildActionIoElement:
+    def setEcucDefinition(self, value: EcucDefinitionElement) -> BuildActionIoElement:
         """
         AUTOSAR-compliant setter for ecucDefinition with method chaining.
 
@@ -496,7 +505,7 @@ class BuildActionIoElement(ARObject):
         self.ecuc_definition = value  # Delegates to property setter
         return self
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
 
@@ -508,7 +517,7 @@ class BuildActionIoElement(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> BuildActionIoElement:
+    def setRole(self, value: Identifier) -> BuildActionIoElement:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -524,7 +533,7 @@ class BuildActionIoElement(ARObject):
         self.role = value  # Delegates to property setter
         return self
 
-    def getSdg(self) -> List["Sdg"]:
+    def getSdg(self) -> List[Sdg]:
         """
         AUTOSAR-compliant getter for sdg.
 
@@ -538,7 +547,7 @@ class BuildActionIoElement(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: "NameToken") -> BuildActionIoElement:
+    def with_category(self, value: NameToken) -> BuildActionIoElement:
         """
         Set category and return self for chaining.
 
@@ -554,7 +563,7 @@ class BuildActionIoElement(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> BuildActionIoElement:
+    def with_ecuc_definition(self, value: Optional[EcucDefinitionElement]) -> BuildActionIoElement:
         """
         Set ecucDefinition and return self for chaining.
 
@@ -570,7 +579,7 @@ class BuildActionIoElement(ARObject):
         self.ecuc_definition = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: Optional["Identifier"]) -> BuildActionIoElement:
+    def with_role(self, value: Optional[Identifier]) -> BuildActionIoElement:
         """
         Set role and return self for chaining.
 
@@ -606,16 +615,16 @@ class BuildActionEnvironment(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a general data structure intended to for the
         # BuildActionEnvironment.
-        self._sdg: List["Sdg"] = []
+        self._sdg: List[Sdg] = []
 
     @property
-    def sdg(self) -> List["Sdg"]:
+    def sdg(self) -> List[Sdg]:
         """Get sdg (Pythonic accessor)."""
         return self._sdg
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSdg(self) -> List["Sdg"]:
+    def getSdg(self) -> List[Sdg]:
         """
         AUTOSAR-compliant getter for sdg.
 
@@ -650,10 +659,10 @@ class BuildActionEntity(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This denotes the delivery artifacts for the entity for purposes.
-        self._deliveryArtifact: List["AutosarEngineering"] = []
+        self._deliveryArtifact: List[AutosarEngineeringObject] = []
 
     @property
-    def delivery_artifact(self) -> List["AutosarEngineering"]:
+    def delivery_artifact(self) -> List[AutosarEngineeringObject]:
         """Get deliveryArtifact (Pythonic accessor)."""
         return self._deliveryArtifact
         # This specifies how to invoke a build action in the given.
@@ -687,7 +696,7 @@ class BuildActionEntity(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDeliveryArtifact(self) -> List["AutosarEngineering"]:
+    def getDeliveryArtifact(self) -> List[AutosarEngineeringObject]:
         """
         AUTOSAR-compliant getter for deliveryArtifact.
 
@@ -766,15 +775,15 @@ class BuildActionInvocator(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the command to invocate the processor.
-        self._command: Optional["VerbatimString"] = None
+        self._command: Optional[VerbatimString] = None
 
     @property
-    def command(self) -> Optional["VerbatimString"]:
+    def command(self) -> Optional[VerbatimString]:
         """Get command (Pythonic accessor)."""
         return self._command
 
     @command.setter
-    def command(self, value: Optional["VerbatimString"]) -> None:
+    def command(self, value: Optional[VerbatimString]) -> None:
         """
         Set command with validation.
 
@@ -796,7 +805,7 @@ class BuildActionInvocator(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommand(self) -> "VerbatimString":
+    def getCommand(self) -> VerbatimString:
         """
         AUTOSAR-compliant getter for command.
 
@@ -808,7 +817,7 @@ class BuildActionInvocator(ARObject):
         """
         return self.command  # Delegates to property
 
-    def setCommand(self, value: "VerbatimString") -> BuildActionInvocator:
+    def setCommand(self, value: VerbatimString) -> BuildActionInvocator:
         """
         AUTOSAR-compliant setter for command with method chaining.
 
@@ -826,7 +835,7 @@ class BuildActionInvocator(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_command(self, value: Optional["VerbatimString"]) -> BuildActionInvocator:
+    def with_command(self, value: Optional[VerbatimString]) -> BuildActionInvocator:
         """
         Set command and return self for chaining.
 
@@ -974,15 +983,15 @@ class BuildEngineeringObject(EngineeringObject):
         # Note that engineering object resolves ShortLabel indicate mainly to refer to
                 # an If the file is created newly, the filename can determined by built in
                 # policy or predefined here.
-        self._intended: Optional["UriString"] = None
+        self._intended: Optional[UriString] = None
 
     @property
-    def intended(self) -> Optional["UriString"]:
+    def intended(self) -> Optional[UriString]:
         """Get intended (Pythonic accessor)."""
         return self._intended
 
     @intended.setter
-    def intended(self, value: Optional["UriString"]) -> None:
+    def intended(self, value: Optional[UriString]) -> None:
         """
         Set intended with validation.
 
@@ -1004,7 +1013,7 @@ class BuildEngineeringObject(EngineeringObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFileType(self) -> "NameToken":
+    def getFileType(self) -> NameToken:
         """
         AUTOSAR-compliant getter for fileType.
 
@@ -1060,7 +1069,7 @@ class BuildEngineeringObject(EngineeringObject):
         self.file_type_pattern = value  # Delegates to property setter
         return self
 
-    def getIntended(self) -> "UriString":
+    def getIntended(self) -> UriString:
         """
         AUTOSAR-compliant getter for intended.
 
@@ -1072,7 +1081,7 @@ class BuildEngineeringObject(EngineeringObject):
         """
         return self.intended  # Delegates to property
 
-    def setIntended(self, value: "UriString") -> BuildEngineeringObject:
+    def setIntended(self, value: UriString) -> BuildEngineeringObject:
         """
         AUTOSAR-compliant setter for intended with method chaining.
 
@@ -1090,7 +1099,7 @@ class BuildEngineeringObject(EngineeringObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_file_type(self, value: "NameToken") -> BuildEngineeringObject:
+    def with_file_type(self, value: NameToken) -> BuildEngineeringObject:
         """
         Set fileType and return self for chaining.
 
@@ -1122,7 +1131,7 @@ class BuildEngineeringObject(EngineeringObject):
         self.file_type_pattern = value  # Use property setter (gets validation)
         return self
 
-    def with_intended(self, value: Optional["UriString"]) -> BuildEngineeringObject:
+    def with_intended(self, value: Optional[UriString]) -> BuildEngineeringObject:
         """
         Set intended and return self for chaining.
 
@@ -1206,15 +1215,15 @@ class GenericModelReference(ARObject):
                 f"dest must be NameToken or str, got {type(value).__name__}"
             )
         self._dest = value
-        self._ref: "RefType" = None
+        self._ref: RefType = None
 
     @property
-    def ref(self) -> "RefType":
+    def ref(self) -> RefType:
         """Get ref (Pythonic accessor)."""
         return self._ref
 
     @ref.setter
-    def ref(self, value: "RefType") -> None:
+    def ref(self, value: RefType) -> None:
         """
         Set ref with validation.
 
@@ -1284,7 +1293,7 @@ class GenericModelReference(ARObject):
         self.dest = value  # Delegates to property setter
         return self
 
-    def getRef(self) -> "RefType":
+    def getRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for ref.
 
@@ -1296,7 +1305,7 @@ class GenericModelReference(ARObject):
         """
         return self.ref  # Delegates to property
 
-    def setRef(self, value: "RefType") -> GenericModelReference:
+    def setRef(self, value: RefType) -> GenericModelReference:
         """
         AUTOSAR-compliant setter for ref with method chaining.
 

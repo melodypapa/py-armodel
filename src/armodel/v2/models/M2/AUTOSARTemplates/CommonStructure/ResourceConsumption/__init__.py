@@ -39,34 +39,34 @@ class ResourceConsumption(Identifiable):
         # Set of access count values atpSplitable; atpVariation 381 Document ID 89:
         # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
         # R23-11.
-        self._accessCount: List["RefType"] = []
+        self._accessCount: List[RefType] = []
 
     @property
-    def access_count(self) -> List["RefType"]:
+    def access_count(self) -> List[RefType]:
         """Get accessCount (Pythonic accessor)."""
         return self._accessCount
         # Collection of the execution time descriptions for this aggregation of
                 # executionTime is variability with the purpose to support the of runnable
                 # entities.
         # atpVariation.
-        self._executionTime: List["ExecutionTime"] = []
+        self._executionTime: List[ExecutionTime] = []
 
     @property
-    def execution_time(self) -> List["ExecutionTime"]:
+    def execution_time(self) -> List[ExecutionTime]:
         """Get executionTime (Pythonic accessor)."""
         return self._executionTime
         # Collection of the heap memory allocated by this atpVariation.
-        self._heapUsage: List["HeapUsage"] = []
+        self._heapUsage: List[HeapUsage] = []
 
     @property
-    def heap_usage(self) -> List["HeapUsage"]:
+    def heap_usage(self) -> List[HeapUsage]:
         """Get heapUsage (Pythonic accessor)."""
         return self._heapUsage
         # An abstract memory section required by this atpVariation.
-        self._memorySection: List["MemorySection"] = []
+        self._memorySection: List[MemorySection] = []
 
     @property
-    def memory_section(self) -> List["MemorySection"]:
+    def memory_section(self) -> List[MemorySection]:
         """Get memorySection (Pythonic accessor)."""
         return self._memorySection
         # A prefix to be used for the memory section symbol in the atpVariation.
@@ -80,10 +80,10 @@ class ResourceConsumption(Identifiable):
         # The aggregation of Stack subject to variability with the purpose to support
                 # existence of runnable entities.
         # atpVariation.
-        self._stackUsage: List["StackUsage"] = []
+        self._stackUsage: List[StackUsage] = []
 
     @property
-    def stack_usage(self) -> List["StackUsage"]:
+    def stack_usage(self) -> List[StackUsage]:
         """Get stackUsage (Pythonic accessor)."""
         return self._stackUsage
 
@@ -185,7 +185,7 @@ class ResourceConsumption(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccessCount(self) -> List["RefType"]:
+    def getAccessCount(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for accessCount.
 
@@ -197,7 +197,7 @@ class ResourceConsumption(Identifiable):
         """
         return self.access_count  # Delegates to property
 
-    def getExecutionTime(self) -> List["ExecutionTime"]:
+    def getExecutionTime(self) -> List[ExecutionTime]:
         """
         AUTOSAR-compliant getter for executionTime.
 
@@ -209,7 +209,7 @@ class ResourceConsumption(Identifiable):
         """
         return self.execution_time  # Delegates to property
 
-    def getHeapUsage(self) -> List["HeapUsage"]:
+    def getHeapUsage(self) -> List[HeapUsage]:
         """
         AUTOSAR-compliant getter for heapUsage.
 
@@ -221,7 +221,7 @@ class ResourceConsumption(Identifiable):
         """
         return self.heap_usage  # Delegates to property
 
-    def getMemorySection(self) -> List["MemorySection"]:
+    def getMemorySection(self) -> List[MemorySection]:
         """
         AUTOSAR-compliant getter for memorySection.
 
@@ -245,7 +245,7 @@ class ResourceConsumption(Identifiable):
         """
         return self.section_name  # Delegates to property
 
-    def getStackUsage(self) -> List["StackUsage"]:
+    def getStackUsage(self) -> List[StackUsage]:
         """
         AUTOSAR-compliant getter for stackUsage.
 
@@ -277,15 +277,15 @@ class HardwareConfiguration(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies additional information on the Hardware.
-        self._additional: Optional["String"] = None
+        self._additional: Optional[String] = None
 
     @property
-    def additional(self) -> Optional["String"]:
+    def additional(self) -> Optional[String]:
         """Get additional (Pythonic accessor)."""
         return self._additional
 
     @additional.setter
-    def additional(self, value: Optional["String"]) -> None:
+    def additional(self, value: Optional[String]) -> None:
         """
         Set additional with validation.
 
@@ -304,15 +304,15 @@ class HardwareConfiguration(ARObject):
                 f"additional must be String or str or None, got {type(value).__name__}"
             )
         self._additional = value
-        self._processorMode: Optional["String"] = None
+        self._processorMode: Optional[String] = None
 
     @property
-    def processor_mode(self) -> Optional["String"]:
+    def processor_mode(self) -> Optional[String]:
         """Get processorMode (Pythonic accessor)."""
         return self._processorMode
 
     @processor_mode.setter
-    def processor_mode(self, value: Optional["String"]) -> None:
+    def processor_mode(self, value: Optional[String]) -> None:
         """
         Set processorMode with validation.
 
@@ -331,15 +331,15 @@ class HardwareConfiguration(ARObject):
                 f"processorMode must be String or str or None, got {type(value).__name__}"
             )
         self._processorMode = value
-        self._processorSpeed: Optional["String"] = None
+        self._processorSpeed: Optional[String] = None
 
     @property
-    def processor_speed(self) -> Optional["String"]:
+    def processor_speed(self) -> Optional[String]:
         """Get processorSpeed (Pythonic accessor)."""
         return self._processorSpeed
 
     @processor_speed.setter
-    def processor_speed(self, value: Optional["String"]) -> None:
+    def processor_speed(self, value: Optional[String]) -> None:
         """
         Set processorSpeed with validation.
 
@@ -361,7 +361,7 @@ class HardwareConfiguration(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAdditional(self) -> "String":
+    def getAdditional(self) -> String:
         """
         AUTOSAR-compliant getter for additional.
 
@@ -373,7 +373,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.additional  # Delegates to property
 
-    def setAdditional(self, value: "String") -> HardwareConfiguration:
+    def setAdditional(self, value: String) -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for additional with method chaining.
 
@@ -389,7 +389,7 @@ class HardwareConfiguration(ARObject):
         self.additional = value  # Delegates to property setter
         return self
 
-    def getProcessorMode(self) -> "String":
+    def getProcessorMode(self) -> String:
         """
         AUTOSAR-compliant getter for processorMode.
 
@@ -401,7 +401,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processor_mode  # Delegates to property
 
-    def setProcessorMode(self, value: "String") -> HardwareConfiguration:
+    def setProcessorMode(self, value: String) -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for processorMode with method chaining.
 
@@ -417,7 +417,7 @@ class HardwareConfiguration(ARObject):
         self.processor_mode = value  # Delegates to property setter
         return self
 
-    def getProcessorSpeed(self) -> "String":
+    def getProcessorSpeed(self) -> String:
         """
         AUTOSAR-compliant getter for processorSpeed.
 
@@ -429,7 +429,7 @@ class HardwareConfiguration(ARObject):
         """
         return self.processor_speed  # Delegates to property
 
-    def setProcessorSpeed(self, value: "String") -> HardwareConfiguration:
+    def setProcessorSpeed(self, value: String) -> HardwareConfiguration:
         """
         AUTOSAR-compliant setter for processorSpeed with method chaining.
 
@@ -447,7 +447,7 @@ class HardwareConfiguration(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_additional(self, value: Optional["String"]) -> HardwareConfiguration:
+    def with_additional(self, value: Optional[String]) -> HardwareConfiguration:
         """
         Set additional and return self for chaining.
 
@@ -463,7 +463,7 @@ class HardwareConfiguration(ARObject):
         self.additional = value  # Use property setter (gets validation)
         return self
 
-    def with_processor_mode(self, value: Optional["String"]) -> HardwareConfiguration:
+    def with_processor_mode(self, value: Optional[String]) -> HardwareConfiguration:
         """
         Set processorMode and return self for chaining.
 
@@ -479,7 +479,7 @@ class HardwareConfiguration(ARObject):
         self.processor_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_processor_speed(self, value: Optional["String"]) -> HardwareConfiguration:
+    def with_processor_speed(self, value: Optional[String]) -> HardwareConfiguration:
         """
         Set processorSpeed and return self for chaining.
 
@@ -512,15 +512,15 @@ class SoftwareContext(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the input vector which is used to provide the.
-        self._input: Optional["String"] = None
+        self._input: Optional[String] = None
 
     @property
-    def input(self) -> Optional["String"]:
+    def input(self) -> Optional[String]:
         """Get input (Pythonic accessor)."""
         return self._input
 
     @input.setter
-    def input(self, value: Optional["String"]) -> None:
+    def input(self, value: Optional[String]) -> None:
         """
         Set input with validation.
 
@@ -539,15 +539,15 @@ class SoftwareContext(ARObject):
                 f"input must be String or str or None, got {type(value).__name__}"
             )
         self._input = value
-        self._state: Optional["String"] = None
+        self._state: Optional[String] = None
 
     @property
-    def state(self) -> Optional["String"]:
+    def state(self) -> Optional[String]:
         """Get state (Pythonic accessor)."""
         return self._state
 
     @state.setter
-    def state(self, value: Optional["String"]) -> None:
+    def state(self, value: Optional[String]) -> None:
         """
         Set state with validation.
 
@@ -569,7 +569,7 @@ class SoftwareContext(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInput(self) -> "String":
+    def getInput(self) -> String:
         """
         AUTOSAR-compliant getter for input.
 
@@ -581,7 +581,7 @@ class SoftwareContext(ARObject):
         """
         return self.input  # Delegates to property
 
-    def setInput(self, value: "String") -> SoftwareContext:
+    def setInput(self, value: String) -> SoftwareContext:
         """
         AUTOSAR-compliant setter for input with method chaining.
 
@@ -597,7 +597,7 @@ class SoftwareContext(ARObject):
         self.input = value  # Delegates to property setter
         return self
 
-    def getState(self) -> "String":
+    def getState(self) -> String:
         """
         AUTOSAR-compliant getter for state.
 
@@ -609,7 +609,7 @@ class SoftwareContext(ARObject):
         """
         return self.state  # Delegates to property
 
-    def setState(self, value: "String") -> SoftwareContext:
+    def setState(self, value: String) -> SoftwareContext:
         """
         AUTOSAR-compliant setter for state with method chaining.
 
@@ -627,7 +627,7 @@ class SoftwareContext(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_input(self, value: Optional["String"]) -> SoftwareContext:
+    def with_input(self, value: Optional[String]) -> SoftwareContext:
         """
         Set input and return self for chaining.
 
@@ -643,7 +643,7 @@ class SoftwareContext(ARObject):
         self.input = value  # Use property setter (gets validation)
         return self
 
-    def with_state(self, value: Optional["String"]) -> SoftwareContext:
+    def with_state(self, value: Optional[String]) -> SoftwareContext:
         """
         Set state and return self for chaining.
 

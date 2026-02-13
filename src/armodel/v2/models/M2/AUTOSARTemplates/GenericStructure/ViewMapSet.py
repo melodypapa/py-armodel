@@ -17,6 +17,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpFeature,
+)
 
 
 class ViewMap(Identifiable):
@@ -41,22 +44,22 @@ class ViewMap(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # xml.
         # sequenceOffset=50 by: AnyInstanceRef.
-        self._firstElement: List["AtpFeature"] = []
+        self._firstElement: List[AtpFeature] = []
 
     @property
-    def first_element(self) -> List["AtpFeature"]:
+    def first_element(self) -> List[AtpFeature]:
         """Get firstElement (Pythonic accessor)."""
         return self._firstElement
         # This attribute is used to describe specific mapping the mappings:.
-        self._role: Optional["Identifier"] = None
+        self._role: Optional[Identifier] = None
 
     @property
-    def role(self) -> Optional["Identifier"]:
+    def role(self) -> Optional[Identifier]:
         """Get role (Pythonic accessor)."""
         return self._role
 
     @role.setter
-    def role(self, value: Optional["Identifier"]) -> None:
+    def role(self, value: Optional[Identifier]) -> None:
         """
         Set role with validation.
 
@@ -76,10 +79,10 @@ class ViewMap(Identifiable):
             )
         self._role = value
         # sequenceOffset=60 by: AnyInstanceRef.
-        self._secondElement: List["AtpFeature"] = []
+        self._secondElement: List[AtpFeature] = []
 
     @property
-    def second_element(self) -> List["AtpFeature"]:
+    def second_element(self) -> List[AtpFeature]:
         """Get secondElement (Pythonic accessor)."""
         return self._secondElement
 
@@ -133,7 +136,7 @@ class ViewMap(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFirstElement(self) -> List["AtpFeature"]:
+    def getFirstElement(self) -> List[AtpFeature]:
         """
         AUTOSAR-compliant getter for firstElement.
 
@@ -173,7 +176,7 @@ class ViewMap(Identifiable):
         self.role = value  # Delegates to property setter
         return self
 
-    def getSecondElement(self) -> List["AtpFeature"]:
+    def getSecondElement(self) -> List[AtpFeature]:
         """
         AUTOSAR-compliant getter for secondElement.
 

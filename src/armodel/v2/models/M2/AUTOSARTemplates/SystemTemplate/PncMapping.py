@@ -38,22 +38,22 @@ class PncMapping(Describable):
         # Reference to an ISignalIPduGroup that allows mapping of PNC without
         # statically mapping this PNC directly to a This is needed to describe dynamic
         # PNCs that learned only at run-time and which have also a an ISignalIPduGroup.
-        self._dynamicPnc: List["RefType"] = []
+        self._dynamicPnc: List[RefType] = []
 
     @property
-    def dynamic_pnc(self) -> List["RefType"]:
+    def dynamic_pnc(self) -> List[RefType]:
         """Get dynamicPnc (Pythonic accessor)."""
         return self._dynamicPnc
         # This adds the ability to become referrable to PncMapping.
-        self._ident: Optional["RefType"] = None
+        self._ident: Optional[RefType] = None
 
     @property
-    def ident(self) -> Optional["RefType"]:
+    def ident(self) -> Optional[RefType]:
         """Get ident (Pythonic accessor)."""
         return self._ident
 
     @ident.setter
-    def ident(self, value: Optional["RefType"]) -> None:
+    def ident(self, value: Optional[RefType]) -> None:
         """
         Set ident with validation.
 
@@ -68,10 +68,10 @@ class PncMapping(Describable):
             return
 
         self._ident = value
-        self._physical: List["PhysicalChannel"] = []
+        self._physical: List[PhysicalChannel] = []
 
     @property
-    def physical(self) -> List["PhysicalChannel"]:
+    def physical(self) -> List[PhysicalChannel]:
         """Get physical (Pythonic accessor)."""
         return self._physical
         # ConsumedProvidedServiceInstanceGroup used in a Partial Network Cluster.
@@ -88,23 +88,23 @@ class PncMapping(Describable):
         # This optional in case an ecu extract has only access, i.
         # e.
         # ecu is not directly connected to a supports partial network.
-        self._pncGroup: List["RefType"] = []
+        self._pncGroup: List[RefType] = []
 
     @property
-    def pnc_group(self) -> List["RefType"]:
+    def pnc_group(self) -> List[RefType]:
         """Get pncGroup (Pythonic accessor)."""
         return self._pncGroup
         # Identifer of the Partial Network Cluster.
         # This number absolute bit position of this Partial Network the NM Pdu.
-        self._pncIdentifier: Optional["PositiveInteger"] = None
+        self._pncIdentifier: Optional[PositiveInteger] = None
 
     @property
-    def pnc_identifier(self) -> Optional["PositiveInteger"]:
+    def pnc_identifier(self) -> Optional[PositiveInteger]:
         """Get pncIdentifier (Pythonic accessor)."""
         return self._pncIdentifier
 
     @pnc_identifier.setter
-    def pnc_identifier(self, value: Optional["PositiveInteger"]) -> None:
+    def pnc_identifier(self, value: Optional[PositiveInteger]) -> None:
         """
         Set pncIdentifier with validation.
 
@@ -123,25 +123,25 @@ class PncMapping(Describable):
                 f"pncIdentifier must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._pncIdentifier = value
-        self._pncPdurGroup: List["RefType"] = []
+        self._pncPdurGroup: List[RefType] = []
 
     @property
-    def pnc_pdur_group(self) -> List["RefType"]:
+    def pnc_pdur_group(self) -> List[RefType]:
         """Get pncPdurGroup (Pythonic accessor)."""
         return self._pncPdurGroup
         # If this parameter is available and set to true then this PNC be woken up as
                 # soon as a channel wakeup occurs on where this PNC is assigned to.
         # This is ensured this PNC to the corresponding channel wakeup upstream
                 # mapping.
-        self._pncWakeup: Optional["Boolean"] = None
+        self._pncWakeup: Optional[Boolean] = None
 
     @property
-    def pnc_wakeup(self) -> Optional["Boolean"]:
+    def pnc_wakeup(self) -> Optional[Boolean]:
         """Get pncWakeup (Pythonic accessor)."""
         return self._pncWakeup
 
     @pnc_wakeup.setter
-    def pnc_wakeup(self, value: Optional["Boolean"]) -> None:
+    def pnc_wakeup(self, value: Optional[Boolean]) -> None:
         """
         Set pncWakeup with validation.
 
@@ -163,10 +163,10 @@ class PncMapping(Describable):
                 # mapping.
         # This is needed to dynamic PNCs that can be learned only at which have no
                 # relation to an ISignalIPdu.
-        self._relevantFor: List["EcuInstance"] = []
+        self._relevantFor: List[EcuInstance] = []
 
     @property
-    def relevant_for(self) -> List["EcuInstance"]:
+    def relevant_for(self) -> List[EcuInstance]:
         """Get relevantFor (Pythonic accessor)."""
         return self._relevantFor
         # This attribute specifies an identifying shortName for the shall be unique in
@@ -202,20 +202,20 @@ class PncMapping(Describable):
                 # Software (VFB View).
         # This supports the legacy systems.
         # by: PortGroupInSystem.
-        self._vfc: List["RefType"] = []
+        self._vfc: List[RefType] = []
 
     @property
-    def vfc(self) -> List["RefType"]:
+    def vfc(self) -> List[RefType]:
         """Get vfc (Pythonic accessor)."""
         return self._vfc
         # Reference to collection of FrameTriggerings that are used wakeup of this PNC
                 # (Application Frames or Nm be used).
         # This reference is only valid if this an ECU which has direct PNC ECU is
                 # directly connected to a network which network.
-        self._wakeupFrame: List["RefType"] = []
+        self._wakeupFrame: List[RefType] = []
 
     @property
-    def wakeup_frame(self) -> List["RefType"]:
+    def wakeup_frame(self) -> List[RefType]:
         """Get wakeupFrame (Pythonic accessor)."""
         return self._wakeupFrame
 
@@ -349,7 +349,7 @@ class PncMapping(Describable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDynamicPnc(self) -> List["RefType"]:
+    def getDynamicPnc(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dynamicPnc.
 
@@ -361,7 +361,7 @@ class PncMapping(Describable):
         """
         return self.dynamic_pnc  # Delegates to property
 
-    def getIdent(self) -> "RefType":
+    def getIdent(self) -> RefType:
         """
         AUTOSAR-compliant getter for ident.
 
@@ -373,7 +373,7 @@ class PncMapping(Describable):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "RefType") -> PncMapping:
+    def setIdent(self, value: RefType) -> PncMapping:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -389,7 +389,7 @@ class PncMapping(Describable):
         self.ident = value  # Delegates to property setter
         return self
 
-    def getPhysical(self) -> List["PhysicalChannel"]:
+    def getPhysical(self) -> List[PhysicalChannel]:
         """
         AUTOSAR-compliant getter for physical.
 
@@ -413,7 +413,7 @@ class PncMapping(Describable):
         """
         return self.pnc_consumed  # Delegates to property
 
-    def getPncGroup(self) -> List["RefType"]:
+    def getPncGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pncGroup.
 
@@ -425,7 +425,7 @@ class PncMapping(Describable):
         """
         return self.pnc_group  # Delegates to property
 
-    def getPncIdentifier(self) -> "PositiveInteger":
+    def getPncIdentifier(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for pncIdentifier.
 
@@ -437,7 +437,7 @@ class PncMapping(Describable):
         """
         return self.pnc_identifier  # Delegates to property
 
-    def setPncIdentifier(self, value: "PositiveInteger") -> PncMapping:
+    def setPncIdentifier(self, value: PositiveInteger) -> PncMapping:
         """
         AUTOSAR-compliant setter for pncIdentifier with method chaining.
 
@@ -453,7 +453,7 @@ class PncMapping(Describable):
         self.pnc_identifier = value  # Delegates to property setter
         return self
 
-    def getPncPdurGroup(self) -> List["RefType"]:
+    def getPncPdurGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pncPdurGroup.
 
@@ -465,7 +465,7 @@ class PncMapping(Describable):
         """
         return self.pnc_pdur_group  # Delegates to property
 
-    def getPncWakeup(self) -> "Boolean":
+    def getPncWakeup(self) -> Boolean:
         """
         AUTOSAR-compliant getter for pncWakeup.
 
@@ -477,7 +477,7 @@ class PncMapping(Describable):
         """
         return self.pnc_wakeup  # Delegates to property
 
-    def setPncWakeup(self, value: "Boolean") -> PncMapping:
+    def setPncWakeup(self, value: Boolean) -> PncMapping:
         """
         AUTOSAR-compliant setter for pncWakeup with method chaining.
 
@@ -493,7 +493,7 @@ class PncMapping(Describable):
         self.pnc_wakeup = value  # Delegates to property setter
         return self
 
-    def getRelevantFor(self) -> List["EcuInstance"]:
+    def getRelevantFor(self) -> List[EcuInstance]:
         """
         AUTOSAR-compliant getter for relevantFor.
 
@@ -533,7 +533,7 @@ class PncMapping(Describable):
         self.short_label = value  # Delegates to property setter
         return self
 
-    def getVfc(self) -> List["RefType"]:
+    def getVfc(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for vfc.
 
@@ -545,7 +545,7 @@ class PncMapping(Describable):
         """
         return self.vfc  # Delegates to property
 
-    def getWakeupFrame(self) -> List["RefType"]:
+    def getWakeupFrame(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for wakeupFrame.
 
@@ -575,7 +575,7 @@ class PncMapping(Describable):
         self.ident = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_identifier(self, value: Optional["PositiveInteger"]) -> PncMapping:
+    def with_pnc_identifier(self, value: Optional[PositiveInteger]) -> PncMapping:
         """
         Set pncIdentifier and return self for chaining.
 
@@ -591,7 +591,7 @@ class PncMapping(Describable):
         self.pnc_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_wakeup(self, value: Optional["Boolean"]) -> PncMapping:
+    def with_pnc_wakeup(self, value: Optional[Boolean]) -> PncMapping:
         """
         Set pncWakeup and return self for chaining.
 

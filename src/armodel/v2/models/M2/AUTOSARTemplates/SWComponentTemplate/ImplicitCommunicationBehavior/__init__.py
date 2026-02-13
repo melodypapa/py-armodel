@@ -34,10 +34,10 @@ class ConsistencyNeeds(Identifiable):
         # This group of VariableDataPrototypes does not require with respect to the
         # implicit communication atpVariation 1228 Document ID 62:
         # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._dpgDoesNot: List["RefType"] = []
+        self._dpgDoesNot: List[RefType] = []
 
     @property
-    def dpg_does_not(self) -> List["RefType"]:
+    def dpg_does_not(self) -> List[RefType]:
         """Get dpgDoesNot (Pythonic accessor)."""
         return self._dpgDoesNot
         # This group of VariableDataPrototypes requires coherency respect to the
@@ -45,19 +45,19 @@ class ConsistencyNeeds(Identifiable):
         # e.
         # and write access to VariableDataPrototypes in the the RunnableEntitys of the
                 # to be handled in a coherent atpVariation.
-        self._dpgRequires: List["RefType"] = []
+        self._dpgRequires: List[RefType] = []
 
     @property
-    def dpg_requires(self) -> List["RefType"]:
+    def dpg_requires(self) -> List[RefType]:
         """Get dpgRequires (Pythonic accessor)."""
         return self._dpgRequires
         # This group of RunnableEntities does not require stability respect to the
                 # implicit communication behavior.
         # atpVariation.
-        self._regDoesNot: List["RefType"] = []
+        self._regDoesNot: List[RefType] = []
 
     @property
-    def reg_does_not(self) -> List["RefType"]:
+    def reg_does_not(self) -> List[RefType]:
         """Get regDoesNot (Pythonic accessor)."""
         return self._regDoesNot
         # This group of RunnableEntities requires stability with to the implicit
@@ -65,10 +65,10 @@ class ConsistencyNeeds(Identifiable):
         # e.
         # all write access to VariableDataPrototypes in the the RunnableEntitys of the
                 # to be handled in a stable atpVariation.
-        self._regRequires: List["RefType"] = []
+        self._regRequires: List[RefType] = []
 
     @property
-    def reg_requires(self) -> List["RefType"]:
+    def reg_requires(self) -> List[RefType]:
         """Get regRequires (Pythonic accessor)."""
         return self._regRequires
 
@@ -202,7 +202,7 @@ class ConsistencyNeeds(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDpgDoesNot(self) -> List["RefType"]:
+    def getDpgDoesNot(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dpgDoesNot.
 
@@ -214,7 +214,7 @@ class ConsistencyNeeds(Identifiable):
         """
         return self.dpg_does_not  # Delegates to property
 
-    def getDpgRequires(self) -> List["RefType"]:
+    def getDpgRequires(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dpgRequires.
 
@@ -226,7 +226,7 @@ class ConsistencyNeeds(Identifiable):
         """
         return self.dpg_requires  # Delegates to property
 
-    def getRegDoesNot(self) -> List["RefType"]:
+    def getRegDoesNot(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for regDoesNot.
 
@@ -238,7 +238,7 @@ class ConsistencyNeeds(Identifiable):
         """
         return self.reg_does_not  # Delegates to property
 
-    def getRegRequires(self) -> List["RefType"]:
+    def getRegRequires(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for regRequires.
 
@@ -273,23 +273,23 @@ class RunnableEntityGroup(Identifiable):
         # the enclosing RunnableEntityGroup.
         # atpVariation runnable by: RunnableEntityIn 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._runnableEntity: List["RunnableEntity"] = []
+        self._runnableEntity: List[RunnableEntity] = []
 
     @property
-    def runnable_entity(self) -> List["RunnableEntity"]:
+    def runnable_entity(self) -> List[RunnableEntity]:
         """Get runnableEntity (Pythonic accessor)."""
         return self._runnableEntity
         # atpVariation by: InnerRunnableEntity.
-        self._runnableEntityGroupInCompositionInstanceRef: List["RefType"] = []
+        self._runnableEntityGroupInCompositionInstanceRef: List[RefType] = []
 
     @property
-    def runnable_entity_group_in_composition_instance_ref(self) -> List["RefType"]:
+    def runnable_entity_group_in_composition_instance_ref(self) -> List[RefType]:
         """Get runnableEntityGroupInCompositionInstanceRef (Pythonic accessor)."""
         return self._runnableEntityGroupInCompositionInstanceRef
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRunnableEntity(self) -> List["RunnableEntity"]:
+    def getRunnableEntity(self) -> List[RunnableEntity]:
         """
         AUTOSAR-compliant getter for runnableEntity.
 
@@ -301,7 +301,7 @@ class RunnableEntityGroup(Identifiable):
         """
         return self.runnable_entity  # Delegates to property
 
-    def getRunnableEntityGroupInCompositionInstanceRef(self) -> List["RefType"]:
+    def getRunnableEntityGroupInCompositionInstanceRef(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for runnableEntityGroupInCompositionInstanceRef.
 
@@ -335,24 +335,24 @@ class DataPrototypeGroup(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # atpVariation by: InnerDataPrototype.
-        self._dataPrototypeGroupInCompositionInstanceRef: List["RefType"] = []
+        self._dataPrototypeGroupInCompositionInstanceRef: List[RefType] = []
 
     @property
-    def data_prototype_group_in_composition_instance_ref(self) -> List["RefType"]:
+    def data_prototype_group_in_composition_instance_ref(self) -> List[RefType]:
         """Get dataPrototypeGroupInCompositionInstanceRef (Pythonic accessor)."""
         return self._dataPrototypeGroupInCompositionInstanceRef
         # belong to the enclosing DataPrototypeGroup atpVariation by:
         # VariableDataPrototypeIn.
-        self._implicitData: List["RefType"] = []
+        self._implicitData: List[RefType] = []
 
     @property
-    def implicit_data(self) -> List["RefType"]:
+    def implicit_data(self) -> List[RefType]:
         """Get implicitData (Pythonic accessor)."""
         return self._implicitData
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataPrototypeGroupInCompositionInstanceRef(self) -> List["RefType"]:
+    def getDataPrototypeGroupInCompositionInstanceRef(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataPrototypeGroupInCompositionInstanceRef.
 
@@ -364,7 +364,7 @@ class DataPrototypeGroup(Identifiable):
         """
         return self.data_prototype_group_in_composition_instance_ref  # Delegates to property
 
-    def getImplicitData(self) -> List["RefType"]:
+    def getImplicitData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for implicitData.
 

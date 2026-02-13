@@ -242,15 +242,15 @@ class PortAPIOption(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # If set to true, the software-component is able to use the reference for
         # deriving a pointer to an object.
-        self._enableTake: Optional["Boolean"] = None
+        self._enableTake: Optional[Boolean] = None
 
     @property
-    def enable_take(self) -> Optional["Boolean"]:
+    def enable_take(self) -> Optional[Boolean]:
         """Get enableTake (Pythonic accessor)."""
         return self._enableTake
 
     @enable_take.setter
-    def enable_take(self, value: Optional["Boolean"]) -> None:
+    def enable_take(self, value: Optional[Boolean]) -> None:
         """
         Set enableTake with validation.
 
@@ -301,15 +301,15 @@ class PortAPIOption(ARObject):
                 # pointer to an object representing a port.
         # This iterating over ports in a loop.
         # This option has for PPortPrototypes of client/server interfaces.
-        self._indirectAPI: Optional["Boolean"] = None
+        self._indirectAPI: Optional[Boolean] = None
 
     @property
-    def indirect_api(self) -> Optional["Boolean"]:
+    def indirect_api(self) -> Optional[Boolean]:
         """Get indirectAPI (Pythonic accessor)."""
         return self._indirectAPI
 
     @indirect_api.setter
-    def indirect_api(self, value: Optional["Boolean"]) -> None:
+    def indirect_api(self, value: Optional[Boolean]) -> None:
         """
         Set indirectAPI with validation.
 
@@ -328,15 +328,15 @@ class PortAPIOption(ARObject):
                 f"indirectAPI must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._indirectAPI = value
-        self._port: Optional["RefType"] = None
+        self._port: Optional[RefType] = None
 
     @property
-    def port(self) -> Optional["RefType"]:
+    def port(self) -> Optional[RefType]:
         """Get port (Pythonic accessor)."""
         return self._port
 
     @port.setter
-    def port(self, value: Optional["RefType"]) -> None:
+    def port(self, value: Optional[RefType]) -> None:
         """
         Set port with validation.
 
@@ -398,7 +398,7 @@ class PortAPIOption(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEnableTake(self) -> "Boolean":
+    def getEnableTake(self) -> Boolean:
         """
         AUTOSAR-compliant getter for enableTake.
 
@@ -410,7 +410,7 @@ class PortAPIOption(ARObject):
         """
         return self.enable_take  # Delegates to property
 
-    def setEnableTake(self, value: "Boolean") -> PortAPIOption:
+    def setEnableTake(self, value: Boolean) -> PortAPIOption:
         """
         AUTOSAR-compliant setter for enableTake with method chaining.
 
@@ -454,7 +454,7 @@ class PortAPIOption(ARObject):
         self.error_handling = value  # Delegates to property setter
         return self
 
-    def getIndirectAPI(self) -> "Boolean":
+    def getIndirectAPI(self) -> Boolean:
         """
         AUTOSAR-compliant getter for indirectAPI.
 
@@ -466,7 +466,7 @@ class PortAPIOption(ARObject):
         """
         return self.indirect_api  # Delegates to property
 
-    def setIndirectAPI(self, value: "Boolean") -> PortAPIOption:
+    def setIndirectAPI(self, value: Boolean) -> PortAPIOption:
         """
         AUTOSAR-compliant setter for indirectAPI with method chaining.
 
@@ -482,7 +482,7 @@ class PortAPIOption(ARObject):
         self.indirect_api = value  # Delegates to property setter
         return self
 
-    def getPort(self) -> "RefType":
+    def getPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for port.
 
@@ -494,7 +494,7 @@ class PortAPIOption(ARObject):
         """
         return self.port  # Delegates to property
 
-    def setPort(self, value: "RefType") -> PortAPIOption:
+    def setPort(self, value: RefType) -> PortAPIOption:
         """
         AUTOSAR-compliant setter for port with method chaining.
 
@@ -564,7 +564,7 @@ class PortAPIOption(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_enable_take(self, value: Optional["Boolean"]) -> PortAPIOption:
+    def with_enable_take(self, value: Optional[Boolean]) -> PortAPIOption:
         """
         Set enableTake and return self for chaining.
 
@@ -596,7 +596,7 @@ class PortAPIOption(ARObject):
         self.error_handling = value  # Use property setter (gets validation)
         return self
 
-    def with_indirect_api(self, value: Optional["Boolean"]) -> PortAPIOption:
+    def with_indirect_api(self, value: Optional[Boolean]) -> PortAPIOption:
         """
         Set indirectAPI and return self for chaining.
 

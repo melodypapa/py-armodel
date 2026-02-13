@@ -78,15 +78,15 @@ class TimingDescriptionEventChain(TimingDescription):
         # e.
         # "permitted If TRUE, then the scheduled entities pipelining.
         # If FALSE or undefined, no.
-        self._isPipelining: Optional["Boolean"] = None
+        self._isPipelining: Optional[Boolean] = None
 
     @property
-    def is_pipelining(self) -> Optional["Boolean"]:
+    def is_pipelining(self) -> Optional[Boolean]:
         """Get isPipelining (Pythonic accessor)."""
         return self._isPipelining
 
     @is_pipelining.setter
-    def is_pipelining(self, value: Optional["Boolean"]) -> None:
+    def is_pipelining(self, value: Optional[Boolean]) -> None:
         """
         Set isPipelining with validation.
 
@@ -169,7 +169,7 @@ class TimingDescriptionEventChain(TimingDescription):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIsPipelining(self) -> "Boolean":
+    def getIsPipelining(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isPipelining.
 
@@ -181,7 +181,7 @@ class TimingDescriptionEventChain(TimingDescription):
         """
         return self.is_pipelining  # Delegates to property
 
-    def setIsPipelining(self, value: "Boolean") -> TimingDescriptionEventChain:
+    def setIsPipelining(self, value: Boolean) -> TimingDescriptionEventChain:
         """
         AUTOSAR-compliant setter for isPipelining with method chaining.
 
@@ -267,7 +267,7 @@ class TimingDescriptionEventChain(TimingDescription):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_pipelining(self, value: Optional["Boolean"]) -> TimingDescriptionEventChain:
+    def with_is_pipelining(self, value: Optional[Boolean]) -> TimingDescriptionEventChain:
         """
         Set isPipelining and return self for chaining.
 

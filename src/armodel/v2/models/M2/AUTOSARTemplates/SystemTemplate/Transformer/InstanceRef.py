@@ -42,25 +42,25 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         # The reference has to be ordered to reflect the nested structure.
         # xml.
         # sequenceOffset=20.
-        self._context: List["AbstractImplementation"] = []
+        self._context: List[AbstractImplementation] = []
 
     @property
-    def context(self) -> List["AbstractImplementation"]:
+    def context(self) -> List[AbstractImplementation]:
         """Get context (Pythonic accessor)."""
         return self._context
         # This refers to the AutosarDataPrototype which is typed by
                 # ImplementationDatatype.
         # The targetDataPrototype defined contextDataPrototypes can be found
                 # rootDataPrototype.
-        self._rootData: Optional["RefType"] = None
+        self._rootData: Optional[RefType] = None
 
     @property
-    def root_data(self) -> Optional["RefType"]:
+    def root_data(self) -> Optional[RefType]:
         """Get rootData (Pythonic accessor)."""
         return self._rootData
 
     @root_data.setter
-    def root_data(self, value: Optional["RefType"]) -> None:
+    def root_data(self, value: Optional[RefType]) -> None:
         """
         Set rootData with validation.
 
@@ -79,15 +79,15 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
                 # rootDataPrototype.
         # xml.
         # sequenceOffset=30.
-        self._target: Optional["AbstractImplementation"] = None
+        self._target: Optional[AbstractImplementation] = None
 
     @property
-    def target(self) -> Optional["AbstractImplementation"]:
+    def target(self) -> Optional[AbstractImplementation]:
         """Get target (Pythonic accessor)."""
         return self._target
 
     @target.setter
-    def target(self, value: Optional["AbstractImplementation"]) -> None:
+    def target(self, value: Optional[AbstractImplementation]) -> None:
         """
         Set target with validation.
 
@@ -173,7 +173,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getContext(self) -> List["AbstractImplementation"]:
+    def getContext(self) -> List[AbstractImplementation]:
         """
         AUTOSAR-compliant getter for context.
 
@@ -185,7 +185,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         """
         return self.context  # Delegates to property
 
-    def getRootData(self) -> "RefType":
+    def getRootData(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootData.
 
@@ -197,7 +197,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         """
         return self.root_data  # Delegates to property
 
-    def setRootData(self, value: "RefType") -> ImplementationDataTypeElementInPortInterfaceRef:
+    def setRootData(self, value: RefType) -> ImplementationDataTypeElementInPortInterfaceRef:
         """
         AUTOSAR-compliant setter for rootData with method chaining.
 
@@ -213,7 +213,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         self.root_data = value  # Delegates to property setter
         return self
 
-    def getTarget(self) -> "AbstractImplementation":
+    def getTarget(self) -> AbstractImplementation:
         """
         AUTOSAR-compliant getter for target.
 
@@ -225,7 +225,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "AbstractImplementation") -> ImplementationDataTypeElementInPortInterfaceRef:
+    def setTarget(self, value: AbstractImplementation) -> ImplementationDataTypeElementInPortInterfaceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -259,7 +259,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         self.root_data = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional["AbstractImplementation"]) -> ImplementationDataTypeElementInPortInterfaceRef:
+    def with_target(self, value: Optional[AbstractImplementation]) -> ImplementationDataTypeElementInPortInterfaceRef:
         """
         Set target and return self for chaining.
 
@@ -324,23 +324,23 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
             )
         self._abstractBase = value
         # sequenceOffset=20.
-        self._contextData: List["ApplicationComposite"] = []
+        self._contextData: List[ApplicationComposite] = []
 
     @property
-    def context_data(self) -> List["ApplicationComposite"]:
+    def context_data(self) -> List[ApplicationComposite]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # Stereotypes: atpAbstract xml.
         # sequenceOffset=10.
-        self._rootData: Optional["RefType"] = None
+        self._rootData: Optional[RefType] = None
 
     @property
-    def root_data(self) -> Optional["RefType"]:
+    def root_data(self) -> Optional[RefType]:
         """Get rootData (Pythonic accessor)."""
         return self._rootData
 
     @root_data.setter
-    def root_data(self, value: Optional["RefType"]) -> None:
+    def root_data(self, value: Optional[RefType]) -> None:
         """
         Set rootData with validation.
 
@@ -356,15 +356,15 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
 
         self._rootData = value
         # sequenceOffset=30.
-        self._targetData: "RefType" = None
+        self._targetData: RefType = None
 
     @property
-    def target_data(self) -> "RefType":
+    def target_data(self) -> RefType:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: "RefType") -> None:
+    def target_data(self, value: RefType) -> None:
         """
         Set targetData with validation.
 
@@ -406,7 +406,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
         self.abstract_base = value  # Delegates to property setter
         return self
 
-    def getContextData(self) -> List["ApplicationComposite"]:
+    def getContextData(self) -> List[ApplicationComposite]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -418,7 +418,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
         """
         return self.context_data  # Delegates to property
 
-    def getRootData(self) -> "RefType":
+    def getRootData(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootData.
 
@@ -430,7 +430,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
         """
         return self.root_data  # Delegates to property
 
-    def setRootData(self, value: "RefType") -> DataPrototypeInPortInterfaceInstanceRef:
+    def setRootData(self, value: RefType) -> DataPrototypeInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for rootData with method chaining.
 
@@ -446,7 +446,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
         self.root_data = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> "RefType":
+    def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -458,7 +458,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "RefType") -> DataPrototypeInPortInterfaceInstanceRef:
+    def setTargetData(self, value: RefType) -> DataPrototypeInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -567,23 +567,23 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
             )
         self._baseInterface = value
         # sequenceOffset=20.
-        self._contextData: List["ApplicationComposite"] = []
+        self._contextData: List[ApplicationComposite] = []
 
     @property
-    def context_data(self) -> List["ApplicationComposite"]:
+    def context_data(self) -> List[ApplicationComposite]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # Tags: xml.
         # sequenceOffset=10.
-        self._rootDataPrototypeInSr: Optional["RefType"] = None
+        self._rootDataPrototypeInSr: Optional[RefType] = None
 
     @property
-    def root_data_prototype_in_sr(self) -> Optional["RefType"]:
+    def root_data_prototype_in_sr(self) -> Optional[RefType]:
         """Get rootDataPrototypeInSr (Pythonic accessor)."""
         return self._rootDataPrototypeInSr
 
     @root_data_prototype_in_sr.setter
-    def root_data_prototype_in_sr(self, value: Optional["RefType"]) -> None:
+    def root_data_prototype_in_sr(self, value: Optional[RefType]) -> None:
         """
         Set rootDataPrototypeInSr with validation.
 
@@ -599,15 +599,15 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
 
         self._rootDataPrototypeInSr = value
         # sequenceOffset=30.
-        self._targetDataPrototypeInSr: Optional["RefType"] = None
+        self._targetDataPrototypeInSr: Optional[RefType] = None
 
     @property
-    def target_data_prototype_in_sr(self) -> Optional["RefType"]:
+    def target_data_prototype_in_sr(self) -> Optional[RefType]:
         """Get targetDataPrototypeInSr (Pythonic accessor)."""
         return self._targetDataPrototypeInSr
 
     @target_data_prototype_in_sr.setter
-    def target_data_prototype_in_sr(self, value: Optional["RefType"]) -> None:
+    def target_data_prototype_in_sr(self, value: Optional[RefType]) -> None:
         """
         Set targetDataPrototypeInSr with validation.
 
@@ -653,7 +653,7 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
         self.base_interface = value  # Delegates to property setter
         return self
 
-    def getContextData(self) -> List["ApplicationComposite"]:
+    def getContextData(self) -> List[ApplicationComposite]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -665,7 +665,7 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
         """
         return self.context_data  # Delegates to property
 
-    def getRootDataPrototypeInSr(self) -> "RefType":
+    def getRootDataPrototypeInSr(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootDataPrototypeInSr.
 
@@ -677,7 +677,7 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
         """
         return self.root_data_prototype_in_sr  # Delegates to property
 
-    def setRootDataPrototypeInSr(self, value: "RefType") -> DataPrototypeInSenderReceiverInterfaceInstanceRef:
+    def setRootDataPrototypeInSr(self, value: RefType) -> DataPrototypeInSenderReceiverInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for rootDataPrototypeInSr with method chaining.
 
@@ -693,7 +693,7 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
         self.root_data_prototype_in_sr = value  # Delegates to property setter
         return self
 
-    def getTargetDataPrototypeInSr(self) -> "RefType":
+    def getTargetDataPrototypeInSr(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetDataPrototypeInSr.
 
@@ -705,7 +705,7 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(DataPrototypeInPortInter
         """
         return self.target_data_prototype_in_sr  # Delegates to property
 
-    def setTargetDataPrototypeInSr(self, value: "RefType") -> DataPrototypeInSenderReceiverInterfaceInstanceRef:
+    def setTargetDataPrototypeInSr(self, value: RefType) -> DataPrototypeInSenderReceiverInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for targetDataPrototypeInSr with method chaining.
 
@@ -786,15 +786,15 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived.
-        self._base: Optional["ClientServerInterface"] = None
+        self._base: Optional[ClientServerInterface] = None
 
     @property
-    def base(self) -> Optional["ClientServerInterface"]:
+    def base(self) -> Optional[ClientServerInterface]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional["ClientServerInterface"]) -> None:
+    def base(self, value: Optional[ClientServerInterface]) -> None:
         """
         Set base with validation.
 
@@ -814,23 +814,23 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
             )
         self._base = value
         # sequenceOffset=20.
-        self._contextData: List["ApplicationComposite"] = []
+        self._contextData: List[ApplicationComposite] = []
 
     @property
-    def context_data(self) -> List["ApplicationComposite"]:
+    def context_data(self) -> List[ApplicationComposite]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # Tags: xml.
         # sequenceOffset=10.
-        self._rootDataPrototypeInCs: Optional["RefType"] = None
+        self._rootDataPrototypeInCs: Optional[RefType] = None
 
     @property
-    def root_data_prototype_in_cs(self) -> Optional["RefType"]:
+    def root_data_prototype_in_cs(self) -> Optional[RefType]:
         """Get rootDataPrototypeInCs (Pythonic accessor)."""
         return self._rootDataPrototypeInCs
 
     @root_data_prototype_in_cs.setter
-    def root_data_prototype_in_cs(self, value: Optional["RefType"]) -> None:
+    def root_data_prototype_in_cs(self, value: Optional[RefType]) -> None:
         """
         Set rootDataPrototypeInCs with validation.
 
@@ -846,15 +846,15 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
 
         self._rootDataPrototypeInCs = value
         # sequenceOffset=30.
-        self._targetDataPrototypeInCs: Optional["RefType"] = None
+        self._targetDataPrototypeInCs: Optional[RefType] = None
 
     @property
-    def target_data_prototype_in_cs(self) -> Optional["RefType"]:
+    def target_data_prototype_in_cs(self) -> Optional[RefType]:
         """Get targetDataPrototypeInCs (Pythonic accessor)."""
         return self._targetDataPrototypeInCs
 
     @target_data_prototype_in_cs.setter
-    def target_data_prototype_in_cs(self, value: Optional["RefType"]) -> None:
+    def target_data_prototype_in_cs(self, value: Optional[RefType]) -> None:
         """
         Set targetDataPrototypeInCs with validation.
 
@@ -872,7 +872,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> "ClientServerInterface":
+    def getBase(self) -> ClientServerInterface:
         """
         AUTOSAR-compliant getter for base.
 
@@ -884,7 +884,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "ClientServerInterface") -> DataPrototypeInClientServerInterfaceInstanceRef:
+    def setBase(self, value: ClientServerInterface) -> DataPrototypeInClientServerInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -900,7 +900,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextData(self) -> List["ApplicationComposite"]:
+    def getContextData(self) -> List[ApplicationComposite]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -912,7 +912,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
         """
         return self.context_data  # Delegates to property
 
-    def getRootDataPrototypeInCs(self) -> "RefType":
+    def getRootDataPrototypeInCs(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootDataPrototypeInCs.
 
@@ -924,7 +924,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
         """
         return self.root_data_prototype_in_cs  # Delegates to property
 
-    def setRootDataPrototypeInCs(self, value: "RefType") -> DataPrototypeInClientServerInterfaceInstanceRef:
+    def setRootDataPrototypeInCs(self, value: RefType) -> DataPrototypeInClientServerInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for rootDataPrototypeInCs with method chaining.
 
@@ -940,7 +940,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
         self.root_data_prototype_in_cs = value  # Delegates to property setter
         return self
 
-    def getTargetDataPrototypeInCs(self) -> "RefType":
+    def getTargetDataPrototypeInCs(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetDataPrototypeInCs.
 
@@ -952,7 +952,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
         """
         return self.target_data_prototype_in_cs  # Delegates to property
 
-    def setTargetDataPrototypeInCs(self, value: "RefType") -> DataPrototypeInClientServerInterfaceInstanceRef:
+    def setTargetDataPrototypeInCs(self, value: RefType) -> DataPrototypeInClientServerInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for targetDataPrototypeInCs with method chaining.
 
@@ -970,7 +970,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["ClientServerInterface"]) -> DataPrototypeInClientServerInterfaceInstanceRef:
+    def with_base(self, value: Optional[ClientServerInterface]) -> DataPrototypeInClientServerInterfaceInstanceRef:
         """
         Set base and return self for chaining.
 

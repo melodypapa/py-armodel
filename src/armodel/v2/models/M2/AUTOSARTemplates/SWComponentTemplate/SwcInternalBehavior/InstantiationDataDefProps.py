@@ -45,15 +45,15 @@ class InstantiationDataDefProps(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference identifies the particular DataPrototype in the context of a
         # composite ParameterData which the swDataDefProps shall be.
-        self._parameter: Optional["RefType"] = None
+        self._parameter: Optional[RefType] = None
 
     @property
-    def parameter(self) -> Optional["RefType"]:
+    def parameter(self) -> Optional[RefType]:
         """Get parameter (Pythonic accessor)."""
         return self._parameter
 
     @parameter.setter
-    def parameter(self, value: Optional["RefType"]) -> None:
+    def parameter(self, value: Optional[RefType]) -> None:
         """
         Set parameter with validation.
 
@@ -68,15 +68,15 @@ class InstantiationDataDefProps(ARObject):
             return
 
         self._parameter = value
-        self._swDataDef: Optional["SwDataDefProps"] = None
+        self._swDataDef: Optional[SwDataDefProps] = None
 
     @property
-    def sw_data_def(self) -> Optional["SwDataDefProps"]:
+    def sw_data_def(self) -> Optional[SwDataDefProps]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
+    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set swDataDef with validation.
 
@@ -96,15 +96,15 @@ class InstantiationDataDefProps(ARObject):
             )
         self._swDataDef = value
         # composite VariableData which the swDataDefProps shall be.
-        self._variableInstance: Optional["RefType"] = None
+        self._variableInstance: Optional[RefType] = None
 
     @property
-    def variable_instance(self) -> Optional["RefType"]:
+    def variable_instance(self) -> Optional[RefType]:
         """Get variableInstance (Pythonic accessor)."""
         return self._variableInstance
 
     @variable_instance.setter
-    def variable_instance(self, value: Optional["RefType"]) -> None:
+    def variable_instance(self, value: Optional[RefType]) -> None:
         """
         Set variableInstance with validation.
 
@@ -122,7 +122,7 @@ class InstantiationDataDefProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getParameter(self) -> "RefType":
+    def getParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for parameter.
 
@@ -134,7 +134,7 @@ class InstantiationDataDefProps(ARObject):
         """
         return self.parameter  # Delegates to property
 
-    def setParameter(self, value: "RefType") -> InstantiationDataDefProps:
+    def setParameter(self, value: RefType) -> InstantiationDataDefProps:
         """
         AUTOSAR-compliant setter for parameter with method chaining.
 
@@ -150,7 +150,7 @@ class InstantiationDataDefProps(ARObject):
         self.parameter = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> "SwDataDefProps":
+    def getSwDataDef(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -162,7 +162,7 @@ class InstantiationDataDefProps(ARObject):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> InstantiationDataDefProps:
+    def setSwDataDef(self, value: SwDataDefProps) -> InstantiationDataDefProps:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -178,7 +178,7 @@ class InstantiationDataDefProps(ARObject):
         self.sw_data_def = value  # Delegates to property setter
         return self
 
-    def getVariableInstance(self) -> "RefType":
+    def getVariableInstance(self) -> RefType:
         """
         AUTOSAR-compliant getter for variableInstance.
 
@@ -190,7 +190,7 @@ class InstantiationDataDefProps(ARObject):
         """
         return self.variable_instance  # Delegates to property
 
-    def setVariableInstance(self, value: "RefType") -> InstantiationDataDefProps:
+    def setVariableInstance(self, value: RefType) -> InstantiationDataDefProps:
         """
         AUTOSAR-compliant setter for variableInstance with method chaining.
 
@@ -224,7 +224,7 @@ class InstantiationDataDefProps(ARObject):
         self.parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> InstantiationDataDefProps:
+    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> InstantiationDataDefProps:
         """
         Set swDataDef and return self for chaining.
 

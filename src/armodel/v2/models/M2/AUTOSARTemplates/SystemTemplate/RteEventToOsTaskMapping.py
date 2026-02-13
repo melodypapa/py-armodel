@@ -41,15 +41,15 @@ class OsTaskProxy(ARElement):
         # Please note that this informative and not directly relevant for the But the
                 # attribute value can be mapped OS configuration to support configuration work
                 # a fixed set of OsTasks.
-        self._period: Optional["TimeValue"] = None
+        self._period: Optional[TimeValue] = None
 
     @property
-    def period(self) -> Optional["TimeValue"]:
+    def period(self) -> Optional[TimeValue]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional["TimeValue"]) -> None:
+    def period(self, value: Optional[TimeValue]) -> None:
         """
         Set period with validation.
 
@@ -96,15 +96,15 @@ class OsTaskProxy(ARElement):
             )
         self._preemptability = value
         # only the relative ordering of.
-        self._priority: Optional["PositiveInteger"] = None
+        self._priority: Optional[PositiveInteger] = None
 
     @property
-    def priority(self) -> Optional["PositiveInteger"]:
+    def priority(self) -> Optional[PositiveInteger]:
         """Get priority (Pythonic accessor)."""
         return self._priority
 
     @priority.setter
-    def priority(self, value: Optional["PositiveInteger"]) -> None:
+    def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
 
@@ -126,7 +126,7 @@ class OsTaskProxy(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPeriod(self) -> "TimeValue":
+    def getPeriod(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for period.
 
@@ -138,7 +138,7 @@ class OsTaskProxy(ARElement):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "TimeValue") -> OsTaskProxy:
+    def setPeriod(self, value: TimeValue) -> OsTaskProxy:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -182,7 +182,7 @@ class OsTaskProxy(ARElement):
         self.preemptability = value  # Delegates to property setter
         return self
 
-    def getPriority(self) -> "PositiveInteger":
+    def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
 
@@ -194,7 +194,7 @@ class OsTaskProxy(ARElement):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> OsTaskProxy:
+    def setPriority(self, value: PositiveInteger) -> OsTaskProxy:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -212,7 +212,7 @@ class OsTaskProxy(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_period(self, value: Optional["TimeValue"]) -> OsTaskProxy:
+    def with_period(self, value: Optional[TimeValue]) -> OsTaskProxy:
         """
         Set period and return self for chaining.
 
@@ -244,7 +244,7 @@ class OsTaskProxy(ARElement):
         self.preemptability = value  # Use property setter (gets validation)
         return self
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> OsTaskProxy:
+    def with_priority(self, value: Optional[PositiveInteger]) -> OsTaskProxy:
         """
         Set priority and return self for chaining.
 
@@ -335,15 +335,15 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
                 # a relative value, i.
         # e.
         # the only the relative position of the appTask the ecuTaskProxy.
-        self._offset: Optional["Integer"] = None
+        self._offset: Optional[Integer] = None
 
     @property
-    def offset(self) -> Optional["Integer"]:
+    def offset(self) -> Optional[Integer]:
         """Get offset (Pythonic accessor)."""
         return self._offset
 
     @offset.setter
-    def offset(self, value: Optional["Integer"]) -> None:
+    def offset(self, value: Optional[Integer]) -> None:
         """
         Set offset with validation.
 
@@ -421,7 +421,7 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
         self.ecu_task_proxy = value  # Delegates to property setter
         return self
 
-    def getOffset(self) -> "Integer":
+    def getOffset(self) -> Integer:
         """
         AUTOSAR-compliant getter for offset.
 
@@ -433,7 +433,7 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: "Integer") -> AppOsTaskProxyToEcuTaskProxyMapping:
+    def setOffset(self, value: Integer) -> AppOsTaskProxyToEcuTaskProxyMapping:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -483,7 +483,7 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
         self.ecu_task_proxy = value  # Use property setter (gets validation)
         return self
 
-    def with_offset(self, value: Optional["Integer"]) -> AppOsTaskProxyToEcuTaskProxyMapping:
+    def with_offset(self, value: Optional[Integer]) -> AppOsTaskProxyToEcuTaskProxyMapping:
         """
         Set offset and return self for chaining.
 
@@ -522,15 +522,15 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
                 # relative value, i.
         # e.
         # the values the relative position of the RteEvent in the Os.
-        self._offset: Optional["PositiveInteger"] = None
+        self._offset: Optional[PositiveInteger] = None
 
     @property
-    def offset(self) -> Optional["PositiveInteger"]:
+    def offset(self) -> Optional[PositiveInteger]:
         """Get offset (Pythonic accessor)."""
         return self._offset
 
     @offset.setter
-    def offset(self, value: Optional["PositiveInteger"]) -> None:
+    def offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set offset with validation.
 
@@ -606,7 +606,7 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOffset(self) -> "PositiveInteger":
+    def getOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for offset.
 
@@ -618,7 +618,7 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: "PositiveInteger") -> RteEventInCompositionToOsTaskProxyMapping:
+    def setOffset(self, value: PositiveInteger) -> RteEventInCompositionToOsTaskProxyMapping:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -692,7 +692,7 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_offset(self, value: Optional["PositiveInteger"]) -> RteEventInCompositionToOsTaskProxyMapping:
+    def with_offset(self, value: Optional[PositiveInteger]) -> RteEventInCompositionToOsTaskProxyMapping:
         """
         Set offset and return self for chaining.
 
@@ -805,15 +805,15 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
                 # relative value, i.
         # e.
         # the values the relative position of the RteEvent in the Os.
-        self._offset: Optional["Integer"] = None
+        self._offset: Optional[Integer] = None
 
     @property
-    def offset(self) -> Optional["Integer"]:
+    def offset(self) -> Optional[Integer]:
         """Get offset (Pythonic accessor)."""
         return self._offset
 
     @offset.setter
-    def offset(self, value: Optional["Integer"]) -> None:
+    def offset(self, value: Optional[Integer]) -> None:
         """
         Set offset with validation.
 
@@ -890,7 +890,7 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOffset(self) -> "Integer":
+    def getOffset(self) -> Integer:
         """
         AUTOSAR-compliant getter for offset.
 
@@ -902,7 +902,7 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: "Integer") -> RteEventInSystemToOsTaskProxyMapping:
+    def setOffset(self, value: Integer) -> RteEventInSystemToOsTaskProxyMapping:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -976,7 +976,7 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_offset(self, value: Optional["Integer"]) -> RteEventInSystemToOsTaskProxyMapping:
+    def with_offset(self, value: Optional[Integer]) -> RteEventInSystemToOsTaskProxyMapping:
         """
         Set offset and return self for chaining.
 

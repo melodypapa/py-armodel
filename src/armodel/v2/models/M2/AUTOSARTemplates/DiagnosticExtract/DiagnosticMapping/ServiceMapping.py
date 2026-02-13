@@ -102,15 +102,15 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         self._diagnostic = value
         # This applicable on the classic platform.
         # by: DataPrototypeInSystem.
-        self._mappedData: Optional["RefType"] = None
+        self._mappedData: Optional[RefType] = None
 
     @property
-    def mapped_data(self) -> Optional["RefType"]:
+    def mapped_data(self) -> Optional[RefType]:
         """Get mappedData (Pythonic accessor)."""
         return self._mappedData
 
     @mapped_data.setter
-    def mapped_data(self, value: Optional["RefType"]) -> None:
+    def mapped_data(self, value: Optional[RefType]) -> None:
         """
         Set mappedData with validation.
 
@@ -228,7 +228,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         self.diagnostic = value  # Delegates to property setter
         return self
 
-    def getMappedData(self) -> "RefType":
+    def getMappedData(self) -> RefType:
         """
         AUTOSAR-compliant getter for mappedData.
 
@@ -240,7 +240,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
         """
         return self.mapped_data  # Delegates to property
 
-    def setMappedData(self, value: "RefType") -> DiagnosticServiceDataMapping:
+    def setMappedData(self, value: RefType) -> DiagnosticServiceDataMapping:
         """
         AUTOSAR-compliant setter for mappedData with method chaining.
 
@@ -509,15 +509,15 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # to be accessed in the context of the operation by: DataPrototypeInClient.
-        self._accessedData: Optional["RefType"] = None
+        self._accessedData: Optional[RefType] = None
 
     @property
-    def accessed_data(self) -> Optional["RefType"]:
+    def accessed_data(self) -> Optional[RefType]:
         """Get accessedData (Pythonic accessor)."""
         return self._accessedData
 
     @accessed_data.setter
-    def accessed_data(self, value: Optional["RefType"]) -> None:
+    def accessed_data(self, value: Optional[RefType]) -> None:
         """
         Set accessedData with validation.
 
@@ -592,15 +592,15 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
                 # let BswServiceDependency become of a reference.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
-        self._mappedBsw: Optional["BswService"] = None
+        self._mappedBsw: Optional[BswService] = None
 
     @property
-    def mapped_bsw(self) -> Optional["BswService"]:
+    def mapped_bsw(self) -> Optional[BswService]:
         """Get mappedBsw (Pythonic accessor)."""
         return self._mappedBsw
 
     @mapped_bsw.setter
-    def mapped_bsw(self, value: Optional["BswService"]) -> None:
+    def mapped_bsw(self, value: Optional[BswService]) -> None:
         """
         Set mappedBsw with validation.
 
@@ -705,15 +705,15 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
             )
         self._parameter = value
         # service mapping.
-        self._serviceInstance: Optional["DiagnosticService"] = None
+        self._serviceInstance: Optional[DiagnosticService] = None
 
     @property
-    def service_instance(self) -> Optional["DiagnosticService"]:
+    def service_instance(self) -> Optional[DiagnosticService]:
         """Get serviceInstance (Pythonic accessor)."""
         return self._serviceInstance
 
     @service_instance.setter
-    def service_instance(self, value: Optional["DiagnosticService"]) -> None:
+    def service_instance(self, value: Optional[DiagnosticService]) -> None:
         """
         Set serviceInstance with validation.
 
@@ -735,7 +735,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccessedData(self) -> "RefType":
+    def getAccessedData(self) -> RefType:
         """
         AUTOSAR-compliant getter for accessedData.
 
@@ -747,7 +747,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.accessed_data  # Delegates to property
 
-    def setAccessedData(self, value: "RefType") -> DiagnosticServiceSwMapping:
+    def setAccessedData(self, value: RefType) -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for accessedData with method chaining.
 
@@ -819,7 +819,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.diagnostic = value  # Delegates to property setter
         return self
 
-    def getMappedBsw(self) -> "BswService":
+    def getMappedBsw(self) -> BswService:
         """
         AUTOSAR-compliant getter for mappedBsw.
 
@@ -831,7 +831,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.mapped_bsw  # Delegates to property
 
-    def setMappedBsw(self, value: "BswService") -> DiagnosticServiceSwMapping:
+    def setMappedBsw(self, value: BswService) -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for mappedBsw with method chaining.
 
@@ -931,7 +931,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.parameter = value  # Delegates to property setter
         return self
 
-    def getServiceInstance(self) -> "DiagnosticService":
+    def getServiceInstance(self) -> DiagnosticService:
         """
         AUTOSAR-compliant getter for serviceInstance.
 
@@ -943,7 +943,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         """
         return self.service_instance  # Delegates to property
 
-    def setServiceInstance(self, value: "DiagnosticService") -> DiagnosticServiceSwMapping:
+    def setServiceInstance(self, value: DiagnosticService) -> DiagnosticServiceSwMapping:
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
 
@@ -1009,7 +1009,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.diagnostic = value  # Use property setter (gets validation)
         return self
 
-    def with_mapped_bsw(self, value: Optional["BswService"]) -> DiagnosticServiceSwMapping:
+    def with_mapped_bsw(self, value: Optional[BswService]) -> DiagnosticServiceSwMapping:
         """
         Set mappedBsw and return self for chaining.
 
@@ -1073,7 +1073,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
         self.parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_service_instance(self, value: Optional["DiagnosticService"]) -> DiagnosticServiceSwMapping:
+    def with_service_instance(self, value: Optional[DiagnosticService]) -> DiagnosticServiceSwMapping:
         """
         Set serviceInstance and return self for chaining.
 
@@ -1471,15 +1471,15 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         # This is supposed to represent a reference to a Bsw ServiceDependency.
         # the latter is not derived from and therefore this detour needs to be still
                 # let BswServiceDependency become of a reference.
-        self._mappedBsw: Optional["BswService"] = None
+        self._mappedBsw: Optional[BswService] = None
 
     @property
-    def mapped_bsw(self) -> Optional["BswService"]:
+    def mapped_bsw(self) -> Optional[BswService]:
         """Get mappedBsw (Pythonic accessor)."""
         return self._mappedBsw
 
     @mapped_bsw.setter
-    def mapped_bsw(self, value: Optional["BswService"]) -> None:
+    def mapped_bsw(self, value: Optional[BswService]) -> None:
         """
         Set mappedBsw with validation.
 
@@ -1586,7 +1586,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMappedBsw(self) -> "BswService":
+    def getMappedBsw(self) -> BswService:
         """
         AUTOSAR-compliant getter for mappedBsw.
 
@@ -1598,7 +1598,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
         """
         return self.mapped_bsw  # Delegates to property
 
-    def setMappedBsw(self, value: "BswService") -> DiagnosticFimFunctionMapping:
+    def setMappedBsw(self, value: BswService) -> DiagnosticFimFunctionMapping:
         """
         AUTOSAR-compliant setter for mappedBsw with method chaining.
 
@@ -1700,7 +1700,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mapped_bsw(self, value: Optional["BswService"]) -> DiagnosticFimFunctionMapping:
+    def with_mapped_bsw(self, value: Optional[BswService]) -> DiagnosticFimFunctionMapping:
         """
         Set mappedBsw and return self for chaining.
 

@@ -11,6 +11,7 @@ from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
+    RevisionLabelString,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -98,10 +99,10 @@ class EngineeringObject(ARObject, ABC):
                 f"domain must be NameToken or str or None, got {type(value).__name__}"
             )
         self._domain = value
-        self._revisionLabel: List["RevisionLabelString"] = []
+        self._revisionLabel: List[RevisionLabelString] = []
 
     @property
-    def revision_label(self) -> List["RevisionLabelString"]:
+    def revision_label(self) -> List[RevisionLabelString]:
         """Get revisionLabel (Pythonic accessor)."""
         return self._revisionLabel
         # This is the short name of the engineering object.

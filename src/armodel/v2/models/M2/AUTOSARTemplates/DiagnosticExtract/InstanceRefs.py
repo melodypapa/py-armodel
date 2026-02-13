@@ -66,22 +66,22 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         return self._context
         # Tags: xml.
         # sequenceOffset=50.
-        self._contextData: List["ApplicationComposite"] = []
+        self._contextData: List[ApplicationComposite] = []
 
     @property
-    def context_data(self) -> List["ApplicationComposite"]:
+    def context_data(self) -> List[ApplicationComposite]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # This represents the PortPrototype that is contained in the.
-        self._contextPort: Optional["RefType"] = None
+        self._contextPort: Optional[RefType] = None
 
     @property
-    def context_port(self) -> Optional["RefType"]:
+    def context_port(self) -> Optional[RefType]:
         """Get contextPort (Pythonic accessor)."""
         return self._contextPort
 
     @context_port.setter
-    def context_port(self, value: Optional["RefType"]) -> None:
+    def context_port(self, value: Optional[RefType]) -> None:
         """
         Set contextPort with validation.
 
@@ -125,15 +125,15 @@ class DataPrototypeInSystemInstanceRef(ARObject):
             )
         self._contextRoot = value
         # sequenceOffset=45.
-        self._rootDataPrototype: Optional["RefType"] = None
+        self._rootDataPrototype: Optional[RefType] = None
 
     @property
-    def root_data_prototype(self) -> Optional["RefType"]:
+    def root_data_prototype(self) -> Optional[RefType]:
         """Get rootDataPrototype (Pythonic accessor)."""
         return self._rootDataPrototype
 
     @root_data_prototype.setter
-    def root_data_prototype(self, value: Optional["RefType"]) -> None:
+    def root_data_prototype(self, value: Optional[RefType]) -> None:
         """
         Set rootDataPrototype with validation.
 
@@ -149,15 +149,15 @@ class DataPrototypeInSystemInstanceRef(ARObject):
 
         self._rootDataPrototype = value
         # sequenceOffset=60.
-        self._targetData: Optional["RefType"] = None
+        self._targetData: Optional[RefType] = None
 
     @property
-    def target_data(self) -> Optional["RefType"]:
+    def target_data(self) -> Optional[RefType]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional["RefType"]) -> None:
+    def target_data(self, value: Optional[RefType]) -> None:
         """
         Set targetData with validation.
 
@@ -247,7 +247,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.context  # Delegates to property
 
-    def getContextData(self) -> List["ApplicationComposite"]:
+    def getContextData(self) -> List[ApplicationComposite]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -259,7 +259,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.context_data  # Delegates to property
 
-    def getContextPort(self) -> "RefType":
+    def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
 
@@ -271,7 +271,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: "RefType") -> DataPrototypeInSystemInstanceRef:
+    def setContextPort(self, value: RefType) -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
 
@@ -315,7 +315,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         self.context_root = value  # Delegates to property setter
         return self
 
-    def getRootDataPrototype(self) -> "RefType":
+    def getRootDataPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootDataPrototype.
 
@@ -327,7 +327,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.root_data_prototype  # Delegates to property
 
-    def setRootDataPrototype(self, value: "RefType") -> DataPrototypeInSystemInstanceRef:
+    def setRootDataPrototype(self, value: RefType) -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for rootDataPrototype with method chaining.
 
@@ -343,7 +343,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         self.root_data_prototype = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> "RefType":
+    def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -355,7 +355,7 @@ class DataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "RefType") -> DataPrototypeInSystemInstanceRef:
+    def setTargetData(self, value: RefType) -> DataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -706,15 +706,15 @@ class PModeInSystemInstanceRef(ARObject):
             )
         self._context = value
         # sequenceOffset=50.
-        self._contextModeGroup: Optional["RefType"] = None
+        self._contextModeGroup: Optional[RefType] = None
 
     @property
-    def context_mode_group(self) -> Optional["RefType"]:
+    def context_mode_group(self) -> Optional[RefType]:
         """Get contextModeGroup (Pythonic accessor)."""
         return self._contextModeGroup
 
     @context_mode_group.setter
-    def context_mode_group(self, value: Optional["RefType"]) -> None:
+    def context_mode_group(self, value: Optional[RefType]) -> None:
         """
         Set contextModeGroup with validation.
 
@@ -730,15 +730,15 @@ class PModeInSystemInstanceRef(ARObject):
 
         self._contextModeGroup = value
         # sequenceOffset=40.
-        self._contextPPortPrototype: Optional["AbstractProvidedPort"] = None
+        self._contextPPortPrototype: Optional[AbstractProvidedPort] = None
 
     @property
-    def context_p_port_prototype(self) -> Optional["AbstractProvidedPort"]:
+    def context_p_port_prototype(self) -> Optional[AbstractProvidedPort]:
         """Get contextPPortPrototype (Pythonic accessor)."""
         return self._contextPPortPrototype
 
     @context_p_port_prototype.setter
-    def context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> None:
+    def context_p_port_prototype(self, value: Optional[AbstractProvidedPort]) -> None:
         """
         Set contextPPortPrototype with validation.
 
@@ -844,7 +844,7 @@ class PModeInSystemInstanceRef(ARObject):
         self.context = value  # Delegates to property setter
         return self
 
-    def getContextModeGroup(self) -> "RefType":
+    def getContextModeGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextModeGroup.
 
@@ -856,7 +856,7 @@ class PModeInSystemInstanceRef(ARObject):
         """
         return self.context_mode_group  # Delegates to property
 
-    def setContextModeGroup(self, value: "RefType") -> PModeInSystemInstanceRef:
+    def setContextModeGroup(self, value: RefType) -> PModeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextModeGroup with method chaining.
 
@@ -872,7 +872,7 @@ class PModeInSystemInstanceRef(ARObject):
         self.context_mode_group = value  # Delegates to property setter
         return self
 
-    def getContextPPortPrototype(self) -> "AbstractProvidedPort":
+    def getContextPPortPrototype(self) -> AbstractProvidedPort:
         """
         AUTOSAR-compliant getter for contextPPortPrototype.
 
@@ -884,7 +884,7 @@ class PModeInSystemInstanceRef(ARObject):
         """
         return self.context_p_port_prototype  # Delegates to property
 
-    def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> PModeInSystemInstanceRef:
+    def setContextPPortPrototype(self, value: AbstractProvidedPort) -> PModeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
 
@@ -978,7 +978,7 @@ class PModeInSystemInstanceRef(ARObject):
         self.context_mode_group = value  # Use property setter (gets validation)
         return self
 
-    def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> PModeInSystemInstanceRef:
+    def with_context_p_port_prototype(self, value: Optional[AbstractProvidedPort]) -> PModeInSystemInstanceRef:
         """
         Set contextPPortPrototype and return self for chaining.
 

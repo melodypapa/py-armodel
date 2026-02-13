@@ -38,10 +38,10 @@ class IncludedDataTypeSet(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # AutosarDataType belonging to the includedDataTypeSet.
-        self._dataType: List["AutosarDataType"] = []
+        self._dataType: List[AutosarDataType] = []
 
     @property
-    def data_type(self) -> List["AutosarDataType"]:
+    def data_type(self) -> List[AutosarDataType]:
         """Get dataType (Pythonic accessor)."""
         return self._dataType
         # LiteralPrefix defines a common prefix for all AutosarData the
@@ -93,7 +93,7 @@ class IncludedDataTypeSet(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataType(self) -> List["AutosarDataType"]:
+    def getDataType(self) -> List[AutosarDataType]:
         """
         AUTOSAR-compliant getter for dataType.
 

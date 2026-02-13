@@ -35,15 +35,15 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
                 # attributes among all DiagnosticRequestEmission Permanent
                 # RelatedDTCPermanentStatus in the given context.
         # Status.
-        self._request: Optional["DiagnosticRequest"] = None
+        self._request: Optional[DiagnosticRequest] = None
 
     @property
-    def request(self) -> Optional["DiagnosticRequest"]:
+    def request(self) -> Optional[DiagnosticRequest]:
         """Get request (Pythonic accessor)."""
         return self._request
 
     @request.setter
-    def request(self, value: Optional["DiagnosticRequest"]) -> None:
+    def request(self, value: Optional[DiagnosticRequest]) -> None:
         """
         Set request with validation.
 
@@ -65,7 +65,7 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRequest(self) -> "DiagnosticRequest":
+    def getRequest(self) -> DiagnosticRequest:
         """
         AUTOSAR-compliant getter for request.
 
@@ -77,7 +77,7 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
         """
         return self.request  # Delegates to property
 
-    def setRequest(self, value: "DiagnosticRequest") -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
+    def setRequest(self, value: DiagnosticRequest) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
         """
         AUTOSAR-compliant setter for request with method chaining.
 
@@ -95,7 +95,7 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstan
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
+    def with_request(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
         """
         Set request and return self for chaining.
 

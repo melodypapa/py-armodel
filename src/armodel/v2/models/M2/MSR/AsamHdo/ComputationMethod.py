@@ -129,15 +129,15 @@ class CompuMethod(ARElement):
                 f"displayFormat must be DisplayFormatString or None, got {type(value).__name__}"
             )
         self._displayFormat = value
-        self._unit: Optional["Unit"] = None
+        self._unit: Optional[Unit] = None
 
     @property
-    def unit(self) -> Optional["Unit"]:
+    def unit(self) -> Optional[Unit]:
         """Get unit (Pythonic accessor)."""
         return self._unit
 
     @unit.setter
-    def unit(self, value: Optional["Unit"]) -> None:
+    def unit(self, value: Optional[Unit]) -> None:
         """
         Set unit with validation.
 
@@ -243,7 +243,7 @@ class CompuMethod(ARElement):
         self.display_format = value  # Delegates to property setter
         return self
 
-    def getUnit(self) -> "Unit":
+    def getUnit(self) -> Unit:
         """
         AUTOSAR-compliant getter for unit.
 
@@ -255,7 +255,7 @@ class CompuMethod(ARElement):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> CompuMethod:
+    def setUnit(self, value: Unit) -> CompuMethod:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -321,7 +321,7 @@ class CompuMethod(ARElement):
         self.display_format = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> CompuMethod:
+    def with_unit(self, value: Optional[Unit]) -> CompuMethod:
         """
         Set unit and return self for chaining.
 
@@ -647,15 +647,15 @@ class CompuScale(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The value of this attribute shall be taken for generating text (specifically
         # the OutVal) within the the enclosing CompuMethod in A2L.
-        self._a2lDisplayText: Optional["String"] = None
+        self._a2lDisplayText: Optional[String] = None
 
     @property
-    def a2l_display_text(self) -> Optional["String"]:
+    def a2l_display_text(self) -> Optional[String]:
         """Get a2lDisplayText (Pythonic accessor)."""
         return self._a2lDisplayText
 
     @a2l_display_text.setter
-    def a2l_display_text(self, value: Optional["String"]) -> None:
+    def a2l_display_text(self, value: Optional[String]) -> None:
         """
         Set a2lDisplayText with validation.
 
@@ -790,15 +790,15 @@ class CompuScale(ARObject):
                 # each substring has to up.
         # The sum is finally transmitted.
         # has to be done in order of the.
-        self._mask: Optional["PositiveUnlimitedInteger"] = None
+        self._mask: Optional[PositiveUnlimitedInteger] = None
 
     @property
-    def mask(self) -> Optional["PositiveUnlimitedInteger"]:
+    def mask(self) -> Optional[PositiveUnlimitedInteger]:
         """Get mask (Pythonic accessor)."""
         return self._mask
 
     @mask.setter
-    def mask(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
+    def mask(self, value: Optional[PositiveUnlimitedInteger]) -> None:
         """
         Set mask with validation.
 
@@ -850,15 +850,15 @@ class CompuScale(ARObject):
                 # generation context.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._symbol: Optional["CIdentifier"] = None
+        self._symbol: Optional[CIdentifier] = None
 
     @property
-    def symbol(self) -> Optional["CIdentifier"]:
+    def symbol(self) -> Optional[CIdentifier]:
         """Get symbol (Pythonic accessor)."""
         return self._symbol
 
     @symbol.setter
-    def symbol(self, value: Optional["CIdentifier"]) -> None:
+    def symbol(self, value: Optional[CIdentifier]) -> None:
         """
         Set symbol with validation.
 
@@ -907,7 +907,7 @@ class CompuScale(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getA2lDisplayText(self) -> "String":
+    def getA2lDisplayText(self) -> String:
         """
         AUTOSAR-compliant getter for a2lDisplayText.
 
@@ -919,7 +919,7 @@ class CompuScale(ARObject):
         """
         return self.a2l_display_text  # Delegates to property
 
-    def setA2lDisplayText(self, value: "String") -> CompuScale:
+    def setA2lDisplayText(self, value: String) -> CompuScale:
         """
         AUTOSAR-compliant setter for a2lDisplayText with method chaining.
 
@@ -1047,7 +1047,7 @@ class CompuScale(ARObject):
         self.lower_limit = value  # Delegates to property setter
         return self
 
-    def getMask(self) -> "PositiveUnlimitedInteger":
+    def getMask(self) -> PositiveUnlimitedInteger:
         """
         AUTOSAR-compliant getter for mask.
 
@@ -1059,7 +1059,7 @@ class CompuScale(ARObject):
         """
         return self.mask  # Delegates to property
 
-    def setMask(self, value: "PositiveUnlimitedInteger") -> CompuScale:
+    def setMask(self, value: PositiveUnlimitedInteger) -> CompuScale:
         """
         AUTOSAR-compliant setter for mask with method chaining.
 
@@ -1103,7 +1103,7 @@ class CompuScale(ARObject):
         self.short_label = value  # Delegates to property setter
         return self
 
-    def getSymbol(self) -> "CIdentifier":
+    def getSymbol(self) -> CIdentifier:
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -1115,7 +1115,7 @@ class CompuScale(ARObject):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> CompuScale:
+    def setSymbol(self, value: CIdentifier) -> CompuScale:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -1161,7 +1161,7 @@ class CompuScale(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_a2l_display_text(self, value: Optional["String"]) -> CompuScale:
+    def with_a2l_display_text(self, value: Optional[String]) -> CompuScale:
         """
         Set a2lDisplayText and return self for chaining.
 
@@ -1241,7 +1241,7 @@ class CompuScale(ARObject):
         self.lower_limit = value  # Use property setter (gets validation)
         return self
 
-    def with_mask(self, value: Optional["PositiveUnlimitedInteger"]) -> CompuScale:
+    def with_mask(self, value: Optional[PositiveUnlimitedInteger]) -> CompuScale:
         """
         Set mask and return self for chaining.
 
@@ -1273,7 +1273,7 @@ class CompuScale(ARObject):
         self.short_label = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> CompuScale:
+    def with_symbol(self, value: Optional[CIdentifier]) -> CompuScale:
         """
         Set symbol and return self for chaining.
 

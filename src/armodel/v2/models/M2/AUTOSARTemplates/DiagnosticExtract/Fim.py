@@ -467,16 +467,16 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference represents the way of grouping diagnostic a summary event in
         # the context of the Fim.
-        self._event: List["DiagnosticEvent"] = []
+        self._event: List[DiagnosticEvent] = []
 
     @property
-    def event(self) -> List["DiagnosticEvent"]:
+    def event(self) -> List[DiagnosticEvent]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEvent(self) -> List["DiagnosticEvent"]:
+    def getEvent(self) -> List[DiagnosticEvent]:
         """
         AUTOSAR-compliant getter for event.
 

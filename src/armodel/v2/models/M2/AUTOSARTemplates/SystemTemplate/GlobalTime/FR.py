@@ -34,15 +34,15 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of whether or not CRC is supported.
         # This is relevant for selected bus systems.
-        self._crcSecured: Optional["GlobalTimeCrcSupport"] = None
+        self._crcSecured: Optional[GlobalTimeCrcSupport] = None
 
     @property
-    def crc_secured(self) -> Optional["GlobalTimeCrcSupport"]:
+    def crc_secured(self) -> Optional[GlobalTimeCrcSupport]:
         """Get crcSecured (Pythonic accessor)."""
         return self._crcSecured
 
     @crc_secured.setter
-    def crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> None:
+    def crc_secured(self, value: Optional[GlobalTimeCrcSupport]) -> None:
         """
         Set crcSecured with validation.
 
@@ -64,7 +64,7 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCrcSecured(self) -> "GlobalTimeCrcSupport":
+    def getCrcSecured(self) -> GlobalTimeCrcSupport:
         """
         AUTOSAR-compliant getter for crcSecured.
 
@@ -76,7 +76,7 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
         """
         return self.crc_secured  # Delegates to property
 
-    def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> GlobalTimeFrMaster:
+    def setCrcSecured(self, value: GlobalTimeCrcSupport) -> GlobalTimeFrMaster:
         """
         AUTOSAR-compliant setter for crcSecured with method chaining.
 
@@ -94,7 +94,7 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> GlobalTimeFrMaster:
+    def with_crc_secured(self, value: Optional[GlobalTimeCrcSupport]) -> GlobalTimeFrMaster:
         """
         Set crcSecured and return self for chaining.
 
@@ -127,15 +127,15 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of whether or not validation of the CRC is.
-        self._crcValidated: Optional["GlobalTimeCrc"] = None
+        self._crcValidated: Optional[GlobalTimeCrc] = None
 
     @property
-    def crc_validated(self) -> Optional["GlobalTimeCrc"]:
+    def crc_validated(self) -> Optional[GlobalTimeCrc]:
         """Get crcValidated (Pythonic accessor)."""
         return self._crcValidated
 
     @crc_validated.setter
-    def crc_validated(self, value: Optional["GlobalTimeCrc"]) -> None:
+    def crc_validated(self, value: Optional[GlobalTimeCrc]) -> None:
         """
         Set crcValidated with validation.
 
@@ -155,15 +155,15 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
             )
         self._crcValidated = value
         # two OFS messages.
-        self._sequence: Optional["PositiveInteger"] = None
+        self._sequence: Optional[PositiveInteger] = None
 
     @property
-    def sequence(self) -> Optional["PositiveInteger"]:
+    def sequence(self) -> Optional[PositiveInteger]:
         """Get sequence (Pythonic accessor)."""
         return self._sequence
 
     @sequence.setter
-    def sequence(self, value: Optional["PositiveInteger"]) -> None:
+    def sequence(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sequence with validation.
 
@@ -185,7 +185,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCrcValidated(self) -> "GlobalTimeCrc":
+    def getCrcValidated(self) -> GlobalTimeCrc:
         """
         AUTOSAR-compliant getter for crcValidated.
 
@@ -197,7 +197,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
         """
         return self.crc_validated  # Delegates to property
 
-    def setCrcValidated(self, value: "GlobalTimeCrc") -> GlobalTimeFrSlave:
+    def setCrcValidated(self, value: GlobalTimeCrc) -> GlobalTimeFrSlave:
         """
         AUTOSAR-compliant setter for crcValidated with method chaining.
 
@@ -213,7 +213,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
         self.crc_validated = value  # Delegates to property setter
         return self
 
-    def getSequence(self) -> "PositiveInteger":
+    def getSequence(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sequence.
 
@@ -225,7 +225,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
         """
         return self.sequence  # Delegates to property
 
-    def setSequence(self, value: "PositiveInteger") -> GlobalTimeFrSlave:
+    def setSequence(self, value: PositiveInteger) -> GlobalTimeFrSlave:
         """
         AUTOSAR-compliant setter for sequence with method chaining.
 
@@ -243,7 +243,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_validated(self, value: Optional["GlobalTimeCrc"]) -> GlobalTimeFrSlave:
+    def with_crc_validated(self, value: Optional[GlobalTimeCrc]) -> GlobalTimeFrSlave:
         """
         Set crcValidated and return self for chaining.
 
@@ -259,7 +259,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
         self.crc_validated = value  # Use property setter (gets validation)
         return self
 
-    def with_sequence(self, value: Optional["PositiveInteger"]) -> GlobalTimeFrSlave:
+    def with_sequence(self, value: Optional[PositiveInteger]) -> GlobalTimeFrSlave:
         """
         Set sequence and return self for chaining.
 
@@ -290,15 +290,15 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        self._ofsDataIDList: "PositiveInteger" = None
+        self._ofsDataIDList: PositiveInteger = None
 
     @property
-    def ofs_data_id_list(self) -> "PositiveInteger":
+    def ofs_data_id_list(self) -> PositiveInteger:
         """Get ofsDataIDList (Pythonic accessor)."""
         return self._ofsDataIDList
 
     @ofs_data_id_list.setter
-    def ofs_data_id_list(self, value: "PositiveInteger") -> None:
+    def ofs_data_id_list(self, value: PositiveInteger) -> None:
         """
         Set ofsDataIDList with validation.
 
@@ -315,12 +315,12 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self._ofsDataIDList = value
 
     @property
-    def sync_data_id_list(self) -> "PositiveInteger":
+    def sync_data_id_list(self) -> PositiveInteger:
         """Get syncDataIDList (Pythonic accessor)."""
         return self._syncDataIDList
 
     @sync_data_id_list.setter
-    def sync_data_id_list(self, value: "PositiveInteger") -> None:
+    def sync_data_id_list(self, value: PositiveInteger) -> None:
         """
         Set syncDataIDList with validation.
 
@@ -338,7 +338,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOfsDataIDList(self) -> "PositiveInteger":
+    def getOfsDataIDList(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for ofsDataIDList.
 
@@ -350,7 +350,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.ofs_data_id_list  # Delegates to property
 
-    def setOfsDataIDList(self, value: "PositiveInteger") -> FrGlobalTimeDomainProps:
+    def setOfsDataIDList(self, value: PositiveInteger) -> FrGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for ofsDataIDList with method chaining.
 
@@ -366,7 +366,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.ofs_data_id_list = value  # Delegates to property setter
         return self
 
-    def getSyncDataIDList(self) -> "PositiveInteger":
+    def getSyncDataIDList(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for syncDataIDList.
 
@@ -378,7 +378,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.sync_data_id_list  # Delegates to property
 
-    def setSyncDataIDList(self, value: "PositiveInteger") -> FrGlobalTimeDomainProps:
+    def setSyncDataIDList(self, value: PositiveInteger) -> FrGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for syncDataIDList with method chaining.
 
@@ -396,7 +396,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ofs_data_id_list(self, value: "PositiveInteger") -> FrGlobalTimeDomainProps:
+    def with_ofs_data_id_list(self, value: PositiveInteger) -> FrGlobalTimeDomainProps:
         """
         Set ofsDataIDList and return self for chaining.
 
@@ -412,7 +412,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.ofs_data_id_list = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_data_id_list(self, value: "PositiveInteger") -> FrGlobalTimeDomainProps:
+    def with_sync_data_id_list(self, value: PositiveInteger) -> FrGlobalTimeDomainProps:
         """
         Set syncDataIDList and return self for chaining.
 

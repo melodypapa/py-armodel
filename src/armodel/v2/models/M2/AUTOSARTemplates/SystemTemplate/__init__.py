@@ -21,6 +21,23 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 
 
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import (
+    FlatMap,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ByteOrderEnum,
+    Numerical,
+    ParameterData,
+    RevisionLabelString,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerOperation,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    CpSoftwareCluster,
+)
+
 class System(ARElement):
     """
     The top level element of the System Description. The System description
@@ -52,22 +69,22 @@ class System(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Set of Client Identifiers that are used for inter-ECU communication in the
         # System.
-        self._clientId: List["RefType"] = []
+        self._clientId: List[RefType] = []
 
     @property
-    def client_id(self) -> List["RefType"]:
+    def client_id(self) -> List[RefType]:
         """Get clientId (Pythonic accessor)."""
         return self._clientId
         # Defines the byteOrder of the header in ContainerIPdus.
-        self._containerIPdu: Optional["ByteOrderEnum"] = None
+        self._containerIPdu: Optional[ByteOrderEnum] = None
 
     @property
-    def container_i_pdu(self) -> Optional["ByteOrderEnum"]:
+    def container_i_pdu(self) -> Optional[ByteOrderEnum]:
         """Get containerIPdu (Pythonic accessor)."""
         return self._containerIPdu
 
     @container_i_pdu.setter
-    def container_i_pdu(self, value: Optional["ByteOrderEnum"]) -> None:
+    def container_i_pdu(self, value: Optional[ByteOrderEnum]) -> None:
         """
         Set containerIPdu with validation.
 
@@ -87,15 +104,15 @@ class System(ARElement):
             )
         self._containerIPdu = value
         # Version number of the Ecu Extract.
-        self._ecuExtractVersion: Optional["RevisionLabelString"] = None
+        self._ecuExtractVersion: Optional[RevisionLabelString] = None
 
     @property
-    def ecu_extract_version(self) -> Optional["RevisionLabelString"]:
+    def ecu_extract_version(self) -> Optional[RevisionLabelString]:
         """Get ecuExtractVersion (Pythonic accessor)."""
         return self._ecuExtractVersion
 
     @ecu_extract_version.setter
-    def ecu_extract_version(self, value: Optional["RevisionLabelString"]) -> None:
+    def ecu_extract_version(self, value: Optional[RevisionLabelString]) -> None:
         """
         Set ecuExtractVersion with validation.
 
@@ -118,18 +135,18 @@ class System(ARElement):
         # Elements used within a System Description shall from the System Element.
         # order to describe a product-line, all Fibex be optional.
         # atpVariation.
-        self._fibexElement: List["FibexElement"] = []
+        self._fibexElement: List[FibexElement] = []
 
     @property
-    def fibex_element(self) -> List["FibexElement"]:
+    def fibex_element(self) -> List[FibexElement]:
         """Get fibexElement (Pythonic accessor)."""
         return self._fibexElement
         # This reference identifies the InterpolationRoutineMapping Sets that are
         # relevant in the context of the enclosing.
-        self._interpolation: List["InterpolationRoutine"] = []
+        self._interpolation: List[InterpolationRoutine] = []
 
     @property
-    def interpolation(self) -> List["InterpolationRoutine"]:
+    def interpolation(self) -> List[InterpolationRoutine]:
         """Get interpolation (Pythonic accessor)."""
         return self._interpolation
         # Collection of J1939Clusters that share a common address space for the routing
@@ -150,22 +167,22 @@ class System(ARElement):
         # is not required when the System description for a network-only use-case.
         # atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate
                 # Module Description Template R23-11.
-        self._mapping: List["RefType"] = []
+        self._mapping: List[RefType] = []
 
     @property
-    def mapping(self) -> List["RefType"]:
+    def mapping(self) -> List[RefType]:
         """Get mapping (Pythonic accessor)."""
         return self._mapping
         # Length of the partial networking request release vector (in bytes).
-        self._pncVector: Optional["PositiveInteger"] = None
+        self._pncVector: Optional[PositiveInteger] = None
 
     @property
-    def pnc_vector(self) -> Optional["PositiveInteger"]:
+    def pnc_vector(self) -> Optional[PositiveInteger]:
         """Get pncVector (Pythonic accessor)."""
         return self._pncVector
 
     @pnc_vector.setter
-    def pnc_vector(self, value: Optional["PositiveInteger"]) -> None:
+    def pnc_vector(self, value: Optional[PositiveInteger]) -> None:
         """
         Set pncVector with validation.
 
@@ -186,15 +203,15 @@ class System(ARElement):
         self._pncVector = value
         # Absolute offset (with respect to the NM-PDU) of the request release
         # information vector that in bytes as an index starting with 0.
-        self._pncVectorOffset: Optional["PositiveInteger"] = None
+        self._pncVectorOffset: Optional[PositiveInteger] = None
 
     @property
-    def pnc_vector_offset(self) -> Optional["PositiveInteger"]:
+    def pnc_vector_offset(self) -> Optional[PositiveInteger]:
         """Get pncVectorOffset (Pythonic accessor)."""
         return self._pncVectorOffset
 
     @pnc_vector_offset.setter
-    def pnc_vector_offset(self, value: Optional["PositiveInteger"]) -> None:
+    def pnc_vector_offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set pncVectorOffset with validation.
 
@@ -218,15 +235,15 @@ class System(ARElement):
                 # System used for a network-only use-case.
         # RootSwCompositionPrototype can vary.
         # atpVariation.
-        self._rootSoftware: Optional["RootSwComposition"] = None
+        self._rootSoftware: Optional[RootSwComposition] = None
 
     @property
-    def root_software(self) -> Optional["RootSwComposition"]:
+    def root_software(self) -> Optional[RootSwComposition]:
         """Get rootSoftware (Pythonic accessor)."""
         return self._rootSoftware
 
     @root_software.setter
-    def root_software(self, value: Optional["RootSwComposition"]) -> None:
+    def root_software(self, value: Optional[RootSwComposition]) -> None:
         """
         Set rootSoftware with validation.
 
@@ -255,22 +272,22 @@ class System(ARElement):
         # Possibility to provide additional documentation while the System.
         # The System documentation can be several chapters.
         # atpVariation.
-        self._system: List["Chapter"] = []
+        self._system: List[Chapter] = []
 
     @property
-    def system(self) -> List["Chapter"]:
+    def system(self) -> List[Chapter]:
         """Get system (Pythonic accessor)."""
         return self._system
         # Version number of the System Description.
-        self._systemVersion: Optional["RevisionLabelString"] = None
+        self._systemVersion: Optional[RevisionLabelString] = None
 
     @property
-    def system_version(self) -> Optional["RevisionLabelString"]:
+    def system_version(self) -> Optional[RevisionLabelString]:
         """Get systemVersion (Pythonic accessor)."""
         return self._systemVersion
 
     @system_version.setter
-    def system_version(self, value: Optional["RevisionLabelString"]) -> None:
+    def system_version(self, value: Optional[RevisionLabelString]) -> None:
         """
         Set systemVersion with validation.
 
@@ -820,7 +837,7 @@ class System(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getClientId(self) -> List["RefType"]:
+    def getClientId(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for clientId.
 
@@ -832,7 +849,7 @@ class System(ARElement):
         """
         return self.client_id  # Delegates to property
 
-    def getContainerIPdu(self) -> "ByteOrderEnum":
+    def getContainerIPdu(self) -> ByteOrderEnum:
         """
         AUTOSAR-compliant getter for containerIPdu.
 
@@ -844,7 +861,7 @@ class System(ARElement):
         """
         return self.container_i_pdu  # Delegates to property
 
-    def setContainerIPdu(self, value: "ByteOrderEnum") -> System:
+    def setContainerIPdu(self, value: ByteOrderEnum) -> System:
         """
         AUTOSAR-compliant setter for containerIPdu with method chaining.
 
@@ -888,7 +905,7 @@ class System(ARElement):
         self.ecu_extract_version = value  # Delegates to property setter
         return self
 
-    def getFibexElement(self) -> List["FibexElement"]:
+    def getFibexElement(self) -> List[FibexElement]:
         """
         AUTOSAR-compliant getter for fibexElement.
 
@@ -900,7 +917,7 @@ class System(ARElement):
         """
         return self.fibex_element  # Delegates to property
 
-    def getInterpolation(self) -> List["InterpolationRoutine"]:
+    def getInterpolation(self) -> List[InterpolationRoutine]:
         """
         AUTOSAR-compliant getter for interpolation.
 
@@ -924,7 +941,7 @@ class System(ARElement):
         """
         return self.j1939_shared  # Delegates to property
 
-    def getMapping(self) -> List["RefType"]:
+    def getMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for mapping.
 
@@ -936,7 +953,7 @@ class System(ARElement):
         """
         return self.mapping  # Delegates to property
 
-    def getPncVector(self) -> "PositiveInteger":
+    def getPncVector(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for pncVector.
 
@@ -948,7 +965,7 @@ class System(ARElement):
         """
         return self.pnc_vector  # Delegates to property
 
-    def setPncVector(self, value: "PositiveInteger") -> System:
+    def setPncVector(self, value: PositiveInteger) -> System:
         """
         AUTOSAR-compliant setter for pncVector with method chaining.
 
@@ -964,7 +981,7 @@ class System(ARElement):
         self.pnc_vector = value  # Delegates to property setter
         return self
 
-    def getPncVectorOffset(self) -> "PositiveInteger":
+    def getPncVectorOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for pncVectorOffset.
 
@@ -976,7 +993,7 @@ class System(ARElement):
         """
         return self.pnc_vector_offset  # Delegates to property
 
-    def setPncVectorOffset(self, value: "PositiveInteger") -> System:
+    def setPncVectorOffset(self, value: PositiveInteger) -> System:
         """
         AUTOSAR-compliant setter for pncVectorOffset with method chaining.
 
@@ -1032,7 +1049,7 @@ class System(ARElement):
         """
         return self.sw_cluster  # Delegates to property
 
-    def getSystem(self) -> List["Chapter"]:
+    def getSystem(self) -> List[Chapter]:
         """
         AUTOSAR-compliant getter for system.
 
@@ -1074,7 +1091,7 @@ class System(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_container_i_pdu(self, value: Optional["ByteOrderEnum"]) -> System:
+    def with_container_i_pdu(self, value: Optional[ByteOrderEnum]) -> System:
         """
         Set containerIPdu and return self for chaining.
 
@@ -1090,7 +1107,7 @@ class System(ARElement):
         self.container_i_pdu = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_extract_version(self, value: Optional["RevisionLabelString"]) -> System:
+    def with_ecu_extract_version(self, value: Optional[RevisionLabelString]) -> System:
         """
         Set ecuExtractVersion and return self for chaining.
 
@@ -1106,7 +1123,7 @@ class System(ARElement):
         self.ecu_extract_version = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_vector(self, value: Optional["PositiveInteger"]) -> System:
+    def with_pnc_vector(self, value: Optional[PositiveInteger]) -> System:
         """
         Set pncVector and return self for chaining.
 
@@ -1122,7 +1139,7 @@ class System(ARElement):
         self.pnc_vector = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_vector_offset(self, value: Optional["PositiveInteger"]) -> System:
+    def with_pnc_vector_offset(self, value: Optional[PositiveInteger]) -> System:
         """
         Set pncVectorOffset and return self for chaining.
 
@@ -1138,7 +1155,7 @@ class System(ARElement):
         self.pnc_vector_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_root_software(self, value: Optional["RootSwComposition"]) -> System:
+    def with_root_software(self, value: Optional[RootSwComposition]) -> System:
         """
         Set rootSoftware and return self for chaining.
 
@@ -1154,7 +1171,7 @@ class System(ARElement):
         self.root_software = value  # Use property setter (gets validation)
         return self
 
-    def with_system_version(self, value: Optional["RevisionLabelString"]) -> System:
+    def with_system_version(self, value: Optional[RevisionLabelString]) -> System:
         """
         Set systemVersion and return self for chaining.
 
@@ -1207,22 +1224,22 @@ class RootSwCompositionPrototype(Identifiable):
         # Used CalibrationParameterValueSet for instance specific initialization of
                 # calibration parameters.
         # atpSplitable.
-        self._calibration: List["CalibrationParameter"] = []
+        self._calibration: List[CalibrationParameter] = []
 
     @property
-    def calibration(self) -> List["CalibrationParameter"]:
+    def calibration(self) -> List[CalibrationParameter]:
         """Get calibration (Pythonic accessor)."""
         return self._calibration
         # The FlatMap used in the scope of this RootSw.
-        self._flatMap: Optional["FlatMap"] = None
+        self._flatMap: Optional[FlatMap] = None
 
     @property
-    def flat_map(self) -> Optional["FlatMap"]:
+    def flat_map(self) -> Optional[FlatMap]:
         """Get flatMap (Pythonic accessor)."""
         return self._flatMap
 
     @flat_map.setter
-    def flat_map(self, value: Optional["FlatMap"]) -> None:
+    def flat_map(self, value: Optional[FlatMap]) -> None:
         """
         Set flatMap with validation.
 
@@ -1272,7 +1289,7 @@ class RootSwCompositionPrototype(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCalibration(self) -> List["CalibrationParameter"]:
+    def getCalibration(self) -> List[CalibrationParameter]:
         """
         AUTOSAR-compliant getter for calibration.
 
@@ -1342,7 +1359,7 @@ class RootSwCompositionPrototype(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_flat_map(self, value: Optional["FlatMap"]) -> RootSwCompositionPrototype:
+    def with_flat_map(self, value: Optional[FlatMap]) -> RootSwCompositionPrototype:
         """
         Set flatMap and return self for chaining.
 
@@ -1438,15 +1455,15 @@ class ClientIdDefinition(Identifiable):
         # The Client Identifier of the transaction handle used for an server
         # communication is defined by this defined the RTE generator shall use this
         # client.
-        self._clientId: Optional["Numerical"] = None
+        self._clientId: Optional[Numerical] = None
 
     @property
-    def client_id(self) -> Optional["Numerical"]:
+    def client_id(self) -> Optional[Numerical]:
         """Get clientId (Pythonic accessor)."""
         return self._clientId
 
     @client_id.setter
-    def client_id(self, value: Optional["Numerical"]) -> None:
+    def client_id(self, value: Optional[Numerical]) -> None:
         """
         Set clientId with validation.
 
@@ -1467,15 +1484,15 @@ class ClientIdDefinition(Identifiable):
         self._clientId = value
         # client.
         # by: OperationInSystem.
-        self._clientServerInstanceRef: Optional["ClientServerOperation"] = None
+        self._clientServerInstanceRef: Optional[ClientServerOperation] = None
 
     @property
-    def client_server_instance_ref(self) -> Optional["ClientServerOperation"]:
+    def client_server_instance_ref(self) -> Optional[ClientServerOperation]:
         """Get clientServerInstanceRef (Pythonic accessor)."""
         return self._clientServerInstanceRef
 
     @client_server_instance_ref.setter
-    def client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
+    def client_server_instance_ref(self, value: Optional[ClientServerOperation]) -> None:
         """
         Set clientServerInstanceRef with validation.
 
@@ -1525,7 +1542,7 @@ class ClientIdDefinition(Identifiable):
         self.client_id = value  # Delegates to property setter
         return self
 
-    def getClientServerInstanceRef(self) -> "ClientServerOperation":
+    def getClientServerInstanceRef(self) -> ClientServerOperation:
         """
         AUTOSAR-compliant getter for clientServerInstanceRef.
 
@@ -1537,7 +1554,7 @@ class ClientIdDefinition(Identifiable):
         """
         return self.client_server_instance_ref  # Delegates to property
 
-    def setClientServerInstanceRef(self, value: "ClientServerOperation") -> ClientIdDefinition:
+    def setClientServerInstanceRef(self, value: ClientServerOperation) -> ClientIdDefinition:
         """
         AUTOSAR-compliant setter for clientServerInstanceRef with method chaining.
 
@@ -1555,7 +1572,7 @@ class ClientIdDefinition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_client_id(self, value: Optional["Numerical"]) -> ClientIdDefinition:
+    def with_client_id(self, value: Optional[Numerical]) -> ClientIdDefinition:
         """
         Set clientId and return self for chaining.
 
@@ -1571,7 +1588,7 @@ class ClientIdDefinition(Identifiable):
         self.client_id = value  # Use property setter (gets validation)
         return self
 
-    def with_client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> ClientIdDefinition:
+    def with_client_server_instance_ref(self, value: Optional[ClientServerOperation]) -> ClientIdDefinition:
         """
         Set clientServerInstanceRef and return self for chaining.
 
@@ -1630,18 +1647,18 @@ class SystemMapping(Identifiable):
         return self._com
         # This aggregation represents the collection of crypto mappings in the context
         # of the enclosing System atpVariation.
-        self._cryptoService: List["RefType"] = []
+        self._cryptoService: List[RefType] = []
 
     @property
-    def crypto_service(self) -> List["RefType"]:
+    def crypto_service(self) -> List[RefType]:
         """Get cryptoService (Pythonic accessor)."""
         return self._cryptoService
         # The data mappings defined.
         # atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._dataMapping: List["RefType"] = []
+        self._dataMapping: List[RefType] = []
 
     @property
-    def data_mapping(self) -> List["RefType"]:
+    def data_mapping(self) -> List[RefType]:
         """Get dataMapping (Pythonic accessor)."""
         return self._dataMapping
         # Collection of DdsISignalToDdsTopicMappings.
@@ -1656,10 +1673,10 @@ class SystemMapping(Identifiable):
                 # ECU Resource Template.
         # ECU Resource type might be variable.
         # atpVariation.
-        self._ecuResource: List["RefType"] = []
+        self._ecuResource: List[RefType] = []
 
     @property
-    def ecu_resource(self) -> List["RefType"]:
+    def ecu_resource(self) -> List[RefType]:
         """Get ecuResource (Pythonic accessor)."""
         return self._ecuResource
         # Mapping of a J1939ControllerApplication to a J1939Nm Node.
@@ -1671,17 +1688,17 @@ class SystemMapping(Identifiable):
         return self._j1939Controller
         # Constraints that limit the mapping freedom for the of SW components to ECUs.
         # atpVariation.
-        self._mapping: List["RefType"] = []
+        self._mapping: List[RefType] = []
 
     @property
-    def mapping(self) -> List["RefType"]:
+    def mapping(self) -> List[RefType]:
         """Get mapping (Pythonic accessor)."""
         return self._mapping
         # Mappings between Virtual Function Clusters and Partial atpVariation.
-        self._pncMapping: List["RefType"] = []
+        self._pncMapping: List[RefType] = []
 
     @property
-    def pnc_mapping(self) -> List["RefType"]:
+    def pnc_mapping(self) -> List[RefType]:
         """Get pncMapping (Pythonic accessor)."""
         return self._pncMapping
         # maps a communication resource to CP Software Clusters Stereotypes:
@@ -1763,27 +1780,27 @@ class SystemMapping(Identifiable):
         return self._swcTo
         # The mappings of AtomicSoftwareComponent Instances to because SwcToEcuMapping
         # is atpVariation.
-        self._swImplMapping: List["RefType"] = []
+        self._swImplMapping: List[RefType] = []
 
     @property
-    def sw_impl_mapping(self) -> List["RefType"]:
+    def sw_impl_mapping(self) -> List[RefType]:
         """Get swImplMapping (Pythonic accessor)."""
         return self._swImplMapping
         # The mappings of SW components to ECUs.
         # shall be mapped to other ECUs.
         # atpVariation.
-        self._swMapping: List["RefType"] = []
+        self._swMapping: List[RefType] = []
 
     @property
-    def sw_mapping(self) -> List["RefType"]:
+    def sw_mapping(self) -> List[RefType]:
         """Get swMapping (Pythonic accessor)."""
         return self._swMapping
         # Mapping of a communication resource to a SystemSignal Group.
         # Stereotypes: atpSplitable; atpVariation Mapping Tags:.
-        self._systemSignal: List["RefType"] = []
+        self._systemSignal: List[RefType] = []
 
     @property
-    def system_signal(self) -> List["RefType"]:
+    def system_signal(self) -> List[RefType]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
         # Mapping of a communication resource to a SystemSignal.
@@ -1833,7 +1850,7 @@ class SystemMapping(Identifiable):
         """
         return self.com  # Delegates to property
 
-    def getCryptoService(self) -> List["RefType"]:
+    def getCryptoService(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for cryptoService.
 
@@ -1845,7 +1862,7 @@ class SystemMapping(Identifiable):
         """
         return self.crypto_service  # Delegates to property
 
-    def getDataMapping(self) -> List["RefType"]:
+    def getDataMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataMapping.
 
@@ -1869,7 +1886,7 @@ class SystemMapping(Identifiable):
         """
         return self.dds_i_signal_to  # Delegates to property
 
-    def getEcuResource(self) -> List["RefType"]:
+    def getEcuResource(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for ecuResource.
 
@@ -1893,7 +1910,7 @@ class SystemMapping(Identifiable):
         """
         return self.j1939_controller  # Delegates to property
 
-    def getMapping(self) -> List["RefType"]:
+    def getMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for mapping.
 
@@ -1905,7 +1922,7 @@ class SystemMapping(Identifiable):
         """
         return self.mapping  # Delegates to property
 
-    def getPncMapping(self) -> List["RefType"]:
+    def getPncMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pncMapping.
 
@@ -2025,7 +2042,7 @@ class SystemMapping(Identifiable):
         """
         return self.swc_to  # Delegates to property
 
-    def getSwImplMapping(self) -> List["RefType"]:
+    def getSwImplMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for swImplMapping.
 
@@ -2037,7 +2054,7 @@ class SystemMapping(Identifiable):
         """
         return self.sw_impl_mapping  # Delegates to property
 
-    def getSwMapping(self) -> List["RefType"]:
+    def getSwMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for swMapping.
 
@@ -2049,7 +2066,7 @@ class SystemMapping(Identifiable):
         """
         return self.sw_mapping  # Delegates to property
 
-    def getSystemSignal(self) -> List["RefType"]:
+    def getSystemSignal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -2096,24 +2113,24 @@ class ComManagementMapping(Identifiable):
                 # complete Description (VFB View).
         # This inclusion of legacy systems.
         # by: PortGroupInSystem.
-        self._com: List["RefType"] = []
+        self._com: List[RefType] = []
 
     @property
-    def com(self) -> List["RefType"]:
+    def com(self) -> List[RefType]:
         """Get com (Pythonic accessor)."""
         return self._com
         # This reference maps the Mode Management PortGroup network to communication
         # channels.
-        self._physical: List["PhysicalChannel"] = []
+        self._physical: List[PhysicalChannel] = []
 
     @property
-    def physical(self) -> List["PhysicalChannel"]:
+    def physical(self) -> List[PhysicalChannel]:
         """Get physical (Pythonic accessor)."""
         return self._physical
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCom(self) -> List["RefType"]:
+    def getCom(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for com.
 
@@ -2125,7 +2142,7 @@ class ComManagementMapping(Identifiable):
         """
         return self.com  # Delegates to property
 
-    def getPhysical(self) -> List["PhysicalChannel"]:
+    def getPhysical(self) -> List[PhysicalChannel]:
         """
         AUTOSAR-compliant getter for physical.
 
@@ -2197,15 +2214,15 @@ class PortElementToCommunicationResourceMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # resource by: OperationInSystem.
-        self._clientServerInstanceRef: Optional["ClientServerOperation"] = None
+        self._clientServerInstanceRef: Optional[ClientServerOperation] = None
 
     @property
-    def client_server_instance_ref(self) -> Optional["ClientServerOperation"]:
+    def client_server_instance_ref(self) -> Optional[ClientServerOperation]:
         """Get clientServerInstanceRef (Pythonic accessor)."""
         return self._clientServerInstanceRef
 
     @client_server_instance_ref.setter
-    def client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
+    def client_server_instance_ref(self, value: Optional[ClientServerOperation]) -> None:
         """
         Set clientServerInstanceRef with validation.
 
@@ -2225,15 +2242,15 @@ class PortElementToCommunicationResourceMapping(Identifiable):
             )
         self._clientServerInstanceRef = value
         # Communication resource for which the mapping applies.
-        self._communication: Optional["CpSoftwareCluster"] = None
+        self._communication: Optional[CpSoftwareCluster] = None
 
     @property
-    def communication(self) -> Optional["CpSoftwareCluster"]:
+    def communication(self) -> Optional[CpSoftwareCluster]:
         """Get communication (Pythonic accessor)."""
         return self._communication
 
     @communication.setter
-    def communication(self, value: Optional["CpSoftwareCluster"]) -> None:
+    def communication(self, value: Optional[CpSoftwareCluster]) -> None:
         """
         Set communication with validation.
 
@@ -2253,15 +2270,15 @@ class PortElementToCommunicationResourceMapping(Identifiable):
             )
         self._communication = value
         # communication resource implemented by: ModeDeclarationGroup.
-        self._mode: Optional["RefType"] = None
+        self._mode: Optional[RefType] = None
 
     @property
-    def mode(self) -> Optional["RefType"]:
+    def mode(self) -> Optional[RefType]:
         """Get mode (Pythonic accessor)."""
         return self._mode
 
     @mode.setter
-    def mode(self, value: Optional["RefType"]) -> None:
+    def mode(self, value: Optional[RefType]) -> None:
         """
         Set mode with validation.
 
@@ -2278,15 +2295,15 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self._mode = value
         # communication resource.
         # by: ParameterDataPrototype.
-        self._parameterData: Optional["ParameterData"] = None
+        self._parameterData: Optional[ParameterData] = None
 
     @property
-    def parameter_data(self) -> Optional["ParameterData"]:
+    def parameter_data(self) -> Optional[ParameterData]:
         """Get parameterData (Pythonic accessor)."""
         return self._parameterData
 
     @parameter_data.setter
-    def parameter_data(self, value: Optional["ParameterData"]) -> None:
+    def parameter_data(self, value: Optional[ParameterData]) -> None:
         """
         Set parameterData with validation.
 
@@ -2306,15 +2323,15 @@ class PortElementToCommunicationResourceMapping(Identifiable):
             )
         self._parameterData = value
         # by: TriggerInSystemInstance.
-        self._triggerRef: Optional["RefType"] = None
+        self._triggerRef: Optional[RefType] = None
 
     @property
-    def trigger_ref(self) -> Optional["RefType"]:
+    def trigger_ref(self) -> Optional[RefType]:
         """Get triggerRef (Pythonic accessor)."""
         return self._triggerRef
 
     @trigger_ref.setter
-    def trigger_ref(self, value: Optional["RefType"]) -> None:
+    def trigger_ref(self, value: Optional[RefType]) -> None:
         """
         Set triggerRef with validation.
 
@@ -2330,15 +2347,15 @@ class PortElementToCommunicationResourceMapping(Identifiable):
 
         self._triggerRef = value
         # resource by: VariableDataPrototypeIn.
-        self._variableDataSystemInstanceRef: Optional["RefType"] = None
+        self._variableDataSystemInstanceRef: Optional[RefType] = None
 
     @property
-    def variable_data_system_instance_ref(self) -> Optional["RefType"]:
+    def variable_data_system_instance_ref(self) -> Optional[RefType]:
         """Get variableDataSystemInstanceRef (Pythonic accessor)."""
         return self._variableDataSystemInstanceRef
 
     @variable_data_system_instance_ref.setter
-    def variable_data_system_instance_ref(self, value: Optional["RefType"]) -> None:
+    def variable_data_system_instance_ref(self, value: Optional[RefType]) -> None:
         """
         Set variableDataSystemInstanceRef with validation.
 
@@ -2356,7 +2373,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getClientServerInstanceRef(self) -> "ClientServerOperation":
+    def getClientServerInstanceRef(self) -> ClientServerOperation:
         """
         AUTOSAR-compliant getter for clientServerInstanceRef.
 
@@ -2368,7 +2385,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         """
         return self.client_server_instance_ref  # Delegates to property
 
-    def setClientServerInstanceRef(self, value: "ClientServerOperation") -> PortElementToCommunicationResourceMapping:
+    def setClientServerInstanceRef(self, value: ClientServerOperation) -> PortElementToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for clientServerInstanceRef with method chaining.
 
@@ -2412,7 +2429,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self.communication = value  # Delegates to property setter
         return self
 
-    def getMode(self) -> "RefType":
+    def getMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for mode.
 
@@ -2424,7 +2441,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "RefType") -> PortElementToCommunicationResourceMapping:
+    def setMode(self, value: RefType) -> PortElementToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -2468,7 +2485,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self.parameter_data = value  # Delegates to property setter
         return self
 
-    def getTriggerRef(self) -> "RefType":
+    def getTriggerRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for triggerRef.
 
@@ -2480,7 +2497,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         """
         return self.trigger_ref  # Delegates to property
 
-    def setTriggerRef(self, value: "RefType") -> PortElementToCommunicationResourceMapping:
+    def setTriggerRef(self, value: RefType) -> PortElementToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for triggerRef with method chaining.
 
@@ -2496,7 +2513,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self.trigger_ref = value  # Delegates to property setter
         return self
 
-    def getVariableDataSystemInstanceRef(self) -> "RefType":
+    def getVariableDataSystemInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for variableDataSystemInstanceRef.
 
@@ -2508,7 +2525,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         """
         return self.variable_data_system_instance_ref  # Delegates to property
 
-    def setVariableDataSystemInstanceRef(self, value: "RefType") -> PortElementToCommunicationResourceMapping:
+    def setVariableDataSystemInstanceRef(self, value: RefType) -> PortElementToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for variableDataSystemInstanceRef with method chaining.
 
@@ -2526,7 +2543,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> PortElementToCommunicationResourceMapping:
+    def with_client_server_instance_ref(self, value: Optional[ClientServerOperation]) -> PortElementToCommunicationResourceMapping:
         """
         Set clientServerInstanceRef and return self for chaining.
 
@@ -2542,7 +2559,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self.client_server_instance_ref = value  # Use property setter (gets validation)
         return self
 
-    def with_communication(self, value: Optional["CpSoftwareCluster"]) -> PortElementToCommunicationResourceMapping:
+    def with_communication(self, value: Optional[CpSoftwareCluster]) -> PortElementToCommunicationResourceMapping:
         """
         Set communication and return self for chaining.
 
@@ -2574,7 +2591,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self.mode = value  # Use property setter (gets validation)
         return self
 
-    def with_parameter_data(self, value: Optional["ParameterData"]) -> PortElementToCommunicationResourceMapping:
+    def with_parameter_data(self, value: Optional[ParameterData]) -> PortElementToCommunicationResourceMapping:
         """
         Set parameterData and return self for chaining.
 

@@ -33,15 +33,15 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
-        self._base: Optional["AtomicSwComponent"] = None
+        self._base: Optional[AtomicSwComponent] = None
 
     @property
-    def base(self) -> Optional["AtomicSwComponent"]:
+    def base(self) -> Optional[AtomicSwComponent]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional["AtomicSwComponent"]) -> None:
+    def base(self, value: Optional[AtomicSwComponent]) -> None:
         """
         Set base with validation.
 
@@ -62,22 +62,22 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         self._base = value
         # Tags: xml.
         # sequenceOffset=40 (ordered).
-        self._contextData: List["ApplicationComposite"] = []
+        self._contextData: List[ApplicationComposite] = []
 
     @property
-    def context_data(self) -> List["ApplicationComposite"]:
+    def context_data(self) -> List[ApplicationComposite]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # This is the port providing the variable or the entry point to structure.
-        self._portPrototype: Optional["RefType"] = None
+        self._portPrototype: Optional[RefType] = None
 
     @property
-    def port_prototype(self) -> Optional["RefType"]:
+    def port_prototype(self) -> Optional[RefType]:
         """Get portPrototype (Pythonic accessor)."""
         return self._portPrototype
 
     @port_prototype.setter
-    def port_prototype(self, value: Optional["RefType"]) -> None:
+    def port_prototype(self, value: Optional[RefType]) -> None:
         """
         Set portPrototype with validation.
 
@@ -92,15 +92,15 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
             return
 
         self._portPrototype = value
-        self._rootParameter: Optional["RefType"] = None
+        self._rootParameter: Optional[RefType] = None
 
     @property
-    def root_parameter(self) -> Optional["RefType"]:
+    def root_parameter(self) -> Optional[RefType]:
         """Get rootParameter (Pythonic accessor)."""
         return self._rootParameter
 
     @root_parameter.setter
-    def root_parameter(self, value: Optional["RefType"]) -> None:
+    def root_parameter(self, value: Optional[RefType]) -> None:
         """
         Set rootParameter with validation.
 
@@ -117,15 +117,15 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         self._rootParameter = value
         # Note that this must nested in ParameterDataPrototype.
         # The target must of ParameterDataPrototype, Application.
-        self._targetData: Optional["RefType"] = None
+        self._targetData: Optional[RefType] = None
 
     @property
-    def target_data(self) -> Optional["RefType"]:
+    def target_data(self) -> Optional[RefType]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional["RefType"]) -> None:
+    def target_data(self, value: Optional[RefType]) -> None:
         """
         Set targetData with validation.
 
@@ -175,7 +175,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> "AtomicSwComponent":
+    def getBase(self) -> AtomicSwComponent:
         """
         AUTOSAR-compliant getter for base.
 
@@ -187,7 +187,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtomicSwComponent") -> ParameterInAtomicSWCTypeInstanceRef:
+    def setBase(self, value: AtomicSwComponent) -> ParameterInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -203,7 +203,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextData(self) -> List["ApplicationComposite"]:
+    def getContextData(self) -> List[ApplicationComposite]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -215,7 +215,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.context_data  # Delegates to property
 
-    def getPortPrototype(self) -> "RefType":
+    def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
 
@@ -227,7 +227,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> ParameterInAtomicSWCTypeInstanceRef:
+    def setPortPrototype(self, value: RefType) -> ParameterInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -243,7 +243,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         self.port_prototype = value  # Delegates to property setter
         return self
 
-    def getRootParameter(self) -> "RefType":
+    def getRootParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootParameter.
 
@@ -255,7 +255,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.root_parameter  # Delegates to property
 
-    def setRootParameter(self, value: "RefType") -> ParameterInAtomicSWCTypeInstanceRef:
+    def setRootParameter(self, value: RefType) -> ParameterInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for rootParameter with method chaining.
 
@@ -271,7 +271,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         self.root_parameter = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> "RefType":
+    def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -283,7 +283,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "RefType") -> ParameterInAtomicSWCTypeInstanceRef:
+    def setTargetData(self, value: RefType) -> ParameterInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -301,7 +301,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["AtomicSwComponent"]) -> ParameterInAtomicSWCTypeInstanceRef:
+    def with_base(self, value: Optional[AtomicSwComponent]) -> ParameterInAtomicSWCTypeInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -382,15 +382,15 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
-        self._base: Optional["AtomicSwComponent"] = None
+        self._base: Optional[AtomicSwComponent] = None
 
     @property
-    def base(self) -> Optional["AtomicSwComponent"]:
+    def base(self) -> Optional[AtomicSwComponent]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional["AtomicSwComponent"]) -> None:
+    def base(self, value: Optional[AtomicSwComponent]) -> None:
         """
         Set base with validation.
 
@@ -411,23 +411,23 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         self._base = value
         # Tags: xml.
         # sequenceOffset=40 (ordered).
-        self._contextData: List["ApplicationComposite"] = []
+        self._contextData: List[ApplicationComposite] = []
 
     @property
-    def context_data(self) -> List["ApplicationComposite"]:
+    def context_data(self) -> List[ApplicationComposite]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # This is the port providing the parameter or the entry point parameter
         # structure.
-        self._portPrototype: Optional["RefType"] = None
+        self._portPrototype: Optional[RefType] = None
 
     @property
-    def port_prototype(self) -> Optional["RefType"]:
+    def port_prototype(self) -> Optional[RefType]:
         """Get portPrototype (Pythonic accessor)."""
         return self._portPrototype
 
     @port_prototype.setter
-    def port_prototype(self, value: Optional["RefType"]) -> None:
+    def port_prototype(self, value: Optional[RefType]) -> None:
         """
         Set portPrototype with validation.
 
@@ -444,15 +444,15 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         self._portPrototype = value
         # sequenceOffset=30 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._rootVariableDataPrototype: Optional["RefType"] = None
+        self._rootVariableDataPrototype: Optional[RefType] = None
 
     @property
-    def root_variable_data_prototype(self) -> Optional["RefType"]:
+    def root_variable_data_prototype(self) -> Optional[RefType]:
         """Get rootVariableDataPrototype (Pythonic accessor)."""
         return self._rootVariableDataPrototype
 
     @root_variable_data_prototype.setter
-    def root_variable_data_prototype(self, value: Optional["RefType"]) -> None:
+    def root_variable_data_prototype(self, value: Optional[RefType]) -> None:
         """
         Set rootVariableDataPrototype with validation.
 
@@ -468,15 +468,15 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
 
         self._rootVariableDataPrototype = value
         # Note that it shall be of ApplicationCompositeElementDataPrototype of.
-        self._targetData: Optional["RefType"] = None
+        self._targetData: Optional[RefType] = None
 
     @property
-    def target_data(self) -> Optional["RefType"]:
+    def target_data(self) -> Optional[RefType]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional["RefType"]) -> None:
+    def target_data(self, value: Optional[RefType]) -> None:
         """
         Set targetData with validation.
 
@@ -494,7 +494,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> "AtomicSwComponent":
+    def getBase(self) -> AtomicSwComponent:
         """
         AUTOSAR-compliant getter for base.
 
@@ -506,7 +506,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtomicSwComponent") -> VariableInAtomicSWCTypeInstanceRef:
+    def setBase(self, value: AtomicSwComponent) -> VariableInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -522,7 +522,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextData(self) -> List["ApplicationComposite"]:
+    def getContextData(self) -> List[ApplicationComposite]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -534,7 +534,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.context_data  # Delegates to property
 
-    def getPortPrototype(self) -> "RefType":
+    def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
 
@@ -546,7 +546,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> VariableInAtomicSWCTypeInstanceRef:
+    def setPortPrototype(self, value: RefType) -> VariableInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -562,7 +562,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         self.port_prototype = value  # Delegates to property setter
         return self
 
-    def getRootVariableDataPrototype(self) -> "RefType":
+    def getRootVariableDataPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootVariableDataPrototype.
 
@@ -574,7 +574,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.root_variable_data_prototype  # Delegates to property
 
-    def setRootVariableDataPrototype(self, value: "RefType") -> VariableInAtomicSWCTypeInstanceRef:
+    def setRootVariableDataPrototype(self, value: RefType) -> VariableInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for rootVariableDataPrototype with method chaining.
 
@@ -590,7 +590,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         self.root_variable_data_prototype = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> "RefType":
+    def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -602,7 +602,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "RefType") -> VariableInAtomicSWCTypeInstanceRef:
+    def setTargetData(self, value: RefType) -> VariableInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -620,7 +620,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional["AtomicSwComponent"]) -> VariableInAtomicSWCTypeInstanceRef:
+    def with_base(self, value: Optional[AtomicSwComponent]) -> VariableInAtomicSWCTypeInstanceRef:
         """
         Set base and return self for chaining.
 

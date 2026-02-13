@@ -47,15 +47,15 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
         """Get acfPart (Pythonic accessor)."""
         return self._acfPart
         # Id of the transported bus over the ACF connection.
-        self._busId: Optional["PositiveInteger"] = None
+        self._busId: Optional[PositiveInteger] = None
 
     @property
-    def bus_id(self) -> Optional["PositiveInteger"]:
+    def bus_id(self) -> Optional[PositiveInteger]:
         """Get busId (Pythonic accessor)."""
         return self._busId
 
     @bus_id.setter
-    def bus_id(self, value: Optional["PositiveInteger"]) -> None:
+    def bus_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set busId with validation.
 
@@ -105,7 +105,7 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
         """
         return self.acf_part  # Delegates to property
 
-    def getBusId(self) -> "PositiveInteger":
+    def getBusId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for busId.
 
@@ -117,7 +117,7 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
         """
         return self.bus_id  # Delegates to property
 
-    def setBusId(self, value: "PositiveInteger") -> IEEE1722TpAcfBus:
+    def setBusId(self, value: PositiveInteger) -> IEEE1722TpAcfBus:
         """
         AUTOSAR-compliant setter for busId with method chaining.
 
@@ -135,7 +135,7 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bus_id(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAcfBus:
+    def with_bus_id(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfBus:
         """
         Set busId and return self for chaining.
 
@@ -171,15 +171,15 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines whether putting this AcfPart to the IEEE1722Tp message triggers
         # immediate sending of the message.
-        self._collectionTrigger: Optional["RefType"] = None
+        self._collectionTrigger: Optional[RefType] = None
 
     @property
-    def collection_trigger(self) -> Optional["RefType"]:
+    def collection_trigger(self) -> Optional[RefType]:
         """Get collectionTrigger (Pythonic accessor)."""
         return self._collectionTrigger
 
     @collection_trigger.setter
-    def collection_trigger(self, value: Optional["RefType"]) -> None:
+    def collection_trigger(self, value: Optional[RefType]) -> None:
         """
         Set collectionTrigger with validation.
 
@@ -197,7 +197,7 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCollectionTrigger(self) -> "RefType":
+    def getCollectionTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for collectionTrigger.
 
@@ -209,7 +209,7 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
         """
         return self.collection_trigger  # Delegates to property
 
-    def setCollectionTrigger(self, value: "RefType") -> IEEE1722TpAcfBusPart:
+    def setCollectionTrigger(self, value: RefType) -> IEEE1722TpAcfBusPart:
         """
         AUTOSAR-compliant setter for collectionTrigger with method chaining.
 
@@ -351,15 +351,15 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # CRF base frequency in Hz.
-        self._baseFrequency: Optional["PositiveInteger"] = None
+        self._baseFrequency: Optional[PositiveInteger] = None
 
     @property
-    def base_frequency(self) -> Optional["PositiveInteger"]:
+    def base_frequency(self) -> Optional[PositiveInteger]:
         """Get baseFrequency (Pythonic accessor)."""
         return self._baseFrequency
 
     @base_frequency.setter
-    def base_frequency(self, value: Optional["PositiveInteger"]) -> None:
+    def base_frequency(self, value: Optional[PositiveInteger]) -> None:
         """
         Set baseFrequency with validation.
 
@@ -378,15 +378,15 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
                 f"baseFrequency must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._baseFrequency = value
-        self._frameSync: Optional["Boolean"] = None
+        self._frameSync: Optional[Boolean] = None
 
     @property
-    def frame_sync(self) -> Optional["Boolean"]:
+    def frame_sync(self) -> Optional[Boolean]:
         """Get frameSync (Pythonic accessor)."""
         return self._frameSync
 
     @frame_sync.setter
-    def frame_sync(self, value: Optional["Boolean"]) -> None:
+    def frame_sync(self, value: Optional[Boolean]) -> None:
         """
         Set frameSync with validation.
 
@@ -405,15 +405,15 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
                 f"frameSync must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._frameSync = value
-        self._timestamp: Optional["PositiveInteger"] = None
+        self._timestamp: Optional[PositiveInteger] = None
 
     @property
-    def timestamp(self) -> Optional["PositiveInteger"]:
+    def timestamp(self) -> Optional[PositiveInteger]:
         """Get timestamp (Pythonic accessor)."""
         return self._timestamp
 
     @timestamp.setter
-    def timestamp(self, value: Optional["PositiveInteger"]) -> None:
+    def timestamp(self, value: Optional[PositiveInteger]) -> None:
         """
         Set timestamp with validation.
 
@@ -435,7 +435,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBaseFrequency(self) -> "PositiveInteger":
+    def getBaseFrequency(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for baseFrequency.
 
@@ -447,7 +447,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
         """
         return self.base_frequency  # Delegates to property
 
-    def setBaseFrequency(self, value: "PositiveInteger") -> IEEE1722TpAcfLin:
+    def setBaseFrequency(self, value: PositiveInteger) -> IEEE1722TpAcfLin:
         """
         AUTOSAR-compliant setter for baseFrequency with method chaining.
 
@@ -463,7 +463,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
         self.base_frequency = value  # Delegates to property setter
         return self
 
-    def getFrameSync(self) -> "Boolean":
+    def getFrameSync(self) -> Boolean:
         """
         AUTOSAR-compliant getter for frameSync.
 
@@ -475,7 +475,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
         """
         return self.frame_sync  # Delegates to property
 
-    def setFrameSync(self, value: "Boolean") -> IEEE1722TpAcfLin:
+    def setFrameSync(self, value: Boolean) -> IEEE1722TpAcfLin:
         """
         AUTOSAR-compliant setter for frameSync with method chaining.
 
@@ -491,7 +491,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
         self.frame_sync = value  # Delegates to property setter
         return self
 
-    def getTimestamp(self) -> "PositiveInteger":
+    def getTimestamp(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for timestamp.
 
@@ -503,7 +503,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
         """
         return self.timestamp  # Delegates to property
 
-    def setTimestamp(self, value: "PositiveInteger") -> IEEE1722TpAcfLin:
+    def setTimestamp(self, value: PositiveInteger) -> IEEE1722TpAcfLin:
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
 
@@ -521,7 +521,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base_frequency(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAcfLin:
+    def with_base_frequency(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfLin:
         """
         Set baseFrequency and return self for chaining.
 
@@ -537,7 +537,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
         self.base_frequency = value  # Use property setter (gets validation)
         return self
 
-    def with_frame_sync(self, value: Optional["Boolean"]) -> IEEE1722TpAcfLin:
+    def with_frame_sync(self, value: Optional[Boolean]) -> IEEE1722TpAcfLin:
         """
         Set frameSync and return self for chaining.
 
@@ -553,7 +553,7 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
         self.frame_sync = value  # Use property setter (gets validation)
         return self
 
-    def with_timestamp(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAcfLin:
+    def with_timestamp(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfLin:
         """
         Set timestamp and return self for chaining.
 
@@ -586,15 +586,15 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines whether standard or extended address format shall be used.
-        self._canAddressing: Optional["CanAddressingMode"] = None
+        self._canAddressing: Optional[CanAddressingMode] = None
 
     @property
-    def can_addressing(self) -> Optional["CanAddressingMode"]:
+    def can_addressing(self) -> Optional[CanAddressingMode]:
         """Get canAddressing (Pythonic accessor)."""
         return self._canAddressing
 
     @can_addressing.setter
-    def can_addressing(self, value: Optional["CanAddressingMode"]) -> None:
+    def can_addressing(self, value: Optional[CanAddressingMode]) -> None:
         """
         Set canAddressing with validation.
 
@@ -613,15 +613,15 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
                 f"canAddressing must be CanAddressingMode or None, got {type(value).__name__}"
             )
         self._canAddressing = value
-        self._canBitRate: Optional["Boolean"] = None
+        self._canBitRate: Optional[Boolean] = None
 
     @property
-    def can_bit_rate(self) -> Optional["Boolean"]:
+    def can_bit_rate(self) -> Optional[Boolean]:
         """Get canBitRate (Pythonic accessor)."""
         return self._canBitRate
 
     @can_bit_rate.setter
-    def can_bit_rate(self, value: Optional["Boolean"]) -> None:
+    def can_bit_rate(self, value: Optional[Boolean]) -> None:
         """
         Set canBitRate with validation.
 
@@ -640,15 +640,15 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
                 f"canBitRate must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._canBitRate = value
-        self._canFrameTx: Optional["CanFrameTxBehavior"] = None
+        self._canFrameTx: Optional[CanFrameTxBehavior] = None
 
     @property
-    def can_frame_tx(self) -> Optional["CanFrameTxBehavior"]:
+    def can_frame_tx(self) -> Optional[CanFrameTxBehavior]:
         """Get canFrameTx (Pythonic accessor)."""
         return self._canFrameTx
 
     @can_frame_tx.setter
-    def can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> None:
+    def can_frame_tx(self, value: Optional[CanFrameTxBehavior]) -> None:
         """
         Set canFrameTx with validation.
 
@@ -694,15 +694,15 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
                 f"canIdentifier must be RxIdentifierRange or None, got {type(value).__name__}"
             )
         self._canIdentifier = value
-        self._sdu: Optional["RefType"] = None
+        self._sdu: Optional[RefType] = None
 
     @property
-    def sdu(self) -> Optional["RefType"]:
+    def sdu(self) -> Optional[RefType]:
         """Get sdu (Pythonic accessor)."""
         return self._sdu
 
     @sdu.setter
-    def sdu(self, value: Optional["RefType"]) -> None:
+    def sdu(self, value: Optional[RefType]) -> None:
         """
         Set sdu with validation.
 
@@ -720,7 +720,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCanAddressing(self) -> "CanAddressingMode":
+    def getCanAddressing(self) -> CanAddressingMode:
         """
         AUTOSAR-compliant getter for canAddressing.
 
@@ -732,7 +732,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         """
         return self.can_addressing  # Delegates to property
 
-    def setCanAddressing(self, value: "CanAddressingMode") -> IEEE1722TpAcfCanPart:
+    def setCanAddressing(self, value: CanAddressingMode) -> IEEE1722TpAcfCanPart:
         """
         AUTOSAR-compliant setter for canAddressing with method chaining.
 
@@ -748,7 +748,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         self.can_addressing = value  # Delegates to property setter
         return self
 
-    def getCanBitRate(self) -> "Boolean":
+    def getCanBitRate(self) -> Boolean:
         """
         AUTOSAR-compliant getter for canBitRate.
 
@@ -760,7 +760,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         """
         return self.can_bit_rate  # Delegates to property
 
-    def setCanBitRate(self, value: "Boolean") -> IEEE1722TpAcfCanPart:
+    def setCanBitRate(self, value: Boolean) -> IEEE1722TpAcfCanPart:
         """
         AUTOSAR-compliant setter for canBitRate with method chaining.
 
@@ -776,7 +776,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         self.can_bit_rate = value  # Delegates to property setter
         return self
 
-    def getCanFrameTx(self) -> "CanFrameTxBehavior":
+    def getCanFrameTx(self) -> CanFrameTxBehavior:
         """
         AUTOSAR-compliant getter for canFrameTx.
 
@@ -788,7 +788,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         """
         return self.can_frame_tx  # Delegates to property
 
-    def setCanFrameTx(self, value: "CanFrameTxBehavior") -> IEEE1722TpAcfCanPart:
+    def setCanFrameTx(self, value: CanFrameTxBehavior) -> IEEE1722TpAcfCanPart:
         """
         AUTOSAR-compliant setter for canFrameTx with method chaining.
 
@@ -832,7 +832,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         self.can_identifier = value  # Delegates to property setter
         return self
 
-    def getSdu(self) -> "RefType":
+    def getSdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdu.
 
@@ -844,7 +844,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         """
         return self.sdu  # Delegates to property
 
-    def setSdu(self, value: "RefType") -> IEEE1722TpAcfCanPart:
+    def setSdu(self, value: RefType) -> IEEE1722TpAcfCanPart:
         """
         AUTOSAR-compliant setter for sdu with method chaining.
 
@@ -862,7 +862,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_can_addressing(self, value: Optional["CanAddressingMode"]) -> IEEE1722TpAcfCanPart:
+    def with_can_addressing(self, value: Optional[CanAddressingMode]) -> IEEE1722TpAcfCanPart:
         """
         Set canAddressing and return self for chaining.
 
@@ -878,7 +878,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         self.can_addressing = value  # Use property setter (gets validation)
         return self
 
-    def with_can_bit_rate(self, value: Optional["Boolean"]) -> IEEE1722TpAcfCanPart:
+    def with_can_bit_rate(self, value: Optional[Boolean]) -> IEEE1722TpAcfCanPart:
         """
         Set canBitRate and return self for chaining.
 
@@ -894,7 +894,7 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
         self.can_bit_rate = value  # Use property setter (gets validation)
         return self
 
-    def with_can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> IEEE1722TpAcfCanPart:
+    def with_can_frame_tx(self, value: Optional[CanFrameTxBehavior]) -> IEEE1722TpAcfCanPart:
         """
         Set canFrameTx and return self for chaining.
 
@@ -958,15 +958,15 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Optional Lin Id defined in case the Lin Id can not be runtime.
-        self._linIdentifier: Optional["PositiveInteger"] = None
+        self._linIdentifier: Optional[PositiveInteger] = None
 
     @property
-    def lin_identifier(self) -> Optional["PositiveInteger"]:
+    def lin_identifier(self) -> Optional[PositiveInteger]:
         """Get linIdentifier (Pythonic accessor)."""
         return self._linIdentifier
 
     @lin_identifier.setter
-    def lin_identifier(self, value: Optional["PositiveInteger"]) -> None:
+    def lin_identifier(self, value: Optional[PositiveInteger]) -> None:
         """
         Set linIdentifier with validation.
 
@@ -985,15 +985,15 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
                 f"linIdentifier must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._linIdentifier = value
-        self._sdu: Optional["RefType"] = None
+        self._sdu: Optional[RefType] = None
 
     @property
-    def sdu(self) -> Optional["RefType"]:
+    def sdu(self) -> Optional[RefType]:
         """Get sdu (Pythonic accessor)."""
         return self._sdu
 
     @sdu.setter
-    def sdu(self, value: Optional["RefType"]) -> None:
+    def sdu(self, value: Optional[RefType]) -> None:
         """
         Set sdu with validation.
 
@@ -1011,7 +1011,7 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLinIdentifier(self) -> "PositiveInteger":
+    def getLinIdentifier(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for linIdentifier.
 
@@ -1023,7 +1023,7 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
         """
         return self.lin_identifier  # Delegates to property
 
-    def setLinIdentifier(self, value: "PositiveInteger") -> IEEE1722TpAcfLinPart:
+    def setLinIdentifier(self, value: PositiveInteger) -> IEEE1722TpAcfLinPart:
         """
         AUTOSAR-compliant setter for linIdentifier with method chaining.
 
@@ -1039,7 +1039,7 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
         self.lin_identifier = value  # Delegates to property setter
         return self
 
-    def getSdu(self) -> "RefType":
+    def getSdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdu.
 
@@ -1051,7 +1051,7 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
         """
         return self.sdu  # Delegates to property
 
-    def setSdu(self, value: "RefType") -> IEEE1722TpAcfLinPart:
+    def setSdu(self, value: RefType) -> IEEE1722TpAcfLinPart:
         """
         AUTOSAR-compliant setter for sdu with method chaining.
 
@@ -1069,7 +1069,7 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lin_identifier(self, value: Optional["PositiveInteger"]) -> IEEE1722TpAcfLinPart:
+    def with_lin_identifier(self, value: Optional[PositiveInteger]) -> IEEE1722TpAcfLinPart:
         """
         Set linIdentifier and return self for chaining.
 

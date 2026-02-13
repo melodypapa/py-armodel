@@ -104,7 +104,7 @@
           "note": "Assignment of a unique name to an Identifiable."
         },
         "label": {
-          "type": "MultilanguageLong",
+          "type": "MultilanguageLongName",
           "multiplicity": "0..1",
           "kind": "attribute",
           "is_ref": false,

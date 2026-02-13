@@ -31,10 +31,10 @@ class GeneralPurposeConnection(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to PduTriggerings that are connected to each a
         # GeneralPurposeConnection.
-        self._pduTriggering: List["RefType"] = []
+        self._pduTriggering: List[RefType] = []
 
     @property
-    def pdu_triggering(self) -> List["RefType"]:
+    def pdu_triggering(self) -> List[RefType]:
         """Get pduTriggering (Pythonic accessor)."""
         return self._pduTriggering
 
@@ -56,7 +56,7 @@ class GeneralPurposeConnection(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPduTriggering(self) -> List["RefType"]:
+    def getPduTriggering(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pduTriggering.
 

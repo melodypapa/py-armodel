@@ -92,15 +92,15 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
             )
         self._dynamically = value
         # DID.
-        self._maxSource: Optional["PositiveInteger"] = None
+        self._maxSource: Optional[PositiveInteger] = None
 
     @property
-    def max_source(self) -> Optional["PositiveInteger"]:
+    def max_source(self) -> Optional[PositiveInteger]:
         """Get maxSource (Pythonic accessor)."""
         return self._maxSource
 
     @max_source.setter
-    def max_source(self, value: Optional["PositiveInteger"]) -> None:
+    def max_source(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxSource with validation.
 
@@ -194,7 +194,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         self.dynamically = value  # Delegates to property setter
         return self
 
-    def getMaxSource(self) -> "PositiveInteger":
+    def getMaxSource(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxSource.
 
@@ -206,7 +206,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         """
         return self.max_source  # Delegates to property
 
-    def setMaxSource(self, value: "PositiveInteger") -> DiagnosticDynamicallyDefineDataIdentifier:
+    def setMaxSource(self, value: PositiveInteger) -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         AUTOSAR-compliant setter for maxSource with method chaining.
 
@@ -256,7 +256,7 @@ class DiagnosticDynamicallyDefineDataIdentifier(DiagnosticServiceInstance):
         self.dynamically = value  # Use property setter (gets validation)
         return self
 
-    def with_max_source(self, value: Optional["PositiveInteger"]) -> DiagnosticDynamicallyDefineDataIdentifier:
+    def with_max_source(self, value: Optional[PositiveInteger]) -> DiagnosticDynamicallyDefineDataIdentifier:
         """
         Set maxSource and return self for chaining.
 
@@ -294,15 +294,15 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
         # to FALSE.
         # the Dcm module shall not check the and mode dependencies per source a
                 # ReadDataByIdentifier (0x22) with DID in the to 0xF3FF.
-        self._checkPer: Optional["Boolean"] = None
+        self._checkPer: Optional[Boolean] = None
 
     @property
-    def check_per(self) -> Optional["Boolean"]:
+    def check_per(self) -> Optional[Boolean]:
         """Get checkPer (Pythonic accessor)."""
         return self._checkPer
 
     @check_per.setter
-    def check_per(self, value: Optional["Boolean"]) -> None:
+    def check_per(self, value: Optional[Boolean]) -> None:
         """
         Set checkPer with validation.
 
@@ -360,7 +360,7 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCheckPer(self) -> "Boolean":
+    def getCheckPer(self) -> Boolean:
         """
         AUTOSAR-compliant getter for checkPer.
 
@@ -372,7 +372,7 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
         """
         return self.check_per  # Delegates to property
 
-    def setCheckPer(self, value: "Boolean") -> DiagnosticDynamicallyDefineDataIdentifierClass:
+    def setCheckPer(self, value: Boolean) -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
         AUTOSAR-compliant setter for checkPer with method chaining.
 
@@ -430,7 +430,7 @@ class DiagnosticDynamicallyDefineDataIdentifierClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_check_per(self, value: Optional["Boolean"]) -> DiagnosticDynamicallyDefineDataIdentifierClass:
+    def with_check_per(self, value: Optional[Boolean]) -> DiagnosticDynamicallyDefineDataIdentifierClass:
         """
         Set checkPer and return self for chaining.
 

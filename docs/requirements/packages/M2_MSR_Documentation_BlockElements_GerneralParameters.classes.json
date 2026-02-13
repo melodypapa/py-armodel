@@ -30,7 +30,7 @@
       ],
       "attributes": {
         "label": {
-          "type": "MultilanguageLong",
+          "type": "MultilanguageLongName",
           "multiplicity": "0..1",
           "kind": "attribute",
           "is_ref": false,

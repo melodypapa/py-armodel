@@ -23,7 +23,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.__init__ im
     GlobalTimeMaster,
     GlobalTimeSlave,
 )
-
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime.ETH import (    CouplingPort,    EthGlobalTime,    EthGlobalTimeMessage,    GlobalTimeCrc,    GlobalTimeCrcSupport,    GlobalTimePortRole,)from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (    MacAddressString,    TimeValue,)
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
     """
@@ -41,15 +41,15 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of whether or not CRC is supported.
         # This is relevant for selected bus systems.
-        self._crcSecured: Optional["GlobalTimeCrcSupport"] = None
+        self._crcSecured: Optional[GlobalTimeCrcSupport] = None
 
     @property
-    def crc_secured(self) -> Optional["GlobalTimeCrcSupport"]:
+    def crc_secured(self) -> Optional[GlobalTimeCrcSupport]:
         """Get crcSecured (Pythonic accessor)."""
         return self._crcSecured
 
     @crc_secured.setter
-    def crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> None:
+    def crc_secured(self, value: Optional[GlobalTimeCrcSupport]) -> None:
         """
         Set crcSecured with validation.
 
@@ -69,15 +69,15 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
             )
         self._crcSecured = value
         # Master ports in absence of Sync and Follow_Up messages on Slave.
-        self._holdOverTime: Optional["TimeValue"] = None
+        self._holdOverTime: Optional[TimeValue] = None
 
     @property
-    def hold_over_time(self) -> Optional["TimeValue"]:
+    def hold_over_time(self) -> Optional[TimeValue]:
         """Get holdOverTime (Pythonic accessor)."""
         return self._holdOverTime
 
     @hold_over_time.setter
-    def hold_over_time(self, value: Optional["TimeValue"]) -> None:
+    def hold_over_time(self, value: Optional[TimeValue]) -> None:
         """
         Set holdOverTime with validation.
 
@@ -142,7 +142,7 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCrcSecured(self) -> "GlobalTimeCrcSupport":
+    def getCrcSecured(self) -> GlobalTimeCrcSupport:
         """
         AUTOSAR-compliant getter for crcSecured.
 
@@ -154,7 +154,7 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
         """
         return self.crc_secured  # Delegates to property
 
-    def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> GlobalTimeEthMaster:
+    def setCrcSecured(self, value: GlobalTimeCrcSupport) -> GlobalTimeEthMaster:
         """
         AUTOSAR-compliant setter for crcSecured with method chaining.
 
@@ -170,7 +170,7 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
         self.crc_secured = value  # Delegates to property setter
         return self
 
-    def getHoldOverTime(self) -> "TimeValue":
+    def getHoldOverTime(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for holdOverTime.
 
@@ -182,7 +182,7 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
         """
         return self.hold_over_time  # Delegates to property
 
-    def setHoldOverTime(self, value: "TimeValue") -> GlobalTimeEthMaster:
+    def setHoldOverTime(self, value: TimeValue) -> GlobalTimeEthMaster:
         """
         AUTOSAR-compliant setter for holdOverTime with method chaining.
 
@@ -228,7 +228,7 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> GlobalTimeEthMaster:
+    def with_crc_secured(self, value: Optional[GlobalTimeCrcSupport]) -> GlobalTimeEthMaster:
         """
         Set crcSecured and return self for chaining.
 
@@ -244,7 +244,7 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
         self.crc_secured = value  # Use property setter (gets validation)
         return self
 
-    def with_hold_over_time(self, value: Optional["TimeValue"]) -> GlobalTimeEthMaster:
+    def with_hold_over_time(self, value: Optional[TimeValue]) -> GlobalTimeEthMaster:
         """
         Set holdOverTime and return self for chaining.
 
@@ -292,15 +292,15 @@ class EthTSynSubTlvConfig(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines whether an AUTOSAR Follow_Up TLV OFS used.
-        self._ofsSubTlv: Optional["Boolean"] = None
+        self._ofsSubTlv: Optional[Boolean] = None
 
     @property
-    def ofs_sub_tlv(self) -> Optional["Boolean"]:
+    def ofs_sub_tlv(self) -> Optional[Boolean]:
         """Get ofsSubTlv (Pythonic accessor)."""
         return self._ofsSubTlv
 
     @ofs_sub_tlv.setter
-    def ofs_sub_tlv(self, value: Optional["Boolean"]) -> None:
+    def ofs_sub_tlv(self, value: Optional[Boolean]) -> None:
         """
         Set ofsSubTlv with validation.
 
@@ -319,15 +319,15 @@ class EthTSynSubTlvConfig(ARObject):
                 f"ofsSubTlv must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._ofsSubTlv = value
-        self._statusSubTlv: Optional["Boolean"] = None
+        self._statusSubTlv: Optional[Boolean] = None
 
     @property
-    def status_sub_tlv(self) -> Optional["Boolean"]:
+    def status_sub_tlv(self) -> Optional[Boolean]:
         """Get statusSubTlv (Pythonic accessor)."""
         return self._statusSubTlv
 
     @status_sub_tlv.setter
-    def status_sub_tlv(self, value: Optional["Boolean"]) -> None:
+    def status_sub_tlv(self, value: Optional[Boolean]) -> None:
         """
         Set statusSubTlv with validation.
 
@@ -346,15 +346,15 @@ class EthTSynSubTlvConfig(ARObject):
                 f"statusSubTlv must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._statusSubTlv = value
-        self._timeSubTlv: Optional["Boolean"] = None
+        self._timeSubTlv: Optional[Boolean] = None
 
     @property
-    def time_sub_tlv(self) -> Optional["Boolean"]:
+    def time_sub_tlv(self) -> Optional[Boolean]:
         """Get timeSubTlv (Pythonic accessor)."""
         return self._timeSubTlv
 
     @time_sub_tlv.setter
-    def time_sub_tlv(self, value: Optional["Boolean"]) -> None:
+    def time_sub_tlv(self, value: Optional[Boolean]) -> None:
         """
         Set timeSubTlv with validation.
 
@@ -373,15 +373,15 @@ class EthTSynSubTlvConfig(ARObject):
                 f"timeSubTlv must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._timeSubTlv = value
-        self._userDataSubTlv: Optional["Boolean"] = None
+        self._userDataSubTlv: Optional[Boolean] = None
 
     @property
-    def user_data_sub_tlv(self) -> Optional["Boolean"]:
+    def user_data_sub_tlv(self) -> Optional[Boolean]:
         """Get userDataSubTlv (Pythonic accessor)."""
         return self._userDataSubTlv
 
     @user_data_sub_tlv.setter
-    def user_data_sub_tlv(self, value: Optional["Boolean"]) -> None:
+    def user_data_sub_tlv(self, value: Optional[Boolean]) -> None:
         """
         Set userDataSubTlv with validation.
 
@@ -403,7 +403,7 @@ class EthTSynSubTlvConfig(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOfsSubTlv(self) -> "Boolean":
+    def getOfsSubTlv(self) -> Boolean:
         """
         AUTOSAR-compliant getter for ofsSubTlv.
 
@@ -415,7 +415,7 @@ class EthTSynSubTlvConfig(ARObject):
         """
         return self.ofs_sub_tlv  # Delegates to property
 
-    def setOfsSubTlv(self, value: "Boolean") -> EthTSynSubTlvConfig:
+    def setOfsSubTlv(self, value: Boolean) -> EthTSynSubTlvConfig:
         """
         AUTOSAR-compliant setter for ofsSubTlv with method chaining.
 
@@ -431,7 +431,7 @@ class EthTSynSubTlvConfig(ARObject):
         self.ofs_sub_tlv = value  # Delegates to property setter
         return self
 
-    def getStatusSubTlv(self) -> "Boolean":
+    def getStatusSubTlv(self) -> Boolean:
         """
         AUTOSAR-compliant getter for statusSubTlv.
 
@@ -443,7 +443,7 @@ class EthTSynSubTlvConfig(ARObject):
         """
         return self.status_sub_tlv  # Delegates to property
 
-    def setStatusSubTlv(self, value: "Boolean") -> EthTSynSubTlvConfig:
+    def setStatusSubTlv(self, value: Boolean) -> EthTSynSubTlvConfig:
         """
         AUTOSAR-compliant setter for statusSubTlv with method chaining.
 
@@ -459,7 +459,7 @@ class EthTSynSubTlvConfig(ARObject):
         self.status_sub_tlv = value  # Delegates to property setter
         return self
 
-    def getTimeSubTlv(self) -> "Boolean":
+    def getTimeSubTlv(self) -> Boolean:
         """
         AUTOSAR-compliant getter for timeSubTlv.
 
@@ -471,7 +471,7 @@ class EthTSynSubTlvConfig(ARObject):
         """
         return self.time_sub_tlv  # Delegates to property
 
-    def setTimeSubTlv(self, value: "Boolean") -> EthTSynSubTlvConfig:
+    def setTimeSubTlv(self, value: Boolean) -> EthTSynSubTlvConfig:
         """
         AUTOSAR-compliant setter for timeSubTlv with method chaining.
 
@@ -487,7 +487,7 @@ class EthTSynSubTlvConfig(ARObject):
         self.time_sub_tlv = value  # Delegates to property setter
         return self
 
-    def getUserDataSubTlv(self) -> "Boolean":
+    def getUserDataSubTlv(self) -> Boolean:
         """
         AUTOSAR-compliant getter for userDataSubTlv.
 
@@ -499,7 +499,7 @@ class EthTSynSubTlvConfig(ARObject):
         """
         return self.user_data_sub_tlv  # Delegates to property
 
-    def setUserDataSubTlv(self, value: "Boolean") -> EthTSynSubTlvConfig:
+    def setUserDataSubTlv(self, value: Boolean) -> EthTSynSubTlvConfig:
         """
         AUTOSAR-compliant setter for userDataSubTlv with method chaining.
 
@@ -517,7 +517,7 @@ class EthTSynSubTlvConfig(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ofs_sub_tlv(self, value: Optional["Boolean"]) -> EthTSynSubTlvConfig:
+    def with_ofs_sub_tlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
         """
         Set ofsSubTlv and return self for chaining.
 
@@ -533,7 +533,7 @@ class EthTSynSubTlvConfig(ARObject):
         self.ofs_sub_tlv = value  # Use property setter (gets validation)
         return self
 
-    def with_status_sub_tlv(self, value: Optional["Boolean"]) -> EthTSynSubTlvConfig:
+    def with_status_sub_tlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
         """
         Set statusSubTlv and return self for chaining.
 
@@ -549,7 +549,7 @@ class EthTSynSubTlvConfig(ARObject):
         self.status_sub_tlv = value  # Use property setter (gets validation)
         return self
 
-    def with_time_sub_tlv(self, value: Optional["Boolean"]) -> EthTSynSubTlvConfig:
+    def with_time_sub_tlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
         """
         Set timeSubTlv and return self for chaining.
 
@@ -565,7 +565,7 @@ class EthTSynSubTlvConfig(ARObject):
         self.time_sub_tlv = value  # Use property setter (gets validation)
         return self
 
-    def with_user_data_sub_tlv(self, value: Optional["Boolean"]) -> EthTSynSubTlvConfig:
+    def with_user_data_sub_tlv(self, value: Optional[Boolean]) -> EthTSynSubTlvConfig:
         """
         Set userDataSubTlv and return self for chaining.
 
@@ -598,15 +598,15 @@ class GlobalTimeEthSlave(GlobalTimeSlave):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of whether or not validation of the CRC is.
-        self._crcValidated: Optional["GlobalTimeCrc"] = None
+        self._crcValidated: Optional[GlobalTimeCrc] = None
 
     @property
-    def crc_validated(self) -> Optional["GlobalTimeCrc"]:
+    def crc_validated(self) -> Optional[GlobalTimeCrc]:
         """Get crcValidated (Pythonic accessor)."""
         return self._crcValidated
 
     @crc_validated.setter
-    def crc_validated(self, value: Optional["GlobalTimeCrc"]) -> None:
+    def crc_validated(self, value: Optional[GlobalTimeCrc]) -> None:
         """
         Set crcValidated with validation.
 
@@ -628,7 +628,7 @@ class GlobalTimeEthSlave(GlobalTimeSlave):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCrcValidated(self) -> "GlobalTimeCrc":
+    def getCrcValidated(self) -> GlobalTimeCrc:
         """
         AUTOSAR-compliant getter for crcValidated.
 
@@ -640,7 +640,7 @@ class GlobalTimeEthSlave(GlobalTimeSlave):
         """
         return self.crc_validated  # Delegates to property
 
-    def setCrcValidated(self, value: "GlobalTimeCrc") -> GlobalTimeEthSlave:
+    def setCrcValidated(self, value: GlobalTimeCrc) -> GlobalTimeEthSlave:
         """
         AUTOSAR-compliant setter for crcValidated with method chaining.
 
@@ -658,7 +658,7 @@ class GlobalTimeEthSlave(GlobalTimeSlave):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_validated(self, value: Optional["GlobalTimeCrc"]) -> GlobalTimeEthSlave:
+    def with_crc_validated(self, value: Optional[GlobalTimeCrc]) -> GlobalTimeEthSlave:
         """
         Set crcValidated and return self for chaining.
 
@@ -719,15 +719,15 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
             )
         self._crcFlags = value
         # on.
-        self._destination: Optional["MacAddressString"] = None
+        self._destination: Optional[MacAddressString] = None
 
     @property
-    def destination(self) -> Optional["MacAddressString"]:
+    def destination(self) -> Optional[MacAddressString]:
         """Get destination (Pythonic accessor)."""
         return self._destination
 
     @destination.setter
-    def destination(self, value: Optional["MacAddressString"]) -> None:
+    def destination(self, value: Optional[MacAddressString]) -> None:
         """
         Set destination with validation.
 
@@ -748,12 +748,12 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self._destination = value
 
     @property
-    def fup_data_id_list(self) -> "PositiveInteger":
+    def fup_data_id_list(self) -> PositiveInteger:
         """Get fupDataIDList (Pythonic accessor)."""
         return self._fupDataIDList
 
     @fup_data_id_list.setter
-    def fup_data_id_list(self, value: "PositiveInteger") -> None:
+    def fup_data_id_list(self, value: PositiveInteger) -> None:
         """
         Set fupDataIDList with validation.
 
@@ -769,23 +769,23 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
             )
         self._fupDataIDList = value
         # GlobalTimeDomain.
-        self._managed: List["EthGlobalTime"] = []
+        self._managed: List[EthGlobalTime] = []
 
     @property
-    def managed(self) -> List["EthGlobalTime"]:
+    def managed(self) -> List[EthGlobalTime]:
         """Get managed (Pythonic accessor)."""
         return self._managed
         # Defines the compliance of the Ethernet time sync messages to specific
         # standards.
-        self._message: Optional["EthGlobalTimeMessage"] = None
+        self._message: Optional[EthGlobalTimeMessage] = None
 
     @property
-    def message(self) -> Optional["EthGlobalTimeMessage"]:
+    def message(self) -> Optional[EthGlobalTimeMessage]:
         """Get message (Pythonic accessor)."""
         return self._message
 
     @message.setter
-    def message(self, value: Optional["EthGlobalTimeMessage"]) -> None:
+    def message(self, value: Optional[EthGlobalTimeMessage]) -> None:
         """
         Set message with validation.
 
@@ -805,15 +805,15 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
             )
         self._message = value
         # is sent using a VLAN.
-        self._vlanPriority: Optional["PositiveInteger"] = None
+        self._vlanPriority: Optional[PositiveInteger] = None
 
     @property
-    def vlan_priority(self) -> Optional["PositiveInteger"]:
+    def vlan_priority(self) -> Optional[PositiveInteger]:
         """Get vlanPriority (Pythonic accessor)."""
         return self._vlanPriority
 
     @vlan_priority.setter
-    def vlan_priority(self, value: Optional["PositiveInteger"]) -> None:
+    def vlan_priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set vlanPriority with validation.
 
@@ -891,7 +891,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.destination = value  # Delegates to property setter
         return self
 
-    def getFupDataIDList(self) -> "PositiveInteger":
+    def getFupDataIDList(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for fupDataIDList.
 
@@ -903,7 +903,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.fup_data_id_list  # Delegates to property
 
-    def setFupDataIDList(self, value: "PositiveInteger") -> EthGlobalTimeDomainProps:
+    def setFupDataIDList(self, value: PositiveInteger) -> EthGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for fupDataIDList with method chaining.
 
@@ -919,7 +919,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.fup_data_id_list = value  # Delegates to property setter
         return self
 
-    def getManaged(self) -> List["EthGlobalTime"]:
+    def getManaged(self) -> List[EthGlobalTime]:
         """
         AUTOSAR-compliant getter for managed.
 
@@ -959,7 +959,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.message = value  # Delegates to property setter
         return self
 
-    def getVlanPriority(self) -> "PositiveInteger":
+    def getVlanPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for vlanPriority.
 
@@ -971,7 +971,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.vlan_priority  # Delegates to property
 
-    def setVlanPriority(self, value: "PositiveInteger") -> EthGlobalTimeDomainProps:
+    def setVlanPriority(self, value: PositiveInteger) -> EthGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for vlanPriority with method chaining.
 
@@ -1005,7 +1005,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.crc_flags = value  # Use property setter (gets validation)
         return self
 
-    def with_destination(self, value: Optional["MacAddressString"]) -> EthGlobalTimeDomainProps:
+    def with_destination(self, value: Optional[MacAddressString]) -> EthGlobalTimeDomainProps:
         """
         Set destination and return self for chaining.
 
@@ -1021,7 +1021,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.destination = value  # Use property setter (gets validation)
         return self
 
-    def with_fup_data_id_list(self, value: "PositiveInteger") -> EthGlobalTimeDomainProps:
+    def with_fup_data_id_list(self, value: PositiveInteger) -> EthGlobalTimeDomainProps:
         """
         Set fupDataIDList and return self for chaining.
 
@@ -1037,7 +1037,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.fup_data_id_list = value  # Use property setter (gets validation)
         return self
 
-    def with_message(self, value: Optional["EthGlobalTimeMessage"]) -> EthGlobalTimeDomainProps:
+    def with_message(self, value: Optional[EthGlobalTimeMessage]) -> EthGlobalTimeDomainProps:
         """
         Set message and return self for chaining.
 
@@ -1053,7 +1053,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.message = value  # Use property setter (gets validation)
         return self
 
-    def with_vlan_priority(self, value: Optional["PositiveInteger"]) -> EthGlobalTimeDomainProps:
+    def with_vlan_priority(self, value: Optional[PositiveInteger]) -> EthGlobalTimeDomainProps:
         """
         Set vlanPriority and return self for chaining.
 
@@ -1087,15 +1087,15 @@ class EthTSynCrcFlags(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # CorrectionField from the Follow_Up Message Header be included in CRC
         # calculation.
-        self._crcCorrection: Optional["Boolean"] = None
+        self._crcCorrection: Optional[Boolean] = None
 
     @property
-    def crc_correction(self) -> Optional["Boolean"]:
+    def crc_correction(self) -> Optional[Boolean]:
         """Get crcCorrection (Pythonic accessor)."""
         return self._crcCorrection
 
     @crc_correction.setter
-    def crc_correction(self, value: Optional["Boolean"]) -> None:
+    def crc_correction(self, value: Optional[Boolean]) -> None:
         """
         Set crcCorrection with validation.
 
@@ -1115,15 +1115,15 @@ class EthTSynCrcFlags(ARObject):
             )
         self._crcCorrection = value
         # calculation.
-        self._crcDomain: Optional["Boolean"] = None
+        self._crcDomain: Optional[Boolean] = None
 
     @property
-    def crc_domain(self) -> Optional["Boolean"]:
+    def crc_domain(self) -> Optional[Boolean]:
         """Get crcDomain (Pythonic accessor)."""
         return self._crcDomain
 
     @crc_domain.setter
-    def crc_domain(self, value: Optional["Boolean"]) -> None:
+    def crc_domain(self, value: Optional[Boolean]) -> None:
         """
         Set crcDomain with validation.
 
@@ -1143,15 +1143,15 @@ class EthTSynCrcFlags(ARObject):
             )
         self._crcDomain = value
         # calculation.
-        self._crcMessage: Optional["Boolean"] = None
+        self._crcMessage: Optional[Boolean] = None
 
     @property
-    def crc_message(self) -> Optional["Boolean"]:
+    def crc_message(self) -> Optional[Boolean]:
         """Get crcMessage (Pythonic accessor)."""
         return self._crcMessage
 
     @crc_message.setter
-    def crc_message(self, value: Optional["Boolean"]) -> None:
+    def crc_message(self, value: Optional[Boolean]) -> None:
         """
         Set crcMessage with validation.
 
@@ -1171,15 +1171,15 @@ class EthTSynCrcFlags(ARObject):
             )
         self._crcMessage = value
         # calculation.
-        self._crcPrecise: Optional["Boolean"] = None
+        self._crcPrecise: Optional[Boolean] = None
 
     @property
-    def crc_precise(self) -> Optional["Boolean"]:
+    def crc_precise(self) -> Optional[Boolean]:
         """Get crcPrecise (Pythonic accessor)."""
         return self._crcPrecise
 
     @crc_precise.setter
-    def crc_precise(self, value: Optional["Boolean"]) -> None:
+    def crc_precise(self, value: Optional[Boolean]) -> None:
         """
         Set crcPrecise with validation.
 
@@ -1198,15 +1198,15 @@ class EthTSynCrcFlags(ARObject):
                 f"crcPrecise must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._crcPrecise = value
-        self._crcSequenceId: Optional["Boolean"] = None
+        self._crcSequenceId: Optional[Boolean] = None
 
     @property
-    def crc_sequence_id(self) -> Optional["Boolean"]:
+    def crc_sequence_id(self) -> Optional[Boolean]:
         """Get crcSequenceId (Pythonic accessor)."""
         return self._crcSequenceId
 
     @crc_sequence_id.setter
-    def crc_sequence_id(self, value: Optional["Boolean"]) -> None:
+    def crc_sequence_id(self, value: Optional[Boolean]) -> None:
         """
         Set crcSequenceId with validation.
 
@@ -1226,15 +1226,15 @@ class EthTSynCrcFlags(ARObject):
             )
         self._crcSequenceId = value
         # calculation.
-        self._crcSourcePort: Optional["Boolean"] = None
+        self._crcSourcePort: Optional[Boolean] = None
 
     @property
-    def crc_source_port(self) -> Optional["Boolean"]:
+    def crc_source_port(self) -> Optional[Boolean]:
         """Get crcSourcePort (Pythonic accessor)."""
         return self._crcSourcePort
 
     @crc_source_port.setter
-    def crc_source_port(self, value: Optional["Boolean"]) -> None:
+    def crc_source_port(self, value: Optional[Boolean]) -> None:
         """
         Set crcSourcePort with validation.
 
@@ -1256,7 +1256,7 @@ class EthTSynCrcFlags(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCrcCorrection(self) -> "Boolean":
+    def getCrcCorrection(self) -> Boolean:
         """
         AUTOSAR-compliant getter for crcCorrection.
 
@@ -1268,7 +1268,7 @@ class EthTSynCrcFlags(ARObject):
         """
         return self.crc_correction  # Delegates to property
 
-    def setCrcCorrection(self, value: "Boolean") -> EthTSynCrcFlags:
+    def setCrcCorrection(self, value: Boolean) -> EthTSynCrcFlags:
         """
         AUTOSAR-compliant setter for crcCorrection with method chaining.
 
@@ -1284,7 +1284,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_correction = value  # Delegates to property setter
         return self
 
-    def getCrcDomain(self) -> "Boolean":
+    def getCrcDomain(self) -> Boolean:
         """
         AUTOSAR-compliant getter for crcDomain.
 
@@ -1296,7 +1296,7 @@ class EthTSynCrcFlags(ARObject):
         """
         return self.crc_domain  # Delegates to property
 
-    def setCrcDomain(self, value: "Boolean") -> EthTSynCrcFlags:
+    def setCrcDomain(self, value: Boolean) -> EthTSynCrcFlags:
         """
         AUTOSAR-compliant setter for crcDomain with method chaining.
 
@@ -1312,7 +1312,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_domain = value  # Delegates to property setter
         return self
 
-    def getCrcMessage(self) -> "Boolean":
+    def getCrcMessage(self) -> Boolean:
         """
         AUTOSAR-compliant getter for crcMessage.
 
@@ -1324,7 +1324,7 @@ class EthTSynCrcFlags(ARObject):
         """
         return self.crc_message  # Delegates to property
 
-    def setCrcMessage(self, value: "Boolean") -> EthTSynCrcFlags:
+    def setCrcMessage(self, value: Boolean) -> EthTSynCrcFlags:
         """
         AUTOSAR-compliant setter for crcMessage with method chaining.
 
@@ -1340,7 +1340,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_message = value  # Delegates to property setter
         return self
 
-    def getCrcPrecise(self) -> "Boolean":
+    def getCrcPrecise(self) -> Boolean:
         """
         AUTOSAR-compliant getter for crcPrecise.
 
@@ -1352,7 +1352,7 @@ class EthTSynCrcFlags(ARObject):
         """
         return self.crc_precise  # Delegates to property
 
-    def setCrcPrecise(self, value: "Boolean") -> EthTSynCrcFlags:
+    def setCrcPrecise(self, value: Boolean) -> EthTSynCrcFlags:
         """
         AUTOSAR-compliant setter for crcPrecise with method chaining.
 
@@ -1368,7 +1368,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_precise = value  # Delegates to property setter
         return self
 
-    def getCrcSequenceId(self) -> "Boolean":
+    def getCrcSequenceId(self) -> Boolean:
         """
         AUTOSAR-compliant getter for crcSequenceId.
 
@@ -1380,7 +1380,7 @@ class EthTSynCrcFlags(ARObject):
         """
         return self.crc_sequence_id  # Delegates to property
 
-    def setCrcSequenceId(self, value: "Boolean") -> EthTSynCrcFlags:
+    def setCrcSequenceId(self, value: Boolean) -> EthTSynCrcFlags:
         """
         AUTOSAR-compliant setter for crcSequenceId with method chaining.
 
@@ -1396,7 +1396,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_sequence_id = value  # Delegates to property setter
         return self
 
-    def getCrcSourcePort(self) -> "Boolean":
+    def getCrcSourcePort(self) -> Boolean:
         """
         AUTOSAR-compliant getter for crcSourcePort.
 
@@ -1408,7 +1408,7 @@ class EthTSynCrcFlags(ARObject):
         """
         return self.crc_source_port  # Delegates to property
 
-    def setCrcSourcePort(self, value: "Boolean") -> EthTSynCrcFlags:
+    def setCrcSourcePort(self, value: Boolean) -> EthTSynCrcFlags:
         """
         AUTOSAR-compliant setter for crcSourcePort with method chaining.
 
@@ -1426,7 +1426,7 @@ class EthTSynCrcFlags(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_correction(self, value: Optional["Boolean"]) -> EthTSynCrcFlags:
+    def with_crc_correction(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
         """
         Set crcCorrection and return self for chaining.
 
@@ -1442,7 +1442,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_correction = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_domain(self, value: Optional["Boolean"]) -> EthTSynCrcFlags:
+    def with_crc_domain(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
         """
         Set crcDomain and return self for chaining.
 
@@ -1458,7 +1458,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_domain = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_message(self, value: Optional["Boolean"]) -> EthTSynCrcFlags:
+    def with_crc_message(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
         """
         Set crcMessage and return self for chaining.
 
@@ -1474,7 +1474,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_message = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_precise(self, value: Optional["Boolean"]) -> EthTSynCrcFlags:
+    def with_crc_precise(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
         """
         Set crcPrecise and return self for chaining.
 
@@ -1490,7 +1490,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_precise = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_sequence_id(self, value: Optional["Boolean"]) -> EthTSynCrcFlags:
+    def with_crc_sequence_id(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
         """
         Set crcSequenceId and return self for chaining.
 
@@ -1506,7 +1506,7 @@ class EthTSynCrcFlags(ARObject):
         self.crc_sequence_id = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_source_port(self, value: Optional["Boolean"]) -> EthTSynCrcFlags:
+    def with_crc_source_port(self, value: Optional[Boolean]) -> EthTSynCrcFlags:
         """
         Set crcSourcePort and return self for chaining.
 
@@ -1538,15 +1538,15 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines which CouplingPort is managed by this EthGlobal.
-        self._couplingPort: Optional["CouplingPort"] = None
+        self._couplingPort: Optional[CouplingPort] = None
 
     @property
-    def coupling_port(self) -> Optional["CouplingPort"]:
+    def coupling_port(self) -> Optional[CouplingPort]:
         """Get couplingPort (Pythonic accessor)."""
         return self._couplingPort
 
     @coupling_port.setter
-    def coupling_port(self, value: Optional["CouplingPort"]) -> None:
+    def coupling_port(self, value: Optional[CouplingPort]) -> None:
         """
         Set couplingPort with validation.
 
@@ -1565,15 +1565,15 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"couplingPort must be CouplingPort or None, got {type(value).__name__}"
             )
         self._couplingPort = value
-        self._globalTimePort: Optional["GlobalTimePortRole"] = None
+        self._globalTimePort: Optional[GlobalTimePortRole] = None
 
     @property
-    def global_time_port(self) -> Optional["GlobalTimePortRole"]:
+    def global_time_port(self) -> Optional[GlobalTimePortRole]:
         """Get globalTimePort (Pythonic accessor)."""
         return self._globalTimePort
 
     @global_time_port.setter
-    def global_time_port(self, value: Optional["GlobalTimePortRole"]) -> None:
+    def global_time_port(self, value: Optional[GlobalTimePortRole]) -> None:
         """
         Set globalTimePort with validation.
 
@@ -1593,15 +1593,15 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
             )
         self._globalTimePort = value
         # AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._globalTimeTxPeriod: Optional["TimeValue"] = None
+        self._globalTimeTxPeriod: Optional[TimeValue] = None
 
     @property
-    def global_time_tx_period(self) -> Optional["TimeValue"]:
+    def global_time_tx_period(self) -> Optional[TimeValue]:
         """Get globalTimeTxPeriod (Pythonic accessor)."""
         return self._globalTimeTxPeriod
 
     @global_time_tx_period.setter
-    def global_time_tx_period(self, value: Optional["TimeValue"]) -> None:
+    def global_time_tx_period(self, value: Optional[TimeValue]) -> None:
         """
         Set globalTimeTxPeriod with validation.
 
@@ -1621,15 +1621,15 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
             )
         self._globalTimeTxPeriod = value
         # If a measured Pdelay pdelayLatencyThreshold, the measured Pdelay discarded.
-        self._pdelayLatency: Optional["TimeValue"] = None
+        self._pdelayLatency: Optional[TimeValue] = None
 
     @property
-    def pdelay_latency(self) -> Optional["TimeValue"]:
+    def pdelay_latency(self) -> Optional[TimeValue]:
         """Get pdelayLatency (Pythonic accessor)."""
         return self._pdelayLatency
 
     @pdelay_latency.setter
-    def pdelay_latency(self, value: Optional["TimeValue"]) -> None:
+    def pdelay_latency(self, value: Optional[TimeValue]) -> None:
         """
         Set pdelayLatency with validation.
 
@@ -1648,15 +1648,15 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 f"pdelayLatency must be TimeValue or None, got {type(value).__name__}"
             )
         self._pdelayLatency = value
-        self._pdelayRequest: Optional["TimeValue"] = None
+        self._pdelayRequest: Optional[TimeValue] = None
 
     @property
-    def pdelay_request(self) -> Optional["TimeValue"]:
+    def pdelay_request(self) -> Optional[TimeValue]:
         """Get pdelayRequest (Pythonic accessor)."""
         return self._pdelayRequest
 
     @pdelay_request.setter
-    def pdelay_request(self, value: Optional["TimeValue"]) -> None:
+    def pdelay_request(self, value: Optional[TimeValue]) -> None:
         """
         Set pdelayRequest with validation.
 
@@ -1678,15 +1678,15 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
                 # transmitted resp.
         # Pdelay_Resp has been received.
         # A value of 0 or not attribute deactivates this timeout observation.
-        self._pdelayRespAnd: Optional["TimeValue"] = None
+        self._pdelayRespAnd: Optional[TimeValue] = None
 
     @property
-    def pdelay_resp_and(self) -> Optional["TimeValue"]:
+    def pdelay_resp_and(self) -> Optional[TimeValue]:
         """Get pdelayRespAnd (Pythonic accessor)."""
         return self._pdelayRespAnd
 
     @pdelay_resp_and.setter
-    def pdelay_resp_and(self, value: Optional["TimeValue"]) -> None:
+    def pdelay_resp_and(self, value: Optional[TimeValue]) -> None:
         """
         Set pdelayRespAnd with validation.
 
@@ -1706,15 +1706,15 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
             )
         self._pdelayRespAnd = value
         # Coupling.
-        self._pdelay: Optional["Boolean"] = None
+        self._pdelay: Optional[Boolean] = None
 
     @property
-    def pdelay(self) -> Optional["Boolean"]:
+    def pdelay(self) -> Optional[Boolean]:
         """Get pdelay (Pythonic accessor)."""
         return self._pdelay
 
     @pdelay.setter
-    def pdelay(self, value: Optional["Boolean"]) -> None:
+    def pdelay(self, value: Optional[Boolean]) -> None:
         """
         Set pdelay with validation.
 
@@ -1736,7 +1736,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCouplingPort(self) -> "CouplingPort":
+    def getCouplingPort(self) -> CouplingPort:
         """
         AUTOSAR-compliant getter for couplingPort.
 
@@ -1748,7 +1748,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         """
         return self.coupling_port  # Delegates to property
 
-    def setCouplingPort(self, value: "CouplingPort") -> EthGlobalTimeManagedCouplingPort:
+    def setCouplingPort(self, value: CouplingPort) -> EthGlobalTimeManagedCouplingPort:
         """
         AUTOSAR-compliant setter for couplingPort with method chaining.
 
@@ -1792,7 +1792,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.global_time_port = value  # Delegates to property setter
         return self
 
-    def getGlobalTimeTxPeriod(self) -> "TimeValue":
+    def getGlobalTimeTxPeriod(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for globalTimeTxPeriod.
 
@@ -1804,7 +1804,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         """
         return self.global_time_tx_period  # Delegates to property
 
-    def setGlobalTimeTxPeriod(self, value: "TimeValue") -> EthGlobalTimeManagedCouplingPort:
+    def setGlobalTimeTxPeriod(self, value: TimeValue) -> EthGlobalTimeManagedCouplingPort:
         """
         AUTOSAR-compliant setter for globalTimeTxPeriod with method chaining.
 
@@ -1820,7 +1820,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.global_time_tx_period = value  # Delegates to property setter
         return self
 
-    def getPdelayLatency(self) -> "TimeValue":
+    def getPdelayLatency(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for pdelayLatency.
 
@@ -1832,7 +1832,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         """
         return self.pdelay_latency  # Delegates to property
 
-    def setPdelayLatency(self, value: "TimeValue") -> EthGlobalTimeManagedCouplingPort:
+    def setPdelayLatency(self, value: TimeValue) -> EthGlobalTimeManagedCouplingPort:
         """
         AUTOSAR-compliant setter for pdelayLatency with method chaining.
 
@@ -1848,7 +1848,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.pdelay_latency = value  # Delegates to property setter
         return self
 
-    def getPdelayRequest(self) -> "TimeValue":
+    def getPdelayRequest(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for pdelayRequest.
 
@@ -1860,7 +1860,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         """
         return self.pdelay_request  # Delegates to property
 
-    def setPdelayRequest(self, value: "TimeValue") -> EthGlobalTimeManagedCouplingPort:
+    def setPdelayRequest(self, value: TimeValue) -> EthGlobalTimeManagedCouplingPort:
         """
         AUTOSAR-compliant setter for pdelayRequest with method chaining.
 
@@ -1876,7 +1876,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.pdelay_request = value  # Delegates to property setter
         return self
 
-    def getPdelayRespAnd(self) -> "TimeValue":
+    def getPdelayRespAnd(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for pdelayRespAnd.
 
@@ -1888,7 +1888,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         """
         return self.pdelay_resp_and  # Delegates to property
 
-    def setPdelayRespAnd(self, value: "TimeValue") -> EthGlobalTimeManagedCouplingPort:
+    def setPdelayRespAnd(self, value: TimeValue) -> EthGlobalTimeManagedCouplingPort:
         """
         AUTOSAR-compliant setter for pdelayRespAnd with method chaining.
 
@@ -1904,7 +1904,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.pdelay_resp_and = value  # Delegates to property setter
         return self
 
-    def getPdelay(self) -> "Boolean":
+    def getPdelay(self) -> Boolean:
         """
         AUTOSAR-compliant getter for pdelay.
 
@@ -1916,7 +1916,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         """
         return self.pdelay  # Delegates to property
 
-    def setPdelay(self, value: "Boolean") -> EthGlobalTimeManagedCouplingPort:
+    def setPdelay(self, value: Boolean) -> EthGlobalTimeManagedCouplingPort:
         """
         AUTOSAR-compliant setter for pdelay with method chaining.
 
@@ -1934,7 +1934,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_coupling_port(self, value: Optional["CouplingPort"]) -> EthGlobalTimeManagedCouplingPort:
+    def with_coupling_port(self, value: Optional[CouplingPort]) -> EthGlobalTimeManagedCouplingPort:
         """
         Set couplingPort and return self for chaining.
 
@@ -1950,7 +1950,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.coupling_port = value  # Use property setter (gets validation)
         return self
 
-    def with_global_time_port(self, value: Optional["GlobalTimePortRole"]) -> EthGlobalTimeManagedCouplingPort:
+    def with_global_time_port(self, value: Optional[GlobalTimePortRole]) -> EthGlobalTimeManagedCouplingPort:
         """
         Set globalTimePort and return self for chaining.
 
@@ -1966,7 +1966,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.global_time_port = value  # Use property setter (gets validation)
         return self
 
-    def with_global_time_tx_period(self, value: Optional["TimeValue"]) -> EthGlobalTimeManagedCouplingPort:
+    def with_global_time_tx_period(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
         """
         Set globalTimeTxPeriod and return self for chaining.
 
@@ -1982,7 +1982,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.global_time_tx_period = value  # Use property setter (gets validation)
         return self
 
-    def with_pdelay_latency(self, value: Optional["TimeValue"]) -> EthGlobalTimeManagedCouplingPort:
+    def with_pdelay_latency(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
         """
         Set pdelayLatency and return self for chaining.
 
@@ -1998,7 +1998,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.pdelay_latency = value  # Use property setter (gets validation)
         return self
 
-    def with_pdelay_request(self, value: Optional["TimeValue"]) -> EthGlobalTimeManagedCouplingPort:
+    def with_pdelay_request(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
         """
         Set pdelayRequest and return self for chaining.
 
@@ -2014,7 +2014,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.pdelay_request = value  # Use property setter (gets validation)
         return self
 
-    def with_pdelay_resp_and(self, value: Optional["TimeValue"]) -> EthGlobalTimeManagedCouplingPort:
+    def with_pdelay_resp_and(self, value: Optional[TimeValue]) -> EthGlobalTimeManagedCouplingPort:
         """
         Set pdelayRespAnd and return self for chaining.
 
@@ -2030,7 +2030,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.pdelay_resp_and = value  # Use property setter (gets validation)
         return self
 
-    def with_pdelay(self, value: Optional["Boolean"]) -> EthGlobalTimeManagedCouplingPort:
+    def with_pdelay(self, value: Optional[Boolean]) -> EthGlobalTimeManagedCouplingPort:
         """
         Set pdelay and return self for chaining.
 

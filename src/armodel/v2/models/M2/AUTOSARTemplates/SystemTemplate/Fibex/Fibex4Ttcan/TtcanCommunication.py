@@ -66,15 +66,15 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
             )
         self._communicationCycle = value
         # marks.
-        self._timeMark: Optional["Integer"] = None
+        self._timeMark: Optional[Integer] = None
 
     @property
-    def time_mark(self) -> Optional["Integer"]:
+    def time_mark(self) -> Optional[Integer]:
         """Get timeMark (Pythonic accessor)."""
         return self._timeMark
 
     @time_mark.setter
-    def time_mark(self, value: Optional["Integer"]) -> None:
+    def time_mark(self, value: Optional[Integer]) -> None:
         """
         Set timeMark with validation.
 
@@ -93,15 +93,15 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
                 f"timeMark must be Integer or int or None, got {type(value).__name__}"
             )
         self._timeMark = value
-        self._trigger: Optional["RefType"] = None
+        self._trigger: Optional[RefType] = None
 
     @property
-    def trigger(self) -> Optional["RefType"]:
+    def trigger(self) -> Optional[RefType]:
         """Get trigger (Pythonic accessor)."""
         return self._trigger
 
     @trigger.setter
-    def trigger(self, value: Optional["RefType"]) -> None:
+    def trigger(self, value: Optional[RefType]) -> None:
         """
         Set trigger with validation.
 
@@ -147,7 +147,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         self.communication_cycle = value  # Delegates to property setter
         return self
 
-    def getTimeMark(self) -> "Integer":
+    def getTimeMark(self) -> Integer:
         """
         AUTOSAR-compliant getter for timeMark.
 
@@ -159,7 +159,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.time_mark  # Delegates to property
 
-    def setTimeMark(self, value: "Integer") -> TtcanAbsolutelyScheduledTiming:
+    def setTimeMark(self, value: Integer) -> TtcanAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for timeMark with method chaining.
 
@@ -175,7 +175,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         self.time_mark = value  # Delegates to property setter
         return self
 
-    def getTrigger(self) -> "RefType":
+    def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
 
@@ -187,7 +187,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> TtcanAbsolutelyScheduledTiming:
+    def setTrigger(self, value: RefType) -> TtcanAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -221,7 +221,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         self.communication_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_time_mark(self, value: Optional["Integer"]) -> TtcanAbsolutelyScheduledTiming:
+    def with_time_mark(self, value: Optional[Integer]) -> TtcanAbsolutelyScheduledTiming:
         """
         Set timeMark and return self for chaining.
 

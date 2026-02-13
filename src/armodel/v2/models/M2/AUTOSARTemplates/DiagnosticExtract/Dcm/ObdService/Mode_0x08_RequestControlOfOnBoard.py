@@ -39,15 +39,15 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
                 # for this specific concrete class.
         # Thereby, the reference represents the ability to access among all
                 # DiagnosticRequestControlOf the given context.
-        self._requestControl: Optional["DiagnosticRequest"] = None
+        self._requestControl: Optional[DiagnosticRequest] = None
 
     @property
-    def request_control(self) -> Optional["DiagnosticRequest"]:
+    def request_control(self) -> Optional[DiagnosticRequest]:
         """Get requestControl (Pythonic accessor)."""
         return self._requestControl
 
     @request_control.setter
-    def request_control(self, value: Optional["DiagnosticRequest"]) -> None:
+    def request_control(self, value: Optional[DiagnosticRequest]) -> None:
         """
         Set requestControl with validation.
 
@@ -96,7 +96,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRequestControl(self) -> "DiagnosticRequest":
+    def getRequestControl(self) -> DiagnosticRequest:
         """
         AUTOSAR-compliant getter for requestControl.
 
@@ -108,7 +108,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
         """
         return self.request_control  # Delegates to property
 
-    def setRequestControl(self, value: "DiagnosticRequest") -> DiagnosticRequestControlOfOnBoardDevice:
+    def setRequestControl(self, value: DiagnosticRequest) -> DiagnosticRequestControlOfOnBoardDevice:
         """
         AUTOSAR-compliant setter for requestControl with method chaining.
 
@@ -154,7 +154,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_control(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestControlOfOnBoardDevice:
+    def with_request_control(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestControlOfOnBoardDevice:
         """
         Set requestControl and return self for chaining.
 
@@ -226,15 +226,15 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the numerical id of the DiagnosticTest SAE J1979-DA).
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -253,15 +253,15 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
                 f"id must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._id = value
-        self._requestData: Optional["PositiveInteger"] = None
+        self._requestData: Optional[PositiveInteger] = None
 
     @property
-    def request_data(self) -> Optional["PositiveInteger"]:
+    def request_data(self) -> Optional[PositiveInteger]:
         """Get requestData (Pythonic accessor)."""
         return self._requestData
 
     @request_data.setter
-    def request_data(self, value: Optional["PositiveInteger"]) -> None:
+    def request_data(self, value: Optional[PositiveInteger]) -> None:
         """
         Set requestData with validation.
 
@@ -280,15 +280,15 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
                 f"requestData must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._requestData = value
-        self._responseData: Optional["PositiveInteger"] = None
+        self._responseData: Optional[PositiveInteger] = None
 
     @property
-    def response_data(self) -> Optional["PositiveInteger"]:
+    def response_data(self) -> Optional[PositiveInteger]:
         """Get responseData (Pythonic accessor)."""
         return self._responseData
 
     @response_data.setter
-    def response_data(self, value: Optional["PositiveInteger"]) -> None:
+    def response_data(self, value: Optional[PositiveInteger]) -> None:
         """
         Set responseData with validation.
 
@@ -310,7 +310,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -322,7 +322,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticTestRoutineIdentifier:
+    def setId(self, value: PositiveInteger) -> DiagnosticTestRoutineIdentifier:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -338,7 +338,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         self.id = value  # Delegates to property setter
         return self
 
-    def getRequestData(self) -> "PositiveInteger":
+    def getRequestData(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for requestData.
 
@@ -350,7 +350,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         """
         return self.request_data  # Delegates to property
 
-    def setRequestData(self, value: "PositiveInteger") -> DiagnosticTestRoutineIdentifier:
+    def setRequestData(self, value: PositiveInteger) -> DiagnosticTestRoutineIdentifier:
         """
         AUTOSAR-compliant setter for requestData with method chaining.
 
@@ -366,7 +366,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         self.request_data = value  # Delegates to property setter
         return self
 
-    def getResponseData(self) -> "PositiveInteger":
+    def getResponseData(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for responseData.
 
@@ -378,7 +378,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         """
         return self.response_data  # Delegates to property
 
-    def setResponseData(self, value: "PositiveInteger") -> DiagnosticTestRoutineIdentifier:
+    def setResponseData(self, value: PositiveInteger) -> DiagnosticTestRoutineIdentifier:
         """
         AUTOSAR-compliant setter for responseData with method chaining.
 
@@ -396,7 +396,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticTestRoutineIdentifier:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
         """
         Set id and return self for chaining.
 
@@ -412,7 +412,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         self.id = value  # Use property setter (gets validation)
         return self
 
-    def with_request_data(self, value: Optional["PositiveInteger"]) -> DiagnosticTestRoutineIdentifier:
+    def with_request_data(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
         """
         Set requestData and return self for chaining.
 
@@ -428,7 +428,7 @@ class DiagnosticTestRoutineIdentifier(DiagnosticCommonElement):
         self.request_data = value  # Use property setter (gets validation)
         return self
 
-    def with_response_data(self, value: Optional["PositiveInteger"]) -> DiagnosticTestRoutineIdentifier:
+    def with_response_data(self, value: Optional[PositiveInteger]) -> DiagnosticTestRoutineIdentifier:
         """
         Set responseData and return self for chaining.
 

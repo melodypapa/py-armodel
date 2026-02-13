@@ -156,15 +156,15 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The maximum number of DTCs that can be stored as with change status within
         # one ResponseOnEvent interval.
-        self._maxNumberOf: Optional["PositiveInteger"] = None
+        self._maxNumberOf: Optional[PositiveInteger] = None
 
     @property
-    def max_number_of(self) -> Optional["PositiveInteger"]:
+    def max_number_of(self) -> Optional[PositiveInteger]:
         """Get maxNumberOf (Pythonic accessor)."""
         return self._maxNumberOf
 
     @max_number_of.setter
-    def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
+    def max_number_of(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNumberOf with validation.
 
@@ -183,15 +183,15 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
                 f"maxNumberOf must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxNumberOf = value
-        self._maxNum: Optional["PositiveInteger"] = None
+        self._maxNum: Optional[PositiveInteger] = None
 
     @property
-    def max_num(self) -> Optional["PositiveInteger"]:
+    def max_num(self) -> Optional[PositiveInteger]:
         """Get maxNum (Pythonic accessor)."""
         return self._maxNum
 
     @max_num.setter
-    def max_num(self, value: Optional["PositiveInteger"]) -> None:
+    def max_num(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNum with validation.
 
@@ -211,15 +211,15 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
             )
         self._maxNum = value
         # comparison or data change.
-        self._maxSupported: Optional["PositiveInteger"] = None
+        self._maxSupported: Optional[PositiveInteger] = None
 
     @property
-    def max_supported(self) -> Optional["PositiveInteger"]:
+    def max_supported(self) -> Optional[PositiveInteger]:
         """Get maxSupported (Pythonic accessor)."""
         return self._maxSupported
 
     @max_supported.setter
-    def max_supported(self, value: Optional["PositiveInteger"]) -> None:
+    def max_supported(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxSupported with validation.
 
@@ -239,15 +239,15 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
             )
         self._maxSupported = value
         # (DID) or to detect DTC status.
-        self._responseOn: Optional["TimeValue"] = None
+        self._responseOn: Optional[TimeValue] = None
 
     @property
-    def response_on(self) -> Optional["TimeValue"]:
+    def response_on(self) -> Optional[TimeValue]:
         """Get responseOn (Pythonic accessor)."""
         return self._responseOn
 
     @response_on.setter
-    def response_on(self, value: Optional["TimeValue"]) -> None:
+    def response_on(self, value: Optional[TimeValue]) -> None:
         """
         Set responseOn with validation.
 
@@ -269,15 +269,15 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
                 # shall be supported or not.
         # If true, the storeEvent functionality is available.
         # If set the storeEvent functionality is not available.
-        self._storeEvent: Optional["Boolean"] = None
+        self._storeEvent: Optional[Boolean] = None
 
     @property
-    def store_event(self) -> Optional["Boolean"]:
+    def store_event(self) -> Optional[Boolean]:
         """Get storeEvent (Pythonic accessor)."""
         return self._storeEvent
 
     @store_event.setter
-    def store_event(self, value: Optional["Boolean"]) -> None:
+    def store_event(self, value: Optional[Boolean]) -> None:
         """
         Set storeEvent with validation.
 
@@ -299,7 +299,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxNumberOf(self) -> "PositiveInteger":
+    def getMaxNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNumberOf.
 
@@ -311,7 +311,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> DiagnosticResponseOnEventClass:
+    def setMaxNumberOf(self, value: PositiveInteger) -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -327,7 +327,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_number_of = value  # Delegates to property setter
         return self
 
-    def getMaxNum(self) -> "PositiveInteger":
+    def getMaxNum(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNum.
 
@@ -339,7 +339,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.max_num  # Delegates to property
 
-    def setMaxNum(self, value: "PositiveInteger") -> DiagnosticResponseOnEventClass:
+    def setMaxNum(self, value: PositiveInteger) -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for maxNum with method chaining.
 
@@ -355,7 +355,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_num = value  # Delegates to property setter
         return self
 
-    def getMaxSupported(self) -> "PositiveInteger":
+    def getMaxSupported(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxSupported.
 
@@ -367,7 +367,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.max_supported  # Delegates to property
 
-    def setMaxSupported(self, value: "PositiveInteger") -> DiagnosticResponseOnEventClass:
+    def setMaxSupported(self, value: PositiveInteger) -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for maxSupported with method chaining.
 
@@ -383,7 +383,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_supported = value  # Delegates to property setter
         return self
 
-    def getResponseOn(self) -> "TimeValue":
+    def getResponseOn(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for responseOn.
 
@@ -395,7 +395,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.response_on  # Delegates to property
 
-    def setResponseOn(self, value: "TimeValue") -> DiagnosticResponseOnEventClass:
+    def setResponseOn(self, value: TimeValue) -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
 
@@ -411,7 +411,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.response_on = value  # Delegates to property setter
         return self
 
-    def getStoreEvent(self) -> "Boolean":
+    def getStoreEvent(self) -> Boolean:
         """
         AUTOSAR-compliant getter for storeEvent.
 
@@ -423,7 +423,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.store_event  # Delegates to property
 
-    def setStoreEvent(self, value: "Boolean") -> DiagnosticResponseOnEventClass:
+    def setStoreEvent(self, value: Boolean) -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for storeEvent with method chaining.
 
@@ -441,7 +441,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> DiagnosticResponseOnEventClass:
+    def with_max_number_of(self, value: Optional[PositiveInteger]) -> DiagnosticResponseOnEventClass:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -457,7 +457,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_max_num(self, value: Optional["PositiveInteger"]) -> DiagnosticResponseOnEventClass:
+    def with_max_num(self, value: Optional[PositiveInteger]) -> DiagnosticResponseOnEventClass:
         """
         Set maxNum and return self for chaining.
 
@@ -473,7 +473,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_num = value  # Use property setter (gets validation)
         return self
 
-    def with_max_supported(self, value: Optional["PositiveInteger"]) -> DiagnosticResponseOnEventClass:
+    def with_max_supported(self, value: Optional[PositiveInteger]) -> DiagnosticResponseOnEventClass:
         """
         Set maxSupported and return self for chaining.
 
@@ -489,7 +489,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_supported = value  # Use property setter (gets validation)
         return self
 
-    def with_response_on(self, value: Optional["TimeValue"]) -> DiagnosticResponseOnEventClass:
+    def with_response_on(self, value: Optional[TimeValue]) -> DiagnosticResponseOnEventClass:
         """
         Set responseOn and return self for chaining.
 
@@ -505,7 +505,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.response_on = value  # Use property setter (gets validation)
         return self
 
-    def with_store_event(self, value: Optional["Boolean"]) -> DiagnosticResponseOnEventClass:
+    def with_store_event(self, value: Optional[Boolean]) -> DiagnosticResponseOnEventClass:
         """
         Set storeEvent and return self for chaining.
 

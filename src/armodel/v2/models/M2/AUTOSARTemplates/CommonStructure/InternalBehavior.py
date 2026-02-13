@@ -73,10 +73,10 @@ class InternalBehavior(Identifiable, ABC):
         """Get constantValue (Pythonic accessor)."""
         return self._constantValue
         # Reference to the DataTypeMapping to be applied for the InternalBehavior.
-        self._dataType: List["RefType"] = []
+        self._dataType: List[RefType] = []
 
     @property
-    def data_type(self) -> List["RefType"]:
+    def data_type(self) -> List[RefType]:
         """Get dataType (Pythonic accessor)."""
         return self._dataType
         # This represents the set of ExclusiveAreaNestingOrder owned by the
@@ -99,10 +99,10 @@ class InternalBehavior(Identifiable, ABC):
         # of staticMemory is subject to variability purpose to support variability in
                 # the software algorithms in the implementation are number of memory objects.
         # atpVariation.
-        self._staticMemory: List["RefType"] = []
+        self._staticMemory: List[RefType] = []
 
     @property
-    def static_memory(self) -> List["RefType"]:
+    def static_memory(self) -> List[RefType]:
         """Get staticMemory (Pythonic accessor)."""
         return self._staticMemory
 
@@ -276,7 +276,7 @@ class InternalBehavior(Identifiable, ABC):
         """
         return self.constant_value  # Delegates to property
 
-    def getDataType(self) -> List["RefType"]:
+    def getDataType(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataType.
 
@@ -300,7 +300,7 @@ class InternalBehavior(Identifiable, ABC):
         """
         return self.exclusive_area  # Delegates to property
 
-    def getStaticMemory(self) -> List["RefType"]:
+    def getStaticMemory(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for staticMemory.
 
@@ -366,15 +366,15 @@ class ExecutableEntity(Identifiable, ABC):
         return self._exclusiveArea
         # Specifies the time in seconds by which two consecutive of an ExecutableEntity
         # are guaranteed to be.
-        self._minimumStart: Optional["TimeValue"] = None
+        self._minimumStart: Optional[TimeValue] = None
 
     @property
-    def minimum_start(self) -> Optional["TimeValue"]:
+    def minimum_start(self) -> Optional[TimeValue]:
         """Get minimumStart (Pythonic accessor)."""
         return self._minimumStart
 
     @minimum_start.setter
-    def minimum_start(self, value: Optional["TimeValue"]) -> None:
+    def minimum_start(self, value: Optional[TimeValue]) -> None:
         """
         Set minimumStart with validation.
 
@@ -500,7 +500,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.exclusive_area  # Delegates to property
 
-    def getMinimumStart(self) -> "TimeValue":
+    def getMinimumStart(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for minimumStart.
 
@@ -512,7 +512,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.minimum_start  # Delegates to property
 
-    def setMinimumStart(self, value: "TimeValue") -> ExecutableEntity:
+    def setMinimumStart(self, value: TimeValue) -> ExecutableEntity:
         """
         AUTOSAR-compliant setter for minimumStart with method chaining.
 
@@ -598,7 +598,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_minimum_start(self, value: Optional["TimeValue"]) -> ExecutableEntity:
+    def with_minimum_start(self, value: Optional[TimeValue]) -> ExecutableEntity:
         """
         Set minimumStart and return self for chaining.
 
@@ -734,15 +734,15 @@ class ExecutableEntityActivationReason(ImplementationProps):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute allows for defining the position of the in the.
-        self._bitPosition: Optional["PositiveInteger"] = None
+        self._bitPosition: Optional[PositiveInteger] = None
 
     @property
-    def bit_position(self) -> Optional["PositiveInteger"]:
+    def bit_position(self) -> Optional[PositiveInteger]:
         """Get bitPosition (Pythonic accessor)."""
         return self._bitPosition
 
     @bit_position.setter
-    def bit_position(self, value: Optional["PositiveInteger"]) -> None:
+    def bit_position(self, value: Optional[PositiveInteger]) -> None:
         """
         Set bitPosition with validation.
 
@@ -764,7 +764,7 @@ class ExecutableEntityActivationReason(ImplementationProps):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBitPosition(self) -> "PositiveInteger":
+    def getBitPosition(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for bitPosition.
 
@@ -776,7 +776,7 @@ class ExecutableEntityActivationReason(ImplementationProps):
         """
         return self.bit_position  # Delegates to property
 
-    def setBitPosition(self, value: "PositiveInteger") -> ExecutableEntityActivationReason:
+    def setBitPosition(self, value: PositiveInteger) -> ExecutableEntityActivationReason:
         """
         AUTOSAR-compliant setter for bitPosition with method chaining.
 
@@ -794,7 +794,7 @@ class ExecutableEntityActivationReason(ImplementationProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bit_position(self, value: Optional["PositiveInteger"]) -> ExecutableEntityActivationReason:
+    def with_bit_position(self, value: Optional[PositiveInteger]) -> ExecutableEntityActivationReason:
         """
         Set bitPosition and return self for chaining.
 

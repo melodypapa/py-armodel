@@ -152,10 +152,10 @@ class ExecutionTime(Identifiable, ABC):
             )
         self._hwElement = value
         # execution time data for the.
-        self._includedLibrary: List["RefType"] = []
+        self._includedLibrary: List[RefType] = []
 
     @property
-    def included_library(self) -> List["RefType"]:
+    def included_library(self) -> List[RefType]:
         """Get includedLibrary (Pythonic accessor)."""
         return self._includedLibrary
         # Provides information on the MemorySectionLocation is involved in the
@@ -342,7 +342,7 @@ class ExecutionTime(Identifiable, ABC):
         self.hw_element = value  # Delegates to property setter
         return self
 
-    def getIncludedLibrary(self) -> List["RefType"]:
+    def getIncludedLibrary(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for includedLibrary.
 
@@ -521,15 +521,15 @@ class MemorySectionLocation(ARObject):
                 f"providedMemory must be HwElement or None, got {type(value).__name__}"
             )
         self._providedMemory = value
-        self._software: Optional["MemorySection"] = None
+        self._software: Optional[MemorySection] = None
 
     @property
-    def software(self) -> Optional["MemorySection"]:
+    def software(self) -> Optional[MemorySection]:
         """Get software (Pythonic accessor)."""
         return self._software
 
     @software.setter
-    def software(self, value: Optional["MemorySection"]) -> None:
+    def software(self, value: Optional[MemorySection]) -> None:
         """
         Set software with validation.
 
@@ -579,7 +579,7 @@ class MemorySectionLocation(ARObject):
         self.provided_memory = value  # Delegates to property setter
         return self
 
-    def getSoftware(self) -> "MemorySection":
+    def getSoftware(self) -> MemorySection:
         """
         AUTOSAR-compliant getter for software.
 
@@ -591,7 +591,7 @@ class MemorySectionLocation(ARObject):
         """
         return self.software  # Delegates to property
 
-    def setSoftware(self, value: "MemorySection") -> MemorySectionLocation:
+    def setSoftware(self, value: MemorySection) -> MemorySectionLocation:
         """
         AUTOSAR-compliant setter for software with method chaining.
 
@@ -625,7 +625,7 @@ class MemorySectionLocation(ARObject):
         self.provided_memory = value  # Use property setter (gets validation)
         return self
 
-    def with_software(self, value: Optional["MemorySection"]) -> MemorySectionLocation:
+    def with_software(self, value: Optional[MemorySection]) -> MemorySectionLocation:
         """
         Set software and return self for chaining.
 
@@ -1295,15 +1295,15 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Provides description on the rough estimate of the.
-        self._additional: Optional["String"] = None
+        self._additional: Optional[String] = None
 
     @property
-    def additional(self) -> Optional["String"]:
+    def additional(self) -> Optional[String]:
         """Get additional (Pythonic accessor)."""
         return self._additional
 
     @additional.setter
-    def additional(self, value: Optional["String"]) -> None:
+    def additional(self, value: Optional[String]) -> None:
         """
         Set additional with validation.
 
@@ -1352,7 +1352,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAdditional(self) -> "String":
+    def getAdditional(self) -> String:
         """
         AUTOSAR-compliant getter for additional.
 
@@ -1364,7 +1364,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         """
         return self.additional  # Delegates to property
 
-    def setAdditional(self, value: "String") -> RoughEstimateOfExecutionTime:
+    def setAdditional(self, value: String) -> RoughEstimateOfExecutionTime:
         """
         AUTOSAR-compliant setter for additional with method chaining.
 
@@ -1410,7 +1410,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_additional(self, value: Optional["String"]) -> RoughEstimateOfExecutionTime:
+    def with_additional(self, value: Optional[String]) -> RoughEstimateOfExecutionTime:
         """
         Set additional and return self for chaining.
 

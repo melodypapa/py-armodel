@@ -25,12 +25,12 @@ __all__ = [
     "Implementation",
     "ImplementationProps",
     # From InternalBehavior
-    "AbstractEvent",
-    "ApiPrincipleEnum",
+    AbstractEvent,
+    ApiPrincipleEnum,
     "ExclusiveArea",
     "ExclusiveAreaNestingOrder",
     "ExecutableEntity",
     "ExecutableEntityActivationReason",
-    "InternalBehavior",
+    InternalBehavior,
     "ReentrancyLevelEnum",
 ]

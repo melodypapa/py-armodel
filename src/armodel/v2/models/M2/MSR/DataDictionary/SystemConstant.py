@@ -39,15 +39,15 @@ class SwSystemconst(ARElement):
         # This denotes the data definition properties of the system This supports to
         # express the limits and conversion within the internal to physical a compu
         # method.
-        self._swDataDef: Optional["SwDataDefProps"] = None
+        self._swDataDef: Optional[SwDataDefProps] = None
 
     @property
-    def sw_data_def(self) -> Optional["SwDataDefProps"]:
+    def sw_data_def(self) -> Optional[SwDataDefProps]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
+    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set swDataDef with validation.
 
@@ -69,7 +69,7 @@ class SwSystemconst(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwDataDef(self) -> "SwDataDefProps":
+    def getSwDataDef(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -81,7 +81,7 @@ class SwSystemconst(ARElement):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> SwSystemconst:
+    def setSwDataDef(self, value: SwDataDefProps) -> SwSystemconst:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -99,7 +99,7 @@ class SwSystemconst(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> SwSystemconst:
+    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> SwSystemconst:
         """
         Set swDataDef and return self for chaining.
 

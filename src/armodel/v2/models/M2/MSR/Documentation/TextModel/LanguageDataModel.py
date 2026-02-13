@@ -38,15 +38,15 @@ class LLongName(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a description that documents how the be defined when deriving
         # objects from the.
-        self._blueprintValue: Optional["String"] = None
+        self._blueprintValue: Optional[String] = None
 
     @property
-    def blueprint_value(self) -> Optional["String"]:
+    def blueprint_value(self) -> Optional[String]:
         """Get blueprintValue (Pythonic accessor)."""
         return self._blueprintValue
 
     @blueprint_value.setter
-    def blueprint_value(self, value: Optional["String"]) -> None:
+    def blueprint_value(self, value: Optional[String]) -> None:
         """
         Set blueprintValue with validation.
         
@@ -68,7 +68,7 @@ class LLongName(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBlueprintValue(self) -> "String":
+    def getBlueprintValue(self) -> String:
         """
         AUTOSAR-compliant getter for blueprintValue.
         
@@ -80,7 +80,7 @@ class LLongName(ARObject):
         """
         return self.blueprint_value  # Delegates to property
 
-    def setBlueprintValue(self, value: "String") -> LLongName:
+    def setBlueprintValue(self, value: String) -> LLongName:
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
         
@@ -98,7 +98,7 @@ class LLongName(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint_value(self, value: Optional["String"]) -> LLongName:
+    def with_blueprint_value(self, value: Optional[String]) -> LLongName:
         """
         Set blueprintValue and return self for chaining.
         
@@ -249,15 +249,15 @@ class LOverviewParagraph(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a description that documents how the be defined when deriving
         # objects from the.
-        self._blueprintValue: Optional["String"] = None
+        self._blueprintValue: Optional[String] = None
 
     @property
-    def blueprint_value(self) -> Optional["String"]:
+    def blueprint_value(self) -> Optional[String]:
         """Get blueprintValue (Pythonic accessor)."""
         return self._blueprintValue
 
     @blueprint_value.setter
-    def blueprint_value(self, value: Optional["String"]) -> None:
+    def blueprint_value(self, value: Optional[String]) -> None:
         """
         Set blueprintValue with validation.
         
@@ -279,7 +279,7 @@ class LOverviewParagraph(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBlueprintValue(self) -> "String":
+    def getBlueprintValue(self) -> String:
         """
         AUTOSAR-compliant getter for blueprintValue.
         
@@ -291,7 +291,7 @@ class LOverviewParagraph(ARObject):
         """
         return self.blueprint_value  # Delegates to property
 
-    def setBlueprintValue(self, value: "String") -> LOverviewParagraph:
+    def setBlueprintValue(self, value: String) -> LOverviewParagraph:
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
         
@@ -309,7 +309,7 @@ class LOverviewParagraph(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint_value(self, value: Optional["String"]) -> LOverviewParagraph:
+    def with_blueprint_value(self, value: Optional[String]) -> LOverviewParagraph:
         """
         Set blueprintValue and return self for chaining.
         

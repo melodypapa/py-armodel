@@ -38,18 +38,18 @@ class FormulaExpression(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referable object shall yield a numerical / boolean.
-        self._atpReference: List["RefType"] = []
+        self._atpReference: List[RefType] = []
 
     @property
-    def atp_reference(self) -> List["RefType"]:
+    def atp_reference(self) -> List[RefType]:
         """Get atpReference (Pythonic accessor)."""
         return self._atpReference
         # The referable object shall yield a string value.
         # atpAbstract.
-        self._atpString: List["RefType"] = []
+        self._atpString: List[RefType] = []
 
     @property
-    def atp_string(self) -> List["RefType"]:
+    def atp_string(self) -> List[RefType]:
         """Get atpString (Pythonic accessor)."""
         return self._atpString
 
@@ -87,7 +87,7 @@ class FormulaExpression(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAtpReference(self) -> List["RefType"]:
+    def getAtpReference(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for atpReference.
 
@@ -99,7 +99,7 @@ class FormulaExpression(ARObject, ABC):
         """
         return self.atp_reference  # Delegates to property
 
-    def getAtpString(self) -> List["RefType"]:
+    def getAtpString(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for atpString.
 

@@ -128,10 +128,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
         # that on FlexRay several targetPduTriggerings used.
         # For all other communication channels only targetPduTriggering is supported.
         # atpVariation.
-        self._targetPdu: List["RefType"] = []
+        self._targetPdu: List[RefType] = []
 
     @property
-    def target_pdu(self) -> List["RefType"]:
+    def target_pdu(self) -> List[RefType]:
         """Get targetPdu (Pythonic accessor)."""
         return self._targetPdu
 
@@ -285,7 +285,7 @@ class BusMirrorChannelMapping(FibexElement, ABC):
         self.target_channel = value  # Delegates to property setter
         return self
 
-    def getTargetPdu(self) -> List["RefType"]:
+    def getTargetPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for targetPdu.
 
@@ -363,15 +363,15 @@ class BusMirrorChannel(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute defines the networkId of the communication.
-        self._busMirror: Optional["PositiveInteger"] = None
+        self._busMirror: Optional[PositiveInteger] = None
 
     @property
-    def bus_mirror(self) -> Optional["PositiveInteger"]:
+    def bus_mirror(self) -> Optional[PositiveInteger]:
         """Get busMirror (Pythonic accessor)."""
         return self._busMirror
 
     @bus_mirror.setter
-    def bus_mirror(self, value: Optional["PositiveInteger"]) -> None:
+    def bus_mirror(self, value: Optional[PositiveInteger]) -> None:
         """
         Set busMirror with validation.
 
@@ -392,15 +392,15 @@ class BusMirrorChannel(ARObject):
         self._busMirror = value
                 # targetChannel.
         # atpVariation.
-        self._channel: Optional["PhysicalChannel"] = None
+        self._channel: Optional[PhysicalChannel] = None
 
     @property
-    def channel(self) -> Optional["PhysicalChannel"]:
+    def channel(self) -> Optional[PhysicalChannel]:
         """Get channel (Pythonic accessor)."""
         return self._channel
 
     @channel.setter
-    def channel(self, value: Optional["PhysicalChannel"]) -> None:
+    def channel(self, value: Optional[PhysicalChannel]) -> None:
         """
         Set channel with validation.
 
@@ -422,7 +422,7 @@ class BusMirrorChannel(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBusMirror(self) -> "PositiveInteger":
+    def getBusMirror(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for busMirror.
 
@@ -434,7 +434,7 @@ class BusMirrorChannel(ARObject):
         """
         return self.bus_mirror  # Delegates to property
 
-    def setBusMirror(self, value: "PositiveInteger") -> BusMirrorChannel:
+    def setBusMirror(self, value: PositiveInteger) -> BusMirrorChannel:
         """
         AUTOSAR-compliant setter for busMirror with method chaining.
 
@@ -450,7 +450,7 @@ class BusMirrorChannel(ARObject):
         self.bus_mirror = value  # Delegates to property setter
         return self
 
-    def getChannel(self) -> "PhysicalChannel":
+    def getChannel(self) -> PhysicalChannel:
         """
         AUTOSAR-compliant getter for channel.
 
@@ -462,7 +462,7 @@ class BusMirrorChannel(ARObject):
         """
         return self.channel  # Delegates to property
 
-    def setChannel(self, value: "PhysicalChannel") -> BusMirrorChannel:
+    def setChannel(self, value: PhysicalChannel) -> BusMirrorChannel:
         """
         AUTOSAR-compliant setter for channel with method chaining.
 
@@ -480,7 +480,7 @@ class BusMirrorChannel(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bus_mirror(self, value: Optional["PositiveInteger"]) -> BusMirrorChannel:
+    def with_bus_mirror(self, value: Optional[PositiveInteger]) -> BusMirrorChannel:
         """
         Set busMirror and return self for chaining.
 
@@ -496,7 +496,7 @@ class BusMirrorChannel(ARObject):
         self.bus_mirror = value  # Use property setter (gets validation)
         return self
 
-    def with_channel(self, value: Optional["PhysicalChannel"]) -> BusMirrorChannel:
+    def with_channel(self, value: Optional[PhysicalChannel]) -> BusMirrorChannel:
         """
         Set channel and return self for chaining.
 
@@ -529,15 +529,15 @@ class BusMirrorCanIdRangeMapping(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Base ID merged with the masked parts of the original ID to form the mapped
         # CAN ID.
-        self._destinationBase: Optional["PositiveInteger"] = None
+        self._destinationBase: Optional[PositiveInteger] = None
 
     @property
-    def destination_base(self) -> Optional["PositiveInteger"]:
+    def destination_base(self) -> Optional[PositiveInteger]:
         """Get destinationBase (Pythonic accessor)."""
         return self._destinationBase
 
     @destination_base.setter
-    def destination_base(self, value: Optional["PositiveInteger"]) -> None:
+    def destination_base(self, value: Optional[PositiveInteger]) -> None:
         """
         Set destinationBase with validation.
 
@@ -556,15 +556,15 @@ class BusMirrorCanIdRangeMapping(ARObject):
                 f"destinationBase must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._destinationBase = value
-        self._sourceCanIdCode: Optional["PositiveInteger"] = None
+        self._sourceCanIdCode: Optional[PositiveInteger] = None
 
     @property
-    def source_can_id_code(self) -> Optional["PositiveInteger"]:
+    def source_can_id_code(self) -> Optional[PositiveInteger]:
         """Get sourceCanIdCode (Pythonic accessor)."""
         return self._sourceCanIdCode
 
     @source_can_id_code.setter
-    def source_can_id_code(self, value: Optional["PositiveInteger"]) -> None:
+    def source_can_id_code(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sourceCanIdCode with validation.
 
@@ -583,15 +583,15 @@ class BusMirrorCanIdRangeMapping(ARObject):
                 f"sourceCanIdCode must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._sourceCanIdCode = value
-        self._sourceCanId: Optional["PositiveInteger"] = None
+        self._sourceCanId: Optional[PositiveInteger] = None
 
     @property
-    def source_can_id(self) -> Optional["PositiveInteger"]:
+    def source_can_id(self) -> Optional[PositiveInteger]:
         """Get sourceCanId (Pythonic accessor)."""
         return self._sourceCanId
 
     @source_can_id.setter
-    def source_can_id(self, value: Optional["PositiveInteger"]) -> None:
+    def source_can_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sourceCanId with validation.
 
@@ -613,7 +613,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestinationBase(self) -> "PositiveInteger":
+    def getDestinationBase(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for destinationBase.
 
@@ -625,7 +625,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
         """
         return self.destination_base  # Delegates to property
 
-    def setDestinationBase(self, value: "PositiveInteger") -> BusMirrorCanIdRangeMapping:
+    def setDestinationBase(self, value: PositiveInteger) -> BusMirrorCanIdRangeMapping:
         """
         AUTOSAR-compliant setter for destinationBase with method chaining.
 
@@ -641,7 +641,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
         self.destination_base = value  # Delegates to property setter
         return self
 
-    def getSourceCanIdCode(self) -> "PositiveInteger":
+    def getSourceCanIdCode(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sourceCanIdCode.
 
@@ -653,7 +653,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
         """
         return self.source_can_id_code  # Delegates to property
 
-    def setSourceCanIdCode(self, value: "PositiveInteger") -> BusMirrorCanIdRangeMapping:
+    def setSourceCanIdCode(self, value: PositiveInteger) -> BusMirrorCanIdRangeMapping:
         """
         AUTOSAR-compliant setter for sourceCanIdCode with method chaining.
 
@@ -669,7 +669,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
         self.source_can_id_code = value  # Delegates to property setter
         return self
 
-    def getSourceCanId(self) -> "PositiveInteger":
+    def getSourceCanId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sourceCanId.
 
@@ -681,7 +681,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
         """
         return self.source_can_id  # Delegates to property
 
-    def setSourceCanId(self, value: "PositiveInteger") -> BusMirrorCanIdRangeMapping:
+    def setSourceCanId(self, value: PositiveInteger) -> BusMirrorCanIdRangeMapping:
         """
         AUTOSAR-compliant setter for sourceCanId with method chaining.
 
@@ -699,7 +699,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_destination_base(self, value: Optional["PositiveInteger"]) -> BusMirrorCanIdRangeMapping:
+    def with_destination_base(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
         """
         Set destinationBase and return self for chaining.
 
@@ -715,7 +715,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
         self.destination_base = value  # Use property setter (gets validation)
         return self
 
-    def with_source_can_id_code(self, value: Optional["PositiveInteger"]) -> BusMirrorCanIdRangeMapping:
+    def with_source_can_id_code(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
         """
         Set sourceCanIdCode and return self for chaining.
 
@@ -731,7 +731,7 @@ class BusMirrorCanIdRangeMapping(ARObject):
         self.source_can_id_code = value  # Use property setter (gets validation)
         return self
 
-    def with_source_can_id(self, value: Optional["PositiveInteger"]) -> BusMirrorCanIdRangeMapping:
+    def with_source_can_id(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
         """
         Set sourceCanId and return self for chaining.
 
@@ -763,15 +763,15 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute defines the CanId on the targetChannel.
-        self._remappedCanId: Optional["PositiveInteger"] = None
+        self._remappedCanId: Optional[PositiveInteger] = None
 
     @property
-    def remapped_can_id(self) -> Optional["PositiveInteger"]:
+    def remapped_can_id(self) -> Optional[PositiveInteger]:
         """Get remappedCanId (Pythonic accessor)."""
         return self._remappedCanId
 
     @remapped_can_id.setter
-    def remapped_can_id(self, value: Optional["PositiveInteger"]) -> None:
+    def remapped_can_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set remappedCanId with validation.
 
@@ -790,15 +790,15 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
                 f"remappedCanId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._remappedCanId = value
-        self._souceCanId: Optional["RefType"] = None
+        self._souceCanId: Optional[RefType] = None
 
     @property
-    def souce_can_id(self) -> Optional["RefType"]:
+    def souce_can_id(self) -> Optional[RefType]:
         """Get souceCanId (Pythonic accessor)."""
         return self._souceCanId
 
     @souce_can_id.setter
-    def souce_can_id(self, value: Optional["RefType"]) -> None:
+    def souce_can_id(self, value: Optional[RefType]) -> None:
         """
         Set souceCanId with validation.
 
@@ -816,7 +816,7 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRemappedCanId(self) -> "PositiveInteger":
+    def getRemappedCanId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for remappedCanId.
 
@@ -828,7 +828,7 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
         """
         return self.remapped_can_id  # Delegates to property
 
-    def setRemappedCanId(self, value: "PositiveInteger") -> BusMirrorCanIdToCanIdMapping:
+    def setRemappedCanId(self, value: PositiveInteger) -> BusMirrorCanIdToCanIdMapping:
         """
         AUTOSAR-compliant setter for remappedCanId with method chaining.
 
@@ -844,7 +844,7 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
         self.remapped_can_id = value  # Delegates to property setter
         return self
 
-    def getSouceCanId(self) -> "RefType":
+    def getSouceCanId(self) -> RefType:
         """
         AUTOSAR-compliant getter for souceCanId.
 
@@ -856,7 +856,7 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
         """
         return self.souce_can_id  # Delegates to property
 
-    def setSouceCanId(self, value: "RefType") -> BusMirrorCanIdToCanIdMapping:
+    def setSouceCanId(self, value: RefType) -> BusMirrorCanIdToCanIdMapping:
         """
         AUTOSAR-compliant setter for souceCanId with method chaining.
 
@@ -874,7 +874,7 @@ class BusMirrorCanIdToCanIdMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_remapped_can_id(self, value: Optional["PositiveInteger"]) -> BusMirrorCanIdToCanIdMapping:
+    def with_remapped_can_id(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdToCanIdMapping:
         """
         Set remappedCanId and return self for chaining.
 
@@ -922,15 +922,15 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute defines the CanId on the targetChannel.
-        self._remappedCanId: Optional["PositiveInteger"] = None
+        self._remappedCanId: Optional[PositiveInteger] = None
 
     @property
-    def remapped_can_id(self) -> Optional["PositiveInteger"]:
+    def remapped_can_id(self) -> Optional[PositiveInteger]:
         """Get remappedCanId (Pythonic accessor)."""
         return self._remappedCanId
 
     @remapped_can_id.setter
-    def remapped_can_id(self, value: Optional["PositiveInteger"]) -> None:
+    def remapped_can_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set remappedCanId with validation.
 
@@ -949,15 +949,15 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
                 f"remappedCanId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._remappedCanId = value
-        self._sourceLinPid: Optional["RefType"] = None
+        self._sourceLinPid: Optional[RefType] = None
 
     @property
-    def source_lin_pid(self) -> Optional["RefType"]:
+    def source_lin_pid(self) -> Optional[RefType]:
         """Get sourceLinPid (Pythonic accessor)."""
         return self._sourceLinPid
 
     @source_lin_pid.setter
-    def source_lin_pid(self, value: Optional["RefType"]) -> None:
+    def source_lin_pid(self, value: Optional[RefType]) -> None:
         """
         Set sourceLinPid with validation.
 
@@ -975,7 +975,7 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRemappedCanId(self) -> "PositiveInteger":
+    def getRemappedCanId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for remappedCanId.
 
@@ -987,7 +987,7 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
         """
         return self.remapped_can_id  # Delegates to property
 
-    def setRemappedCanId(self, value: "PositiveInteger") -> BusMirrorLinPidToCanIdMapping:
+    def setRemappedCanId(self, value: PositiveInteger) -> BusMirrorLinPidToCanIdMapping:
         """
         AUTOSAR-compliant setter for remappedCanId with method chaining.
 
@@ -1003,7 +1003,7 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
         self.remapped_can_id = value  # Delegates to property setter
         return self
 
-    def getSourceLinPid(self) -> "RefType":
+    def getSourceLinPid(self) -> RefType:
         """
         AUTOSAR-compliant getter for sourceLinPid.
 
@@ -1015,7 +1015,7 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
         """
         return self.source_lin_pid  # Delegates to property
 
-    def setSourceLinPid(self, value: "RefType") -> BusMirrorLinPidToCanIdMapping:
+    def setSourceLinPid(self, value: RefType) -> BusMirrorLinPidToCanIdMapping:
         """
         AUTOSAR-compliant setter for sourceLinPid with method chaining.
 
@@ -1033,7 +1033,7 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_remapped_can_id(self, value: Optional["PositiveInteger"]) -> BusMirrorLinPidToCanIdMapping:
+    def with_remapped_can_id(self, value: Optional[PositiveInteger]) -> BusMirrorLinPidToCanIdMapping:
         """
         Set remappedCanId and return self for chaining.
 
@@ -1106,15 +1106,15 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
         # Base ID merged with the LIN frame ID to form the CAN required when a
         # BusMirrorChannel that refers to a the role channel is referenced in
         # sourceChannel.
-        self._mirrorSourceLin: Optional["PositiveInteger"] = None
+        self._mirrorSourceLin: Optional[PositiveInteger] = None
 
     @property
-    def mirror_source_lin(self) -> Optional["PositiveInteger"]:
+    def mirror_source_lin(self) -> Optional[PositiveInteger]:
         """Get mirrorSourceLin (Pythonic accessor)."""
         return self._mirrorSourceLin
 
     @mirror_source_lin.setter
-    def mirror_source_lin(self, value: Optional["PositiveInteger"]) -> None:
+    def mirror_source_lin(self, value: Optional[PositiveInteger]) -> None:
         """
         Set mirrorSourceLin with validation.
 
@@ -1135,15 +1135,15 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
         self._mirrorSourceLin = value
         # configured, a status frame will be sent on the CAN that contains the state of
                 # all active source.
-        self._mirrorStatus: Optional["PositiveInteger"] = None
+        self._mirrorStatus: Optional[PositiveInteger] = None
 
     @property
-    def mirror_status(self) -> Optional["PositiveInteger"]:
+    def mirror_status(self) -> Optional[PositiveInteger]:
         """Get mirrorStatus (Pythonic accessor)."""
         return self._mirrorStatus
 
     @mirror_status.setter
-    def mirror_status(self, value: Optional["PositiveInteger"]) -> None:
+    def mirror_status(self, value: Optional[PositiveInteger]) -> None:
         """
         Set mirrorStatus with validation.
 
@@ -1201,7 +1201,7 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
         """
         return self.lin_pid_to_can_id  # Delegates to property
 
-    def getMirrorSourceLin(self) -> "PositiveInteger":
+    def getMirrorSourceLin(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for mirrorSourceLin.
 
@@ -1213,7 +1213,7 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
         """
         return self.mirror_source_lin  # Delegates to property
 
-    def setMirrorSourceLin(self, value: "PositiveInteger") -> BusMirrorChannelMappingCan:
+    def setMirrorSourceLin(self, value: PositiveInteger) -> BusMirrorChannelMappingCan:
         """
         AUTOSAR-compliant setter for mirrorSourceLin with method chaining.
 
@@ -1229,7 +1229,7 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
         self.mirror_source_lin = value  # Delegates to property setter
         return self
 
-    def getMirrorStatus(self) -> "PositiveInteger":
+    def getMirrorStatus(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for mirrorStatus.
 
@@ -1241,7 +1241,7 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
         """
         return self.mirror_status  # Delegates to property
 
-    def setMirrorStatus(self, value: "PositiveInteger") -> BusMirrorChannelMappingCan:
+    def setMirrorStatus(self, value: PositiveInteger) -> BusMirrorChannelMappingCan:
         """
         AUTOSAR-compliant setter for mirrorStatus with method chaining.
 
@@ -1259,7 +1259,7 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_mirror_source_lin(self, value: Optional["PositiveInteger"]) -> BusMirrorChannelMappingCan:
+    def with_mirror_source_lin(self, value: Optional[PositiveInteger]) -> BusMirrorChannelMappingCan:
         """
         Set mirrorSourceLin and return self for chaining.
 
@@ -1275,7 +1275,7 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
         self.mirror_source_lin = value  # Use property setter (gets validation)
         return self
 
-    def with_mirror_status(self, value: Optional["PositiveInteger"]) -> BusMirrorChannelMappingCan:
+    def with_mirror_status(self, value: Optional[PositiveInteger]) -> BusMirrorChannelMappingCan:
         """
         Set mirrorStatus and return self for chaining.
 
@@ -1310,15 +1310,15 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
         # Time in seconds after which the collection of source into the destination
                 # frame is stopped and the sent at the latest.
         # destination frames are only sent when full or time stamp overflows.
-        self._transmission: Optional["TimeValue"] = None
+        self._transmission: Optional[TimeValue] = None
 
     @property
-    def transmission(self) -> Optional["TimeValue"]:
+    def transmission(self) -> Optional[TimeValue]:
         """Get transmission (Pythonic accessor)."""
         return self._transmission
 
     @transmission.setter
-    def transmission(self, value: Optional["TimeValue"]) -> None:
+    def transmission(self, value: Optional[TimeValue]) -> None:
         """
         Set transmission with validation.
 
@@ -1340,7 +1340,7 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransmission(self) -> "TimeValue":
+    def getTransmission(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -1352,7 +1352,7 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "TimeValue") -> BusMirrorChannelMappingFlexray:
+    def setTransmission(self, value: TimeValue) -> BusMirrorChannelMappingFlexray:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1370,7 +1370,7 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transmission(self, value: Optional["TimeValue"]) -> BusMirrorChannelMappingFlexray:
+    def with_transmission(self, value: Optional[TimeValue]) -> BusMirrorChannelMappingFlexray:
         """
         Set transmission and return self for chaining.
 
@@ -1405,15 +1405,15 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
         # Time in seconds after which the collection of source into the destination
                 # frame is stopped and the sent at the latest.
         # destination frames are only sent when full or time stamp overflows.
-        self._transmission: Optional["TimeValue"] = None
+        self._transmission: Optional[TimeValue] = None
 
     @property
-    def transmission(self) -> Optional["TimeValue"]:
+    def transmission(self) -> Optional[TimeValue]:
         """Get transmission (Pythonic accessor)."""
         return self._transmission
 
     @transmission.setter
-    def transmission(self, value: Optional["TimeValue"]) -> None:
+    def transmission(self, value: Optional[TimeValue]) -> None:
         """
         Set transmission with validation.
 
@@ -1435,7 +1435,7 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransmission(self) -> "TimeValue":
+    def getTransmission(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -1447,7 +1447,7 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "TimeValue") -> BusMirrorChannelMappingIp:
+    def setTransmission(self, value: TimeValue) -> BusMirrorChannelMappingIp:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1465,7 +1465,7 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transmission(self, value: Optional["TimeValue"]) -> BusMirrorChannelMappingIp:
+    def with_transmission(self, value: Optional[TimeValue]) -> BusMirrorChannelMappingIp:
         """
         Set transmission and return self for chaining.
 
@@ -1500,15 +1500,15 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
         # Time in seconds after which the collection of source into the destination
                 # frame is stopped and the sent at the latest.
         # destination frames are only sent when full or time stamp overflows.
-        self._transmission: Optional["TimeValue"] = None
+        self._transmission: Optional[TimeValue] = None
 
     @property
-    def transmission(self) -> Optional["TimeValue"]:
+    def transmission(self) -> Optional[TimeValue]:
         """Get transmission (Pythonic accessor)."""
         return self._transmission
 
     @transmission.setter
-    def transmission(self, value: Optional["TimeValue"]) -> None:
+    def transmission(self, value: Optional[TimeValue]) -> None:
         """
         Set transmission with validation.
 
@@ -1530,7 +1530,7 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransmission(self) -> "TimeValue":
+    def getTransmission(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -1542,7 +1542,7 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "TimeValue") -> BusMirrorChannelMappingUserDefined:
+    def setTransmission(self, value: TimeValue) -> BusMirrorChannelMappingUserDefined:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1560,7 +1560,7 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transmission(self, value: Optional["TimeValue"]) -> BusMirrorChannelMappingUserDefined:
+    def with_transmission(self, value: Optional[TimeValue]) -> BusMirrorChannelMappingUserDefined:
         """
         Set transmission and return self for chaining.
 

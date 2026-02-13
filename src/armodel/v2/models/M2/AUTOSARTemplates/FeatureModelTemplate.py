@@ -9,7 +9,13 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    SwSystemconstant,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CategoryString,
+    Limit,
+    Numerical,
     PositiveInteger,
     RefType,
 )
@@ -24,6 +30,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    BindingTimeEnum,
+    PostBuildVariant,
 )
 
 
@@ -371,15 +381,15 @@ class FMFeature(ARElement):
         # Defines an upper bound for the binding time of the points that are associated
                 # with the FMFeature.
         # attribute is meant as a hint for the development.
-        self._maximum: Optional["BindingTimeEnum"] = None
+        self._maximum: Optional[BindingTimeEnum] = None
 
     @property
-    def maximum(self) -> Optional["BindingTimeEnum"]:
+    def maximum(self) -> Optional[BindingTimeEnum]:
         """Get maximum (Pythonic accessor)."""
         return self._maximum
 
     @maximum.setter
-    def maximum(self, value: Optional["BindingTimeEnum"]) -> None:
+    def maximum(self, value: Optional[BindingTimeEnum]) -> None:
         """
         Set maximum with validation.
 
@@ -400,15 +410,15 @@ class FMFeature(ARElement):
         self._maximum = value
                 # associated with the FMFeature.
         # This is meant as a hint for the development process.
-        self._minimum: Optional["BindingTimeEnum"] = None
+        self._minimum: Optional[BindingTimeEnum] = None
 
     @property
-    def minimum(self) -> Optional["BindingTimeEnum"]:
+    def minimum(self) -> Optional[BindingTimeEnum]:
         """Get minimum (Pythonic accessor)."""
         return self._minimum
 
     @minimum.setter
-    def minimum(self, value: Optional["BindingTimeEnum"]) -> None:
+    def minimum(self, value: Optional[BindingTimeEnum]) -> None:
         """
         Set minimum with validation.
 
@@ -552,7 +562,7 @@ class FMFeature(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_maximum(self, value: Optional["BindingTimeEnum"]) -> FMFeature:
+    def with_maximum(self, value: Optional[BindingTimeEnum]) -> FMFeature:
         """
         Set maximum and return self for chaining.
 
@@ -568,7 +578,7 @@ class FMFeature(ARElement):
         self.maximum = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum(self, value: Optional["BindingTimeEnum"]) -> FMFeature:
+    def with_minimum(self, value: Optional[BindingTimeEnum]) -> FMFeature:
         """
         Set minimum and return self for chaining.
 
@@ -601,15 +611,15 @@ class FMAttributeDef(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the default value of the attribute.
-        self._defaultValue: Optional["Numerical"] = None
+        self._defaultValue: Optional[Numerical] = None
 
     @property
-    def default_value(self) -> Optional["Numerical"]:
+    def default_value(self) -> Optional[Numerical]:
         """Get defaultValue (Pythonic accessor)."""
         return self._defaultValue
 
     @default_value.setter
-    def default_value(self, value: Optional["Numerical"]) -> None:
+    def default_value(self, value: Optional[Numerical]) -> None:
         """
         Set defaultValue with validation.
 
@@ -628,15 +638,15 @@ class FMAttributeDef(Identifiable):
                 f"defaultValue must be Numerical or None, got {type(value).__name__}"
             )
         self._defaultValue = value
-        self._max: Optional["Limit"] = None
+        self._max: Optional[Limit] = None
 
     @property
-    def max(self) -> Optional["Limit"]:
+    def max(self) -> Optional[Limit]:
         """Get max (Pythonic accessor)."""
         return self._max
 
     @max.setter
-    def max(self, value: Optional["Limit"]) -> None:
+    def max(self, value: Optional[Limit]) -> None:
         """
         Set max with validation.
 
@@ -655,15 +665,15 @@ class FMAttributeDef(Identifiable):
                 f"max must be Limit or None, got {type(value).__name__}"
             )
         self._max = value
-        self._min: Optional["Limit"] = None
+        self._min: Optional[Limit] = None
 
     @property
-    def min(self) -> Optional["Limit"]:
+    def min(self) -> Optional[Limit]:
         """Get min (Pythonic accessor)."""
         return self._min
 
     @min.setter
-    def min(self, value: Optional["Limit"]) -> None:
+    def min(self, value: Optional[Limit]) -> None:
         """
         Set min with validation.
 
@@ -685,7 +695,7 @@ class FMAttributeDef(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefaultValue(self) -> "Numerical":
+    def getDefaultValue(self) -> Numerical:
         """
         AUTOSAR-compliant getter for defaultValue.
 
@@ -697,7 +707,7 @@ class FMAttributeDef(Identifiable):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "Numerical") -> FMAttributeDef:
+    def setDefaultValue(self, value: Numerical) -> FMAttributeDef:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 
@@ -713,7 +723,7 @@ class FMAttributeDef(Identifiable):
         self.default_value = value  # Delegates to property setter
         return self
 
-    def getMax(self) -> "Limit":
+    def getMax(self) -> Limit:
         """
         AUTOSAR-compliant getter for max.
 
@@ -725,7 +735,7 @@ class FMAttributeDef(Identifiable):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "Limit") -> FMAttributeDef:
+    def setMax(self, value: Limit) -> FMAttributeDef:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -741,7 +751,7 @@ class FMAttributeDef(Identifiable):
         self.max = value  # Delegates to property setter
         return self
 
-    def getMin(self) -> "Limit":
+    def getMin(self) -> Limit:
         """
         AUTOSAR-compliant getter for min.
 
@@ -753,7 +763,7 @@ class FMAttributeDef(Identifiable):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "Limit") -> FMAttributeDef:
+    def setMin(self, value: Limit) -> FMAttributeDef:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -771,7 +781,7 @@ class FMAttributeDef(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_value(self, value: Optional["Numerical"]) -> FMAttributeDef:
+    def with_default_value(self, value: Optional[Numerical]) -> FMAttributeDef:
         """
         Set defaultValue and return self for chaining.
 
@@ -787,7 +797,7 @@ class FMAttributeDef(Identifiable):
         self.default_value = value  # Use property setter (gets validation)
         return self
 
-    def with_max(self, value: Optional["Limit"]) -> FMAttributeDef:
+    def with_max(self, value: Optional[Limit]) -> FMAttributeDef:
         """
         Set max and return self for chaining.
 
@@ -803,7 +813,7 @@ class FMAttributeDef(Identifiable):
         self.max = value  # Use property setter (gets validation)
         return self
 
-    def with_min(self, value: Optional["Limit"]) -> FMAttributeDef:
+    def with_min(self, value: Optional[Limit]) -> FMAttributeDef:
         """
         Set min and return self for chaining.
 
@@ -840,15 +850,15 @@ class FMFeatureDecomposition(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The category of a FMFeatureDecomposition defines the dependency that is
         # defined by the FMFeature are four different categories: MULTIPLEFEATURE.
-        self._category: Optional["CategoryString"] = None
+        self._category: Optional[CategoryString] = None
 
     @property
-    def category(self) -> Optional["CategoryString"]:
+    def category(self) -> Optional[CategoryString]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional["CategoryString"]) -> None:
+    def category(self, value: Optional[CategoryString]) -> None:
         """
         Set category with validation.
 
@@ -878,15 +888,15 @@ class FMFeatureDecomposition(ARObject):
         return self._feature
         # For a dependency of category MULTIPLEFEATURE, this maximum number of features
         # allowed.
-        self._max: Optional["PositiveInteger"] = None
+        self._max: Optional[PositiveInteger] = None
 
     @property
-    def max(self) -> Optional["PositiveInteger"]:
+    def max(self) -> Optional[PositiveInteger]:
         """Get max (Pythonic accessor)."""
         return self._max
 
     @max.setter
-    def max(self, value: Optional["PositiveInteger"]) -> None:
+    def max(self, value: Optional[PositiveInteger]) -> None:
         """
         Set max with validation.
 
@@ -906,15 +916,15 @@ class FMFeatureDecomposition(ARObject):
             )
         self._max = value
         # allowed.
-        self._min: Optional["PositiveInteger"] = None
+        self._min: Optional[PositiveInteger] = None
 
     @property
-    def min(self) -> Optional["PositiveInteger"]:
+    def min(self) -> Optional[PositiveInteger]:
         """Get min (Pythonic accessor)."""
         return self._min
 
     @min.setter
-    def min(self, value: Optional["PositiveInteger"]) -> None:
+    def min(self, value: Optional[PositiveInteger]) -> None:
         """
         Set min with validation.
 
@@ -936,7 +946,7 @@ class FMFeatureDecomposition(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> "CategoryString":
+    def getCategory(self) -> CategoryString:
         """
         AUTOSAR-compliant getter for category.
 
@@ -948,7 +958,7 @@ class FMFeatureDecomposition(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CategoryString") -> FMFeatureDecomposition:
+    def setCategory(self, value: CategoryString) -> FMFeatureDecomposition:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -976,7 +986,7 @@ class FMFeatureDecomposition(ARObject):
         """
         return self.feature  # Delegates to property
 
-    def getMax(self) -> "PositiveInteger":
+    def getMax(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for max.
 
@@ -988,7 +998,7 @@ class FMFeatureDecomposition(ARObject):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "PositiveInteger") -> FMFeatureDecomposition:
+    def setMax(self, value: PositiveInteger) -> FMFeatureDecomposition:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -1004,7 +1014,7 @@ class FMFeatureDecomposition(ARObject):
         self.max = value  # Delegates to property setter
         return self
 
-    def getMin(self) -> "PositiveInteger":
+    def getMin(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for min.
 
@@ -1016,7 +1026,7 @@ class FMFeatureDecomposition(ARObject):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "PositiveInteger") -> FMFeatureDecomposition:
+    def setMin(self, value: PositiveInteger) -> FMFeatureDecomposition:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -1034,7 +1044,7 @@ class FMFeatureDecomposition(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["CategoryString"]) -> FMFeatureDecomposition:
+    def with_category(self, value: Optional[CategoryString]) -> FMFeatureDecomposition:
         """
         Set category and return self for chaining.
 
@@ -1050,7 +1060,7 @@ class FMFeatureDecomposition(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_max(self, value: Optional["PositiveInteger"]) -> FMFeatureDecomposition:
+    def with_max(self, value: Optional[PositiveInteger]) -> FMFeatureDecomposition:
         """
         Set max and return self for chaining.
 
@@ -1066,7 +1076,7 @@ class FMFeatureDecomposition(ARObject):
         self.max = value  # Use property setter (gets validation)
         return self
 
-    def with_min(self, value: Optional["PositiveInteger"]) -> FMFeatureDecomposition:
+    def with_min(self, value: Optional[PositiveInteger]) -> FMFeatureDecomposition:
         """
         Set min and return self for chaining.
 
@@ -1100,15 +1110,15 @@ class FMFeatureRestriction(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # A formula that contains the actual restriction.
-        self._restrictionAndAttributes: Optional["FMConditionByFeatures"] = None
+        self._restrictionAndAttributes: Optional[FMConditionByFeaturesAndAttributes] = None
 
     @property
-    def restriction_and_attributes(self) -> Optional["FMConditionByFeatures"]:
+    def restriction_and_attributes(self) -> Optional[FMConditionByFeaturesAndAttributes]:
         """Get restrictionAndAttributes (Pythonic accessor)."""
         return self._restrictionAndAttributes
 
     @restriction_and_attributes.setter
-    def restriction_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> None:
+    def restriction_and_attributes(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> None:
         """
         Set restrictionAndAttributes with validation.
 
@@ -1122,15 +1132,15 @@ class FMFeatureRestriction(Identifiable):
             self._restrictionAndAttributes = None
             return
 
-        if not isinstance(value, FMConditionByFeatures):
+        if not isinstance(value, FMConditionByFeaturesAndAttributes):
             raise TypeError(
-                f"restrictionAndAttributes must be FMConditionByFeatures or None, got {type(value).__name__}"
+                f"restrictionAndAttributes must be FMConditionByFeaturesAndAttributes or None, got {type(value).__name__}"
             )
         self._restrictionAndAttributes = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRestrictionAndAttributes(self) -> "FMConditionByFeatures":
+    def getRestrictionAndAttributes(self) -> FMConditionByFeaturesAndAttributes:
         """
         AUTOSAR-compliant getter for restrictionAndAttributes.
 
@@ -1142,7 +1152,7 @@ class FMFeatureRestriction(Identifiable):
         """
         return self.restriction_and_attributes  # Delegates to property
 
-    def setRestrictionAndAttributes(self, value: "FMConditionByFeatures") -> FMFeatureRestriction:
+    def setRestrictionAndAttributes(self, value: FMConditionByFeaturesAndAttributes) -> FMFeatureRestriction:
         """
         AUTOSAR-compliant setter for restrictionAndAttributes with method chaining.
 
@@ -1160,7 +1170,7 @@ class FMFeatureRestriction(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_restriction_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureRestriction:
+    def with_restriction_and_attributes(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRestriction:
         """
         Set restrictionAndAttributes and return self for chaining.
 
@@ -1203,15 +1213,15 @@ class FMFeatureRelation(Identifiable):
         return self._feature
         # If given, the condition shall evaluate to true, in order for
         # FMFeatureRelation to be active.
-        self._restriction: Optional["FMConditionByFeatures"] = None
+        self._restriction: Optional[FMConditionByFeaturesAndAttributes] = None
 
     @property
-    def restriction(self) -> Optional["FMConditionByFeatures"]:
+    def restriction(self) -> Optional[FMConditionByFeaturesAndAttributes]:
         """Get restriction (Pythonic accessor)."""
         return self._restriction
 
     @restriction.setter
-    def restriction(self, value: Optional["FMConditionByFeatures"]) -> None:
+    def restriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> None:
         """
         Set restriction with validation.
 
@@ -1225,9 +1235,9 @@ class FMFeatureRelation(Identifiable):
             self._restriction = None
             return
 
-        if not isinstance(value, FMConditionByFeatures):
+        if not isinstance(value, FMConditionByFeaturesAndAttributes):
             raise TypeError(
-                f"restriction must be FMConditionByFeatures or None, got {type(value).__name__}"
+                f"restriction must be FMConditionByFeaturesAndAttributes or None, got {type(value).__name__}"
             )
         self._restriction = value
 
@@ -1245,7 +1255,7 @@ class FMFeatureRelation(Identifiable):
         """
         return self.feature  # Delegates to property
 
-    def getRestriction(self) -> "FMConditionByFeatures":
+    def getRestriction(self) -> FMConditionByFeaturesAndAttributes:
         """
         AUTOSAR-compliant getter for restriction.
 
@@ -1257,7 +1267,7 @@ class FMFeatureRelation(Identifiable):
         """
         return self.restriction  # Delegates to property
 
-    def setRestriction(self, value: "FMConditionByFeatures") -> FMFeatureRelation:
+    def setRestriction(self, value: FMConditionByFeaturesAndAttributes) -> FMFeatureRelation:
         """
         AUTOSAR-compliant setter for restriction with method chaining.
 
@@ -1275,7 +1285,7 @@ class FMFeatureRelation(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_restriction(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureRelation:
+    def with_restriction(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureRelation:
         """
         Set restriction and return self for chaining.
 
@@ -1399,15 +1409,15 @@ class FMAttributeValue(ARObject):
                 f"definition must be FMAttributeDef or None, got {type(value).__name__}"
             )
         self._definition = value
-        self._value: Optional["Numerical"] = None
+        self._value: Optional[Numerical] = None
 
     @property
-    def value(self) -> Optional["Numerical"]:
+    def value(self) -> Optional[Numerical]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional["Numerical"]) -> None:
+    def value(self, value: Optional[Numerical]) -> None:
         """
         Set value with validation.
 
@@ -1457,7 +1467,7 @@ class FMAttributeValue(ARObject):
         self.definition = value  # Delegates to property setter
         return self
 
-    def getValue(self) -> "Numerical":
+    def getValue(self) -> Numerical:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1469,7 +1479,7 @@ class FMAttributeValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> FMAttributeValue:
+    def setValue(self, value: Numerical) -> FMAttributeValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1503,7 +1513,7 @@ class FMAttributeValue(ARObject):
         self.definition = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["Numerical"]) -> FMAttributeValue:
+    def with_value(self, value: Optional[Numerical]) -> FMAttributeValue:
         """
         Set value and return self for chaining.
 
@@ -1546,10 +1556,10 @@ class FMFeatureSelectionSet(ARElement):
         return self._featureModel
         # Each FMFeatureSelectionSet may include one or more establishes a hierarchy
         # See constr_5003 and details.
-        self._include: List["RefType"] = []
+        self._include: List[RefType] = []
 
     @property
-    def include(self) -> List["RefType"]:
+    def include(self) -> List[RefType]:
         """Get include (Pythonic accessor)."""
         return self._include
         # The set of FMFeatureSelections of this FMFeature.
@@ -1574,7 +1584,7 @@ class FMFeatureSelectionSet(ARElement):
         """
         return self.feature_model  # Delegates to property
 
-    def getInclude(self) -> List["RefType"]:
+    def getInclude(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for include.
 
@@ -1677,17 +1687,17 @@ class FMFeatureMapElement(Identifiable):
         """Get condition (Pythonic accessor)."""
         return self._condition
         # Selects a set of values for postbuild variant criterions.
-        self._postBuildVariant: List["PostBuildVariant"] = []
+        self._postBuildVariant: List[PostBuildVariant] = []
 
     @property
-    def post_build_variant(self) -> List["PostBuildVariant"]:
+    def post_build_variant(self) -> List[PostBuildVariant]:
         """Get postBuildVariant (Pythonic accessor)."""
         return self._postBuildVariant
         # Selects a set of values for system constants.
-        self._swValueSet: List["SwSystemconstant"] = []
+        self._swValueSet: List[SwSystemconstant] = []
 
     @property
-    def sw_value_set(self) -> List["SwSystemconstant"]:
+    def sw_value_set(self) -> List[SwSystemconstant]:
         """Get swValueSet (Pythonic accessor)."""
         return self._swValueSet
 
@@ -1717,7 +1727,7 @@ class FMFeatureMapElement(Identifiable):
         """
         return self.condition  # Delegates to property
 
-    def getPostBuildVariant(self) -> List["PostBuildVariant"]:
+    def getPostBuildVariant(self) -> List[PostBuildVariant]:
         """
         AUTOSAR-compliant getter for postBuildVariant.
 
@@ -1729,7 +1739,7 @@ class FMFeatureMapElement(Identifiable):
         """
         return self.post_build_variant  # Delegates to property
 
-    def getSwValueSet(self) -> List["SwSystemconstant"]:
+    def getSwValueSet(self) -> List[SwSystemconstant]:
         """
         AUTOSAR-compliant getter for swValueSet.
 
@@ -1762,15 +1772,15 @@ class FMFeatureMapCondition(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The formula that implements the condition.
-        self._fmCondAndAttributes: Optional["FMConditionByFeatures"] = None
+        self._fmCondAndAttributes: Optional[FMConditionByFeaturesAndAttributes] = None
 
     @property
-    def fm_cond_and_attributes(self) -> Optional["FMConditionByFeatures"]:
+    def fm_cond_and_attributes(self) -> Optional[FMConditionByFeaturesAndAttributes]:
         """Get fmCondAndAttributes (Pythonic accessor)."""
         return self._fmCondAndAttributes
 
     @fm_cond_and_attributes.setter
-    def fm_cond_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> None:
+    def fm_cond_and_attributes(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> None:
         """
         Set fmCondAndAttributes with validation.
 
@@ -1784,15 +1794,15 @@ class FMFeatureMapCondition(Identifiable):
             self._fmCondAndAttributes = None
             return
 
-        if not isinstance(value, FMConditionByFeatures):
+        if not isinstance(value, FMConditionByFeaturesAndAttributes):
             raise TypeError(
-                f"fmCondAndAttributes must be FMConditionByFeatures or None, got {type(value).__name__}"
+                f"fmCondAndAttributes must be FMConditionByFeaturesAndAttributes or None, got {type(value).__name__}"
             )
         self._fmCondAndAttributes = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFmCondAndAttributes(self) -> "FMConditionByFeatures":
+    def getFmCondAndAttributes(self) -> FMConditionByFeaturesAndAttributes:
         """
         AUTOSAR-compliant getter for fmCondAndAttributes.
 
@@ -1804,7 +1814,7 @@ class FMFeatureMapCondition(Identifiable):
         """
         return self.fm_cond_and_attributes  # Delegates to property
 
-    def setFmCondAndAttributes(self, value: "FMConditionByFeatures") -> FMFeatureMapCondition:
+    def setFmCondAndAttributes(self, value: FMConditionByFeaturesAndAttributes) -> FMFeatureMapCondition:
         """
         AUTOSAR-compliant setter for fmCondAndAttributes with method chaining.
 
@@ -1822,7 +1832,7 @@ class FMFeatureMapCondition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fm_cond_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureMapCondition:
+    def with_fm_cond_and_attributes(self, value: Optional[FMConditionByFeaturesAndAttributes]) -> FMFeatureMapCondition:
         """
         Set fmCondAndAttributes and return self for chaining.
 
@@ -1857,15 +1867,15 @@ class FMFeatureMapAssertion(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The formula that implements the assertion.
-        self._fmSyscondAndSwSystemconsts: Optional["FMConditionByFeatures"] = None
+        self._fmSyscondAndSwSystemconsts: Optional[FMConditionByFeaturesAndSwSystemconsts] = None
 
     @property
-    def fm_syscond_and_sw_systemconsts(self) -> Optional["FMConditionByFeatures"]:
+    def fm_syscond_and_sw_systemconsts(self) -> Optional[FMConditionByFeaturesAndSwSystemconsts]:
         """Get fmSyscondAndSwSystemconsts (Pythonic accessor)."""
         return self._fmSyscondAndSwSystemconsts
 
     @fm_syscond_and_sw_systemconsts.setter
-    def fm_syscond_and_sw_systemconsts(self, value: Optional["FMConditionByFeatures"]) -> None:
+    def fm_syscond_and_sw_systemconsts(self, value: Optional[FMConditionByFeaturesAndSwSystemconsts]) -> None:
         """
         Set fmSyscondAndSwSystemconsts with validation.
 
@@ -1879,15 +1889,15 @@ class FMFeatureMapAssertion(Identifiable):
             self._fmSyscondAndSwSystemconsts = None
             return
 
-        if not isinstance(value, FMConditionByFeatures):
+        if not isinstance(value, FMConditionByFeaturesAndSwSystemconsts):
             raise TypeError(
-                f"fmSyscondAndSwSystemconsts must be FMConditionByFeatures or None, got {type(value).__name__}"
+                f"fmSyscondAndSwSystemconsts must be FMConditionByFeaturesAndSwSystemconsts or None, got {type(value).__name__}"
             )
         self._fmSyscondAndSwSystemconsts = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFmSyscondAndSwSystemconsts(self) -> "FMConditionByFeatures":
+    def getFmSyscondAndSwSystemconsts(self) -> FMConditionByFeaturesAndSwSystemconsts:
         """
         AUTOSAR-compliant getter for fmSyscondAndSwSystemconsts.
 
@@ -1899,7 +1909,7 @@ class FMFeatureMapAssertion(Identifiable):
         """
         return self.fm_syscond_and_sw_systemconsts  # Delegates to property
 
-    def setFmSyscondAndSwSystemconsts(self, value: "FMConditionByFeatures") -> FMFeatureMapAssertion:
+    def setFmSyscondAndSwSystemconsts(self, value: FMConditionByFeaturesAndSwSystemconsts) -> FMFeatureMapAssertion:
         """
         AUTOSAR-compliant setter for fmSyscondAndSwSystemconsts with method chaining.
 
@@ -1917,7 +1927,7 @@ class FMFeatureMapAssertion(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fm_syscond_and_sw_systemconsts(self, value: Optional["FMConditionByFeatures"]) -> FMFeatureMapAssertion:
+    def with_fm_syscond_and_sw_systemconsts(self, value: Optional[FMConditionByFeaturesAndSwSystemconsts]) -> FMFeatureMapAssertion:
         """
         Set fmSyscondAndSwSystemconsts and return self for chaining.
 

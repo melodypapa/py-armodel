@@ -33,10 +33,10 @@ class IPv6ExtHeaderFilterSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # In order to permit or deny certain types of IPv6 extension a permitted list
         # of IPv6 extension headers can be.
-        self._extHeaderFilter: List["RefType"] = []
+        self._extHeaderFilter: List[RefType] = []
 
     @property
-    def ext_header_filter(self) -> List["RefType"]:
+    def ext_header_filter(self) -> List[RefType]:
         """Get extHeaderFilter (Pythonic accessor)."""
         return self._extHeaderFilter
 
@@ -74,7 +74,7 @@ class IPv6ExtHeaderFilterSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getExtHeaderFilter(self) -> List["RefType"]:
+    def getExtHeaderFilter(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for extHeaderFilter.
 
@@ -104,16 +104,16 @@ class IPv6ExtHeaderFilterList(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # IPv6 Extension Header type allowed by this filter.
-        self._allowedIPv6Ext: List["PositiveInteger"] = []
+        self._allowedIPv6Ext: List[PositiveInteger] = []
 
     @property
-    def allowed_i_pv6_ext(self) -> List["PositiveInteger"]:
+    def allowed_i_pv6_ext(self) -> List[PositiveInteger]:
         """Get allowedIPv6Ext (Pythonic accessor)."""
         return self._allowedIPv6Ext
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAllowedIPv6Ext(self) -> List["PositiveInteger"]:
+    def getAllowedIPv6Ext(self) -> List[PositiveInteger]:
         """
         AUTOSAR-compliant getter for allowedIPv6Ext.
 

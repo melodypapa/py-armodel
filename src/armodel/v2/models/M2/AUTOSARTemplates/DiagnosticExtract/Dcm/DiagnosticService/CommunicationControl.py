@@ -65,15 +65,15 @@ class DiagnosticComControl(DiagnosticServiceInstance):
             )
         self._comControl = value
         # standardized values of shall be used.
-        self._customSub: Optional["PositiveInteger"] = None
+        self._customSub: Optional[PositiveInteger] = None
 
     @property
-    def custom_sub(self) -> Optional["PositiveInteger"]:
+    def custom_sub(self) -> Optional[PositiveInteger]:
         """Get customSub (Pythonic accessor)."""
         return self._customSub
 
     @custom_sub.setter
-    def custom_sub(self, value: Optional["PositiveInteger"]) -> None:
+    def custom_sub(self, value: Optional[PositiveInteger]) -> None:
         """
         Set customSub with validation.
 
@@ -155,7 +155,7 @@ class DiagnosticComControl(DiagnosticServiceInstance):
         self.com_control = value  # Delegates to property setter
         return self
 
-    def getCustomSub(self) -> "PositiveInteger":
+    def getCustomSub(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for customSub.
 
@@ -167,7 +167,7 @@ class DiagnosticComControl(DiagnosticServiceInstance):
         """
         return self.custom_sub  # Delegates to property
 
-    def setCustomSub(self, value: "PositiveInteger") -> DiagnosticComControl:
+    def setCustomSub(self, value: PositiveInteger) -> DiagnosticComControl:
         """
         AUTOSAR-compliant setter for customSub with method chaining.
 
@@ -201,7 +201,7 @@ class DiagnosticComControl(DiagnosticServiceInstance):
         self.com_control = value  # Use property setter (gets validation)
         return self
 
-    def with_custom_sub(self, value: Optional["PositiveInteger"]) -> DiagnosticComControl:
+    def with_custom_sub(self, value: Optional[PositiveInteger]) -> DiagnosticComControl:
         """
         Set customSub and return self for chaining.
 
@@ -291,15 +291,15 @@ class DiagnosticComControlSpecificChannel(ARObject):
             )
         self._specificPhysical = value
         # 14).
-        self._subnetNumber: Optional["PositiveInteger"] = None
+        self._subnetNumber: Optional[PositiveInteger] = None
 
     @property
-    def subnet_number(self) -> Optional["PositiveInteger"]:
+    def subnet_number(self) -> Optional[PositiveInteger]:
         """Get subnetNumber (Pythonic accessor)."""
         return self._subnetNumber
 
     @subnet_number.setter
-    def subnet_number(self, value: Optional["PositiveInteger"]) -> None:
+    def subnet_number(self, value: Optional[PositiveInteger]) -> None:
         """
         Set subnetNumber with validation.
 
@@ -377,7 +377,7 @@ class DiagnosticComControlSpecificChannel(ARObject):
         self.specific_physical = value  # Delegates to property setter
         return self
 
-    def getSubnetNumber(self) -> "PositiveInteger":
+    def getSubnetNumber(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for subnetNumber.
 
@@ -389,7 +389,7 @@ class DiagnosticComControlSpecificChannel(ARObject):
         """
         return self.subnet_number  # Delegates to property
 
-    def setSubnetNumber(self, value: "PositiveInteger") -> DiagnosticComControlSpecificChannel:
+    def setSubnetNumber(self, value: PositiveInteger) -> DiagnosticComControlSpecificChannel:
         """
         AUTOSAR-compliant setter for subnetNumber with method chaining.
 
@@ -439,7 +439,7 @@ class DiagnosticComControlSpecificChannel(ARObject):
         self.specific_physical = value  # Use property setter (gets validation)
         return self
 
-    def with_subnet_number(self, value: Optional["PositiveInteger"]) -> DiagnosticComControlSpecificChannel:
+    def with_subnet_number(self, value: Optional[PositiveInteger]) -> DiagnosticComControlSpecificChannel:
         """
         Set subnetNumber and return self for chaining.
 

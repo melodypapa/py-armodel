@@ -9,9 +9,16 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprint,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
+    AutosarEngineeringObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
+    UriString,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
@@ -44,17 +51,17 @@ class AclPermission(ARElement):
                 # applicable.
         # The values are mutual agreement between the involved the values can be the
                 # names of binding.
-        self._aclContext: List["NameToken"] = []
+        self._aclContext: List[NameToken] = []
 
     @property
-    def acl_context(self) -> List["NameToken"]:
+    def acl_context(self) -> List[NameToken]:
         """Get aclContext (Pythonic accessor)."""
         return self._aclContext
         # This denotes an object to which the AclPermission.
-        self._aclObject: List["RefType"] = []
+        self._aclObject: List[RefType] = []
 
     @property
-    def acl_object(self) -> List["RefType"]:
+    def acl_object(self) -> List[RefType]:
         """Get aclObject (Pythonic accessor)."""
         return self._aclObject
         # This denotes an operation which is granted by the given.
@@ -227,7 +234,7 @@ class AclPermission(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAclContext(self) -> List["NameToken"]:
+    def getAclContext(self) -> List[NameToken]:
         """
         AUTOSAR-compliant getter for aclContext.
 
@@ -239,7 +246,7 @@ class AclPermission(ARElement):
         """
         return self.acl_context  # Delegates to property
 
-    def getAclObject(self) -> List["RefType"]:
+    def getAclObject(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for aclObject.
 
@@ -342,10 +349,10 @@ class AclObjectSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies that the considered objects as instances of denoted meta
         # class.
-        self._aclObjectClass: List["RefType"] = []
+        self._aclObjectClass: List[RefType] = []
 
     @property
-    def acl_object_class(self) -> List["RefType"]:
+    def acl_object_class(self) -> List[RefType]:
         """Get aclObjectClass (Pythonic accessor)."""
         return self._aclObjectClass
         # this indicates the scope of the referenced objects.
@@ -372,15 +379,15 @@ class AclObjectSet(ARElement):
                 f"aclScope must be AclScopeEnum, got {type(value).__name__}"
             )
         self._aclScope = value
-        self._collection: Optional["RefType"] = None
+        self._collection: Optional[RefType] = None
 
     @property
-    def collection(self) -> Optional["RefType"]:
+    def collection(self) -> Optional[RefType]:
         """Get collection (Pythonic accessor)."""
         return self._collection
 
     @collection.setter
-    def collection(self, value: Optional["RefType"]) -> None:
+    def collection(self, value: Optional[RefType]) -> None:
         """
         Set collection with validation.
 
@@ -396,26 +403,26 @@ class AclObjectSet(ARElement):
 
         self._collection = value
         # from the associated blueprint.
-        self._derivedFrom: List["AtpBlueprint"] = []
+        self._derivedFrom: List[AtpBlueprint] = []
 
     @property
-    def derived_from(self) -> List["AtpBlueprint"]:
+    def derived_from(self) -> List[AtpBlueprint]:
         """Get derivedFrom (Pythonic accessor)."""
         return self._derivedFrom
         # This indicates an engineering object.
         # The AclPermission relates to all objects in this partial model.
         # implies that the other objects in this set shall be the specified engineering
                 # object.
-        self._engineering: List["AutosarEngineering"] = []
+        self._engineering: List[AutosarEngineeringObject] = []
 
     @property
-    def engineering(self) -> List["AutosarEngineering"]:
+    def engineering(self) -> List[AutosarEngineeringObject]:
         """Get engineering (Pythonic accessor)."""
         return self._engineering
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAclObjectClass(self) -> List["RefType"]:
+    def getAclObjectClass(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for aclObjectClass.
 
@@ -455,7 +462,7 @@ class AclObjectSet(ARElement):
         self.acl_scope = value  # Delegates to property setter
         return self
 
-    def getCollection(self) -> "RefType":
+    def getCollection(self) -> RefType:
         """
         AUTOSAR-compliant getter for collection.
 
@@ -467,7 +474,7 @@ class AclObjectSet(ARElement):
         """
         return self.collection  # Delegates to property
 
-    def setCollection(self, value: "RefType") -> AclObjectSet:
+    def setCollection(self, value: RefType) -> AclObjectSet:
         """
         AUTOSAR-compliant setter for collection with method chaining.
 
@@ -483,7 +490,7 @@ class AclObjectSet(ARElement):
         self.collection = value  # Delegates to property setter
         return self
 
-    def getDerivedFrom(self) -> List["AtpBlueprint"]:
+    def getDerivedFrom(self) -> List[AtpBlueprint]:
         """
         AUTOSAR-compliant getter for derivedFrom.
 
@@ -495,7 +502,7 @@ class AclObjectSet(ARElement):
         """
         return self.derived_from  # Delegates to property
 
-    def getEngineering(self) -> List["AutosarEngineering"]:
+    def getEngineering(self) -> List[AutosarEngineeringObject]:
         """
         AUTOSAR-compliant getter for engineering.
 
@@ -629,15 +636,15 @@ class AclRole(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is an URL which allows to represent users or the particular role.
-        self._ldapUrl: Optional["UriString"] = None
+        self._ldapUrl: Optional[UriString] = None
 
     @property
-    def ldap_url(self) -> Optional["UriString"]:
+    def ldap_url(self) -> Optional[UriString]:
         """Get ldapUrl (Pythonic accessor)."""
         return self._ldapUrl
 
     @ldap_url.setter
-    def ldap_url(self, value: Optional["UriString"]) -> None:
+    def ldap_url(self, value: Optional[UriString]) -> None:
         """
         Set ldapUrl with validation.
 
@@ -659,7 +666,7 @@ class AclRole(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLdapUrl(self) -> "UriString":
+    def getLdapUrl(self) -> UriString:
         """
         AUTOSAR-compliant getter for ldapUrl.
 
@@ -689,7 +696,7 @@ class AclRole(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ldap_url(self, value: Optional["UriString"]) -> AclRole:
+    def with_ldap_url(self, value: Optional[UriString]) -> AclRole:
         """
         Set ldapUrl and return self for chaining.
 

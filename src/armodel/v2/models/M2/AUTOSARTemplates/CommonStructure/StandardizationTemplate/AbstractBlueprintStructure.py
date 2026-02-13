@@ -289,15 +289,15 @@ class BlueprintPolicy(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This identifies the related attribute of a BlueprintPolicy.
         # over the model a subset of xpath used.
-        self._attributeName: "String" = None
+        self._attributeName: String = None
 
     @property
-    def attribute_name(self) -> "String":
+    def attribute_name(self) -> String:
         """Get attributeName (Pythonic accessor)."""
         return self._attributeName
 
     @attribute_name.setter
-    def attribute_name(self, value: "String") -> None:
+    def attribute_name(self, value: String) -> None:
         """
         Set attributeName with validation.
 
@@ -315,7 +315,7 @@ class BlueprintPolicy(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAttributeName(self) -> "String":
+    def getAttributeName(self) -> String:
         """
         AUTOSAR-compliant getter for attributeName.
 
@@ -327,7 +327,7 @@ class BlueprintPolicy(ARObject, ABC):
         """
         return self.attribute_name  # Delegates to property
 
-    def setAttributeName(self, value: "String") -> BlueprintPolicy:
+    def setAttributeName(self, value: String) -> BlueprintPolicy:
         """
         AUTOSAR-compliant setter for attributeName with method chaining.
 
@@ -345,7 +345,7 @@ class BlueprintPolicy(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_attribute_name(self, value: "String") -> BlueprintPolicy:
+    def with_attribute_name(self, value: String) -> BlueprintPolicy:
         """
         Set attributeName and return self for chaining.
 
@@ -380,15 +380,15 @@ class BlueprintPolicyList(BlueprintPolicy):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Maximum number of elements in list.
         # If the maximum is not constraint it shall be set to "undefined".
-        self._maxNumberOf: "PositiveInteger" = None
+        self._maxNumberOf: PositiveInteger = None
 
     @property
-    def max_number_of(self) -> "PositiveInteger":
+    def max_number_of(self) -> PositiveInteger:
         """Get maxNumberOf (Pythonic accessor)."""
         return self._maxNumberOf
 
     @max_number_of.setter
-    def max_number_of(self, value: "PositiveInteger") -> None:
+    def max_number_of(self, value: PositiveInteger) -> None:
         """
         Set maxNumberOf with validation.
 
@@ -404,15 +404,15 @@ class BlueprintPolicyList(BlueprintPolicy):
             )
         self._maxNumberOf = value
         # If the minimum is not constraint it shall be set to "undefined".
-        self._minNumberOf: "PositiveInteger" = None
+        self._minNumberOf: PositiveInteger = None
 
     @property
-    def min_number_of(self) -> "PositiveInteger":
+    def min_number_of(self) -> PositiveInteger:
         """Get minNumberOf (Pythonic accessor)."""
         return self._minNumberOf
 
     @min_number_of.setter
-    def min_number_of(self, value: "PositiveInteger") -> None:
+    def min_number_of(self, value: PositiveInteger) -> None:
         """
         Set minNumberOf with validation.
 
@@ -430,7 +430,7 @@ class BlueprintPolicyList(BlueprintPolicy):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxNumberOf(self) -> "PositiveInteger":
+    def getMaxNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNumberOf.
 
@@ -442,7 +442,7 @@ class BlueprintPolicyList(BlueprintPolicy):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> BlueprintPolicyList:
+    def setMaxNumberOf(self, value: PositiveInteger) -> BlueprintPolicyList:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -458,7 +458,7 @@ class BlueprintPolicyList(BlueprintPolicy):
         self.max_number_of = value  # Delegates to property setter
         return self
 
-    def getMinNumberOf(self) -> "PositiveInteger":
+    def getMinNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minNumberOf.
 
@@ -470,7 +470,7 @@ class BlueprintPolicyList(BlueprintPolicy):
         """
         return self.min_number_of  # Delegates to property
 
-    def setMinNumberOf(self, value: "PositiveInteger") -> BlueprintPolicyList:
+    def setMinNumberOf(self, value: PositiveInteger) -> BlueprintPolicyList:
         """
         AUTOSAR-compliant setter for minNumberOf with method chaining.
 
@@ -488,7 +488,7 @@ class BlueprintPolicyList(BlueprintPolicy):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_number_of(self, value: "PositiveInteger") -> BlueprintPolicyList:
+    def with_max_number_of(self, value: PositiveInteger) -> BlueprintPolicyList:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -504,7 +504,7 @@ class BlueprintPolicyList(BlueprintPolicy):
         self.max_number_of = value  # Use property setter (gets validation)
         return self
 
-    def with_min_number_of(self, value: "PositiveInteger") -> BlueprintPolicyList:
+    def with_min_number_of(self, value: PositiveInteger) -> BlueprintPolicyList:
         """
         Set minNumberOf and return self for chaining.
 

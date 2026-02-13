@@ -387,15 +387,15 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
             )
         self._ddsServiceQos = value
         # instance of the.
-        self._serviceInstance: Optional["PositiveInteger"] = None
+        self._serviceInstance: Optional[PositiveInteger] = None
 
     @property
-    def service_instance(self) -> Optional["PositiveInteger"]:
+    def service_instance(self) -> Optional[PositiveInteger]:
         """Get serviceInstance (Pythonic accessor)."""
         return self._serviceInstance
 
     @service_instance.setter
-    def service_instance(self, value: Optional["PositiveInteger"]) -> None:
+    def service_instance(self, value: Optional[PositiveInteger]) -> None:
         """
         Set serviceInstance with validation.
 
@@ -416,15 +416,15 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self._serviceInstance = value
         # encoded in the USER_DATA QoS DomainParticipant associated with the Service
         # its value is propagated by DDS Discovery.
-        self._serviceInterface: Optional["String"] = None
+        self._serviceInterface: Optional[String] = None
 
     @property
-    def service_interface(self) -> Optional["String"]:
+    def service_interface(self) -> Optional[String]:
         """Get serviceInterface (Pythonic accessor)."""
         return self._serviceInterface
 
     @service_interface.setter
-    def service_interface(self, value: Optional["String"]) -> None:
+    def service_interface(self, value: Optional[String]) -> None:
         """
         Set serviceInterface with validation.
 
@@ -558,7 +558,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_service_qos = value  # Delegates to property setter
         return self
 
-    def getServiceInstance(self) -> "PositiveInteger":
+    def getServiceInstance(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for serviceInstance.
 
@@ -570,7 +570,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.service_instance  # Delegates to property
 
-    def setServiceInstance(self, value: "PositiveInteger") -> DdsCpServiceInstance:
+    def setServiceInstance(self, value: PositiveInteger) -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
 
@@ -586,7 +586,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.service_instance = value  # Delegates to property setter
         return self
 
-    def getServiceInterface(self) -> "String":
+    def getServiceInterface(self) -> String:
         """
         AUTOSAR-compliant getter for serviceInterface.
 
@@ -598,7 +598,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         """
         return self.service_interface  # Delegates to property
 
-    def setServiceInterface(self, value: "String") -> DdsCpServiceInstance:
+    def setServiceInterface(self, value: String) -> DdsCpServiceInstance:
         """
         AUTOSAR-compliant setter for serviceInterface with method chaining.
 
@@ -680,7 +680,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.dds_service_qos = value  # Use property setter (gets validation)
         return self
 
-    def with_service_instance(self, value: Optional["PositiveInteger"]) -> DdsCpServiceInstance:
+    def with_service_instance(self, value: Optional[PositiveInteger]) -> DdsCpServiceInstance:
         """
         Set serviceInstance and return self for chaining.
 
@@ -696,7 +696,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
         self.service_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_service_interface(self, value: Optional["String"]) -> DdsCpServiceInstance:
+    def with_service_interface(self, value: Optional[String]) -> DdsCpServiceInstance:
         """
         Set serviceInterface and return self for chaining.
 
@@ -729,15 +729,15 @@ class DdsCpServiceInstanceEvent(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the PduTriggerung used for the upper layer this DdsEvent
         # message.
-        self._ddsEvent: Optional["RefType"] = None
+        self._ddsEvent: Optional[RefType] = None
 
     @property
-    def dds_event(self) -> Optional["RefType"]:
+    def dds_event(self) -> Optional[RefType]:
         """Get ddsEvent (Pythonic accessor)."""
         return self._ddsEvent
 
     @dds_event.setter
-    def dds_event(self, value: Optional["RefType"]) -> None:
+    def dds_event(self, value: Optional[RefType]) -> None:
         """
         Set ddsEvent with validation.
 
@@ -811,7 +811,7 @@ class DdsCpServiceInstanceEvent(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsEvent(self) -> "RefType":
+    def getDdsEvent(self) -> RefType:
         """
         AUTOSAR-compliant getter for ddsEvent.
 
@@ -823,7 +823,7 @@ class DdsCpServiceInstanceEvent(ARObject):
         """
         return self.dds_event  # Delegates to property
 
-    def setDdsEvent(self, value: "RefType") -> DdsCpServiceInstanceEvent:
+    def setDdsEvent(self, value: RefType) -> DdsCpServiceInstanceEvent:
         """
         AUTOSAR-compliant setter for ddsEvent with method chaining.
 
@@ -965,15 +965,15 @@ class DdsCpServiceInstanceOperation(ARObject):
                 # response message.
         # atp.
         # Status=candidate.
-        self._ddsOperation: Optional["RefType"] = None
+        self._ddsOperation: Optional[RefType] = None
 
     @property
-    def dds_operation(self) -> Optional["RefType"]:
+    def dds_operation(self) -> Optional[RefType]:
         """Get ddsOperation (Pythonic accessor)."""
         return self._ddsOperation
 
     @dds_operation.setter
-    def dds_operation(self, value: Optional["RefType"]) -> None:
+    def dds_operation(self, value: Optional[RefType]) -> None:
         """
         Set ddsOperation with validation.
 
@@ -991,7 +991,7 @@ class DdsCpServiceInstanceOperation(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDdsOperation(self) -> "RefType":
+    def getDdsOperation(self) -> RefType:
         """
         AUTOSAR-compliant getter for ddsOperation.
 
@@ -1003,7 +1003,7 @@ class DdsCpServiceInstanceOperation(ARObject):
         """
         return self.dds_operation  # Delegates to property
 
-    def setDdsOperation(self, value: "RefType") -> DdsCpServiceInstanceOperation:
+    def setDdsOperation(self, value: RefType) -> DdsCpServiceInstanceOperation:
         """
         AUTOSAR-compliant setter for ddsOperation with method chaining.
 
@@ -1126,15 +1126,15 @@ class DdsCpDomain(Identifiable):
         """Get ddsTopic (Pythonic accessor)."""
         return self._ddsTopic
         # Definition of the DDS Domain Id.
-        self._domainId: Optional["PositiveInteger"] = None
+        self._domainId: Optional[PositiveInteger] = None
 
     @property
-    def domain_id(self) -> Optional["PositiveInteger"]:
+    def domain_id(self) -> Optional[PositiveInteger]:
         """Get domainId (Pythonic accessor)."""
         return self._domainId
 
     @domain_id.setter
-    def domain_id(self, value: Optional["PositiveInteger"]) -> None:
+    def domain_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set domainId with validation.
 
@@ -1180,7 +1180,7 @@ class DdsCpDomain(Identifiable):
         """
         return self.dds_topic  # Delegates to property
 
-    def getDomainId(self) -> "PositiveInteger":
+    def getDomainId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for domainId.
 
@@ -1192,7 +1192,7 @@ class DdsCpDomain(Identifiable):
         """
         return self.domain_id  # Delegates to property
 
-    def setDomainId(self, value: "PositiveInteger") -> DdsCpDomain:
+    def setDomainId(self, value: PositiveInteger) -> DdsCpDomain:
         """
         AUTOSAR-compliant setter for domainId with method chaining.
 
@@ -1210,7 +1210,7 @@ class DdsCpDomain(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_domain_id(self, value: Optional["PositiveInteger"]) -> DdsCpDomain:
+    def with_domain_id(self, value: Optional[PositiveInteger]) -> DdsCpDomain:
         """
         Set domainId and return self for chaining.
 
@@ -1269,15 +1269,15 @@ class DdsCpTopic(Identifiable):
                 f"ddsPartition must be DdsCpPartition or None, got {type(value).__name__}"
             )
         self._ddsPartition = value
-        self._topicName: Optional["String"] = None
+        self._topicName: Optional[String] = None
 
     @property
-    def topic_name(self) -> Optional["String"]:
+    def topic_name(self) -> Optional[String]:
         """Get topicName (Pythonic accessor)."""
         return self._topicName
 
     @topic_name.setter
-    def topic_name(self, value: Optional["String"]) -> None:
+    def topic_name(self, value: Optional[String]) -> None:
         """
         Set topicName with validation.
 
@@ -1327,7 +1327,7 @@ class DdsCpTopic(Identifiable):
         self.dds_partition = value  # Delegates to property setter
         return self
 
-    def getTopicName(self) -> "String":
+    def getTopicName(self) -> String:
         """
         AUTOSAR-compliant getter for topicName.
 
@@ -1339,7 +1339,7 @@ class DdsCpTopic(Identifiable):
         """
         return self.topic_name  # Delegates to property
 
-    def setTopicName(self, value: "String") -> DdsCpTopic:
+    def setTopicName(self, value: String) -> DdsCpTopic:
         """
         AUTOSAR-compliant setter for topicName with method chaining.
 
@@ -1373,7 +1373,7 @@ class DdsCpTopic(Identifiable):
         self.dds_partition = value  # Use property setter (gets validation)
         return self
 
-    def with_topic_name(self, value: Optional["String"]) -> DdsCpTopic:
+    def with_topic_name(self, value: Optional[String]) -> DdsCpTopic:
         """
         Set topicName and return self for chaining.
 
@@ -1406,15 +1406,15 @@ class DdsCpPartition(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of the DDS Partition Name.
         # ’*’ may be used to default partition.
-        self._partitionName: Optional["String"] = None
+        self._partitionName: Optional[String] = None
 
     @property
-    def partition_name(self) -> Optional["String"]:
+    def partition_name(self) -> Optional[String]:
         """Get partitionName (Pythonic accessor)."""
         return self._partitionName
 
     @partition_name.setter
-    def partition_name(self, value: Optional["String"]) -> None:
+    def partition_name(self, value: Optional[String]) -> None:
         """
         Set partitionName with validation.
 
@@ -1436,7 +1436,7 @@ class DdsCpPartition(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPartitionName(self) -> "String":
+    def getPartitionName(self) -> String:
         """
         AUTOSAR-compliant getter for partitionName.
 
@@ -1448,7 +1448,7 @@ class DdsCpPartition(Identifiable):
         """
         return self.partition_name  # Delegates to property
 
-    def setPartitionName(self, value: "String") -> DdsCpPartition:
+    def setPartitionName(self, value: String) -> DdsCpPartition:
         """
         AUTOSAR-compliant setter for partitionName with method chaining.
 
@@ -1466,7 +1466,7 @@ class DdsCpPartition(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_partition_name(self, value: Optional["String"]) -> DdsCpPartition:
+    def with_partition_name(self, value: Optional[String]) -> DdsCpPartition:
         """
         Set partitionName and return self for chaining.
 
@@ -2375,15 +2375,15 @@ class DdsTopicData(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "TOPIC_DATA" chapter in DDS.
-        self._topicData: Optional["String"] = None
+        self._topicData: Optional[String] = None
 
     @property
-    def topic_data(self) -> Optional["String"]:
+    def topic_data(self) -> Optional[String]:
         """Get topicData (Pythonic accessor)."""
         return self._topicData
 
     @topic_data.setter
-    def topic_data(self, value: Optional["String"]) -> None:
+    def topic_data(self, value: Optional[String]) -> None:
         """
         Set topicData with validation.
 
@@ -2405,7 +2405,7 @@ class DdsTopicData(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTopicData(self) -> "String":
+    def getTopicData(self) -> String:
         """
         AUTOSAR-compliant getter for topicData.
 
@@ -2417,7 +2417,7 @@ class DdsTopicData(ARObject):
         """
         return self.topic_data  # Delegates to property
 
-    def setTopicData(self, value: "String") -> DdsTopicData:
+    def setTopicData(self, value: String) -> DdsTopicData:
         """
         AUTOSAR-compliant setter for topicData with method chaining.
 
@@ -2435,7 +2435,7 @@ class DdsTopicData(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_topic_data(self, value: Optional["String"]) -> DdsTopicData:
+    def with_topic_data(self, value: Optional[String]) -> DdsTopicData:
         """
         Set topicData and return self for chaining.
 
@@ -2561,15 +2561,15 @@ class DdsDurabilityService(ARObject):
         # See "DURABILITY_SERVICE" chapter in DDS.
         # atp.
         # Status=candidate SamplesPer.
-        self._durability: Optional["PositiveInteger"] = None
+        self._durability: Optional[PositiveInteger] = None
 
     @property
-    def durability(self) -> Optional["PositiveInteger"]:
+    def durability(self) -> Optional[PositiveInteger]:
         """Get durability (Pythonic accessor)."""
         return self._durability
 
     @durability.setter
-    def durability(self, value: Optional["PositiveInteger"]) -> None:
+    def durability(self, value: Optional[PositiveInteger]) -> None:
         """
         Set durability with validation.
 
@@ -2591,7 +2591,7 @@ class DdsDurabilityService(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDurability(self) -> "PositiveInteger":
+    def getDurability(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for durability.
 
@@ -2603,7 +2603,7 @@ class DdsDurabilityService(ARObject):
         """
         return self.durability  # Delegates to property
 
-    def setDurability(self, value: "PositiveInteger") -> DdsDurabilityService:
+    def setDurability(self, value: PositiveInteger) -> DdsDurabilityService:
         """
         AUTOSAR-compliant setter for durability with method chaining.
 
@@ -2621,7 +2621,7 @@ class DdsDurabilityService(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_durability(self, value: Optional["PositiveInteger"]) -> DdsDurabilityService:
+    def with_durability(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
         """
         Set durability and return self for chaining.
 
@@ -2654,15 +2654,15 @@ class DdsDeadline(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "DEADLINE" chapter of DDS.
         # in seconds.
-        self._deadlinePeriod: Optional["Float"] = None
+        self._deadlinePeriod: Optional[Float] = None
 
     @property
-    def deadline_period(self) -> Optional["Float"]:
+    def deadline_period(self) -> Optional[Float]:
         """Get deadlinePeriod (Pythonic accessor)."""
         return self._deadlinePeriod
 
     @deadline_period.setter
-    def deadline_period(self, value: Optional["Float"]) -> None:
+    def deadline_period(self, value: Optional[Float]) -> None:
         """
         Set deadlinePeriod with validation.
 
@@ -2684,7 +2684,7 @@ class DdsDeadline(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDeadlinePeriod(self) -> "Float":
+    def getDeadlinePeriod(self) -> Float:
         """
         AUTOSAR-compliant getter for deadlinePeriod.
 
@@ -2696,7 +2696,7 @@ class DdsDeadline(ARObject):
         """
         return self.deadline_period  # Delegates to property
 
-    def setDeadlinePeriod(self, value: "Float") -> DdsDeadline:
+    def setDeadlinePeriod(self, value: Float) -> DdsDeadline:
         """
         AUTOSAR-compliant setter for deadlinePeriod with method chaining.
 
@@ -2714,7 +2714,7 @@ class DdsDeadline(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_deadline_period(self, value: Optional["Float"]) -> DdsDeadline:
+    def with_deadline_period(self, value: Optional[Float]) -> DdsDeadline:
         """
         Set deadlinePeriod and return self for chaining.
 
@@ -2747,15 +2747,15 @@ class DdsLatencyBudget(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "LATENCY_BUDGET" chapter of DDS.
         # given in seconds.
-        self._latencyBudget: Optional["Float"] = None
+        self._latencyBudget: Optional[Float] = None
 
     @property
-    def latency_budget(self) -> Optional["Float"]:
+    def latency_budget(self) -> Optional[Float]:
         """Get latencyBudget (Pythonic accessor)."""
         return self._latencyBudget
 
     @latency_budget.setter
-    def latency_budget(self, value: Optional["Float"]) -> None:
+    def latency_budget(self, value: Optional[Float]) -> None:
         """
         Set latencyBudget with validation.
 
@@ -2777,7 +2777,7 @@ class DdsLatencyBudget(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLatencyBudget(self) -> "Float":
+    def getLatencyBudget(self) -> Float:
         """
         AUTOSAR-compliant getter for latencyBudget.
 
@@ -2789,7 +2789,7 @@ class DdsLatencyBudget(ARObject):
         """
         return self.latency_budget  # Delegates to property
 
-    def setLatencyBudget(self, value: "Float") -> DdsLatencyBudget:
+    def setLatencyBudget(self, value: Float) -> DdsLatencyBudget:
         """
         AUTOSAR-compliant setter for latencyBudget with method chaining.
 
@@ -2807,7 +2807,7 @@ class DdsLatencyBudget(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_latency_budget(self, value: Optional["Float"]) -> DdsLatencyBudget:
+    def with_latency_budget(self, value: Optional[Float]) -> DdsLatencyBudget:
         """
         Set latencyBudget and return self for chaining.
 
@@ -2935,15 +2935,15 @@ class DdsOwnershipStrength(ARObject):
         # See "OWNERSHIP_STRENGTH" chapter of DDS.
         # atp.
         # Status=candidate.
-        self._ownership: Optional["PositiveInteger"] = None
+        self._ownership: Optional[PositiveInteger] = None
 
     @property
-    def ownership(self) -> Optional["PositiveInteger"]:
+    def ownership(self) -> Optional[PositiveInteger]:
         """Get ownership (Pythonic accessor)."""
         return self._ownership
 
     @ownership.setter
-    def ownership(self, value: Optional["PositiveInteger"]) -> None:
+    def ownership(self, value: Optional[PositiveInteger]) -> None:
         """
         Set ownership with validation.
 
@@ -2965,7 +2965,7 @@ class DdsOwnershipStrength(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOwnership(self) -> "PositiveInteger":
+    def getOwnership(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for ownership.
 
@@ -2977,7 +2977,7 @@ class DdsOwnershipStrength(ARObject):
         """
         return self.ownership  # Delegates to property
 
-    def setOwnership(self, value: "PositiveInteger") -> DdsOwnershipStrength:
+    def setOwnership(self, value: PositiveInteger) -> DdsOwnershipStrength:
         """
         AUTOSAR-compliant setter for ownership with method chaining.
 
@@ -2995,7 +2995,7 @@ class DdsOwnershipStrength(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ownership(self, value: Optional["PositiveInteger"]) -> DdsOwnershipStrength:
+    def with_ownership(self, value: Optional[PositiveInteger]) -> DdsOwnershipStrength:
         """
         Set ownership and return self for chaining.
 
@@ -3028,15 +3028,15 @@ class DdsLiveliness(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "LIVELINESS" chapter of DDS.
         # given in seconds.
-        self._livelinessLease: Optional["Float"] = None
+        self._livelinessLease: Optional[Float] = None
 
     @property
-    def liveliness_lease(self) -> Optional["Float"]:
+    def liveliness_lease(self) -> Optional[Float]:
         """Get livelinessLease (Pythonic accessor)."""
         return self._livelinessLease
 
     @liveliness_lease.setter
-    def liveliness_lease(self, value: Optional["Float"]) -> None:
+    def liveliness_lease(self, value: Optional[Float]) -> None:
         """
         Set livelinessLease with validation.
 
@@ -3085,7 +3085,7 @@ class DdsLiveliness(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLivelinessLease(self) -> "Float":
+    def getLivelinessLease(self) -> Float:
         """
         AUTOSAR-compliant getter for livelinessLease.
 
@@ -3097,7 +3097,7 @@ class DdsLiveliness(ARObject):
         """
         return self.liveliness_lease  # Delegates to property
 
-    def setLivelinessLease(self, value: "Float") -> DdsLiveliness:
+    def setLivelinessLease(self, value: Float) -> DdsLiveliness:
         """
         AUTOSAR-compliant setter for livelinessLease with method chaining.
 
@@ -3143,7 +3143,7 @@ class DdsLiveliness(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_liveliness_lease(self, value: Optional["Float"]) -> DdsLiveliness:
+    def with_liveliness_lease(self, value: Optional[Float]) -> DdsLiveliness:
         """
         Set livelinessLease and return self for chaining.
 
@@ -3219,15 +3219,15 @@ class DdsReliability(ARObject):
             )
         self._reliabilityKind = value
         # given in seconds.
-        self._reliabilityMax: Optional["Float"] = None
+        self._reliabilityMax: Optional[Float] = None
 
     @property
-    def reliability_max(self) -> Optional["Float"]:
+    def reliability_max(self) -> Optional[Float]:
         """Get reliabilityMax (Pythonic accessor)."""
         return self._reliabilityMax
 
     @reliability_max.setter
-    def reliability_max(self, value: Optional["Float"]) -> None:
+    def reliability_max(self, value: Optional[Float]) -> None:
         """
         Set reliabilityMax with validation.
 
@@ -3277,7 +3277,7 @@ class DdsReliability(ARObject):
         self.reliability_kind = value  # Delegates to property setter
         return self
 
-    def getReliabilityMax(self) -> "Float":
+    def getReliabilityMax(self) -> Float:
         """
         AUTOSAR-compliant getter for reliabilityMax.
 
@@ -3289,7 +3289,7 @@ class DdsReliability(ARObject):
         """
         return self.reliability_max  # Delegates to property
 
-    def setReliabilityMax(self, value: "Float") -> DdsReliability:
+    def setReliabilityMax(self, value: Float) -> DdsReliability:
         """
         AUTOSAR-compliant setter for reliabilityMax with method chaining.
 
@@ -3323,7 +3323,7 @@ class DdsReliability(ARObject):
         self.reliability_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_reliability_max(self, value: Optional["Float"]) -> DdsReliability:
+    def with_reliability_max(self, value: Optional[Float]) -> DdsReliability:
         """
         Set reliabilityMax and return self for chaining.
 
@@ -3355,15 +3355,15 @@ class DdsTransportPriority(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "TRANSPORT_PRIORITY" chapter of DDS.
-        self._transportPriority: Optional["PositiveInteger"] = None
+        self._transportPriority: Optional[PositiveInteger] = None
 
     @property
-    def transport_priority(self) -> Optional["PositiveInteger"]:
+    def transport_priority(self) -> Optional[PositiveInteger]:
         """Get transportPriority (Pythonic accessor)."""
         return self._transportPriority
 
     @transport_priority.setter
-    def transport_priority(self, value: Optional["PositiveInteger"]) -> None:
+    def transport_priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set transportPriority with validation.
 
@@ -3385,7 +3385,7 @@ class DdsTransportPriority(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransportPriority(self) -> "PositiveInteger":
+    def getTransportPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for transportPriority.
 
@@ -3397,7 +3397,7 @@ class DdsTransportPriority(ARObject):
         """
         return self.transport_priority  # Delegates to property
 
-    def setTransportPriority(self, value: "PositiveInteger") -> DdsTransportPriority:
+    def setTransportPriority(self, value: PositiveInteger) -> DdsTransportPriority:
         """
         AUTOSAR-compliant setter for transportPriority with method chaining.
 
@@ -3415,7 +3415,7 @@ class DdsTransportPriority(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transport_priority(self, value: Optional["PositiveInteger"]) -> DdsTransportPriority:
+    def with_transport_priority(self, value: Optional[PositiveInteger]) -> DdsTransportPriority:
         """
         Set transportPriority and return self for chaining.
 
@@ -3448,15 +3448,15 @@ class DdsLifespan(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "LIFESPAN" chapter of DDS.
         # in seconds.
-        self._lifespanDuration: Optional["Float"] = None
+        self._lifespanDuration: Optional[Float] = None
 
     @property
-    def lifespan_duration(self) -> Optional["Float"]:
+    def lifespan_duration(self) -> Optional[Float]:
         """Get lifespanDuration (Pythonic accessor)."""
         return self._lifespanDuration
 
     @lifespan_duration.setter
-    def lifespan_duration(self, value: Optional["Float"]) -> None:
+    def lifespan_duration(self, value: Optional[Float]) -> None:
         """
         Set lifespanDuration with validation.
 
@@ -3478,7 +3478,7 @@ class DdsLifespan(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLifespanDuration(self) -> "Float":
+    def getLifespanDuration(self) -> Float:
         """
         AUTOSAR-compliant getter for lifespanDuration.
 
@@ -3490,7 +3490,7 @@ class DdsLifespan(ARObject):
         """
         return self.lifespan_duration  # Delegates to property
 
-    def setLifespanDuration(self, value: "Float") -> DdsLifespan:
+    def setLifespanDuration(self, value: Float) -> DdsLifespan:
         """
         AUTOSAR-compliant setter for lifespanDuration with method chaining.
 
@@ -3508,7 +3508,7 @@ class DdsLifespan(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_lifespan_duration(self, value: Optional["Float"]) -> DdsLifespan:
+    def with_lifespan_duration(self, value: Optional[Float]) -> DdsLifespan:
         """
         Set lifespanDuration and return self for chaining.
 
@@ -3663,15 +3663,15 @@ class DdsHistory(ARObject):
         self._historyKind = value
         # atp.
         # Status=candidate.
-        self._historyOrder: Optional["PositiveInteger"] = None
+        self._historyOrder: Optional[PositiveInteger] = None
 
     @property
-    def history_order(self) -> Optional["PositiveInteger"]:
+    def history_order(self) -> Optional[PositiveInteger]:
         """Get historyOrder (Pythonic accessor)."""
         return self._historyOrder
 
     @history_order.setter
-    def history_order(self, value: Optional["PositiveInteger"]) -> None:
+    def history_order(self, value: Optional[PositiveInteger]) -> None:
         """
         Set historyOrder with validation.
 
@@ -3721,7 +3721,7 @@ class DdsHistory(ARObject):
         self.history_kind = value  # Delegates to property setter
         return self
 
-    def getHistoryOrder(self) -> "PositiveInteger":
+    def getHistoryOrder(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for historyOrder.
 
@@ -3733,7 +3733,7 @@ class DdsHistory(ARObject):
         """
         return self.history_order  # Delegates to property
 
-    def setHistoryOrder(self, value: "PositiveInteger") -> DdsHistory:
+    def setHistoryOrder(self, value: PositiveInteger) -> DdsHistory:
         """
         AUTOSAR-compliant setter for historyOrder with method chaining.
 
@@ -3767,7 +3767,7 @@ class DdsHistory(ARObject):
         self.history_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_history_order(self, value: Optional["PositiveInteger"]) -> DdsHistory:
+    def with_history_order(self, value: Optional[PositiveInteger]) -> DdsHistory:
         """
         Set historyOrder and return self for chaining.
 
@@ -3800,15 +3800,15 @@ class DdsResourceLimits(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # See "RESOURCE_LIMITS" chapter of DDS.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._maxInstances: Optional["PositiveInteger"] = None
+        self._maxInstances: Optional[PositiveInteger] = None
 
     @property
-    def max_instances(self) -> Optional["PositiveInteger"]:
+    def max_instances(self) -> Optional[PositiveInteger]:
         """Get maxInstances (Pythonic accessor)."""
         return self._maxInstances
 
     @max_instances.setter
-    def max_instances(self, value: Optional["PositiveInteger"]) -> None:
+    def max_instances(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxInstances with validation.
 
@@ -3827,15 +3827,15 @@ class DdsResourceLimits(ARObject):
                 f"maxInstances must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxInstances = value
-        self._maxSamples: Optional["PositiveInteger"] = None
+        self._maxSamples: Optional[PositiveInteger] = None
 
     @property
-    def max_samples(self) -> Optional["PositiveInteger"]:
+    def max_samples(self) -> Optional[PositiveInteger]:
         """Get maxSamples (Pythonic accessor)."""
         return self._maxSamples
 
     @max_samples.setter
-    def max_samples(self, value: Optional["PositiveInteger"]) -> None:
+    def max_samples(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxSamples with validation.
 
@@ -3854,15 +3854,15 @@ class DdsResourceLimits(ARObject):
                 f"maxSamples must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxSamples = value
-        self._maxSamplesPerInstance: Optional["PositiveInteger"] = None
+        self._maxSamplesPerInstance: Optional[PositiveInteger] = None
 
     @property
-    def max_samples_per_instance(self) -> Optional["PositiveInteger"]:
+    def max_samples_per_instance(self) -> Optional[PositiveInteger]:
         """Get maxSamplesPerInstance (Pythonic accessor)."""
         return self._maxSamplesPerInstance
 
     @max_samples_per_instance.setter
-    def max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> None:
+    def max_samples_per_instance(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxSamplesPerInstance with validation.
 
@@ -3884,7 +3884,7 @@ class DdsResourceLimits(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxInstances(self) -> "PositiveInteger":
+    def getMaxInstances(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxInstances.
 
@@ -3896,7 +3896,7 @@ class DdsResourceLimits(ARObject):
         """
         return self.max_instances  # Delegates to property
 
-    def setMaxInstances(self, value: "PositiveInteger") -> DdsResourceLimits:
+    def setMaxInstances(self, value: PositiveInteger) -> DdsResourceLimits:
         """
         AUTOSAR-compliant setter for maxInstances with method chaining.
 
@@ -3912,7 +3912,7 @@ class DdsResourceLimits(ARObject):
         self.max_instances = value  # Delegates to property setter
         return self
 
-    def getMaxSamples(self) -> "PositiveInteger":
+    def getMaxSamples(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxSamples.
 
@@ -3924,7 +3924,7 @@ class DdsResourceLimits(ARObject):
         """
         return self.max_samples  # Delegates to property
 
-    def setMaxSamples(self, value: "PositiveInteger") -> DdsResourceLimits:
+    def setMaxSamples(self, value: PositiveInteger) -> DdsResourceLimits:
         """
         AUTOSAR-compliant setter for maxSamples with method chaining.
 
@@ -3940,7 +3940,7 @@ class DdsResourceLimits(ARObject):
         self.max_samples = value  # Delegates to property setter
         return self
 
-    def getMaxSamplesPerInstance(self) -> "PositiveInteger":
+    def getMaxSamplesPerInstance(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxSamplesPerInstance.
 
@@ -3952,7 +3952,7 @@ class DdsResourceLimits(ARObject):
         """
         return self.max_samples_per_instance  # Delegates to property
 
-    def setMaxSamplesPerInstance(self, value: "PositiveInteger") -> DdsResourceLimits:
+    def setMaxSamplesPerInstance(self, value: PositiveInteger) -> DdsResourceLimits:
         """
         AUTOSAR-compliant setter for maxSamplesPerInstance with method chaining.
 
@@ -3970,7 +3970,7 @@ class DdsResourceLimits(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_instances(self, value: Optional["PositiveInteger"]) -> DdsResourceLimits:
+    def with_max_instances(self, value: Optional[PositiveInteger]) -> DdsResourceLimits:
         """
         Set maxInstances and return self for chaining.
 
@@ -3986,7 +3986,7 @@ class DdsResourceLimits(ARObject):
         self.max_instances = value  # Use property setter (gets validation)
         return self
 
-    def with_max_samples(self, value: Optional["PositiveInteger"]) -> DdsResourceLimits:
+    def with_max_samples(self, value: Optional[PositiveInteger]) -> DdsResourceLimits:
         """
         Set maxSamples and return self for chaining.
 
@@ -4002,7 +4002,7 @@ class DdsResourceLimits(ARObject):
         self.max_samples = value  # Use property setter (gets validation)
         return self
 
-    def with_max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> DdsResourceLimits:
+    def with_max_samples_per_instance(self, value: Optional[PositiveInteger]) -> DdsResourceLimits:
         """
         Set maxSamplesPerInstance and return self for chaining.
 
@@ -4037,15 +4037,15 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The local address over which the Service is provided.
         # atpSplitable; atpVariation.
-        self._localUnicast: Optional["ApplicationEndpoint"] = None
+        self._localUnicast: Optional[ApplicationEndpoint] = None
 
     @property
-    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
+    def local_unicast(self) -> Optional[ApplicationEndpoint]:
         """Get localUnicast (Pythonic accessor)."""
         return self._localUnicast
 
     @local_unicast.setter
-    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
+    def local_unicast(self, value: Optional[ApplicationEndpoint]) -> None:
         """
         Set localUnicast with validation.
 
@@ -4064,15 +4064,15 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
                 f"localUnicast must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._localUnicast = value
-        self._minorVersion: Optional["PositiveInteger"] = None
+        self._minorVersion: Optional[PositiveInteger] = None
 
     @property
-    def minor_version(self) -> Optional["PositiveInteger"]:
+    def minor_version(self) -> Optional[PositiveInteger]:
         """Get minorVersion (Pythonic accessor)."""
         return self._minorVersion
 
     @minor_version.setter
-    def minor_version(self, value: Optional["PositiveInteger"]) -> None:
+    def minor_version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minorVersion with validation.
 
@@ -4102,16 +4102,16 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         # shall ONLY be used if the remote unicast the clients is determined from the
                 # not at runtime.
         # atpVariation.
-        self._staticRemote: List["ApplicationEndpoint"] = []
+        self._staticRemote: List[ApplicationEndpoint] = []
 
     @property
-    def static_remote(self) -> List["ApplicationEndpoint"]:
+    def static_remote(self) -> List[ApplicationEndpoint]:
         """Get staticRemote (Pythonic accessor)."""
         return self._staticRemote
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLocalUnicast(self) -> "ApplicationEndpoint":
+    def getLocalUnicast(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for localUnicast.
 
@@ -4123,7 +4123,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> DdsCpProvidedServiceInstance:
+    def setLocalUnicast(self, value: ApplicationEndpoint) -> DdsCpProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -4139,7 +4139,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Delegates to property setter
         return self
 
-    def getMinorVersion(self) -> "PositiveInteger":
+    def getMinorVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minorVersion.
 
@@ -4151,7 +4151,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: "PositiveInteger") -> DdsCpProvidedServiceInstance:
+    def setMinorVersion(self, value: PositiveInteger) -> DdsCpProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -4179,7 +4179,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         """
         return self.provided_dds  # Delegates to property
 
-    def getStaticRemote(self) -> List["ApplicationEndpoint"]:
+    def getStaticRemote(self) -> List[ApplicationEndpoint]:
         """
         AUTOSAR-compliant getter for staticRemote.
 
@@ -4193,7 +4193,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> DdsCpProvidedServiceInstance:
+    def with_local_unicast(self, value: Optional[ApplicationEndpoint]) -> DdsCpProvidedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -4209,7 +4209,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional["PositiveInteger"]) -> DdsCpProvidedServiceInstance:
+    def with_minor_version(self, value: Optional[PositiveInteger]) -> DdsCpProvidedServiceInstance:
         """
         Set minorVersion and return self for chaining.
 
@@ -4252,15 +4252,15 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         return self._consumedDds
         # The local address over which the Service is consumed.
         # atpSplitable; atpVariation.
-        self._localUnicast: Optional["ApplicationEndpoint"] = None
+        self._localUnicast: Optional[ApplicationEndpoint] = None
 
     @property
-    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
+    def local_unicast(self) -> Optional[ApplicationEndpoint]:
         """Get localUnicast (Pythonic accessor)."""
         return self._localUnicast
 
     @local_unicast.setter
-    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
+    def local_unicast(self, value: Optional[ApplicationEndpoint]) -> None:
         """
         Set localUnicast with validation.
 
@@ -4280,15 +4280,15 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
             )
         self._localUnicast = value
         # Value can be set to that represents the Minor Version of the or to ANY.
-        self._minorVersion: Optional["AnyVersionString"] = None
+        self._minorVersion: Optional[AnyVersionString] = None
 
     @property
-    def minor_version(self) -> Optional["AnyVersionString"]:
+    def minor_version(self) -> Optional[AnyVersionString]:
         """Get minorVersion (Pythonic accessor)."""
         return self._minorVersion
 
     @minor_version.setter
-    def minor_version(self, value: Optional["AnyVersionString"]) -> None:
+    def minor_version(self, value: Optional[AnyVersionString]) -> None:
         """
         Set minorVersion with validation.
 
@@ -4310,15 +4310,15 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         # shall ONLY be used if the remote unicast the server is determined from the
                 # not at runtime.
         # atpVariation.
-        self._staticRemote: Optional["ApplicationEndpoint"] = None
+        self._staticRemote: Optional[ApplicationEndpoint] = None
 
     @property
-    def static_remote(self) -> Optional["ApplicationEndpoint"]:
+    def static_remote(self) -> Optional[ApplicationEndpoint]:
         """Get staticRemote (Pythonic accessor)."""
         return self._staticRemote
 
     @static_remote.setter
-    def static_remote(self, value: Optional["ApplicationEndpoint"]) -> None:
+    def static_remote(self, value: Optional[ApplicationEndpoint]) -> None:
         """
         Set staticRemote with validation.
 
@@ -4352,7 +4352,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.consumed_dds  # Delegates to property
 
-    def getLocalUnicast(self) -> "ApplicationEndpoint":
+    def getLocalUnicast(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for localUnicast.
 
@@ -4364,7 +4364,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> DdsCpConsumedServiceInstance:
+    def setLocalUnicast(self, value: ApplicationEndpoint) -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -4380,7 +4380,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Delegates to property setter
         return self
 
-    def getMinorVersion(self) -> "AnyVersionString":
+    def getMinorVersion(self) -> AnyVersionString:
         """
         AUTOSAR-compliant getter for minorVersion.
 
@@ -4392,7 +4392,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: "AnyVersionString") -> DdsCpConsumedServiceInstance:
+    def setMinorVersion(self, value: AnyVersionString) -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -4408,7 +4408,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.minor_version = value  # Delegates to property setter
         return self
 
-    def getStaticRemote(self) -> "ApplicationEndpoint":
+    def getStaticRemote(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for staticRemote.
 
@@ -4420,7 +4420,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.static_remote  # Delegates to property
 
-    def setStaticRemote(self, value: "ApplicationEndpoint") -> DdsCpConsumedServiceInstance:
+    def setStaticRemote(self, value: ApplicationEndpoint) -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for staticRemote with method chaining.
 
@@ -4438,7 +4438,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> DdsCpConsumedServiceInstance:
+    def with_local_unicast(self, value: Optional[ApplicationEndpoint]) -> DdsCpConsumedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -4454,7 +4454,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional["AnyVersionString"]) -> DdsCpConsumedServiceInstance:
+    def with_minor_version(self, value: Optional[AnyVersionString]) -> DdsCpConsumedServiceInstance:
         """
         Set minorVersion and return self for chaining.
 
@@ -4470,7 +4470,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.minor_version = value  # Use property setter (gets validation)
         return self
 
-    def with_static_remote(self, value: Optional["ApplicationEndpoint"]) -> DdsCpConsumedServiceInstance:
+    def with_static_remote(self, value: Optional[ApplicationEndpoint]) -> DdsCpConsumedServiceInstance:
         """
         Set staticRemote and return self for chaining.
 

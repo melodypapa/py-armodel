@@ -282,15 +282,15 @@ class DiagnosticSession(DiagnosticCommonElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the numerical identifier used to identify the the scope of diagnostic
         # workflow.
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -345,15 +345,15 @@ class DiagnosticSession(DiagnosticCommonElement):
         # This is the session value for P2ServerMax in seconds Control).
         # configuration standard is to use SI units, parameter is defined as a float
                 # value in seconds.
-        self._p2ServerMax: Optional["TimeValue"] = None
+        self._p2ServerMax: Optional[TimeValue] = None
 
     @property
-    def p2_server_max(self) -> Optional["TimeValue"]:
+    def p2_server_max(self) -> Optional[TimeValue]:
         """Get p2ServerMax (Pythonic accessor)."""
         return self._p2ServerMax
 
     @p2_server_max.setter
-    def p2_server_max(self, value: Optional["TimeValue"]) -> None:
+    def p2_server_max(self, value: Optional[TimeValue]) -> None:
         """
         Set p2ServerMax with validation.
 
@@ -375,15 +375,15 @@ class DiagnosticSession(DiagnosticCommonElement):
         # This is the session value for P2*ServerMax in seconds Session Control).
         # configuration standard is to use SI units, parameter is defined as a float
                 # value in seconds.
-        self._p2StarServer: Optional["TimeValue"] = None
+        self._p2StarServer: Optional[TimeValue] = None
 
     @property
-    def p2_star_server(self) -> Optional["TimeValue"]:
+    def p2_star_server(self) -> Optional[TimeValue]:
         """Get p2StarServer (Pythonic accessor)."""
         return self._p2StarServer
 
     @p2_star_server.setter
-    def p2_star_server(self, value: Optional["TimeValue"]) -> None:
+    def p2_star_server(self, value: Optional[TimeValue]) -> None:
         """
         Set p2StarServer with validation.
 
@@ -405,7 +405,7 @@ class DiagnosticSession(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -417,7 +417,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> DiagnosticSession:
+    def setId(self, value: PositiveInteger) -> DiagnosticSession:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -461,7 +461,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.jump_to_boot = value  # Delegates to property setter
         return self
 
-    def getP2ServerMax(self) -> "TimeValue":
+    def getP2ServerMax(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for p2ServerMax.
 
@@ -473,7 +473,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         """
         return self.p2_server_max  # Delegates to property
 
-    def setP2ServerMax(self, value: "TimeValue") -> DiagnosticSession:
+    def setP2ServerMax(self, value: TimeValue) -> DiagnosticSession:
         """
         AUTOSAR-compliant setter for p2ServerMax with method chaining.
 
@@ -489,7 +489,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.p2_server_max = value  # Delegates to property setter
         return self
 
-    def getP2StarServer(self) -> "TimeValue":
+    def getP2StarServer(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for p2StarServer.
 
@@ -501,7 +501,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         """
         return self.p2_star_server  # Delegates to property
 
-    def setP2StarServer(self, value: "TimeValue") -> DiagnosticSession:
+    def setP2StarServer(self, value: TimeValue) -> DiagnosticSession:
         """
         AUTOSAR-compliant setter for p2StarServer with method chaining.
 
@@ -519,7 +519,7 @@ class DiagnosticSession(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> DiagnosticSession:
+    def with_id(self, value: Optional[PositiveInteger]) -> DiagnosticSession:
         """
         Set id and return self for chaining.
 
@@ -551,7 +551,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.jump_to_boot = value  # Use property setter (gets validation)
         return self
 
-    def with_p2_server_max(self, value: Optional["TimeValue"]) -> DiagnosticSession:
+    def with_p2_server_max(self, value: Optional[TimeValue]) -> DiagnosticSession:
         """
         Set p2ServerMax and return self for chaining.
 
@@ -567,7 +567,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.p2_server_max = value  # Use property setter (gets validation)
         return self
 
-    def with_p2_star_server(self, value: Optional["TimeValue"]) -> DiagnosticSession:
+    def with_p2_star_server(self, value: Optional[TimeValue]) -> DiagnosticSession:
         """
         Set p2StarServer and return self for chaining.
 
@@ -602,15 +602,15 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the size of the AccessDataRecord used GetSeed.
         # Unit:byte.
-        self._accessData: Optional["PositiveInteger"] = None
+        self._accessData: Optional[PositiveInteger] = None
 
     @property
-    def access_data(self) -> Optional["PositiveInteger"]:
+    def access_data(self) -> Optional[PositiveInteger]:
         """Get accessData (Pythonic accessor)."""
         return self._accessData
 
     @access_data.setter
-    def access_data(self, value: Optional["PositiveInteger"]) -> None:
+    def access_data(self, value: Optional[PositiveInteger]) -> None:
         """
         Set accessData with validation.
 
@@ -631,15 +631,15 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self._accessData = value
         # This represents the size of the security key.
         # Unit: byte.
-        self._keySize: Optional["PositiveInteger"] = None
+        self._keySize: Optional[PositiveInteger] = None
 
     @property
-    def key_size(self) -> Optional["PositiveInteger"]:
+    def key_size(self) -> Optional[PositiveInteger]:
         """Get keySize (Pythonic accessor)."""
         return self._keySize
 
     @key_size.setter
-    def key_size(self, value: Optional["PositiveInteger"]) -> None:
+    def key_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set keySize with validation.
 
@@ -660,15 +660,15 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self._keySize = value
         # This represents the number of failed security accesses which the delay time
         # is activated.
-        self._numFailed: Optional["PositiveInteger"] = None
+        self._numFailed: Optional[PositiveInteger] = None
 
     @property
-    def num_failed(self) -> Optional["PositiveInteger"]:
+    def num_failed(self) -> Optional[PositiveInteger]:
         """Get numFailed (Pythonic accessor)."""
         return self._numFailed
 
     @num_failed.setter
-    def num_failed(self, value: Optional["PositiveInteger"]) -> None:
+    def num_failed(self, value: Optional[PositiveInteger]) -> None:
         """
         Set numFailed with validation.
 
@@ -688,15 +688,15 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
             )
         self._numFailed = value
         # This represents the delay time after a failed security Unit: second.
-        self._securityDelay: Optional["TimeValue"] = None
+        self._securityDelay: Optional[TimeValue] = None
 
     @property
-    def security_delay(self) -> Optional["TimeValue"]:
+    def security_delay(self) -> Optional[TimeValue]:
         """Get securityDelay (Pythonic accessor)."""
         return self._securityDelay
 
     @security_delay.setter
-    def security_delay(self, value: Optional["TimeValue"]) -> None:
+    def security_delay(self, value: Optional[TimeValue]) -> None:
         """
         Set securityDelay with validation.
 
@@ -717,15 +717,15 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self._securityDelay = value
         # This represents the size of the security seed.
         # Unit: byte.
-        self._seedSize: Optional["PositiveInteger"] = None
+        self._seedSize: Optional[PositiveInteger] = None
 
     @property
-    def seed_size(self) -> Optional["PositiveInteger"]:
+    def seed_size(self) -> Optional[PositiveInteger]:
         """Get seedSize (Pythonic accessor)."""
         return self._seedSize
 
     @seed_size.setter
-    def seed_size(self, value: Optional["PositiveInteger"]) -> None:
+    def seed_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set seedSize with validation.
 
@@ -747,7 +747,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccessData(self) -> "PositiveInteger":
+    def getAccessData(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for accessData.
 
@@ -759,7 +759,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         """
         return self.access_data  # Delegates to property
 
-    def setAccessData(self, value: "PositiveInteger") -> DiagnosticSecurityLevel:
+    def setAccessData(self, value: PositiveInteger) -> DiagnosticSecurityLevel:
         """
         AUTOSAR-compliant setter for accessData with method chaining.
 
@@ -775,7 +775,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.access_data = value  # Delegates to property setter
         return self
 
-    def getKeySize(self) -> "PositiveInteger":
+    def getKeySize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for keySize.
 
@@ -787,7 +787,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         """
         return self.key_size  # Delegates to property
 
-    def setKeySize(self, value: "PositiveInteger") -> DiagnosticSecurityLevel:
+    def setKeySize(self, value: PositiveInteger) -> DiagnosticSecurityLevel:
         """
         AUTOSAR-compliant setter for keySize with method chaining.
 
@@ -803,7 +803,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.key_size = value  # Delegates to property setter
         return self
 
-    def getNumFailed(self) -> "PositiveInteger":
+    def getNumFailed(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for numFailed.
 
@@ -815,7 +815,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         """
         return self.num_failed  # Delegates to property
 
-    def setNumFailed(self, value: "PositiveInteger") -> DiagnosticSecurityLevel:
+    def setNumFailed(self, value: PositiveInteger) -> DiagnosticSecurityLevel:
         """
         AUTOSAR-compliant setter for numFailed with method chaining.
 
@@ -831,7 +831,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.num_failed = value  # Delegates to property setter
         return self
 
-    def getSecurityDelay(self) -> "TimeValue":
+    def getSecurityDelay(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for securityDelay.
 
@@ -843,7 +843,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         """
         return self.security_delay  # Delegates to property
 
-    def setSecurityDelay(self, value: "TimeValue") -> DiagnosticSecurityLevel:
+    def setSecurityDelay(self, value: TimeValue) -> DiagnosticSecurityLevel:
         """
         AUTOSAR-compliant setter for securityDelay with method chaining.
 
@@ -859,7 +859,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.security_delay = value  # Delegates to property setter
         return self
 
-    def getSeedSize(self) -> "PositiveInteger":
+    def getSeedSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for seedSize.
 
@@ -871,7 +871,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         """
         return self.seed_size  # Delegates to property
 
-    def setSeedSize(self, value: "PositiveInteger") -> DiagnosticSecurityLevel:
+    def setSeedSize(self, value: PositiveInteger) -> DiagnosticSecurityLevel:
         """
         AUTOSAR-compliant setter for seedSize with method chaining.
 
@@ -889,7 +889,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access_data(self, value: Optional["PositiveInteger"]) -> DiagnosticSecurityLevel:
+    def with_access_data(self, value: Optional[PositiveInteger]) -> DiagnosticSecurityLevel:
         """
         Set accessData and return self for chaining.
 
@@ -905,7 +905,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.access_data = value  # Use property setter (gets validation)
         return self
 
-    def with_key_size(self, value: Optional["PositiveInteger"]) -> DiagnosticSecurityLevel:
+    def with_key_size(self, value: Optional[PositiveInteger]) -> DiagnosticSecurityLevel:
         """
         Set keySize and return self for chaining.
 
@@ -921,7 +921,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.key_size = value  # Use property setter (gets validation)
         return self
 
-    def with_num_failed(self, value: Optional["PositiveInteger"]) -> DiagnosticSecurityLevel:
+    def with_num_failed(self, value: Optional[PositiveInteger]) -> DiagnosticSecurityLevel:
         """
         Set numFailed and return self for chaining.
 
@@ -937,7 +937,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.num_failed = value  # Use property setter (gets validation)
         return self
 
-    def with_security_delay(self, value: Optional["TimeValue"]) -> DiagnosticSecurityLevel:
+    def with_security_delay(self, value: Optional[TimeValue]) -> DiagnosticSecurityLevel:
         """
         Set securityDelay and return self for chaining.
 
@@ -953,7 +953,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.security_delay = value  # Use property setter (gets validation)
         return self
 
-    def with_seed_size(self, value: Optional["PositiveInteger"]) -> DiagnosticSecurityLevel:
+    def with_seed_size(self, value: Optional[PositiveInteger]) -> DiagnosticSecurityLevel:
         """
         Set seedSize and return self for chaining.
 
@@ -1031,15 +1031,15 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute allows for the specification of the position of role in a
         # bitfield of roles.
-        self._bitPosition: Optional["PositiveInteger"] = None
+        self._bitPosition: Optional[PositiveInteger] = None
 
     @property
-    def bit_position(self) -> Optional["PositiveInteger"]:
+    def bit_position(self) -> Optional[PositiveInteger]:
         """Get bitPosition (Pythonic accessor)."""
         return self._bitPosition
 
     @bit_position.setter
-    def bit_position(self, value: Optional["PositiveInteger"]) -> None:
+    def bit_position(self, value: Optional[PositiveInteger]) -> None:
         """
         Set bitPosition with validation.
 
@@ -1059,15 +1059,15 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
             )
         self._bitPosition = value
         # This attribute indicates whether the enclosing role is default role.
-        self._isDefault: Optional["Boolean"] = None
+        self._isDefault: Optional[Boolean] = None
 
     @property
-    def is_default(self) -> Optional["Boolean"]:
+    def is_default(self) -> Optional[Boolean]:
         """Get isDefault (Pythonic accessor)."""
         return self._isDefault
 
     @is_default.setter
-    def is_default(self, value: Optional["Boolean"]) -> None:
+    def is_default(self, value: Optional[Boolean]) -> None:
         """
         Set isDefault with validation.
 
@@ -1089,7 +1089,7 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBitPosition(self) -> "PositiveInteger":
+    def getBitPosition(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for bitPosition.
 
@@ -1101,7 +1101,7 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
         """
         return self.bit_position  # Delegates to property
 
-    def setBitPosition(self, value: "PositiveInteger") -> DiagnosticAuthRole:
+    def setBitPosition(self, value: PositiveInteger) -> DiagnosticAuthRole:
         """
         AUTOSAR-compliant setter for bitPosition with method chaining.
 
@@ -1117,7 +1117,7 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
         self.bit_position = value  # Delegates to property setter
         return self
 
-    def getIsDefault(self) -> "Boolean":
+    def getIsDefault(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isDefault.
 
@@ -1129,7 +1129,7 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
         """
         return self.is_default  # Delegates to property
 
-    def setIsDefault(self, value: "Boolean") -> DiagnosticAuthRole:
+    def setIsDefault(self, value: Boolean) -> DiagnosticAuthRole:
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
 
@@ -1147,7 +1147,7 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bit_position(self, value: Optional["PositiveInteger"]) -> DiagnosticAuthRole:
+    def with_bit_position(self, value: Optional[PositiveInteger]) -> DiagnosticAuthRole:
         """
         Set bitPosition and return self for chaining.
 
@@ -1163,7 +1163,7 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
         self.bit_position = value  # Use property setter (gets validation)
         return self
 
-    def with_is_default(self, value: Optional["Boolean"]) -> DiagnosticAuthRole:
+    def with_is_default(self, value: Optional[Boolean]) -> DiagnosticAuthRole:
         """
         Set isDefault and return self for chaining.
 

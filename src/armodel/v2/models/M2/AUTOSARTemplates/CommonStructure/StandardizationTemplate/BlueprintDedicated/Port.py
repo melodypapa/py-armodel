@@ -43,10 +43,10 @@ class PortPrototypeBlueprint(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies the init values for the dataElements in the
         # PortPrototypeBlueprint.
-        self._initValue: List["RefType"] = []
+        self._initValue: List[RefType] = []
 
     @property
-    def init_value(self) -> List["RefType"]:
+    def init_value(self) -> List[RefType]:
         """Get initValue (Pythonic accessor)."""
         return self._initValue
         # This is the interface for which the blueprint is defined.
@@ -139,7 +139,7 @@ class PortPrototypeBlueprint(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitValue(self) -> List["RefType"]:
+    def getInitValue(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for initValue.
 
@@ -239,15 +239,15 @@ class PortPrototypeBlueprintInitValue(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the data prototype for which the init value applies.
-        self._dataPrototype: "RefType" = None
+        self._dataPrototype: RefType = None
 
     @property
-    def data_prototype(self) -> "RefType":
+    def data_prototype(self) -> RefType:
         """Get dataPrototype (Pythonic accessor)."""
         return self._dataPrototype
 
     @data_prototype.setter
-    def data_prototype(self, value: "RefType") -> None:
+    def data_prototype(self, value: RefType) -> None:
         """
         Set dataPrototype with validation.
 
@@ -284,7 +284,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataPrototype(self) -> "RefType":
+    def getDataPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataPrototype.
 
@@ -296,7 +296,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
         """
         return self.data_prototype  # Delegates to property
 
-    def setDataPrototype(self, value: "RefType") -> PortPrototypeBlueprintInitValue:
+    def setDataPrototype(self, value: RefType) -> PortPrototypeBlueprintInitValue:
         """
         AUTOSAR-compliant setter for dataPrototype with method chaining.
 
